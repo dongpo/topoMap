@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <title>1:1000 Topographic Map Output (Integrated)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- MapLibre GL -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css"
+    crossorigin="anonymous"
+  />
+  <script src="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js" crossorigin="anonymous"></script>
+
+  <!-- PMTiles -->
+  <script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js" crossorigin="anonymous"></script>
+
+  <!-- jsPDF for A4 PDF export -->
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Microsoft JhengHei", sans-serif;
+    }
+
+    #map-wrapper {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* UI overlay (top-left) */
+    #ui-panel {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 4px;
+      padding: 6px 8px;
+      font-size: 12px;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+      max-width: 260px;
+    }
+
+    #ui-panel h1 {
+      font-size: 13px;
+      margin: 0 0 4px 0;
+    }
+
+    #ui-panel .row {
+      margin: 3px 0;
+    }
+
+    #ui-panel button {
+      font-size: 12px;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+
+    #selected-frame-id {
+      font-weight: bold;
+      color: #d32f2f;
+    }
+
+    /* Optional feature-info (not used now) */
+    #feature-info {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9;
+      max-width: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 11px;
+      pointer-events: none;
+      box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+      display: none;
+    }
+
+    /* Ratio scale label above built-in scale bar */
+    #scale-ratio {
+      position: absolute;
+      bottom: 35px;
+      left: 10px;
+      z-index: 8;
+      font-size: 11px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 2px 6px;
+      border-radius: 3px;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="map-wrapper">
+    <div id="map"></div>
+
+    <!-- UI Panel -->
+    <div id="ui-panel">
+      <h1>1:1000 地形圖輸出</h1>
+      <div class="row">
+        已選取圖框圖號：
+        <span id="selected-frame-id">（尚未選取）</span>
+      </div>
+      <div class="row">
+        在地圖上點選 1:1000 圖框多邊形即可選取，選取後以
+        <span style="color:#555;font-weight:bold;">灰色半透明</span> 標示。
+      </div>
+      <div class="row">
+        <button id="btnExportPdf" disabled onclick="exportSelectedFrameToPdf()">
+          輸出 PDF（A4 橫式 300dpi）
+        </button>
+      </div>
+    </div>
+
+    <!-- Optional feature info box -->
+    <div id="feature-info"></div>
+
+    <!-- Ratio scale label -->
+    <div id="scale-ratio"></div>
+  </div>
+
+  <script>
+    // ===================== CONFIG =====================
+
+    const PMT_URL_HTTP = "http://127.0.0.1:8000/out1120902.pmtiles";
+    const PMT_STYLE_URL = "pmtiles_style_TERRAINID_final.json";
+    const FRAMES_GEOJSON_URL = "F1000_frames_121_wgs84.geojson";
+
+    const INITIAL_CENTER = [121.0236, 24.7745];
+    const INITIAL_ZOOM = 14;
+
+    // ===================== ICON + PATTERN HELPERS =====================
+
+    function pxScale() {
+      return window.devicePixelRatio > 1 ? 2 : 1;
+    }
+
+    // Building hatch: continuous 45° solid stripes
+    function addDiagHatch(targetMap, name = "buildingHatch") {
+      const px = pxScale();
+      const S = 16 * px;
+      const step = 8 * px;
+
+      const c = document.createElement("canvas");
+      c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+
+      g.strokeStyle = "#000000";
+      g.lineWidth = Math.max(1, px);
+      g.lineCap = "butt";
+
+      for (let offset = -S; offset <= S; offset += step) {
+        g.beginPath();
+        g.moveTo(offset, S);
+        g.lineTo(offset + S, 0);
+        g.stroke();
+      }
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addPostIcon(targetMap, name = "post") {
+      const px = pxScale(), S = 16 * px, m = 2 * px;
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+
+      g.fillStyle = "#ffffff";
+      g.fillRect(m + 1, m + 1, S - 2 * m - 2, S - 2 * m - 2);
+
+      g.strokeStyle = "#000";
+      g.lineWidth = Math.max(1, Math.round(px));
+      g.strokeRect(m, m, S - 2 * m, S - 2 * m);
+
+      g.beginPath();
+      g.moveTo(m, m);
+      g.lineTo(S / 2, S / 2);
+      g.lineTo(S - m, m);
+      g.stroke();
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addSchoolIcon(targetMap, name = "school") {
+      const px = pxScale(), S = 16 * px;
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+
+      g.strokeStyle = "#000";
+      g.lineWidth = Math.max(1, Math.round(px));
+
+      const u = S / 16, cx = 8 * u, cy = 8 * u;
+      g.beginPath();
+      g.moveTo(cx - 4 * u, 3 * u);
+      g.lineTo(cx - 4 * u, 13 * u);
+      g.stroke();
+
+      const A = [cx - 4 * u, 3 * u];
+      const B = [cx + 4 * u, 7 * u];
+      const C = [cx - 4 * u, 7 * u];
+      g.fillStyle = "#000";
+      g.beginPath(); g.moveTo(A[0],A[1]); g.lineTo(B[0],B[1]); g.lineTo(C[0],C[1]); g.closePath(); g.fill();
+      g.beginPath(); g.moveTo(A[0],A[1]); g.lineTo(B[0],B[1]); g.lineTo(C[0],C[1]); g.closePath(); g.stroke();
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addGasIcon(targetMap, name = "gas") {
+      const px = pxScale(), S = 16 * px;
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+
+      g.strokeStyle = "#000";
+      g.lineWidth = Math.max(1, Math.round(px));
+
+      g.beginPath(); g.moveTo(S * 0.50, S * 0.65); g.lineTo(S * 0.50, S * 0.90); g.stroke();
+      g.beginPath(); g.moveTo(S * 0.38, S * 0.90); g.lineTo(S * 0.62, S * 0.90); g.stroke();
+
+      const x = S * 0.38, y = S * 0.20, w = S * 0.24, h = S * 0.36;
+      g.fillStyle = "#ffffff";
+      g.fillRect(x + 1, y + 1, w - 2, h - 2);
+      g.strokeRect(x, y, w, h);
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addTwShieldIcon(targetMap, name = "twShield") {
+      const px = pxScale(), S = 28 * px;
+      const cx = S / 2, cy = S / 2 + 0.5 * px;
+      const R = 12 * px, A = 1.8 * px, steps = 400;
+
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+      g.imageSmoothingEnabled = true;
+
+      g.beginPath();
+      for (let i = 0; i <= steps; i++) {
+        const t = (i / steps) * Math.PI * 2;
+        const r = R + A * Math.cos(5 * t);
+        const x = cx + r * Math.cos(t);
+        const y = cy + r * Math.sin(t);
+        if (i === 0) g.moveTo(x, y); else g.lineTo(x, y);
+      }
+      g.closePath();
+
+      g.fillStyle = "#ffffff";
+      g.fill();
+      g.strokeStyle = "#000";
+      g.lineWidth = Math.max(1, Math.round(px));
+      g.stroke();
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addPrimaryShieldIcon(targetMap, name = "twPrimaryShield") {
+      const px = pxScale(), S = 28 * px;
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+      g.imageSmoothingEnabled = true;
+
+      const cx = S/2, cy = S/2 + 0.2*px;
+      const W  = 21*px, H = 25*px;
+      const R  = 2.5*px, T = 20*px, B = 7.5*px;
+
+      const topL = [cx - W*0.40, cy - H*0.36];
+      const topC = [cx,          cy - H*0.36 - T*0.12];
+      const topR = [cx + W*0.40, cy - H*0.36];
+      const midR = [cx + W*0.50, cy + H*0.06];
+      const bot  = [cx,          cy + H*0.50 + B*0.10];
+      const midL = [cx - W*0.50, cy + H*0.06];
+
+      g.beginPath();
+      g.moveTo(topC[0], topC[1]);
+      g.bezierCurveTo(cx + W*0.22, cy - H*0.48, cx + W*0.36, cy - H*0.40, topR[0], topR[1]);
+      g.bezierCurveTo(topR[0] + R*0.55, topR[1] + R*0.40, midR[0] + R*0.25, midR[1] + R*0.10, midR[0], midR[1]);
+      g.bezierCurveTo(cx + W*0.42, cy + H*0.30, cx + W*0.18, cy + H*0.48, bot[0], bot[1]);
+      g.bezierCurveTo(cx - W*0.18, cy + H*0.48, cx - W*0.42, cy + H*0.30, midL[0], midL[1]);
+      g.bezierCurveTo(midL[0] - R*0.25, midL[1] + R*0.10, topL[0] - R*0.55, topL[1] + R*0.40, topL[0], topL[1]);
+      g.bezierCurveTo(cx - W*0.36, cy - H*0.40, cx - W*0.22, cy - H*0.48, topC[0], topC[1]);
+      g.closePath();
+
+      g.fillStyle = "#ffffff";
+      g.fill();
+      g.strokeStyle = "#000";
+      g.lineWidth = Math.max(1, Math.round(px));
+      g.stroke();
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addTempleIcon(targetMap, name = "temple") {
+      const px = pxScale(), S = 20 * px;
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+
+      g.strokeStyle = "#000";
+      g.lineWidth = Math.max(1, Math.round(px));
+      g.lineCap = "butt";
+      g.lineJoin = "miter";
+
+      const u = S / 16;
+      const cx = 8*u, cy = 8*u;
+      const L = (x1,y1,x2,y2)=>{ g.moveTo(x1,y1); g.lineTo(x2,y2); };
+
+      g.beginPath();
+      L(4*u, cy, 12*u, cy);
+      L(cx, 4*u, cx, 12*u);
+      L(cx, 4*u, 4*u, 4*u);
+      L(12*u, cy, 12*u, 4*u);
+      L(cx, 12*u, 12*u, 12*u);
+      L(4*u, cy, 4*u, 12*u);
+      g.stroke();
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addChurchIcon(targetMap, name = "church") {
+      const px = pxScale(), S = 16 * px;
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+
+      g.strokeStyle = "#000";
+      g.lineWidth = Math.max(1, Math.round(px));
+
+      const u = S / 16, cx = 8*u, cy = 8*u;
+      g.beginPath(); g.moveTo(cx, 3*u); g.lineTo(cx, 13*u); g.stroke();
+      g.beginPath(); g.moveTo(3*u, cy); g.lineTo(13*u, cy); g.stroke();
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addWaterIcon(targetMap, name = "waterOvalBlue") {
+      const px = pxScale(), S = 28 * px;
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+      g.imageSmoothingEnabled = true;
+
+      const cx = S/2, cy = S/2;
+      const rx = 11*px, ry = 8.5*px;
+      g.beginPath();
+      g.ellipse(cx, cy, rx, ry, 0, 0, Math.PI*2);
+      g.strokeStyle = "#1565C0";
+      g.lineWidth = Math.max(1, Math.round(1.2*px));
+      g.stroke();
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    // Parking "P" helpers
+    function drawParkingLetterP(ctx, cx, cy, outerR) {
+      const margin = outerR * 0.25;
+      const r = outerR - margin;
+
+      const stemX = cx - r * 0.45;
+      const stemTop = cy - r * 0.70;
+      const stemBottom = cy + r * 0.9;
+
+      const bowlCX = cx + r * 0.05;
+      const bowlCY = cy - r * 0.15;
+      const bowlR  = r * 0.55;
+
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+
+      ctx.beginPath();
+      ctx.moveTo(stemX, stemTop);
+      ctx.lineTo(stemX, stemBottom);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(bowlCX, bowlCY, bowlR, -Math.PI * 0.5, Math.PI * 0.5, false);
+      ctx.stroke();
+
+      const topY = bowlCY - bowlR;
+      const midY = bowlCY + bowlR;
+
+      ctx.beginPath();
+      ctx.moveTo(stemX, topY);
+      ctx.lineTo(bowlCX, topY);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(stemX, midY);
+      ctx.lineTo(bowlCX, midY);
+      ctx.stroke();
+    }
+
+    function drawParkingBase(ctx, S, px) {
+      const cx = S / 2, cy = S / 2, R = 8 * px;
+      ctx.strokeStyle = "#000";
+      ctx.lineWidth = Math.max(1, Math.round(px));
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, R, 0, Math.PI*2);
+      ctx.stroke();
+
+      drawParkingLetterP(ctx, cx, cy, R);
+    }
+
+    function addParkingBaseIcon(targetMap, name = "parkingBase") {
+      const px = pxScale(), S = 24 * px;
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+      drawParkingBase(g, S, px);
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addParkingRoofIcon(targetMap, name = "parkingRoof") {
+      const px = pxScale(), S = 24 * px;
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+      drawParkingBase(g, S, px);
+
+      const cx = S/2, cy = S/2, R = 8*px;
+      g.beginPath();
+      g.moveTo(cx - R*1.3, cy - R - 2*px);
+      g.lineTo(cx + R*1.3, cy - R - 2*px);
+      g.stroke();
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addParkingPoleIcon(targetMap, name = "parkingPole") {
+      const px = pxScale(), S = 24 * px;
+      const c = document.createElement("canvas"); c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+      drawParkingBase(g, S, px);
+
+      const cx = S/2, cy = S/2, R = 8*px;
+      g.beginPath();
+      g.moveTo(cx, cy + R);
+      g.lineTo(cx, cy + R + 6*px);
+      g.stroke();
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    // Pond hatch
+    function addPondPattern(targetMap, name = "waterPondHatch") {
+      const px = pxScale();
+      const L = 4 * px;
+      const rows = 4;
+      const S = rows * L;
+
+      const c = document.createElement("canvas");
+      c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+
+      g.strokeStyle = "#1565C0";
+      g.lineWidth = Math.max(1, px);
+      g.lineCap = "butt";
+
+      const dashLen = L;
+      const gapLen  = L;
+      const period  = dashLen + gapLen;
+      const tileW   = S;
+
+      for (let r = 0; r < rows; r++) {
+        const y = (r + 0.5) * L;
+        const shifted = (r % 2 === 1);
+        const xStart = shifted ? dashLen : 0;
+        for (let x = xStart; x < tileW; x += period) {
+          g.beginPath();
+          g.moveTo(x, y);
+          g.lineTo(x + dashLen, y);
+          g.stroke();
+        }
+      }
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addFishIcon(targetMap, name = "waterFishIcon") {
+      const px = pxScale();
+      const w = 40 * px, h = 18 * px;
+      const c = document.createElement("canvas");
+      c.width = w; c.height = h;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, w, h);
+
+      g.strokeStyle = "#1565C0";
+      g.fillStyle   = "#1565C0";
+      g.lineWidth   = Math.max(1, px);
+      g.lineCap     = "round";
+      g.lineJoin    = "round";
+
+      const x0 = w * 0.10;
+      const x1 = w * 0.70;
+      const tailX = w * 0.90;
+      const cy = h * 0.5;
+      const ry = h * 0.32;
+
+      g.beginPath();
+      g.moveTo(x0, cy);
+      g.quadraticCurveTo((x0 + x1) / 2, cy - ry, x1, cy);
+      g.quadraticCurveTo((x0 + x1) / 2, cy + ry, x0, cy);
+      g.closePath();
+      g.stroke();
+
+      g.beginPath();
+      g.moveTo(x1, cy);
+      g.lineTo(tailX, cy - ry);
+      g.lineTo(tailX, cy + ry);
+      g.closePath();
+      g.stroke();
+
+      g.beginPath();
+      g.moveTo((x0 + x1) / 2, cy - ry);
+      g.lineTo((x0 + x1) / 2, cy + ry);
+      g.stroke();
+
+      const eyeR = h * 0.06;
+      const eyeX = x0 + (x1 - x0) * 0.22;
+      const eyeY = cy - ry * 0.15;
+      g.beginPath();
+      g.arc(eyeX, eyeY, eyeR, 0, Math.PI*2);
+      g.fill();
+
+      const img = g.getImageData(0, 0, w, h);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function addSwimIcon(targetMap, name = "swimPoolIcon") {
+      const px = pxScale();
+      const w = 45 * px, h = 14 * px;
+
+      const c = document.createElement("canvas");
+      c.width = w; c.height = h;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, w, h);
+
+      g.strokeStyle = "#1565C0";
+      g.lineWidth   = Math.max(1, px);
+      g.lineCap     = "round";
+      g.lineJoin    = "round";
+
+      const cy = h * 0.5;
+
+      const ovalCx = w * 0.25;
+      const ovalRx = w * 0.17;
+      const ovalRy = h * 0.25;
+      g.beginPath();
+      if (g.ellipse) {
+        g.ellipse(ovalCx, cy, ovalRx, ovalRy, 0, 0, Math.PI*2);
+      } else {
+        g.moveTo(ovalCx - ovalRx, cy);
+        g.quadraticCurveTo(ovalCx, cy - ovalRy, ovalCx + ovalRx, cy);
+        g.quadraticCurveTo(ovalCx, cy + ovalRy, ovalCx - ovalRx, cy);
+      }
+      g.stroke();
+
+      const startX = ovalCx + ovalRx * 1.1;
+      const endX   = w * 0.9;
+      const waveAmp = h * 0.4;
+      const midX = (startX + endX) / 2;
+
+      g.beginPath();
+      g.moveTo(startX, cy);
+      g.quadraticCurveTo((startX + midX) / 2, cy - waveAmp, midX, cy);
+      g.quadraticCurveTo((midX + endX) / 2, cy + waveAmp, endX, cy);
+      g.stroke();
+
+      const img = g.getImageData(0, 0, w, h);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    function registerPavilionIcon(targetMap, name = "pavilion-icon-v1") {
+      const px = pxScale();
+      const S = 20 * px;
+      const c = document.createElement("canvas");
+      c.width = c.height = S;
+      const g = c.getContext("2d");
+      g.clearRect(0, 0, S, S);
+
+      g.strokeStyle = "#000";
+      g.lineWidth = Math.max(1, px);
+      g.lineCap = "round";
+      g.lineJoin = "round";
+
+      const cx = S / 2;
+      const roofY = S * 0.35;
+      const baseY = S * 0.65;
+      const roofHalf = S * 0.3;
+
+      g.beginPath();
+      g.moveTo(cx - roofHalf, roofY);
+      g.lineTo(cx, roofY - S * 0.15);
+      g.lineTo(cx + roofHalf, roofY);
+      g.stroke();
+
+      const colOffset = S * 0.18;
+      g.beginPath();
+      g.moveTo(cx - colOffset, roofY);
+      g.lineTo(cx - colOffset, baseY);
+      g.moveTo(cx + colOffset, roofY);
+      g.lineTo(cx + colOffset, baseY);
+      g.stroke();
+
+      g.beginPath();
+      g.moveTo(cx - roofHalf, baseY);
+      g.lineTo(cx + roofHalf, baseY);
+      g.stroke();
+
+      const img = g.getImageData(0, 0, S, S);
+      if (targetMap.hasImage(name)) targetMap.removeImage(name);
+      targetMap.addImage(name, img, { pixelRatio: px, sdf: false });
+    }
+
+    // Attach styleimagemissing to ANY map (main + export)
+    function registerStyleImageMissingHandlers(targetMap) {
+      targetMap.on("styleimagemissing", (e) => {
+        const id = e.id;
+        switch (id) {
+          case "buildingHatch":     addDiagHatch(targetMap, id); break;
+          case "post":              addPostIcon(targetMap, id); break;
+          case "school":            addSchoolIcon(targetMap, id); break;
+          case "gas":               addGasIcon(targetMap, id); break;
+          case "twShield":          addTwShieldIcon(targetMap, id); break;
+          case "twPrimaryShield":   addPrimaryShieldIcon(targetMap, id); break;
+          case "temple":            addTempleIcon(targetMap, id); break;
+          case "church":            addChurchIcon(targetMap, id); break;
+          case "waterOvalBlue":     addWaterIcon(targetMap, id); break;
+          case "parkingBase":       addParkingBaseIcon(targetMap, id); break;
+          case "parkingRoof":       addParkingRoofIcon(targetMap, id); break;
+          case "parkingPole":       addParkingPoleIcon(targetMap, id); break;
+          case "waterPondHatch":    addPondPattern(targetMap, id); break;
+          case "waterFishIcon":     addFishIcon(targetMap, id); break;
+          case "swimPoolIcon":      addSwimIcon(targetMap, id); break;
+          case "pavilion-icon-v1":  registerPavilionIcon(targetMap, id); break;
+          default:
+            console.warn("Unknown missing image:", id);
+        }
+      });
+    }
+
+    // ===================== Map + PMTiles =====================
+
+    const protocol = new pmtiles.Protocol({ metadata: true });
+    maplibregl.addProtocol("pmtiles", protocol.tile);
+    const pmt = new pmtiles.PMTiles(PMT_URL_HTTP);
+    protocol.add(pmt);
+
+    const map = new maplibregl.Map({
+      container: "map",
+      style: PMT_STYLE_URL,
+      center: INITIAL_CENTER,
+      zoom: INITIAL_ZOOM,
+      renderWorldCopies: false,
+      preserveDrawingBuffer: true
+    });
+
+    registerStyleImageMissingHandlers(map);
+
+    map.on("error", (e) => console.error("Map error:", e.error || e));
+
+    const scaleControl = new maplibregl.ScaleControl({
+      maxWidth: 120,
+      unit: "metric"
+    });
+    map.addControl(scaleControl, "bottom-left");
+
+    const ratioBox = document.getElementById("scale-ratio");
+
+    function formatScaleDenom(d) {
+      if (!isFinite(d) || d <= 0) return "";
+      const rounded = Math.round(d / 10) * 10;
+      return rounded.toLocaleString("en-US");
+    }
+
+    function updateScaleRatio() {
+      const center = map.getCenter();
+      const zoom   = map.getZoom();
+      const latRad = center.lat * Math.PI / 180;
+      const metersPerPixel =
+        (40075016.6856 * Math.cos(latRad)) / (512 * Math.pow(2, zoom));
+      const dpi = 96;
+      const inchesPerMeter = 39.37;
+      const scaleDenom = metersPerPixel * dpi * inchesPerMeter;
+      const txt = formatScaleDenom(scaleDenom);
+      ratioBox.textContent = txt ? `1:${txt}` : "";
+    }
+
+    map.on("load", updateScaleRatio);
+    map.on("move", updateScaleRatio);
+
+    // ===================== Frame selection + highlight =====================
+
+    let framesGeojson = null;
+    let selectedFrameFeature = null;
+    let selectedFrameId = null;
+
+    const selectedFrameSpan = document.getElementById("selected-frame-id");
+    const btnExportPdf = document.getElementById("btnExportPdf");
+
+    map.on("load", async () => {
+      const resp = await fetch(FRAMES_GEOJSON_URL);
+      framesGeojson = await resp.json();
+
+      if (!map.getSource("frames")) {
+        map.addSource("frames", {
+          type: "geojson",
+          data: framesGeojson
+        });
+      }
+
+      if (!map.getLayer("frames-outline")) {
+        map.addLayer({
+          id: "frames-outline",
+          type: "line",
+          source: "frames",
+          paint: {
+            "line-color": "#ff0000",
+            "line-width": 1.2
+          }
+        });
+      }
+
+      if (!map.getLayer("frames-hit")) {
+        map.addLayer({
+          id: "frames-hit",
+          type: "fill",
+          source: "frames",
+          paint: {
+            "fill-color": "#000000",
+            "fill-opacity": 0.0
+          }
+        });
+      }
+
+      if (!map.getLayer("frames-highlight")) {
+        map.addLayer({
+          id: "frames-highlight",
+          // type: "fill",
+          source: "frames",
+          paint: {
+            "fill-color": "#ffffff",
+            "fill-opacity": 0.25
+          },
+          filter: ["==", ["get", "圖號"], "__none__"]
+        });
+      }
+
+      ["frames-outline", "frames-hit", "frames-highlight"].forEach(id => {
+        if (map.getLayer(id)) {
+          map.moveLayer(id);
+        }
+      });
+    });
+
+    function clearFrameSelection() {
+      selectedFrameFeature = null;
+      selectedFrameId = null;
+      selectedFrameSpan.textContent = "（尚未選取）";
+      btnExportPdf.disabled = true;
+      if (map.getLayer("frames-highlight")) {
+        map.setFilter("frames-highlight", ["==", ["get", "圖號"], "__none__"]);
+      }
+    }
+
+    map.on("click", (e) => {
+      if (!framesGeojson) return;
+
+      const hits = map.queryRenderedFeatures(e.point, { layers: ["frames-hit"] });
+      if (hits.length === 0) {
+        clearFrameSelection();
+        return;
+      }
+
+      const f = hits[0];
+      selectedFrameFeature = f;
+      selectedFrameId = f.properties && (f.properties["圖號"] || f.properties["id"] || null);
+
+      if (selectedFrameId) {
+        selectedFrameSpan.textContent = selectedFrameId;
+        btnExportPdf.disabled = false;
+
+        if (map.getLayer("frames-highlight")) {
+          map.setFilter("frames-highlight", ["==", ["get", "圖號"], selectedFrameId]);
+        }
+      } else {
+        clearFrameSelection();
+      }
+    });
+
+    // ===================== Helpers for export =====================
+
+    function getFrameOuterRing(feature) {
+      if (!feature || !feature.geometry) return null;
+      const geom = feature.geometry;
+
+      if (geom.type === "Polygon") {
+        return geom.coordinates[0];
+      }
+      if (geom.type === "MultiPolygon") {
+        return geom.coordinates[0][0];
+      }
+      return null;
+    }
+
+    // ===================== PDF export (clip by frame polygon) =====================
+
+    async function exportSelectedFrameToPdf() {
+      if (!selectedFrameFeature) {
+        alert("請先在地圖上點選一個圖框。");
+        return;
+      }
+
+      const props = selectedFrameFeature.properties || {};
+      const frameId = props["圖號"] || props["FRAME_ID"] || "";
+
+      const geom = selectedFrameFeature.geometry;
+      if (!geom || geom.type !== "Polygon") {
+        alert("選到的圖框不是 Polygon。");
+        return;
+      }
+
+      const ring = geom.coordinates[0];
+      let minLng = Infinity, minLat = Infinity, maxLng = -Infinity, maxLat = -Infinity;
+      for (const [lng, lat] of ring) {
+        if (lng < minLng) minLng = lng;
+        if (lng > maxLng) maxLng = lng;
+        if (lat < minLat) minLat = lat;
+        if (lat > maxLat) maxLat = lat;
+      }
+
+      const swMc = maplibregl.MercatorCoordinate.fromLngLat({ lng: minLng, lat: minLat });
+      const neMc = maplibregl.MercatorCoordinate.fromLngLat({ lng: maxLng, lat: maxLat });
+      const widthMc = Math.abs(neMc.x - swMc.x);
+      const heightMc = Math.abs(neMc.y - swMc.y);
+      const aspect = widthMc / heightMc || 1.0;
+
+      const exportHeightPx = 2000;
+      const exportWidthPx  = Math.round(exportHeightPx * aspect);
+
+      const exportDiv = document.createElement("div");
+      exportDiv.style.width = exportWidthPx + "px";
+      exportDiv.style.height = exportHeightPx + "px";
+      exportDiv.style.position = "absolute";
+      exportDiv.style.left = "-9999px";
+      exportDiv.style.top = "-9999px";
+      document.body.appendChild(exportDiv);
+
+      // Clone style and force white background for export
+      const styleClone = JSON.parse(JSON.stringify(map.getStyle()));
+      if (styleClone && Array.isArray(styleClone.layers)) {
+        let bg = styleClone.layers.find(l => l.type === "background");
+        if (bg) {
+          bg.paint = bg.paint || {};
+          bg.paint["background-color"] = "#ffffff";
+          bg.paint["background-opacity"] = 1;
+        } else {
+          styleClone.layers.unshift({
+            id: "_export_bg",
+            type: "background",
+            paint: {
+              "background-color": "#ffffff",
+              "background-opacity": 1
+            }
+          });
+        }
+      }
+
+      const exportMap = new maplibregl.Map({
+        container: exportDiv,
+        style: styleClone,
+        interactive: false,
+        preserveDrawingBuffer: true
+      });
+
+      // attach icon handlers to exportMap as well
+      registerStyleImageMissingHandlers(exportMap);
+
+      exportMap.fitBounds(
+        [[minLng, minLat], [maxLng, maxLat]],
+        { padding: 0, duration: 0 }
+      );
+
+      exportMap.once("idle", () => {
+        try {
+          const canvas = exportMap.getCanvas();
+          const dataUrl = canvas.toDataURL("image/png");
+
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
+
+          const pageW = doc.internal.pageSize.getWidth();
+          const pageH = doc.internal.pageSize.getHeight();
+          const margin = 10;
+
+          const maxW = pageW - 2 * margin;
+          const maxH = pageH - 2 * margin - 15; // leave a bit more room for label
+
+          const imgAspect = canvas.width / canvas.height;
+          let drawW, drawH;
+
+          if (maxW / maxH > imgAspect) {
+            drawH = maxH;
+            drawW = imgAspect * drawH;
+          } else {
+            drawW = maxW;
+            drawH = drawW / imgAspect;
+          }
+
+          const offsetX = margin + (maxW - drawW) / 2;
+          const offsetY = margin + (maxH - drawH) / 2;
+
+          // draw white background under the map area (just in case)
+          doc.setFillColor(255, 255, 255);
+          doc.rect(offsetX, offsetY, drawW, drawH, "F");
+
+          // add map image
+          doc.addImage(dataUrl, "PNG", offsetX, offsetY, drawW, drawH);
+
+          // ---- Chinese label via Canvas (no font problems) ----
+          const labelCanvas = document.createElement("canvas");
+          labelCanvas.width = 800;
+          labelCanvas.height = 80;
+          const lg = labelCanvas.getContext("2d");
+
+          lg.fillStyle = "#ffffff";
+          lg.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
+
+          lg.fillStyle = "#000000";
+          lg.font = '18px "Noto Sans TC", "Microsoft JhengHei", sans-serif';
+          const text1 = frameId ? `圖號：${frameId}` : "圖號：未定義";
+          lg.fillText(text1, 10, 26);
+
+          lg.font = '14px "Noto Sans TC", "Microsoft JhengHei", sans-serif';
+          const swText = `西南角(SW)：${minLng.toFixed(7)}, ${minLat.toFixed(7)}`;
+          const neText = `東北角(NE)：${maxLng.toFixed(7)}, ${maxLat.toFixed(7)}`;
+          lg.fillText(swText, 10, 50);
+          lg.fillText(neText, 10, 70);
+
+          const labelDataUrl = labelCanvas.toDataURL("image/png");
+          const labelWmm = pageW - 2 * margin;
+          const labelHmm = 12; // ~80px high → small band in mm
+          doc.addImage(
+            labelDataUrl,
+            "PNG",
+            margin,
+            pageH - margin - labelHmm,
+            labelWmm,
+            labelHmm
+          );
+
+          const filename = frameId ? `map_${frameId}.pdf` : "map_frame.pdf";
+          doc.save(filename);
+        } finally {
+          exportMap.remove();
+          document.body.removeChild(exportDiv);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
