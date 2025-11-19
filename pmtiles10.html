@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Topographic Maps</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css"
+    crossorigin="anonymous"
+  />
+  <script src="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js" crossorigin="anonymous"></script>
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+    #map {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+// ===== TERRAINID groups (for UI sections) =====
+
+// ===== TERRAINID groups with Chinese labels =====
+// The key is the group name, each entry contains { tid, label }
+
+const TERRAINID_GROUPS = {
+  "道路 Road": [
+    { tid: "9420101", label: "國道高速公路" },
+    { tid: "9420201", label: "一般省道" },
+    { tid: "9420202", label: "省道快速公路" },
+    { tid: "9420400", label: "縣道" },
+    { tid: "9420600", label: "鄉道" },
+    { tid: "9420801", label: "一般市區道路" },
+    { tid: "9420908", label: "無名道路" },
+    { tid: "9420909", label: "區塊內道路" },
+    { tid: "9420900a", label: "其他道路" },
+    { tid: "9420900b", label: "其他道路" },
+    { tid: "9421001", label: "匝道" },
+    { tid: "9440100", label: "隧道" },
+    { tid: "9440202", label: "公路橋(吊橋除外)" }
+  ],
+
+  "水域 Water Body": [
+    { tid: "9510101", label: "江河溪" },
+    { tid: "9510106", label: "溝渠" },
+    { tid: "9520100", label: "湖泊" },
+    { tid: "9520200", label: "池塘" },
+    { tid: "9520600", label: "水庫" },
+    { tid: "9520700", label: "蓄水池" },
+    { tid: "9740100", label: "養殖池" },
+    { tid: "9940203", label: "游泳池" }
+  ],
+
+  "建築 Building": [
+    { tid: "9310100", label: "永久性建物(建築區)" },
+    { tid: "9350902", label: "亭"}
+  ],
+
+  "地標 Landmark": [
+    { tid: "9030300", label: "中文註記" },
+    { tid: "9910603", label: "警察局/派出所" },
+    { tid: "9920101", label: "國小" },
+    { tid: "9920102", label: "國中" },
+    { tid: "9920103", label: "高中" },
+    { tid: "9920104", label: "大專院校" },
+    { tid: "9920105", label: "幼兒園" },
+    { tid: "9920106", label: "特殊學校" },
+    { tid: "9940202", label: "體育場" },
+    { tid: "9950201", label: "郵局" },
+    { tid: "9950202", label: "電信公司服務處" },
+    { tid: "9960203", label: "加油站" },
+    { tid: "9960204", label: "停車場" },
+    { tid: "9960204a", label: "停車場(地面)" },
+    { tid: "9960204b", label: "停車場(地下)" },
+    { tid: "9960204c", label: "停車場(立體)" },
+    { tid: "9970101", label: "教堂" },
+    { tid: "9970102", label: "寺廟" },
+    { tid: "9990000", label: "其他地標" }
+  ]
+};
+
+/* ================== CONFIG ================== */
+
+const PMT_URL_HTTP = "http://localhost:8000/out1120902.pmtiles";
+const CENTER = [121.0236, 24.7745];
+const ZOOM = 14;
+
+// Layer groups
+const BUILD = ["J01_BUILD","J13_BUILD","J16_BUILD","J17_BUILD","K01_BUILD","K02_BUILD","K14_BUILD"];
+
+const ROADA = [
+  "J01_ROADA","J13_ROADA","J16_ROADA","J17_ROADA","K01_ROADA","K02_ROADA","K14_ROADA",
+  "J01_HROADA","J13_HROADA","J16_HROADA","J17_HROADA","K01_HROADA","K02_HROADA","K14_HROADA"
+];
+
+const RIVERA = ["J01_RIVERA","J13_RIVERA","J16_RIVERA","J17_RIVERA","K01_RIVERA","K02_RIVERA","K14_RIVERA"];
+
+const ROAD_LBL   = ["J01_ROAD","J13_ROAD","J16_ROAD","J17_ROAD","K01_ROAD","K02_ROAD","K14_ROAD"];
+const RIVERL_LBL = ["J01_RIVERL","J13_RIVERL","J16_RIVERL","J17_RIVERL","K01_RIVERL","K02_RIVERL","K14_RIVERL"];
+
+const MARK   = ["J01_MARK","J13_MARK","J16_MARK","J17_MARK","K01_MARK","K02_MARK","K14_MARK"];
+const WATERA = ["J01_WATERA","J13_WATERA","J16_WATERA","J17_WATERA","K01_WATERA","K02_WATERA","K14_WATERA"];
+
+
+/* ================== ICON + PATTERN HELPERS ================== */
+
+function pxScale() {
+  return window.devicePixelRatio > 1 ? 2 : 1;
+}
+
+// Building hatch: continuous 45° solid stripes, seamless tiling
+function addDiagHatch(map, name = "buildingHatch") {
+  const px = window.devicePixelRatio > 1 ? 2 : 1;
+
+  // Tile size and spacing chosen so pattern is seamless:
+  // S is a multiple of step.
+  const S    = 16 * px;
+  const step = 8 * px;  // distance between stripes
+
+  const c = document.createElement("canvas");
+  c.width = c.height = S;
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+
+  g.strokeStyle = "#000000";
+  g.lineWidth   = Math.max(1, px);
+  g.lineCap     = "butt";
+
+  // Draw 45° lines crossing the tile. Because step divides S,
+  // the pattern joins perfectly across tile boundaries.
+  for (let offset = -S; offset <= S; offset += step) {
+    g.beginPath();
+    g.moveTo(offset, S);
+    g.lineTo(offset + S, 0);
+    g.stroke();
+  }
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// Post office envelope (white fill)
+function addPostIcon(map, name = "post") {
+  const px = pxScale(), S = 16 * px, m = 2 * px;
+  const c = document.createElement("canvas"); c.width = c.height = S;
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+
+  g.fillStyle = "#ffffff";
+  g.fillRect(m + 1, m + 1, S - 2 * m - 2, S - 2 * m - 2);
+
+  g.strokeStyle = "#000";
+  g.lineWidth = Math.max(1, Math.round(px));
+  g.strokeRect(m, m, S - 2 * m, S - 2 * m);
+
+  g.beginPath();
+  g.moveTo(m, m);
+  g.lineTo(S / 2, S / 2);
+  g.lineTo(S - m, m);
+  g.stroke();
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// School flag (black fill)
+function addSchoolIcon(map, name = "school") {
+  const px = pxScale(), S = 16 * px;
+  const c = document.createElement("canvas"); c.width = c.height = S;
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+
+  g.strokeStyle = "#000";
+  g.lineWidth = Math.max(1, Math.round(px));
+
+  // pole
+  g.beginPath();
+  g.moveTo(S * 0.28, S * 0.12);
+  g.lineTo(S * 0.28, S * 0.72);
+  g.stroke();
+
+  // flag
+  const A = [S * 0.28, S * 0.12],
+        B = [S * 0.72, S * 0.30],
+        C = [S * 0.28, S * 0.30];
+  g.fillStyle = "#000";
+  g.beginPath(); g.moveTo(A[0],A[1]); g.lineTo(B[0],B[1]); g.lineTo(C[0],C[1]); g.closePath(); g.fill();
+  g.beginPath(); g.moveTo(A[0],A[1]); g.lineTo(B[0],B[1]); g.lineTo(C[0],C[1]); g.closePath(); g.stroke();
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// Gas station sign (white panel)
+function addGasIcon(map, name = "gas") {
+  const px = pxScale(), S = 16 * px;
+  const c = document.createElement("canvas"); c.width = c.height = S;
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+
+  g.strokeStyle = "#000";
+  g.lineWidth = Math.max(1, Math.round(px));
+
+  // post
+  g.beginPath(); g.moveTo(S * 0.50, S * 0.65); g.lineTo(S * 0.50, S * 0.90); g.stroke();
+  g.beginPath(); g.moveTo(S * 0.38, S * 0.90); g.lineTo(S * 0.62, S * 0.90); g.stroke();
+
+  // panel
+  const x = S * 0.38, y = S * 0.20, w = S * 0.24, h = S * 0.36;
+  g.fillStyle = "#ffffff";
+  g.fillRect(x + 1, y + 1, w - 2, h - 2);
+  g.strokeRect(x, y, w, h);
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// National highway shield (5-petal flower)
+function addTwShieldIcon(map, name = "twShield") {
+  const px = pxScale(), S = 28 * px;
+  const cx = S / 2, cy = S / 2 + 0.5 * px;
+  const R = 12 * px, A = 1.8 * px, steps = 400;
+
+  const c = document.createElement("canvas"); c.width = c.height = S;
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+  g.imageSmoothingEnabled = true;
+
+  g.beginPath();
+  for (let i = 0; i <= steps; i++) {
+    const t = (i / steps) * Math.PI * 2;
+    const r = R + A * Math.cos(5 * t);
+    const x = cx + r * Math.cos(t);
+    const y = cy + r * Math.sin(t);
+    if (i === 0) g.moveTo(x, y); else g.lineTo(x, y);
+  }
+  g.closePath();
+
+  g.fillStyle = "#ffffff";
+  g.fill();
+  g.strokeStyle = "#000";
+  g.lineWidth = Math.max(1, Math.round(px));
+  g.stroke();
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// Provincial highway shield (rounded triangle)
+function addPrimaryShieldIcon(map, name = "twPrimaryShield") {
+  const px = pxScale(), S = 28 * px;
+  const c = document.createElement("canvas"); c.width = c.height = S;
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+  g.imageSmoothingEnabled = true;
+
+  const cx = S/2, cy = S/2 + 0.2*px;
+  const W  = 21*px, H = 25*px;
+  const R  = 2.5*px, T = 20*px, B = 7.5*px;
+
+  const topL = [cx - W*0.40, cy - H*0.36];
+  const topC = [cx,          cy - H*0.36 - T*0.12];
+  const topR = [cx + W*0.40, cy - H*0.36];
+  const midR = [cx + W*0.50, cy + H*0.06];
+  const bot  = [cx,          cy + H*0.50 + B*0.10];
+  const midL = [cx - W*0.50, cy + H*0.06];
+
+  g.beginPath();
+  g.moveTo(topC[0], topC[1]);
+  g.bezierCurveTo(cx + W*0.22, cy - H*0.48, cx + W*0.36, cy - H*0.40, topR[0], topR[1]);
+  g.bezierCurveTo(topR[0] + R*0.55, topR[1] + R*0.40, midR[0] + R*0.25, midR[1] + R*0.10, midR[0], midR[1]);
+  g.bezierCurveTo(cx + W*0.42, cy + H*0.30, cx + W*0.18, cy + H*0.48, bot[0], bot[1]);
+  g.bezierCurveTo(cx - W*0.18, cy + H*0.48, cx - W*0.42, cy + H*0.30, midL[0], midL[1]);
+  g.bezierCurveTo(midL[0] - R*0.25, midL[1] + R*0.10, topL[0] - R*0.55, topL[1] + R*0.40, topL[0], topL[1]);
+  g.bezierCurveTo(cx - W*0.36, cy - H*0.40, cx - W*0.22, cy - H*0.48, topC[0], topC[1]);
+  g.closePath();
+
+  g.fillStyle = "#ffffff";
+  g.fill();
+  g.strokeStyle = "#000";
+  g.lineWidth = Math.max(1, Math.round(px));
+  g.stroke();
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// Temple icon (卍, single-line)
+function addTempleIcon(map, name = "temple") {
+  const px = pxScale(), S = 20 * px;
+  const c = document.createElement("canvas"); c.width = c.height = S;
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+
+  g.strokeStyle = "#000";
+  g.lineWidth = Math.max(1, Math.round(px));
+  g.lineCap = "butt";
+  g.lineJoin = "miter";
+
+  const u = S / 16;
+  const cx = 8*u, cy = 8*u;
+  const L = (x1,y1,x2,y2)=>{ g.moveTo(x1,y1); g.lineTo(x2,y2); };
+
+  g.beginPath();
+  // center cross
+  L(4*u, cy, 12*u, cy);
+  L(cx, 4*u, cx, 12*u);
+  // arms (left-facing 卍)
+  L(cx, 4*u, 4*u, 4*u);
+  L(12*u, cy, 12*u, 4*u);
+  L(cx, 12*u, 12*u, 12*u);
+  L(4*u, cy, 4*u, 12*u);
+  g.stroke();
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// Church cross
+function addChurchIcon(map, name = "church") {
+  const px = pxScale(), S = 16 * px;
+  const c = document.createElement("canvas"); c.width = c.height = S;
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+
+  g.strokeStyle = "#000";
+  g.lineWidth = Math.max(1, Math.round(px));
+
+  const u = S / 16, cx = 8*u, cy = 8*u;
+  g.beginPath(); g.moveTo(cx, 3*u); g.lineTo(cx, 26*u); g.stroke();
+  g.beginPath(); g.moveTo(3*u, cy); g.lineTo(13*u, cy); g.stroke();
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// Water oval outline (blue) – for W symbol
+function addWaterIcon(map, name = "waterOvalBlue") {
+  const px = pxScale(), S = 28 * px;
+  const c = document.createElement("canvas"); c.width = c.height = S;
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+  g.imageSmoothingEnabled = true;
+
+  const cx = S/2, cy = S/2;
+  const rx = 11*px, ry = 8.5*px;
+  g.beginPath();
+  g.ellipse(cx, cy, rx, ry, 0, 0, Math.PI*2);
+  g.strokeStyle = "#1565C0";
+  g.lineWidth  = Math.max(1, Math.round(1.2*px));
+  g.stroke();
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+
+// Draw a clear "P" (stem + upper loop) inside the circle
+function drawParkingLetterP(ctx, cx, cy, outerR) {
+  const margin = outerR * 0.25;      // keep P away from circle
+  const r = outerR - margin;         // max radius for P parts
+
+  const stemX = cx - r * 0.45;
+  const stemTop = cy - r * 0.70;
+  const stemBottom = cy + r * 0.9;
+
+  const bowlCX = cx + r * 0.05;
+  const bowlCY = cy - r * 0.15;
+  const bowlR  = r * 0.55;
+
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+
+  // 1) Vertical stem
+  ctx.beginPath();
+  ctx.moveTo(stemX, stemTop);
+  ctx.lineTo(stemX, stemBottom);
+  ctx.stroke();
+
+  // 2) Smooth curved bowl (right side)
+  ctx.beginPath();
+  ctx.arc(
+    bowlCX,
+    bowlCY,
+    bowlR,
+    -Math.PI * 0.5,   // top
+     Math.PI * 0.5,   // bottom
+    false
+  );
+  ctx.stroke();
+
+  const topY = bowlCY - bowlR;
+  const midY = bowlCY + bowlR;
+
+  // 3) TOP connection: close loop at the top
+  ctx.beginPath();
+  ctx.moveTo(stemX, topY);
+  ctx.lineTo(bowlCX, topY);
+  ctx.stroke();
+
+  // 4) BOTTOM connection: close loop at mid-height
+  ctx.beginPath();
+  ctx.moveTo(stemX, midY);
+  ctx.lineTo(bowlCX, midY);
+  ctx.stroke();
+}
+
+// helper: draw "P" inside a circle on an existing context
+function drawParkingBase(ctx, S, px) {
+  const cx = S / 2, cy = S / 2;
+  const R  = 8 * px;  // circle radius
+
+  ctx.strokeStyle = "#000";
+  ctx.lineWidth   = Math.max(1, Math.round(px));
+  ctx.lineCap = "butt";
+  ctx.lineJoin = "miter";
+
+  // outer circle
+  ctx.beginPath();
+  ctx.arc(cx, cy, R, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // inner "P"
+  drawParkingLetterP(ctx, cx, cy, R);
+}
+
+// 9960204 / 9960204a – circle + P
+function addParkingBaseIcon(map, name = "parkingBase") {
+  const px = window.devicePixelRatio > 1 ? 2 : 1;
+  const S  = 24 * px;
+  const c  = document.createElement("canvas"); c.width = c.height = S;
+  const g  = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+
+  drawParkingBase(g, S, px);
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// 9960204b – circle + P + roof line
+function addParkingRoofIcon(map, name = "parkingRoof") {
+  const px = window.devicePixelRatio > 1 ? 2 : 1;
+  const S  = 24 * px;
+  const c  = document.createElement("canvas"); c.width = c.height = S;
+  const g  = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+
+  drawParkingBase(g, S, px);
+
+  // roof line above circle
+  const cx = S / 2;
+  const cy = S / 2;
+  const R  = 8 * px;
+
+  g.beginPath();
+  g.moveTo(cx - R * 1.3, cy - R - 2 * px);
+  g.lineTo(cx + R * 1.3, cy - R - 2 * px);
+  g.stroke();
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// 9960204c – circle + P + pole
+function addParkingPoleIcon(map, name = "parkingPole") {
+  const px = window.devicePixelRatio > 1 ? 2 : 1;
+  const S  = 24 * px;
+  const c  = document.createElement("canvas"); c.width = c.height = S;
+  const g  = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+
+  drawParkingBase(g, S, px);
+
+  const cx = S / 2;
+  const cy = S / 2;
+  const R  = 8 * px;
+
+  // pole downwards from circle
+  g.beginPath();
+  g.moveTo(cx, cy + R);
+  g.lineTo(cx, cy + R + 6 * px);
+  g.stroke();
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// === WATER SYMBOL HELPERS =======================================
+
+// 9520200 池塘: horizontal dashed lines
+// dash length = gap length = vertical spacing
+// rows 0 & 2 aligned; rows 1 & 3 shifted so dashes fall in gaps
+function addPondPattern(map, name = "waterPondHatch") {
+  const px = window.devicePixelRatio > 1 ? 2 : 1;
+
+  const L    = 4 * px;        // base unit
+  const rows = 4;             // pattern of 4 rows repeats vertically
+
+  const S    = rows * L;      // tile height; ensures seamless vertical repeat
+  const c    = document.createElement("canvas");
+  c.width = c.height = S;
+  const g    = c.getContext("2d");
+  g.clearRect(0, 0, S, S);
+
+  g.strokeStyle = "#1565C0";
+  g.lineWidth   = Math.max(1, px);
+  g.lineCap     = "butt";
+
+  const dashLen = L;                // dash length
+  const gapLen  = L;                // gap length
+  const period  = dashLen + gapLen; // horizontal repeat
+  const tileW   = S;                // make width = multiple if you like; S is fine
+
+  // We want rows: offset pattern [0, 1, 0, 1] so that the last row
+  // of the tile (offset=1) sits above the first row of the next tile (offset=0),
+  // giving a continuous 0,1,0,1,... pattern vertically.
+  for (let r = 0; r < rows; r++) {
+    const y = (r + 0.5) * L;               // center of row
+    const shifted = (r % 2 === 1);         // odd rows shifted
+
+    const xStart = shifted ? dashLen : 0;  // shift by one dash so it sits in gaps
+
+    for (let x = xStart; x < tileW; x += period) {
+      g.beginPath();
+      g.moveTo(x, y);
+      g.lineTo(x + dashLen, y);
+      g.stroke();
+    }
+  }
+
+  const img = g.getImageData(0, 0, S, S);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// 9740100 養殖池: slim fish icon similar to 9740100.png
+function addFishIcon(map, name = "waterFishIcon") {
+  const px = window.devicePixelRatio > 1 ? 2 : 1;
+  const w = 40 * px;
+  const h = 22 * px;
+
+  const c = document.createElement("canvas");
+  c.width = w;
+  c.height = h;
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, w, h);
+
+  g.strokeStyle = "#1565C0";
+  g.fillStyle   = "#1565C0";
+  g.lineWidth   = Math.max(1, px);
+  g.lineCap     = "round";
+  g.lineJoin    = "round";
+
+  const x0 = w * 0.10;       // nose
+  const x1 = w * 0.70;       // start of tail
+  const tailX = w * 0.90;    // tail tip
+  const cy = h * 0.5;
+  const ry = h * 0.32;
+
+  // body: lens shape
+  g.beginPath();
+  g.moveTo(x0, cy);
+  g.quadraticCurveTo((x0 + x1) / 2, cy - ry, x1, cy);
+  g.quadraticCurveTo((x0 + x1) / 2, cy + ry, x0, cy);
+  g.closePath();
+  g.stroke();
+
+  // tail: filled triangle
+  g.beginPath();
+  g.moveTo(x1, cy);
+  g.lineTo(tailX, cy - ry);
+  g.lineTo(tailX, cy + ry);
+  g.closePath();
+  g.stroke();
+
+  // inner division (like the band in 9740100.png)
+  g.beginPath();
+  g.moveTo((x0 + x1) / 2, cy - ry);
+  g.lineTo((x0 + x1) / 2, cy + ry);
+  g.stroke();
+
+  // eye
+  const eyeR = h * 0.06;
+  const eyeX = x0 + (x1 - x0) * 0.22;
+  const eyeY = cy - ry * 0.15;
+  g.beginPath();
+  g.arc(eyeX, eyeY, eyeR, 0, Math.PI * 2);
+  g.fill();
+
+  const img = g.getImageData(0, 0, w, h);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+// 9940203 游泳池: oval + wavy line, like 9940203.png
+function addSwimIcon(map, name = "swimPoolIcon") {
+  const px = window.devicePixelRatio > 1 ? 2 : 1;
+  const w = 45 * px;
+  const h = 14 * px;
+
+  const c = document.createElement("canvas");
+  c.width = w;
+  c.height = h;
+  const g = c.getContext("2d");
+  g.clearRect(0, 0, w, h);
+
+  g.strokeStyle = "#1565C0";
+  g.lineWidth   = Math.max(1, px);
+  g.lineCap     = "round";
+  g.lineJoin    = "round";
+
+  const cy = h * 0.5;
+
+  // --- left oval (pool) ---
+  const ovalCx = w * 0.25;
+  const ovalRx = w * 0.17;
+  const ovalRy = h * 0.25;
+
+  g.beginPath();
+  if (g.ellipse) {
+    g.ellipse(ovalCx, cy, ovalRx, ovalRy, 0, 0, Math.PI * 2);
+  } else {
+    // fallback: approximate ellipse
+    g.moveTo(ovalCx - ovalRx, cy);
+    g.quadraticCurveTo(ovalCx, cy - ovalRy, ovalCx + ovalRx, cy);
+    g.quadraticCurveTo(ovalCx, cy + ovalRy, ovalCx - ovalRx, cy);
+  }
+  g.stroke();
+
+  // --- wavy line to the right ---
+  const startX = ovalCx + ovalRx * 1.1;
+  const endX   = w * 0.9;
+  const waveAmp = h * 0.4;
+  const midX = (startX + endX) / 2;
+
+  g.beginPath();
+  g.moveTo(startX, cy);
+  g.quadraticCurveTo(
+    (startX + midX) / 2, cy - waveAmp,
+    midX, cy
+  );
+  g.quadraticCurveTo(
+    (midX + endX) / 2, cy + waveAmp,
+    endX, cy
+  );
+  g.stroke();
+
+  const img = g.getImageData(0, 0, w, h);
+  if (map.hasImage(name)) map.removeImage(name);
+  map.addImage(name, img, { pixelRatio: px, sdf: false });
+}
+
+/* ================== MAP + PMTILES ================== */
+
+const protocol = new pmtiles.Protocol({ metadata: true });
+maplibregl.addProtocol("pmtiles", protocol.tile);
+
+const pmt = new pmtiles.PMTiles(PMT_URL_HTTP);
+protocol.add(pmt);
+
+const style = {
+  version: 8,
+  glyphs: "https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf",
+  sources: {
+    data: { type: "vector", url: "pmtiles://" + PMT_URL_HTTP }
+  },
+  layers: [
+    { id: "bg", type: "background", paint: { "background-color": "#ffffff" } }
+  ]
+};
+
+const map = new maplibregl.Map({
+  container: "map",
+  style,
+  center: CENTER,
+  zoom: ZOOM,
+  renderWorldCopies: false
+});
+
+map.on("error", e => console.error("Map error:", e.error || e));
+
+// bottom-left scale bar (metric)
+const scale = new maplibregl.ScaleControl({
+  maxWidth: 120,
+  unit: "metric"     // or "imperial"
+});
+map.addControl(scale, "bottom-left");
+
+// === Ratio scale 1:xxxx (approx) ===
+
+// small box near the scale bar
+const ratioBox = document.createElement("div");
+ratioBox.id = "scale-ratio";
+ratioBox.style.position = "absolute";
+ratioBox.style.bottom = "35px";       // above the scale control
+ratioBox.style.left   = "10px";
+ratioBox.style.zIndex = "5";
+ratioBox.style.fontSize = "11px";
+ratioBox.style.fontFamily = "system-ui, -apple-system, BlinkMacSystemFont, sans-serif";
+ratioBox.style.background = "#ffffffcc";
+ratioBox.style.padding = "2px 6px";
+ratioBox.style.borderRadius = "3px";
+ratioBox.style.pointerEvents = "none";
+ratioBox.textContent = "";
+document.body.appendChild(ratioBox);
+
+function formatScaleDenom(d) {
+  if (!isFinite(d) || d <= 0) return "";
+  // round to nearest 10 for cleaner numbers
+  const rounded = Math.round(d / 10) * 10;
+  return rounded.toLocaleString("en-US");
+}
+
+function updateScaleRatio() {
+  const center = map.getCenter();
+  const zoom   = map.getZoom();
+
+  const latRad = center.lat * Math.PI / 180;
+  // Web Mercator meters per pixel (tileSize=512)
+  const metersPerPixel =
+    (40075016.6856 * Math.cos(latRad)) / (512 * Math.pow(2, zoom));
+
+  // screen pixel size assumption: 96 dpi
+  const dpi = 96;
+  const inchesPerMeter = 39.37;
+
+  // scale denominator ≈ real-world meters per pixel / meters per screen pixel
+  const scaleDenom = metersPerPixel * dpi * inchesPerMeter;
+
+  const txt = formatScaleDenom(scaleDenom);
+  ratioBox.textContent = txt ? `1:${txt}` : "";
+}
+
+// update on load + every move/zoom
+map.on("load", updateScaleRatio);
+map.on("move", updateScaleRatio);
+
+
+/* ================== ON LOAD: BUILD LAYERS ================== */
+
+map.once("load", async () => {
+  // register patterns/icons
+  addDiagHatch(map);
+  addPostIcon(map);
+  addSchoolIcon(map);
+  addGasIcon(map);
+  addTwShieldIcon(map);
+  addPrimaryShieldIcon(map);
+  addTempleIcon(map);
+  addChurchIcon(map);
+  addWaterIcon(map);
+  addParkingBaseIcon(map);
+  addParkingRoofIcon(map);
+  addParkingPoleIcon(map);
+  addPondPattern(map);
+  addFishIcon(map);
+  addSwimIcon(map);
+  registerPavilionIcon(map);
+
+  // Scan TERRAINID + geometry types from currently loaded tiles
+  async function scanTerrainSummary(map) {
+    const style = map.getStyle();
+
+    const sourceLayers = [...new Set(
+      style.layers
+        .map(l => l["source-layer"])
+        .filter(Boolean)
+    )];
+
+    const summary = {}; // TERRAINID -> { geomTypes: Set<string> }
+
+    sourceLayers.forEach(sl => {
+      const feats = map.querySourceFeatures("data", { sourceLayer: sl });
+      feats.forEach(f => {
+        const props = f.properties || {};
+        const tid = props.TERRAINID;
+        if (!tid) return;
+
+        const gtype = f.geometry && f.geometry.type ? f.geometry.type : "Unknown";
+        if (!summary[tid]) {
+          summary[tid] = { geomTypes: new Set() };
+        }
+        summary[tid].geomTypes.add(gtype);
+      });
+    });
+
+    return summary;
+  }
+
+
+  const infoBox = document.getElementById("feature-info-content");
+
+  map.on("mousemove", (e) => {
+    // Query all rendered features at mouse position from our PMTiles source
+    const features = map.queryRenderedFeatures(e.point /* , { layers: [...] } */)
+      .filter(f => f.source === "data");
+
+    if (!features.length) {
+      infoBox.innerHTML = "";
+      map.getCanvas().style.cursor = "";
+      return;
+    }
+
+    const f = features[0]; // top-most feature
+    const p = f.properties || {};
+
+    map.getCanvas().style.cursor = "pointer";
+
+    // You can customize which attributes to show
+    const lines = [];
+
+    if (p.TERRAINID) {
+      const zh = TERRAINID_GROUPS[p.TERRAINID] || "";
+      lines.push(`<b>TERRAINID</b>: ${p.TERRAINID} ${zh ? "（" + zh + "）" : ""}`);
+    }
+    if (p.ROADNUM)   lines.push(`<b>ROADNUM</b>: ${p.ROADNUM}`);
+    if (p.ROADNAME)  lines.push(`<b>ROADNAME</b>: ${p.ROADNAME}`);
+    if (p.MARKNAME1) lines.push(`<b>MARKNAME1</b>: ${p.MARKNAME1}`);
+    if (p.BUILD_NO || p.BUILD_STR) {
+      lines.push(`<b>BUILD</b>: ${(p.BUILD_NO || "")}${(p.BUILD_STR || "")}`);
+    }
+    lines.push(`<b>layer</b>: ${f.layer["source-layer"]}`);
+
+    infoBox.innerHTML = lines.join("<br>");
+  });
+
+  // Recursively find all TERRAINID equality checks in a filter
+  function collectTerrainIdsFromFilter(filter, layerId, mapping) {
+    if (!Array.isArray(filter)) return;
+
+    const op = filter[0];
+
+    // pattern: ["==", ["to-string", ["get","TERRAINID"]], "9520200"]
+    if (
+      op === "==" &&
+      Array.isArray(filter[1]) &&
+      filter[1][0] === "to-string" &&
+      Array.isArray(filter[1][1]) &&
+      filter[1][1][0] === "get" &&
+      filter[1][1][1] === "TERRAINID" &&
+      typeof filter[2] === "string"
+    ) {
+      const tid = filter[2];
+      if (!mapping[tid]) mapping[tid] = [];
+      mapping[tid].push(layerId);
+      return;
+    }
+
+    // recurse all children
+    for (let i = 1; i < filter.length; i++) {
+      collectTerrainIdsFromFilter(filter[i], layerId, mapping);
+    }
+  }
+
+  // Build TERRAINID -> [layerId, ...] mapping based on data
+  function buildTerrainIdLayerMappingFromData(map) {
+    const style = map.getStyle();
+
+    // 1. Collect all source-layer names
+    const sourceLayers = [...new Set(
+      style.layers
+        .map(l => l["source-layer"])
+        .filter(Boolean)
+    )];
+
+    // 2. For each source-layer, find all TERRAINID present in that layer
+    const terrainToSourceLayers = {};   // TERRAINID -> Set(sourceLayer)
+
+    sourceLayers.forEach(sl => {
+      const feats = map.querySourceFeatures("data", { sourceLayer: sl });
+      feats.forEach(f => {
+        const tid = f.properties && f.properties.TERRAINID;
+        if (!tid) return;
+        if (!terrainToSourceLayers[tid]) {
+          terrainToSourceLayers[tid] = new Set();
+        }
+        terrainToSourceLayers[tid].add(sl);
+      });
+    });
+
+    // 3. For each TERRAINID, collect all style layers that use those source-layers
+    const terrainToLayers = {}; // TERRAINID -> [layerId...]
+
+    style.layers.forEach(layer => {
+      const sl = layer["source-layer"];
+      if (!sl) return;
+      for (const [tid, slSet] of Object.entries(terrainToSourceLayers)) {
+        if (slSet.has(sl)) {
+          if (!terrainToLayers[tid]) terrainToLayers[tid] = [];
+          terrainToLayers[tid].push(layer.id);
+        }
+      }
+    });
+
+    return terrainToLayers;
+  }
+
+
+  // discover real source-layers from metadata
+  let existing = [];
+  try {
+    const md = await pmt.getMetadata();
+    existing = (md?.vector_layers || []).map(v => v.id) || [];
+  } catch (e) {
+    console.warn("metadata read failed", e);
+  }
+  const has = new Set(existing);
+
+  const builds  = BUILD.filter(l => has.has(l));
+  const roadas  = ROADA.filter(l => has.has(l));
+  const riveras = RIVERA.filter(l => has.has(l));
+  const roads   = ROAD_LBL.filter(l => has.has(l));
+  const riverls = RIVERL_LBL.filter(l => has.has(l));
+  const marks   = MARK.filter(l  => has.has(l));
+  const wateras = WATERA.filter(l => has.has(l));
+  // const waterLayers = sourceLayers.filter(sl => sl.endsWith("_WATERA"));
+  
+  /* ----- Buildings ----- */
+  builds.forEach(sl => {
+    map.addLayer({
+      id: `b-base-${sl}`,
+      type: "fill",
+      source: "data",
+      "source-layer": sl,
+      paint: {
+        "fill-color": "#ffffff", //#f3e9db
+        "fill-opacity": 0.35
+      }
+    });
+    map.addLayer({
+      id: `b-hatch-${sl}`,
+      type: "fill",
+      source: "data",
+      "source-layer": sl,
+      paint: {
+        "fill-pattern": "buildingHatch",
+        "fill-opacity": 1
+      }
+    });
+    map.addLayer({
+      id: `b-outline-${sl}`,
+      type: "line",
+      source: "data",
+      "source-layer": sl,
+      paint: {
+        "line-color": "#000",
+        "line-width": ["interpolate",["linear"],["zoom"],12,0.18,16,0.38,18,0.6]
+      }
+    });
+    map.addLayer({
+      id: `b-label-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      layout: {
+        "text-field": [
+          "concat",
+          ["coalesce", ["get","BUILD_NO"], ""],
+          ["coalesce", ["get","BUILD_STR"], ""]
+        ],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate",["linear"],["zoom"],13,10,17,13],
+        "text-anchor": "center"
+      },
+      paint: {
+        "text-color": "#000",
+        "text-halo-color": "#fff",
+        "text-halo-width": 1.1
+      }
+    });
+  });
+  //-----Pavilion----
+  function registerPavilionIcon(map) {
+    const id = "pavilion-icon-v1";
+
+    const px = (window.devicePixelRatio > 1) ? 2 : 1;
+    const S  = 24 * px;                     // size similar to other POI icons
+    const c  = document.createElement("canvas");
+    c.width  = c.height = S;
+    const g  = c.getContext("2d");
+    g.clearRect(0, 0, S, S);
+
+    g.strokeStyle = "#000000";
+    g.lineWidth   = Math.max(1, Math.round(px));
+    g.lineCap     = "round";
+    g.lineJoin    = "round";
+
+    const cx        = S / 2;
+    const baseY     = S * 0.55;
+    const roofWidth = S * 0.70;
+    const roofH     = S * 0.45;
+    const legLen    = S * 0.25;
+    const legOffset = roofWidth * 0.25;
+
+    // roof triangle
+    g.beginPath();
+    g.moveTo(cx, baseY - roofH);
+    g.lineTo(cx - roofWidth / 2, baseY);
+    g.lineTo(cx + roofWidth / 2, baseY);
+    g.closePath();
+    g.stroke();
+
+    // two legs
+    g.beginPath();
+    g.moveTo(cx - legOffset, baseY);
+    g.lineTo(cx - legOffset, baseY + legLen);
+    g.moveTo(cx + legOffset, baseY);
+    g.lineTo(cx + legOffset, baseY + legLen);
+    g.stroke();
+
+    // turn into ImageData and register
+    const img = g.getImageData(0, 0, S, S);
+    if (map.hasImage(id)) {
+      map.removeImage(id);
+    }
+    map.addImage(id, img, { pixelRatio: px, sdf: false });
+
+    // add symbol layer on all *_BUILD layers where TERRAINID == 9350902
+    const buildLayers = [
+      "J01_BUILD", "J13_BUILD", "J16_BUILD", "J17_BUILD",
+      "K01_BUILD", "K02_BUILD", "K14_BUILD"
+    ];
+
+    buildLayers.forEach(sl => {
+      const layerId = `pavilion-${sl}`;
+      if (map.getLayer(layerId)) return;
+
+      map.addLayer({
+        id: layerId,
+        type: "symbol",
+        source: "data",
+        "source-layer": sl,
+        filter: ["==", ["to-string", ["get", "TERRAINID"]], "9350902"],
+        layout: {
+          "icon-image": id,
+          "icon-size": [
+            "interpolate", ["linear"], ["zoom"],
+            13, 0.7,
+            17, 1.1
+          ],
+          "icon-allow-overlap": true,
+          "icon-ignore-placement": false,
+          "icon-anchor": "center"
+        }
+      });
+    });
+  }
+  /* ----- Roads + Rivers (geometry) ----- */
+  roadas.forEach(sl => {
+    map.addLayer({
+      id: `rda-line-${sl}`,
+      type: "line",
+      source: "data",
+      "source-layer": sl,
+      layout: { "line-cap": "round","line-join": "round" },
+      paint: {
+        "line-color": "#d32f2f",
+        "line-width": ["interpolate",["linear"],["zoom"],12,0.4,16,0.9,18,1.2]
+      }
+    });
+  });
+
+  riveras.forEach(sl => {
+    map.addLayer({
+      id: `riv-line-${sl}`,
+      type: "line",
+      source: "data",
+      "source-layer": sl,
+      layout: { "line-cap": "round","line-join": "round" },
+      paint: {
+        "line-color": "#1565C0",
+        "line-width": ["interpolate",["linear"],["zoom"],12,0.4,16,0.9,18,1.2]
+      }
+    });
+  });
+
+  /* ----- Road & River Labels ----- */
+  roads.forEach(sl => {
+    map.addLayer({
+      id: `road-label-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      layout: {
+        "symbol-placement": "line",
+        "text-field": ["coalesce",["get","ROADNAME"],""],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate",["linear"],["zoom"],13,10,17,13],
+        "text-max-angle": 45
+      },
+      paint: {
+        "text-color": "#444",
+        "text-halo-color": "#fff",
+        "text-halo-width": 1.1
+      }
+    });
+  });
+
+  riverls.forEach(sl => {
+    map.addLayer({
+      id: `river-label-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      layout: {
+        "symbol-placement": "line",
+        "text-field": ["coalesce",["get","RIVERLNAME"],""],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate",["linear"],["zoom"],13,10,17,13],
+        "text-max-angle": 45
+      },
+      paint: {
+        "text-color": "#1e88e5",
+        "text-halo-color": "#fff",
+        "text-halo-width": 1.0
+      }
+    });
+  });
+
+  /* ----- Landmarks (MARK layers) ----- */
+  const POST_FILTER   = ["==", ["to-string",["get","TERRAINID"]], "9950201"];
+  const SCHOOL_CODES  = ["9920101","9920102","9920103","9920104","9920105","9920106"];
+  const SCHOOL_FILTER = ["match",["to-string",["get","TERRAINID"]], SCHOOL_CODES, true, false];
+  const GAS_FILTER    = ["==", ["to-string",["get","TERRAINID"]], "9960203"];
+
+  const TEMPLE_FILTER = ["==", ["to-string",["get","TERRAINID"]], "9970102"];
+  const CHURCH_FILTER = ["==", ["to-string",["get","TERRAINID"]], "9970101"];
+
+  marks.forEach(sl => {
+    // Post office
+    map.addLayer({
+      id: `post-icon-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: POST_FILTER,
+      layout: {
+        "icon-image": "post",
+        "icon-size": ["interpolate",["linear"],["zoom"],13,0.9,16,1.1,18,1.3],
+        "symbol-placement": "point",
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      }
+    });
+    map.addLayer({
+      id: `post-label-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: POST_FILTER,
+      layout: {
+        "text-field": ["coalesce",["get","MARKNAME1"],["get","NAME"],""],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate",["linear"],["zoom"],13,10,17,12],
+        "text-offset": [0,1.1],
+        "text-anchor": "top",
+        "text-allow-overlap": true,
+        "text-ignore-placement": true
+      },
+      paint: {
+        "text-color": "#000",
+        "text-halo-color": "#fff",
+        "text-halo-width": 1.2
+      }
+    });
+
+    // School
+    map.addLayer({
+      id: `school-icon-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: SCHOOL_FILTER,
+      layout: {
+        "icon-image": "school",
+        "icon-size": ["interpolate",["linear"],["zoom"],13,0.9,16,1.1,18,1.3],
+        "symbol-placement": "point",
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      }
+    });
+    map.addLayer({
+      id: `school-label-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: SCHOOL_FILTER,
+      layout: {
+        "text-field": ["coalesce",["get","MARKNAME1"],["get","NAME"],""],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate",["linear"],["zoom"],13,10,17,12],
+        "text-offset": [0,1.1],
+        "text-anchor": "top",
+        "text-allow-overlap": true,
+        "text-ignore-placement": true
+      },
+      paint: {
+        "text-color": "#000",
+        "text-halo-color": "#fff",
+        "text-halo-width": 1.2
+      }
+    });
+
+    // Gas station
+    map.addLayer({
+      id: `gas-icon-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: GAS_FILTER,
+      layout: {
+        "icon-image": "gas",
+        "icon-size": ["interpolate",["linear"],["zoom"],13,0.9,16,1.1,18,1.3],
+        "symbol-placement": "point",
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      }
+    });
+    map.addLayer({
+      id: `gas-label-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: GAS_FILTER,
+      layout: {
+        "text-field": ["coalesce",["get","MARKNAME1"],["get","NAME"],""],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate",["linear"],["zoom"],13,10,17,12],
+        "text-offset": [0,1.1],
+        "text-anchor": "top",
+        "text-allow-overlap": true,
+        "text-ignore-placement": true
+      },
+      paint: {
+        "text-color": "#000",
+        "text-halo-color": "#fff",
+        "text-halo-width": 1.2
+      }
+    });
+
+    // Temple
+    map.addLayer({
+      id: `temple-icon-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: TEMPLE_FILTER,
+      layout: {
+        "icon-image": "temple",
+        "icon-size": ["interpolate",["linear"],["zoom"],13,0.9,16,1.1,18,1.25],
+        "symbol-placement": "point",
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      }
+    });
+    map.addLayer({
+      id: `temple-label-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: TEMPLE_FILTER,
+      layout: {
+        "text-field": ["coalesce",["get","MARKNAME1"],["get","NAME"],""],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate",["linear"],["zoom"],13,10,17,12],
+        "text-offset": [0,1.05],
+        "text-anchor": "top",
+        "text-allow-overlap": true,
+        "text-ignore-placement": true
+      },
+      paint: {
+        "text-color": "#000",
+        "text-halo-color": "#fff",
+        "text-halo-width": 1.2
+      }
+    });
+
+    // Church
+    map.addLayer({
+      id: `church-icon-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: CHURCH_FILTER,
+      layout: {
+        "icon-image": "church",
+        "icon-size": ["interpolate",["linear"],["zoom"],13,0.9,16,1.1,18,1.25],
+        "symbol-placement": "point",
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      }
+    });
+    map.addLayer({
+      id: `church-label-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: CHURCH_FILTER,
+      layout: {
+        "text-field": ["coalesce",["get","MARKNAME1"],["get","NAME"],""],
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate",["linear"],["zoom"],13,10,17,12],
+        "text-offset": [0,1.05],
+        "text-anchor": "top",
+        "text-allow-overlap": true,
+        "text-ignore-placement": true
+      },
+      paint: {
+        "text-color": "#000",
+        "text-halo-color": "#fff",
+        "text-halo-width": 1.2
+      }
+    });
+
+    const PARK_BASE_FILTER = ["match",["to-string", ["get","TERRAINID"]],["9960204","9960204a"],true, false];
+    const PARK_ROOF_FILTER = ["==", ["to-string",["get","TERRAINID"]], "9960204b"];
+    const PARK_POLE_FILTER = ["==", ["to-string",["get","TERRAINID"]], "9960204c"];
+    // Parking: 9960204 / 9960204a  -> circle+P
+    map.addLayer({
+      id: `park-base-icon-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      minzoom: 16,
+      filter: PARK_BASE_FILTER,
+      layout: {
+        "icon-image": "parkingBase",
+        "icon-size": ["interpolate",["linear"],["zoom"],16,0.9,17,1,18,1.1],
+        "symbol-placement": "point",
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      }
+    });
+
+    // Parking: 9960204b -> circle+P+roof
+    map.addLayer({
+      id: `park-roof-icon-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      minzoom: 16,
+      filter: PARK_ROOF_FILTER,
+      layout: {
+        "icon-image": "parkingRoof",
+        "icon-size": ["interpolate",["linear"],["zoom"],16,0.9,17,1,18,1.1],
+        "symbol-placement": "point",
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      }
+    });
+
+    // Parking: 9960204c -> circle+P+pole
+    map.addLayer({
+      id: `park-pole-icon-${sl}`,
+      type: "symbol",
+      source: "data",
+      minzoom: 16,
+      "source-layer": sl,
+      filter: PARK_POLE_FILTER,
+      layout: {
+        "icon-image": "parkingPole",
+        "icon-size": ["interpolate",["linear"],["zoom"],16,0.9,17,1.1,18,1.1],
+        "symbol-placement": "point",
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      }
+    });
+
+
+    // keep landmarks on top of shields
+    ["church-label-","church-icon-","temple-label-","temple-icon-",
+     "gas-label-","gas-icon-","school-label-","school-icon-",
+     "post-label-","post-icon-","park-base-icon-","park-roof-icon-","park-pole-icon-"].forEach(prefix => {
+      const id = prefix + sl;
+      if (map.getLayer(id)) map.moveLayer(id);
+    });
+  });
+
+  /* ----- Shields ----- */
+  const ROAD_SHIELD_CODES = ["9420101","9420102"];
+  const ROAD_SHIELD_FILTER = ["match",["to-string",["get","TERRAINID"]],ROAD_SHIELD_CODES,true,false];
+
+  roads.forEach(sl => {
+    const numericPart = ["case",
+      ["==", ["slice",["to-string",["get","ROADNUM"]],0,1], "國"],
+        ["slice",["to-string",["get","ROADNUM"]],1],
+        ["to-string",["get","ROADNUM"]]
+    ];
+
+    map.addLayer({
+      id: `road-shield-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      minzoom: 10,
+      filter: ROAD_SHIELD_FILTER,
+      layout: {
+        "symbol-placement": "line",
+        "symbol-spacing": 400,
+        "icon-image": "twShield",
+        "icon-size": ["interpolate",["linear"],["zoom"],10,0.70,14,0.80,17,0.90],
+        "text-field": numericPart,
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate",["linear"],["zoom"],12,10,16,12,18,13],
+        "text-anchor": "center",
+        "text-optional": true,
+        "icon-optional": true
+      },
+      paint: {
+        "text-color": "#000",
+        "text-halo-color": "#fff",
+        "text-halo-width": 1.2
+      }
+    });
+    map.moveLayer(`road-shield-${sl}`);
+  });
+
+  const PRIMARY_FILTER = ["all",
+    ["match",["to-string",["get","TERRAINID"]],["9420201","9420202"],true,false],
+    ["!=",["coalesce",["to-string",["get","ROADNUM"]],""],""]
+  ];
+
+  roads.forEach(sl => {
+    const primaryNumber = ["case",
+      ["==",["slice",["to-string",["get","ROADNUM"]],0,1],"台"],
+        ["slice",["to-string",["get","ROADNUM"]],1],
+        ["to-string",["get","ROADNUM"]]
+    ];
+
+    map.addLayer({
+      id: `primary-shield-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      minzoom: 10,
+      filter: PRIMARY_FILTER,
+      layout: {
+        "symbol-placement": "line",
+        "symbol-spacing": 450,
+        "icon-image": "twPrimaryShield",
+        "icon-size": ["interpolate",["linear"],["zoom"],10,0.70,14,0.82,17,0.92],
+        "icon-rotation-alignment": "map",
+        "text-rotation-alignment": "map",
+        "icon-keep-upright": true,
+        "text-keep-upright": true,
+        "text-field": primaryNumber,
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate",["linear"],["zoom"],12,10,16,12,18,13],
+        "text-anchor": "center",
+        "text-optional": true,
+        "icon-optional": true
+      },
+      paint: {
+        "text-color": "#000",
+        "text-halo-color": "#fff",
+        "text-halo-width": 1.2
+      }
+    });
+    map.moveLayer(`primary-shield-${sl}`);
+  });
+
+  /* ----- Water polygons + icons ----- */
+
+  const WATER_CODES = ["9520700"]; 
+  const WATER_FILTER = ["match",["to-string",["get","TERRAINID"]],WATER_CODES,true,false];
+
+  wateras.forEach(sl => {
+    // polygon fill
+    map.addLayer({
+      id: `water-fill-${sl}`,
+      type: "fill",
+      source: "data",
+      "source-layer": sl,
+      paint: {
+        "fill-color": "#ffffff",
+        "fill-opacity": 0.7
+      }
+    });
+    // outline
+    map.addLayer({
+      id: `water-outline-${sl}`,
+      type: "line",
+      source: "data",
+      "source-layer": sl,
+      paint: {
+        "line-color": "#1565C0",
+        "line-width": ["interpolate",["linear"],["zoom"],12,0.4,16,0.9,18,1.2]
+      }
+    });
+    // oval icon
+    // map.addLayer({
+    //   id: `water-icon-${sl}`,
+    //   type: "symbol",
+    //   source: "data",
+    //   "source-layer": sl,
+    //   filter: WATER_FILTER,
+    //   minzoom: 16,
+    //   layout: {
+    //     "symbol-placement": "point",
+    //     "icon-image": "waterOvalBlue",
+    //     "icon-size": ["interpolate",["linear"],["zoom"],11,0.75,14,0.9,17,1.0],
+    //     "icon-allow-overlap": true,
+    //     "icon-ignore-placement": true
+    //   }
+    // });
+
+    // "W" text
+    map.addLayer({
+      id: `water-label-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: WATER_FILTER,
+      minzoom: 16,
+      layout: {
+        "symbol-placement": "point",
+        "text-field": "W",
+        "text-font": ["Noto Sans Regular"],
+        "text-size": ["interpolate",["linear"],["zoom"],11,11,14,12,17,13],
+        "text-anchor": "center",
+        "text-allow-overlap": true,
+        "text-ignore-placement": true
+      },
+      paint: {
+        "text-color": "#1565C0"
+      }
+    });
+
+    // keep water icons on top of geometry
+    ["water-label-","water-icon-"].forEach(prefix => {
+      const id = prefix + sl;
+      if (map.getLayer(id)) map.moveLayer(id);
+    });
+  });
+
+  // === WATERA POLYGONS ============================================
+  const POND_FILTER = ["==", ["to-string", ["get","TERRAINID"]], "9520200"];  // 池塘
+  const AQUA_FILTER = ["==", ["to-string", ["get","TERRAINID"]], "9740100"];  // 養殖池
+  const LAKE_RES_FILTER = ["match", ["to-string", ["get","TERRAINID"]],["9520100","9520600"], true, false];  // 湖泊 + 水庫
+  // 9520700 蓄水池: keep existing style (falls through to your base water layer)
+
+  wateras.forEach(sl => {
+
+    // 1) 池塘 9520200 – blue outline + horizontal hatch
+    map.addLayer({
+      id: `water-pond-fill-${sl}`,
+      type: "fill",
+      source: "data",
+      "source-layer": sl,
+      filter: POND_FILTER,
+      paint: {
+        "fill-color": "#ffffff",
+        "fill-opacity": 0.7,
+        "fill-pattern": "waterPondHatch"
+      }
+    });
+
+    map.addLayer({
+      id: `water-pond-line-${sl}`,
+      type: "line",
+      source: "data",
+      "source-layer": sl,
+      filter: POND_FILTER,
+      paint: {
+        "line-color": "#1565C0",
+        "line-width": 1.0
+      }
+    });
+
+    // 2) 養殖池 9740100 – blue outline + fish icon
+    map.addLayer({
+      id: `water-aqua-fill-${sl}`,
+      type: "fill",
+      source: "data",
+      "source-layer": sl,
+      filter: AQUA_FILTER,
+      paint: {
+        "fill-color": "#ffffff",
+        "fill-opacity": 0.0
+      }
+    });
+
+    map.addLayer({
+      id: `water-aqua-line-${sl}`,
+      type: "line",
+      source: "data",
+      "source-layer": sl,
+      filter: AQUA_FILTER,
+      paint: {
+        "line-color": "#1565C0",
+        "line-width": 1.0
+      }
+    });
+
+    map.addLayer({
+      id: `water-aqua-icon-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: AQUA_FILTER,
+      layout: {
+        "symbol-placement": "point",
+        "icon-image": "waterFishIcon",
+        "icon-size": ["interpolate",["linear"],["zoom"],15,0.8,16,1.0,18,1.2],
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      }
+    });
+
+    // 3) 湖泊 + 水庫 (9520100, 9520600) – stroke only, no fill
+    map.addLayer({
+      id: `water-lake-fill-${sl}`,
+      type: "fill",
+      source: "data",
+      "source-layer": sl,
+      filter: LAKE_RES_FILTER,
+      paint: {
+        "fill-color": "#ffffff",
+        "fill-opacity": 0.0
+      }
+    });
+
+    map.addLayer({
+      id: `water-lake-line-${sl}`,
+      type: "line",
+      source: "data",
+      "source-layer": sl,
+      filter: LAKE_RES_FILTER,
+      paint: {
+        "line-color": "#1565C0",
+        "line-width": 1.0
+      }
+    });
+  });
+
+  const SWIM_FILTER = ["==", ["to-string", ["get","TERRAINID"]], "9940203"];
+
+  marks.forEach(sl => {
+    // ... existing POI symbol code ...
+
+    // 游泳池 9940203 – blue pool icon
+    map.addLayer({
+      id: `swim-icon-${sl}`,
+      type: "symbol",
+      source: "data",
+      "source-layer": sl,
+      filter: SWIM_FILTER,
+      layout: {
+        "symbol-placement": "point",
+        "icon-image": "swimPoolIcon",
+        "icon-size": ["interpolate",["linear"],["zoom"],13,0.9,16,1.1,18,1.3],
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      }
+    });
+
+    // Optionally move to top with other POIs
+    ["swim-icon-"].forEach(prefix => {
+      const id = prefix + sl;
+      if (map.getLayer(id)) map.moveLayer(id);
+    });
+  });
+
+  // ========== TERRAINID controller with per-feature filtering ==========
+  map.once("idle", async () => {
+    const terrainSummary = await scanTerrainSummary(map);
+
+    // 1. TERRAINIDs actually seen in the data
+    const scannedTIDs = Object.keys(terrainSummary);
+
+    // 2. TERRAINIDs defined in TERRAINID_GROUPS (flatten all groups)
+    const groupTIDs = [];
+    Object.values(TERRAINID_GROUPS).forEach(list => {
+      list.forEach(({ tid }) => {
+        groupTIDs.push(tid);
+      });
+    });
+
+    // 3. union of scanned + configured
+    const allTIDs = new Set([...scannedTIDs, ...groupTIDs]);
+
+    // Layers from PMTiles
+    const controlledLayerIds = map.getStyle().layers
+      .filter(l => l.source === "data")
+      .map(l => l.id);
+
+    const baseFilters = {};
+    controlledLayerIds.forEach(id => {
+      baseFilters[id] = map.getFilter(id) || null;
+    });
+
+    const hiddenTIDs = new Set();
+
+    function rebuildFilters() {
+      const hidden = [...hiddenTIDs];
+
+      controlledLayerIds.forEach(id => {
+        const base = baseFilters[id];
+
+        if (!hidden.length) {
+          map.setFilter(id, base);
+          return;
+        }
+
+        const avoid = hidden.map(tid => ["!=", ["to-string", ["get","TERRAINID"]], tid]);
+
+        let filter;
+        if (base) filter = ["all", base, ...avoid];
+        else filter = ["all", ...avoid];
+
+        map.setFilter(id, filter);
+      });
+    }
+
+    const container = document.getElementById("terrainid-list");
+    container.innerHTML = "";  // clear
+
+    // ==== build the UI by group ====
+    const tidCheckbox = {}; // tid -> checkbox
+
+    Object.entries(TERRAINID_GROUPS).forEach(([groupName, tidList]) => {
+      const section = document.createElement("div");
+      section.style.border = "1px solid #ccc";
+      section.style.margin = "6px 0";
+      section.style.padding = "4px";
+
+      const title = document.createElement("div");
+      title.style.fontWeight = "bold";
+      title.style.marginBottom = "4px";
+      title.textContent = groupName;
+      section.appendChild(title);
+
+      // Group-level buttons
+      const btnRow = document.createElement("div");
+      btnRow.style.marginBottom = "4px";
+
+      const hideBtn = document.createElement("button");
+      hideBtn.textContent = "Hide Group";
+      hideBtn.style.marginRight = "4px";
+
+      const showBtn = document.createElement("button");
+      showBtn.textContent = "Show Group";
+
+      btnRow.appendChild(hideBtn);
+      btnRow.appendChild(showBtn);
+      section.appendChild(btnRow);
+
+      // HERE: tidList is now array of { tid, label }
+      tidList.forEach(({ tid, label }) => {
+        if (!allTIDs.has(tid)) return;  // skip nonexistent TIDs in this PMTiles
+
+        const row = document.createElement("div");
+
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = true;
+        cb.id = "chk-" + tid;
+
+        const lab = document.createElement("label");
+        lab.htmlFor = "chk-" + tid;
+
+        const gm = terrainSummary[tid]
+          ? "[" + [...terrainSummary[tid].geomTypes].join("/") + "]"
+          : "";
+
+        // Chinese label comes directly from TERRAINID_GROUPS
+        lab.textContent = ` ${tid}（${label}） ${gm}`;
+
+        row.appendChild(cb);
+        row.appendChild(lab);
+        section.appendChild(row);
+
+        tidCheckbox[tid] = cb;
+
+        cb.addEventListener("change", () => {
+          if (cb.checked) hiddenTIDs.delete(tid);
+          else hiddenTIDs.add(tid);
+          rebuildFilters();
+        });
+      });
+
+      // Group hide / show
+      hideBtn.addEventListener("click", () => {
+        tidList.forEach(({ tid }) => {
+          if (!tidCheckbox[tid]) return;
+          tidCheckbox[tid].checked = false;
+          hiddenTIDs.add(tid);
+        });
+        rebuildFilters();
+      });
+
+      showBtn.addEventListener("click", () => {
+        tidList.forEach(({ tid }) => {
+          if (!tidCheckbox[tid]) return;
+          tidCheckbox[tid].checked = true;
+          hiddenTIDs.delete(tid);
+        });
+        rebuildFilters();
+      });
+
+      container.appendChild(section);
+    });
+
+    // Global hide/show
+    document.getElementById("tid-hide-all").onclick = () => {
+      Object.keys(tidCheckbox).forEach(tid => {
+        tidCheckbox[tid].checked = false;
+        hiddenTIDs.add(tid);
+      });
+      rebuildFilters();
+    };
+
+    document.getElementById("tid-show-all").onclick = () => {
+      Object.keys(tidCheckbox).forEach(tid => {
+        tidCheckbox[tid].checked = true;
+        hiddenTIDs.delete(tid);
+      });
+      rebuildFilters();
+    };
+  });
+  
+}); // end map.load
+
+</script>
+<div id="terrainid-control"
+     style="position:absolute; top:10px; right:10px; z-index:10;
+            background:#ffffffcc; padding:6px 8px; border-radius:4px;
+            font-family:system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size:12px; max-height:50vh; overflow:auto;">
+  <strong>TERRAINID Layers</strong>
+  <div style="margin:4px 0;">
+    <button id="tid-hide-all" style="font-size:11px; padding:2px 4px; margin-right:4px;">Hide all</button>
+    <button id="tid-show-all" style="font-size:11px; padding:2px 4px;">Show all</button>
+  </div>
+  <div id="terrainid-list"></div>
+</div>
+<div id="feature-info"
+     style="position:absolute; bottom:10px; right:10px; z-index:10;
+            background:#ffffffcc; padding:6px 8px; border-radius:4px;
+            font-family:system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size:12px; min-width:180px;">
+  <strong>Feature info</strong>
+  <div id="feature-info-content" style="margin-top:4px;"></div>
+</div>
+</body>
+</html>
