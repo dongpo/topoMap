@@ -4,7 +4,7 @@
   "sources": {
     "data": {
       "type": "vector",
-      "url": "pmtiles://http://localhost:8000/out1120902.pmtiles"
+      "url": "pmtiles://https://dongpo.github.io/topoMap/out1120902.pmtiles"
     }
   },
   "layers": [
