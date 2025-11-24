@@ -11,168 +11,11 @@
     crossorigin="anonymous"
   />
   <script src="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js" crossorigin="anonymous"></script>
-  <!-- JSZip for reading .zip files in-browser -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"
-  integrity="sha512-wuYj1z2wYpI6cQ+Z0GkxQy8h0s2f2YcZb0a7t2n8fZ1jX2c3y7mF3T8nY1F5cGmYkAq0P2m5z3h7s4bK2qQxg=="
-  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- PMTiles -->
   <script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js" crossorigin="anonymous"></script>
 
   <!-- jsPDF for A4 PDF export -->
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-
-<script>
-/*
-  MapOuput_v1.html (patched)
-  - tries to load plain F1000_frames_121_wgs84.geojson first
-  - if not available, loads F1000_frames_121_wgs84.geojson.zip and extracts the .geojson using JSZip
-  Notes:
-  - fetch() and JSZip require the page and zip to be served over HTTP(S) (not file://).
-  - If the zip is hosted on another origin, ensure CORS headers allow cross-origin fetch.
-  - If the GeoJSON is very large, extracting in-browser may be heavy; consider pre-unzipping server-side.
-*/
-
-const GEOJSON_FILE = 'https://github.com/dongpo/topoMap/F1000_frames_121_wgs84.geojson';
-const GEOJSON_ZIP = 'https://github.com/dongpo/topoMap/F1000_frames_121_wgs84.geojson.zip';
-
-// Map init
-const map = L.map('map').setView([20, 0], 2);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap contributors'
-}).addTo(map);
-
-// Base layer holder so we can remove or replace as needed
-let geojsonLayer = null;
-
-function showError(message) {
-  const el = document.getElementById('error-banner');
-  el.textContent = message;
-  el.style.display = 'block';
-}
-
-/**
- * Add parsed GeoJSON to the map (replaces previous layer).
- * Accepts either a GeoJSON FeatureCollection or Feature/Geometry.
- */
-function addGeoJSONToMap(geojson) {
-  if (geojsonLayer) {
-    map.removeLayer(geojsonLayer);
-    geojsonLayer = null;
-  }
-  geojsonLayer = L.geoJSON(geojson, {
-    style: function(feature) {
-      return {
-        color: '#3388ff',
-        weight: 1,
-        fillOpacity: 0.2
-      };
-    },
-    onEachFeature: function(feature, layer) {
-      if (feature.properties) {
-        // Create a simple popup with some properties (adapt to your schema)
-        const props = Object.keys(feature.properties).map(k =>
-          `<strong>${k}</strong>: ${feature.properties[k]}`
-        ).join('<br/>');
-        layer.bindPopup(props);
-      }
-    }
-  }).addTo(map);
-
-  // Fit to bounds if possible
-  try {
-    const bounds = geojsonLayer.getBounds();
-    if (bounds.isValid()) map.fitBounds(bounds);
-  } catch (e) {
-    // ignore fit errors for point-only datasets
-  }
-}
-
-/**
- * Try to fetch a plain GeoJSON file and parse it.
- * Throws if fetching or parsing fails.
- */
-async function fetchPlainGeoJSON(url) {
-  const resp = await fetch(url);
-  if (!resp.ok) throw new Error('Failed to fetch ' + url + ' (status ' + resp.status + ')');
-  const json = await resp.json();
-  return json;
-}
-
-/**
- * Fetch a zip file, open it with JSZip, find the .geojson entry
- * and return the parsed GeoJSON object.
- */
-async function fetchGeoJSONFromZip(zipUrl) {
-  const resp = await fetch(zipUrl);
-  if (!resp.ok) throw new Error('Failed to fetch zip ' + zipUrl + ' (status ' + resp.status + ')');
-  const arrayBuffer = await resp.arrayBuffer();
-
-  const zip = await JSZip.loadAsync(arrayBuffer);
-
-  // Try to find the exact name first
-  let entry = zip.file(GEOJSON_FILE);
-  if (!entry) {
-    // case-insensitive search for the file name
-    const files = Object.keys(zip.files);
-    const candidate = files.find(f => f.toLowerCase().endsWith(GEOJSON_FILE.toLowerCase()));
-    if (candidate) entry = zip.file(candidate);
-  }
-  if (!entry) {
-    // fallback: first .geojson file in archive
-    const files = Object.keys(zip.files);
-    const firstGeo = files.find(f => f.toLowerCase().endsWith('.geojson'));
-    if (firstGeo) entry = zip.file(firstGeo);
-  }
-
-  if (!entry) {
-    throw new Error('No .geojson file found inside zip: ' + zipUrl);
-  }
-
-  const text = await entry.async('string');
-  // Parse JSON safely
-  try {
-    return JSON.parse(text);
-  } catch (err) {
-    throw new Error('Failed to parse GeoJSON text from zip (' + entry.name + '): ' + err.message);
-  }
-}
-
-/**
- * Main loader:
- * - try plain .geojson first
- * - otherwise, try .zip and extract .geojson from it
- */
-async function loadGeoJSONData() {
-  // Try plain geojson
-  try {
-    const geojson = await fetchPlainGeoJSON(GEOJSON_FILE);
-    addGeoJSONToMap(geojson);
-    return;
-  } catch (plainErr) {
-    // Continue to unzip attempt (but keep the error for logging)
-    console.warn('Plain GeoJSON fetch failed, will try zip:', plainErr);
-  }
-
-  // Try zip
-  try {
-    const geojson = await fetchGeoJSONFromZip(GEOJSON_ZIP);
-    addGeoJSONToMap(geojson);
-    return;
-  } catch (zipErr) {
-    console.error('Failed to load GeoJSON from zip:', zipErr);
-    showError('Error loading map data: ' + zipErr.message + '. Check console for details. ' +
-      'Ensure the files are served over HTTP(S) and CORS is configured if needed.');
-  }
-}
-
-// Kick off loading after page load
-document.addEventListener('DOMContentLoaded', function() {
-  loadGeoJSONData().catch(err => {
-    console.error('Unexpected error loading GeoJSON:', err);
-    showError('Unexpected error loading GeoJSON: ' + err.message);
-  });
-});
-</script>
   
   <style>
     html,
@@ -297,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const PMT_URL_HTTP = "https://dongpo.github.io/topoMap/out1120902.pmtiles";
     const PMT_STYLE_URL = "https://dongpo.github.io/topoMap/pmtiles_style_TERRAINID_final.json";
-    const FRAMES_GEOJSON_URL = "https://dongpo.github.io/topoMap/F1000_frames_121_wgs84.geojson";
+    const FRAMES_GEOJSON_URL = "https://dongpo.github.io/topoMap/F1000_frames_part.geojson";
 
     const INITIAL_CENTER = [121.0236, 24.7745];
     const INITIAL_ZOOM = 14;
