@@ -1,7 +1,7 @@
 {
   "benchmark": "NMA-Bench",
   "version": "0.1.0",
-  "generated_at": "2026-07-16T06:18:19.558717+00:00",
+  "generated_at": "2026-07-16T08:22:33.566025+00:00",
   "task_count": 31,
   "fixture_kind": "authoritative-rule-derived-synthetic-geospatial",
   "input_provenance": {
@@ -31,13 +31,13 @@
       "data/datasets/authoritative/riverl-wrong-crs/RIVERL.shp": "008885ef9b7bbaf5a068b0974b999f14991b0390aa3f98840facfc3664373c71",
       "data/datasets/authoritative/riverl-wrong-crs/RIVERL.shx": "42cb390e7eccf422fe81a523df5e6a8424266d4e739594e05feb4067ba0dad85"
     },
-    "source_revision": "1f3c886b3dcc61a5ee74c46e7cd7a9be5c668a3d"
+    "source_revision": "aff0c420385efad17a8bf9c4dfaa77ee7906b00f"
   },
   "runtime": {
     "python": "3.13.5",
     "implementation": "CPython",
     "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
-    "executable": "/Users/dongpodeng/Documents/Codex/2026-07-15/referenced-chatgpt-conversation-this-is-untrusted/work/topoMap/.venv/bin/python"
+    "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13"
   },
   "systems": {
     "ungrounded_proxy": {
@@ -47,7 +47,7 @@
       "accuracy": 0.22580645161290322,
       "provenance_completeness": 0.0,
       "adapter_failures": 0,
-      "mean_latency_ms": 0.00037900087678985247,
+      "mean_latency_ms": 0.0003924210285467486,
       "external_adapter": false,
       "configuration": null,
       "by_category": {
@@ -65,7 +65,7 @@
       "accuracy": 0.2903225806451613,
       "provenance_completeness": 0.0,
       "adapter_failures": 0,
-      "mean_latency_ms": 0.008755257905220552,
+      "mean_latency_ms": 0.021939610897172845,
       "external_adapter": false,
       "configuration": null,
       "by_category": {
@@ -83,7 +83,7 @@
       "accuracy": 0.6451612903225806,
       "provenance_completeness": 0.8125,
       "adapter_failures": 0,
-      "mean_latency_ms": 0.0014314841058465741,
+      "mean_latency_ms": 0.0020671943803468058,
       "external_adapter": false,
       "configuration": null,
       "by_category": {
@@ -101,7 +101,7 @@
       "accuracy": 1.0,
       "provenance_completeness": 1.0,
       "adapter_failures": 0,
-      "mean_latency_ms": 35.90549599950112,
+      "mean_latency_ms": 41.19674318785509,
       "external_adapter": false,
       "configuration": null,
       "by_category": {
@@ -588,7 +588,7 @@
       "actual": null,
       "score": 0.0,
       "provenance_completeness": 0.0,
-      "latency_ms": 0.0,
+      "latency_ms": 0.001,
       "error": null,
       "adapter_metadata": null
     },
@@ -700,7 +700,7 @@
       ],
       "score": 0.0,
       "provenance_completeness": 0.0,
-      "latency_ms": 0.087,
+      "latency_ms": 0.462,
       "error": null,
       "adapter_metadata": null
     },
@@ -717,7 +717,7 @@
       ],
       "score": 0.0,
       "provenance_completeness": 0.0,
-      "latency_ms": 0.047,
+      "latency_ms": 0.066,
       "error": null,
       "adapter_metadata": null
     },
@@ -734,7 +734,7 @@
       ],
       "score": 0.0,
       "provenance_completeness": 0.0,
-      "latency_ms": 0.042,
+      "latency_ms": 0.048,
       "error": null,
       "adapter_metadata": null
     },
@@ -751,7 +751,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 0.0,
-      "latency_ms": 0.041,
+      "latency_ms": 0.045,
       "error": null,
       "adapter_metadata": null
     },
@@ -768,7 +768,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 0.0,
-      "latency_ms": 0.042,
+      "latency_ms": 0.045,
       "error": null,
       "adapter_metadata": null
     },
@@ -781,7 +781,7 @@
       "actual": null,
       "score": 0.0,
       "provenance_completeness": 0.0,
-      "latency_ms": 0.0,
+      "latency_ms": 0.001,
       "error": null,
       "adapter_metadata": null
     },
@@ -794,7 +794,7 @@
       "actual": "validate_crs",
       "score": 0.0,
       "provenance_completeness": null,
-      "latency_ms": 0.001,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1037,7 +1037,7 @@
       "actual": "RIVERL",
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.004,
+      "latency_ms": 0.005,
       "error": null,
       "adapter_metadata": null
     },
@@ -1050,7 +1050,7 @@
       "actual": "LineString",
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.005,
+      "latency_ms": 0.01,
       "error": null,
       "adapter_metadata": null
     },
@@ -1082,7 +1082,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.004,
+      "latency_ms": 0.005,
       "error": null,
       "adapter_metadata": null
     },
@@ -1162,7 +1162,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.004,
+      "latency_ms": 0.005,
       "error": null,
       "adapter_metadata": null
     },
@@ -1175,7 +1175,7 @@
       "actual": "authoritative-source-derived-expert-review-required",
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.001,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1192,7 +1192,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.001,
+      "latency_ms": 0.004,
       "error": null,
       "adapter_metadata": null
     },
@@ -1209,7 +1209,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.001,
+      "latency_ms": 0.003,
       "error": null,
       "adapter_metadata": null
     },
@@ -1226,7 +1226,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.001,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1243,7 +1243,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.001,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1260,7 +1260,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.001,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1286,7 +1286,7 @@
       "actual": "validate_crs",
       "score": 0.0,
       "provenance_completeness": null,
-      "latency_ms": 0.001,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1390,7 +1390,7 @@
       "actual": null,
       "score": 0.0,
       "provenance_completeness": null,
-      "latency_ms": 0.0,
+      "latency_ms": 0.001,
       "error": null,
       "adapter_metadata": null
     },
@@ -1542,7 +1542,7 @@
       "actual": "LineString",
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.002,
+      "latency_ms": 0.003,
       "error": null,
       "adapter_metadata": null
     },
@@ -1684,7 +1684,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.001,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1701,7 +1701,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.001,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1718,7 +1718,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.001,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1735,7 +1735,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.001,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1752,7 +1752,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 0.001,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1778,7 +1778,7 @@
       "actual": "inspect_dataset",
       "score": 1.0,
       "provenance_completeness": null,
-      "latency_ms": 0.0,
+      "latency_ms": 0.001,
       "error": null,
       "adapter_metadata": null
     },
@@ -1791,7 +1791,7 @@
       "actual": "validate_schema",
       "score": 1.0,
       "provenance_completeness": null,
-      "latency_ms": 0.0,
+      "latency_ms": 0.001,
       "error": null,
       "adapter_metadata": null
     },
@@ -1804,7 +1804,7 @@
       "actual": "validate_crs",
       "score": 1.0,
       "provenance_completeness": null,
-      "latency_ms": 0.0,
+      "latency_ms": 0.001,
       "error": null,
       "adapter_metadata": null
     },
@@ -1817,7 +1817,7 @@
       "actual": "validate_geometry",
       "score": 1.0,
       "provenance_completeness": null,
-      "latency_ms": 0.0,
+      "latency_ms": 0.001,
       "error": null,
       "adapter_metadata": null
     },
@@ -1830,7 +1830,7 @@
       "actual": "validate_domain",
       "score": 1.0,
       "provenance_completeness": null,
-      "latency_ms": 0.0,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1843,7 +1843,7 @@
       "actual": "validate_topology",
       "score": 1.0,
       "provenance_completeness": null,
-      "latency_ms": 0.0,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1856,7 +1856,7 @@
       "actual": "compare_specifications",
       "score": 1.0,
       "provenance_completeness": null,
-      "latency_ms": 0.0,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1869,7 +1869,7 @@
       "actual": "propose_repair",
       "score": 1.0,
       "provenance_completeness": null,
-      "latency_ms": 0.0,
+      "latency_ms": 0.002,
       "error": null,
       "adapter_metadata": null
     },
@@ -1882,7 +1882,7 @@
       "actual": [],
       "score": 1.0,
       "provenance_completeness": null,
-      "latency_ms": 291.87,
+      "latency_ms": 470.411,
       "error": null,
       "adapter_metadata": null
     },
@@ -1905,7 +1905,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 291.623,
+      "latency_ms": 272.141,
       "error": null,
       "adapter_metadata": null
     },
@@ -1922,7 +1922,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 267.062,
+      "latency_ms": 270.49,
       "error": null,
       "adapter_metadata": null
     },
@@ -1939,7 +1939,7 @@
       ],
       "score": 1.0,
       "provenance_completeness": 1.0,
-      "latency_ms": 262.486,
+      "latency_ms": 264.007,
       "error": null,
       "adapter_metadata": null
     },

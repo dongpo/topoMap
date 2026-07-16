@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NMA Agent — evidence-backed landmark portrayal</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css">
+  <script src="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"></script>
+  <style>
+    :root{--ink:#10251f;--green:#0b6b4f;--lime:#b6df72;--paper:#f4f7f3;--line:#d7e2da;--warn:#8a5b00}
+    *{box-sizing:border-box} body{margin:0;font:15px/1.45 system-ui,sans-serif;color:var(--ink);background:var(--paper)}
+    #app{display:grid;grid-template-columns:minmax(310px,390px) 1fr;height:100vh} aside{padding:20px;overflow:auto;border-right:1px solid var(--line);background:#fff}
+    #map{height:100vh}.eyebrow{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);font-weight:800}
+    h1{font-size:1.55rem;line-height:1.1;margin:.35rem 0} h2{font-size:1rem;margin:1.15rem 0 .45rem}.muted{color:#60716b}.warning{color:var(--warn);background:#fff7df;border-left:4px solid #e1a52b;padding:9px 11px}
+    .question{display:flex;gap:7px} input{min-width:0;flex:1;border:1px solid #aebdb4;border-radius:7px;padding:9px}button{border:0;border-radius:7px;padding:9px 12px;background:var(--green);color:#fff;font-weight:700;cursor:pointer}
+    .chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}.chips button{font-size:.78rem;padding:6px 8px;background:#e7f1eb;color:var(--green)}
+    .card{border:1px solid var(--line);border-radius:9px;padding:11px;margin-top:10px;background:#fff}.value{font-weight:750}.path{font:11px/1.45 ui-monospace,monospace;overflow-wrap:anywhere;background:#edf3ef;padding:8px;border-radius:6px}
+    a{color:var(--green)} @media(max-width:760px){#app{display:block}aside{height:48vh}#map{height:52vh}}
+  </style>
+</head>
+<body>
+<div id="app">
+  <aside>
+    <div class="eyebrow">National Map Agent v0.2</div>
+    <h1>Graph-selected landmark symbols</h1>
+    <p class="muted">Ask a cartographer-style question or click a rendered feature. The answer,
+      symbol and PDF evidence travel through the same executable graph path.</p>
+    <p class="warning"><strong>Research boundary:</strong> rule facts come from NLSC112V5.4.
+      Demo glyphs are implementation approximations pending visual cartographer sign-off.</p>
+    <div class="question"><input id="question" value="郵局的圖式規則在哪一頁？"><button id="ask">Ask</button></div>
+    <div class="chips">
+      <button data-q="消防栓的地形代碼是什麼？">消防栓</button>
+      <button data-q="學校有哪些地形代碼？">學校</button>
+      <button data-q="大型獨幢郵局有什麼圖式例外？">郵局例外</button>
+      <button data-q="養殖池應使用哪個符號？">養殖池</button>
+    </div>
+    <div id="answer" class="card">Loading executable graph…</div>
+    <h2>Evidence and governance</h2>
+    <div id="evidence" class="card muted">Select a result to inspect its rule path.</div>
+  </aside>
+  <div id="map"></div>
+</div>
+<script>
+const PMT_URL="https://dongpo.github.io/topoMap/out1120902.pmtiles";
+let graph, map, generatedLayers=[];
+const nodeById=()=>Object.fromEntries(graph.nodes.map(n=>[n.id,n]));
+function canvasIcon(map,id,draw){const d=devicePixelRatio>1?2:1,S=22*d,c=document.createElement("canvas");c.width=c.height=S;const g=c.getContext("2d");draw(g,S,d);map.addImage(id,g.getImageData(0,0,S,S),{pixelRatio:d});}
+function registerIcons(){
+  canvasIcon(map,"post",(g,S,d)=>{g.fillStyle="#fff";g.strokeStyle="#111";g.lineWidth=d;g.fillRect(S*.18,S*.25,S*.64,S*.45);g.strokeRect(S*.18,S*.25,S*.64,S*.45);g.beginPath();g.moveTo(S*.18,S*.25);g.lineTo(S*.5,S*.5);g.lineTo(S*.82,S*.25);g.stroke()});
+  canvasIcon(map,"school",(g,S,d)=>{g.strokeStyle="#111";g.fillStyle="#111";g.lineWidth=d;g.beginPath();g.moveTo(S*.3,S*.12);g.lineTo(S*.3,S*.8);g.stroke();g.beginPath();g.moveTo(S*.3,S*.14);g.lineTo(S*.78,S*.3);g.lineTo(S*.3,S*.38);g.closePath();g.fill()});
+  canvasIcon(map,"police",(g,S,d)=>{g.strokeStyle="#173f8a";g.fillStyle="#fff";g.lineWidth=1.5*d;g.beginPath();g.moveTo(S*.5,S*.1);g.lineTo(S*.82,S*.26);g.lineTo(S*.72,S*.72);g.lineTo(S*.5,S*.9);g.lineTo(S*.28,S*.72);g.lineTo(S*.18,S*.26);g.closePath();g.fill();g.stroke();g.fillStyle="#173f8a";g.font=`bold ${10*d}px sans-serif`;g.textAlign="center";g.fillText("P",S*.5,S*.62)});
+  canvasIcon(map,"waterFishIcon",(g,S,d)=>{g.strokeStyle="#1565c0";g.lineWidth=d;g.beginPath();g.ellipse(S*.43,S*.5,S*.27,S*.16,0,0,Math.PI*2);g.stroke();g.beginPath();g.moveTo(S*.68,S*.5);g.lineTo(S*.9,S*.3);g.lineTo(S*.9,S*.7);g.closePath();g.stroke()});
+}
+function graphPath(code){const start=`feature:${code}`,edges=[],ids=[start];function follow(id,types){for(const e of graph.edges.filter(x=>x.from===id&&types.includes(x.type))){edges.push(e);ids.push(e.to);if(e.type==="PORTRAYED_BY")follow(e.to,["USES_SYMBOL","SUPPORTED_BY"]);if(e.type==="SUPPORTED_BY")follow(e.to,["EVIDENCED_ON"])}}follow(start,["PORTRAYED_BY"]);return {ids:[...new Set(ids)],edges}}
+function findFeatures(q){q=q.toLowerCase();return graph.nodes.filter(n=>n.type==="FeatureType"&&[n.properties.name,n.properties.code,...(n.properties.aliases||[])].some(t=>q.includes(String(t).toLowerCase()))).sort((a,b)=>a.properties.code.localeCompare(b.properties.code))}
+function evidenceFor(feature){const p=graphPath(feature.properties.code),nodes=nodeById(),obs=p.ids.map(id=>nodes[id]).find(n=>n?.type==="SourceObservation"),sec=p.ids.map(id=>nodes[id]).find(n=>n?.type==="DocumentSection"),sym=p.ids.map(id=>nodes[id]).find(n=>n?.type==="Symbol"),rule=p.ids.map(id=>nodes[id]).find(n=>n?.type==="PortrayalRule");return {p,obs,sec,sym,rule}}
+function compileLayers(){const layers=[];for(const feature of graph.nodes.filter(n=>n.type==="FeatureType")){const code=feature.properties.code,e=evidenceFor(feature),impl=e.sym.properties,sourceLayers=graph.profile.source_layers[code.slice(0,2)],metadata={"nma:featureCode":code,"nma:featureName":feature.properties.name,"nma:ruleId":e.rule.id,"nma:evidence":{page:e.sec.properties.page,text:e.obs.properties.source_text},"nma:graphPath":e.p};for(const sourceLayer of sourceLayers){const base={id:`nma-${code}-${sourceLayer.toLowerCase()}`,type:impl.maplibre_type,source:"data","source-layer":sourceLayer,filter:["==",["to-string",["get","TERRAINID"]],code],metadata};if(impl.maplibre_type==="symbol")base.layout={"icon-image":impl.icon_image,"icon-size":["interpolate",["linear"],["zoom"],13,.9,18,1.3],"icon-allow-overlap":true};else base.paint=impl.paint;layers.push(base);if(impl.companion_icon)layers.push({...base,id:`${base.id}-icon`,type:"symbol",metadata:{...metadata,"nma:role":"portrayal-icon"},layout:{"icon-image":impl.companion_icon,"icon-allow-overlap":true},paint:undefined});if(impl.label_field)layers.push({...base,id:`${base.id}-label`,type:"symbol",metadata:{...metadata,"nma:role":"label"},layout:{"text-field":["coalesce",["get",impl.label_field],["get","NAME"],""],"text-size":11,"text-offset":[0,1.1],"text-anchor":"top"},paint:{"text-color":"#111","text-halo-color":"#fff","text-halo-width":1.2}})}}return layers}
+function showFeature(feature,q=""){const e=evidenceFor(feature),props=feature.properties;let answer=`${props.name} (${props.code}) → symbol <strong>${e.sym.properties.symbol_id}</strong>`;if(q.includes("頁"))answer=`${props.name}: PDF page <strong>${e.sec.properties.page}</strong>`;if(q.includes("代碼"))answer=`${props.name}: <strong>${props.code}</strong>`;if(q.includes("大型")||q.includes("例外"))answer=e.obs.properties.instruction;document.querySelector("#answer").innerHTML=`<div class="value">${answer}</div>`;document.querySelector("#evidence").innerHTML=`<div><strong>${graph.profile.version}, page ${e.sec.properties.page}</strong></div><div>${e.obs.properties.source_text}</div><p>Status: ${e.obs.properties.review_status}</p><div class="path">${e.p.edges.map(x=>x.type).join(" → ")}</div><p><a target="_blank" href="${graph.nodes.find(n=>n.type==='SpecificationDocument').properties.uri}">Open authoritative PDF</a></p>`}
+function ask(){const q=document.querySelector("#question").value,features=findFeatures(q);if(!features.length){document.querySelector("#answer").textContent="NMA abstains: no matching reviewed feature rule in this graph.";return}if(q.includes("學校")){document.querySelector("#answer").innerHTML=features.map(f=>`${f.properties.name}: <strong>${f.properties.code}</strong>`).join("<br>");showEvidenceGroup(features);return}showFeature(features[0],q)}
+function showEvidenceGroup(features){const pages=features.map(f=>evidenceFor(f).sec.properties.page);document.querySelector("#evidence").innerHTML=`<strong>${graph.profile.version}, pages ${[...new Set(pages)].join(", ")}</strong><div class="path">${features.length} FeatureType → PortrayalRule → Symbol → SourceObservation paths</div>`}
+fetch("data/knowledge/portrayal-graph.json").then(r=>r.json()).then(g=>{graph=g;generatedLayers=compileLayers();const protocol=new pmtiles.Protocol({metadata:true});maplibregl.addProtocol("pmtiles",protocol.tile);map=new maplibregl.Map({container:"map",center:[121.0236,24.7745],zoom:14,style:{version:8,sources:{data:{type:"vector",url:`pmtiles://${PMT_URL}`}},layers:[{id:"background",type:"background",paint:{"background-color":"#f7faf8"}}]}});map.addControl(new maplibregl.NavigationControl());map.on("load",()=>{registerIcons();generatedLayers.forEach(layer=>map.addLayer(layer));map.on("click",e=>{const f=map.queryRenderedFeatures(e.point).find(x=>x.layer.metadata?.["nma:featureCode"]);if(f){const n=nodeById()[`feature:${f.layer.metadata["nma:featureCode"]}`];showFeature(n)}});ask()})});
+document.querySelector("#ask").onclick=ask;document.querySelector("#question").onkeydown=e=>{if(e.key==="Enter")ask()};document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{document.querySelector("#question").value=b.dataset.q;ask()});
+</script>
+</body>
+</html>

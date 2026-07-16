@@ -1,0 +1,110 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from nma.api import get_payload, post_payload
+from nma.extraction import extract_code_anchored_candidates
+from nma.knowledge import PortrayalGraph, compile_portrayal_graph
+from nma.portrayal import PortrayalAgent, compile_maplibre_layers
+from nma.portrayal_bench import run_portrayal_benchmark
+from nma.specification import Specification
+
+
+ROOT = Path(__file__).resolve().parents[1]
+GRAPH_PATH = ROOT / "data/knowledge/portrayal-graph.json"
+
+
+def test_pdf_candidate_extraction_preserves_page_and_requires_review() -> None:
+    text = "header\n消防栓 9350906 地形測繪 1 2 7 實測\nfooter\f養殖池 9740100"
+    records = extract_code_anchored_candidates(text, context_lines=0)
+    assert records == [
+        {
+            "feature_code": "9350906",
+            "page": 1,
+            "context": "消防栓 9350906 地形測繪 1 2 7 實測",
+            "review_status": "candidate-not-executable",
+        },
+        {
+            "feature_code": "9740100",
+            "page": 2,
+            "context": "養殖池 9740100",
+            "review_status": "candidate-not-executable",
+        },
+    ]
+
+
+def test_checked_in_graph_is_reproducibly_compiled_from_review_records() -> None:
+    compiled = compile_portrayal_graph(
+        ROOT / "data/extraction/portrayal-records.jsonl",
+        ROOT / "data/knowledge/portrayal-profile.json",
+    )
+    checked_in = json.loads(GRAPH_PATH.read_text(encoding="utf-8"))
+    assert compiled == checked_in
+    assert compiled["statistics"] == {"nodes": 44, "edges": 85, "observations": 10}
+    conflict = next(node for node in compiled["nodes"] if node["type"] == "ProfileConflict")
+    assert conflict["properties"]["authoritative_profile"]["9920103"] == "小學"
+
+
+def test_graphrag_answers_human_question_and_returns_governance_path() -> None:
+    answer = PortrayalAgent(PortrayalGraph.load(GRAPH_PATH)).answer(
+        "依 NLSC112V5.4，小學的代碼是什麼？"
+    )
+    assert answer["feature_codes"] == ["9920103"]
+    assert answer["evidence"][0]["page"] == 61
+    assert [edge["type"] for edge in answer["graph_paths"][0]["edges"]] == [
+        "PORTRAYED_BY",
+        "USES_SYMBOL",
+        "SUPPORTED_BY",
+        "EVIDENCED_ON",
+    ]
+
+
+def test_agent_applies_post_office_exception_and_abstains_on_wrong_scale() -> None:
+    agent = PortrayalAgent(PortrayalGraph.load(GRAPH_PATH))
+    exception = agent.select_symbol(
+        "9950201", attributes={"large_detached_building": True}
+    )
+    assert exception.symbol["selected_action"] == "text_only"
+    assert exception.evidence["page"] == 69
+    assert agent.select_symbol("9950201", scale_denominator=5000).status == "abstain"
+
+
+def test_maplibre_layers_carry_rule_and_pdf_evidence() -> None:
+    layers = compile_maplibre_layers(PortrayalGraph.load(GRAPH_PATH))
+    pond = next(
+        layer
+        for layer in layers
+        if layer["source-layer"] == "J01_WATERA"
+        and layer["metadata"].get("nma:featureCode") == "9740100"
+        and layer["metadata"].get("nma:role") == "portrayal-icon"
+    )
+    assert pond["layout"]["icon-image"] == "waterFishIcon"
+    assert pond["metadata"]["nma:evidence"]["page"] == 50
+    assert pond["metadata"]["nma:ruleId"].endswith(":9740100")
+
+
+def test_human_question_portrayal_benchmark_is_answer_key_isolated() -> None:
+    tasks = (ROOT / "benchmark/portrayal/tasks.jsonl").read_text(encoding="utf-8")
+    assert '"expected"' not in tasks
+    report = run_portrayal_benchmark(ROOT)
+    assert report["task_count"] == 21
+    assert report["systems"]["full_nma"]["accuracy"] == 1.0
+    assert report["systems"]["full_nma"]["evidence_accuracy"] == 1.0
+    assert report["systems"]["full_nma"]["graph_grounding"] == 1.0
+    assert report["systems"]["pdf_search"]["by_task_type"]["symbol_decision"] == 0.0
+
+
+def test_portrayal_agent_api_endpoints() -> None:
+    specification = Specification.load(
+        ROOT / "data/specifications/taiwan-5000-riverl-112.json"
+    )
+    graph = PortrayalGraph.load(GRAPH_PATH)
+    status, answer = post_payload(
+        specification, "/v1/agent/ask", {"question": "消防栓的代碼？"}, graph
+    )
+    assert status == 200
+    assert answer["feature_codes"] == ["9350906"]
+    status, layers = get_payload(specification, "/v1/maplibre/portrayal-layers", graph)
+    assert status == 200
+    assert len(layers["layers"]) == 133

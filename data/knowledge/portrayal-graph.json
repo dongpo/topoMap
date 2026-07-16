@@ -1,0 +1,1220 @@
+{
+  "graph_id": "nma-portrayal-knowledge-v0.1",
+  "profile": {
+    "profile_id": "tw-nlsc-1000-NLSC112V5.4",
+    "title": "Taiwan NLSC 1:1,000 topographic portrayal profile",
+    "version": "NLSC112V5.4",
+    "scale_denominator": 1000,
+    "source_layers": {
+      "93": [
+        "J01_BUILD",
+        "J13_BUILD",
+        "J16_BUILD",
+        "J17_BUILD",
+        "K01_BUILD",
+        "K02_BUILD",
+        "K14_BUILD"
+      ],
+      "97": [
+        "J01_WATERA",
+        "J13_WATERA",
+        "J16_WATERA",
+        "J17_WATERA",
+        "K01_WATERA",
+        "K02_WATERA",
+        "K14_WATERA"
+      ],
+      "99": [
+        "J01_MARK",
+        "J13_MARK",
+        "J16_MARK",
+        "J17_MARK",
+        "K01_MARK",
+        "K02_MARK",
+        "K14_MARK"
+      ]
+    },
+    "implementations": {
+      "9350906": {
+        "symbol_id": "fire-hydrant",
+        "maplibre_type": "circle",
+        "paint": {
+          "circle-radius": 5,
+          "circle-color": "#d32f2f",
+          "circle-stroke-color": "#ffffff",
+          "circle-stroke-width": 1.5
+        }
+      },
+      "9740100": {
+        "symbol_id": "fish-pond",
+        "maplibre_type": "fill",
+        "paint": {
+          "fill-color": "#d9f0ff",
+          "fill-outline-color": "#1565c0"
+        },
+        "companion_icon": "waterFishIcon"
+      },
+      "9910603": {
+        "symbol_id": "police",
+        "maplibre_type": "symbol",
+        "icon_image": "police",
+        "label_field": "MARKNAME1"
+      },
+      "9920101": {
+        "symbol_id": "school",
+        "maplibre_type": "symbol",
+        "icon_image": "school",
+        "label_field": "MARKNAME1"
+      },
+      "9920102": {
+        "symbol_id": "school",
+        "maplibre_type": "symbol",
+        "icon_image": "school",
+        "label_field": "MARKNAME1"
+      },
+      "9920103": {
+        "symbol_id": "school",
+        "maplibre_type": "symbol",
+        "icon_image": "school",
+        "label_field": "MARKNAME1"
+      },
+      "9920104": {
+        "symbol_id": "school",
+        "maplibre_type": "symbol",
+        "icon_image": "school",
+        "label_field": "MARKNAME1"
+      },
+      "9920105": {
+        "symbol_id": "school",
+        "maplibre_type": "symbol",
+        "icon_image": "school",
+        "label_field": "MARKNAME1"
+      },
+      "9920106": {
+        "symbol_id": "school",
+        "maplibre_type": "symbol",
+        "icon_image": "school",
+        "label_field": "MARKNAME1"
+      },
+      "9950201": {
+        "symbol_id": "post",
+        "maplibre_type": "symbol",
+        "icon_image": "post",
+        "label_field": "MARKNAME1",
+        "exception": {
+          "condition": "large_detached_building",
+          "action": "text_only"
+        }
+      }
+    },
+    "known_conflicts": [
+      {
+        "conflict_id": "school-code-label-conflict-existing-pmtiles-demo",
+        "subject_codes": [
+          "9920101",
+          "9920102",
+          "9920103",
+          "9920104"
+        ],
+        "authoritative_profile": {
+          "9920101": "大專院校",
+          "9920102": "中學",
+          "9920103": "小學",
+          "9920104": "職訓中心"
+        },
+        "observed_implementation": {
+          "9920101": "國小",
+          "9920102": "國中",
+          "9920103": "高中",
+          "9920104": "大專院校"
+        },
+        "observed_in": "pmtilesDemo.html",
+        "status": "unresolved profile/version discrepancy; authoritative NLSC112V5.4 labels control this profile"
+      }
+    ],
+    "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off",
+    "important_boundary": "The PDF text establishes feature code, production stage, geometry category, line/color codes and instructions. Canvas glyphs are implementation approximations until the PDF symbol cells are visually extracted and reviewed."
+  },
+  "nodes": [
+    {
+      "id": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "SpecificationDocument",
+      "properties": {
+        "title": "01-一千分之一地形圖圖式規格表.pdf",
+        "uri": "https://drive.google.com/file/d/1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ/view"
+      }
+    },
+    {
+      "id": "version:tw-nlsc-1000-NLSC112V5.4",
+      "type": "SpecificationVersion",
+      "properties": {
+        "name": "NLSC112V5.4",
+        "scale_denominator": 1000,
+        "effective_date": "2024-02-28",
+        "profile_id": "tw-nlsc-1000-NLSC112V5.4"
+      }
+    },
+    {
+      "id": "feature:9350906",
+      "type": "FeatureType",
+      "properties": {
+        "name": "消防栓",
+        "code": "9350906",
+        "aliases": [
+          "fire hydrant",
+          "hydrant",
+          "消防栓"
+        ]
+      }
+    },
+    {
+      "id": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p11",
+      "type": "DocumentSection",
+      "properties": {
+        "page": 11
+      }
+    },
+    {
+      "id": "observation:OBS-9350906",
+      "type": "SourceObservation",
+      "properties": {
+        "production_stage": "地形測繪",
+        "geometry_classes": [
+          "1"
+        ],
+        "line_code": "2",
+        "color_code": "7",
+        "instruction": "實測",
+        "source_text": "消防栓 9350906 地形測繪 1 2 7 實測",
+        "extraction_method": "PDF text extraction + code-anchored table parsing",
+        "review_status": "human-review-required"
+      }
+    },
+    {
+      "id": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9350906",
+      "type": "PortrayalRule",
+      "properties": {
+        "feature_code": "9350906",
+        "scale_denominator": 1000,
+        "source_layers": [
+          "J01_BUILD",
+          "J13_BUILD",
+          "J16_BUILD",
+          "J17_BUILD",
+          "K01_BUILD",
+          "K02_BUILD",
+          "K14_BUILD"
+        ],
+        "instruction": "實測",
+        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+      }
+    },
+    {
+      "id": "symbol:fire-hydrant",
+      "type": "Symbol",
+      "properties": {
+        "symbol_id": "fire-hydrant",
+        "maplibre_type": "circle",
+        "paint": {
+          "circle-radius": 5,
+          "circle-color": "#d32f2f",
+          "circle-stroke-color": "#ffffff",
+          "circle-stroke-width": 1.5
+        }
+      }
+    },
+    {
+      "id": "feature:9740100",
+      "type": "FeatureType",
+      "properties": {
+        "name": "養殖池",
+        "code": "9740100",
+        "aliases": [
+          "aquaculture pond",
+          "fish pond",
+          "養殖池"
+        ]
+      }
+    },
+    {
+      "id": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p50",
+      "type": "DocumentSection",
+      "properties": {
+        "page": 50
+      }
+    },
+    {
+      "id": "observation:OBS-9740100",
+      "type": "SourceObservation",
+      "properties": {
+        "production_stage": "地形測繪",
+        "geometry_classes": [
+          "3",
+          "4"
+        ],
+        "line_code": "2",
+        "color_code": "5",
+        "instruction": "實形測繪",
+        "source_text": "養殖池 9740100 地形測繪 3,4 2 5 實形測繪",
+        "extraction_method": "PDF text extraction + code-anchored table parsing",
+        "review_status": "human-review-required"
+      }
+    },
+    {
+      "id": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9740100",
+      "type": "PortrayalRule",
+      "properties": {
+        "feature_code": "9740100",
+        "scale_denominator": 1000,
+        "source_layers": [
+          "J01_WATERA",
+          "J13_WATERA",
+          "J16_WATERA",
+          "J17_WATERA",
+          "K01_WATERA",
+          "K02_WATERA",
+          "K14_WATERA"
+        ],
+        "instruction": "實形測繪",
+        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+      }
+    },
+    {
+      "id": "symbol:fish-pond",
+      "type": "Symbol",
+      "properties": {
+        "symbol_id": "fish-pond",
+        "maplibre_type": "fill",
+        "paint": {
+          "fill-color": "#d9f0ff",
+          "fill-outline-color": "#1565c0"
+        },
+        "companion_icon": "waterFishIcon"
+      }
+    },
+    {
+      "id": "feature:9910603",
+      "type": "FeatureType",
+      "properties": {
+        "name": "警察局、分駐所、派出所",
+        "code": "9910603",
+        "aliases": [
+          "police office",
+          "police station",
+          "police substation",
+          "分駐所",
+          "派出所",
+          "警察局"
+        ]
+      }
+    },
+    {
+      "id": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p60",
+      "type": "DocumentSection",
+      "properties": {
+        "page": 60
+      }
+    },
+    {
+      "id": "observation:OBS-9910603",
+      "type": "SourceObservation",
+      "properties": {
+        "production_stage": "圖面編纂",
+        "geometry_classes": [
+          "4",
+          "5"
+        ],
+        "line_code": "2",
+        "color_code": "7",
+        "instruction": "註記名稱",
+        "source_text": "警察局、分駐所、派出所 9910603 圖面編纂 4,5 2 7 註記名稱",
+        "extraction_method": "PDF text extraction + code-anchored table parsing",
+        "review_status": "human-review-required"
+      }
+    },
+    {
+      "id": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9910603",
+      "type": "PortrayalRule",
+      "properties": {
+        "feature_code": "9910603",
+        "scale_denominator": 1000,
+        "source_layers": [
+          "J01_MARK",
+          "J13_MARK",
+          "J16_MARK",
+          "J17_MARK",
+          "K01_MARK",
+          "K02_MARK",
+          "K14_MARK"
+        ],
+        "instruction": "註記名稱",
+        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+      }
+    },
+    {
+      "id": "symbol:police",
+      "type": "Symbol",
+      "properties": {
+        "symbol_id": "police",
+        "maplibre_type": "symbol",
+        "icon_image": "police",
+        "label_field": "MARKNAME1"
+      }
+    },
+    {
+      "id": "feature:9920101",
+      "type": "FeatureType",
+      "properties": {
+        "name": "大專院校",
+        "code": "9920101",
+        "aliases": [
+          "college",
+          "school",
+          "university",
+          "大專院校",
+          "學校"
+        ]
+      }
+    },
+    {
+      "id": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61",
+      "type": "DocumentSection",
+      "properties": {
+        "page": 61
+      }
+    },
+    {
+      "id": "observation:OBS-9920101",
+      "type": "SourceObservation",
+      "properties": {
+        "production_stage": "圖面編纂",
+        "geometry_classes": [
+          "4",
+          "5"
+        ],
+        "line_code": "2",
+        "color_code": "7",
+        "instruction": "註記名稱",
+        "source_text": "大專院校 9920101 圖面編纂 4,5 2 7 註記名稱",
+        "extraction_method": "PDF text extraction + code-anchored table parsing",
+        "review_status": "human-review-required"
+      }
+    },
+    {
+      "id": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920101",
+      "type": "PortrayalRule",
+      "properties": {
+        "feature_code": "9920101",
+        "scale_denominator": 1000,
+        "source_layers": [
+          "J01_MARK",
+          "J13_MARK",
+          "J16_MARK",
+          "J17_MARK",
+          "K01_MARK",
+          "K02_MARK",
+          "K14_MARK"
+        ],
+        "instruction": "註記名稱",
+        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+      }
+    },
+    {
+      "id": "symbol:school",
+      "type": "Symbol",
+      "properties": {
+        "symbol_id": "school",
+        "maplibre_type": "symbol",
+        "icon_image": "school",
+        "label_field": "MARKNAME1"
+      }
+    },
+    {
+      "id": "feature:9920102",
+      "type": "FeatureType",
+      "properties": {
+        "name": "中學",
+        "code": "9920102",
+        "aliases": [
+          "school",
+          "secondary school",
+          "中學",
+          "學校"
+        ]
+      }
+    },
+    {
+      "id": "observation:OBS-9920102",
+      "type": "SourceObservation",
+      "properties": {
+        "production_stage": "圖面編纂",
+        "geometry_classes": [
+          "4",
+          "5"
+        ],
+        "line_code": "2",
+        "color_code": "7",
+        "instruction": "註記名稱",
+        "source_text": "中學 9920102 圖面編纂 4,5 2 7 註記名稱",
+        "extraction_method": "PDF text extraction + code-anchored table parsing",
+        "review_status": "human-review-required"
+      }
+    },
+    {
+      "id": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920102",
+      "type": "PortrayalRule",
+      "properties": {
+        "feature_code": "9920102",
+        "scale_denominator": 1000,
+        "source_layers": [
+          "J01_MARK",
+          "J13_MARK",
+          "J16_MARK",
+          "J17_MARK",
+          "K01_MARK",
+          "K02_MARK",
+          "K14_MARK"
+        ],
+        "instruction": "註記名稱",
+        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+      }
+    },
+    {
+      "id": "feature:9920103",
+      "type": "FeatureType",
+      "properties": {
+        "name": "小學",
+        "code": "9920103",
+        "aliases": [
+          "elementary school",
+          "primary school",
+          "school",
+          "學校",
+          "小學"
+        ]
+      }
+    },
+    {
+      "id": "observation:OBS-9920103",
+      "type": "SourceObservation",
+      "properties": {
+        "production_stage": "圖面編纂",
+        "geometry_classes": [
+          "4",
+          "5"
+        ],
+        "line_code": "2",
+        "color_code": "7",
+        "instruction": "註記名稱",
+        "source_text": "小學 9920103 圖面編纂 4,5 2 7 註記名稱",
+        "extraction_method": "PDF text extraction + code-anchored table parsing",
+        "review_status": "human-review-required"
+      }
+    },
+    {
+      "id": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920103",
+      "type": "PortrayalRule",
+      "properties": {
+        "feature_code": "9920103",
+        "scale_denominator": 1000,
+        "source_layers": [
+          "J01_MARK",
+          "J13_MARK",
+          "J16_MARK",
+          "J17_MARK",
+          "K01_MARK",
+          "K02_MARK",
+          "K14_MARK"
+        ],
+        "instruction": "註記名稱",
+        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+      }
+    },
+    {
+      "id": "feature:9920104",
+      "type": "FeatureType",
+      "properties": {
+        "name": "職訓中心",
+        "code": "9920104",
+        "aliases": [
+          "school",
+          "vocational training center",
+          "vocational training centre",
+          "學校",
+          "職訓中心"
+        ]
+      }
+    },
+    {
+      "id": "observation:OBS-9920104",
+      "type": "SourceObservation",
+      "properties": {
+        "production_stage": "圖面編纂",
+        "geometry_classes": [
+          "4",
+          "5"
+        ],
+        "line_code": "2",
+        "color_code": "7",
+        "instruction": "註記名稱",
+        "source_text": "職訓中心 9920104 圖面編纂 4,5 2 7 註記名稱",
+        "extraction_method": "PDF text extraction + code-anchored table parsing",
+        "review_status": "human-review-required"
+      }
+    },
+    {
+      "id": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920104",
+      "type": "PortrayalRule",
+      "properties": {
+        "feature_code": "9920104",
+        "scale_denominator": 1000,
+        "source_layers": [
+          "J01_MARK",
+          "J13_MARK",
+          "J16_MARK",
+          "J17_MARK",
+          "K01_MARK",
+          "K02_MARK",
+          "K14_MARK"
+        ],
+        "instruction": "註記名稱",
+        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+      }
+    },
+    {
+      "id": "feature:9920105",
+      "type": "FeatureType",
+      "properties": {
+        "name": "幼兒園",
+        "code": "9920105",
+        "aliases": [
+          "kindergarten",
+          "school",
+          "學校",
+          "幼兒園"
+        ]
+      }
+    },
+    {
+      "id": "observation:OBS-9920105",
+      "type": "SourceObservation",
+      "properties": {
+        "production_stage": "圖面編纂",
+        "geometry_classes": [
+          "4",
+          "5"
+        ],
+        "line_code": "2",
+        "color_code": "7",
+        "instruction": "註記名稱",
+        "source_text": "幼兒園 9920105 圖面編纂 4,5 2 7 註記名稱",
+        "extraction_method": "PDF text extraction + code-anchored table parsing",
+        "review_status": "human-review-required"
+      }
+    },
+    {
+      "id": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920105",
+      "type": "PortrayalRule",
+      "properties": {
+        "feature_code": "9920105",
+        "scale_denominator": 1000,
+        "source_layers": [
+          "J01_MARK",
+          "J13_MARK",
+          "J16_MARK",
+          "J17_MARK",
+          "K01_MARK",
+          "K02_MARK",
+          "K14_MARK"
+        ],
+        "instruction": "註記名稱",
+        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+      }
+    },
+    {
+      "id": "feature:9920106",
+      "type": "FeatureType",
+      "properties": {
+        "name": "特殊學校",
+        "code": "9920106",
+        "aliases": [
+          "school",
+          "special school",
+          "學校",
+          "特殊學校"
+        ]
+      }
+    },
+    {
+      "id": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p62",
+      "type": "DocumentSection",
+      "properties": {
+        "page": 62
+      }
+    },
+    {
+      "id": "observation:OBS-9920106",
+      "type": "SourceObservation",
+      "properties": {
+        "production_stage": "圖面編纂",
+        "geometry_classes": [
+          "4",
+          "5"
+        ],
+        "line_code": "2",
+        "color_code": "7",
+        "instruction": "註記名稱",
+        "source_text": "特殊學校 9920106 圖面編纂 4,5 2 7 註記名稱",
+        "extraction_method": "PDF text extraction + code-anchored table parsing",
+        "review_status": "human-review-required"
+      }
+    },
+    {
+      "id": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920106",
+      "type": "PortrayalRule",
+      "properties": {
+        "feature_code": "9920106",
+        "scale_denominator": 1000,
+        "source_layers": [
+          "J01_MARK",
+          "J13_MARK",
+          "J16_MARK",
+          "J17_MARK",
+          "K01_MARK",
+          "K02_MARK",
+          "K14_MARK"
+        ],
+        "instruction": "註記名稱",
+        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+      }
+    },
+    {
+      "id": "feature:9950201",
+      "type": "FeatureType",
+      "properties": {
+        "name": "郵局",
+        "code": "9950201",
+        "aliases": [
+          "post office",
+          "郵局"
+        ]
+      }
+    },
+    {
+      "id": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p69",
+      "type": "DocumentSection",
+      "properties": {
+        "page": 69
+      }
+    },
+    {
+      "id": "observation:OBS-9950201",
+      "type": "SourceObservation",
+      "properties": {
+        "production_stage": "圖面編纂",
+        "geometry_classes": [
+          "4",
+          "5"
+        ],
+        "line_code": "2",
+        "color_code": "7",
+        "instruction": "大型獨幢郵局圖式改用文字註記，註記名稱",
+        "source_text": "郵局 9950201 圖面編纂 4,5 2 7 大型獨幢郵局圖式改用文字註記，註記名稱",
+        "extraction_method": "PDF text extraction + code-anchored table parsing",
+        "review_status": "human-review-required"
+      }
+    },
+    {
+      "id": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9950201",
+      "type": "PortrayalRule",
+      "properties": {
+        "feature_code": "9950201",
+        "scale_denominator": 1000,
+        "source_layers": [
+          "J01_MARK",
+          "J13_MARK",
+          "J16_MARK",
+          "J17_MARK",
+          "K01_MARK",
+          "K02_MARK",
+          "K14_MARK"
+        ],
+        "instruction": "大型獨幢郵局圖式改用文字註記，註記名稱",
+        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+      }
+    },
+    {
+      "id": "symbol:post",
+      "type": "Symbol",
+      "properties": {
+        "symbol_id": "post",
+        "maplibre_type": "symbol",
+        "icon_image": "post",
+        "label_field": "MARKNAME1",
+        "exception": {
+          "condition": "large_detached_building",
+          "action": "text_only"
+        }
+      }
+    },
+    {
+      "id": "conflict:school-code-label-conflict-existing-pmtiles-demo",
+      "type": "ProfileConflict",
+      "properties": {
+        "conflict_id": "school-code-label-conflict-existing-pmtiles-demo",
+        "subject_codes": [
+          "9920101",
+          "9920102",
+          "9920103",
+          "9920104"
+        ],
+        "authoritative_profile": {
+          "9920101": "大專院校",
+          "9920102": "中學",
+          "9920103": "小學",
+          "9920104": "職訓中心"
+        },
+        "observed_implementation": {
+          "9920101": "國小",
+          "9920102": "國中",
+          "9920103": "高中",
+          "9920104": "大專院校"
+        },
+        "observed_in": "pmtilesDemo.html",
+        "status": "unresolved profile/version discrepancy; authoritative NLSC112V5.4 labels control this profile"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "HAS_VERSION",
+      "to": "version:tw-nlsc-1000-NLSC112V5.4"
+    },
+    {
+      "from": "version:tw-nlsc-1000-NLSC112V5.4",
+      "type": "DEFINES",
+      "to": "feature:9350906"
+    },
+    {
+      "from": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "CONTAINS",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p11"
+    },
+    {
+      "from": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p11",
+      "type": "YIELDS",
+      "to": "observation:OBS-9350906"
+    },
+    {
+      "from": "observation:OBS-9350906",
+      "type": "DESCRIBES",
+      "to": "feature:9350906"
+    },
+    {
+      "from": "feature:9350906",
+      "type": "PORTRAYED_BY",
+      "to": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9350906"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9350906",
+      "type": "USES_SYMBOL",
+      "to": "symbol:fire-hydrant"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9350906",
+      "type": "SUPPORTED_BY",
+      "to": "observation:OBS-9350906"
+    },
+    {
+      "from": "observation:OBS-9350906",
+      "type": "EVIDENCED_ON",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p11"
+    },
+    {
+      "from": "version:tw-nlsc-1000-NLSC112V5.4",
+      "type": "DEFINES",
+      "to": "feature:9740100"
+    },
+    {
+      "from": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "CONTAINS",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p50"
+    },
+    {
+      "from": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p50",
+      "type": "YIELDS",
+      "to": "observation:OBS-9740100"
+    },
+    {
+      "from": "observation:OBS-9740100",
+      "type": "DESCRIBES",
+      "to": "feature:9740100"
+    },
+    {
+      "from": "feature:9740100",
+      "type": "PORTRAYED_BY",
+      "to": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9740100"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9740100",
+      "type": "USES_SYMBOL",
+      "to": "symbol:fish-pond"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9740100",
+      "type": "SUPPORTED_BY",
+      "to": "observation:OBS-9740100"
+    },
+    {
+      "from": "observation:OBS-9740100",
+      "type": "EVIDENCED_ON",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p50"
+    },
+    {
+      "from": "version:tw-nlsc-1000-NLSC112V5.4",
+      "type": "DEFINES",
+      "to": "feature:9910603"
+    },
+    {
+      "from": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "CONTAINS",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p60"
+    },
+    {
+      "from": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p60",
+      "type": "YIELDS",
+      "to": "observation:OBS-9910603"
+    },
+    {
+      "from": "observation:OBS-9910603",
+      "type": "DESCRIBES",
+      "to": "feature:9910603"
+    },
+    {
+      "from": "feature:9910603",
+      "type": "PORTRAYED_BY",
+      "to": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9910603"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9910603",
+      "type": "USES_SYMBOL",
+      "to": "symbol:police"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9910603",
+      "type": "SUPPORTED_BY",
+      "to": "observation:OBS-9910603"
+    },
+    {
+      "from": "observation:OBS-9910603",
+      "type": "EVIDENCED_ON",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p60"
+    },
+    {
+      "from": "version:tw-nlsc-1000-NLSC112V5.4",
+      "type": "DEFINES",
+      "to": "feature:9920101"
+    },
+    {
+      "from": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "CONTAINS",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61"
+    },
+    {
+      "from": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61",
+      "type": "YIELDS",
+      "to": "observation:OBS-9920101"
+    },
+    {
+      "from": "observation:OBS-9920101",
+      "type": "DESCRIBES",
+      "to": "feature:9920101"
+    },
+    {
+      "from": "feature:9920101",
+      "type": "PORTRAYED_BY",
+      "to": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920101"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920101",
+      "type": "USES_SYMBOL",
+      "to": "symbol:school"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920101",
+      "type": "SUPPORTED_BY",
+      "to": "observation:OBS-9920101"
+    },
+    {
+      "from": "observation:OBS-9920101",
+      "type": "EVIDENCED_ON",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61"
+    },
+    {
+      "from": "version:tw-nlsc-1000-NLSC112V5.4",
+      "type": "DEFINES",
+      "to": "feature:9920102"
+    },
+    {
+      "from": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "CONTAINS",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61"
+    },
+    {
+      "from": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61",
+      "type": "YIELDS",
+      "to": "observation:OBS-9920102"
+    },
+    {
+      "from": "observation:OBS-9920102",
+      "type": "DESCRIBES",
+      "to": "feature:9920102"
+    },
+    {
+      "from": "feature:9920102",
+      "type": "PORTRAYED_BY",
+      "to": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920102"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920102",
+      "type": "USES_SYMBOL",
+      "to": "symbol:school"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920102",
+      "type": "SUPPORTED_BY",
+      "to": "observation:OBS-9920102"
+    },
+    {
+      "from": "observation:OBS-9920102",
+      "type": "EVIDENCED_ON",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61"
+    },
+    {
+      "from": "version:tw-nlsc-1000-NLSC112V5.4",
+      "type": "DEFINES",
+      "to": "feature:9920103"
+    },
+    {
+      "from": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "CONTAINS",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61"
+    },
+    {
+      "from": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61",
+      "type": "YIELDS",
+      "to": "observation:OBS-9920103"
+    },
+    {
+      "from": "observation:OBS-9920103",
+      "type": "DESCRIBES",
+      "to": "feature:9920103"
+    },
+    {
+      "from": "feature:9920103",
+      "type": "PORTRAYED_BY",
+      "to": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920103"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920103",
+      "type": "USES_SYMBOL",
+      "to": "symbol:school"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920103",
+      "type": "SUPPORTED_BY",
+      "to": "observation:OBS-9920103"
+    },
+    {
+      "from": "observation:OBS-9920103",
+      "type": "EVIDENCED_ON",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61"
+    },
+    {
+      "from": "version:tw-nlsc-1000-NLSC112V5.4",
+      "type": "DEFINES",
+      "to": "feature:9920104"
+    },
+    {
+      "from": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "CONTAINS",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61"
+    },
+    {
+      "from": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61",
+      "type": "YIELDS",
+      "to": "observation:OBS-9920104"
+    },
+    {
+      "from": "observation:OBS-9920104",
+      "type": "DESCRIBES",
+      "to": "feature:9920104"
+    },
+    {
+      "from": "feature:9920104",
+      "type": "PORTRAYED_BY",
+      "to": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920104"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920104",
+      "type": "USES_SYMBOL",
+      "to": "symbol:school"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920104",
+      "type": "SUPPORTED_BY",
+      "to": "observation:OBS-9920104"
+    },
+    {
+      "from": "observation:OBS-9920104",
+      "type": "EVIDENCED_ON",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61"
+    },
+    {
+      "from": "version:tw-nlsc-1000-NLSC112V5.4",
+      "type": "DEFINES",
+      "to": "feature:9920105"
+    },
+    {
+      "from": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "CONTAINS",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61"
+    },
+    {
+      "from": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61",
+      "type": "YIELDS",
+      "to": "observation:OBS-9920105"
+    },
+    {
+      "from": "observation:OBS-9920105",
+      "type": "DESCRIBES",
+      "to": "feature:9920105"
+    },
+    {
+      "from": "feature:9920105",
+      "type": "PORTRAYED_BY",
+      "to": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920105"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920105",
+      "type": "USES_SYMBOL",
+      "to": "symbol:school"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920105",
+      "type": "SUPPORTED_BY",
+      "to": "observation:OBS-9920105"
+    },
+    {
+      "from": "observation:OBS-9920105",
+      "type": "EVIDENCED_ON",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p61"
+    },
+    {
+      "from": "version:tw-nlsc-1000-NLSC112V5.4",
+      "type": "DEFINES",
+      "to": "feature:9920106"
+    },
+    {
+      "from": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "CONTAINS",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p62"
+    },
+    {
+      "from": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p62",
+      "type": "YIELDS",
+      "to": "observation:OBS-9920106"
+    },
+    {
+      "from": "observation:OBS-9920106",
+      "type": "DESCRIBES",
+      "to": "feature:9920106"
+    },
+    {
+      "from": "feature:9920106",
+      "type": "PORTRAYED_BY",
+      "to": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920106"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920106",
+      "type": "USES_SYMBOL",
+      "to": "symbol:school"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920106",
+      "type": "SUPPORTED_BY",
+      "to": "observation:OBS-9920106"
+    },
+    {
+      "from": "observation:OBS-9920106",
+      "type": "EVIDENCED_ON",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p62"
+    },
+    {
+      "from": "version:tw-nlsc-1000-NLSC112V5.4",
+      "type": "DEFINES",
+      "to": "feature:9950201"
+    },
+    {
+      "from": "document:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "type": "CONTAINS",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p69"
+    },
+    {
+      "from": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p69",
+      "type": "YIELDS",
+      "to": "observation:OBS-9950201"
+    },
+    {
+      "from": "observation:OBS-9950201",
+      "type": "DESCRIBES",
+      "to": "feature:9950201"
+    },
+    {
+      "from": "feature:9950201",
+      "type": "PORTRAYED_BY",
+      "to": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9950201"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9950201",
+      "type": "USES_SYMBOL",
+      "to": "symbol:post"
+    },
+    {
+      "from": "rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9950201",
+      "type": "SUPPORTED_BY",
+      "to": "observation:OBS-9950201"
+    },
+    {
+      "from": "observation:OBS-9950201",
+      "type": "EVIDENCED_ON",
+      "to": "section:1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ:p69"
+    },
+    {
+      "from": "feature:9920101",
+      "type": "HAS_PROFILE_CONFLICT",
+      "to": "conflict:school-code-label-conflict-existing-pmtiles-demo"
+    },
+    {
+      "from": "feature:9920102",
+      "type": "HAS_PROFILE_CONFLICT",
+      "to": "conflict:school-code-label-conflict-existing-pmtiles-demo"
+    },
+    {
+      "from": "feature:9920103",
+      "type": "HAS_PROFILE_CONFLICT",
+      "to": "conflict:school-code-label-conflict-existing-pmtiles-demo"
+    },
+    {
+      "from": "feature:9920104",
+      "type": "HAS_PROFILE_CONFLICT",
+      "to": "conflict:school-code-label-conflict-existing-pmtiles-demo"
+    }
+  ],
+  "statistics": {
+    "nodes": 44,
+    "edges": 85,
+    "observations": 10
+  }
+}

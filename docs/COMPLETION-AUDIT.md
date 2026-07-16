@@ -4,36 +4,39 @@ Audit date: 16 July 2026
 
 | Objective | Evidence | Status |
 |---|---|---|
-| Existing repository inspection | `dongpo/topoMap` cloned; static demos and Pages workflow preserved | complete |
-| Authoritative source access | 11 Drive PDFs inventoried; four relevant PDFs hashed and inspected; evidence pages 8, 9, 14, 22, 34, 35, and 39 visually verified | complete for bounded RIVERL profile |
-| Real geospatial package inspection | 12 RIVERL/RIVERA layer sets extracted read-only from the supplied archive; archive hash frozen | complete, private source not redistributed |
-| End-to-end validation demo | 13 rules -> Shapefile -> four defects -> page evidence -> approval -> one safe repair -> revalidation | complete for controlled fixture |
-| NMA-Bench v0.1 | 31 tasks, four baselines, frozen issue keys, fingerprints, per-category results | complete as harness/ablation benchmark |
-| Open architecture | Apache-2.0 code, GDAL/OGR, transparent CSV/VRT fixtures, CLI, API, Docker, CI, JSON contracts | complete |
-| FOSS4G alignment | open stack, reproducible commands, source/data boundary, community-extension plan, Pages demo | documented |
-| Automated verification | unit/integration tests, lint, format, package, container configuration, artifact generation | complete locally |
-| Domain-expert ground-truth sign-off | machine-readable interpretation and `RIVERID`/`RIVERLID` observation reviewed by an authority expert | pending |
-| Named-model baselines | frozen LLM/document-RAG runs through answer-key-isolated adapter | pending endpoint/model choice |
-| Held-out evaluation | sealed cases not used during implementation | pending expert curation |
+| Authoritative portrayal source | Drive PDF 01 text accessed; version and six pages recorded | text extraction complete; local file hash and visual cells pending |
+| Executable knowledge | 10 reviewed-gate observations compile to 44 nodes and 85 edges | implemented; expert sign-off pending |
+| GraphRAG agent | human questions and symbol decisions return complete evidence paths | implemented and tested |
+| Landmark decisions | hydrant, fish pond, police, six school types, post office and exception | implemented for NLSC112V5.4 subset |
+| Vector-tile map | 133 generated MapLibre layers over the existing PMTiles source | implemented; clean-browser visual QA pending hosted build |
+| Evidence governance | document, version, page, text, rule ID, graph path and review status embedded | implemented |
+| NMA-Bench v0.1 | 21 separated human-question, symbol-decision and map-compilation tasks | implemented as development regression benchmark |
+| Supporting validation | GDAL/OGR RIVERL workflow and 31-task regression suite | preserved |
+| Automated verification | 25 tests, lint, JSON, JavaScript syntax and diff checks | complete locally |
+| Official glyph verification | PDF symbol cells extracted and compared to Canvas implementations | pending local PDF copy and cartographer review |
+| Independent ground truth | two experts review observations, symbols and benchmark answers | pending |
+| Held-out/named-model study | sealed test set and frozen LLM/PDF-RAG runs | pending |
 
 ## Defensible claim
 
-NMA v0.2 is an open, reproducible specification-aware validation architecture that executes a
-bounded set of page-grounded Taiwan RIVERL rules on controlled Shapefiles, localizes defects,
-attaches provenance, and prevents silent authoritative repair.
+NMA v0.2 demonstrates a reproducible, open mechanism that compiles a bounded set of
+authoritative-source-derived portrayal observations into executable graph knowledge, retrieves
+evidence-backed symbol decisions, and compiles them into auditable MapLibre vector-tile layers.
 
 ## Claims not yet permitted
 
-- readiness for deployment by a National Mapping Authority;
-- proof that the supplied archive contains an official production defect;
-- superiority over named LLM or RAG systems;
-- generalization to all layers, scales, countries, and production workflows;
-- autonomous repair or publication of authoritative map data.
+- exact visual equivalence between demo glyphs and official PDF symbols;
+- authority-wide or cross-country accuracy;
+- deployment readiness for a National Mapping Authority;
+- superiority over named LLM or production PDF-RAG systems;
+- autonomous authoritative map production;
+- publication-grade accuracy from the 21-task development set.
 
 ## Remaining scientific gates
 
-1. Authority expert confirms rule transcription, scope, severity, and the schema-name discrepancy.
-2. Freeze development and held-out task splits.
-3. Run named model baselines with exact model/server/prompt versions and repeated trials.
-4. Report confidence intervals, error taxonomy, and disagreements rather than one opaque score.
-5. Conduct user evaluation with national-mapping professionals.
+1. Place PDF 01 locally, hash it, render pages 11, 50, 60–62, and 69, and crop official symbol cells.
+2. Compare/replace the implementation glyphs and obtain cartographer acceptance.
+3. Have two experts independently review records and answers; adjudicate disagreements.
+4. Seal a larger held-out benchmark before changing retrieval/prompts.
+5. Run named model and PDF-RAG baselines with frozen versions and repeated trials.
+6. Test the hosted PMTiles demo in a clean browser and retain an offline recording.

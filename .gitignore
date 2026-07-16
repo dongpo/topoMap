@@ -7,4 +7,6 @@ dist/
 build/
 *.egg-info/
 artifacts/tmp/
+artifacts/portrayal/
+artifacts/benchmark/portrayal-results.json
 tmp/

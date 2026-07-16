@@ -19,6 +19,51 @@ paths:
       responses:
         "200":
           description: Executable rules and evidence
+  /v1/knowledge/portrayal:
+    get:
+      responses:
+        "200":
+          description: Portable executable portrayal property graph
+  /v1/maplibre/portrayal-layers:
+    get:
+      responses:
+        "200":
+          description: Graph-compiled MapLibre vector-source layers with evidence metadata
+  /v1/agent/ask:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [question]
+              properties:
+                question: {type: string}
+      responses:
+        "200":
+          description: GraphRAG answer, evidence and graph paths
+        "400":
+          description: Invalid request
+  /v1/agent/portray:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [feature_code]
+              properties:
+                feature_code: {type: string}
+                scale_denominator: {type: integer, default: 1000}
+                profile_id: {type: string}
+                attributes: {type: object}
+      responses:
+        "200":
+          description: Selected symbol, exception, or abstention with evidence path
+        "400":
+          description: Invalid request
   /v1/validate:
     post:
       requestBody:

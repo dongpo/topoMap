@@ -1,0 +1,21 @@
+{"task_id":"QA-001","type":"human_question","question":"消防栓的地形代碼是什麼？"}
+{"task_id":"QA-002","type":"human_question","question":"養殖池的圖式規則在 PDF 哪一頁？"}
+{"task_id":"QA-003","type":"human_question","question":"警察局、分駐所、派出所的代碼是什麼？"}
+{"task_id":"QA-004","type":"human_question","question":"學校有哪些地形代碼？"}
+{"task_id":"QA-005","type":"human_question","question":"大型獨幢郵局有什麼圖式例外？"}
+{"task_id":"QA-006","type":"human_question","question":"依 NLSC112V5.4，小學的代碼是什麼？"}
+{"task_id":"QA-007","type":"human_question","question":"郵局的圖式規則在哪一頁？"}
+{"task_id":"QA-008","type":"human_question","question":"火車站應使用哪一個符號？"}
+{"task_id":"SD-001","type":"symbol_decision","feature_code":"9350906","scale_denominator":1000}
+{"task_id":"SD-002","type":"symbol_decision","feature_code":"9740100","scale_denominator":1000}
+{"task_id":"SD-003","type":"symbol_decision","feature_code":"9910603","scale_denominator":1000}
+{"task_id":"SD-004","type":"symbol_decision","feature_code":"9920103","scale_denominator":1000}
+{"task_id":"SD-005","type":"symbol_decision","feature_code":"9950201","scale_denominator":1000}
+{"task_id":"SD-006","type":"symbol_decision","feature_code":"9950201","scale_denominator":1000,"attributes":{"large_detached_building":true}}
+{"task_id":"SD-007","type":"symbol_decision","feature_code":"9950201","scale_denominator":5000}
+{"task_id":"SD-008","type":"symbol_decision","feature_code":"9950201","scale_denominator":1000,"profile_id":"unknown-profile"}
+{"task_id":"MAP-001","type":"map_compilation","feature_code":"9350906","source_layer":"J01_BUILD"}
+{"task_id":"MAP-002","type":"map_compilation","feature_code":"9740100","source_layer":"J01_WATERA"}
+{"task_id":"MAP-003","type":"map_compilation","feature_code":"9910603","source_layer":"J01_MARK"}
+{"task_id":"MAP-004","type":"map_compilation","feature_code":"9920103","source_layer":"J01_MARK"}
+{"task_id":"MAP-005","type":"map_compilation","feature_code":"9950201","source_layer":"J01_MARK"}

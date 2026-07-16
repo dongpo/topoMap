@@ -1,80 +1,84 @@
-# NMA v0.2 open architecture
+# NMA v0.2 portrayal architecture
 
-## Design decision
+## Research object
 
-NMA is specification-aware geospatial infrastructure with an optional agent at its boundary. The
-core is not an agent framework and does not ask an LLM to perform deterministic GIS checks.
+NMA is not a PDF chatbot and not a generic agent framework. Its central research object is an
+evidence-bearing, executable portrayal graph that connects authoritative document evidence to a
+machine-executable map decision.
 
 ```text
-User / QGIS / Web / CLI
-          │
-          ▼
-Agent or task router (replaceable)
-          │ structured operation
-          ▼
-NMA application boundary ───── approval policy
-          │
-     ┌────┴────────┐
-     ▼             ▼
-Specification   Deterministic validators
-and evidence    CRS · schema · domain · geometry · topology
-     │             │
-     └────┬────────┘
-          ▼
-Validation report + provenance + repair proposal
-          │ explicit approval
-          ▼
-Safe repair executor → revalidation → audit artifacts
+PDF page
+  └─ DocumentSection
+       └─ YIELDS → SourceObservation
+            └─ DESCRIBES → FeatureType
+                 └─ PORTRAYED_BY → PortrayalRule
+                      ├─ USES_SYMBOL → Symbol
+                      └─ SUPPORTED_BY → SourceObservation
 ```
 
-## Component contracts
+A successful decision returns the complete path, not merely a symbol name.
 
-| Component | Owns | Must not own |
+## Pipeline and trust gates
+
+| Stage | Output | Governance rule |
 |---|---|---|
-| Agent adapter | intent, tool choice, explanation | truth of a spatial validation |
-| Specification store | versioned rules and evidence | mutable chat memory |
-| Validator | reproducible pass/fail findings | open-ended policy interpretation |
-| Repair policy | risk class and approval | silent authoritative writes |
-| Report | result, evidence, tool provenance | hidden chain-of-thought |
-| Benchmark | tasks, ground truth, scoring | promotional aggregate only |
+| PDF extraction | code-anchored candidates | never executable |
+| Domain review | reviewed observation | reviewer and source page required |
+| Graph compilation | typed nodes and edges | source and implementation remain separate |
+| GraphRAG | relevant subgraph | profile/version/scale must match |
+| Agent decision | select, exception, not-found, or abstain | unsupported profiles/scales must abstain |
+| MapLibre compilation | vector-tile style layers | rule ID, evidence page, and graph path embedded in metadata |
+| Human display | map and evidence panel | approximation/review status visible |
 
-## Current implementation
+The current records are source-derived but carry `human-review-required`. They demonstrate the
+mechanism; independent cartographer sign-off is the publication gate.
 
-The implementation uses Python plus the GDAL/OGR command-line runtime. OGR reads Shapefile or
-GeoJSON features in read-only mode and records the GDAL version, driver, layer, feature count, CRS,
-extent, geometry, and detailed field definitions in provenance. Future validators can add direct
-PROJ, GEOS/Shapely, PostGIS, and QGIS Processing execution while preserving the same report
-contract.
+## Separation of authority and implementation
 
-The JSON profile, defined by `schemas/executable-profile.schema.json`, is the portable export
-boundary for a future Neo4j knowledge graph. A graph
-adapter should map entities (`Specification`, `Version`, `Layer`, `Field`, `ValidationRule`,
-`DocumentSection`) into the same `Specification` and `Rule` domain objects. Core validation must
-not contain Cypher or Neo4j session state.
+`portrayal-records.jsonl` contains only facts observed in the PDF text: feature name/code,
+production stage, geometry categories, line/color codes, instruction, version, page, and URI.
 
-## Trust boundaries
+`portrayal-profile.json` contains software choices: source-layer mapping, MapLibre layer type,
+Canvas icon ID, paint values, and exceptions. It labels current glyphs as demonstration
+approximations. This separation prevents the map implementation from masquerading as an extracted
+official symbol.
 
-1. Document ingestion may propose rules but cannot publish them.
-2. A rule is executable only after schema and expert review.
-3. Validators accept frozen rule versions and emit deterministic findings.
-4. LLM text may explain a finding but cannot replace its computed result.
-5. Repairs are classified as `none`, `proposal`, or `safe`; even `safe` requires an explicit
-   workflow approval.
-6. Reports record the specification source and engine version.
+## Agent boundary
 
-## Extension interfaces
+The agent performs four observable operations:
 
-- `Specification.load`: replaceable storage adapter (JSON now, Neo4j/RDF later).
-- `Validator`: registry point for GDAL/PostGIS/SHACL validators.
-- `nma.api`: stable JSON boundary for QGIS, web applications, and MCP tools.
-- `nma.baselines`: deterministic architecture controls.
-- `nma.external`: shell-free `nma-bench-adapter/1.0` boundary for named model/runtime
-  configurations and repeated runs.
-- `Rule.repair`: policy metadata rather than executable model output.
+1. identify a feature from a question or code;
+2. retrieve its portrayal subgraph;
+3. enforce profile, scale, and exception constraints;
+4. return a structured decision with evidence or abstain.
 
-## Deliberate omissions
+An LLM can be added as a multilingual intent adapter, but the graph decision and evidence path do
+not depend on it. Agno, OpenAI Agents SDK, LangGraph, MCP, or QGIS may call the same APIs without
+owning the executable knowledge.
 
-The slice validates a single RIVERL layer and feature-level line self-intersection. It does not yet
-execute cross-layer RIVERL/RIVERA intersection rules, full topology, complete feature-catalogue
-coverage, graph reasoning, production identity management, or multi-agent orchestration. These are
-explicit next layers, not hidden claims.
+## Portable graph and future Neo4j adapter
+
+The checked-in graph is a portable property-graph export (`nodes`, `edges`, `properties`). It is
+directly inspectable, diffable, testable, and loadable without a database. A future Neo4j adapter
+may persist the same node IDs and edge types and execute equivalent traversals. NMA core must not
+depend on Cypher or Neo4j session state.
+
+## Map execution
+
+The style compiler creates MapLibre layers with:
+
+- vector source layer and `TERRAINID` filter;
+- chosen icon/paint/label behavior;
+- `nma:profile`, feature code/name, rule ID;
+- source document/version/page/text;
+- complete graph path;
+- implementation review status.
+
+This makes a rendered symbol auditable back to a PDF rule.
+
+## Supporting validation subsystem
+
+The prior RIVERL/GDAL workflow remains a useful deterministic validation and safety subsystem. It
+is not the main portrayal research proof. Its validators, repair approval, reports, and 31-task
+regression benchmark remain independently runnable through `nma demo` and
+`nma-validation-bench`.

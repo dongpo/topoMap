@@ -23,7 +23,8 @@ dev = ["pytest>=8", "ruff>=0.6"]
 
 [project.scripts]
 nma = "nma.cli:main"
-nma-bench = "nma.bench:main"
+nma-bench = "nma.portrayal_bench:main"
+nma-validation-bench = "nma.bench:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -35,6 +36,8 @@ where = ["src"]
 "share/nma/data/specifications" = ["data/specifications/*.json"]
 "share/nma/data" = ["data/README.md"]
 "share/nma/data/sources" = ["data/sources/*.json"]
+"share/nma/data/extraction" = ["data/extraction/*.jsonl"]
+"share/nma/data/knowledge" = ["data/knowledge/*.json"]
 "share/nma/data/datasets" = ["data/datasets/*.geojson"]
 "share/nma/data/datasets/authoritative/riverl-clean" = ["data/datasets/authoritative/riverl-clean/*"]
 "share/nma/data/datasets/authoritative/riverl-defective" = ["data/datasets/authoritative/riverl-defective/*"]
@@ -43,6 +46,7 @@ where = ["src"]
 "share/nma/benchmark" = ["benchmark/manifest.json", "benchmark/ground-truth.json", "benchmark/external-baselines.example.json"]
 "share/nma/benchmark/tasks" = ["benchmark/tasks/*.jsonl"]
 "share/nma/benchmark/adapters" = ["benchmark/adapters/*.py"]
+"share/nma/benchmark/portrayal" = ["benchmark/portrayal/*.json", "benchmark/portrayal/*.jsonl"]
 "share/nma/schemas" = ["schemas/*.json"]
 
 [tool.pytest.ini_options]

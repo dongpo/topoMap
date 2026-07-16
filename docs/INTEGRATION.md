@@ -1,41 +1,45 @@
-# Profile and data integration guide
+# Portrayal profile integration guide
 
-NMA core is framework-independent. A new national profile is integrated through data contracts,
-validators, and evidence rather than a new agent framework.
+NMA core is framework-independent. A country or mapping authority adds executable portrayal
+knowledge through source records, a profile, benchmark tasks, and expert review—not a new generic
+agent framework.
 
 ## Required inputs
 
-1. Legally usable specification documents with stable title, version, page, and source URI.
-2. A bounded layer/profile with explicit geometry, CRS, fields, domains, and topology rules.
-3. Public synthetic fixtures or legally redistributable samples.
-4. Expert-approved expected outcomes and an unresolved-case policy.
+1. Legally usable specification PDFs with stable title, version, page, and URI.
+2. A bounded feature subset and scale/profile.
+3. Local PDF files for hashing, text extraction, page rendering, and visual symbol comparison.
+4. A vector-tile source with documented layer and feature-code fields.
+5. Expert-approved answers and an unresolved-case policy.
 
 ## Integration sequence
 
-1. Hash and inventory source documents without redistributing them by default.
-2. Render and visually verify every page used as evidence.
-3. Encode the smallest executable rule subset in `data/specifications/`.
-4. Generate controlled clean and defective fixtures from transparent source files.
-5. Freeze exact issue keys in `benchmark/ground-truth.json`.
-6. Add knowledge, evidence, tool, validation, and safety tasks.
-7. Obtain expert sign-off; record unresolved discrepancies as observations, not truth.
-8. Run tests, offline ablations, and named-model experiments separately.
+1. Inventory and hash source PDFs without redistributing them by default.
+2. Run `nma extract-portrayal` to create code-anchored **candidates**.
+3. Render and visually inspect every cited page; transcribe evidence and symbol cells.
+4. Review candidates into `portrayal-records.jsonl`; unresolved items stay non-executable.
+5. Define implementation/source-layer mappings in a versioned portrayal profile.
+6. Run `nma compile-knowledge` and inspect graph diffs.
+7. Add human questions, symbol decisions, abstention cases, and map-compilation truth.
+8. Run `nma compile-style`, inspect the map, and compare official/implemented glyphs.
+9. Obtain independent expert sign-off and seal held-out cases.
 
-## Existing-data audit
+## Framework adapters
 
-Use read-only execution first:
+Agno, OpenAI Agents SDK, LangGraph, MCP, QGIS, and other runtimes should call the stable NMA API:
 
-```bash
-nma validate --spec data/specifications/taiwan-5000-riverl-112.json \
-  --dataset /path/to/RIVERL.shp \
-  --json-out audit.json
-```
+- ask a human question;
+- select a portrayal rule;
+- retrieve the executable graph;
+- retrieve compiled MapLibre layers.
 
-Do not automatically rename fields, infer official identifiers, repair topology, overwrite source
-files, or publish outputs. The flow is proposal -> preview -> approval -> execution -> revalidation
--> audit.
+They must not own the source evidence, rule/profile/version model, or review status.
 
-## Agent adapters
+## Safety behavior
 
-Agno, OpenAI Agents SDK, LangGraph, MCP, QGIS, and other runtimes should call the stable NMA tools.
-They must not own the specification, validation, provenance, or approval data model.
+The agent must abstain when a requested profile or scale is not loaded. A label/code conflict
+between profiles is evidence of version ambiguity, not permission to choose the most convenient
+symbol. Visual glyphs remain approximations until compared with the official rendered symbol cell.
+
+The prior validation integration remains available for read-only GIS auditing. It retains the flow
+proposal → preview → approval → execution → revalidation → audit.

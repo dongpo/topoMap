@@ -1,63 +1,74 @@
-# Research protocol for NMA validation
+# Research protocol for NMA portrayal
 
 ## Primary research question
 
-To what extent does a specification-aware, tool-augmented geospatial agent reliably retrieve,
-interpret, and execute national-mapping rules, and how much do structured knowledge, deterministic
-GIS tools, provenance, and approval controls improve performance over ungrounded and document-only
-baselines?
+To what extent can a specification-aware, graph-grounded geospatial agent correctly answer
+national-map portrayal questions, select applicable symbols, and compile those decisions into an
+auditable vector-tile map—and what do graph structure and executable tools add beyond PDF search?
 
 ## Hypotheses
 
-- H1: structured retrieval improves rule, version, and field accuracy over document retrieval.
-- H2: deterministic GIS tools improve defect detection and localization over language-only systems.
-- H3: explicit evidence records improve provenance completeness and reduce unsupported conclusions.
-- H4: an approval policy reduces unsafe writes without reducing read-only task completion.
+- **H1:** GraphRAG improves feature/rule/version retrieval over PDF text search.
+- **H2:** Executable graph constraints improve correct abstention for unsupported profiles/scales.
+- **H3:** Full NMA compiles more correct map decisions than GraphRAG without execution.
+- **H4:** Complete graph paths improve evidence traceability over page retrieval alone.
+- **H5:** Expert-reviewed official glyph extraction improves symbol acceptance over implementation
+  approximations.
 
-## Experimental factors
+## Experimental configurations
 
-Use the same model family, temperature, prompt budget, and task wording across these configurations:
+1. named plain model with no documents or tools;
+2. named model with frozen PDF RAG;
+3. the same model with frozen GraphRAG context but no map compiler;
+4. full NMA with GraphRAG, portrayal decision tool, evidence, abstention, and style compiler.
 
-1. plain model with no retrieval or tools;
-2. document RAG with frozen chunking, embedding, index, and top-k;
-3. structured/knowledge-graph retrieval without GIS tools;
-4. full NMA with structured retrieval, deterministic tools, provenance, and approval policy.
+Checked-in deterministic systems are architecture controls, not substitutes for named-model runs.
 
-The current offline proxy is not configuration 1 and must never be labelled as such in a paper.
+## Task families
 
-## Dataset construction
+- human questions: codes, pages, instructions, versions, and exceptions;
+- symbol decisions: feature + attributes + scale + profile → symbol/action/abstention;
+- graph evidence: exact entity, rule, symbol, observation, and page path;
+- map compilation: vector layer, feature filter, style, rule and evidence metadata;
+- visual portrayal: official symbol crop versus generated glyph, assessed by experts;
+- robustness: ambiguous names, conflicting profiles, missing features, wrong scale, and multilingual
+  wording.
 
-- Select one or two national-mapping layers with 20–30 independently formalized rules.
-- Obtain written permission or confirm an open licence for every redistributed source.
-- Use synthetic geometries where authoritative production data cannot be shared.
-- Inject defects from a preregistered catalogue, then have a second expert verify the ground truth.
-- Keep at least 25% of cases sealed from prompt and system development.
-- Include clean controls, single-defect cases, multi-defect cases, ambiguous cases, and corrupted input.
+## Ground-truth construction
+
+1. Two experts independently review each PDF observation and official symbol crop.
+2. Reviewers answer tasks without seeing NMA output.
+3. Disagreements are adjudicated and preserved in an audit file.
+4. Development and held-out cases are separated before system tuning.
+5. At least 25% remains sealed; synonymous question forms do not cross splits.
+6. Ambiguous tasks have an explicit acceptable set or expected abstention.
 
 ## Measures
 
-- Knowledge: exact answer, entity precision/recall, version accuracy.
-- Retrieval: rule recall@k, evidence-section and evidence-page accuracy.
-- Tool use: tool/argument accuracy, unnecessary calls, completion rate.
-- Validation: feature-level precision, recall, F1, severity accuracy.
-- Provenance: document/version/section/page/rule/tool/input/output completeness.
-- Safety: unsafe execution rate, approval-request precision/recall, obsolete-rule detection.
-- Operations: latency, cost, repeatability, failure recovery, abstention.
+- exact or semantic answer accuracy;
+- feature/entity precision and recall;
+- PDF page and evidence-span accuracy;
+- symbol/action accuracy and exception accuracy;
+- unsupported-profile/scale abstention precision and recall;
+- MapLibre source-layer, filter, and metadata correctness;
+- official-glyph similarity and blind cartographer acceptance;
+- unsupported-claim rate;
+- latency, cost, repeated-run consistency, and tool failures.
+
+Report every task-family score rather than one opaque aggregate.
 
 ## Run controls
 
-- Record model/provider snapshot and run date.
-- Freeze prompts and tool schemas by commit hash.
-- Use low temperature; run stochastic configurations at least three times.
-- Record raw outputs and tool traces without chain-of-thought.
-- Score automatically where possible; blind expert adjudication elsewhere.
-- Report confidence intervals and per-category results.
-- Analyze every false positive, false negative, unsafe action, and unsupported citation.
-- Run named model and RAG configurations through `nma-bench-adapter/1.0`; verify that result files
-  contain immutable model/server metadata and no placeholder values.
+- freeze model digest, server, prompt, retrieval corpus, chunking, top-k, graph revision, and style
+  compiler commit;
+- ensure ground truth is never included in requests;
+- use at least three runs for stochastic configurations;
+- record raw answers, retrieved context, tool traces, evidence paths, failures, latency and cost;
+- perform blind expert adjudication for semantic and visual results;
+- report confidence intervals and failure taxonomy.
 
 ## Claim boundary
 
-Success on one layer supports the claim that the architecture can operationalize a bounded
-specification subset. It does not support autonomous national-map production, generalization to all
-authorities, or legal equivalence to expert judgment.
+The current 21-task suite is a development regression proving that the implemented path behaves as
+specified. Publication-grade claims require official symbol-cell verification, independent expert
+ground truth, a sealed held-out set, and named-model comparisons.

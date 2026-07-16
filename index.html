@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="National Map Agent v0.2: open, specification-aware geospatial validation and benchmark.">
+  <meta name="description" content="National Map Agent v0.2: executable portrayal knowledge, GraphRAG, landmark symbols, PMTiles, and benchmark.">
   <title>National Map Agent v0.2</title>
   <style>
     :root { --ink:#10251f; --muted:#52645f; --paper:#f5f8f4; --card:#fff; --green:#0b6b4f; --lime:#b6df72; --line:#dce6df; }
@@ -36,54 +36,55 @@
     <div class="hero-inner">
       <div class="eyebrow">Open geospatial research prototype</div>
       <h1>National Map Agent v0.2</h1>
-      <p class="lead">From official specification pages to deterministic Shapefile validation,
-        traceable evidence, human-controlled repair, and a reproducible benchmark.</p>
+      <p class="lead">From authoritative portrayal PDF pages to executable graph knowledge,
+        evidence-backed landmark symbols, and a reproducible PMTiles vector-map demonstration.</p>
       <div class="actions">
-        <a class="button" href="artifacts/demo/validation-before.html">Open validation demo</a>
+        <a class="button" href="nmaAgentDemo.html">Open NMA Agent demo</a>
         <a class="button secondary" href="https://github.com/dongpo/topoMap">Source and reproduction</a>
-        <a class="button secondary" href="pmtilesDemo.html">Existing PMTiles demo</a>
+        <a class="button secondary" href="data/knowledge/portrayal-graph.json">Inspect knowledge graph</a>
       </div>
     </div>
   </header>
   <main>
-    <p class="notice"><strong>Research boundary:</strong> the executable RIVERL profile is derived
-      from cited official pages, but its interpretation and benchmark labels remain pending expert
-      sign-off. NMA v0.2 does not claim autonomous authoritative map production.</p>
+    <p class="notice"><strong>Research boundary:</strong> source facts cite NLSC112V5.4 pages, but
+      current Canvas glyphs are demonstration approximations and all extracted records remain
+      pending independent cartographer sign-off. NMA does not claim autonomous production.</p>
 
     <section class="grid" aria-label="Project evidence">
-      <article class="card"><div class="metric">13</div><h2>Executable rules</h2><p>CRS, geometry,
-        exact field definitions, required values, classification, topology, and formatting.</p></article>
-      <article class="card"><div class="metric">31</div><h2>Frozen benchmark tasks</h2><p>Knowledge,
-        evidence, version awareness, tool choice, Shapefile validation, and safety.</p></article>
-      <article class="card"><div class="metric">1</div><h2>Approved repair</h2><p>Only a safe whitespace
-        normalization is executed; identity, code, and topology remain human decisions.</p></article>
+      <article class="card"><div class="metric">44</div><h2>Knowledge nodes</h2><p>Features,
+        portrayal rules, symbols, observations, document pages, and versioned evidence.</p></article>
+      <article class="card"><div class="metric">21</div><h2>Frozen benchmark tasks</h2><p>Human
+        questions, symbol decisions, abstention, exceptions, and vector-map compilation.</p></article>
+      <article class="card"><div class="metric">133</div><h2>Generated map layers</h2><p>MapLibre
+        layers for BUILD, WATERA, and MARK tiles, each carrying rule and page metadata.</p></article>
     </section>
 
     <section class="card">
-      <h2>NMA-Bench v0.1 smoke controls</h2>
+      <h2>NMA-Bench v0.1 portrayal controls</h2>
       <table>
         <thead><tr><th>Configuration</th><th>Accuracy</th><th>Provenance</th></tr></thead>
         <tbody>
-          <tr><td>Ungrounded offline proxy</td><td>0.226</td><td>0.000</td></tr>
-          <tr><td>Document retrieval proxy</td><td>0.290</td><td>0.000</td></tr>
-          <tr><td>Structured retrieval</td><td>0.645</td><td>0.812</td></tr>
+          <tr><td>Ungrounded control</td><td>0.000</td><td>0.000</td></tr>
+          <tr><td>PDF text search</td><td>0.381</td><td>0.350</td></tr>
+          <tr><td>GraphRAG</td><td>0.762</td><td>0.722</td></tr>
           <tr><td>Full deterministic NMA</td><td>1.000</td><td>1.000</td></tr>
         </tbody>
       </table>
-      <p>These are architecture/harness checks, not named-LLM performance results.</p>
+      <p>These are answer-key-isolated architecture tests over a small development set, not named-LLM performance results.</p>
     </section>
 
     <section class="grid">
-      <article class="card"><h2>Specification aware</h2><p>Every finding includes document,
-        version, section, page, source URL, expected value, and observed value.</p></article>
-      <article class="card"><h2>FOSS4G native</h2><p>Apache-2.0 Python, GDAL/OGR, Shapefile,
-        GeoJSON, Docker, CI, OpenAPI, and transparent fixture generation.</p></article>
+      <article class="card"><h2>Executable knowledge</h2><p>Every portrayal decision includes
+        feature, rule, symbol, document version, page, source URL, and graph path.</p></article>
+      <article class="card"><h2>FOSS4G native</h2><p>Apache-2.0 Python, Poppler, MapLibre,
+        PMTiles, GDAL/OGR, open JSON, Docker, CI, and OpenAPI.</p></article>
       <article class="card"><h2>Framework independent</h2><p>Agent runtimes remain replaceable;
         geospatial truth, provenance, and approval live in the NMA core.</p></article>
     </section>
 
-    <footer>Prepared for FOSS4G Hiroshima 2026. Existing map demos remain available as
-      <a href="MapOutputDemo.html">MapOutputDemo</a> and <a href="pmtilesDemo.html">PMTiles demo</a>.</footer>
+    <footer>Prepared for FOSS4G Hiroshima 2026. The earlier validation and manually styled map
+      remain supporting artifacts: <a href="artifacts/demo/validation-before.html">validation</a>,
+      <a href="MapOutputDemo.html">MapOutputDemo</a>, and <a href="pmtilesDemo.html">manual PMTiles map</a>.</footer>
   </main>
 </body>
 </html>

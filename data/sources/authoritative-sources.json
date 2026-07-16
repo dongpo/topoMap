@@ -3,6 +3,16 @@
   "source_folder": "https://drive.google.com/drive/folders/1iMVLeHI1yfCfOlfkXNd7Ti1CoxW3aBPg",
   "documents_used": [
     {
+      "id": "1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "title": "01-一千分之一地形圖圖式規格表.pdf",
+      "document_revision": "NLSC112V5.4",
+      "effective_date": "2024-02-28",
+      "pages_used": [11, 50, 60, 61, 62, 69],
+      "sha256": null,
+      "hash_status": "pending local authoritative PDF copy",
+      "use": "portrayal executable knowledge and NMA-Bench"
+    },
+    {
       "id": "1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e",
       "title": "11-五千分之一基本地形圖測製及檢核說明(112年度版).pdf",
       "pages": 49,

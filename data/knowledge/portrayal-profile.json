@@ -1,0 +1,35 @@
+{
+  "profile_id": "tw-nlsc-1000-NLSC112V5.4",
+  "title": "Taiwan NLSC 1:1,000 topographic portrayal profile",
+  "version": "NLSC112V5.4",
+  "scale_denominator": 1000,
+  "source_layers": {
+    "93": ["J01_BUILD", "J13_BUILD", "J16_BUILD", "J17_BUILD", "K01_BUILD", "K02_BUILD", "K14_BUILD"],
+    "97": ["J01_WATERA", "J13_WATERA", "J16_WATERA", "J17_WATERA", "K01_WATERA", "K02_WATERA", "K14_WATERA"],
+    "99": ["J01_MARK", "J13_MARK", "J16_MARK", "J17_MARK", "K01_MARK", "K02_MARK", "K14_MARK"]
+  },
+  "implementations": {
+    "9350906": {"symbol_id": "fire-hydrant", "maplibre_type": "circle", "paint": {"circle-radius": 5, "circle-color": "#d32f2f", "circle-stroke-color": "#ffffff", "circle-stroke-width": 1.5}},
+    "9740100": {"symbol_id": "fish-pond", "maplibre_type": "fill", "paint": {"fill-color": "#d9f0ff", "fill-outline-color": "#1565c0"}, "companion_icon": "waterFishIcon"},
+    "9910603": {"symbol_id": "police", "maplibre_type": "symbol", "icon_image": "police", "label_field": "MARKNAME1"},
+    "9920101": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1"},
+    "9920102": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1"},
+    "9920103": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1"},
+    "9920104": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1"},
+    "9920105": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1"},
+    "9920106": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1"},
+    "9950201": {"symbol_id": "post", "maplibre_type": "symbol", "icon_image": "post", "label_field": "MARKNAME1", "exception": {"condition": "large_detached_building", "action": "text_only"}}
+  },
+  "known_conflicts": [
+    {
+      "conflict_id": "school-code-label-conflict-existing-pmtiles-demo",
+      "subject_codes": ["9920101", "9920102", "9920103", "9920104"],
+      "authoritative_profile": {"9920101": "大專院校", "9920102": "中學", "9920103": "小學", "9920104": "職訓中心"},
+      "observed_implementation": {"9920101": "國小", "9920102": "國中", "9920103": "高中", "9920104": "大專院校"},
+      "observed_in": "pmtilesDemo.html",
+      "status": "unresolved profile/version discrepancy; authoritative NLSC112V5.4 labels control this profile"
+    }
+  ],
+  "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off",
+  "important_boundary": "The PDF text establishes feature code, production stage, geometry category, line/color codes and instructions. Canvas glyphs are implementation approximations until the PDF symbol cells are visually extracted and reviewed."
+}

@@ -14,6 +14,9 @@ from .report import render_html
 from .specification import Specification
 from .validator import Validator
 from .versioning import compare_specifications
+from .extraction import extract_pdf_candidates, write_jsonl
+from .knowledge import PortrayalGraph, compile_portrayal_graph
+from .portrayal import PortrayalAgent, compile_maplibre_layers
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -45,9 +48,40 @@ def _parser() -> argparse.ArgumentParser:
     server.add_argument("--spec", default="data/specifications/taiwan-5000-riverl-112.json")
     server.add_argument("--host", default="127.0.0.1")
     server.add_argument("--port", type=int, default=8000)
+    server.add_argument("--graph", default="data/knowledge/portrayal-graph.json")
 
     inspect = sub.add_parser("inspect", help="inspect a vector dataset with GDAL/OGR")
     inspect.add_argument("dataset")
+
+    extract = sub.add_parser(
+        "extract-portrayal", help="extract code-anchored review candidates from a portrayal PDF"
+    )
+    extract.add_argument("--pdf", required=True)
+    extract.add_argument("--out", required=True)
+
+    compile_graph = sub.add_parser(
+        "compile-knowledge", help="compile reviewed PDF records into executable graph knowledge"
+    )
+    compile_graph.add_argument(
+        "--records", default="data/extraction/portrayal-records.jsonl"
+    )
+    compile_graph.add_argument("--profile", default="data/knowledge/portrayal-profile.json")
+    compile_graph.add_argument("--out", default="data/knowledge/portrayal-graph.json")
+
+    ask = sub.add_parser("ask", help="answer a human portrayal question through GraphRAG")
+    ask.add_argument("question")
+    ask.add_argument("--graph", default="data/knowledge/portrayal-graph.json")
+
+    portray = sub.add_parser("portray", help="select a symbol through the executable graph")
+    portray.add_argument("feature_code")
+    portray.add_argument("--scale", type=int, default=1000)
+    portray.add_argument("--profile-id")
+    portray.add_argument("--large-detached-building", action="store_true")
+    portray.add_argument("--graph", default="data/knowledge/portrayal-graph.json")
+
+    style = sub.add_parser("compile-style", help="compile graph rules to MapLibre style layers")
+    style.add_argument("--graph", default="data/knowledge/portrayal-graph.json")
+    style.add_argument("--out", default="artifacts/portrayal/maplibre-layers.json")
     return parser
 
 
@@ -71,13 +105,59 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "serve":
-        serve(Specification.load(resolve_asset(args.spec)), args.host, args.port)
+        serve(
+            Specification.load(resolve_asset(args.spec)),
+            args.host,
+            args.port,
+            PortrayalGraph.load(resolve_asset(args.graph)),
+        )
         return 0
 
     if args.command == "inspect":
         result = inspect_dataset(resolve_asset(args.dataset))
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0 if result["available"] else 2
+
+    if args.command == "extract-portrayal":
+        candidates = extract_pdf_candidates(resolve_asset(args.pdf))
+        write_jsonl(candidates, Path(args.out))
+        print(f"Extracted {len(candidates)} review candidates to {Path(args.out).resolve()}")
+        return 0
+
+    if args.command == "compile-knowledge":
+        graph = compile_portrayal_graph(
+            resolve_asset(args.records), resolve_asset(args.profile)
+        )
+        dump_json(graph, args.out)
+        print(
+            f"Compiled {graph['statistics']['observations']} reviewed PDF observations into "
+            f"{graph['statistics']['nodes']} nodes and {graph['statistics']['edges']} edges."
+        )
+        return 0
+
+    if args.command == "ask":
+        answer = PortrayalAgent(PortrayalGraph.load(resolve_asset(args.graph))).answer(
+            args.question
+        )
+        print(json.dumps(answer, ensure_ascii=False, indent=2))
+        return 0 if answer["status"] == "answered" else 2
+
+    if args.command == "portray":
+        decision = PortrayalAgent(PortrayalGraph.load(resolve_asset(args.graph))).select_symbol(
+            args.feature_code,
+            scale_denominator=args.scale,
+            profile_id=args.profile_id,
+            attributes={"large_detached_building": args.large_detached_building},
+        )
+        print(json.dumps(decision.as_dict(), ensure_ascii=False, indent=2))
+        return 0 if decision.status == "selected" else 2
+
+    if args.command == "compile-style":
+        graph = PortrayalGraph.load(resolve_asset(args.graph))
+        layers = compile_maplibre_layers(graph)
+        dump_json({"version": 8, "layers": layers}, args.out)
+        print(f"Compiled {len(layers)} evidence-bearing MapLibre layers.")
+        return 0
 
     if args.command == "validate":
         specification = Specification.load(resolve_asset(args.spec))

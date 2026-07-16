@@ -1,0 +1,11 @@
+{
+  "benchmark":"NMA-Bench",
+  "version":"0.1.0-portrayal",
+  "research_question":"Can an agent answer cartographer questions and select/compile evidence-backed symbols from executable national mapping knowledge?",
+  "tasks":"benchmark/portrayal/tasks.jsonl",
+  "ground_truth":"benchmark/portrayal/ground-truth.json",
+  "graph":"data/knowledge/portrayal-graph.json",
+  "records":"data/extraction/portrayal-records.jsonl",
+  "systems":["ungrounded_control","pdf_search","graph_rag","full_nma"],
+  "claim_boundary":"Ground truth is source-derived and frozen but still requires independent cartographer sign-off. Canvas glyphs are demonstration approximations, not asserted facsimiles of official symbol cells."
+}
