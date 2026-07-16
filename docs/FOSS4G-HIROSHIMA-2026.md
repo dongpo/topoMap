@@ -58,12 +58,11 @@ auditable open-source geospatial software.
 
 ## Scientific gates before the conference
 
-1. Obtain a local copy of the portrayal PDF and extract/rasterize official symbol cells.
-2. Replace or visually compare implementation glyphs and record cartographer acceptance.
-3. Have at least two independent experts review the 10 current observations.
-4. Expand and seal a held-out benchmark.
-5. Run named open-model and PDF-RAG baselines with immutable version metadata.
-6. Test the hosted demo in a clean browser with the PMTiles source cached as a fallback.
+1. Obtain independent cartographer acceptance of the visually verified open symbol implementations.
+2. Have at least two independent experts review the 10 current observations.
+3. Expand and seal a held-out benchmark.
+4. Run named open-model and PDF-RAG baselines with immutable version metadata.
+5. Test the hosted demo in a clean browser with the PMTiles source cached as a fallback.
 
 ## Community sprint invitation
 

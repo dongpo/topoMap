@@ -28,6 +28,11 @@ def compile_portrayal_graph(records_path: Path, profile_path: Path) -> dict[str,
             "properties": {
                 "title": records[0]["document"],
                 "uri": records[0]["source_uri"],
+                "sha256": profile.get("source", {}).get("sha256"),
+                "pages": profile.get("source", {}).get("pages"),
+                "visual_verification_pages": profile.get("source", {}).get(
+                    "visual_verification_pages", []
+                ),
             },
         },
         {
@@ -38,6 +43,9 @@ def compile_portrayal_graph(records_path: Path, profile_path: Path) -> dict[str,
                 "scale_denominator": profile["scale_denominator"],
                 "effective_date": records[0]["effective_date"],
                 "profile_id": profile["profile_id"],
+                "source_verification_date": profile.get("source", {}).get(
+                    "verification_date"
+                ),
             },
         },
     ]

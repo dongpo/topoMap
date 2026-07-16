@@ -28,7 +28,7 @@ A successful decision returns the complete path, not merely a symbol name.
 | GraphRAG | relevant subgraph | profile/version/scale must match |
 | Agent decision | select, exception, not-found, or abstain | unsupported profiles/scales must abstain |
 | MapLibre compilation | vector-tile style layers | rule ID, evidence page, and graph path embedded in metadata |
-| Human display | map and evidence panel | approximation/review status visible |
+| Human display | map and evidence panel | source hash, page, dimensions and review status visible |
 
 The current records are source-derived but carry `human-review-required`. They demonstrate the
 mechanism; independent cartographer sign-off is the publication gate.
@@ -39,9 +39,9 @@ mechanism; independent cartographer sign-off is the publication gate.
 production stage, geometry categories, line/color codes, instruction, version, page, and URI.
 
 `portrayal-profile.json` contains software choices: source-layer mapping, MapLibre layer type,
-Canvas icon ID, paint values, and exceptions. It labels current glyphs as demonstration
-approximations. This separation prevents the map implementation from masquerading as an extracted
-official symbol.
+open SVG/Canvas icon ID, paint values, dimensions, and exceptions. Symbol geometry is visually
+verified against the locally hashed PDF while independent cartographer approval remains explicit.
+This separation prevents the map implementation from masquerading as a redistributed PDF crop.
 
 ## Agent boundary
 

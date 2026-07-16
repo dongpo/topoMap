@@ -1,0 +1,15 @@
+{
+  "profile": "NLSC112V5.4",
+  "source_document": "01-一千分之一地形圖圖式規格表.pdf",
+  "source_sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+  "verification_date": "2026-07-16",
+  "method": "Visual comparison against Poppler-rendered official PDF pages at 200 DPI",
+  "review_status": "source-visually-verified; independent cartographer sign-off pending",
+  "symbols": {
+    "9350906": {"file": "fire-hydrant.svg", "page": 11, "width_mm": 2, "height_mm": 2.5, "color_code": "7", "shape": "boxed Chinese character 火"},
+    "9740100": {"file": "fish-pond.svg", "page": 50, "width_mm": 4, "height_mm": 1, "color_code": "5", "shape": "segmented fish; placed inside surveyed pond polygon"},
+    "9910603": {"file": "police.svg", "page": 60, "width_mm": 2, "height_mm": 3, "color_code": "7", "shape": "circle crossed by two diagonals"},
+    "9920101-9920103,9920106": {"file": "school.svg", "pages": [61, 62], "width_mm": 2.2, "height_mm": 3, "flag_height_mm": 1.5, "color_code": "7", "shape": "solid triangular flag on pole"},
+    "9950201": {"file": "post.svg", "page": 69, "width_mm": 4, "height_mm": 3, "color_code": "7", "shape": "envelope; large detached post office uses text annotation"}
+  }
+}

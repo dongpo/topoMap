@@ -100,6 +100,7 @@ class PortrayalAgent:
             "page": section["page"],
             "text": observation["source_text"],
             "uri": document["uri"],
+            "source_sha256": document.get("sha256"),
             "review_status": observation["review_status"],
         }
         if symbol.get("exception", {}).get("condition") == "large_detached_building" and (

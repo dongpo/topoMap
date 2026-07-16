@@ -5,6 +5,20 @@
     "title": "Taiwan NLSC 1:1,000 topographic portrayal profile",
     "version": "NLSC112V5.4",
     "scale_denominator": 1000,
+    "source": {
+      "document": "01-一千分之一地形圖圖式規格表.pdf",
+      "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+      "pages": 83,
+      "visual_verification_pages": [
+        11,
+        50,
+        60,
+        61,
+        62,
+        69
+      ],
+      "verification_date": "2026-07-16"
+    },
     "source_layers": {
       "93": [
         "J01_BUILD",
@@ -37,70 +51,116 @@
     "implementations": {
       "9350906": {
         "symbol_id": "fire-hydrant",
-        "maplibre_type": "circle",
-        "paint": {
-          "circle-radius": 5,
-          "circle-color": "#d32f2f",
-          "circle-stroke-color": "#ffffff",
-          "circle-stroke-width": 1.5
-        }
+        "maplibre_type": "symbol",
+        "icon_image": "fire-hydrant",
+        "official_asset": "assets/symbols/nlsc112v5.4/fire-hydrant.svg",
+        "official_dimensions_mm": [
+          2,
+          2.5
+        ]
       },
       "9740100": {
         "symbol_id": "fish-pond",
         "maplibre_type": "fill",
         "paint": {
-          "fill-color": "#d9f0ff",
+          "fill-color": "#ffffff",
+          "fill-opacity": 0,
           "fill-outline-color": "#1565c0"
         },
-        "companion_icon": "waterFishIcon"
+        "companion_icon": "waterFishIcon",
+        "official_asset": "assets/symbols/nlsc112v5.4/fish-pond.svg",
+        "official_dimensions_mm": [
+          4,
+          1
+        ]
       },
       "9910603": {
         "symbol_id": "police",
         "maplibre_type": "symbol",
         "icon_image": "police",
-        "label_field": "MARKNAME1"
+        "label_field": "MARKNAME1",
+        "official_asset": "assets/symbols/nlsc112v5.4/police.svg",
+        "official_dimensions_mm": [
+          2,
+          3
+        ]
       },
       "9920101": {
         "symbol_id": "school",
         "maplibre_type": "symbol",
         "icon_image": "school",
-        "label_field": "MARKNAME1"
+        "label_field": "MARKNAME1",
+        "official_asset": "assets/symbols/nlsc112v5.4/school.svg",
+        "official_dimensions_mm": [
+          2.2,
+          3
+        ]
       },
       "9920102": {
         "symbol_id": "school",
         "maplibre_type": "symbol",
         "icon_image": "school",
-        "label_field": "MARKNAME1"
+        "label_field": "MARKNAME1",
+        "official_asset": "assets/symbols/nlsc112v5.4/school.svg",
+        "official_dimensions_mm": [
+          2.2,
+          3
+        ]
       },
       "9920103": {
         "symbol_id": "school",
         "maplibre_type": "symbol",
         "icon_image": "school",
-        "label_field": "MARKNAME1"
+        "label_field": "MARKNAME1",
+        "official_asset": "assets/symbols/nlsc112v5.4/school.svg",
+        "official_dimensions_mm": [
+          2.2,
+          3
+        ]
       },
       "9920104": {
         "symbol_id": "school",
         "maplibre_type": "symbol",
         "icon_image": "school",
-        "label_field": "MARKNAME1"
+        "label_field": "MARKNAME1",
+        "official_asset": "assets/symbols/nlsc112v5.4/school.svg",
+        "official_dimensions_mm": [
+          2.2,
+          3
+        ]
       },
       "9920105": {
         "symbol_id": "school",
         "maplibre_type": "symbol",
         "icon_image": "school",
-        "label_field": "MARKNAME1"
+        "label_field": "MARKNAME1",
+        "official_asset": "assets/symbols/nlsc112v5.4/school.svg",
+        "official_dimensions_mm": [
+          2.2,
+          3
+        ]
       },
       "9920106": {
         "symbol_id": "school",
         "maplibre_type": "symbol",
         "icon_image": "school",
-        "label_field": "MARKNAME1"
+        "label_field": "MARKNAME1",
+        "official_asset": "assets/symbols/nlsc112v5.4/school.svg",
+        "official_dimensions_mm": [
+          2.2,
+          3
+        ]
       },
       "9950201": {
         "symbol_id": "post",
         "maplibre_type": "symbol",
         "icon_image": "post",
         "label_field": "MARKNAME1",
+        "official_asset": "assets/symbols/nlsc112v5.4/post.svg",
+        "official_dimensions_mm": [
+          4,
+          3
+        ],
         "exception": {
           "condition": "large_detached_building",
           "action": "text_only"
@@ -132,8 +192,8 @@
         "status": "unresolved profile/version discrepancy; authoritative NLSC112V5.4 labels control this profile"
       }
     ],
-    "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off",
-    "important_boundary": "The PDF text establishes feature code, production stage, geometry category, line/color codes and instructions. Canvas glyphs are implementation approximations until the PDF symbol cells are visually extracted and reviewed."
+    "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending",
+    "important_boundary": "Feature facts and simple symbol geometry were verified against the locally hashed official PDF. SVG/Canvas renderings are open software implementations, not redistributed PDF crops; independent cartographer sign-off remains required for publication claims."
   },
   "nodes": [
     {
@@ -141,7 +201,17 @@
       "type": "SpecificationDocument",
       "properties": {
         "title": "01-一千分之一地形圖圖式規格表.pdf",
-        "uri": "https://drive.google.com/file/d/1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ/view"
+        "uri": "https://drive.google.com/file/d/1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ/view",
+        "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+        "pages": 83,
+        "visual_verification_pages": [
+          11,
+          50,
+          60,
+          61,
+          62,
+          69
+        ]
       }
     },
     {
@@ -151,7 +221,8 @@
         "name": "NLSC112V5.4",
         "scale_denominator": 1000,
         "effective_date": "2024-02-28",
-        "profile_id": "tw-nlsc-1000-NLSC112V5.4"
+        "profile_id": "tw-nlsc-1000-NLSC112V5.4",
+        "source_verification_date": "2026-07-16"
       }
     },
     {
@@ -206,7 +277,7 @@
           "K14_BUILD"
         ],
         "instruction": "實測",
-        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+        "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending"
       }
     },
     {
@@ -214,13 +285,13 @@
       "type": "Symbol",
       "properties": {
         "symbol_id": "fire-hydrant",
-        "maplibre_type": "circle",
-        "paint": {
-          "circle-radius": 5,
-          "circle-color": "#d32f2f",
-          "circle-stroke-color": "#ffffff",
-          "circle-stroke-width": 1.5
-        }
+        "maplibre_type": "symbol",
+        "icon_image": "fire-hydrant",
+        "official_asset": "assets/symbols/nlsc112v5.4/fire-hydrant.svg",
+        "official_dimensions_mm": [
+          2,
+          2.5
+        ]
       }
     },
     {
@@ -276,7 +347,7 @@
           "K14_WATERA"
         ],
         "instruction": "實形測繪",
-        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+        "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending"
       }
     },
     {
@@ -286,10 +357,16 @@
         "symbol_id": "fish-pond",
         "maplibre_type": "fill",
         "paint": {
-          "fill-color": "#d9f0ff",
+          "fill-color": "#ffffff",
+          "fill-opacity": 0,
           "fill-outline-color": "#1565c0"
         },
-        "companion_icon": "waterFishIcon"
+        "companion_icon": "waterFishIcon",
+        "official_asset": "assets/symbols/nlsc112v5.4/fish-pond.svg",
+        "official_dimensions_mm": [
+          4,
+          1
+        ]
       }
     },
     {
@@ -348,7 +425,7 @@
           "K14_MARK"
         ],
         "instruction": "註記名稱",
-        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+        "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending"
       }
     },
     {
@@ -358,7 +435,12 @@
         "symbol_id": "police",
         "maplibre_type": "symbol",
         "icon_image": "police",
-        "label_field": "MARKNAME1"
+        "label_field": "MARKNAME1",
+        "official_asset": "assets/symbols/nlsc112v5.4/police.svg",
+        "official_dimensions_mm": [
+          2,
+          3
+        ]
       }
     },
     {
@@ -416,7 +498,7 @@
           "K14_MARK"
         ],
         "instruction": "註記名稱",
-        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+        "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending"
       }
     },
     {
@@ -426,7 +508,12 @@
         "symbol_id": "school",
         "maplibre_type": "symbol",
         "icon_image": "school",
-        "label_field": "MARKNAME1"
+        "label_field": "MARKNAME1",
+        "official_asset": "assets/symbols/nlsc112v5.4/school.svg",
+        "official_dimensions_mm": [
+          2.2,
+          3
+        ]
       }
     },
     {
@@ -476,7 +563,7 @@
           "K14_MARK"
         ],
         "instruction": "註記名稱",
-        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+        "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending"
       }
     },
     {
@@ -527,7 +614,7 @@
           "K14_MARK"
         ],
         "instruction": "註記名稱",
-        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+        "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending"
       }
     },
     {
@@ -578,7 +665,7 @@
           "K14_MARK"
         ],
         "instruction": "註記名稱",
-        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+        "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending"
       }
     },
     {
@@ -628,7 +715,7 @@
           "K14_MARK"
         ],
         "instruction": "註記名稱",
-        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+        "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending"
       }
     },
     {
@@ -685,7 +772,7 @@
           "K14_MARK"
         ],
         "instruction": "註記名稱",
-        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+        "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending"
       }
     },
     {
@@ -740,7 +827,7 @@
           "K14_MARK"
         ],
         "instruction": "大型獨幢郵局圖式改用文字註記，註記名稱",
-        "implementation_status": "demonstration approximation pending visual comparison and cartographer sign-off"
+        "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending"
       }
     },
     {
@@ -751,6 +838,11 @@
         "maplibre_type": "symbol",
         "icon_image": "post",
         "label_field": "MARKNAME1",
+        "official_asset": "assets/symbols/nlsc112v5.4/post.svg",
+        "official_dimensions_mm": [
+          4,
+          3
+        ],
         "exception": {
           "condition": "large_detached_building",
           "action": "text_only"

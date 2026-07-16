@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 30" role="img" aria-label="郵局">
+  <g fill="#fff" stroke="#111" stroke-width="1.4" stroke-linejoin="round">
+    <rect x="1" y="1" width="38" height="28"/>
+    <path d="M1 1 20 17 39 1"/>
+  </g>
+</svg>

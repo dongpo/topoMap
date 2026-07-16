@@ -39,7 +39,8 @@ They must not own the source evidence, rule/profile/version model, or review sta
 
 The agent must abstain when a requested profile or scale is not loaded. A label/code conflict
 between profiles is evidence of version ambiguity, not permission to choose the most convenient
-symbol. Visual glyphs remain approximations until compared with the official rendered symbol cell.
+symbol. Implemented glyphs remain unapproved until compared with the official rendered symbol cell
+and independently reviewed; this reference profile has completed the comparison step.
 
 The prior validation integration remains available for read-only GIS auditing. It retains the flow
 proposal → preview → approval → execution → revalidation → audit.

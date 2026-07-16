@@ -37,10 +37,11 @@ shows the evidence path when a result or rendered feature is selected.
 
 ## Important research boundary
 
-The PDF text establishes feature code, production stage, geometry category, line/color code,
-instruction, version, and page. The current Canvas glyphs are demonstration implementations based
-on the repository's earlier map, not yet verified facsimiles of the official PDF symbol cells.
-They are labelled **pending visual cartographer sign-off** throughout the graph and demo.
+The source PDF is now locally hashed and pages 11, 50, 60–62, and 69 were rendered and visually
+verified. The original police and hydrant approximations were replaced with open SVG/Canvas
+implementations matching the official crossed-circle and boxed-`火` geometry. Fish, school, and
+post-office geometry and dimensions were also verified. Independent cartographer sign-off remains
+the publication gate; official PDF crops are not redistributed.
 
 Source-derived records and benchmark labels also require independent expert review before
 publication. NMA does not claim autonomous authoritative map production.
@@ -142,6 +143,7 @@ The FOSS4G Hiroshima narrative is in
 data/extraction/portrayal-records.jsonl    reviewed PDF observations
 data/knowledge/portrayal-profile.json      rendering implementation boundary
 data/knowledge/portrayal-graph.json        compiled executable knowledge
+assets/symbols/nlsc112v5.4/               source-hashed, visually verified open SVG symbols
 src/nma/extraction.py                      PDF candidate extraction
 src/nma/knowledge.py                       graph compiler and retrieval
 src/nma/portrayal.py                       agent and MapLibre compiler

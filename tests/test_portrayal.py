@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 from nma.api import get_payload, post_payload
 from nma.extraction import extract_code_anchored_candidates
@@ -82,6 +83,18 @@ def test_maplibre_layers_carry_rule_and_pdf_evidence() -> None:
     assert pond["layout"]["icon-image"] == "waterFishIcon"
     assert pond["metadata"]["nma:evidence"]["page"] == 50
     assert pond["metadata"]["nma:ruleId"].endswith(":9740100")
+
+
+def test_official_symbol_assets_are_source_hashed_and_valid_svg() -> None:
+    directory = ROOT / "assets/symbols/nlsc112v5.4"
+    manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
+    assert manifest["source_sha256"] == (
+        "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620"
+    )
+    assert manifest["symbols"]["9910603"]["shape"] == "circle crossed by two diagonals"
+    assert manifest["symbols"]["9350906"]["shape"] == "boxed Chinese character 火"
+    for svg in sorted(directory.glob("*.svg")):
+        assert ET.parse(svg).getroot().tag.endswith("svg")
 
 
 def test_human_question_portrayal_benchmark_is_answer_key_isolated() -> None:

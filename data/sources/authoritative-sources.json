@@ -8,8 +8,10 @@
       "document_revision": "NLSC112V5.4",
       "effective_date": "2024-02-28",
       "pages_used": [11, 50, 60, 61, 62, 69],
-      "sha256": null,
-      "hash_status": "pending local authoritative PDF copy",
+      "pages": 83,
+      "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+      "hash_status": "verified from user-supplied NMA_OfficialDocuments.zip",
+      "visual_verification_pages": [11, 50, 60, 61, 62, 69],
       "use": "portrayal executable knowledge and NMA-Bench"
     },
     {

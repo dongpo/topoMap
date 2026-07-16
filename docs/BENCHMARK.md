@@ -89,7 +89,7 @@ Publication requires:
 2. disagreements are adjudicated and recorded;
 3. a larger held-out test set is sealed before model/prompt tuning;
 4. named model and PDF-RAG configurations use frozen versions and repeated runs;
-5. symbol-image similarity or cartographer acceptance is added after official glyph extraction;
+5. symbol-image similarity and blind cartographer acceptance are added using the now-verified open implementations;
 6. confidence intervals and error analysis are reported.
 
 ## Reproduce
