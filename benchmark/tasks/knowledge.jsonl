@@ -1,0 +1,7 @@
+{"task_id":"K001","category":"knowledge","input":"What is the official layer identifier for river centrelines?","query":"layer.id","expected":"RIVERL"}
+{"task_id":"K002","category":"knowledge","input":"What geometry class is used by RIVERL?","query":"layer.geometry_type","expected":"LineString"}
+{"task_id":"K003","category":"knowledge","input":"Which CRS profile applies to the mainland RIVERL layer?","query":"layer.crs","expected":"TWD97[2020]_TM121"}
+{"task_id":"K004","category":"knowledge","input":"Which RIVERL fields are required to be populated in this executable profile?","query":"layer.required_fields","expected":["RIVERLID","TERRAINID"]}
+{"task_id":"K005","category":"knowledge","input":"Return the authoritative field names, types, and widths for RIVERL.","query":"layer.field_definitions","expected":[{"field":"RIVERLCODE","type":"String","width":30},{"field":"RIVERLID","type":"String","width":11},{"field":"RIVERLNAME","type":"String","width":60},{"field":"TERRAINID","type":"String","width":8}]}
+{"task_id":"K006","category":"knowledge","input":"Which river-centreline classification codes are accepted by this bounded profile?","query":"domain.TERRAINID","expected":["9510101","9510102","9510103","9510105","9510106"]}
+{"task_id":"K007","category":"knowledge","input":"What is the review status of this machine-readable specification profile?","query":"specification.status","expected":"authoritative-source-derived-expert-review-required"}

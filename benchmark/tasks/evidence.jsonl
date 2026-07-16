@@ -1,0 +1,5 @@
+{"task_id":"E001","category":"evidence_retrieval","input":"Find the rule proving that RIVERL is a line layer.","top_k":1,"expected":["TW-RIVERL-GEOM-001"]}
+{"task_id":"E002","category":"evidence_retrieval","input":"Find the exact evidence for the RIVERLID field name, type, and width.","top_k":1,"expected":["TW-RIVERL-FIELD-001"]}
+{"task_id":"E003","category":"evidence_retrieval","input":"Which rule and page require checking line self-intersection?","top_k":1,"expected":["TW-RIVERL-TOPO-001"]}
+{"task_id":"E004","category":"evidence_retrieval","input":"Which rule addresses extra spaces in attribute values?","top_k":1,"expected":["TW-RIVERL-FORMAT-001"]}
+{"task_id":"E005","category":"evidence_retrieval","input":"Find the source rule for documented river-centreline classification codes.","top_k":1,"expected":["TW-RIVERL-DOMAIN-001"]}

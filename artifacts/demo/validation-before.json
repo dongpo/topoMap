@@ -1,0 +1,175 @@
+{
+  "report_version": "1.0",
+  "generated_at": "2026-07-16T06:18:17.981630+00:00",
+  "dataset": "data/datasets/authoritative/riverl-defective/RIVERL.shp",
+  "layer": "RIVERL",
+  "specification": {
+    "id": "TW-NLSC-5000-RIVERL",
+    "title": "Taiwan 1:5,000 Basic Topographic Map - RIVERL executable profile",
+    "version": "112/114.12.04",
+    "status": "authoritative-source-derived-expert-review-required"
+  },
+  "status": "failed",
+  "summary": {
+    "features": 3,
+    "rules_evaluated": 13,
+    "issues": 4,
+    "errors": 3,
+    "warnings": 1,
+    "safe_repairs_available": 1
+  },
+  "issues": [
+    {
+      "issue_key": "TW-RIVERL-REQUIRED-001|index:1|RIVERLID",
+      "rule_id": "TW-RIVERL-REQUIRED-001",
+      "severity": "error",
+      "feature_id": null,
+      "feature_index": 1,
+      "field": "RIVERLID",
+      "expected": "non-empty string",
+      "actual": null,
+      "message": "A river segment identifier must not be missing or blank.",
+      "repair": {
+        "mode": "none"
+      },
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "(十) GIS圖層 3.(2)",
+        "page": 22,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=22",
+        "excerpt": "圖層架構及屬性資料格式均須檢查。"
+      }
+    },
+    {
+      "issue_key": "TW-RIVERL-DOMAIN-001|index:1|TERRAINID",
+      "rule_id": "TW-RIVERL-DOMAIN-001",
+      "severity": "error",
+      "feature_id": null,
+      "feature_index": 1,
+      "field": "TERRAINID",
+      "expected": [
+        "9510101",
+        "9510102",
+        "9510103",
+        "9510105",
+        "9510106"
+      ],
+      "actual": "9999999",
+      "message": "TERRAINID must use a documented river-centreline classification code.",
+      "repair": {
+        "mode": "proposal",
+        "operation": "review_classification"
+      },
+      "evidence": {
+        "document": "臺灣通用電子地圖圖層內容說明",
+        "version": "114.12.04",
+        "section": "三、水系 (二)河川中線",
+        "page": 9,
+        "uri": "https://drive.google.com/file/d/1vKllgEpWFH9-WDagkrVkDtGCf44-m4gj/view#page=9",
+        "excerpt": "河川類型列出 9510101、02、03、05、06。"
+      }
+    },
+    {
+      "issue_key": "TW-RIVERL-TOPO-001|J0000000003@index:2|-",
+      "rule_id": "TW-RIVERL-TOPO-001",
+      "severity": "error",
+      "feature_id": "J0000000003",
+      "feature_index": 2,
+      "field": null,
+      "expected": "simple LineString",
+      "actual": "self-intersection",
+      "message": "River centreline geometry must not self-intersect.",
+      "repair": {
+        "mode": "proposal",
+        "operation": "review_geometry"
+      },
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "(十) GIS圖層 3.(2)B(d)",
+        "page": 22,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=22",
+        "excerpt": "空間位相關係應檢查線自我相交。"
+      }
+    },
+    {
+      "issue_key": "TW-RIVERL-FORMAT-001|index:1|RIVERLNAME",
+      "rule_id": "TW-RIVERL-FORMAT-001",
+      "severity": "warning",
+      "feature_id": null,
+      "feature_index": 1,
+      "field": "RIVERLNAME",
+      "expected": "示範排水",
+      "actual": "　示範排水　",
+      "message": "River names should not contain leading or trailing spaces.",
+      "repair": {
+        "mode": "safe",
+        "operation": "trim"
+      },
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "(十) GIS圖層 3.(2)B(e)",
+        "page": 22,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=22",
+        "excerpt": "屬性資料格式應檢查多餘空格。"
+      }
+    }
+  ],
+  "provenance": {
+    "engine": "nma.validator/0.2.0",
+    "deterministic": true,
+    "specification_source": "data/specifications/taiwan-5000-riverl-112.json",
+    "geospatial_inspector": "GDAL 3.11.0 \"Eganville\", released 2025/05/06",
+    "geospatial_inspector_available": true
+  },
+  "dataset_inspection": {
+    "available": true,
+    "engine": "GDAL 3.11.0 \"Eganville\", released 2025/05/06",
+    "driver": "ESRI Shapefile",
+    "layer": "RIVERL",
+    "feature_count": 3,
+    "geometry_type": "LineString",
+    "extent": [
+      250000.0,
+      2739800.0,
+      250200.0,
+      2740100.0
+    ],
+    "crs": "EPSG:3826",
+    "crs_name": "TWD97 / TM2 zone 121",
+    "crs_wkt": "PROJCRS[\"TWD97 / TM2 zone 121\",\n    BASEGEOGCRS[\"TWD97\",\n        DATUM[\"Taiwan Datum 1997\",\n            ELLIPSOID[\"GRS 1980\",6378137,298.257222101,\n                LENGTHUNIT[\"metre\",1]]],\n        PRIMEM[\"Greenwich\",0,\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        ID[\"EPSG\",3824]],\n    CONVERSION[\"Taiwan 2-degree TM zone 121\",\n        METHOD[\"Transverse Mercator\",\n            ID[\"EPSG\",9807]],\n        PARAMETER[\"Latitude of natural origin\",0,\n            ANGLEUNIT[\"degree\",0.0174532925199433],\n            ID[\"EPSG\",8801]],\n        PARAMETER[\"Longitude of natural origin\",121,\n            ANGLEUNIT[\"degree\",0.0174532925199433],\n            ID[\"EPSG\",8802]],\n        PARAMETER[\"Scale factor at natural origin\",0.9999,\n            SCALEUNIT[\"unity\",1],\n            ID[\"EPSG\",8805]],\n        PARAMETER[\"False easting\",250000,\n            LENGTHUNIT[\"metre\",1],\n            ID[\"EPSG\",8806]],\n        PARAMETER[\"False northing\",0,\n            LENGTHUNIT[\"metre\",1],\n            ID[\"EPSG\",8807]]],\n    CS[Cartesian,2],\n        AXIS[\"easting (X)\",east,\n            ORDER[1],\n            LENGTHUNIT[\"metre\",1]],\n        AXIS[\"northing (Y)\",north,\n            ORDER[2],\n            LENGTHUNIT[\"metre\",1]],\n    USAGE[\n        SCOPE[\"Engineering survey, topographic mapping.\"],\n        AREA[\"Taiwan, Republic of China - between 120°E and 122°E, onshore and offshore - Taiwan Island.\"],\n        BBOX[20.41,119.99,26.72,122.06]],\n    ID[\"EPSG\",3826]]",
+    "fields": [
+      {
+        "name": "RIVERLID",
+        "type": "String",
+        "width": 11,
+        "nullable": true,
+        "uniqueConstraint": false
+      },
+      {
+        "name": "TERRAINID",
+        "type": "String",
+        "width": 8,
+        "nullable": true,
+        "uniqueConstraint": false
+      },
+      {
+        "name": "RIVERLCODE",
+        "type": "String",
+        "width": 30,
+        "nullable": true,
+        "uniqueConstraint": false
+      },
+      {
+        "name": "RIVERLNAME",
+        "type": "String",
+        "width": 60,
+        "nullable": true,
+        "uniqueConstraint": false
+      }
+    ],
+    "read_only": true
+  }
+}

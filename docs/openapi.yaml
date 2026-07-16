@@ -1,0 +1,42 @@
+openapi: 3.1.0
+info:
+  title: National Map Agent reference API
+  version: 0.2.0
+  description: Dependency-free demonstration boundary; localhost use only.
+paths:
+  /health:
+    get:
+      responses:
+        "200":
+          description: Service health
+  /v1/specification:
+    get:
+      responses:
+        "200":
+          description: Active machine-readable specification
+  /v1/rules:
+    get:
+      responses:
+        "200":
+          description: Executable rules and evidence
+  /v1/validate:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/geo+json:
+            schema:
+              type: object
+              required: [type, features]
+              properties:
+                type: {const: FeatureCollection}
+                features: {type: array}
+      responses:
+        "200":
+          description: Deterministic validation report
+          content:
+            application/json:
+              schema:
+                $ref: ../schemas/validation-report.schema.json
+        "400":
+          description: Invalid request

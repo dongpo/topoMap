@@ -1,0 +1,13 @@
+<OGRVRTDataSource>
+  <OGRVRTLayer name="RIVERL">
+    <SrcDataSource relativeToVRT="1">source.csv</SrcDataSource>
+    <SrcLayer>source</SrcLayer>
+    <GeometryType>wkbLineString</GeometryType>
+    <LayerSRS>EPSG:4326</LayerSRS>
+    <GeometryField encoding="WKT" field="WKT"/>
+    <Field name="RIVERLID" src="RIVERLID" type="String" width="11"/>
+    <Field name="TERRAINID" src="TERRAINID" type="String" width="8"/>
+    <Field name="RIVERLCODE" src="RIVERLCODE" type="String" width="30"/>
+    <Field name="RIVERLNAME" src="RIVERLNAME" type="String" width="60"/>
+  </OGRVRTLayer>
+</OGRVRTDataSource>

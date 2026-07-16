@@ -1,3 +1,89 @@
-<html>
-  <p>test</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="National Map Agent v0.2: open, specification-aware geospatial validation and benchmark.">
+  <title>National Map Agent v0.2</title>
+  <style>
+    :root { --ink:#10251f; --muted:#52645f; --paper:#f5f8f4; --card:#fff; --green:#0b6b4f; --lime:#b6df72; --line:#dce6df; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.6 ui-sans-serif,system-ui,-apple-system,sans-serif; }
+    a { color:var(--green); }
+    .hero { background:linear-gradient(135deg,#092e26,#0b6b4f); color:white; padding:76px 6vw 64px; }
+    .hero-inner,main { max-width:1120px; margin:auto; }
+    .eyebrow { color:var(--lime); font-weight:800; letter-spacing:.12em; text-transform:uppercase; font-size:.78rem; }
+    h1 { font-size:clamp(2.6rem,6vw,5.7rem); line-height:.94; margin:.28em 0; max-width:850px; letter-spacing:-.055em; }
+    .lead { max-width:760px; color:#d8ede5; font-size:1.2rem; }
+    .actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }
+    .button { display:inline-block; padding:12px 17px; border-radius:9px; background:var(--lime); color:#10251f; text-decoration:none; font-weight:800; }
+    .button.secondary { background:transparent; color:white; border:1px solid #7cbba7; }
+    main { padding:44px 22px 80px; }
+    .notice { border-left:5px solid #df9f2f; background:#fff7e6; padding:16px 18px; border-radius:7px; }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin:30px 0; }
+    .card { background:var(--card); border:1px solid var(--line); padding:22px; border-radius:14px; box-shadow:0 5px 20px #173d2d0b; }
+    .card h2 { margin-top:0; font-size:1.2rem; }
+    .metric { font-size:2.2rem; font-weight:850; letter-spacing:-.04em; color:var(--green); }
+    table { width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden; }
+    th,td { text-align:left; padding:12px 14px; border-bottom:1px solid var(--line); }
+    th { color:var(--muted); font-size:.82rem; text-transform:uppercase; letter-spacing:.06em; }
+    footer { color:var(--muted); margin-top:46px; }
+    @media(max-width:780px) { .grid { grid-template-columns:1fr; } .hero { padding-top:50px; } }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Open geospatial research prototype</div>
+      <h1>National Map Agent v0.2</h1>
+      <p class="lead">From official specification pages to deterministic Shapefile validation,
+        traceable evidence, human-controlled repair, and a reproducible benchmark.</p>
+      <div class="actions">
+        <a class="button" href="artifacts/demo/validation-before.html">Open validation demo</a>
+        <a class="button secondary" href="https://github.com/dongpo/topoMap">Source and reproduction</a>
+        <a class="button secondary" href="pmtilesDemo.html">Existing PMTiles demo</a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <p class="notice"><strong>Research boundary:</strong> the executable RIVERL profile is derived
+      from cited official pages, but its interpretation and benchmark labels remain pending expert
+      sign-off. NMA v0.2 does not claim autonomous authoritative map production.</p>
+
+    <section class="grid" aria-label="Project evidence">
+      <article class="card"><div class="metric">13</div><h2>Executable rules</h2><p>CRS, geometry,
+        exact field definitions, required values, classification, topology, and formatting.</p></article>
+      <article class="card"><div class="metric">31</div><h2>Frozen benchmark tasks</h2><p>Knowledge,
+        evidence, version awareness, tool choice, Shapefile validation, and safety.</p></article>
+      <article class="card"><div class="metric">1</div><h2>Approved repair</h2><p>Only a safe whitespace
+        normalization is executed; identity, code, and topology remain human decisions.</p></article>
+    </section>
+
+    <section class="card">
+      <h2>NMA-Bench v0.1 smoke controls</h2>
+      <table>
+        <thead><tr><th>Configuration</th><th>Accuracy</th><th>Provenance</th></tr></thead>
+        <tbody>
+          <tr><td>Ungrounded offline proxy</td><td>0.226</td><td>0.000</td></tr>
+          <tr><td>Document retrieval proxy</td><td>0.290</td><td>0.000</td></tr>
+          <tr><td>Structured retrieval</td><td>0.645</td><td>0.812</td></tr>
+          <tr><td>Full deterministic NMA</td><td>1.000</td><td>1.000</td></tr>
+        </tbody>
+      </table>
+      <p>These are architecture/harness checks, not named-LLM performance results.</p>
+    </section>
+
+    <section class="grid">
+      <article class="card"><h2>Specification aware</h2><p>Every finding includes document,
+        version, section, page, source URL, expected value, and observed value.</p></article>
+      <article class="card"><h2>FOSS4G native</h2><p>Apache-2.0 Python, GDAL/OGR, Shapefile,
+        GeoJSON, Docker, CI, OpenAPI, and transparent fixture generation.</p></article>
+      <article class="card"><h2>Framework independent</h2><p>Agent runtimes remain replaceable;
+        geospatial truth, provenance, and approval live in the NMA core.</p></article>
+    </section>
+
+    <footer>Prepared for FOSS4G Hiroshima 2026. Existing map demos remain available as
+      <a href="MapOutputDemo.html">MapOutputDemo</a> and <a href="pmtilesDemo.html">PMTiles demo</a>.</footer>
+  </main>
+</body>
 </html>

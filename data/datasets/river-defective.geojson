@@ -1,0 +1,11 @@
+{
+  "type": "FeatureCollection",
+  "name": "J01_RIVERL",
+  "nma:crs": "OGC:CRS84",
+  "nma:specification_version": "2023",
+  "features": [
+    {"type": "Feature", "properties": {"feature_id": "R001", "name": "Blue River ", "river_class": "primary"}, "geometry": {"type": "LineString", "coordinates": [[121.50, 25.00], [121.51, 25.01], [121.525, 25.015]]}},
+    {"type": "Feature", "properties": {"feature_id": null, "name": "East Creek", "river_class": "canal"}, "geometry": {"type": "Point", "coordinates": [121.53, 25.00]}},
+    {"type": "Feature", "properties": {"feature_id": "R001", "name": null, "river_class": "secondary"}, "geometry": {"type": "LineString", "coordinates": [[121.50, 24.99], [121.52, 25.01], [121.50, 25.01], [121.52, 24.99]]}}
+  ]
+}

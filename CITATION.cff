@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use NMA-Bench or this reference architecture, please cite this software."
+title: "National Map Agent v0.2 Reference Slice and NMA-Bench v0.1"
+type: software
+version: 0.2.0
+date-released: 2026-07-15
+license: Apache-2.0
+authors:
+  - family-names: Deng
+    given-names: Dongpo
+keywords:
+  - national mapping
+  - GeoAI
+  - FOSS4G
+  - benchmark

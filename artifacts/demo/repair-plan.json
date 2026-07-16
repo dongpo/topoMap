@@ -1,0 +1,26 @@
+{
+  "approved": true,
+  "repairs": [
+    {
+      "issue_key": "TW-RIVERL-DOMAIN-001|index:1|TERRAINID",
+      "rule_id": "TW-RIVERL-DOMAIN-001",
+      "mode": "proposal",
+      "operation": "review_classification",
+      "requires_approval": true
+    },
+    {
+      "issue_key": "TW-RIVERL-TOPO-001|J0000000003@index:2|-",
+      "rule_id": "TW-RIVERL-TOPO-001",
+      "mode": "proposal",
+      "operation": "review_geometry",
+      "requires_approval": true
+    },
+    {
+      "issue_key": "TW-RIVERL-FORMAT-001|index:1|RIVERLNAME",
+      "rule_id": "TW-RIVERL-FORMAT-001",
+      "mode": "safe",
+      "operation": "trim",
+      "requires_approval": true
+    }
+  ]
+}
