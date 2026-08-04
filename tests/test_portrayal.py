@@ -69,6 +69,55 @@ def test_agent_applies_post_office_exception_and_abstains_on_wrong_scale() -> No
     assert agent.select_symbol("9950201", scale_denominator=5000).status == "abstain"
 
 
+def test_five_scene_rules_expose_explicit_outputs_and_evidence() -> None:
+    agent = PortrayalAgent(PortrayalGraph.load(GRAPH_PATH))
+    expected = {
+        "9350906": ("消防栓", "fire-hydrant", "symbol", 11),
+        "9740100": ("養殖池", "fish-pond", "fill", 50),
+        "9910603": ("警察局、分駐所、派出所", "police", "symbol", 60),
+        "9920103": ("小學", "school", "symbol", 61),
+        "9950201": ("郵局", "post", "symbol", 69),
+    }
+
+    for code, (name, symbol_id, maplibre_type, page) in expected.items():
+        decision = agent.select_symbol(code)
+        assert decision.status == "selected"
+        assert decision.feature_code == code
+        assert decision.feature_name == name
+        assert decision.symbol["symbol_id"] == symbol_id
+        assert decision.symbol["maplibre_type"] == maplibre_type
+        assert decision.symbol["selected_action"] == "draw_symbol"
+        assert decision.rule["scale_denominator"] == 1000
+        assert decision.rule["source_layers"]
+        assert decision.evidence["page"] == page
+        assert decision.evidence["source_sha256"]
+        assert decision.evidence["review_status"] == "human-review-required"
+        assert decision.graph_path["nodes"]
+        assert decision.graph_path["edges"]
+        assert decision.reason
+
+
+def test_unsupported_portrayal_contexts_fail_explicitly_without_partial_outputs() -> None:
+    agent = PortrayalAgent(PortrayalGraph.load(GRAPH_PATH))
+    cases = [
+        (
+            agent.select_symbol("9950201", profile_id="unknown-profile"),
+            "abstain",
+            "not loaded",
+        ),
+        (agent.select_symbol("9950201", scale_denominator=5000), "abstain", "No reviewed"),
+        (agent.select_symbol("9999999"), "not_found", "No feature"),
+    ]
+
+    for decision, status, reason_fragment in cases:
+        assert decision.status == status
+        assert decision.symbol is None
+        assert decision.rule is None
+        assert decision.evidence is None
+        assert decision.graph_path is None
+        assert reason_fragment in decision.reason
+
+
 def test_maplibre_layers_carry_rule_and_pdf_evidence() -> None:
     layers = compile_maplibre_layers(PortrayalGraph.load(GRAPH_PATH))
     pond = next(
