@@ -61,6 +61,45 @@ def test_graphrag_answers_human_question_and_returns_governance_path() -> None:
     ]
 
 
+def test_five_scene_golden_queries_return_grounded_graph_evidence() -> None:
+    agent = PortrayalAgent(PortrayalGraph.load(GRAPH_PATH))
+    cases = [
+        ("消防栓的地形代碼是什麼？", ["9350906"], [11]),
+        ("養殖池的圖式規則在 PDF 哪一頁？", ["9740100"], [50]),
+        ("警察局、分駐所、派出所的代碼是什麼？", ["9910603"], [60]),
+        ("依 NLSC112V5.4，小學的代碼是什麼？", ["9920103"], [61]),
+        ("大型獨幢郵局有什麼圖式例外？", ["9950201"], [69]),
+    ]
+    required_edges = {"PORTRAYED_BY", "USES_SYMBOL", "SUPPORTED_BY", "EVIDENCED_ON"}
+
+    for question, codes, pages in cases:
+        answer = agent.answer(question)
+        assert answer["status"] == "answered"
+        assert answer["feature_codes"] == codes
+        assert [evidence["page"] for evidence in answer["evidence"]] == pages
+        for evidence in answer["evidence"]:
+            assert evidence["uri"]
+            assert evidence["source_sha256"]
+            assert evidence["review_status"] == "human-review-required"
+        for path in answer["graph_paths"]:
+            assert all(
+                node.startswith(("feature:", "rule:", "symbol:", "observation:", "section:"))
+                for node in path["nodes"]
+            )
+            assert required_edges <= {edge["type"] for edge in path["edges"]}
+
+
+def test_graphrag_abstains_without_evidence_when_no_feature_matches() -> None:
+    answer = PortrayalAgent(PortrayalGraph.load(GRAPH_PATH)).answer("火車站應使用哪一個符號？")
+    assert answer == {
+        "status": "abstain",
+        "answer": "The loaded portrayal knowledge does not contain a matching feature.",
+        "feature_codes": [],
+        "evidence": [],
+        "graph_paths": [],
+    }
+
+
 def test_agent_applies_post_office_exception_and_abstains_on_wrong_scale() -> None:
     agent = PortrayalAgent(PortrayalGraph.load(GRAPH_PATH))
     exception = agent.select_symbol("9950201", attributes={"large_detached_building": True})

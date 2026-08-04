@@ -56,6 +56,31 @@ An LLM can be added as a multilingual intent adapter, but the graph decision and
 not depend on it. Agno, OpenAI Agents SDK, LangGraph, MCP, or QGIS may call the same APIs without
 owning the executable knowledge.
 
+## RC1 GraphRAG retrieval contract
+
+RC1 uses deterministic lexical entity retrieval followed by typed property-graph traversal. It is
+deliberately smaller than a general semantic or embedding-based GraphRAG system:
+
+```text
+human question or feature code
+  -> exact seven-digit code match, or longest feature name/alias substring
+  -> ranked FeatureType nodes
+  -> PORTRAYED_BY / USES_SYMBOL / SUPPORTED_BY / EVIDENCED_ON traversal
+  -> profile, scale and attribute constraints
+  -> answer or structured portrayal decision with evidence and graph IDs
+```
+
+The core retrieval path has no model prompt. This keeps the golden-query result deterministic and
+makes the graph, not generated text, the authority. The optional OpenAI-compatible benchmark
+adapter contains the versioned `openai-compatible/1.0` system prompt for experiments with a local
+model; it is not a correctness dependency for the RC1 demo.
+
+RC1 does not emit a synthetic numeric confidence score. A direct code/name/alias match returns the
+ranked graph evidence. If no feature matches, the system returns `abstain` with empty feature,
+evidence and graph-path arrays. Unsupported profile or scale also abstains before a rule is used.
+The response exposes document URI, version, page, source text, source hash, review status, rule ID
+and graph node/edge identifiers so the user can inspect the grounding directly.
+
 ## Portable graph and future Neo4j adapter
 
 The checked-in graph is a portable property-graph export (`nodes`, `edges`, `properties`). It is
