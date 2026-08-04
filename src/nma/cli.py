@@ -62,9 +62,7 @@ def _parser() -> argparse.ArgumentParser:
     compile_graph = sub.add_parser(
         "compile-knowledge", help="compile reviewed PDF records into executable graph knowledge"
     )
-    compile_graph.add_argument(
-        "--records", default="data/extraction/portrayal-records.jsonl"
-    )
+    compile_graph.add_argument("--records", default="data/extraction/portrayal-records.jsonl")
     compile_graph.add_argument("--profile", default="data/knowledge/portrayal-profile.json")
     compile_graph.add_argument("--out", default="data/knowledge/portrayal-graph.json")
 
@@ -125,9 +123,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.command == "compile-knowledge":
-        graph = compile_portrayal_graph(
-            resolve_asset(args.records), resolve_asset(args.profile)
-        )
+        graph = compile_portrayal_graph(resolve_asset(args.records), resolve_asset(args.profile))
         dump_json(graph, args.out)
         print(
             f"Compiled {graph['statistics']['observations']} reviewed PDF observations into "

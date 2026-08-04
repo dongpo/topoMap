@@ -55,7 +55,9 @@ class PDFSearch:
                 "graph_paths": [],
             }
         if "頁" in question or "page" in question:
-            answer = "；".join(f"{record['feature_name']}: page {record['page']}" for record in matches)
+            answer = "；".join(
+                f"{record['feature_name']}: page {record['page']}" for record in matches
+            )
         elif any(term in question for term in ("大型", "獨幢", "例外", "exception")):
             answer = "；".join(record["instruction"] for record in matches)
         else:
@@ -136,7 +138,9 @@ def _score(expected: dict[str, Any], actual: Any, task_type: str) -> float:
         return float(
             actual.get("status") == expected["status"]
             and sorted(actual.get("feature_codes", [])) == sorted(expected["feature_codes"])
-            and all(fragment in actual.get("answer", "") for fragment in expected["answer_contains"])
+            and all(
+                fragment in actual.get("answer", "") for fragment in expected["answer_contains"]
+            )
         )
     if task_type == "symbol_decision":
         if actual.get("status") != expected["status"]:

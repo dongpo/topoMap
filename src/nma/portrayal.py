@@ -86,9 +86,7 @@ class PortrayalAgent:
             )
         by_type = {node["type"]: node for node in path.nodes}
         feature = by_type["FeatureType"]["properties"]
-        rule = by_type["PortrayalRule"]["properties"] | {
-            "rule_id": by_type["PortrayalRule"]["id"]
-        }
+        rule = by_type["PortrayalRule"]["properties"] | {"rule_id": by_type["PortrayalRule"]["id"]}
         symbol = by_type["Symbol"]["properties"]
         section = by_type["DocumentSection"]["properties"]
         observation = by_type["SourceObservation"]["properties"]
@@ -156,8 +154,7 @@ class PortrayalAgent:
             )
         else:
             answer = "；".join(
-                f"{decision.feature_name} ({decision.feature_code}), "
-                f"{decision.rule['instruction']}"
+                f"{decision.feature_name} ({decision.feature_code}), {decision.rule['instruction']}"
                 for decision in decisions
                 if decision.rule
             )

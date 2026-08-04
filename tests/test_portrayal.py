@@ -63,9 +63,7 @@ def test_graphrag_answers_human_question_and_returns_governance_path() -> None:
 
 def test_agent_applies_post_office_exception_and_abstains_on_wrong_scale() -> None:
     agent = PortrayalAgent(PortrayalGraph.load(GRAPH_PATH))
-    exception = agent.select_symbol(
-        "9950201", attributes={"large_detached_building": True}
-    )
+    exception = agent.select_symbol("9950201", attributes={"large_detached_building": True})
     assert exception.symbol["selected_action"] == "text_only"
     assert exception.evidence["page"] == 69
     assert agent.select_symbol("9950201", scale_denominator=5000).status == "abstain"
@@ -109,9 +107,7 @@ def test_human_question_portrayal_benchmark_is_answer_key_isolated() -> None:
 
 
 def test_portrayal_agent_api_endpoints() -> None:
-    specification = Specification.load(
-        ROOT / "data/specifications/taiwan-5000-riverl-112.json"
-    )
+    specification = Specification.load(ROOT / "data/specifications/taiwan-5000-riverl-112.json")
     graph = PortrayalGraph.load(GRAPH_PATH)
     status, answer = post_payload(
         specification, "/v1/agent/ask", {"question": "消防栓的代碼？"}, graph

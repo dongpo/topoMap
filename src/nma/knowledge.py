@@ -43,9 +43,7 @@ def compile_portrayal_graph(records_path: Path, profile_path: Path) -> dict[str,
                 "scale_denominator": profile["scale_denominator"],
                 "effective_date": records[0]["effective_date"],
                 "profile_id": profile["profile_id"],
-                "source_verification_date": profile.get("source", {}).get(
-                    "verification_date"
-                ),
+                "source_verification_date": profile.get("source", {}).get("verification_date"),
             },
         },
     ]
