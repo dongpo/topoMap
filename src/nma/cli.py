@@ -17,6 +17,7 @@ from .versioning import compare_specifications
 from .extraction import extract_pdf_candidates, write_jsonl
 from .knowledge import PortrayalGraph, compile_portrayal_graph
 from .portrayal import PortrayalAgent, compile_maplibre_layers
+from .demo_contract import check_demo_contract, reset_demo_contract
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -80,6 +81,12 @@ def _parser() -> argparse.ArgumentParser:
     style = sub.add_parser("compile-style", help="compile graph rules to MapLibre style layers")
     style.add_argument("--graph", default="data/knowledge/portrayal-graph.json")
     style.add_argument("--out", default="artifacts/portrayal/maplibre-layers.json")
+
+    demo_scenes = sub.add_parser(
+        "demo-scenes", help="check or reset the frozen five-scene RC1 demo contract"
+    )
+    demo_scenes.add_argument("--contract", default="data/demo/five-scene-demo.json")
+    demo_scenes.add_argument("--reset", action="store_true")
     return parser
 
 
@@ -153,6 +160,13 @@ def main(argv: list[str] | None = None) -> int:
         layers = compile_maplibre_layers(graph)
         dump_json({"version": 8, "layers": layers}, args.out)
         print(f"Compiled {len(layers)} evidence-bearing MapLibre layers.")
+        return 0
+
+    if args.command == "demo-scenes":
+        result = (
+            reset_demo_contract(args.contract) if args.reset else check_demo_contract(args.contract)
+        )
+        print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
 
     if args.command == "validate":

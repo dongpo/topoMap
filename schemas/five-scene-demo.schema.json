@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/nma/five-scene-demo.schema.json",
+  "title": "NMA RC1 five-scene demo contract",
+  "type": "object",
+  "required": ["contract_version", "profile", "shared", "scenes", "negative_control", "runbook"],
+  "properties": {
+    "contract_version": {"const": "1.0"},
+    "profile": {
+      "type": "object",
+      "required": ["id", "version", "scale_denominator"],
+      "properties": {
+        "id": {"type": "string"},
+        "version": {"type": "string"},
+        "scale_denominator": {"const": 1000}
+      },
+      "additionalProperties": false
+    },
+    "shared": {"type": "object"},
+    "scenes": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["id", "order", "prompt", "input", "expected", "time_budget_seconds"]
+      }
+    },
+    "negative_control": {"type": "object"},
+    "runbook": {"type": "object"}
+  },
+  "additionalProperties": true
+}

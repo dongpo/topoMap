@@ -84,6 +84,20 @@ nma extract-portrayal \
 Candidate records are explicitly marked `candidate-not-executable`. Only reviewed records in
 `data/extraction/portrayal-records.jsonl` are compiled.
 
+## Frozen five-scene demo
+
+The RC1 school, fire-hydrant, police, fish-pond, and post-office sequence is frozen as one executable
+data contract. Check the exact inputs, outputs, evidence fields, map layers, paths, licences, and
+timing with:
+
+```bash
+make demo-scenes
+```
+
+Use `make demo-reset` to deterministically rebuild the shared graph and MapLibre style before a
+rehearsal. See [`docs/FIVE-SCENE-DEMO.md`](docs/FIVE-SCENE-DEMO.md) for the five-minute script and
+setup procedure.
+
 ## NMA-Bench v0.1
 
 The primary benchmark now matches the questions a cartographer or mapping-authority analyst asks:
@@ -143,12 +157,14 @@ The FOSS4G Hiroshima narrative is in
 data/extraction/portrayal-records.jsonl    reviewed PDF observations
 data/knowledge/portrayal-profile.json      rendering implementation boundary
 data/knowledge/portrayal-graph.json        compiled executable knowledge
+data/demo/five-scene-demo.json             frozen scene inputs, outputs and shared data contract
 assets/symbols/nlsc112v5.4/               source-hashed, visually verified open SVG symbols
 src/nma/extraction.py                      PDF candidate extraction
 src/nma/knowledge.py                       graph compiler and retrieval
 src/nma/portrayal.py                       agent and MapLibre compiler
 benchmark/portrayal/                       questions and separate ground truth
 nmaAgentDemo.html                          PMTiles map + question/evidence UI
+docs/FIVE-SCENE-DEMO.md                    deterministic setup, reset and live runbook
 artifacts/portrayal/maplibre-layers.json   reproducibly generated evidence-bearing styles
 ```
 

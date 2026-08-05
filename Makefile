@@ -1,4 +1,4 @@
-.PHONY: test demo bench bench-models verify
+.PHONY: test demo demo-scenes demo-reset bench bench-models verify
 
 test:
 	PYTHONPATH=src python3 -m pytest -q
@@ -7,6 +7,12 @@ test:
 
 demo:
 	PYTHONPATH=src python3 -m nma.cli demo --approve-safe-repairs
+
+demo-scenes:
+	PYTHONPATH=src python3 -m nma.cli demo-scenes
+
+demo-reset:
+	PYTHONPATH=src python3 -m nma.cli demo-scenes --reset
 
 bench:
 	PYTHONPATH=src python3 -m nma.bench --root .
