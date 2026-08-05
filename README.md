@@ -15,7 +15,8 @@ verified; public GitHub Pages deployment remains a separate, human-approved rele
 [RC1 evidence](docs/STABLE-DEMO-RC1.md) · [Architecture](docs/ARCHITECTURE.md) ·
 [Conference narrative](docs/FIVE-SCENE-NARRATIVE.md) ·
 [D20 review package](release/review-package/README.md) ·
-[Presentation v0.9](artifacts/presentation/nma-foss4g-presentation-v0.9.pptx)
+[Presentation v0.9](artifacts/presentation/nma-foss4g-presentation-v0.9.pptx) ·
+[D21 public-assets RC](docs/PUBLIC-ASSETS-RC1.md)
 
 ## Five scenes, five agent capabilities
 
@@ -223,6 +224,16 @@ See the [review-package README](release/review-package/README.md),
 [dataset record](release/review-package/DATASET.md),
 [portable ZIP](artifacts/release/nma-v0.2-review-package.zip), and
 [machine-readable verification](artifacts/release/nma-v0.2-review-package-verification.json).
+
+## D21 public-assets freeze
+
+`make public-assets-rc` freezes and verifies the repository, bounded public website artifact,
+runnable review package, and presentation RC against Stable Demo RC1. The Pages artifact is
+evidence-only and explicitly excludes the PMTiles archive while its redistribution terms remain
+unconfirmed. See the [D21 release-candidate audit](docs/PUBLIC-ASSETS-RC1.md).
+
+The current live Pages site is still the old main-branch placeholder; deployment remains a
+blocking, human-approved release step rather than an implied consequence of repository readiness.
 
 ## Public entry points
 

@@ -1,9 +1,9 @@
-.PHONY: test demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-rc1 demo-reset bench bench-models review-package verify
+.PHONY: test demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-rc1 demo-reset bench bench-models review-package public-assets-rc verify
 
 test:
 	PYTHONPATH=src python3 -m pytest -q
-	ruff check src tests benchmark/adapters
-	ruff format --check src tests benchmark/adapters
+	ruff check src tests benchmark/adapters scripts
+	ruff format --check src tests benchmark/adapters scripts
 
 demo:
 	PYTHONPATH=src python3 -m nma.cli demo --approve-safe-repairs
@@ -38,5 +38,8 @@ bench-models:
 
 review-package:
 	python3 scripts/build_review_package.py
+
+public-assets-rc:
+	PYTHONPATH=src python3 scripts/check_public_assets_rc.py --verify-install
 
 verify: test demo bench

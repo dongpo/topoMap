@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/nma/public-assets-rc.schema.json",
+  "title": "NMA public-assets release candidate",
+  "type": "object",
+  "required": [
+    "release_version",
+    "status",
+    "source",
+    "website",
+    "frozen_assets",
+    "install_and_demo_contract",
+    "blocking_defects",
+    "deferred_defects",
+    "post_freeze_policy"
+  ],
+  "properties": {
+    "release_version": {"type": "string"},
+    "status": {"const": "release-candidate"},
+    "source": {"type": "object"},
+    "website": {"type": "object"},
+    "frozen_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "path", "sha256"],
+        "properties": {
+          "role": {"type": "string"},
+          "path": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "install_and_demo_contract": {"type": "object"},
+    "blocking_defects": {"type": "array"},
+    "deferred_defects": {"type": "array"},
+    "post_freeze_policy": {"type": "object"}
+  }
+}
