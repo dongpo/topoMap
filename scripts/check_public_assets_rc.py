@@ -129,7 +129,16 @@ def check_public_assets_rc(manifest_path: Path, *, verify_install: bool = False)
     expect(manifest["status"], "release-candidate", "release status")
     expect(manifest["source"]["stable_demo_release"], "nma-demo-v0.2-rc1", "stable release")
     expect(manifest["website"]["public_mode"], "evidence-only", "public website mode")
-    expect(manifest["website"]["deployment_state"], "approval-required", "deployment state")
+    expect(manifest["website"]["deployment_state"], "deployed", "deployment state")
+    deployment = manifest["website"]["deployment_evidence"]
+    expect(deployment["run_id"], 31019900015, "Pages deployment run")
+    expect(
+        deployment["head_sha"],
+        "60eb2857b1ff14b0baa51732373ca5c8b697c1c3",
+        "Pages deployment commit",
+    )
+    if not deployment["artifact_digest"].startswith("sha256:"):
+        raise ValueError("Pages artifact digest must be SHA-256")
     expect(
         manifest["post_freeze_policy"]["allowed_categories"],
         EXPECTED_ALLOWED_CHANGES,
@@ -198,11 +207,14 @@ def check_public_assets_rc(manifest_path: Path, *, verify_install: bool = False)
         image_count = sum(item["image_count"] for item in public_site["link_checks"])
 
     blocking = manifest["blocking_defects"]
+    resolved = manifest["resolved_defects"]
     deferred = manifest["deferred_defects"]
     if any(item["classification"] != "blocking" for item in blocking):
         raise ValueError("blocking defects must be explicitly classified")
     if any(item["classification"] != "deferred" for item in deferred):
         raise ValueError("deferred defects must be explicitly classified")
+    if any(item["classification"] != "resolved" for item in resolved):
+        raise ValueError("resolved defects must be explicitly classified")
 
     install_rehearsal = (
         check_clean_install() if verify_install else {"status": "not-run", "scene_count": None}
@@ -223,6 +235,7 @@ def check_public_assets_rc(manifest_path: Path, *, verify_install: bool = False)
         "public_mode": manifest["website"]["public_mode"],
         "public_deployment": manifest["website"]["deployment_state"],
         "blocking_defect_count": len(blocking),
+        "resolved_defect_count": len(resolved),
         "deferred_defect_count": len(deferred),
         "post_freeze_categories": manifest["post_freeze_policy"]["allowed_categories"],
     }

@@ -22,8 +22,9 @@
     "file_count": 31
   },
   "public_mode": "evidence-only",
-  "public_deployment": "approval-required",
-  "blocking_defect_count": 1,
+  "public_deployment": "deployed",
+  "blocking_defect_count": 0,
+  "resolved_defect_count": 1,
   "deferred_defect_count": 3,
   "post_freeze_categories": [
     "correctness",

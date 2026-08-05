@@ -47,7 +47,8 @@ def test_d19_readme_exposes_reproducible_public_entry_point() -> None:
         assert heading in text
     for command in ("git switch codex/nma-v0.2-authoritative", "make demo-reset", "make demo-rc1"):
         assert command in text
-    assert "Not released until merge/deploy approval" in text
+    assert "Public RC1" in text
+    assert "evidence-only mode" in text
 
 
 def test_d19_landing_links_and_assets_resolve() -> None:

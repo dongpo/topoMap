@@ -11,6 +11,7 @@
     "frozen_assets",
     "install_and_demo_contract",
     "blocking_defects",
+    "resolved_defects",
     "deferred_defects",
     "post_freeze_policy"
   ],
@@ -33,6 +34,7 @@
     },
     "install_and_demo_contract": {"type": "object"},
     "blocking_defects": {"type": "array"},
+    "resolved_defects": {"type": "array"},
     "deferred_defects": {"type": "array"},
     "post_freeze_policy": {"type": "object"}
   }

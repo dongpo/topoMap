@@ -17,10 +17,18 @@
     "builder": "scripts/build_public_site.py",
     "workflow": ".github/workflows/static.yml",
     "staging_path": "artifacts/tmp/public-site",
-    "deployment_state": "approval-required",
-    "observed_2026_08_05": {
-      "homepage": "old main-branch placeholder: test",
-      "demo": "404 Page not found"
+    "deployment_state": "deployed",
+    "deployment_evidence": {
+      "checked_at": "2026-08-05T23:24:00+08:00",
+      "workflow_run": "https://github.com/dongpo/topoMap/actions/runs/31019900015",
+      "run_id": 31019900015,
+      "head_sha": "60eb2857b1ff14b0baa51732373ca5c8b697c1c3",
+      "artifact_id": 8936130053,
+      "artifact_digest": "sha256:22a8bac8c8ceda73926770bb7939272f3f32bd4cf807952bcfe669bd119476a6",
+      "homepage": "200-equivalent browser load; title National Map Agent v0.2 · Stable Demo RC1",
+      "demo": "evidence-only five-scene controls and school evidence loaded",
+      "architecture_image": "loaded at 1280x720",
+      "browser_console": "0 errors; 0 warnings"
     },
     "exclusions": [
       "out1120902.pmtiles",
@@ -88,13 +96,13 @@
     ],
     "expected_scene_count": 5
   },
-  "blocking_defects": [
+  "blocking_defects": [],
+  "resolved_defects": [
     {
       "id": "pages-not-yet-public-assets-rc1",
-      "classification": "blocking",
+      "classification": "resolved",
       "owner": "dongpo",
-      "evidence": "Public homepage is the old placeholder and the demo URL returns 404.",
-      "next_action": "After D21 review, push the freeze commit and explicitly approve the bounded Pages workflow deployment."
+      "evidence": "GitHub Pages run 31019900015 deployed the bounded artifact from 60eb285; live homepage and evidence-only demo passed browser verification on 2026-08-05."
     }
   ],
   "deferred_defects": [

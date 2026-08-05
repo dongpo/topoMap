@@ -8,8 +8,8 @@ The main demonstration covers fire hydrants, aquaculture/fish ponds, police faci
 types, and post offices. Every symbol decision returns the graph path and the exact authoritative
 PDF page that supports it.
 
-**Current status:** Stable five-scene Demo RC1 (`nma-demo-v0.2-rc1`). The executable candidate is
-verified; public GitHub Pages deployment remains a separate, human-approved release step.
+**Current status:** Stable five-scene Demo RC1 (`nma-demo-v0.2-rc1`). The executable candidate and
+bounded evidence-only GitHub Pages release are verified.
 
 [Demo entry file](nmaAgentDemo.html) · [Two-minute quickstart](docs/QUICKSTART.md) ·
 [RC1 evidence](docs/STABLE-DEMO-RC1.md) · [Architecture](docs/ARCHITECTURE.md) ·
@@ -232,8 +232,9 @@ runnable review package, and presentation RC against Stable Demo RC1. The Pages 
 evidence-only and explicitly excludes the PMTiles archive while its redistribution terms remain
 unconfirmed. See the [D21 release-candidate audit](docs/PUBLIC-ASSETS-RC1.md).
 
-The current live Pages site is still the old main-branch placeholder; deployment remains a
-blocking, human-approved release step rather than an implied consequence of repository readiness.
+The bounded evidence-only Pages artifact was explicitly approved and deployed from commit
+`60eb285` in [run #36](https://github.com/dongpo/topoMap/actions/runs/31019900015). Live verification
+covered the homepage, five scene controls, evidence path, architecture image, and browser console.
 
 ## Public entry points
 
@@ -242,7 +243,7 @@ blocking, human-approved release step rather than an implied consequence of repo
 | [Repository](https://github.com/dongpo/topoMap) | Source, issues, and review history | Public |
 | [RC1 candidate branch](https://github.com/dongpo/topoMap/tree/codex/nma-v0.2-authoritative) | Exact reviewed implementation | Public candidate |
 | [Stable RC1 tag](https://github.com/dongpo/topoMap/tree/nma-demo-v0.2-rc1) | Frozen D17 executable baseline | Public |
-| [GitHub Pages demo](https://dongpo.github.io/topoMap/nmaAgentDemo.html) | Hosted five-scene demo | Not released until merge/deploy approval |
+| [GitHub Pages demo](https://dongpo.github.io/topoMap/nmaAgentDemo.html?mode=degraded) | Hosted evidence-only five-scene demo | Public RC1 |
 | [Conference materials](docs/FIVE-SCENE-NARRATIVE.md) | D18 narrative and figures | Candidate; not a published paper |
 
 ## Known limitations
@@ -255,8 +256,8 @@ blocking, human-approved release step rather than an implied consequence of repo
 - Online first load is required to prime the pinned browser cache; evidence-only mode and the D16
   recording are the supported offline fallbacks.
 - PMTiles redistribution terms must be confirmed before publishing the portable map archive.
-- The GitHub Pages URL stays unavailable until PR #1 is merged or a separate deployment is
-  explicitly approved. Repository readiness must not be reported as deployment completion.
+- The public GitHub Pages artifact intentionally excludes the PMTiles archive and therefore runs
+  in evidence-only mode; use the local rehearsal setup for the full live-map RC1.
 
 ## Repository map
 

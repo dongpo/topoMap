@@ -28,19 +28,21 @@ def test_public_assets_rc_verifies_the_bounded_candidate() -> None:
     assert verification["status"] == "candidate-passed"
     assert verification["stable_demo_release"] == "nma-demo-v0.2-rc1"
     assert verification["public_mode"] == "evidence-only"
-    assert verification["public_deployment"] == "approval-required"
+    assert verification["public_deployment"] == "deployed"
     assert verification["presentation"] == {"slides": 12, "sourced_notes": 12}
     assert verification["install_rehearsal"]["status"] == "passed"
     assert verification["install_rehearsal"]["scene_count"] == 5
     assert verification["review_package"]["scene_count"] == 5
-    assert verification["blocking_defect_count"] == 1
+    assert verification["blocking_defect_count"] == 0
+    assert verification["resolved_defect_count"] == 1
     assert verification["deferred_defect_count"] == 3
 
 
 def test_public_assets_manifest_triages_every_remaining_defect() -> None:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
 
-    assert {item["classification"] for item in manifest["blocking_defects"]} == {"blocking"}
+    assert manifest["blocking_defects"] == []
+    assert {item["classification"] for item in manifest["resolved_defects"]} == {"resolved"}
     assert {item["classification"] for item in manifest["deferred_defects"]} == {"deferred"}
     assert manifest["website"]["exclusions"] == [
         "out1120902.pmtiles",

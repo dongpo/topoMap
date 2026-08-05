@@ -21,11 +21,14 @@ for rehearsal. The machine-readable freeze is
 | Public repository | Available | Public repository and draft PR #1; head matched the frozen D20 base when D21 began |
 | Runnable assets | Available | Portable ZIP, checksums, verifier, 5/5 scenes, 2/2 abstention controls |
 | Presentation RC | Available | 12-slide v0.9 deck; 12/12 source-note blocks; frozen checksum |
-| Public website artifact | Ready to deploy | Bounded Pages artifact builds with no missing local links/images and no PMTiles |
-| Live GitHub Pages | **Blocking** | On 2026-08-05 the homepage still showed `test`; the demo URL returned GitHub Pages 404 |
+| Public website artifact | Deployed | Bounded Pages artifact contains nine files, with no missing local links/images and no PMTiles |
+| Live GitHub Pages | Available | Run [#36](https://github.com/dongpo/topoMap/actions/runs/31019900015) deployed commit `60eb285`; homepage and five-scene evidence-only demo passed live checks |
 
-Repository readiness is not deployment completion. GEO-77 must remain open until the bounded Pages
-artifact is pushed, explicitly approved for deployment, and the live URLs are rechecked.
+The deployment was explicitly approved and completed on 2026-08-05. The live homepage reported the
+Stable Demo RC1 title, the architecture image loaded at 1280×720, the five scene controls and school
+evidence path loaded in degraded mode, and both checked pages produced zero console errors or warnings.
+The deployed Pages artifact has ID `8936130053` and SHA-256 digest
+`22a8bac8c8ceda73926770bb7939272f3f32bd4cf807952bcfe669bd119476a6`.
 
 ## Safe public website boundary
 
@@ -69,8 +72,12 @@ The install sequence is also rehearsed from a clean local environment before D21
 
 ### Blocking
 
-- `pages-not-yet-public-assets-rc1`: the live Pages site is still the old main-branch placeholder.
-  After the D21 commit is pushed, deployment requires explicit user approval and a live URL check.
+- None.
+
+### Resolved
+
+- `pages-not-yet-public-assets-rc1`: resolved by the bounded Pages deployment in run #36 and live
+  verification of the homepage, five-scene evidence-only demo, architecture image, and console.
 
 ### Deferred
 
