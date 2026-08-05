@@ -1,4 +1,4 @@
-.PHONY: test demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-rc1 demo-reset bench bench-models verify
+.PHONY: test demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-rc1 demo-reset bench bench-models review-package verify
 
 test:
 	PYTHONPATH=src python3 -m pytest -q
@@ -35,5 +35,8 @@ bench:
 bench-models:
 	test -n "$(EXTERNAL_CONFIG)"
 	PYTHONPATH=src python3 -m nma.bench --root . --external-config "$(EXTERNAL_CONFIG)"
+
+review-package:
+	python3 scripts/build_review_package.py
 
 verify: test demo bench

@@ -13,7 +13,9 @@ verified; public GitHub Pages deployment remains a separate, human-approved rele
 
 [Demo entry file](nmaAgentDemo.html) · [Two-minute quickstart](docs/QUICKSTART.md) ·
 [RC1 evidence](docs/STABLE-DEMO-RC1.md) · [Architecture](docs/ARCHITECTURE.md) ·
-[Conference narrative](docs/FIVE-SCENE-NARRATIVE.md)
+[Conference narrative](docs/FIVE-SCENE-NARRATIVE.md) ·
+[D20 review package](release/review-package/README.md) ·
+[Presentation v0.9](artifacts/presentation/nma-foss4g-presentation-v0.9.pptx)
 
 ## Five scenes, five agent capabilities
 
@@ -208,6 +210,19 @@ The FOSS4G Hiroshima narrative is in
 The D18 evidence-backed slide storyboard, architecture figure, golden-path figure, and
 claim-to-evidence guardrails are in
 [`docs/FIVE-SCENE-NARRATIVE.md`](docs/FIVE-SCENE-NARRATIVE.md).
+
+## D20 review package
+
+`make review-package` builds a deterministic, portable review ZIP, verifies every payload
+checksum, reruns the frozen five-scene decisions and abstention controls, and rejects secrets or
+machine-specific paths. The package documents provenance, licences, schemas, benchmark gates,
+roadmap, and a paper skeleton. It deliberately excludes the PMTiles archive and official PDF until
+their redistribution boundary permits publication; no new demo functionality is introduced.
+
+See the [review-package README](release/review-package/README.md),
+[dataset record](release/review-package/DATASET.md),
+[portable ZIP](artifacts/release/nma-v0.2-review-package.zip), and
+[machine-readable verification](artifacts/release/nma-v0.2-review-package-verification.json).
 
 ## Public entry points
 

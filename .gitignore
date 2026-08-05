@@ -10,4 +10,5 @@ build/
 artifacts/tmp/
 artifacts/portrayal/
 artifacts/benchmark/portrayal-results.json
+artifacts/release/nma-v0.2-review-package/
 tmp/

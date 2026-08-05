@@ -27,3 +27,14 @@ done
 
 The fixture coordinates are synthetic. Do not infer real-world hydrology or production-data
 quality from them.
+
+## D20 five-scene review dataset
+
+The portable D20 review package has a versioned asset catalogue covering the five-scene demo
+contract, ten reviewed observations, executable portrayal profile, compiled graph, MapLibre
+layers, open symbol implementations, schemas, benchmark inputs, licences, and release exclusions.
+See [`release/review-package/DATASET.md`](../release/review-package/DATASET.md).
+
+The package excludes `out1120902.pmtiles` while redistribution terms remain unconfirmed and
+references the official portrayal PDF without redistributing it. Its verifier reproduces the five
+frozen decisions and two abstention controls without claiming browser-map or publication release.
