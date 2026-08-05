@@ -35,7 +35,7 @@ evidence. Re-run the same command before each rehearsal to restore the generated
 | 2 | Fire hydrant | 消防栓的代碼與圖式是什麼？ | `9350906`, page 11, `fire-hydrant`, 2 × 2.5 mm | 30 s |
 | 3 | Police | 警察局、分駐所或派出所應如何表示？ | `9910603`, page 60, symbol + name label | 30 s |
 | 4 | Fish pond | 養殖池應使用哪個圖式？ | `9740100`, page 50, `J01_WATERA`, fill/outline + fish icon | 30 s |
-| 5 | Post office | 大型獨幢郵局有什麼圖式例外？ | `9950201`, page 69, `text_only`; unsupported scale abstains | 30 s |
+| 5 | Post office | 大型獨幢郵局有什麼圖式例外？ | `9950201`, page 69, `text_only`; symbol layer hidden, label retained; unsupported scale/profile abstains | 30 s |
 
 Use the remaining 60 seconds of the five-minute segment to introduce the source/review boundary
 and close with the bounded claim. NMA demonstrates a reproducible, auditable mechanism; it does not
@@ -46,8 +46,12 @@ confirm its redistribution terms before a public release.
 
 Each selected decision must include the document, profile version, page, evidence text and URI,
 source SHA-256, review status, and complete graph nodes/edges. Each primary MapLibre layer must carry
-`nma:featureCode`, `nma:featureName`, `nma:ruleId`, `nma:evidence`, and `nma:graphPath` metadata.
+`nma:featureCode`, `nma:featureName`, `nma:ruleId`, `nma:evidence`, `nma:graphPath`, and
+`nma:executionLog` metadata. Selected decisions also expose a deterministic execution/provenance
+log. For the post-office exception this log records the evaluated condition, requested attributes,
+selected `text_only` action, page 69 evidence link, source hash, and review status.
 
 `make demo-scenes` validates these fields, all five exact decisions, their primary map layers, the
-single shared profile/graph/runner paths, and the unsupported-scale abstention. A sixth scene or a
-second profile fails the frozen contract.
+single shared profile/graph/runner paths, and both unsupported-scale and unsupported-profile
+abstentions. In the browser, `text_only` hides the post symbol layer while retaining the name-label
+layer. A sixth scene or a second profile fails the frozen contract.

@@ -13,6 +13,7 @@ def test_frozen_five_scene_contract_passes_end_to_end() -> None:
     assert result["status"] == "passed"
     assert result["scene_count"] == 5
     assert result["negative_control"] == "passed"
+    assert result["negative_controls"] == ["unsupported-scale", "unsupported-profile"]
     assert {scene["scene"] for scene in result["scenes"]} == {
         "school",
         "fire-hydrant",
@@ -56,6 +57,7 @@ def test_browser_evidence_panel_exposes_governance_and_abstention_fields() -> No
         "nma:ruleId",
         "nma:evidence",
         "nma:graphPath",
+        "nma:executionLog",
         "source_sha256",
         "review_status",
         "graph_path",
@@ -78,4 +80,33 @@ def test_fish_pond_browser_path_exposes_geometry_and_click_evidence() -> None:
     assert 'geometry_type:impl.maplibre_type==="fill"?"polygon":"point"' in html
     assert "Geometry: <code>${decision.symbol.geometry_type}</code>" in html
     assert "map.queryRenderedFeatures(event.point)" in html
-    assert 'renderDecision(executeRequest({question:"Map feature inspection",feature_code:' in html
+    assert 'request={question:"Map feature inspection",feature_code:featureCode}' in html
+    assert "renderDecision(decision);applyDecisionToMap(decision)" in html
+
+
+def test_post_office_browser_path_applies_exception_abstention_and_provenance() -> None:
+    contract = load_demo_contract(CONTRACT)
+    post_office = next(scene for scene in contract["scenes"] if scene["id"] == "post-office")
+    html = (ROOT / "nmaAgentDemo.html").read_text(encoding="utf-8")
+
+    assert post_office["expected"] == {
+        "feature_code": "9950201",
+        "evidence_page": 69,
+        "primary_source_layer": "J01_MARK",
+        "symbol_id": "post",
+        "selected_action": "text_only",
+        "normal_action": "draw_symbol",
+        "map_symbol_layer_enabled": False,
+        "map_label_layer_enabled": True,
+        "exception_condition": "large_detached_building",
+    }
+    assert contract["negative_control"]["scale_denominator"] == 5000
+    assert contract["negative_control"]["unsupported_profile_id"] == "unknown-profile"
+    assert "requestedProfile!==loadedProfile" in html
+    assert "requestedScale!==loadedScale" in html
+    assert 'stage:"conditional_exception"' in html
+    assert "selected_action:action" in html
+    assert 'stage:"evidence_link"' in html
+    assert "function applyDecisionToMap(decision)" in html
+    assert 'decision.symbol.action!=="text_only"||role==="label"' in html
+    assert "Execution / provenance log" in html

@@ -102,10 +102,44 @@ def test_graphrag_abstains_without_evidence_when_no_feature_matches() -> None:
 
 def test_agent_applies_post_office_exception_and_abstains_on_wrong_scale() -> None:
     agent = PortrayalAgent(PortrayalGraph.load(GRAPH_PATH))
+    normal = agent.select_symbol("9950201")
     exception = agent.select_symbol("9950201", attributes={"large_detached_building": True})
+
+    assert normal.symbol["symbol_id"] == "post"
+    assert normal.symbol["selected_action"] == "draw_symbol"
+    assert normal.map_output["symbol_layer"]["enabled"] is True
     assert exception.symbol["selected_action"] == "text_only"
+    assert exception.symbol["icon_image"] is None
+    assert exception.map_output["selected_action"] == "text_only"
+    assert exception.map_output["primary_source_layer"] == "J01_MARK"
+    assert exception.map_output["source_layers"] == exception.rule["source_layers"]
+    assert exception.map_output["symbol_layer"] == {
+        "enabled": False,
+        "type": "symbol",
+        "icon_image": None,
+    }
+    assert exception.map_output["label_layer"] == {"enabled": True, "field": "MARKNAME1"}
     assert exception.evidence["page"] == 69
-    assert agent.select_symbol("9950201", scale_denominator=5000).status == "abstain"
+    assert exception.evidence["review_status"] == "human-review-required"
+    assert exception.rule["rule_id"].endswith(":9950201")
+    assert exception.graph_path["nodes"]
+    exception_step = next(
+        step for step in exception.execution_log if step["stage"] == "conditional_exception"
+    )
+    assert exception_step == {
+        "stage": "conditional_exception",
+        "condition": "large_detached_building",
+        "condition_met": True,
+        "selected_action": "text_only",
+        "requested_attributes": {"large_detached_building": True},
+    }
+    assert exception.execution_log[-1] == {
+        "stage": "evidence_link",
+        "page": 69,
+        "source_sha256": exception.evidence["source_sha256"],
+        "review_status": "human-review-required",
+        "outcome": "preserved",
+    }
 
 
 def test_five_scene_rules_expose_explicit_outputs_and_evidence() -> None:
@@ -155,6 +189,8 @@ def test_unsupported_portrayal_contexts_fail_explicitly_without_partial_outputs(
         assert decision.evidence is None
         assert decision.graph_path is None
         assert reason_fragment in decision.reason
+        assert decision.map_output is None
+        assert decision.execution_log[-1]["outcome"] in {"abstain", "not_found"}
 
 
 def test_maplibre_layers_carry_rule_and_pdf_evidence() -> None:
@@ -198,6 +234,8 @@ def test_maplibre_layers_carry_rule_and_pdf_evidence() -> None:
     assert icon["metadata"]["nma:evidence"] == decision.evidence
     assert base["metadata"]["nma:graphPath"] == decision.graph_path
     assert icon["metadata"]["nma:graphPath"] == decision.graph_path
+    assert base["metadata"]["nma:executionLog"] == decision.execution_log
+    assert icon["metadata"]["nma:executionLog"] == decision.execution_log
 
 
 def test_point_scenes_keep_agent_map_and_evidence_outputs_aligned() -> None:
@@ -306,6 +344,22 @@ def test_portrayal_agent_api_endpoints() -> None:
     )
     assert status == 200
     assert answer["feature_codes"] == ["9350906"]
+    status, exception = post_payload(
+        specification,
+        "/v1/agent/portray",
+        {
+            "feature_code": "9950201",
+            "profile_id": "tw-nlsc-1000-NLSC112V5.4",
+            "scale_denominator": 1000,
+            "attributes": {"large_detached_building": True},
+        },
+        graph,
+    )
+    assert status == 200
+    assert exception["symbol"]["selected_action"] == "text_only"
+    assert exception["map_output"]["symbol_layer"]["enabled"] is False
+    assert exception["map_output"]["label_layer"]["enabled"] is True
+    assert exception["execution_log"][-1]["page"] == 69
     status, layers = get_payload(specification, "/v1/maplibre/portrayal-layers", graph)
     assert status == 200
     assert len(layers["layers"]) == 133

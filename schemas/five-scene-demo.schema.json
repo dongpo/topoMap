@@ -26,7 +26,22 @@
         "required": ["id", "order", "prompt", "input", "expected", "time_budget_seconds"]
       }
     },
-    "negative_control": {"type": "object"},
+    "negative_control": {
+      "type": "object",
+      "required": [
+        "feature_code",
+        "scale_denominator",
+        "unsupported_profile_id",
+        "expected_status"
+      ],
+      "properties": {
+        "feature_code": {"type": "string"},
+        "scale_denominator": {"type": "integer"},
+        "unsupported_profile_id": {"type": "string"},
+        "expected_status": {"const": "abstain"}
+      },
+      "additionalProperties": false
+    },
     "runbook": {"type": "object"}
   },
   "additionalProperties": true

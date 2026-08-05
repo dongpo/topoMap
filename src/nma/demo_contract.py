@@ -57,6 +57,7 @@ def check_demo_contract(path: str | Path) -> dict[str, Any]:
     results = []
     required_evidence = set(shared["evidence_fields"])
     required_metadata = set(shared["map_metadata_fields"])
+    required_execution_stages = set(shared["execution_log_stages"])
     for scene in sorted(scenes, key=lambda item: item["order"]):
         expected = scene["expected"]
         attributes = scene["input"].get("attributes", {})
@@ -81,6 +82,11 @@ def check_demo_contract(path: str | Path) -> dict[str, Any]:
             f"{scene['id']} action",
         )
         _expect(decision["evidence"]["page"], expected["evidence_page"], f"{scene['id']} page")
+        _expect(
+            decision["map_output"]["selected_action"],
+            expected["selected_action"],
+            f"{scene['id']} map action",
+        )
         for symbol_field in (
             "maplibre_type",
             "label_field",
@@ -104,10 +110,40 @@ def check_demo_contract(path: str | Path) -> dict[str, Any]:
                 expected["normal_action"],
                 f"{scene['id']} normal action",
             )
+        if "map_symbol_layer_enabled" in expected:
+            _expect(
+                decision["map_output"]["symbol_layer"]["enabled"],
+                expected["map_symbol_layer_enabled"],
+                f"{scene['id']} map symbol visibility",
+            )
+            _expect(
+                decision["map_output"]["label_layer"]["enabled"],
+                expected["map_label_layer_enabled"],
+                f"{scene['id']} map label visibility",
+            )
+        if "exception_condition" in expected:
+            exception_step = next(
+                step
+                for step in decision["execution_log"]
+                if step["stage"] == "conditional_exception"
+            )
+            _expect(
+                exception_step["condition"],
+                expected["exception_condition"],
+                f"{scene['id']} exception condition",
+            )
+            _expect(exception_step["condition_met"], True, f"{scene['id']} exception match")
+            _expect(
+                exception_step["selected_action"],
+                expected["selected_action"],
+                f"{scene['id']} logged action",
+            )
         if not required_evidence <= set(decision["evidence"]):
             raise ValueError(f"{scene['id']}: incomplete evidence contract")
         if not decision["graph_path"]["nodes"] or not decision["graph_path"]["edges"]:
             raise ValueError(f"{scene['id']}: incomplete graph path")
+        if required_execution_stages != {step["stage"] for step in decision["execution_log"]}:
+            raise ValueError(f"{scene['id']}: incomplete execution/provenance log")
 
         primary_layer = next(
             (
@@ -141,6 +177,22 @@ def check_demo_contract(path: str | Path) -> dict[str, Any]:
         profile_id=contract["profile"]["id"],
     ).as_dict()
     _expect(unsupported["status"], "abstain", "negative-control decision")
+    _expect(
+        unsupported["execution_log"][-1]["stage"],
+        "scale_guard",
+        "negative-control scale guard",
+    )
+    unsupported_profile = agent.select_symbol(
+        contract["negative_control"]["feature_code"],
+        scale_denominator=contract["profile"]["scale_denominator"],
+        profile_id=contract["negative_control"]["unsupported_profile_id"],
+    ).as_dict()
+    _expect(unsupported_profile["status"], "abstain", "unsupported-profile decision")
+    _expect(
+        unsupported_profile["execution_log"][-1]["stage"],
+        "profile_guard",
+        "unsupported-profile guard",
+    )
 
     return {
         "contract_version": contract["contract_version"],
@@ -149,6 +201,7 @@ def check_demo_contract(path: str | Path) -> dict[str, Any]:
         "scene_count": len(results),
         "scenes": results,
         "negative_control": "passed",
+        "negative_controls": ["unsupported-scale", "unsupported-profile"],
     }
 
 

@@ -28,7 +28,15 @@
       "nma:featureName",
       "nma:ruleId",
       "nma:evidence",
-      "nma:graphPath"
+      "nma:graphPath",
+      "nma:executionLog"
+    ],
+    "execution_log_stages": [
+      "profile_guard",
+      "scale_guard",
+      "portrayal_rule",
+      "conditional_exception",
+      "evidence_link"
     ],
     "licenses": {
       "code": "Apache-2.0",
@@ -122,13 +130,17 @@
         "primary_source_layer": "J01_MARK",
         "symbol_id": "post",
         "selected_action": "text_only",
-        "normal_action": "draw_symbol"
+        "normal_action": "draw_symbol",
+        "map_symbol_layer_enabled": false,
+        "map_label_layer_enabled": true,
+        "exception_condition": "large_detached_building"
       }
     }
   ],
   "negative_control": {
     "feature_code": "9950201",
     "scale_denominator": 5000,
+    "unsupported_profile_id": "unknown-profile",
     "expected_status": "abstain"
   },
   "runbook": {

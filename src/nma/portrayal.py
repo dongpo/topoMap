@@ -16,6 +16,8 @@ class PortrayalDecision:
     evidence: dict[str, Any] | None
     graph_path: dict[str, Any] | None
     reason: str
+    map_output: dict[str, Any] | None = None
+    execution_log: list[dict[str, Any]] | None = None
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -27,6 +29,8 @@ class PortrayalDecision:
             "evidence": self.evidence,
             "graph_path": self.graph_path,
             "reason": self.reason,
+            "map_output": self.map_output,
+            "execution_log": self.execution_log or [],
         }
 
 
@@ -60,6 +64,14 @@ class PortrayalAgent:
                 None,
                 f"Profile {profile_id!r} is not loaded; refusing to borrow a symbol from "
                 f"{profile['profile_id']!r}.",
+                execution_log=[
+                    {
+                        "stage": "profile_guard",
+                        "requested_profile_id": profile_id,
+                        "loaded_profile_id": profile["profile_id"],
+                        "outcome": "abstain",
+                    }
+                ],
             )
         if scale_denominator != profile["scale_denominator"]:
             return PortrayalDecision(
@@ -71,6 +83,20 @@ class PortrayalAgent:
                 None,
                 None,
                 f"No reviewed portrayal rule for scale 1:{scale_denominator}.",
+                execution_log=[
+                    {
+                        "stage": "profile_guard",
+                        "requested_profile_id": profile_id or profile["profile_id"],
+                        "loaded_profile_id": profile["profile_id"],
+                        "outcome": "matched",
+                    },
+                    {
+                        "stage": "scale_guard",
+                        "requested_scale_denominator": scale_denominator,
+                        "loaded_scale_denominator": profile["scale_denominator"],
+                        "outcome": "abstain",
+                    },
+                ],
             )
         path = self.graph.portrayal_path(feature_code)
         if not path:
@@ -83,6 +109,13 @@ class PortrayalAgent:
                 None,
                 None,
                 "No feature or portrayal rule was found in the loaded executable knowledge.",
+                execution_log=[
+                    {
+                        "stage": "feature_lookup",
+                        "feature_code": feature_code,
+                        "outcome": "not_found",
+                    }
+                ],
             )
         by_type = {node["type"]: node for node in path.nodes}
         feature = by_type["FeatureType"]["properties"]
@@ -101,14 +134,66 @@ class PortrayalAgent:
             "source_sha256": document.get("sha256"),
             "review_status": observation["review_status"],
         }
-        if symbol.get("exception", {}).get("condition") == "large_detached_building" and (
-            attributes or {}
-        ).get("large_detached_building"):
+        requested_attributes = attributes or {}
+        exception = symbol.get("exception") or {}
+        condition = exception.get("condition")
+        condition_met = bool(condition and requested_attributes.get(condition))
+        if condition_met:
             symbol = symbol | {"selected_action": "text_only", "icon_image": None}
             reason = "The rule's large-detached-building exception selects a text annotation."
         else:
             symbol = symbol | {"selected_action": "draw_symbol"}
             reason = "Feature code, profile and scale matched an evidence-backed portrayal rule."
+        action = symbol["selected_action"]
+        source_layers = rule["source_layers"]
+        label_field = symbol.get("label_field")
+        map_output = {
+            "selected_action": action,
+            "primary_source_layer": source_layers[0],
+            "source_layers": source_layers,
+            "symbol_layer": {
+                "enabled": action == "draw_symbol",
+                "type": symbol["maplibre_type"],
+                "icon_image": symbol.get("icon_image") if action == "draw_symbol" else None,
+            },
+            "label_layer": {
+                "enabled": bool(label_field),
+                "field": label_field,
+            },
+        }
+        execution_log = [
+            {
+                "stage": "profile_guard",
+                "requested_profile_id": profile_id or profile["profile_id"],
+                "loaded_profile_id": profile["profile_id"],
+                "outcome": "matched",
+            },
+            {
+                "stage": "scale_guard",
+                "requested_scale_denominator": scale_denominator,
+                "loaded_scale_denominator": profile["scale_denominator"],
+                "outcome": "matched",
+            },
+            {
+                "stage": "portrayal_rule",
+                "rule_id": rule["rule_id"],
+                "outcome": "matched",
+            },
+            {
+                "stage": "conditional_exception",
+                "condition": condition,
+                "condition_met": condition_met,
+                "selected_action": action,
+                "requested_attributes": requested_attributes,
+            },
+            {
+                "stage": "evidence_link",
+                "page": evidence["page"],
+                "source_sha256": evidence["source_sha256"],
+                "review_status": evidence["review_status"],
+                "outcome": "preserved",
+            },
+        ]
         return PortrayalDecision(
             "selected",
             feature_code,
@@ -118,6 +203,8 @@ class PortrayalAgent:
             evidence,
             path.as_dict(),
             reason,
+            map_output,
+            execution_log,
         )
 
     def answer(self, question: str) -> dict[str, Any]:
@@ -191,6 +278,7 @@ def compile_maplibre_layers(graph: PortrayalGraph) -> list[dict[str, Any]]:
                     "nma:ruleId": decision.rule["rule_id"],
                     "nma:evidence": decision.evidence,
                     "nma:graphPath": decision.graph_path,
+                    "nma:executionLog": decision.execution_log,
                     "nma:implementationStatus": decision.rule["implementation_status"],
                 },
             }
