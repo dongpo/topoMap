@@ -171,6 +171,81 @@ def test_maplibre_layers_carry_rule_and_pdf_evidence() -> None:
     assert pond["metadata"]["nma:ruleId"].endswith(":9740100")
 
 
+def test_point_scenes_keep_agent_map_and_evidence_outputs_aligned() -> None:
+    graph = PortrayalGraph.load(GRAPH_PATH)
+    agent = PortrayalAgent(graph)
+    layers = compile_maplibre_layers(graph)
+    expected = {
+        "9920103": {
+            "name": "小學",
+            "symbol": "school",
+            "page": 61,
+            "source_layer": "J01_MARK",
+            "dimensions": [2.2, 3],
+            "label_field": "MARKNAME1",
+        },
+        "9350906": {
+            "name": "消防栓",
+            "symbol": "fire-hydrant",
+            "page": 11,
+            "source_layer": "J01_BUILD",
+            "dimensions": [2, 2.5],
+            "label_field": None,
+        },
+        "9910603": {
+            "name": "警察局、分駐所、派出所",
+            "symbol": "police",
+            "page": 60,
+            "source_layer": "J01_MARK",
+            "dimensions": [2, 3],
+            "label_field": "MARKNAME1",
+        },
+    }
+
+    for code, output in expected.items():
+        decision = agent.select_symbol(code)
+        base = next(
+            layer
+            for layer in layers
+            if layer["source-layer"] == output["source_layer"]
+            and layer["metadata"].get("nma:featureCode") == code
+            and layer["metadata"].get("nma:role") is None
+        )
+
+        assert decision.feature_name == output["name"]
+        assert decision.symbol["symbol_id"] == output["symbol"]
+        assert decision.symbol["official_dimensions_mm"] == output["dimensions"]
+        assert decision.symbol.get("label_field") == output["label_field"]
+        assert decision.evidence["page"] == output["page"]
+        assert base["layout"]["icon-image"] == output["symbol"]
+        assert base["metadata"]["nma:ruleId"] == decision.rule["rule_id"]
+        assert base["metadata"]["nma:evidence"] == decision.evidence
+        assert base["metadata"]["nma:graphPath"] == decision.graph_path
+
+        label_layers = [
+            layer
+            for layer in layers
+            if layer["source-layer"] == output["source_layer"]
+            and layer["metadata"].get("nma:featureCode") == code
+            and layer["metadata"].get("nma:role") == "label"
+        ]
+        if output["label_field"]:
+            assert len(label_layers) == 1
+            assert output["label_field"] in str(label_layers[0]["layout"]["text-field"])
+            assert label_layers[0]["metadata"]["nma:evidence"] == decision.evidence
+        else:
+            assert label_layers == []
+
+
+def test_police_aliases_resolve_to_one_reviewed_feature_and_evidence_page() -> None:
+    agent = PortrayalAgent(PortrayalGraph.load(GRAPH_PATH))
+
+    for alias in ("警察局", "分駐所", "派出所", "police station"):
+        answer = agent.answer(f"{alias}的代碼與圖式是什麼？")
+        assert answer["feature_codes"] == ["9910603"]
+        assert [evidence["page"] for evidence in answer["evidence"]] == [60]
+
+
 def test_official_symbol_assets_are_source_hashed_and_valid_svg() -> None:
     directory = ROOT / "assets/symbols/nlsc112v5.4"
     manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
