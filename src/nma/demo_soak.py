@@ -14,7 +14,8 @@ from .io import dump_json
 
 DEFECT_CLASSES = {"blocking", "presentation-impacting", "deferred"}
 KNOWN_ISSUE_CLASSIFICATION = {
-    "runtime-dependencies": "presentation-impacting",
+    "cold-cache-map-runtime": "presentation-impacting",
+    "pmtiles-redistribution-terms": "deferred",
     "backup-capture": "presentation-impacting",
     "public-demo-url": "deferred",
     "expert-sign-off": "deferred",

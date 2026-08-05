@@ -118,4 +118,6 @@ def test_browser_maplibre_layers_are_validated_for_clean_runtime_loading() -> No
 
     assert "paint:undefined" not in html
     assert "delete companion.paint" in html
-    assert 'glyphs:"https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf"' in html
+    assert 'const GLYPHS_URL="https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf"' in html
+    assert 'const PMT_URL="out1120902.pmtiles"' in html
+    assert "activateEvidenceFallback" in html

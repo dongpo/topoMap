@@ -4,9 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>NMA Agent — evidence-backed landmark portrayal</title>
-  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css">
-  <script src="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js"></script>
-  <script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"></script>
   <style>
     :root{--ink:#10251f;--green:#0b6b4f;--lime:#b6df72;--paper:#f4f7f3;--line:#d7e2da;--warn:#8a5b00}
     *{box-sizing:border-box} body{margin:0;font:15px/1.45 system-ui,sans-serif;color:var(--ink);background:var(--paper)}
@@ -18,6 +15,8 @@
     .card{border:1px solid var(--line);border-radius:9px;padding:11px;margin-top:10px;background:#fff}.value{font-weight:750}.path{font:11px/1.45 ui-monospace,monospace;overflow-wrap:anywhere;background:#edf3ef;padding:8px;border-radius:6px}
     .status{display:inline-block;border-radius:999px;padding:2px 8px;font-size:.72rem;font-weight:800;text-transform:uppercase;background:#e7f1eb;color:var(--green)}.status.abstain,.status.error{background:#fff0d5;color:var(--warn)}
     .facts{display:grid;grid-template-columns:max-content 1fr;gap:4px 9px;margin:8px 0}.facts dt{font-weight:750}.facts dd{margin:0;overflow-wrap:anywhere}
+    #runtime-status{font-size:.78rem;margin-top:10px}.runtime-ready{color:var(--green)}.runtime-degraded{color:var(--warn)}
+    #map.degraded{display:grid;place-items:center;padding:32px;background:#eaf0ec;color:#53655f;text-align:center}.fallback-panel{max-width:520px}
     a{color:var(--green)} @media(max-width:760px){#app{display:block}aside{height:48vh}#map{height:52vh}}
   </style>
 </head>
@@ -33,6 +32,7 @@
       sign-off remains pending.</p>
     <div class="question"><input id="question" value="郵局的圖式規則在哪一頁？"><button id="ask">Ask</button></div>
     <div id="scene-controls" class="chips" aria-label="Frozen five-scene controls"></div>
+    <div id="runtime-status" aria-live="polite">Checking offline runtime…</div>
     <div id="answer" class="card">Loading executable graph…</div>
     <h2>Evidence and governance</h2>
     <div id="evidence" class="card muted">Select a result to inspect its rule path.</div>
@@ -40,8 +40,13 @@
   <div id="map"></div>
 </div>
 <script>
-const PMT_URL="https://dongpo.github.io/topoMap/out1120902.pmtiles";
+const PMT_URL="out1120902.pmtiles";
 const DECISION_SCHEMA="nma.demo-decision/1.0";
+const MAPLIBRE_CSS="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css";
+const MAPLIBRE_JS="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js";
+const PMTILES_JS="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js";
+const GLYPHS_URL="https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf";
+const DEGRADED_MODE=new URLSearchParams(location.search).get("mode")==="degraded";
 let graph, contract, map, generatedLayers=[], currentRequest=null;
 const nodeById=()=>Object.fromEntries(graph.nodes.map(n=>[n.id,n]));
 function canvasIcon(map,id,width,height,draw){const d=devicePixelRatio>1?2:1,w=width*d,h=height*d,c=document.createElement("canvas");c.width=w;c.height=h;const g=c.getContext("2d");draw(g,w,h,d);map.addImage(id,g.getImageData(0,0,w,h),{pixelRatio:d});}
@@ -78,7 +83,15 @@ function renderDecision(decision){const answer=document.querySelector("#answer")
 function runScene(scene){document.querySelector("#question").value=scene.prompt;document.querySelectorAll("[data-scene-id]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.sceneId===scene.id)));currentRequest={question:scene.prompt,feature_code:scene.input.feature_code,attributes:scene.input.attributes||{},profile_id:contract.profile.id,scale_denominator:contract.profile.scale_denominator};const decision=executeRequest(currentRequest);renderDecision(decision);applyDecisionToMap(decision)}
 function renderSceneControls(){const controls=document.querySelector("#scene-controls");for(const scene of [...contract.scenes].sort((a,b)=>a.order-b.order)){const button=document.createElement("button");button.dataset.sceneId=scene.id;button.textContent=scene.title.split(" ")[0];button.setAttribute("aria-pressed","false");button.onclick=()=>runScene(scene);controls.appendChild(button)}}
 function ask(){document.querySelectorAll("[data-scene-id]").forEach(button=>button.setAttribute("aria-pressed","false"));currentRequest={question:document.querySelector("#question").value};const decision=executeRequest(currentRequest);renderDecision(decision);applyDecisionToMap(decision)}
-Promise.all([fetch("data/knowledge/portrayal-graph.json").then(r=>r.json()),fetch("data/demo/five-scene-demo.json").then(r=>r.json())]).then(([g,c])=>{graph=g;contract=c;renderSceneControls();generatedLayers=compileLayers();const protocol=new pmtiles.Protocol({metadata:true});maplibregl.addProtocol("pmtiles",protocol.tile);map=new maplibregl.Map({container:"map",center:[121.0236,24.7745],zoom:14,style:{version:8,glyphs:"https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf",sources:{data:{type:"vector",url:`pmtiles://${PMT_URL}`}},layers:[{id:"background",type:"background",paint:{"background-color":"#f7faf8"}}]}});map.addControl(new maplibregl.NavigationControl());map.on("load",()=>{registerIcons();generatedLayers.forEach(layer=>map.addLayer(layer));map.on("click",event=>{const rendered=map.queryRenderedFeatures(event.point).find(feature=>feature.layer.metadata?.["nma:featureCode"]);if(rendered){const featureCode=rendered.layer.metadata["nma:featureCode"],request={question:"Map feature inspection",feature_code:featureCode};if(currentRequest?.feature_code===featureCode)Object.assign(request,{attributes:currentRequest.attributes||{},profile_id:currentRequest.profile_id,scale_denominator:currentRequest.scale_denominator});const decision=executeRequest(request);renderDecision(decision);applyDecisionToMap(decision)}});runScene(contract.scenes.find(scene=>scene.id==="school"))})}).catch(error=>{document.querySelector("#answer").innerHTML=`<span class="status error">error</span><p>Demo setup failed: ${error.message}</p>`});
+function setRuntimeStatus(message,degraded=false){const status=document.querySelector("#runtime-status");status.textContent=message;status.className=degraded?"runtime-degraded":"runtime-ready"}
+function loadStylesheet(url){return new Promise((resolve,reject)=>{if(document.querySelector(`link[href="${url}"]`))return resolve();const link=document.createElement("link");link.rel="stylesheet";link.href=url;link.onload=resolve;link.onerror=()=>reject(new Error(`stylesheet unavailable: ${url}`));document.head.appendChild(link)})}
+function loadScript(url,ready){return new Promise((resolve,reject)=>{if(ready())return resolve();const script=document.createElement("script");script.src=url;script.onload=()=>ready()?resolve():reject(new Error(`runtime global missing after ${url}`));script.onerror=()=>reject(new Error(`script unavailable: ${url}`));document.head.appendChild(script)})}
+async function registerOfflineCache(){if(!("serviceWorker" in navigator))return null;const registration=await navigator.serviceWorker.register("nmaDemoWorker.js");await navigator.serviceWorker.ready;return registration}
+async function loadMapRuntime(){await registerOfflineCache();await Promise.all([loadStylesheet(MAPLIBRE_CSS),loadScript(MAPLIBRE_JS,()=>Boolean(globalThis.maplibregl)),loadScript(PMTILES_JS,()=>Boolean(globalThis.pmtiles))])}
+function activateEvidenceFallback(reason){if(map){map.remove();map=null}const mapPanel=document.querySelector("#map");mapPanel.className="degraded";mapPanel.innerHTML=`<div class="fallback-panel"><h2>Evidence-only fallback</h2><p>The interactive map runtime is unavailable. All five reviewed decisions, source pages, graph paths, and execution logs remain usable.</p><p><code>${reason}</code></p></div>`;setRuntimeStatus("Evidence-only mode · map unavailable · reviewed decisions preserved",true);runScene(contract.scenes.find(scene=>scene.id==="school"))}
+function initializeMap(){const protocol=new pmtiles.Protocol({metadata:true});maplibregl.addProtocol("pmtiles",protocol.tile);map=new maplibregl.Map({container:"map",center:[121.0236,24.7745],zoom:14,style:{version:8,glyphs:GLYPHS_URL,sources:{data:{type:"vector",url:`pmtiles://${PMT_URL}`}},layers:[{id:"background",type:"background",paint:{"background-color":"#f7faf8"}}]}});let initial=true;map.once("error",event=>{if(initial){initial=false;activateEvidenceFallback(event.error?.message||"initial map load failed")}});map.addControl(new maplibregl.NavigationControl());map.on("load",()=>{if(!initial)return;initial=false;registerIcons();generatedLayers.forEach(layer=>map.addLayer(layer));map.on("click",event=>{const rendered=map.queryRenderedFeatures(event.point).find(feature=>feature.layer.metadata?.["nma:featureCode"]);if(rendered){const featureCode=rendered.layer.metadata["nma:featureCode"],request={question:"Map feature inspection",feature_code:featureCode};if(currentRequest?.feature_code===featureCode)Object.assign(request,{attributes:currentRequest.attributes||{},profile_id:currentRequest.profile_id,scale_denominator:currentRequest.scale_denominator});const decision=executeRequest(request);renderDecision(decision);applyDecisionToMap(decision)}});setRuntimeStatus("Map ready · local PMTiles · pinned runtime cache enabled");runScene(contract.scenes.find(scene=>scene.id==="school"))})}
+async function startDemo(){try{const [g,c]=await Promise.all([fetch("data/knowledge/portrayal-graph.json").then(r=>r.json()),fetch("data/demo/five-scene-demo.json").then(r=>r.json())]);graph=g;contract=c;renderSceneControls();generatedLayers=compileLayers();if(DEGRADED_MODE)return activateEvidenceFallback("forced degraded-mode verification");try{await loadMapRuntime();initializeMap()}catch(error){activateEvidenceFallback(error.message)}}catch(error){document.querySelector("#answer").innerHTML=`<span class="status error">error</span><p>Demo setup failed: ${error.message}</p>`;setRuntimeStatus("Local demo data unavailable",true)}}
+startDemo();
 document.querySelector("#ask").onclick=ask;document.querySelector("#question").onkeydown=event=>{if(event.key==="Enter")ask()};
 </script>
 </body>

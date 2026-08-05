@@ -17,7 +17,7 @@ def test_feature_complete_freeze_verifies_every_artifact() -> None:
     assert result["freeze_version"] == "nma-demo-rc1-feature-complete"
     assert result["approved_base_commit"] == "06090a04792514b85823457b235f7feebf2660d4"
     assert result["scene_count"] == 5
-    assert result["artifact_count"] == 14
+    assert result["artifact_count"] == 16
     assert {artifact["status"] for artifact in result["artifacts"]} <= {
         "verified",
         "verified-generated",

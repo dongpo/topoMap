@@ -58,7 +58,7 @@ feature code, PDF page, evidence chain, and action. The post-office result corre
 
 | Observation | Classification | Owner / next action |
 |---|---|---|
-| Hosted JavaScript, glyph, and PMTiles dependencies | Presentation-impacting | D15 / GEO-71 — package offline dependencies |
+| Cold-cache map runtime | Presentation-impacting | D15 mitigated with cache/fallback; D16 / GEO-72 owns preflight and backup capture |
 | Backup recording and screenshots absent | Presentation-impacting | D16 / GEO-72 — capture backup assets |
 | Stable public demo URL not frozen | Deferred | D17 / GEO-73 — stable Demo RC1 gate |
 | Independent cartographer sign-off absent | Deferred | Publication gate — expert review before publication claims |

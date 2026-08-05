@@ -40,7 +40,7 @@ does not expose profile-switching or scale-override controls. They are exercised
 3. Visibility updates could target a layer rejected during style validation. The runner now checks
    `map.getLayer(layer.id)` before applying a visibility change.
 
-## Network dependencies and offline gaps
+## Network dependencies and offline gaps at D13
 
 The feature-complete build currently requires:
 
@@ -50,11 +50,18 @@ The feature-complete build currently requires:
 - `dongpo.github.io/topoMap/out1120902.pmtiles` for the current remote tile archive;
 - a local or hosted HTTP origin for the HTML, graph JSON, and demo-contract JSON.
 
-The repository contains a 9.2 MB local `out1120902.pmtiles`, but the live runner still points to
-the hosted archive and does not bundle MapLibre, PMTiles, or glyphs. Therefore it is not yet a
-complete offline package. The deterministic five-scene contract, pytest suite, and benchmark are
-the tested semantic fallback. Packaging runtime assets and exercising degraded/offline behavior
-remain D15 work; recording and screenshots remain D16 work.
+The repository contained a 9.2 MB local `out1120902.pmtiles`, but the D13 runner still pointed to
+the hosted archive and did not cache MapLibre, PMTiles, or glyphs. It was not a complete offline
+package. The deterministic five-scene contract, pytest suite, and benchmark were the tested
+semantic fallback.
+
+## D15 reliability follow-up
+
+D15 changed the runner to the local PMTiles archive, added a pinned runtime service-worker cache,
+and added an evidence-only degraded mode. See [`OFFLINE-RUNTIME.md`](OFFLINE-RUNTIME.md). A cold
+cache still needs one online preflight to render the map; without it, the reviewed five-scene
+decision and evidence path remains available without interactive map rendering. Recording and
+screenshots remain D16 work.
 
 The project does not yet publish `nmaAgentDemo.html` through GitHub Pages, so a stable public demo
 URL remains an operational gap rather than a feature-complete browser blocker.

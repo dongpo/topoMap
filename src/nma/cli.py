@@ -19,6 +19,7 @@ from .knowledge import PortrayalGraph, compile_portrayal_graph
 from .portrayal import PortrayalAgent, compile_maplibre_layers
 from .demo_contract import check_demo_contract, reset_demo_contract
 from .demo_freeze import check_demo_freeze
+from .demo_offline import check_offline_runtime
 from .demo_soak import run_demo_soak
 
 
@@ -102,6 +103,11 @@ def _parser() -> argparse.ArgumentParser:
     demo_soak.add_argument("--freeze", default="data/demo/five-scene-freeze.json")
     demo_soak.add_argument("--iterations", type=int, default=20)
     demo_soak.add_argument("--output", default="artifacts/soak/five-scene-soak.json")
+
+    demo_offline = sub.add_parser(
+        "demo-offline", help="verify local assets, runtime caching, and degraded fallback"
+    )
+    demo_offline.add_argument("--manifest", default="data/demo/offline-runtime.json")
     return parser
 
 
@@ -198,6 +204,11 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0 if result["summary"]["failed"] == 0 else 2
+
+    if args.command == "demo-offline":
+        result = check_offline_runtime(args.manifest)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
 
     if args.command == "validate":
         specification = Specification.load(resolve_asset(args.spec))

@@ -1,0 +1,68 @@
+{
+  "runtime_version": "nma-demo-d15-v2",
+  "status": "mitigated",
+  "local_assets": [
+    "nmaAgentDemo.html",
+    "nmaDemoWorker.js",
+    "data/knowledge/portrayal-graph.json",
+    "data/demo/five-scene-demo.json",
+    "out1120902.pmtiles"
+  ],
+  "local_pmtiles_url": "out1120902.pmtiles",
+  "cache": {
+    "worker": "nmaDemoWorker.js",
+    "name": "nma-demo-d15-v2",
+    "pinned_runtime_assets": [
+      "https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css",
+      "https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js",
+      "https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"
+    ],
+    "glyph_strategy": "cache-on-use",
+    "glyph_prefix": "https://cdn.protomaps.com/fonts/pbf/"
+  },
+  "pmtiles_range_strategy": "service-worker-local-range-adapter",
+  "fallback": {
+    "mode": "evidence-only",
+    "forced_url": "nmaAgentDemo.html?mode=degraded",
+    "preserves": [
+      "five-scene controls",
+      "feature code and portrayal action",
+      "PDF evidence page and source hash",
+      "graph path and execution log"
+    ],
+    "omits": ["interactive map rendering"]
+  },
+  "verification": {
+    "tested_on": "2026-08-05",
+    "normal_mode": {
+      "status": "passed",
+      "runtime_status": "Map ready · local PMTiles · pinned runtime cache enabled",
+      "local_pmtiles_range_adapter": "passed",
+      "console_errors": 0,
+      "console_warnings": 0
+    },
+    "degraded_mode": {
+      "status": "passed",
+      "runtime_status": "Evidence-only mode · map unavailable · reviewed decisions preserved",
+      "scene_order": ["school", "fire-hydrant", "police", "fish-pond", "post-office"],
+      "passed_scenes": 5,
+      "failed_scenes": 0,
+      "console_errors": 0,
+      "console_warnings": 0
+    }
+  },
+  "deferred": [
+    {
+      "id": "cold-cache-map-runtime",
+      "classification": "non-blocking",
+      "owner": "D16 / GEO-72",
+      "next_action": "Run the online preflight once before travel and capture the evidence-only backup recording."
+    },
+    {
+      "id": "pmtiles-redistribution-terms",
+      "classification": "non-blocking",
+      "owner": "publication gate",
+      "next_action": "Confirm redistribution terms for out1120902.pmtiles before publishing a distributable offline bundle."
+    }
+  ]
+}

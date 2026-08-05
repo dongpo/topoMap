@@ -58,8 +58,18 @@
     },
     {
       "path": "nmaAgentDemo.html",
-      "sha256": "1f681e0823d1418d78dfe6ded6c31dd2947721f5d3983445afc569497361f77a",
-      "size_bytes": 17680
+      "sha256": "6ca5b46449dc83652ecb150dbc4cbd264094b02b83afedfe212797101c519241",
+      "size_bytes": 20541
+    },
+    {
+      "path": "nmaDemoWorker.js",
+      "sha256": "ffff9497789df41ddcb48d529b4b7f00d8a3b3581bcfcbe6e02801ce9050acfd",
+      "size_bytes": 3785
+    },
+    {
+      "path": "data/demo/offline-runtime.json",
+      "sha256": "975e26702cd63d87866bcfa9efe509e1336aca5d7707934b1fc3c5df7f517107",
+      "size_bytes": 2246
     },
     {
       "path": "out1120902.pmtiles",
@@ -68,8 +78,8 @@
     },
     {
       "path": "docs/FIVE-SCENE-ACCEPTANCE.md",
-      "sha256": "fb9802cd23a8cb874540cfacd5e1ad4886b2121211a488615507e401bb5e9f86",
-      "size_bytes": 3481
+      "sha256": "e7110a5d5dd3868acf0d37bfe03113ea0efae9d536bd5c881ef09ad811342edf",
+      "size_bytes": 3792
     },
     {
       "path": "assets/symbols/nlsc112v5.4/manifest.json",
@@ -104,10 +114,16 @@
   ],
   "known_issues": [
     {
-      "id": "runtime-dependencies",
+      "id": "cold-cache-map-runtime",
       "severity": "non-blocking",
-      "follow_up": "D15 / GEO-71",
-      "description": "MapLibre, PMTiles JavaScript, glyphs, and the hosted tile fallback still require an offline-ready package."
+      "follow_up": "D16 / GEO-72",
+      "description": "A cold cache without network enters the evidence-only fallback; run the online preflight and capture the backup before travel."
+    },
+    {
+      "id": "pmtiles-redistribution-terms",
+      "severity": "non-blocking",
+      "follow_up": "publication gate",
+      "description": "Confirm redistribution terms for out1120902.pmtiles before publishing a distributable offline bundle."
     },
     {
       "id": "backup-capture",

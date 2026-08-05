@@ -27,7 +27,7 @@ def test_soak_repeats_the_full_sequence_from_a_clean_reset(tmp_path: Path) -> No
     assert report["summary"]["failed"] == 0
     assert report["summary"]["pass_rate"] == 1.0
     assert all(run["scene_count"] == 5 for run in report["runs"])
-    assert all(run["artifact_count"] == 14 for run in report["runs"])
+    assert all(run["artifact_count"] == 16 for run in report["runs"])
     assert all(run["total_ms"] > 0 for run in report["runs"])
 
 
@@ -37,7 +37,8 @@ def test_soak_records_recovery_and_classifies_known_observations() -> None:
     assert report["recovery_steps"]
     assert {item["classification"] for item in report["known_observations"]} <= DEFECT_CLASSES
     assert {item["id"] for item in report["known_observations"]} == {
-        "runtime-dependencies",
+        "cold-cache-map-runtime",
+        "pmtiles-redistribution-terms",
         "backup-capture",
         "public-demo-url",
         "expert-sign-off",
