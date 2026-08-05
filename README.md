@@ -8,6 +8,26 @@ The main demonstration covers fire hydrants, aquaculture/fish ponds, police faci
 types, and post offices. Every symbol decision returns the graph path and the exact authoritative
 PDF page that supports it.
 
+**Current status:** Stable five-scene Demo RC1 (`nma-demo-v0.2-rc1`). The executable candidate is
+verified; public GitHub Pages deployment remains a separate, human-approved release step.
+
+[Demo entry file](nmaAgentDemo.html) · [Two-minute quickstart](docs/QUICKSTART.md) ·
+[RC1 evidence](docs/STABLE-DEMO-RC1.md) · [Architecture](docs/ARCHITECTURE.md) ·
+[Conference narrative](docs/FIVE-SCENE-NARRATIVE.md)
+
+## Five scenes, five agent capabilities
+
+All five scenes use one reviewed-record → graph → retrieval → portrayal → MapLibre pipeline. They
+are deliberately different tests of the same agent boundary, not five disconnected feature demos.
+
+| Scene | Agent capability | Frozen evidence |
+|---|---|---|
+| School | Versioned retrieval, governance, evidence path, and map execution | code `9920103`, PDF p. 61 |
+| Fire hydrant | Deterministic symbol choice with authoritative dimensions | code `9350906`, PDF p. 11 |
+| Police | Alias resolution plus labelled portrayal | code `9910603`, PDF p. 60 |
+| Fish pond | Geometry-aware fill, outline, and companion icon | code `9740100`, PDF p. 50 |
+| Post office | Conditional exception handling and explicit abstention boundary | code `9950201`, PDF p. 69 |
+
 ## What is implemented
 
 ```text
@@ -35,7 +55,7 @@ Open [`nmaAgentDemo.html`](nmaAgentDemo.html) to see the vector-tile portrayal d
 `out1120902.pmtiles`, applies graph-compiled layers, answers sample cartographer questions, and
 shows the evidence path when a result or rendered feature is selected.
 
-## Important research boundary
+## Status and research boundary
 
 The source PDF is now locally hashed and pages 11, 50, 60–62, and 69 were rendered and visually
 verified. The original police and hydrant approximations were replaced with open SVG/Canvas
@@ -46,31 +66,40 @@ the publication gate; official PDF crops are not redistributed.
 Source-derived records and benchmark labels also require independent expert review before
 publication. NMA does not claim autonomous authoritative map production.
 
-## Reproduce executable knowledge and map styles
+## Quickstart
 
 Requirements: Python 3.11+. Poppler's `pdftotext` is required only when extracting a PDF again.
 
 ```bash
+git clone https://github.com/dongpo/topoMap.git
+cd topoMap
+git switch codex/nma-v0.2-authoritative
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install ".[dev]"
 
-# Recompile reviewed PDF records into the portable property graph
+# Deterministically rebuild the shared graph/style, then verify Stable Demo RC1
+make demo-reset
+make demo-rc1
+make test
+
+# Serve the same files used by the live browser demo
+python -m http.server 8000
+```
+
+Open <http://localhost:8000/nmaAgentDemo.html>. The tested live sequence, expected evidence,
+online preflight, evidence-only fallback, and recovery steps are in the
+[quickstart](docs/QUICKSTART.md). Stop after the RC1 checks if only command-line reproduction is
+needed.
+
+### Inspect individual stages
+
+```bash
 nma compile-knowledge
-
-# Ask GraphRAG a human question
 nma ask "依 NLSC112V5.4，小學的代碼是什麼？"
-
-# Ask the agent to select a symbol and return its evidence path
 nma portray 9950201 --large-detached-building
-
-# Compile graph decisions into MapLibre vector-tile layers
 nma compile-style
-
-# Run the answer-key-isolated human-question/portrayal benchmark
 nma-bench --root .
-
-pytest
 ```
 
 Candidate extraction from a locally supplied official PDF is separate from review and publication:
@@ -180,6 +209,29 @@ The D18 evidence-backed slide storyboard, architecture figure, golden-path figur
 claim-to-evidence guardrails are in
 [`docs/FIVE-SCENE-NARRATIVE.md`](docs/FIVE-SCENE-NARRATIVE.md).
 
+## Public entry points
+
+| Entry point | Purpose | Release state |
+|---|---|---|
+| [Repository](https://github.com/dongpo/topoMap) | Source, issues, and review history | Public |
+| [RC1 candidate branch](https://github.com/dongpo/topoMap/tree/codex/nma-v0.2-authoritative) | Exact reviewed implementation | Public candidate |
+| [Stable RC1 tag](https://github.com/dongpo/topoMap/tree/nma-demo-v0.2-rc1) | Frozen D17 executable baseline | Public |
+| [GitHub Pages demo](https://dongpo.github.io/topoMap/nmaAgentDemo.html) | Hosted five-scene demo | Not released until merge/deploy approval |
+| [Conference materials](docs/FIVE-SCENE-NARRATIVE.md) | D18 narrative and figures | Candidate; not a published paper |
+
+## Known limitations
+
+- The reviewed subset contains 10 observations for one NLSC portrayal version and five demo
+  scenes; it is not a complete national specification.
+- Independent cartographer sign-off and a sealed held-out benchmark remain publication gates.
+- RC1 GraphRAG is deterministic lexical entity retrieval plus typed graph traversal, not general
+  semantic retrieval or a named-LLM evaluation.
+- Online first load is required to prime the pinned browser cache; evidence-only mode and the D16
+  recording are the supported offline fallbacks.
+- PMTiles redistribution terms must be confirmed before publishing the portable map archive.
+- The GitHub Pages URL stays unavailable until PR #1 is merged or a separate deployment is
+  explicitly approved. Repository readiness must not be reported as deployment completion.
+
 ## Repository map
 
 ```text
@@ -195,6 +247,8 @@ src/nma/knowledge.py                       graph compiler and retrieval
 src/nma/portrayal.py                       agent and MapLibre compiler
 benchmark/portrayal/                       questions and separate ground truth
 nmaAgentDemo.html                          PMTiles map + question/evidence UI
+index.html                                 responsive public landing page and release boundary
+docs/QUICKSTART.md                         install, RC1 verification, preview and recovery path
 docs/FIVE-SCENE-DEMO.md                    deterministic setup, reset and live runbook
 artifacts/portrayal/maplibre-layers.json   reproducibly generated evidence-bearing styles
 ```
