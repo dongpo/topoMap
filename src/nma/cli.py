@@ -19,6 +19,7 @@ from .knowledge import PortrayalGraph, compile_portrayal_graph
 from .portrayal import PortrayalAgent, compile_maplibre_layers
 from .demo_contract import check_demo_contract, reset_demo_contract
 from .demo_freeze import check_demo_freeze
+from .demo_soak import run_demo_soak
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -93,6 +94,14 @@ def _parser() -> argparse.ArgumentParser:
         "demo-freeze", help="verify the feature-complete five-scene demo manifest"
     )
     demo_freeze.add_argument("--manifest", default="data/demo/five-scene-freeze.json")
+
+    demo_soak = sub.add_parser(
+        "demo-soak", help="repeat the frozen five-scene sequence from clean resets"
+    )
+    demo_soak.add_argument("--contract", default="data/demo/five-scene-demo.json")
+    demo_soak.add_argument("--freeze", default="data/demo/five-scene-freeze.json")
+    demo_soak.add_argument("--iterations", type=int, default=20)
+    demo_soak.add_argument("--output", default="artifacts/soak/five-scene-soak.json")
     return parser
 
 
@@ -179,6 +188,16 @@ def main(argv: list[str] | None = None) -> int:
         result = check_demo_freeze(args.manifest)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
+
+    if args.command == "demo-soak":
+        result = run_demo_soak(
+            args.contract,
+            args.freeze,
+            iterations=args.iterations,
+            output=args.output,
+        )
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0 if result["summary"]["failed"] == 0 else 2
 
     if args.command == "validate":
         specification = Specification.load(resolve_asset(args.spec))

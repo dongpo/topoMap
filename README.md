@@ -93,6 +93,7 @@ timing with:
 ```bash
 make demo-scenes
 make demo-freeze
+make demo-soak
 ```
 
 Use `make demo-reset` to deterministically rebuild the shared graph and MapLibre style before a
@@ -102,6 +103,12 @@ The feature-complete freeze manifest records the approved D12 commit, the clean 
 walkthrough, all accepted capabilities and known issues, and cryptographic fingerprints for the
 runtime artifacts. `make demo-freeze` fails if one of those artifacts drifts without an explicit
 freeze update.
+
+`make demo-soak` runs 20 clean-reset repetitions, records per-run and percentile timing, captures
+recovery steps, and classifies failures as blocking defects with an owner and next action. Browser
+rounds are recorded separately because they require a running preview. See
+[`docs/FIVE-SCENE-SOAK.md`](docs/FIVE-SCENE-SOAK.md) for the protocol, measured result, defect
+triage, and recovery sequence.
 
 ## NMA-Bench v0.1
 
