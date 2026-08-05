@@ -73,7 +73,16 @@
         "properties": {
           "path": {"type": "string", "minLength": 1},
           "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-          "size_bytes": {"type": "integer", "minimum": 1}
+          "size_bytes": {"type": "integer", "minimum": 1},
+          "generator": {
+            "type": "object",
+            "required": ["kind", "graph_path"],
+            "properties": {
+              "kind": {"const": "maplibre-layers"},
+              "graph_path": {"type": "string", "minLength": 1}
+            },
+            "additionalProperties": false
+          }
         },
         "additionalProperties": false
       }

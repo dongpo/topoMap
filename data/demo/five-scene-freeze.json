@@ -50,7 +50,11 @@
     {
       "path": "artifacts/portrayal/maplibre-layers.json",
       "sha256": "1e5631c257cdf2295c56483f3520f3b601ff79dbc59c08256d6c027b7f08fb64",
-      "size_bytes": 512066
+      "size_bytes": 512066,
+      "generator": {
+        "kind": "maplibre-layers",
+        "graph_path": "data/knowledge/portrayal-graph.json"
+      }
     },
     {
       "path": "nmaAgentDemo.html",

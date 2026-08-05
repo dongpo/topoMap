@@ -18,7 +18,10 @@ def test_feature_complete_freeze_verifies_every_artifact() -> None:
     assert result["approved_base_commit"] == "06090a04792514b85823457b235f7feebf2660d4"
     assert result["scene_count"] == 5
     assert result["artifact_count"] == 14
-    assert all(artifact["status"] == "verified" for artifact in result["artifacts"])
+    assert {artifact["status"] for artifact in result["artifacts"]} <= {
+        "verified",
+        "verified-generated",
+    }
 
 
 def test_freeze_records_walkthrough_known_issues_and_change_control() -> None:
@@ -48,3 +51,24 @@ def test_freeze_rejects_unrecorded_artifact_drift(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="SHA-256"):
         check_demo_freeze(changed_manifest)
+
+
+def test_freeze_rebuilds_ignored_style_in_a_clean_checkout(tmp_path: Path) -> None:
+    manifest = load_demo_freeze(MANIFEST)
+    style = next(
+        artifact
+        for artifact in manifest["artifacts"]
+        if artifact["path"] == "artifacts/portrayal/maplibre-layers.json"
+    )
+    style["path"] = "artifacts/portrayal/not-present-in-clean-checkout.json"
+    clean_checkout_manifest = tmp_path / "clean-checkout-freeze.json"
+    clean_checkout_manifest.write_text(json.dumps(manifest), encoding="utf-8")
+
+    result = check_demo_freeze(clean_checkout_manifest)
+    verified_style = next(
+        artifact
+        for artifact in result["artifacts"]
+        if artifact["path"] == "artifacts/portrayal/not-present-in-clean-checkout.json"
+    )
+    assert verified_style["status"] == "verified-generated"
+    assert verified_style["sha256"] == style["sha256"]

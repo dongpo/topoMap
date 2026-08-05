@@ -5,7 +5,9 @@ import json
 from pathlib import Path
 from typing import Any
 
+from .knowledge import PortrayalGraph
 from .paths import resolve_asset
+from .portrayal import compile_maplibre_layers
 
 
 EXPECTED_SCENE_ORDER = ["school", "fire-hydrant", "police", "fish-pond", "post-office"]
@@ -29,6 +31,14 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _generated_artifact_bytes(generator: dict[str, Any]) -> bytes:
+    if generator["kind"] != "maplibre-layers":
+        raise ValueError(f"unsupported freeze artifact generator: {generator['kind']}")
+    graph = PortrayalGraph.load(resolve_asset(generator["graph_path"]))
+    value = {"version": 8, "layers": compile_maplibre_layers(graph)}
+    return (json.dumps(value, ensure_ascii=False, indent=2) + "\n").encode()
 
 
 def check_demo_freeze(path: str | Path) -> dict[str, Any]:
@@ -58,16 +68,23 @@ def check_demo_freeze(path: str | Path) -> dict[str, Any]:
         raise ValueError("freeze contains duplicate artifact paths")
     for artifact in manifest["artifacts"]:
         artifact_path = resolve_asset(artifact["path"])
-        if not artifact_path.is_file():
+        if artifact_path.is_file():
+            actual_size = artifact_path.stat().st_size
+            actual_sha256 = _sha256(artifact_path)
+            verification_status = "verified"
+        elif artifact.get("generator"):
+            generated_bytes = _generated_artifact_bytes(artifact["generator"])
+            actual_size = len(generated_bytes)
+            actual_sha256 = hashlib.sha256(generated_bytes).hexdigest()
+            verification_status = "verified-generated"
+        else:
             raise ValueError(f"missing frozen artifact: {artifact_path}")
-        actual_size = artifact_path.stat().st_size
         _expect(actual_size, artifact["size_bytes"], f"{artifact['path']} size")
-        actual_sha256 = _sha256(artifact_path)
         _expect(actual_sha256, artifact["sha256"], f"{artifact['path']} SHA-256")
         artifact_results.append(
             {
                 "path": artifact["path"],
-                "status": "verified",
+                "status": verification_status,
                 "size_bytes": actual_size,
                 "sha256": actual_sha256,
             }
