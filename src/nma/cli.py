@@ -21,6 +21,7 @@ from .demo_contract import check_demo_contract, reset_demo_contract
 from .demo_freeze import check_demo_freeze
 from .demo_offline import check_offline_runtime
 from .demo_soak import run_demo_soak
+from .demo_backup import check_demo_backup
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -108,6 +109,13 @@ def _parser() -> argparse.ArgumentParser:
         "demo-offline", help="verify local assets, runtime caching, and degraded fallback"
     )
     demo_offline.add_argument("--manifest", default="data/demo/offline-runtime.json")
+
+    demo_backup = sub.add_parser(
+        "demo-backup", help="verify the portable D16 presentation backup bundle"
+    )
+    demo_backup.add_argument(
+        "--manifest", default="artifacts/presentation/nma-demo-backup/MANIFEST.json"
+    )
     return parser
 
 
@@ -207,6 +215,11 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "demo-offline":
         result = check_offline_runtime(args.manifest)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+
+    if args.command == "demo-backup":
+        result = check_demo_backup(args.manifest)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
 

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>National Map Agent — offline backup</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color-scheme: dark; }
+    body { margin: 0; background: #101512; color: #f5f7f4; }
+    main { max-width: 1280px; margin: auto; padding: 24px; }
+    video, #still { display: block; width: 100%; aspect-ratio: 16/9; object-fit: contain;
+      background: #f5f7f4; border: 1px solid #526158; }
+    nav { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+    button, a.download { border: 0; border-radius: 6px; padding: 10px 14px; background: #34704f;
+      color: white; font: inherit; font-weight: 700; cursor: pointer; }
+    p { color: #bdd7c5; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>National Map Agent v0.2 — five-scene offline backup</h1>
+  <p>No network or repository access is required after this folder has been copied.</p>
+  <video id="video" controls preload="metadata">
+    <source src="nma-five-scene-backup.mp4" type="video/mp4">
+    <source src="nma-five-scene-backup.webm" type="video/webm">
+    <source src="nma-five-scene-backup.avi" type="video/x-msvideo">
+  </video>
+  <img id="still" src="screenshots/01-school.png" alt="Frozen NMA scene" hidden>
+  <p><a class="download" href="nma-five-scene-backup.avi" download>Save/open the 20-second backup video</a></p>
+  <nav aria-label="Frozen scene screenshots">
+    <button data-file="screenshots/01-school.png">1 School</button>
+    <button data-file="screenshots/02-fire-hydrant.png">2 Fire hydrant</button>
+    <button data-file="screenshots/03-police.png">3 Police</button>
+    <button data-file="screenshots/04-fish-pond.png">4 Fish pond</button>
+    <button data-file="screenshots/05-post-office.png">5 Post office</button>
+  </nav>
+  <p id="status">Use the video, or select any frozen scene screenshot.</p>
+</main>
+<script>
+const video = document.querySelector("#video");
+const still = document.querySelector("#still");
+const status = document.querySelector("#status");
+document.querySelectorAll("button[data-file]").forEach(button => {
+  button.addEventListener("click", () => {
+    video.pause();
+    video.hidden = true;
+    still.src = button.dataset.file;
+    still.hidden = false;
+    status.textContent = `${button.textContent} · frozen screenshot fallback`;
+  });
+});
+video.addEventListener("play", () => {
+  still.hidden = true;
+  video.hidden = false;
+  status.textContent = "Playing the five-scene backup recording.";
+});
+video.addEventListener("error", () => {
+  video.hidden = true;
+  still.hidden = false;
+  status.textContent = "Video unavailable; screenshot fallback is ready.";
+}, true);
+</script>
+</body>
+</html>

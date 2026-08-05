@@ -1,0 +1,153 @@
+{
+  "backup_version": "nma-demo-d16-v1",
+  "created_at": "2026-08-05T15:37:00+08:00",
+  "source": {
+    "branch": "codex/nma-v0.2-authoritative",
+    "commit": "42a4dd5",
+    "freeze_manifest": "data/demo/five-scene-freeze.json",
+    "offline_runtime": "data/demo/offline-runtime.json"
+  },
+  "scenes": [
+    {
+      "id": "school",
+      "label": "School",
+      "code": "9920103",
+      "pdf_page": 61,
+      "action": "draw_symbol"
+    },
+    {
+      "id": "fire-hydrant",
+      "label": "Fire hydrant",
+      "code": "9350906",
+      "pdf_page": 11,
+      "action": "draw_symbol"
+    },
+    {
+      "id": "police",
+      "label": "Police",
+      "code": "9910603",
+      "pdf_page": 60,
+      "action": "draw_symbol"
+    },
+    {
+      "id": "fish-pond",
+      "label": "Fish pond",
+      "code": "9740100",
+      "pdf_page": 50,
+      "action": "draw_symbol"
+    },
+    {
+      "id": "post-office",
+      "label": "Post office",
+      "code": "9950201",
+      "pdf_page": 69,
+      "action": "text_only"
+    }
+  ],
+  "video": {
+    "duration_seconds": 20,
+    "frames": 20,
+    "width": 1280,
+    "height": 720,
+    "seconds_per_scene": 4
+  },
+  "fallback_order": [
+    "live",
+    "degraded",
+    "video",
+    "screenshots"
+  ],
+  "portability": {
+    "no_network_required": true,
+    "no_repository_required": true,
+    "primary_entrypoint": "PLAYBACK.html",
+    "system_video": "nma-five-scene-backup.avi",
+    "checksum_command": "sh VERIFY-CHECKSUMS.sh"
+  },
+  "assets": [
+    {
+      "path": "PLAYBACK.html",
+      "role": "offline-player",
+      "media_type": "text/html",
+      "sha256": "0cfa0ad78822e99751f21c068782a409dcce0da72f1ecab72dc2ad74e18eaa46"
+    },
+    {
+      "path": "RUNBOOK.md",
+      "role": "restart-runbook",
+      "media_type": "text/markdown",
+      "sha256": "d8f0c100ab1047d93f3e000247451e5bfc532462992b34b68362bfbadc099f2c"
+    },
+    {
+      "path": "VERIFY-CHECKSUMS.sh",
+      "role": "checksum-verifier",
+      "media_type": "text/x-shellscript",
+      "sha256": "ee41a7abb9b3f060480a64807e3a968aa5da911148464b3b5e1e687836f3802f"
+    },
+    {
+      "path": "nma-five-scene-backup.avi",
+      "role": "backup-video",
+      "media_type": "video/x-msvideo; codecs=mjpeg",
+      "sha256": "e71cb5cec70042c1969ed27eb505376a890c0c5fd0092b63a89778f85d14e7f8"
+    },
+    {
+      "path": "screenshots/01-school.png",
+      "role": "scene-screenshot",
+      "media_type": "image/png",
+      "sha256": "22abdb6c7c178a9243479a996a417355ff51d06a1390f759caeb95cf04fd87be"
+    },
+    {
+      "path": "screenshots/02-fire-hydrant.png",
+      "role": "scene-screenshot",
+      "media_type": "image/png",
+      "sha256": "f1e81bd08b456f2565a53aa061a7b0ea4949582b83e351330111983d22885984"
+    },
+    {
+      "path": "screenshots/03-police.png",
+      "role": "scene-screenshot",
+      "media_type": "image/png",
+      "sha256": "eac583f4f2728b7a7f69fcfb3eece3b131a83e37b6f874d39f8f4514eee825f2"
+    },
+    {
+      "path": "screenshots/04-fish-pond.png",
+      "role": "scene-screenshot",
+      "media_type": "image/png",
+      "sha256": "49bc7ad082a26cf2868016b4fb8400e9be31d6ca0ea1e53b7d08a68ea733471a"
+    },
+    {
+      "path": "screenshots/05-post-office.png",
+      "role": "scene-screenshot",
+      "media_type": "image/png",
+      "sha256": "f38ed4ada74b116b97919ec9974b18af24b5730a7a4925528422115e3cde337b"
+    },
+    {
+      "path": "evidence/01-school-evidence.png",
+      "role": "evidence-screenshot",
+      "media_type": "image/png",
+      "sha256": "e406ac765e9ad730a2ab06b70008a81fc13aa57f616d2d7203042ff60c32cf90"
+    },
+    {
+      "path": "evidence/02-fire-hydrant-evidence.png",
+      "role": "evidence-screenshot",
+      "media_type": "image/png",
+      "sha256": "416220e305e03ce5e2f263458587c6160efb8e6b39bdbaaff0b54b7052ffa8e7"
+    },
+    {
+      "path": "evidence/03-police-evidence.png",
+      "role": "evidence-screenshot",
+      "media_type": "image/png",
+      "sha256": "be9f71b35e647e1f3f260d62736ec6eafd34471e87efacf5bc9881a444ef492d"
+    },
+    {
+      "path": "evidence/04-fish-pond-evidence.png",
+      "role": "evidence-screenshot",
+      "media_type": "image/png",
+      "sha256": "4f9b1734d01a345fed1e64864f76019186c5b065b2f3a75bb699d2a1fb017b08"
+    },
+    {
+      "path": "evidence/05-post-office-evidence.png",
+      "role": "evidence-screenshot",
+      "media_type": "image/png",
+      "sha256": "621948c1a49c3524e013735964b257087b8bdcb9a821a313708caad33be82538"
+    }
+  ]
+}
