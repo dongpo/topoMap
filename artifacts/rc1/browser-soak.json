@@ -1,0 +1,67 @@
+{
+  "evidence_version": "nma-demo-d17-browser-soak-v1",
+  "tested_at": "2026-08-05T15:52:00+08:00",
+  "mode": "pinned-offline-cache-with-origin-unavailable",
+  "runtime_status": "Map ready · local PMTiles · pinned runtime cache enabled",
+  "scene_order": [
+    "school",
+    "fire-hydrant",
+    "police",
+    "fish-pond",
+    "post-office"
+  ],
+  "summary": {
+    "completed_rounds": 10,
+    "passed_rounds": 10,
+    "failed_rounds": 0,
+    "pass_rate": 1.0,
+    "median_duration_ms": 1666.5,
+    "p95_duration_ms": 1699,
+    "max_duration_ms": 1699,
+    "console_errors": 0,
+    "console_warnings": 0
+  },
+  "durations_ms": [1515, 1678, 1699, 1667, 1666, 1670, 1664, 1647, 1668, 1661],
+  "scene_evidence": [
+    {
+      "scene_id": "school",
+      "code": "9920103",
+      "page": 61,
+      "action": "draw_symbol",
+      "verified_rounds": 10
+    },
+    {
+      "scene_id": "fire-hydrant",
+      "code": "9350906",
+      "page": 11,
+      "action": "draw_symbol",
+      "verified_rounds": 10
+    },
+    {
+      "scene_id": "police",
+      "code": "9910603",
+      "page": 60,
+      "action": "draw_symbol",
+      "verified_rounds": 10
+    },
+    {
+      "scene_id": "fish-pond",
+      "code": "9740100",
+      "page": 50,
+      "action": "draw_symbol",
+      "verified_rounds": 10
+    },
+    {
+      "scene_id": "post-office",
+      "code": "9950201",
+      "page": 69,
+      "action": "text_only",
+      "verified_rounds": 10
+    }
+  ],
+  "notes": [
+    "The origin server was unavailable, so every reload was served by the pinned D15 service-worker cache.",
+    "All five decisions retained their feature code, PDF page, action, graph path, and governance metadata.",
+    "D15 separately verified the forced evidence-only mode; D16 user approval covers recorded and screenshot playback."
+  ]
+}

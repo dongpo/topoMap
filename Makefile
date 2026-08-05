@@ -1,4 +1,4 @@
-.PHONY: test demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-reset bench bench-models verify
+.PHONY: test demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-rc1 demo-reset bench bench-models verify
 
 test:
 	PYTHONPATH=src python3 -m pytest -q
@@ -22,6 +22,9 @@ demo-offline:
 
 demo-backup:
 	PYTHONPATH=src python3 -m nma.cli demo-backup
+
+demo-rc1:
+	PYTHONPATH=src python3 -m nma.cli demo-rc1
 
 demo-reset:
 	PYTHONPATH=src python3 -m nma.cli demo-scenes --reset

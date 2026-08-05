@@ -22,6 +22,7 @@ from .demo_freeze import check_demo_freeze
 from .demo_offline import check_offline_runtime
 from .demo_soak import run_demo_soak
 from .demo_backup import check_demo_backup
+from .demo_rc1 import check_demo_rc1
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -116,6 +117,9 @@ def _parser() -> argparse.ArgumentParser:
     demo_backup.add_argument(
         "--manifest", default="artifacts/presentation/nma-demo-backup/MANIFEST.json"
     )
+
+    demo_rc1 = sub.add_parser("demo-rc1", help="verify the stable five-scene Demo RC1 release gate")
+    demo_rc1.add_argument("--manifest", default="data/demo/stable-rc1.json")
     return parser
 
 
@@ -220,6 +224,11 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "demo-backup":
         result = check_demo_backup(args.manifest)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+
+    if args.command == "demo-rc1":
+        result = check_demo_rc1(args.manifest)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
 

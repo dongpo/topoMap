@@ -95,6 +95,8 @@ make demo-scenes
 make demo-freeze
 make demo-soak
 make demo-offline
+make demo-backup
+make demo-rc1
 ```
 
 Use `make demo-reset` to deterministically rebuild the shared graph and MapLibre style before a
@@ -115,6 +117,12 @@ triage, and recovery sequence.
 evidence-only fallback, and owned non-blocking deferrals. See
 [`docs/OFFLINE-RUNTIME.md`](docs/OFFLINE-RUNTIME.md) for the online preflight and degraded-mode
 test.
+
+`make demo-backup` verifies the portable D16 video, screenshots, evidence panels, player, runbook,
+and checksums. `make demo-rc1` then verifies the complete D17 Stable Demo RC1 gate: 20 clean-reset
+runs, ten cached live-map browser rounds, both D15 runtime modes, the human-approved D16 fallback,
+the versioned environment and runbooks, and zero unresolved blocking defects. See
+[`docs/STABLE-DEMO-RC1.md`](docs/STABLE-DEMO-RC1.md).
 
 ## NMA-Bench v0.1
 
@@ -177,6 +185,7 @@ data/knowledge/portrayal-profile.json      rendering implementation boundary
 data/knowledge/portrayal-graph.json        compiled executable knowledge
 data/demo/five-scene-demo.json             frozen scene inputs, outputs and shared data contract
 data/demo/five-scene-freeze.json           feature-complete fingerprints and change-control policy
+data/demo/stable-rc1.json                   Stable Demo RC1 release manifest and final gate
 assets/symbols/nlsc112v5.4/               source-hashed, visually verified open SVG symbols
 src/nma/extraction.py                      PDF candidate extraction
 src/nma/knowledge.py                       graph compiler and retrieval
