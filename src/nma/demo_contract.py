@@ -81,7 +81,12 @@ def check_demo_contract(path: str | Path) -> dict[str, Any]:
             f"{scene['id']} action",
         )
         _expect(decision["evidence"]["page"], expected["evidence_page"], f"{scene['id']} page")
-        for symbol_field in ("label_field", "companion_icon", "official_dimensions_mm"):
+        for symbol_field in (
+            "maplibre_type",
+            "label_field",
+            "companion_icon",
+            "official_dimensions_mm",
+        ):
             if symbol_field in expected:
                 _expect(
                     decision["symbol"].get(symbol_field),

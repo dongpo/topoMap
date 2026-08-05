@@ -102,6 +102,8 @@
         "evidence_page": 50,
         "primary_source_layer": "J01_WATERA",
         "symbol_id": "fish-pond",
+        "maplibre_type": "fill",
+        "geometry_type": "polygon",
         "selected_action": "draw_symbol",
         "companion_icon": "waterFishIcon"
       }

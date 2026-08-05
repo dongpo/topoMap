@@ -158,17 +158,46 @@ def test_unsupported_portrayal_contexts_fail_explicitly_without_partial_outputs(
 
 
 def test_maplibre_layers_carry_rule_and_pdf_evidence() -> None:
-    layers = compile_maplibre_layers(PortrayalGraph.load(GRAPH_PATH))
-    pond = next(
+    graph = PortrayalGraph.load(GRAPH_PATH)
+    decision = PortrayalAgent(graph).select_symbol("9740100")
+    layers = compile_maplibre_layers(graph)
+    base = next(
+        layer
+        for layer in layers
+        if layer["source-layer"] == "J01_WATERA"
+        and layer["metadata"].get("nma:featureCode") == "9740100"
+        and layer["metadata"].get("nma:role") is None
+    )
+    icon = next(
         layer
         for layer in layers
         if layer["source-layer"] == "J01_WATERA"
         and layer["metadata"].get("nma:featureCode") == "9740100"
         and layer["metadata"].get("nma:role") == "portrayal-icon"
     )
-    assert pond["layout"]["icon-image"] == "waterFishIcon"
-    assert pond["metadata"]["nma:evidence"]["page"] == 50
-    assert pond["metadata"]["nma:ruleId"].endswith(":9740100")
+    expected_filter = ["==", ["to-string", ["get", "TERRAINID"]], "9740100"]
+
+    assert decision.feature_code == "9740100"
+    assert decision.symbol["maplibre_type"] == "fill"
+    assert decision.symbol["companion_icon"] == "waterFishIcon"
+    assert decision.evidence["page"] == 50
+    assert decision.rule["source_layers"][0] == "J01_WATERA"
+    assert base["type"] == "fill"
+    assert base["filter"] == expected_filter
+    assert base["paint"] == {
+        "fill-color": "#ffffff",
+        "fill-opacity": 0,
+        "fill-outline-color": "#1565c0",
+    }
+    assert icon["type"] == "symbol"
+    assert icon["filter"] == expected_filter
+    assert icon["layout"]["icon-image"] == "waterFishIcon"
+    assert base["metadata"]["nma:ruleId"] == decision.rule["rule_id"]
+    assert icon["metadata"]["nma:ruleId"] == decision.rule["rule_id"]
+    assert base["metadata"]["nma:evidence"] == decision.evidence
+    assert icon["metadata"]["nma:evidence"] == decision.evidence
+    assert base["metadata"]["nma:graphPath"] == decision.graph_path
+    assert icon["metadata"]["nma:graphPath"] == decision.graph_path
 
 
 def test_point_scenes_keep_agent_map_and_evidence_outputs_aligned() -> None:

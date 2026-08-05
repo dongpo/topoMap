@@ -62,3 +62,20 @@ def test_browser_evidence_panel_exposes_governance_and_abstention_fields() -> No
         "No evidence was used. The agent stopped before portrayal.",
     }
     assert required_tokens <= {token for token in required_tokens if token in html}
+
+
+def test_fish_pond_browser_path_exposes_geometry_and_click_evidence() -> None:
+    contract = load_demo_contract(CONTRACT)
+    pond = next(scene for scene in contract["scenes"] if scene["id"] == "fish-pond")
+    html = (ROOT / "nmaAgentDemo.html").read_text(encoding="utf-8")
+
+    assert pond["expected"]["feature_code"] == "9740100"
+    assert pond["expected"]["evidence_page"] == 50
+    assert pond["expected"]["primary_source_layer"] == "J01_WATERA"
+    assert pond["expected"]["maplibre_type"] == "fill"
+    assert pond["expected"]["geometry_type"] == "polygon"
+    assert pond["expected"]["companion_icon"] == "waterFishIcon"
+    assert 'geometry_type:impl.maplibre_type==="fill"?"polygon":"point"' in html
+    assert "Geometry: <code>${decision.symbol.geometry_type}</code>" in html
+    assert "map.queryRenderedFeatures(event.point)" in html
+    assert 'renderDecision(executeRequest({question:"Map feature inspection",feature_code:' in html
