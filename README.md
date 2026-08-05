@@ -176,6 +176,9 @@ The API adds:
 
 The FOSS4G Hiroshima narrative is in
 [`docs/FOSS4G-HIROSHIMA-2026.md`](docs/FOSS4G-HIROSHIMA-2026.md).
+The D18 evidence-backed slide storyboard, architecture figure, golden-path figure, and
+claim-to-evidence guardrails are in
+[`docs/FIVE-SCENE-NARRATIVE.md`](docs/FIVE-SCENE-NARRATIVE.md).
 
 ## Repository map
 
