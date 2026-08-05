@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/nma/five-scene-freeze.schema.json",
+  "title": "NMA RC1 feature-complete freeze manifest",
+  "type": "object",
+  "required": [
+    "freeze_version",
+    "status",
+    "created_on",
+    "source",
+    "walkthrough",
+    "approved_capabilities",
+    "artifacts",
+    "known_issues",
+    "post_freeze_policy"
+  ],
+  "properties": {
+    "freeze_version": {"const": "nma-demo-rc1-feature-complete"},
+    "status": {"const": "feature-complete"},
+    "created_on": {"type": "string", "format": "date"},
+    "source": {
+      "type": "object",
+      "required": ["repository", "branch", "approved_base_commit", "demo_contract"],
+      "properties": {
+        "repository": {"const": "dongpo/topoMap"},
+        "branch": {"type": "string", "minLength": 1},
+        "approved_base_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "demo_contract": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "walkthrough": {
+      "type": "object",
+      "required": [
+        "acceptance_record",
+        "environment",
+        "scene_order",
+        "status",
+        "console_errors",
+        "console_warnings"
+      ],
+      "properties": {
+        "acceptance_record": {"type": "string", "minLength": 1},
+        "environment": {"type": "string", "minLength": 1},
+        "scene_order": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "school"},
+            {"const": "fire-hydrant"},
+            {"const": "police"},
+            {"const": "fish-pond"},
+            {"const": "post-office"}
+          ],
+          "items": false
+        },
+        "status": {"const": "passed"},
+        "console_errors": {"const": 0},
+        "console_warnings": {"const": 0}
+      },
+      "additionalProperties": false
+    },
+    "approved_capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256", "size_bytes"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "size_bytes": {"type": "integer", "minimum": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "known_issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "follow_up", "description"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "severity": {"const": "non-blocking"},
+          "follow_up": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "post_freeze_policy": {
+      "type": "object",
+      "required": ["allowed_change", "required_evidence", "prohibited_changes"],
+      "properties": {
+        "allowed_change": {"const": "blocking reliability defect only"},
+        "required_evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "prohibited_changes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

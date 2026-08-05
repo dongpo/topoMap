@@ -92,11 +92,16 @@ timing with:
 
 ```bash
 make demo-scenes
+make demo-freeze
 ```
 
 Use `make demo-reset` to deterministically rebuild the shared graph and MapLibre style before a
 rehearsal. See [`docs/FIVE-SCENE-DEMO.md`](docs/FIVE-SCENE-DEMO.md) for the five-minute script and
 setup procedure.
+The feature-complete freeze manifest records the approved D12 commit, the clean five-scene
+walkthrough, all accepted capabilities and known issues, and cryptographic fingerprints for the
+runtime artifacts. `make demo-freeze` fails if one of those artifacts drifts without an explicit
+freeze update.
 
 ## NMA-Bench v0.1
 
@@ -158,6 +163,7 @@ data/extraction/portrayal-records.jsonl    reviewed PDF observations
 data/knowledge/portrayal-profile.json      rendering implementation boundary
 data/knowledge/portrayal-graph.json        compiled executable knowledge
 data/demo/five-scene-demo.json             frozen scene inputs, outputs and shared data contract
+data/demo/five-scene-freeze.json           feature-complete fingerprints and change-control policy
 assets/symbols/nlsc112v5.4/               source-hashed, visually verified open SVG symbols
 src/nma/extraction.py                      PDF candidate extraction
 src/nma/knowledge.py                       graph compiler and retrieval

@@ -10,6 +10,9 @@ timing, asset paths, licence boundary, and output artifacts for all five scenes.
 [`schemas/five-scene-demo.schema.json`](../schemas/five-scene-demo.schema.json).
 The clean-browser gate and current runtime dependency audit are recorded in
 [`docs/FIVE-SCENE-ACCEPTANCE.md`](FIVE-SCENE-ACCEPTANCE.md).
+The D13 feature-complete baseline, artifact fingerprints, accepted known issues, and change-control
+policy are recorded in
+[`data/demo/five-scene-freeze.json`](../data/demo/five-scene-freeze.json).
 
 ## Deterministic setup and reset
 
@@ -21,6 +24,7 @@ python3 -m venv .venv
 python -m pip install -e '.[dev]'
 make demo-reset
 make demo-scenes
+make demo-freeze
 make test
 python3 -m http.server 8080
 ```
@@ -56,4 +60,8 @@ selected `text_only` action, page 69 evidence link, source hash, and review stat
 `make demo-scenes` validates these fields, all five exact decisions, their primary map layers, the
 single shared profile/graph/runner paths, and both unsupported-scale and unsupported-profile
 abstentions. In the browser, `text_only` hides the post symbol layer while retaining the name-label
-layer. A sixth scene or a second profile fails the frozen contract.
+layer. A sixth scene or a second profile fails the frozen contract. `make demo-freeze` separately
+verifies the D12-approved base commit reference and SHA-256/size fingerprints for the contract,
+knowledge, styles, runner, PMTiles, acceptance record, and five symbol assets. After this feature
+freeze, changes are limited to blocking reliability defects with a tracking issue, reproduction,
+verification, and refreshed fingerprints.

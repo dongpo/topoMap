@@ -1,4 +1,4 @@
-.PHONY: test demo demo-scenes demo-reset bench bench-models verify
+.PHONY: test demo demo-scenes demo-freeze demo-reset bench bench-models verify
 
 test:
 	PYTHONPATH=src python3 -m pytest -q
@@ -10,6 +10,9 @@ demo:
 
 demo-scenes:
 	PYTHONPATH=src python3 -m nma.cli demo-scenes
+
+demo-freeze:
+	PYTHONPATH=src python3 -m nma.cli demo-freeze
 
 demo-reset:
 	PYTHONPATH=src python3 -m nma.cli demo-scenes --reset

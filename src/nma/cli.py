@@ -18,6 +18,7 @@ from .extraction import extract_pdf_candidates, write_jsonl
 from .knowledge import PortrayalGraph, compile_portrayal_graph
 from .portrayal import PortrayalAgent, compile_maplibre_layers
 from .demo_contract import check_demo_contract, reset_demo_contract
+from .demo_freeze import check_demo_freeze
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -87,6 +88,11 @@ def _parser() -> argparse.ArgumentParser:
     )
     demo_scenes.add_argument("--contract", default="data/demo/five-scene-demo.json")
     demo_scenes.add_argument("--reset", action="store_true")
+
+    demo_freeze = sub.add_parser(
+        "demo-freeze", help="verify the feature-complete five-scene demo manifest"
+    )
+    demo_freeze.add_argument("--manifest", default="data/demo/five-scene-freeze.json")
     return parser
 
 
@@ -166,6 +172,11 @@ def main(argv: list[str] | None = None) -> int:
         result = (
             reset_demo_contract(args.contract) if args.reset else check_demo_contract(args.contract)
         )
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+
+    if args.command == "demo-freeze":
+        result = check_demo_freeze(args.manifest)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
 
