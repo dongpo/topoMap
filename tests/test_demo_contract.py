@@ -109,4 +109,13 @@ def test_post_office_browser_path_applies_exception_abstention_and_provenance() 
     assert 'stage:"evidence_link"' in html
     assert "function applyDecisionToMap(decision)" in html
     assert 'decision.symbol.action!=="text_only"||role==="label"' in html
+    assert "if(map.getLayer(layer.id))" in html
     assert "Execution / provenance log" in html
+
+
+def test_browser_maplibre_layers_are_validated_for_clean_runtime_loading() -> None:
+    html = (ROOT / "nmaAgentDemo.html").read_text(encoding="utf-8")
+
+    assert "paint:undefined" not in html
+    assert "delete companion.paint" in html
+    assert 'glyphs:"https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf"' in html

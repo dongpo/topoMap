@@ -8,6 +8,8 @@ The executable source of truth is [`data/demo/five-scene-demo.json`](../data/dem
 It records the exact prompt, feature code, expected decision, primary map layer, evidence page,
 timing, asset paths, licence boundary, and output artifacts for all five scenes. The schema is
 [`schemas/five-scene-demo.schema.json`](../schemas/five-scene-demo.schema.json).
+The clean-browser gate and current runtime dependency audit are recorded in
+[`docs/FIVE-SCENE-ACCEPTANCE.md`](FIVE-SCENE-ACCEPTANCE.md).
 
 ## Deterministic setup and reset
 
