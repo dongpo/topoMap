@@ -1,4 +1,4 @@
-const CACHE_NAME = "nma-demo-d15-v2";
+const CACHE_NAME = "nma-agentic-v0.3-a02";
 const GLYPH_PREFIX = "https://cdn.protomaps.com/fonts/pbf/";
 
 const PINNED_RUNTIME_ASSETS = [
@@ -11,6 +11,12 @@ const LOCAL_APP_SHELL = [
   "./nmaAgentDemo.html",
   "./data/knowledge/portrayal-graph.json",
   "./data/demo/five-scene-demo.json",
+  "./data/demo/pmtiles-capability-catalog.json",
+  "./assets/symbols/nlsc112v5.4/school.svg",
+  "./assets/symbols/nlsc112v5.4/fire-hydrant.svg",
+  "./assets/symbols/nlsc112v5.4/police.svg",
+  "./assets/symbols/nlsc112v5.4/fish-pond.svg",
+  "./assets/symbols/nlsc112v5.4/post.svg",
   "./out1120902.pmtiles",
 ];
 
@@ -38,7 +44,9 @@ function isRuntimeRequest(url) {
 }
 
 function isLocalShellRequest(url) {
-  return LOCAL_APP_SHELL.some(asset => new URL(asset, self.location.href).href === url.href);
+  const canonical = new URL(url.href);
+  canonical.search = "";
+  return LOCAL_APP_SHELL.some(asset => new URL(asset, self.location.href).href === canonical.href);
 }
 
 function isLocalPmtiles(url) {
@@ -85,6 +93,17 @@ self.addEventListener("fetch", event => {
   event.respondWith((async () => {
     const cache = await caches.open(CACHE_NAME);
     if (isLocalPmtiles(url)) return pmtilesRangeResponse(event.request, url, cache);
+    if (isLocalShellRequest(url)) {
+      try {
+        const response = await fetch(event.request);
+        if (response.ok) event.waitUntil(cache.put(event.request, response.clone()));
+        return response;
+      } catch (error) {
+        const fallback = await cache.match(event.request, {ignoreSearch: true});
+        if (fallback) return fallback;
+        throw error;
+      }
+    }
     const cached = await cache.match(event.request, {ignoreSearch: false});
     if (cached) return cached;
     const response = await fetch(event.request);

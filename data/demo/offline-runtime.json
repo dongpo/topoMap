@@ -1,17 +1,24 @@
 {
-  "runtime_version": "nma-demo-d15-v2",
+  "runtime_version": "nma-agentic-v0.3-a02",
   "status": "mitigated",
   "local_assets": [
     "nmaAgentDemo.html",
     "nmaDemoWorker.js",
     "data/knowledge/portrayal-graph.json",
     "data/demo/five-scene-demo.json",
+    "data/demo/pmtiles-capability-catalog.json",
+    "assets/symbols/nlsc112v5.4/school.svg",
+    "assets/symbols/nlsc112v5.4/fire-hydrant.svg",
+    "assets/symbols/nlsc112v5.4/police.svg",
+    "assets/symbols/nlsc112v5.4/fish-pond.svg",
+    "assets/symbols/nlsc112v5.4/post.svg",
     "out1120902.pmtiles"
   ],
   "local_pmtiles_url": "out1120902.pmtiles",
   "cache": {
     "worker": "nmaDemoWorker.js",
-    "name": "nma-demo-d15-v2",
+    "name": "nma-agentic-v0.3-a02",
+    "local_shell_strategy": "network-first-with-cache-fallback",
     "pinned_runtime_assets": [
       "https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css",
       "https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js",
@@ -33,7 +40,7 @@
     "omits": ["interactive map rendering"]
   },
   "verification": {
-    "tested_on": "2026-08-05",
+    "tested_on": "2026-08-07",
     "normal_mode": {
       "status": "passed",
       "runtime_status": "Map ready · local PMTiles · pinned runtime cache enabled",

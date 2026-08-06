@@ -11,9 +11,9 @@ def test_offline_runtime_packages_local_data_and_a_degraded_fallback() -> None:
     result = check_offline_runtime()
 
     assert result == {
-        "runtime_version": "nma-demo-d15-v2",
+        "runtime_version": "nma-agentic-v0.3-a02",
         "status": "passed",
-        "local_asset_count": 5,
+        "local_asset_count": 11,
         "pinned_runtime_asset_count": 3,
         "fallback_mode": "evidence-only",
         "browser_modes_verified": 2,
@@ -27,6 +27,7 @@ def test_offline_manifest_keeps_deferrals_owned_and_non_blocking() -> None:
     assert runtime["local_pmtiles_url"] == "out1120902.pmtiles"
     assert runtime["pmtiles_range_strategy"] == "service-worker-local-range-adapter"
     assert runtime["cache"]["glyph_strategy"] == "cache-on-use"
+    assert runtime["cache"]["local_shell_strategy"] == "network-first-with-cache-fallback"
     assert runtime["verification"]["normal_mode"]["local_pmtiles_range_adapter"] == "passed"
     assert runtime["verification"]["degraded_mode"]["passed_scenes"] == 5
     assert all(item["classification"] == "non-blocking" for item in runtime["deferred"])
