@@ -29,7 +29,7 @@ The 20-minute speaking limit comes from the official
 | Portable backup | Passed | Manifest, video, playback page, five screenshots, and five evidence images matched checksums |
 | Presentation structure | Passed | 12 slides, 12 source-note blocks, no slide-canvas overflow |
 | Public release | Passed | Bounded evidence-only Pages artifact deployed in run #36 |
-| Full local browser path | Pending | Requires presenter-started local preview; agent sandbox cannot bind the rehearsal port |
+| Full local browser path | Passed | Presenter-started preview reached `Map ready · local PMTiles · pinned runtime cache enabled`; all five live scene controls returned the expected evidence page and portrayal action, with zero browser errors or warnings |
 
 ## Target timing card
 
@@ -95,7 +95,7 @@ confirmed during the uninterrupted presenter run.
 | DR1-02 | Speaker notes | High | Slides 3, 4, 6, and 7 contain sources but no spoken transition or concise talk track; timing may depend on improvisation. | Codex + dongpo | 08/27 | Add notes in D24; do not edit before dry run #1 |
 | DR1-03 | Demo handoff | Medium | Slide 5's embedded UI screenshot is not readable at conference distance; it must function only as a handoff cue, not evidence. | dongpo | 08/25 | Validate on the presentation display during the timed run |
 | DR1-04 | Research section | Medium | Slides 8–11 contain the densest prose and are the most likely source of overruns. | dongpo | 08/25 | Record actual cumulative times; apply the cut cues above |
-| DR1-05 | Live-path verification | Pending human step | Full local MapLibre execution and live-to-fallback timing require a presenter-started preview. Automated reset, freeze, scene, offline, and backup gates passed. | dongpo | 08/25 | Complete the uninterrupted rehearsal and enter actual times |
+| DR1-05 | Live-path verification | Pending human step | Local MapLibre execution and all five live scenes passed. Only the uninterrupted talk timing and deliberate live-to-fallback transition remain to be measured by the presenter. | dongpo | 08/25 | Complete the uninterrupted rehearsal and enter actual times |
 
 ## Presenter result — complete immediately after the run
 
