@@ -13,7 +13,12 @@ bundle.
 - Conference format: regular talk, 20 minutes speaking + 5 minutes Q&A
 - Target content duration: **17:20**
 - Required delivery buffer: **2:40**
-- Actual uninterrupted run: **pending presenter rehearsal**
+- Actual uninterrupted run: **waived by the owner on 2026-08-06**
+
+The owner explicitly chose to close D22 without the uninterrupted timed rehearsal. The acceptance
+checklist below is therefore intentionally incomplete and must not be represented as passed. D22
+was closed by owner waiver after the automated and local live-path preflight passed. Residual
+timing and delivery risk transfers to D25 and the final conference acceptance gate.
 
 The 20-minute speaking limit comes from the official
 [FOSS4G Hiroshima 2026 regular-talk format](https://2026.foss4g.org/en/call-for-papers/general-sessions/).
@@ -121,4 +126,5 @@ confirmed during the uninterrupted presenter run.
 - [ ] Every blocking defect has an owner and due date.
 - [ ] Required cuts preserve the bounded authority claim.
 
-Do not close GEO-80 until the presenter result and acceptance checklist are completed.
+GEO-80 was closed on 2026-08-06 by explicit owner waiver. The incomplete checklist is retained for
+traceability.
