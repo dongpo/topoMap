@@ -1,5 +1,5 @@
 {
-  "runtime_version": "nma-agentic-v0.3-a02",
+  "runtime_version": "nma-agentic-v0.3-a04",
   "status": "mitigated",
   "local_assets": [
     "nmaAgentDemo.html",
@@ -17,7 +17,7 @@
   "local_pmtiles_url": "out1120902.pmtiles",
   "cache": {
     "worker": "nmaDemoWorker.js",
-    "name": "nma-agentic-v0.3-a02",
+    "name": "nma-agentic-v0.3-a04",
     "local_shell_strategy": "network-first-with-cache-fallback",
     "pinned_runtime_assets": [
       "https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css",

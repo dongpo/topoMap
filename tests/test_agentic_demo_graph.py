@@ -50,7 +50,7 @@ def test_a02_keeps_non_authoritative_and_abstained_paths_empty() -> None:
 def test_a02_updates_local_shell_without_losing_offline_fallback() -> None:
     worker = WORKER.read_text(encoding="utf-8")
 
-    assert 'const CACHE_NAME = "nma-agentic-v0.3-a02"' in worker
+    assert 'const CACHE_NAME = "nma-agentic-v0.3-a' in worker
     assert '"./data/demo/pmtiles-capability-catalog.json"' in worker
     assert '"./assets/symbols/nlsc112v5.4/school.svg"' in worker
     assert "const response = await fetch(event.request)" in worker

@@ -1,4 +1,4 @@
-const CACHE_NAME = "nma-agentic-v0.3-a02";
+const CACHE_NAME = "nma-agentic-v0.3-a04";
 const GLYPH_PREFIX = "https://cdn.protomaps.com/fonts/pbf/";
 
 const PINNED_RUNTIME_ASSETS = [
@@ -34,7 +34,7 @@ self.addEventListener("install", event => {
 self.addEventListener("activate", event => {
   event.waitUntil((async () => {
     const names = await caches.keys();
-    await Promise.all(names.filter(name => name.startsWith("nma-demo-") && name !== CACHE_NAME).map(name => caches.delete(name)));
+    await Promise.all(names.filter(name => name.startsWith("nma-") && name !== CACHE_NAME).map(name => caches.delete(name)));
     await self.clients.claim();
   })());
 });
