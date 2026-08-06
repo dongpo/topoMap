@@ -1,0 +1,1158 @@
+{
+  "schema": "nma.pmtiles-capability-catalog/1.0",
+  "source": "pmtilesDemo.html#TERRAINID_GROUPS",
+  "profile_id": "tw-nlsc-1000-NLSC112V5.4",
+  "count": 42,
+  "status_counts": {
+    "implementation-only": 28,
+    "style-variant": 5,
+    "evidence-backed": 5,
+    "conflicted": 4
+  },
+  "capabilities": [
+    {
+      "code": "9420101",
+      "label": "國道高速公路",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9420101",
+      "renderer": "tw-highway-shield",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9420201",
+      "label": "一般省道",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9420201",
+      "renderer": "tw-primary-shield",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9420202",
+      "label": "省道快速公路",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9420202",
+      "renderer": "tw-primary-shield",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9420400",
+      "label": "縣道",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9420400",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9420600",
+      "label": "鄉道",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9420600",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9420801",
+      "label": "一般市區道路",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9420801",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9420908",
+      "label": "無名道路",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9420908",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9420909",
+      "label": "區塊內道路",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9420909",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9420900a",
+      "label": "其他道路",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "style-variant",
+      "evidence_available": false,
+      "base_code": "9420900",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9420900b",
+      "label": "其他道路",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "style-variant",
+      "evidence_available": false,
+      "base_code": "9420900",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9421001",
+      "label": "匝道",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9421001",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9440100",
+      "label": "隧道",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9440100",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9440202",
+      "label": "公路橋(吊橋除外)",
+      "category": "道路 Road",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9440202",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "ROADA",
+        "ROAD"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9510101",
+      "label": "江河溪",
+      "category": "水域 Water Body",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9510101",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "WATERA",
+        "RIVERA",
+        "RIVERL"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9510106",
+      "label": "溝渠",
+      "category": "水域 Water Body",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9510106",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "WATERA",
+        "RIVERA",
+        "RIVERL"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9520100",
+      "label": "湖泊",
+      "category": "水域 Water Body",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9520100",
+      "renderer": "lake-reservoir-outline",
+      "source_layer_families": [
+        "WATERA",
+        "RIVERA",
+        "RIVERL"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9520200",
+      "label": "池塘",
+      "category": "水域 Water Body",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9520200",
+      "renderer": "pond-hatch",
+      "source_layer_families": [
+        "WATERA",
+        "RIVERA",
+        "RIVERL"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9520600",
+      "label": "水庫",
+      "category": "水域 Water Body",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9520600",
+      "renderer": "lake-reservoir-outline",
+      "source_layer_families": [
+        "WATERA",
+        "RIVERA",
+        "RIVERL"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9520700",
+      "label": "蓄水池",
+      "category": "水域 Water Body",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9520700",
+      "renderer": "water-label",
+      "source_layer_families": [
+        "WATERA",
+        "RIVERA",
+        "RIVERL"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9740100",
+      "label": "養殖池",
+      "category": "水域 Water Body",
+      "authoritative_name": "養殖池",
+      "aliases": [
+        "aquaculture pond",
+        "fish pond",
+        "養殖池"
+      ],
+      "status": "evidence-backed",
+      "evidence_available": true,
+      "base_code": "9740100",
+      "renderer": "fish-pond",
+      "source_layer_families": [
+        "WATERA",
+        "RIVERA",
+        "RIVERL"
+      ],
+      "geometry_types": [
+        "LineString",
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9940203",
+      "label": "游泳池",
+      "category": "水域 Water Body",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9940203",
+      "renderer": "swimming-pool",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9310100",
+      "label": "永久性建物(建築區)",
+      "category": "建築 Building",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9310100",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "BUILD"
+      ],
+      "geometry_types": [
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9350902",
+      "label": "亭",
+      "category": "建築 Building",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9350902",
+      "renderer": "pavilion",
+      "source_layer_families": [
+        "BUILD"
+      ],
+      "geometry_types": [
+        "Polygon"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9030300",
+      "label": "中文註記",
+      "category": "地標 Landmark",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9030300",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9910603",
+      "label": "警察局/派出所",
+      "category": "地標 Landmark",
+      "authoritative_name": "警察局、分駐所、派出所",
+      "aliases": [
+        "police office",
+        "police station",
+        "police substation",
+        "分駐所",
+        "派出所",
+        "警察局"
+      ],
+      "status": "evidence-backed",
+      "evidence_available": true,
+      "base_code": "9910603",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9920101",
+      "label": "國小",
+      "category": "地標 Landmark",
+      "authoritative_name": "大專院校",
+      "aliases": [
+        "college",
+        "school",
+        "university",
+        "大專院校",
+        "學校"
+      ],
+      "status": "conflicted",
+      "evidence_available": true,
+      "base_code": "9920101",
+      "renderer": "school",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9920102",
+      "label": "國中",
+      "category": "地標 Landmark",
+      "authoritative_name": "中學",
+      "aliases": [
+        "school",
+        "secondary school",
+        "中學",
+        "學校"
+      ],
+      "status": "conflicted",
+      "evidence_available": true,
+      "base_code": "9920102",
+      "renderer": "school",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9920103",
+      "label": "高中",
+      "category": "地標 Landmark",
+      "authoritative_name": "小學",
+      "aliases": [
+        "elementary school",
+        "primary school",
+        "school",
+        "學校",
+        "小學"
+      ],
+      "status": "conflicted",
+      "evidence_available": true,
+      "base_code": "9920103",
+      "renderer": "school",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9920104",
+      "label": "大專院校",
+      "category": "地標 Landmark",
+      "authoritative_name": "職訓中心",
+      "aliases": [
+        "school",
+        "vocational training center",
+        "vocational training centre",
+        "學校",
+        "職訓中心"
+      ],
+      "status": "conflicted",
+      "evidence_available": true,
+      "base_code": "9920104",
+      "renderer": "school",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9920105",
+      "label": "幼兒園",
+      "category": "地標 Landmark",
+      "authoritative_name": "幼兒園",
+      "aliases": [
+        "kindergarten",
+        "school",
+        "學校",
+        "幼兒園"
+      ],
+      "status": "evidence-backed",
+      "evidence_available": true,
+      "base_code": "9920105",
+      "renderer": "school",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9920106",
+      "label": "特殊學校",
+      "category": "地標 Landmark",
+      "authoritative_name": "特殊學校",
+      "aliases": [
+        "school",
+        "special school",
+        "學校",
+        "特殊學校"
+      ],
+      "status": "evidence-backed",
+      "evidence_available": true,
+      "base_code": "9920106",
+      "renderer": "school",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9940202",
+      "label": "體育場",
+      "category": "地標 Landmark",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9940202",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9950201",
+      "label": "郵局",
+      "category": "地標 Landmark",
+      "authoritative_name": "郵局",
+      "aliases": [
+        "post office",
+        "郵局"
+      ],
+      "status": "evidence-backed",
+      "evidence_available": true,
+      "base_code": "9950201",
+      "renderer": "post",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9950202",
+      "label": "電信公司服務處",
+      "category": "地標 Landmark",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9950202",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9960203",
+      "label": "加油站",
+      "category": "地標 Landmark",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9960203",
+      "renderer": "gas",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9960204",
+      "label": "停車場",
+      "category": "地標 Landmark",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9960204",
+      "renderer": "parking-base",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9960204a",
+      "label": "停車場(地面)",
+      "category": "地標 Landmark",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "style-variant",
+      "evidence_available": false,
+      "base_code": "9960204",
+      "renderer": "parking-base",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9960204b",
+      "label": "停車場(地下)",
+      "category": "地標 Landmark",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "style-variant",
+      "evidence_available": false,
+      "base_code": "9960204",
+      "renderer": "parking-roof",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9960204c",
+      "label": "停車場(立體)",
+      "category": "地標 Landmark",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "style-variant",
+      "evidence_available": false,
+      "base_code": "9960204",
+      "renderer": "parking-pole",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9970101",
+      "label": "教堂",
+      "category": "地標 Landmark",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9970101",
+      "renderer": "church",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9970102",
+      "label": "寺廟",
+      "category": "地標 Landmark",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9970102",
+      "renderer": "temple",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    },
+    {
+      "code": "9990000",
+      "label": "其他地標",
+      "category": "地標 Landmark",
+      "authoritative_name": null,
+      "aliases": [],
+      "status": "implementation-only",
+      "evidence_available": false,
+      "base_code": "9990000",
+      "renderer": "category-style",
+      "source_layer_families": [
+        "MARK"
+      ],
+      "geometry_types": [
+        "Point"
+      ],
+      "editable_parameters": [
+        "scale",
+        "color",
+        "stroke_width",
+        "outline",
+        "opacity",
+        "rotation"
+      ]
+    }
+  ]
+}

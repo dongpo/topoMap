@@ -12,6 +12,14 @@ from typing import Any
 PUBLIC_FILES = {
     "data/knowledge/portrayal-graph.json": "data/knowledge/portrayal-graph.json",
     "data/demo/five-scene-demo.json": "data/demo/five-scene-demo.json",
+    "data/demo/pmtiles-capability-catalog.json": "data/demo/pmtiles-capability-catalog.json",
+    "assets/symbols/nlsc112v5.4/school.svg": "assets/symbols/nlsc112v5.4/school.svg",
+    "assets/symbols/nlsc112v5.4/fire-hydrant.svg": (
+        "assets/symbols/nlsc112v5.4/fire-hydrant.svg"
+    ),
+    "assets/symbols/nlsc112v5.4/police.svg": "assets/symbols/nlsc112v5.4/police.svg",
+    "assets/symbols/nlsc112v5.4/fish-pond.svg": "assets/symbols/nlsc112v5.4/fish-pond.svg",
+    "assets/symbols/nlsc112v5.4/post.svg": "assets/symbols/nlsc112v5.4/post.svg",
     "artifacts/presentation/d18/architecture.png": "artifacts/presentation/d18/architecture.png",
     "artifacts/presentation/nma-foss4g-presentation-v0.9.pptx": (
         "artifacts/presentation/nma-foss4g-presentation-v0.9.pptx"
@@ -169,6 +177,7 @@ def build_public_site(root: Path, output: Path) -> dict[str, Any]:
     for required_fetch in (
         'fetch("data/knowledge/portrayal-graph.json")',
         'fetch("data/demo/five-scene-demo.json")',
+        'fetch("data/demo/pmtiles-capability-catalog.json")',
     ):
         if required_fetch not in demo_source:
             raise ValueError(f"public demo is missing required data load: {required_fetch}")
