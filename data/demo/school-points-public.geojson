@@ -1,0 +1,79 @@
+{
+  "type": "FeatureCollection",
+  "name": "SCHOOL_POINT",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00001",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA示範小學A"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.0219, 24.7762]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00002",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA示範小學B"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.0256, 24.7751]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00003",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA示範小學C"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.0238, 24.7729]
+      }
+    }
+  ],
+  "nma:provenance": {
+    "dataset_id": "school-points",
+    "driver": "ESRI Shapefile",
+    "source_crs": "EPSG:3826",
+    "output_crs": "EPSG:4326",
+    "engine": "GDAL 3.11.0 \"Eganville\", released 2025/05/06",
+    "feature_count": 3,
+    "field_mapping": {
+      "feature_id": "MARKID",
+      "feature_code": "TERRAINID",
+      "label": "MARKNAME1"
+    },
+    "components": [
+      {
+        "filename": "SCHOOL_POINT.shp",
+        "sha256": "e9bc86e363df3c7665eb98a3f2636972a2d0834bdebaea3e251fce257b51e427"
+      },
+      {
+        "filename": "SCHOOL_POINT.shx",
+        "sha256": "4dcac3f739866d027d46a6e7ac211481be3fe8d4ac9e1d8470b093439b8e65eb"
+      },
+      {
+        "filename": "SCHOOL_POINT.dbf",
+        "sha256": "12e8578159cf7c1f2bc86cb34e724a4f915570056c33ad550ffafe25145fe36d"
+      },
+      {
+        "filename": "SCHOOL_POINT.prj",
+        "sha256": "8dac7d82ea889063f9eaa7df408fcaeb7307d32831ea973b6534d0139a4523c5"
+      },
+      {
+        "filename": "SCHOOL_POINT.cpg",
+        "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+      }
+    ],
+    "read_only_source": true,
+    "synthetic": true
+  }
+}

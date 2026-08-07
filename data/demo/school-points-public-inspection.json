@@ -1,0 +1,93 @@
+{
+  "schema": "nma.dataset-inspection/1.0",
+  "dataset": {
+    "id": "school-points",
+    "label": "Bundled synthetic school points",
+    "feature_code": "9920103",
+    "synthetic": true
+  },
+  "components": [
+    {
+      "extension": ".shp",
+      "filename": "SCHOOL_POINT.shp",
+      "required": true,
+      "present": true,
+      "size_bytes": 184,
+      "sha256": "e9bc86e363df3c7665eb98a3f2636972a2d0834bdebaea3e251fce257b51e427"
+    },
+    {
+      "extension": ".shx",
+      "filename": "SCHOOL_POINT.shx",
+      "required": true,
+      "present": true,
+      "size_bytes": 124,
+      "sha256": "4dcac3f739866d027d46a6e7ac211481be3fe8d4ac9e1d8470b093439b8e65eb"
+    },
+    {
+      "extension": ".dbf",
+      "filename": "SCHOOL_POINT.dbf",
+      "required": true,
+      "present": true,
+      "size_bytes": 853,
+      "sha256": "12e8578159cf7c1f2bc86cb34e724a4f915570056c33ad550ffafe25145fe36d"
+    },
+    {
+      "extension": ".prj",
+      "filename": "SCHOOL_POINT.prj",
+      "required": true,
+      "present": true,
+      "size_bytes": 399,
+      "sha256": "8dac7d82ea889063f9eaa7df408fcaeb7307d32831ea973b6534d0139a4523c5"
+    },
+    {
+      "extension": ".cpg",
+      "filename": "SCHOOL_POINT.cpg",
+      "required": false,
+      "present": true,
+      "size_bytes": 5,
+      "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+    }
+  ],
+  "inspection": {
+    "available": true,
+    "engine": "GDAL 3.11.0 \"Eganville\", released 2025/05/06",
+    "driver": "ESRI Shapefile",
+    "layer": "SCHOOL_POINT",
+    "feature_count": 3,
+    "geometry_type": "Point",
+    "extent": [252214.57332881805, 2740624.14938626, 252588.74781453775, 2740989.620225253],
+    "crs": "EPSG:3826",
+    "crs_name": "TWD97 / TM2 zone 121",
+    "fields": [
+      {
+        "name": "MARKID",
+        "type": "String",
+        "width": 80,
+        "nullable": true,
+        "uniqueConstraint": false
+      },
+      {
+        "name": "TERRAINID",
+        "type": "String",
+        "width": 80,
+        "nullable": true,
+        "uniqueConstraint": false
+      },
+      {
+        "name": "MARKNAME1",
+        "type": "String",
+        "width": 80,
+        "nullable": true,
+        "uniqueConstraint": false
+      }
+    ],
+    "read_only": true
+  },
+  "field_mapping": {
+    "feature_id": "MARKID",
+    "feature_code": "TERRAINID",
+    "label": "MARKNAME1"
+  },
+  "output_crs": "EPSG:4326",
+  "ready": true
+}

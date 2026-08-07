@@ -81,8 +81,8 @@
     {
       "path": ".github/workflows/verify.yml",
       "role": "ci-gate",
-      "size_bytes": 635,
-      "sha256": "c62c4cf62a541f924813a3df3c992329b356d471a335c89b83cb9bf7214ee7bc"
+      "size_bytes": 690,
+      "sha256": "65e756b322c13fad580651fb57732cb6e64738cae8634a72e3a4bb99d68f575e"
     },
     {
       "path": "src/nma/historical_release.py",

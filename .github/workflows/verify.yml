@@ -18,5 +18,6 @@ jobs:
       - run: ruff format --check src tests benchmark/adapters
       - run: pytest -q
       - run: python scripts/check_agentic_v03_freeze.py
+      - run: python scripts/check_agentic_v03_pages.py
       - run: nma demo --approve-safe-repairs
       - run: nma-bench --root .
