@@ -16,7 +16,9 @@ bounded evidence-only GitHub Pages release are verified.
 [Conference narrative](docs/FIVE-SCENE-NARRATIVE.md) ·
 [D20 review package](release/review-package/README.md) ·
 [Presentation v0.9](artifacts/presentation/nma-foss4g-presentation-v0.9.pptx) ·
-[D21 public-assets RC](docs/PUBLIC-ASSETS-RC1.md)
+[D21 public-assets RC](docs/PUBLIC-ASSETS-RC1.md) ·
+[D24 Q&A](docs/D24-QA.md) ·
+[D24 public-link audit](docs/D24-PUBLIC-DELIVERY.md)
 
 ## Five scenes, five agent capabilities
 
