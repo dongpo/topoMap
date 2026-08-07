@@ -5,10 +5,13 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import dataclass
+import hashlib
 import json
 import os
 from pathlib import Path
 import re
+import shutil
+import subprocess
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from threading import Lock
@@ -26,6 +29,30 @@ SESSION_TTL_SECONDS = 20 * 60
 MAX_BODY_BYTES = 32_768
 SESSION_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{8,80}$")
 FEATURE_CODE_PATTERN = re.compile(r"^[0-9A-Za-z._-]{1,32}$")
+
+BUNDLED_DATASETS: dict[str, dict[str, Any]] = {
+    "school-points": {
+        "id": "school-points",
+        "label": "Bundled synthetic school points",
+        "feature_code": "9920103",
+        "path": ROOT
+        / "data"
+        / "datasets"
+        / "authoritative"
+        / "school-points"
+        / "SCHOOL_POINT.shp",
+        "required_parts": [".shp", ".shx", ".dbf", ".prj"],
+        "optional_parts": [".cpg"],
+        "field_mapping": {
+            "feature_id": "MARKID",
+            "feature_code": "TERRAINID",
+            "label": "MARKNAME1",
+        },
+        "source_crs": "EPSG:3826",
+        "output_crs": "EPSG:4326",
+        "synthetic": True,
+    }
+}
 
 INTENTS = (
     "inspect_feature",
@@ -72,7 +99,8 @@ Use propose_style_revision only when the user requests a concrete visual change.
 exact visual-change wording into style_request; do not normalize, translate, or paraphrase it.
 Use approve_revision or discard_revision only for an explicit decision about a pending revision.
 Use finish_revisions when the user explicitly says no more symbol changes are needed.
-Use request_layer_confirmation only when the user explicitly asks to proceed to layer creation.
+Use request_layer_confirmation only when the application state says a layer proposal is ready and
+the user explicitly asks to proceed to layer creation.
 Use abstain for unsupported, ambiguous, or unrelated requests. Keep reply concise and in
 Traditional Chinese. Never invent a feature code, evidence source, style value, or completed action.
 """
@@ -136,6 +164,114 @@ class SessionStore:
 SESSIONS = SessionStore()
 
 
+def _file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(65_536), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _bundled_dataset(dataset_id: str) -> dict[str, Any]:
+    dataset = BUNDLED_DATASETS.get(dataset_id)
+    if not dataset:
+        raise AgentError("dataset_not_found", "The bundled dataset is not registered.", 404)
+    return dataset
+
+
+def inspect_bundled_dataset(dataset_id: str) -> dict[str, Any]:
+    from nma.ogr import inspect_dataset
+
+    dataset = _bundled_dataset(dataset_id)
+    source: Path = dataset["path"]
+    components = []
+    for extension in [*dataset["required_parts"], *dataset["optional_parts"]]:
+        component = source.with_suffix(extension)
+        present = component.is_file()
+        components.append(
+            {
+                "extension": extension,
+                "filename": component.name,
+                "required": extension in dataset["required_parts"],
+                "present": present,
+                "size_bytes": component.stat().st_size if present else None,
+                "sha256": _file_sha256(component) if present else None,
+            }
+        )
+    missing = [item["extension"] for item in components if item["required"] and not item["present"]]
+    if missing:
+        raise AgentError(
+            "dataset_incomplete",
+            f"Required Shapefile parts are missing: {', '.join(missing)}.",
+            422,
+        )
+    inspection = inspect_dataset(source)
+    if not inspection.get("available"):
+        raise AgentError("ogr_unavailable", "GDAL/OGR inspection is unavailable.", 503)
+    return {
+        "schema": "nma.dataset-inspection/1.0",
+        "dataset": {
+            "id": dataset["id"],
+            "label": dataset["label"],
+            "feature_code": dataset["feature_code"],
+            "synthetic": dataset["synthetic"],
+        },
+        "components": components,
+        "inspection": inspection,
+        "field_mapping": dataset["field_mapping"],
+        "output_crs": dataset["output_crs"],
+        "ready": True,
+    }
+
+
+def export_bundled_geojson(dataset_id: str) -> dict[str, Any]:
+    dataset = _bundled_dataset(dataset_id)
+    inspection = inspect_bundled_dataset(dataset_id)
+    executable = shutil.which("ogr2ogr")
+    if not executable:
+        raise AgentError("ogr_unavailable", "GDAL/OGR conversion is unavailable.", 503)
+    try:
+        process = subprocess.run(
+            [
+                executable,
+                "-f",
+                "GeoJSON",
+                "/vsistdout/",
+                str(dataset["path"]),
+                "-t_srs",
+                dataset["output_crs"],
+                "-lco",
+                "RFC7946=YES",
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        collection = json.loads(process.stdout)
+    except subprocess.TimeoutExpired as error:
+        raise AgentError("ogr_timeout", "GDAL/OGR conversion timed out.", 503) from error
+    except (subprocess.CalledProcessError, json.JSONDecodeError) as error:
+        raise AgentError("ogr_failed", "GDAL/OGR conversion failed.", 503) from error
+    collection["nma:provenance"] = {
+        "dataset_id": dataset_id,
+        "driver": inspection["inspection"]["driver"],
+        "source_crs": inspection["inspection"]["crs"],
+        "output_crs": dataset["output_crs"],
+        "engine": inspection["inspection"]["engine"],
+        "feature_count": inspection["inspection"]["feature_count"],
+        "field_mapping": dataset["field_mapping"],
+        "components": [
+            {"filename": item["filename"], "sha256": item["sha256"]}
+            for item in inspection["components"]
+            if item["present"]
+        ],
+        "read_only_source": True,
+        "synthetic": dataset["synthetic"],
+    }
+    return collection
+
+
 def load_local_settings(root: Path = ROOT) -> tuple[str | None, str]:
     """Load the key without logging or returning any diagnostic containing its value."""
     values: dict[str, str] = {}
@@ -197,7 +333,13 @@ def validate_client_payload(payload: Any) -> dict[str, Any]:
         raise AgentError("invalid_request", "Message must contain 1–500 characters.")
     if not isinstance(context, dict):
         raise AgentError("invalid_request", "Context must be an object.")
-    allowed_context = {"feature_code", "feature_name", "pending_revision", "approved_version"}
+    allowed_context = {
+        "feature_code",
+        "feature_name",
+        "pending_revision",
+        "approved_version",
+        "layer_proposal_status",
+    }
     if set(context) - allowed_context:
         raise AgentError("invalid_request", "Context contains unsupported fields.")
     if len(json.dumps(context, ensure_ascii=False)) > 1_000:
@@ -324,7 +466,7 @@ def orchestrate(payload: Any, api_key: str | None, model: str) -> dict[str, Any]
 
 
 class NMARequestHandler(SimpleHTTPRequestHandler):
-    server_version = "NMAAgentServer/0.4"
+    server_version = "NMAAgentServer/0.5"
 
     def __init__(self, *args: Any, directory: str | None = None, **kwargs: Any) -> None:
         super().__init__(*args, directory=directory or str(ROOT), **kwargs)
@@ -339,7 +481,8 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self) -> None:  # noqa: N802
-        if self.path.split("?", 1)[0] == "/api/agent/status":
+        route = self.path.split("?", 1)[0]
+        if route == "/api/agent/status":
             api_key, model = load_local_settings()
             self._json(
                 HTTPStatus.OK,
@@ -350,6 +493,19 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
                     "max_turns": SESSIONS.max_turns,
                 },
             )
+            return
+        match = re.fullmatch(r"/api/datasets/([a-z0-9-]+)/(inspect|geojson)", route)
+        if match:
+            try:
+                dataset_id, action = match.groups()
+                payload = (
+                    inspect_bundled_dataset(dataset_id)
+                    if action == "inspect"
+                    else export_bundled_geojson(dataset_id)
+                )
+                self._json(HTTPStatus.OK, payload)
+            except AgentError as error:
+                self._json(error.status, {"error": {"code": error.code, "message": str(error)}})
             return
         super().do_GET()
 

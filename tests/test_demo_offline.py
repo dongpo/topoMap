@@ -11,7 +11,7 @@ def test_offline_runtime_packages_local_data_and_a_degraded_fallback() -> None:
     result = check_offline_runtime()
 
     assert result == {
-        "runtime_version": "nma-agentic-v0.3-a04",
+        "runtime_version": "nma-agentic-v0.3-a05",
         "status": "passed",
         "local_asset_count": 11,
         "pinned_runtime_asset_count": 3,

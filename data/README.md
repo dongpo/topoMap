@@ -9,6 +9,8 @@ The repository separates authoritative source evidence from redistributable benc
   derived from those cited rules. They contain no copied production features.
 - `fixtures-source/` contains the transparent CSV/VRT source used to regenerate the Shapefiles with
   GDAL/OGR.
+- `fixtures-source/school-points/` contains the transparent CRS84 source for the bundled A05 school
+  point Shapefile; its names and positions are explicitly synthetic demonstration data.
 - The user-provided 112-year multidimensional SHP archive was inspected read-only and is not
   redistributed. Its checksum and the observed `RIVERID`/`RIVERLID` discrepancy are recorded in
   `sources/authoritative-sources.json` and `benchmark/ground-truth.json`.
@@ -23,6 +25,16 @@ for profile in riverl-clean riverl-defective riverl-schema-mismatch riverl-wrong
     "data/fixtures-source/$profile/RIVERL.vrt" \
     -lco ENCODING=UTF-8
 done
+```
+
+Regenerate the bundled A05 school point fixture in TWD97 / TM2 zone 121 with:
+
+```bash
+mkdir -p data/datasets/authoritative/school-points
+ogr2ogr -overwrite -f "ESRI Shapefile" \
+  data/datasets/authoritative/school-points/SCHOOL_POINT.shp \
+  data/fixtures-source/school-points/school-points.geojson \
+  -nln SCHOOL_POINT -t_srs EPSG:3826 -lco ENCODING=UTF-8
 ```
 
 The fixture coordinates are synthetic. Do not infer real-world hydrology or production-data

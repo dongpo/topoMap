@@ -782,7 +782,8 @@
         "stroke_width",
         "outline",
         "opacity",
-        "rotation"
+        "rotation",
+        "flag_top_alignment"
       ]
     },
     {
