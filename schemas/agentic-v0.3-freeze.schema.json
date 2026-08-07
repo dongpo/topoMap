@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "agentic-v0.3-freeze.schema.json",
+  "title": "NMA Agentic v0.3 candidate freeze",
+  "type": "object",
+  "required": [
+    "freeze_version",
+    "status",
+    "frozen_on",
+    "source",
+    "approved_increments",
+    "acceptance",
+    "artifacts",
+    "historical_baselines",
+    "blocking_defects",
+    "release_gates",
+    "post_freeze_policy"
+  ],
+  "properties": {
+    "freeze_version": {"const": "nma-agentic-v0.3-rc1"},
+    "status": {"const": "candidate-frozen"},
+    "frozen_on": {"type": "string", "format": "date"},
+    "source": {
+      "type": "object",
+      "required": [
+        "repository",
+        "branch",
+        "approved_through_commit",
+        "prior_public_release",
+        "public_deployment"
+      ]
+    },
+    "approved_increments": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "required": ["id", "commit", "outcome"]
+      }
+    },
+    "acceptance": {"type": "object"},
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "role", "size_bytes", "sha256"],
+        "properties": {
+          "path": {"type": "string"},
+          "role": {"type": "string"},
+          "size_bytes": {"type": "integer", "minimum": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "historical_baselines": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "manifest", "artifact_key", "snapshot_commit"]
+      }
+    },
+    "blocking_defects": {"type": "array", "maxItems": 0},
+    "release_gates": {"type": "array", "minItems": 1},
+    "post_freeze_policy": {"type": "object"}
+  },
+  "additionalProperties": false
+}

@@ -5,12 +5,21 @@ import pytest
 
 import nma.demo_soak as soak_module
 from nma.demo_soak import DEFECT_CLASSES, run_demo_soak
+from nma.historical_release import verify_manifest_snapshot
 
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_soak_repeats_the_full_sequence_from_a_clean_reset(tmp_path: Path) -> None:
+def test_soak_repeats_the_full_sequence_from_a_clean_reset(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    historical_freeze = verify_manifest_snapshot(
+        ROOT / "data/demo/five-scene-freeze.json",
+        "42a4dd52c9d65285f3c0d73e8b6ce143a581b7ea",
+        artifact_key="artifacts",
+    )
+    monkeypatch.setattr(soak_module, "check_demo_freeze", lambda _: historical_freeze)
     output = tmp_path / "soak.json"
     report = run_demo_soak(iterations=2, output=output)
 

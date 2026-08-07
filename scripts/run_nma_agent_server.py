@@ -35,12 +35,7 @@ BUNDLED_DATASETS: dict[str, dict[str, Any]] = {
         "id": "school-points",
         "label": "Bundled synthetic school points",
         "feature_code": "9920103",
-        "path": ROOT
-        / "data"
-        / "datasets"
-        / "authoritative"
-        / "school-points"
-        / "SCHOOL_POINT.shp",
+        "path": ROOT / "data" / "datasets" / "authoritative" / "school-points" / "SCHOOL_POINT.shp",
         "required_parts": [".shp", ".shx", ".dbf", ".prj"],
         "optional_parts": [".cpg"],
         "field_mapping": {
@@ -303,7 +298,9 @@ def validate_route(arguments: Any) -> dict[str, Any]:
         raise AgentError("invalid_tool_call", "The model returned an unknown tool intent.", 502)
     for field, limit in (("feature_query", 160), ("style_request", 300)):
         value = arguments[field]
-        if value is not None and (not isinstance(value, str) or not value.strip() or len(value) > limit):
+        if value is not None and (
+            not isinstance(value, str) or not value.strip() or len(value) > limit
+        ):
             raise AgentError("invalid_tool_call", f"The model returned an invalid {field}.", 502)
     feature_code = arguments["feature_code"]
     if feature_code is not None and (
@@ -345,7 +342,8 @@ def validate_client_payload(payload: Any) -> dict[str, Any]:
     if len(json.dumps(context, ensure_ascii=False)) > 1_000:
         raise AgentError("invalid_request", "Context is too large.")
     if tool_result is not None and (
-        not isinstance(tool_result, dict) or len(json.dumps(tool_result, ensure_ascii=False)) > 2_000
+        not isinstance(tool_result, dict)
+        or len(json.dumps(tool_result, ensure_ascii=False)) > 2_000
     ):
         raise AgentError("invalid_request", "Tool result is invalid or too large.")
     return {
@@ -411,12 +409,18 @@ def call_openai(payload: dict[str, Any], api_key: str) -> dict[str, Any]:
         if error.code in {401, 403}:
             raise AgentError("api_auth", "OpenAI API authentication failed.", 503) from error
         if error.code == 429:
-            raise AgentError("api_limit", "OpenAI API rate or credit limit reached.", 503) from error
+            raise AgentError(
+                "api_limit", "OpenAI API rate or credit limit reached.", 503
+            ) from error
         raise AgentError("api_error", "OpenAI API request failed.", 503) from error
     except (URLError, TimeoutError) as error:
-        raise AgentError("api_unavailable", "OpenAI API is temporarily unavailable.", 503) from error
+        raise AgentError(
+            "api_unavailable", "OpenAI API is temporarily unavailable.", 503
+        ) from error
     except (UnicodeDecodeError, json.JSONDecodeError) as error:
-        raise AgentError("invalid_api_response", "OpenAI API returned invalid JSON.", 502) from error
+        raise AgentError(
+            "invalid_api_response", "OpenAI API returned invalid JSON.", 502
+        ) from error
 
 
 def parse_openai_route(response: Any) -> tuple[str, str, dict[str, Any]]:
@@ -436,7 +440,9 @@ def parse_openai_route(response: Any) -> tuple[str, str, dict[str, Any]]:
     try:
         arguments = json.loads(call.get("arguments", ""))
     except json.JSONDecodeError as error:
-        raise AgentError("invalid_tool_call", "The tool arguments were not valid JSON.", 502) from error
+        raise AgentError(
+            "invalid_tool_call", "The tool arguments were not valid JSON.", 502
+        ) from error
     return response["id"], call_id, validate_route(arguments)
 
 
@@ -449,9 +455,7 @@ def orchestrate(payload: Any, api_key: str | None, model: str) -> dict[str, Any]
         request["tool_result"] = None
     response = call_openai(build_openai_payload(request, session, model), api_key)
     response_id, call_id, route = parse_openai_route(response)
-    session = SESSIONS.update(
-        request["session_id"], response_id=response_id, call_id=call_id
-    )
+    session = SESSIONS.update(request["session_id"], response_id=response_id, call_id=call_id)
     if route["intent"] == "reset_session":
         SESSIONS.reset(request["session_id"])
     return {

@@ -44,30 +44,35 @@ recorded in [`artifacts/public/d24/qr-manifest.json`](../artifacts/public/d24/qr
 
 ## Release blockers and pending gates
 
-### CI formatting failure
+### CI formatting correction completed locally
 
-The latest PR workflow run for candidate commit `2408b41` is red. Job `test` stopped at
-`ruff format --check` because five Python files would be reformatted:
+The latest remote PR workflow still represents candidate commit `2408b41` and is red at
+`ruff format --check`. The owner approved the correction on 2026-08-07. The five reported files
+were formatted in local commit `4fd6214`, and the remaining three repository-format drifts were
+normalized while building the v0.3 freeze:
 
 - `src/nma/demo_offline.py`
 - `tests/test_agentic_demo_acceptance.py`
 - `tests/test_agentic_demo_graph.py`
 - `tests/test_agentic_demo_layers.py`
 - `tests/test_agentic_demo_workshop.py`
+- `scripts/build_pmtiles_capability_catalog.py`
+- `scripts/build_public_site.py`
+- `scripts/run_nma_agent_server.py`
 
-No functional test failure was reported because later steps were skipped. Formatting these files
-is a separate corrective change and requires owner approval before it is applied.
+Local `ruff check` and `ruff format --check` now pass for `src`, `tests`, `benchmark/adapters`, and
+`scripts`. The remote status cannot turn green until the local commits are pushed and Actions runs
+against the new head.
 
-### Candidate re-freeze is not complete
+### Agentic v0.3 candidate re-freeze completed locally
 
-The D24 asset checks and the current Agentic-flow regression selection pass: **34 tests passed**.
-The full repository suite still has five failures because approved A-series changes altered
-`nmaAgentDemo.html` and `data/demo/offline-runtime.json` after the earlier v0.2 freeze. The direct
-fingerprint failures also cause the old soak, RC1, and bounded-public-asset gates to fail.
+The Agentic v0.3 freeze now fingerprints 31 current artifacts and verifies A01–A06, five scenes,
+the 42-entry catalog, the 44-node/85-edge graph, the supervised school Shapefile, and all three
+historical v0.2 release snapshots. The full **101-test** repository suite passes locally.
 
-This does not make the already deployed v0.2 Pages artifact invalid. It means the current v0.3
-candidate has not yet received its own coherent re-freeze and must not be deployed under the v0.2
-RC1 identity. A new candidate freeze is required before a v0.3 public deployment.
+The freeze is recorded in [`AGENTIC-V0.3-FREEZE.md`](AGENTIC-V0.3-FREEZE.md) and
+`data/demo/agentic-v0.3-freeze.json`. It preserves the deployed v0.2 Pages identity and explicitly
+records v0.3 as `not-deployed`.
 
 ### Publication gates
 
@@ -92,7 +97,7 @@ RC1 identity. A new candidate freeze is required before a v0.3 public deployment
 
 - [ ] Approve the D24 Q&A wording.
 - [ ] Scan both QR images from a phone or independent scanner.
-- [ ] Decide whether to approve the formatting-only CI correction.
-- [ ] Approve a separate Agentic v0.3 re-freeze after the formatting gate is green.
+- [x] Approve and complete the formatting-only CI correction locally.
+- [x] Build and verify a separate Agentic v0.3 re-freeze locally.
 - [ ] Decide whether Agentic v0.3 should receive a bounded public Pages deployment.
 - [ ] Insert selected QR assets into owner-controlled presentation materials, if desired.

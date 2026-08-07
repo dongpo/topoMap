@@ -1,4 +1,4 @@
-.PHONY: test demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-rc1 demo-reset bench bench-models review-package public-assets-rc verify
+.PHONY: test demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-rc1 demo-reset agentic-freeze bench bench-models review-package public-assets-rc verify
 
 test:
 	PYTHONPATH=src python3 -m pytest -q
@@ -28,6 +28,9 @@ demo-rc1:
 
 demo-reset:
 	PYTHONPATH=src python3 -m nma.cli demo-scenes --reset
+
+agentic-freeze:
+	PYTHONPATH=src python3 scripts/check_agentic_v03_freeze.py
 
 bench:
 	PYTHONPATH=src python3 -m nma.bench --root .

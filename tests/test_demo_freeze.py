@@ -3,24 +3,29 @@ from pathlib import Path
 
 import pytest
 
-from nma.demo_freeze import check_demo_freeze, load_demo_freeze
+from nma.demo_freeze import load_demo_freeze
+from nma.historical_release import verify_manifest_snapshot
 
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "data/demo/five-scene-freeze.json"
+SNAPSHOT = "42a4dd52c9d65285f3c0d73e8b6ce143a581b7ea"
 
 
 def test_feature_complete_freeze_verifies_every_artifact() -> None:
-    result = check_demo_freeze(MANIFEST)
+    result = verify_manifest_snapshot(MANIFEST, SNAPSHOT, artifact_key="artifacts")
+    manifest = load_demo_freeze(MANIFEST)
 
     assert result["status"] == "passed"
-    assert result["freeze_version"] == "nma-demo-rc1-feature-complete"
-    assert result["approved_base_commit"] == "06090a04792514b85823457b235f7feebf2660d4"
-    assert result["scene_count"] == 5
+    assert manifest["freeze_version"] == "nma-demo-rc1-feature-complete"
+    assert manifest["source"]["approved_base_commit"] == (
+        "06090a04792514b85823457b235f7feebf2660d4"
+    )
+    assert len(manifest["walkthrough"]["scene_order"]) == 5
     assert result["artifact_count"] == 16
     assert {artifact["status"] for artifact in result["artifacts"]} <= {
-        "verified",
-        "verified-generated",
+        "verified-git-snapshot",
+        "verified-reproduced",
     }
 
 
@@ -50,7 +55,7 @@ def test_freeze_rejects_unrecorded_artifact_drift(tmp_path: Path) -> None:
     changed_manifest.write_text(json.dumps(manifest), encoding="utf-8")
 
     with pytest.raises(ValueError, match="SHA-256"):
-        check_demo_freeze(changed_manifest)
+        verify_manifest_snapshot(changed_manifest, SNAPSHOT, artifact_key="artifacts")
 
 
 def test_freeze_rebuilds_ignored_style_in_a_clean_checkout(tmp_path: Path) -> None:
@@ -64,11 +69,11 @@ def test_freeze_rebuilds_ignored_style_in_a_clean_checkout(tmp_path: Path) -> No
     clean_checkout_manifest = tmp_path / "clean-checkout-freeze.json"
     clean_checkout_manifest.write_text(json.dumps(manifest), encoding="utf-8")
 
-    result = check_demo_freeze(clean_checkout_manifest)
+    result = verify_manifest_snapshot(clean_checkout_manifest, SNAPSHOT, artifact_key="artifacts")
     verified_style = next(
         artifact
         for artifact in result["artifacts"]
         if artifact["path"] == "artifacts/portrayal/not-present-in-clean-checkout.json"
     )
-    assert verified_style["status"] == "verified-generated"
+    assert verified_style["status"] == "verified-reproduced"
     assert verified_style["sha256"] == style["sha256"]

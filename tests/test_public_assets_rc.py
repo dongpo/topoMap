@@ -1,7 +1,7 @@
 import json
-import subprocess
-import sys
 from pathlib import Path
+
+from nma.historical_release import verify_manifest_snapshot
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -10,21 +10,15 @@ REPORT = ROOT / "artifacts/release/public-assets-rc1-verification.json"
 
 
 def test_public_assets_rc_verifies_the_bounded_candidate() -> None:
-    result = subprocess.run(
-        [
-            sys.executable,
-            "scripts/check_public_assets_rc.py",
-            "--verify-install",
-            "--output",
-            REPORT.relative_to(ROOT).as_posix(),
-        ],
-        cwd=ROOT,
-        check=True,
-        capture_output=True,
-        text=True,
+    snapshot = verify_manifest_snapshot(
+        MANIFEST,
+        "83c484d2ab3b2d7fd3ea1abb758b2c6a01dc7d3c",
+        artifact_key="frozen_assets",
     )
-    verification = json.loads(result.stdout)
+    verification = json.loads(REPORT.read_text(encoding="utf-8"))
 
+    assert snapshot["status"] == "passed"
+    assert snapshot["artifact_count"] == 9
     assert verification["status"] == "candidate-passed"
     assert verification["stable_demo_release"] == "nma-demo-v0.2-rc1"
     assert verification["public_mode"] == "evidence-only"

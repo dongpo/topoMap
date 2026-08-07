@@ -8,8 +8,9 @@ The main demonstration covers fire hydrants, aquaculture/fish ponds, police faci
 types, and post offices. Every symbol decision returns the graph path and the exact authoritative
 PDF page that supports it.
 
-**Current status:** Stable five-scene Demo RC1 (`nma-demo-v0.2-rc1`). The executable candidate and
-bounded evidence-only GitHub Pages release are verified.
+**Current status:** Stable public five-scene Demo RC1 (`nma-demo-v0.2-rc1`) plus a separately
+fingerprinted Agentic v0.3 candidate. The public Pages release remains bounded and evidence-only;
+Agentic v0.3 has not been deployed.
 
 [Demo entry file](nmaAgentDemo.html) · [Two-minute quickstart](docs/QUICKSTART.md) ·
 [RC1 evidence](docs/STABLE-DEMO-RC1.md) · [Architecture](docs/ARCHITECTURE.md) ·
@@ -18,7 +19,8 @@ bounded evidence-only GitHub Pages release are verified.
 [Presentation v0.9](artifacts/presentation/nma-foss4g-presentation-v0.9.pptx) ·
 [D21 public-assets RC](docs/PUBLIC-ASSETS-RC1.md) ·
 [D24 Q&A](docs/D24-QA.md) ·
-[D24 public-link audit](docs/D24-PUBLIC-DELIVERY.md)
+[D24 public-link audit](docs/D24-PUBLIC-DELIVERY.md) ·
+[Agentic v0.3 freeze](docs/AGENTIC-V0.3-FREEZE.md)
 
 ## Five scenes, five agent capabilities
 

@@ -14,9 +14,7 @@ PUBLIC_FILES = {
     "data/demo/five-scene-demo.json": "data/demo/five-scene-demo.json",
     "data/demo/pmtiles-capability-catalog.json": "data/demo/pmtiles-capability-catalog.json",
     "assets/symbols/nlsc112v5.4/school.svg": "assets/symbols/nlsc112v5.4/school.svg",
-    "assets/symbols/nlsc112v5.4/fire-hydrant.svg": (
-        "assets/symbols/nlsc112v5.4/fire-hydrant.svg"
-    ),
+    "assets/symbols/nlsc112v5.4/fire-hydrant.svg": ("assets/symbols/nlsc112v5.4/fire-hydrant.svg"),
     "assets/symbols/nlsc112v5.4/police.svg": "assets/symbols/nlsc112v5.4/police.svg",
     "assets/symbols/nlsc112v5.4/fish-pond.svg": "assets/symbols/nlsc112v5.4/fish-pond.svg",
     "assets/symbols/nlsc112v5.4/post.svg": "assets/symbols/nlsc112v5.4/post.svg",

@@ -1,0 +1,308 @@
+{
+  "$schema": "../../schemas/agentic-v0.3-freeze.schema.json",
+  "freeze_version": "nma-agentic-v0.3-rc1",
+  "status": "candidate-frozen",
+  "frozen_on": "2026-08-07",
+  "source": {
+    "repository": "dongpo/topoMap",
+    "branch": "codex/nma-v0.2-authoritative",
+    "approved_through_commit": "4fd62140a782fb78a0de6abdb324e407a7468a4a",
+    "prior_public_release": "nma-demo-v0.2-rc1",
+    "public_deployment": "not-deployed"
+  },
+  "approved_increments": [
+    {
+      "id": "A01",
+      "commit": "d04ff07",
+      "outcome": "42-entry PMTiles capability catalog with explicit evidence states"
+    },
+    {
+      "id": "A02",
+      "commit": "942d54b",
+      "outcome": "interactive evidence graph and typed path display"
+    },
+    {
+      "id": "A03",
+      "commit": "c64daa6",
+      "outcome": "immutable symbol baseline and supervised derived revisions"
+    },
+    {
+      "id": "A04",
+      "commit": "76706cb",
+      "outcome": "bounded GPT tool orchestration with deterministic fallback"
+    },
+    {
+      "id": "A05",
+      "commit": "efb3cde",
+      "outcome": "approval-controlled Shapefile inspection and dynamic MapLibre layer"
+    },
+    {
+      "id": "A06",
+      "commit": "2408b41",
+      "outcome": "NLSC EMAP primary basemap and interactive local fallback acceptance"
+    }
+  ],
+  "acceptance": {
+    "five_scene_contract": "data/demo/five-scene-demo.json",
+    "offline_runtime": "data/demo/offline-runtime.json",
+    "capability_catalog": "data/demo/pmtiles-capability-catalog.json",
+    "portrayal_graph": "data/knowledge/portrayal-graph.json",
+    "agent_server": "scripts/run_nma_agent_server.py",
+    "scene_count": 5,
+    "capability_count": 42,
+    "evidence_linked_capability_count": 9,
+    "clean_evidence_backed_count": 5,
+    "graph_nodes": 44,
+    "graph_edges": 85,
+    "default_model": "gpt-5.6-terra",
+    "model_role": "bounded intent and tool routing only",
+    "approval_owner": "application state machine and explicit human action",
+    "school_fixture": {
+      "classification": "synthetic",
+      "feature_count": 3,
+      "source_crs": "EPSG:3826",
+      "output_crs": "EPSG:4326",
+      "source_read_mode": "read-only"
+    }
+  },
+  "artifacts": [
+    {
+      "path": "README.md",
+      "role": "candidate-entry-record",
+      "size_bytes": 14152,
+      "sha256": "4dcfac4744f2852f6914f74ddc695a177347c7cd595799b22e77ad171f6b6b01"
+    },
+    {
+      "path": "Makefile",
+      "role": "verification-entry-point",
+      "size_bytes": 1255,
+      "sha256": "d64f1f561a86b30b97560198a8890a25f008e489081fa536fe06b07195e202d2"
+    },
+    {
+      "path": ".github/workflows/verify.yml",
+      "role": "ci-gate",
+      "size_bytes": 596,
+      "sha256": "ea95743d595eb17536116b0be58d774c9ffd8e7f683df6e2202420fdbb9c3f2b"
+    },
+    {
+      "path": "src/nma/historical_release.py",
+      "role": "historical-snapshot-verifier",
+      "size_bytes": 3119,
+      "sha256": "13fb13345ae3b1ff75b55149919652f3e853a6d59f5176c54959a854cba57027"
+    },
+    {
+      "path": "src/nma/agentic_freeze.py",
+      "role": "agentic-freeze-verifier",
+      "size_bytes": 7635,
+      "sha256": "6649cebef61f9c82a23258ea3992a6f21bb64575038601e988c9a5ad27b489bd"
+    },
+    {
+      "path": "scripts/check_agentic_v03_freeze.py",
+      "role": "agentic-freeze-command",
+      "size_bytes": 598,
+      "sha256": "39a6c88dbbe9bbf3e32175cc5e02ad38c90eb26e3e73af8666c70865804a6f31"
+    },
+    {
+      "path": "schemas/agentic-v0.3-freeze.schema.json",
+      "role": "agentic-freeze-schema",
+      "size_bytes": 1869,
+      "sha256": "2a6bc5967971f3a3a09cc2f0caf186b9e8c1387d5d7331cc1c6c859f34b5ffcc"
+    },
+    {
+      "path": "nmaAgentDemo.html",
+      "role": "agentic-browser-runtime",
+      "size_bytes": 85253,
+      "sha256": "e0b066ae3005db673d14bedfc0ff03204344225c46221a8eaed1f35262028bab"
+    },
+    {
+      "path": "nmaDemoWorker.js",
+      "role": "offline-worker",
+      "size_bytes": 4527,
+      "sha256": "73f7347b7060e9bd1dd6f234bd5842294e88189813bb3f46c8c9967f485b9861"
+    },
+    {
+      "path": "scripts/run_nma_agent_server.py",
+      "role": "bounded-agent-server",
+      "size_bytes": 22284,
+      "sha256": "09f8a8f5a17c842d357bf597e0fa3ccdfce71a54bccc7cbf87439fbd77c83a0a"
+    },
+    {
+      "path": "scripts/build_pmtiles_capability_catalog.py",
+      "role": "catalog-compiler",
+      "size_bytes": 5583,
+      "sha256": "01f2b63c1b3392434767787feafd3d5465044c766513d1bb484c0448792352dc"
+    },
+    {
+      "path": "src/nma/demo_offline.py",
+      "role": "offline-runtime-verifier",
+      "size_bytes": 4530,
+      "sha256": "79b5e2d987c4110382fbad65b5223c15c1550dae1b3a8805f7f7bd2311325c37"
+    },
+    {
+      "path": "data/demo/offline-runtime.json",
+      "role": "offline-runtime-contract",
+      "size_bytes": 3287,
+      "sha256": "8e345a3d8e8c93f8f3d62c79928207ee7314bc38104e8ed028893d2b0dc62052"
+    },
+    {
+      "path": "data/demo/pmtiles-capability-catalog.json",
+      "role": "capability-catalog",
+      "size_bytes": 25698,
+      "sha256": "da57c3858f8a5fc5ae49b61b0bf67b2590f2d2d08726ebbe929a92d68b0b380d"
+    },
+    {
+      "path": "data/demo/five-scene-demo.json",
+      "role": "five-scene-contract",
+      "size_bytes": 5295,
+      "sha256": "96d89e81e3a3ada7d95397dafd240f21e4adaebfb11799e2704a1974997e3d10"
+    },
+    {
+      "path": "data/knowledge/portrayal-graph.json",
+      "role": "executable-portrayal-graph",
+      "size_bytes": 36389,
+      "sha256": "0f90dc365805aaac07ab5aaf61323006bcea1ba8a078470c6872ad63a7eeacca"
+    },
+    {
+      "path": "data/knowledge/portrayal-profile.json",
+      "role": "portrayal-profile",
+      "size_bytes": 4105,
+      "sha256": "42bc9401dc1899ff505bf172df47f6a9a87391cdfc0a551ff1d4500c13c75aa7"
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/manifest.json",
+      "role": "symbol-provenance",
+      "size_bytes": 1245,
+      "sha256": "ece61047c4ccf2b32ab3e4fcbd36c47b1462b2d9c5de801cbbf549332c85b5f0"
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/school.svg",
+      "role": "school-symbol",
+      "size_bytes": 155,
+      "sha256": "bb3a683f8f4a4250845fec71f678feddd8b50b97d77ceddb65ed5f38f5e0af86"
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/fire-hydrant.svg",
+      "role": "fire-hydrant-symbol",
+      "size_bytes": 359,
+      "sha256": "e4fe71df56215de92b28dc1458910342de4a9256a85ddfe29733137fdedcf015"
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/police.svg",
+      "role": "police-symbol",
+      "size_bytes": 280,
+      "sha256": "25b25c439b493b3975e8b99894bf1a00b63bba44ca64f885801d6260ed5fdc3e"
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/fish-pond.svg",
+      "role": "fish-pond-symbol",
+      "size_bytes": 379,
+      "sha256": "5d9c34ab4666537c67e4ebc5138dbcfc4ac71e0841b8b7d8888b2064843a49f6"
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/post.svg",
+      "role": "post-symbol",
+      "size_bytes": 260,
+      "sha256": "b92c253c1cbf2e6bd450f9be185cdc976314327dff83b558687a7baffb5d870c"
+    },
+    {
+      "path": "out1120902.pmtiles",
+      "role": "local-map-dataset",
+      "size_bytes": 9595077,
+      "sha256": "b31c51d13565c8e8b1e213f97087792b148b7945c4f548ac76da91761c6e3ce5"
+    },
+    {
+      "path": "pmtilesDemo.html",
+      "role": "pmtiles-capability-source",
+      "size_bytes": 55160,
+      "sha256": "3214744eb5795ebafdab08ad617946ba458040919b8aabbc3873c35c2d0ae464"
+    },
+    {
+      "path": "data/fixtures-source/school-points/school-points.geojson",
+      "role": "synthetic-school-source",
+      "size_bytes": 902,
+      "sha256": "3111b170e7b64e52e5b94f546ae819eefb65fe20d73dc248b6c8e0d527fac204"
+    },
+    {
+      "path": "data/datasets/authoritative/school-points/SCHOOL_POINT.cpg",
+      "role": "school-shapefile-encoding",
+      "size_bytes": 5,
+      "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"
+    },
+    {
+      "path": "data/datasets/authoritative/school-points/SCHOOL_POINT.dbf",
+      "role": "school-shapefile-attributes",
+      "size_bytes": 853,
+      "sha256": "12e8578159cf7c1f2bc86cb34e724a4f915570056c33ad550ffafe25145fe36d"
+    },
+    {
+      "path": "data/datasets/authoritative/school-points/SCHOOL_POINT.prj",
+      "role": "school-shapefile-crs",
+      "size_bytes": 399,
+      "sha256": "8dac7d82ea889063f9eaa7df408fcaeb7307d32831ea973b6534d0139a4523c5"
+    },
+    {
+      "path": "data/datasets/authoritative/school-points/SCHOOL_POINT.shp",
+      "role": "school-shapefile-geometry",
+      "size_bytes": 184,
+      "sha256": "e9bc86e363df3c7665eb98a3f2636972a2d0834bdebaea3e251fce257b51e427"
+    },
+    {
+      "path": "data/datasets/authoritative/school-points/SCHOOL_POINT.shx",
+      "role": "school-shapefile-index",
+      "size_bytes": 124,
+      "sha256": "4dcac3f739866d027d46a6e7ac211481be3fe8d4ac9e1d8470b093439b8e65eb"
+    }
+  ],
+  "historical_baselines": [
+    {
+      "id": "v0.2-feature-freeze",
+      "manifest": "data/demo/five-scene-freeze.json",
+      "artifact_key": "artifacts",
+      "snapshot_commit": "42a4dd52c9d65285f3c0d73e8b6ce143a581b7ea"
+    },
+    {
+      "id": "v0.2-stable-rc1",
+      "manifest": "data/demo/stable-rc1.json",
+      "artifact_key": "artifacts",
+      "snapshot_commit": "2e72262a3181e9335915026d90d9b9890d2984a0"
+    },
+    {
+      "id": "v0.2-public-assets-deployed",
+      "manifest": "data/demo/public-assets-rc1.json",
+      "artifact_key": "frozen_assets",
+      "snapshot_commit": "83c484d2ab3b2d7fd3ea1abb758b2c6a01dc7d3c"
+    }
+  ],
+  "blocking_defects": [],
+  "release_gates": [
+    {
+      "id": "owner-freeze-approval",
+      "classification": "approval-required",
+      "next_action": "Owner reviews and approves the Agentic v0.3 freeze record before push."
+    },
+    {
+      "id": "public-v0.3-deployment",
+      "classification": "not-deployed",
+      "next_action": "Build and approve a new bounded Pages candidate; do not overwrite the v0.2 identity."
+    },
+    {
+      "id": "pmtiles-redistribution",
+      "classification": "publication-gate",
+      "next_action": "Keep the PMTiles archive out of public artifacts until redistribution permission is confirmed."
+    },
+    {
+      "id": "expert-and-held-out-review",
+      "classification": "publication-gate",
+      "next_action": "Complete independent expert review and a sealed held-out named-model evaluation."
+    }
+  ],
+  "post_freeze_policy": {
+    "allowed_categories": ["correctness", "clarity", "reliability", "conference-needs"],
+    "required_evidence": [
+      "updated artifact fingerprints",
+      "complete local verification",
+      "explicit owner approval"
+    ],
+    "public_deployment_requires_separate_approval": true
+  }
+}

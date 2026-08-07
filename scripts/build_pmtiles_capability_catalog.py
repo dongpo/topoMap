@@ -11,9 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 GROUP_PATTERN = re.compile(r'"([^"]+)"\s*:\s*\[(.*?)\]', re.DOTALL)
-ENTRY_PATTERN = re.compile(
-    r'\{\s*tid:\s*"([^"]+)"\s*,\s*label:\s*"([^"]+)"\s*\}'
-)
+ENTRY_PATTERN = re.compile(r'\{\s*tid:\s*"([^"]+)"\s*,\s*label:\s*"([^"]+)"\s*\}')
 
 
 def _pmtiles_entries(source: Path) -> list[dict[str, str]]:
@@ -73,9 +71,7 @@ def _renderer(code: str, category: str) -> tuple[str, list[str], list[str]]:
 def compile_catalog(pmtiles_path: Path, graph_path: Path) -> dict:
     graph = json.loads(graph_path.read_text(encoding="utf-8"))
     features = {
-        node["properties"]["code"]: node
-        for node in graph["nodes"]
-        if node["type"] == "FeatureType"
+        node["properties"]["code"]: node for node in graph["nodes"] if node["type"] == "FeatureType"
     }
     conflicts = {
         code
@@ -136,9 +132,7 @@ def compile_catalog(pmtiles_path: Path, graph_path: Path) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--pmtiles", type=Path, default=ROOT / "pmtilesDemo.html")
-    parser.add_argument(
-        "--graph", type=Path, default=ROOT / "data/knowledge/portrayal-graph.json"
-    )
+    parser.add_argument("--graph", type=Path, default=ROOT / "data/knowledge/portrayal-graph.json")
     parser.add_argument(
         "--output", type=Path, default=ROOT / "data/demo/pmtiles-capability-catalog.json"
     )
