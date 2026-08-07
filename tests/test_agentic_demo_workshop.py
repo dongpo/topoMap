@@ -30,8 +30,8 @@ def test_a03_supports_bounded_natural_language_style_patches() -> None:
     assert "STYLE_COLORS" in html
     assert 'id="style-request"' in html
     assert 'id="preview-revision"' in html
-    assert '>Edit symbol</button>' in html
-    assert '>Preview change</button>' not in html
+    assert ">Edit symbol</button>" in html
+    assert ">Preview change</button>" not in html
 
 
 def test_a05_supports_bounded_school_geometry_edits() -> None:
@@ -46,7 +46,7 @@ def test_a05_supports_bounded_school_geometry_edits() -> None:
     assert "三角(?:形)?(?:上方)?頂部" in html
     assert 'style.flag_top_alignment==="aligned"' in html
     assert 'flag_top_alignment:"offset"' in html
-    assert 'Flag top alignment' in html
+    assert "Flag top alignment" in html
 
 
 def test_a03_versions_diffs_and_requires_explicit_approval() -> None:

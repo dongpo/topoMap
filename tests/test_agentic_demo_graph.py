@@ -44,7 +44,9 @@ def test_a02_keeps_non_authoritative_and_abstained_paths_empty() -> None:
     assert "empty evidence path" in html
     assert "evidence not compiled" in html
     assert "not authoritative" in html
-    assert "No graph evidence was used. The Agent stopped before selecting a portrayal rule." in html
+    assert (
+        "No graph evidence was used. The Agent stopped before selecting a portrayal rule." in html
+    )
 
 
 def test_a02_updates_local_shell_without_losing_offline_fallback() -> None:
@@ -54,4 +56,4 @@ def test_a02_updates_local_shell_without_losing_offline_fallback() -> None:
     assert '"./data/demo/pmtiles-capability-catalog.json"' in worker
     assert '"./assets/symbols/nlsc112v5.4/school.svg"' in worker
     assert "const response = await fetch(event.request)" in worker
-    assert 'cache.match(event.request, {ignoreSearch: true})' in worker
+    assert "cache.match(event.request, {ignoreSearch: true})" in worker

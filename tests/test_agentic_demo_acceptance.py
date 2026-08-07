@@ -28,7 +28,10 @@ def test_a06_declares_compliant_nlsc_primary_and_interactive_local_fallback() ->
     )
     assert "內政部國土測繪中心" in html
     assert '"nma:cache_policy":"network-only; no bulk caching"' in html
-    assert 'const FORCED_LOCAL_BASEMAP=new URLSearchParams(location.search).get("basemap")==="local"' in html
+    assert (
+        'const FORCED_LOCAL_BASEMAP=new URLSearchParams(location.search).get("basemap")==="local"'
+        in html
+    )
     assert "function activateLocalBasemapFallback(reason)" in html
     assert 'map.setLayoutProperty("nlsc-emap-basemap","visibility","none")' in html
     assert "local PMTiles basemap fallback" in html

@@ -43,7 +43,9 @@ def check_offline_runtime(
     if basemap["tile_url"] not in html or basemap["attribution"].removeprefix("© ") not in html:
         raise ValueError("NLSC endpoint or attribution is missing from the demo")
     if basemap["cache_policy"] not in html or "wmts.nlsc.gov.tw" in worker:
-        raise ValueError("NLSC requests must remain network-only and outside the service-worker cache")
+        raise ValueError(
+            "NLSC requests must remain network-only and outside the service-worker cache"
+        )
     if basemap["fallback"] != "local-pmtiles" or 'get("basemap")==="local"' not in html:
         raise ValueError("interactive local PMTiles basemap fallback is not declared")
     verification = runtime["verification"]

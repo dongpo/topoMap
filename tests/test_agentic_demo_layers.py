@@ -49,9 +49,7 @@ def test_a05_exports_browser_safe_geojson_with_provenance() -> None:
 
     assert collection["type"] == "FeatureCollection"
     assert len(collection["features"]) == 3
-    assert {feature["properties"]["TERRAINID"] for feature in collection["features"]} == {
-        "9920103"
-    }
+    assert {feature["properties"]["TERRAINID"] for feature in collection["features"]} == {"9920103"}
     assert all(
         120 < feature["geometry"]["coordinates"][0] < 122
         and 20 < feature["geometry"]["coordinates"][1] < 27
@@ -94,14 +92,14 @@ def test_a05_requires_explicit_layer_approval_and_preserves_provenance() -> None
     assert "function isExplicitLayerApproval(text)" in html
     assert 'layerProposal?.status==="proposed"&&isExplicitLayerApproval(rawMessage)' in html
     assert 'createApprovedLayer("natural-language-explicit-approval")' in html
-    assert 'approval_source:approvalSource' in html
-    assert 'approved_symbol_version:layerProposal.style.version' in html
+    assert "approval_source:approvalSource" in html
+    assert "approved_symbol_version:layerProposal.style.version" in html
     assert '"nma:role":"approved-dynamic-symbol"' in html
     assert '"nma:provenance":provenance' in html
     assert "exported feature count mismatch" in html
     assert "exported feature code mismatch" in html
     assert "renderedSymbols===expected" in html
-    assert 'render_mode:renderMode' in html
+    assert "render_mode:renderMode" in html
     assert '"maplibre-marker-fallback"' in html
     assert (
         "addApprovedMarkers(collection,layerProposal.style,mapping,showLabels,"
@@ -138,6 +136,5 @@ def test_a05_fixture_source_is_explicitly_synthetic() -> None:
     assert source["name"] == "SCHOOL_POINT"
     assert len(source["features"]) == 3
     assert all(
-        feature["properties"]["MARKNAME1"].startswith("NMA示範")
-        for feature in source["features"]
+        feature["properties"]["MARKNAME1"].startswith("NMA示範") for feature in source["features"]
     )
