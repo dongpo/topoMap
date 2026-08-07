@@ -56,7 +56,7 @@ def test_a06_school_acceptance_connects_every_supervised_gate_to_real_data() -> 
     }
     assert required_steps <= {step for step in required_steps if step in html}
     assert inspection["ready"] is True
-    assert inspection["inspection"]["feature_count"] == 3
+    assert inspection["inspection"]["feature_count"] == 12
     assert collection["nma:provenance"]["source_crs"] == "EPSG:3826"
     assert collection["nma:provenance"]["output_crs"] == "EPSG:4326"
     assert collection["nma:provenance"]["read_only_source"] is True

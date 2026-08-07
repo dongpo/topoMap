@@ -783,7 +783,10 @@
         "outline",
         "opacity",
         "rotation",
-        "flag_top_alignment"
+        "flag_top_alignment",
+        "support_shape",
+        "support_proportion",
+        "flag_attachment"
       ]
     },
     {

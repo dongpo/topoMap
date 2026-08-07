@@ -12,24 +12,24 @@
       "filename": "SCHOOL_POINT.shp",
       "required": true,
       "present": true,
-      "size_bytes": 184,
-      "sha256": "e9bc86e363df3c7665eb98a3f2636972a2d0834bdebaea3e251fce257b51e427"
+      "size_bytes": 436,
+      "sha256": "95681158521918e0a4f7773c18baa9b9308615488edca7c4a4566b644d2e9b1b"
     },
     {
       "extension": ".shx",
       "filename": "SCHOOL_POINT.shx",
       "required": true,
       "present": true,
-      "size_bytes": 124,
-      "sha256": "4dcac3f739866d027d46a6e7ac211481be3fe8d4ac9e1d8470b093439b8e65eb"
+      "size_bytes": 196,
+      "sha256": "87ec8fd7c5279402bcde471c2d5fb8b9349fdbe5d8ec45de75f0cc482ea485e6"
     },
     {
       "extension": ".dbf",
       "filename": "SCHOOL_POINT.dbf",
       "required": true,
       "present": true,
-      "size_bytes": 853,
-      "sha256": "12e8578159cf7c1f2bc86cb34e724a4f915570056c33ad550ffafe25145fe36d"
+      "size_bytes": 3022,
+      "sha256": "d33fef9eab3417314f03589c1aed3040fe0dba63455594461499d4212108da77"
     },
     {
       "extension": ".prj",
@@ -53,11 +53,17 @@
     "engine": "GDAL 3.11.0 \"Eganville\", released 2025/05/06",
     "driver": "ESRI Shapefile",
     "layer": "SCHOOL_POINT",
-    "feature_count": 3,
+    "feature_count": 12,
     "geometry_type": "Point",
-    "extent": [252214.57332881805, 2740624.14938626, 252588.74781453775, 2740989.620225253],
+    "extent": [
+      251911.27294422404,
+      2740391.5262010186,
+      252932.56120322927,
+      2741299.78327889
+    ],
     "crs": "EPSG:3826",
     "crs_name": "TWD97 / TM2 zone 121",
+    "crs_wkt": "PROJCRS[\"TWD97 / TM2 zone 121\",\n    BASEGEOGCRS[\"TWD97\",\n        DATUM[\"Taiwan Datum 1997\",\n            ELLIPSOID[\"GRS 1980\",6378137,298.257222101,\n                LENGTHUNIT[\"metre\",1]]],\n        PRIMEM[\"Greenwich\",0,\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        ID[\"EPSG\",3824]],\n    CONVERSION[\"Taiwan 2-degree TM zone 121\",\n        METHOD[\"Transverse Mercator\",\n            ID[\"EPSG\",9807]],\n        PARAMETER[\"Latitude of natural origin\",0,\n            ANGLEUNIT[\"degree\",0.0174532925199433],\n            ID[\"EPSG\",8801]],\n        PARAMETER[\"Longitude of natural origin\",121,\n            ANGLEUNIT[\"degree\",0.0174532925199433],\n            ID[\"EPSG\",8802]],\n        PARAMETER[\"Scale factor at natural origin\",0.9999,\n            SCALEUNIT[\"unity\",1],\n            ID[\"EPSG\",8805]],\n        PARAMETER[\"False easting\",250000,\n            LENGTHUNIT[\"metre\",1],\n            ID[\"EPSG\",8806]],\n        PARAMETER[\"False northing\",0,\n            LENGTHUNIT[\"metre\",1],\n            ID[\"EPSG\",8807]]],\n    CS[Cartesian,2],\n        AXIS[\"easting (X)\",east,\n            ORDER[1],\n            LENGTHUNIT[\"metre\",1]],\n        AXIS[\"northing (Y)\",north,\n            ORDER[2],\n            LENGTHUNIT[\"metre\",1]],\n    USAGE[\n        SCOPE[\"Engineering survey, topographic mapping.\"],\n        AREA[\"Taiwan, Republic of China - between 120°E and 122°E, onshore and offshore - Taiwan Island.\"],\n        BBOX[20.41,119.99,26.72,122.06]],\n    ID[\"EPSG\",3826]]",
     "fields": [
       {
         "name": "MARKID",

@@ -22,7 +22,7 @@ def test_agentic_v03_freeze_verifies_current_and_historical_boundaries() -> None
     assert result["evidence_linked_capability_count"] == 9
     assert result["graph_nodes"] == 44
     assert result["graph_edges"] == 85
-    assert result["school_fixture_features"] == 3
+    assert result["school_fixture_features"] == 12
     assert result["offline_runtime"] == "nma-agentic-v0.3-a06"
     assert result["historical_baseline_count"] == 3
     assert result["public_deployment"] == "not-deployed"

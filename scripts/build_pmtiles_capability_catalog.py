@@ -113,7 +113,16 @@ def compile_catalog(pmtiles_path: Path, graph_path: Path) -> dict:
                     "opacity",
                     "rotation",
                 ]
-                + (["flag_top_alignment"] if code == "9920103" else []),
+                + (
+                    [
+                        "flag_top_alignment",
+                        "support_shape",
+                        "support_proportion",
+                        "flag_attachment",
+                    ]
+                    if code == "9920103"
+                    else []
+                ),
             }
         )
     counts: dict[str, int] = {}

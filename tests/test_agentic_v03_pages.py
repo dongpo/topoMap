@@ -20,7 +20,7 @@ def test_agentic_v03_pages_candidate_preserves_v02_and_passes_every_gate() -> No
     assert result["stable_file_count"] == 9
     assert result["candidate_file_count"] == 12
     assert result["dataset"] == {
-        "feature_count": 3,
+        "feature_count": 12,
         "source_crs": "EPSG:3826",
         "output_crs": "EPSG:4326",
         "component_count": 5,

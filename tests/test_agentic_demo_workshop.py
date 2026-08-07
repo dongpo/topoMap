@@ -26,7 +26,7 @@ def test_a03_supports_bounded_natural_language_style_patches() -> None:
     assert 'setBounded("stroke_width"' in html
     assert 'setBounded("opacity"' in html
     assert 'setBounded("rotation"' in html
-    assert 'patch.outline="none"' in html
+    assert 'setValue("outline","none","Outline")' in html
     assert "STYLE_COLORS" in html
     assert 'id="style-request"' in html
     assert 'id="preview-revision"' in html
@@ -41,12 +41,39 @@ def test_a05_supports_bounded_school_geometry_edits() -> None:
     )
     school = next(item for item in catalog["capabilities"] if item["code"] == "9920103")
 
-    assert "flag_top_alignment" in school["editable_parameters"]
-    assert 'patch.flag_top_alignment="aligned"' in html
+    assert {
+        "flag_top_alignment",
+        "support_shape",
+        "support_proportion",
+        "flag_attachment",
+    }.issubset(school["editable_parameters"])
+    assert 'setValue("flag_top_alignment","aligned","Flag top alignment")' in html
+    assert 'setValue("support_shape","rectangle","Support shape")' in html
+    assert 'setValue("support_proportion","match_flag","Support proportion")' in html
+    assert 'setValue("flag_attachment","inserted","Flag attachment")' in html
     assert "三角(?:形)?(?:上方)?頂部" in html
     assert 'style.flag_top_alignment==="aligned"' in html
     assert 'flag_top_alignment:"offset"' in html
+    assert 'support_shape:"none"' in html
+    assert "function schoolSymbolGeometry(style)" in html
+    assert "function schoolSymbolSvg(style" in html
     assert "Flag top alignment" in html
+
+
+def test_a07_places_layer_creation_between_symbol_and_knowledge_graph() -> None:
+    html = HTML.read_text(encoding="utf-8")
+
+    assert html.index('id="symbol-workshop"') < html.index('id="layer-workshop"')
+    assert html.index('id="layer-workshop"') < html.index('id="knowledge-graph"')
+
+
+def test_a07_exposes_bounded_portable_graph_query() -> None:
+    html = HTML.read_text(encoding="utf-8")
+
+    assert "function queryPortableGraph(rawQuery)" in html
+    assert 'id="graph-query"' in html
+    assert 'id="run-graph-query"' in html
+    assert "Neo4j adapter is not connected" in html
 
 
 def test_a03_versions_diffs_and_requires_explicit_approval() -> None:

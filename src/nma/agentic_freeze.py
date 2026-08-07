@@ -139,7 +139,7 @@ def check_agentic_freeze(
     inspection = server.inspect_bundled_dataset("school-points")
     collection = server.export_bundled_geojson("school-points")
     _expect(inspection["ready"], True, "school Shapefile readiness")
-    _expect(inspection["inspection"]["feature_count"], 3, "school feature count")
+    _expect(inspection["inspection"]["feature_count"], 12, "school feature count")
     _expect(collection["nma:provenance"]["source_crs"], "EPSG:3826", "school source CRS")
     _expect(collection["nma:provenance"]["output_crs"], "EPSG:4326", "school output CRS")
     _expect(collection["nma:provenance"]["read_only_source"], True, "school source read mode")

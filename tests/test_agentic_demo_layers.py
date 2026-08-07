@@ -33,7 +33,7 @@ def test_a05_bundled_shapefile_has_required_parts_and_full_inspection() -> None:
     assert all(len(components[extension]["sha256"]) == 64 for extension in components)
     assert inspection["driver"] == "ESRI Shapefile"
     assert inspection["layer"] == "SCHOOL_POINT"
-    assert inspection["feature_count"] == 3
+    assert inspection["feature_count"] == 12
     assert inspection["geometry_type"] == "Point"
     assert inspection["crs"] == "EPSG:3826"
     assert {field["name"] for field in inspection["fields"]} == {
@@ -48,7 +48,7 @@ def test_a05_exports_browser_safe_geojson_with_provenance() -> None:
     provenance = collection["nma:provenance"]
 
     assert collection["type"] == "FeatureCollection"
-    assert len(collection["features"]) == 3
+    assert len(collection["features"]) == 12
     assert {feature["properties"]["TERRAINID"] for feature in collection["features"]} == {"9920103"}
     assert all(
         120 < feature["geometry"]["coordinates"][0] < 122
@@ -109,7 +109,7 @@ def test_a05_requires_explicit_layer_approval_and_preserves_provenance() -> None
     assert '"visibility":showLabels?"visible":"none"' in html
     assert "synthetic_labels_suppressed:!showLabels" in html
     assert "labelMarkup=showLabels&&sourceLabel" in html
-    assert "A/B/C are test attributes for field mapping" in html
+    assert "generated test points verify field mapping and symbol rendering" in html
     assert "NMA示範小學A" not in html
 
 
@@ -134,7 +134,8 @@ def test_a05_fixture_source_is_explicitly_synthetic() -> None:
     )
 
     assert source["name"] == "SCHOOL_POINT"
-    assert len(source["features"]) == 3
+    assert len(source["features"]) == 12
     assert all(
-        feature["properties"]["MARKNAME1"].startswith("NMA示範") for feature in source["features"]
+        feature["properties"]["MARKNAME1"].startswith("NMA合成測試點")
+        for feature in source["features"]
     )

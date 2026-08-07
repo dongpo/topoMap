@@ -59,7 +59,7 @@
     "approval_owner": "application state machine and explicit human action",
     "school_fixture": {
       "classification": "synthetic",
-      "feature_count": 3,
+      "feature_count": 12,
       "source_crs": "EPSG:3826",
       "output_crs": "EPSG:4326",
       "source_read_mode": "read-only"
@@ -93,8 +93,8 @@
     {
       "path": "src/nma/agentic_freeze.py",
       "role": "agentic-freeze-verifier",
-      "size_bytes": 7635,
-      "sha256": "6649cebef61f9c82a23258ea3992a6f21bb64575038601e988c9a5ad27b489bd"
+      "size_bytes": 7636,
+      "sha256": "d743e944c02bea4dad25734c63712b3b0cfb3930ab92e5947b7f8ef028ed6f0f"
     },
     {
       "path": "scripts/check_agentic_v03_freeze.py",
@@ -111,8 +111,8 @@
     {
       "path": "nmaAgentDemo.html",
       "role": "agentic-browser-runtime",
-      "size_bytes": 85253,
-      "sha256": "e0b066ae3005db673d14bedfc0ff03204344225c46221a8eaed1f35262028bab"
+      "size_bytes": 91085,
+      "sha256": "62e3cff90395b50e9792320539ecc36bf819f036c51459a31a24ede34088c17a"
     },
     {
       "path": "nmaDemoWorker.js",
@@ -129,8 +129,14 @@
     {
       "path": "scripts/build_pmtiles_capability_catalog.py",
       "role": "catalog-compiler",
-      "size_bytes": 5583,
-      "sha256": "01f2b63c1b3392434767787feafd3d5465044c766513d1bb484c0448792352dc"
+      "size_bytes": 5838,
+      "sha256": "8a558386d4521aaff1960d61e2d45f0f7d63d910953524ff7f6d0f7289e9cb4b"
+    },
+    {
+      "path": "scripts/sync_school_fixture.py",
+      "role": "synthetic-school-fixture-builder",
+      "size_bytes": 3489,
+      "sha256": "b8cac1d99b91e647dbf7ebfdbd4bebbf98b6b1727f2e11450b925233500795bf"
     },
     {
       "path": "src/nma/demo_offline.py",
@@ -147,8 +153,8 @@
     {
       "path": "data/demo/pmtiles-capability-catalog.json",
       "role": "capability-catalog",
-      "size_bytes": 25698,
-      "sha256": "da57c3858f8a5fc5ae49b61b0bf67b2590f2d2d08726ebbe929a92d68b0b380d"
+      "size_bytes": 25780,
+      "sha256": "993207906d518dd41b3039be624e97f576aa077bd2283db79b28d8673834b13d"
     },
     {
       "path": "data/demo/five-scene-demo.json",
@@ -219,8 +225,8 @@
     {
       "path": "data/fixtures-source/school-points/school-points.geojson",
       "role": "synthetic-school-source",
-      "size_bytes": 902,
-      "sha256": "3111b170e7b64e52e5b94f546ae819eefb65fe20d73dc248b6c8e0d527fac204"
+      "size_bytes": 3164,
+      "sha256": "e0e7ef2dd622b82ec5558a82f9749e708a00404381418840f75178fea349489e"
     },
     {
       "path": "data/datasets/authoritative/school-points/SCHOOL_POINT.cpg",
@@ -231,8 +237,8 @@
     {
       "path": "data/datasets/authoritative/school-points/SCHOOL_POINT.dbf",
       "role": "school-shapefile-attributes",
-      "size_bytes": 853,
-      "sha256": "12e8578159cf7c1f2bc86cb34e724a4f915570056c33ad550ffafe25145fe36d"
+      "size_bytes": 3022,
+      "sha256": "d33fef9eab3417314f03589c1aed3040fe0dba63455594461499d4212108da77"
     },
     {
       "path": "data/datasets/authoritative/school-points/SCHOOL_POINT.prj",
@@ -243,14 +249,14 @@
     {
       "path": "data/datasets/authoritative/school-points/SCHOOL_POINT.shp",
       "role": "school-shapefile-geometry",
-      "size_bytes": 184,
-      "sha256": "e9bc86e363df3c7665eb98a3f2636972a2d0834bdebaea3e251fce257b51e427"
+      "size_bytes": 436,
+      "sha256": "95681158521918e0a4f7773c18baa9b9308615488edca7c4a4566b644d2e9b1b"
     },
     {
       "path": "data/datasets/authoritative/school-points/SCHOOL_POINT.shx",
       "role": "school-shapefile-index",
-      "size_bytes": 124,
-      "sha256": "4dcac3f739866d027d46a6e7ac211481be3fe8d4ac9e1d8470b093439b8e65eb"
+      "size_bytes": 196,
+      "sha256": "87ec8fd7c5279402bcde471c2d5fb8b9349fdbe5d8ec45de75f0cc482ea485e6"
     }
   ],
   "historical_baselines": [

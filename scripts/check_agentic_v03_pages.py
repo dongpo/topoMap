@@ -56,11 +56,11 @@ def verify_public_dataset() -> dict[str, Any]:
     collection = load_json(ROOT / "data/demo/school-points-public.geojson")
     expect(inspection["schema"], "nma.dataset-inspection/1.0", "inspection schema")
     expect(inspection["ready"], True, "inspection readiness")
-    expect(inspection["inspection"]["feature_count"], 3, "inspection feature count")
+    expect(inspection["inspection"]["feature_count"], 12, "inspection feature count")
     expect(inspection["inspection"]["crs"], "EPSG:3826", "inspection source CRS")
     expect(inspection["output_crs"], "EPSG:4326", "inspection output CRS")
     expect(collection["type"], "FeatureCollection", "public dataset type")
-    expect(len(collection["features"]), 3, "public dataset feature count")
+    expect(len(collection["features"]), 12, "public dataset feature count")
     expect(
         collection["nma:provenance"]["components"],
         [

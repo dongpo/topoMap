@@ -7,11 +7,14 @@
       "properties": {
         "MARKID": "SCHOOL00001",
         "TERRAINID": "9920103",
-        "MARKNAME1": "NMA示範小學A"
+        "MARKNAME1": "NMA合成測試點01"
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [121.0219, 24.7762]
+        "coordinates": [
+          121.0219,
+          24.7762
+        ]
       }
     },
     {
@@ -19,11 +22,14 @@
       "properties": {
         "MARKID": "SCHOOL00002",
         "TERRAINID": "9920103",
-        "MARKNAME1": "NMA示範小學B"
+        "MARKNAME1": "NMA合成測試點02"
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [121.0256, 24.7751]
+        "coordinates": [
+          121.0256,
+          24.7751
+        ]
       }
     },
     {
@@ -31,11 +37,149 @@
       "properties": {
         "MARKID": "SCHOOL00003",
         "TERRAINID": "9920103",
-        "MARKNAME1": "NMA示範小學C"
+        "MARKNAME1": "NMA合成測試點03"
       },
       "geometry": {
         "type": "Point",
-        "coordinates": [121.0238, 24.7729]
+        "coordinates": [
+          121.0238,
+          24.7729
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00004",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點04"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0198,
+          24.7743
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00005",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點05"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0274,
+          24.777
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00006",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點06"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0281,
+          24.7734
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00007",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點07"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0207,
+          24.7781
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00008",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點08"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0242,
+          24.779
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00009",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點09"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.029,
+          24.7753
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00010",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點10"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0189,
+          24.7719
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00011",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點11"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.022,
+          24.7708
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00012",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點12"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.0264,
+          24.7712
+        ]
       }
     }
   ],
@@ -45,7 +189,7 @@
     "source_crs": "EPSG:3826",
     "output_crs": "EPSG:4326",
     "engine": "GDAL 3.11.0 \"Eganville\", released 2025/05/06",
-    "feature_count": 3,
+    "feature_count": 12,
     "field_mapping": {
       "feature_id": "MARKID",
       "feature_code": "TERRAINID",
@@ -54,15 +198,15 @@
     "components": [
       {
         "filename": "SCHOOL_POINT.shp",
-        "sha256": "e9bc86e363df3c7665eb98a3f2636972a2d0834bdebaea3e251fce257b51e427"
+        "sha256": "95681158521918e0a4f7773c18baa9b9308615488edca7c4a4566b644d2e9b1b"
       },
       {
         "filename": "SCHOOL_POINT.shx",
-        "sha256": "4dcac3f739866d027d46a6e7ac211481be3fe8d4ac9e1d8470b093439b8e65eb"
+        "sha256": "87ec8fd7c5279402bcde471c2d5fb8b9349fdbe5d8ec45de75f0cc482ea485e6"
       },
       {
         "filename": "SCHOOL_POINT.dbf",
-        "sha256": "12e8578159cf7c1f2bc86cb34e724a4f915570056c33ad550ffafe25145fe36d"
+        "sha256": "d33fef9eab3417314f03589c1aed3040fe0dba63455594461499d4212108da77"
       },
       {
         "filename": "SCHOOL_POINT.prj",

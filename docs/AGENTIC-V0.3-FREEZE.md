@@ -34,7 +34,7 @@ from its immutable Git snapshots.
 - Only 9 catalog entries have a graph-evidence relationship; only 5 are clean evidence-backed
   examples.
 - The graph remains the bounded 44-node, 85-edge reviewed-gate subset.
-- The supervised school fixture contains three synthetic points, is read through GDAL/OGR from
+- The supervised school fixture contains 12 synthetic points, is read through GDAL/OGR from
   EPSG:3826, and is transformed to EPSG:4326 without changing the source.
 - Natural-language output cannot approve a symbol or layer by itself.
 - The public Pages site remains v0.2 evidence-only; Agentic v0.3 is not deployed by this freeze.
