@@ -1,5 +1,5 @@
 {
-  "runtime_version": "nma-agentic-v0.3-a05",
+  "runtime_version": "nma-agentic-v0.3-a06",
   "status": "mitigated",
   "local_assets": [
     "nmaAgentDemo.html",
@@ -17,7 +17,7 @@
   "local_pmtiles_url": "out1120902.pmtiles",
   "cache": {
     "worker": "nmaDemoWorker.js",
-    "name": "nma-agentic-v0.3-a05",
+    "name": "nma-agentic-v0.3-a06",
     "local_shell_strategy": "network-first-with-cache-fallback",
     "pinned_runtime_assets": [
       "https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css",
@@ -28,6 +28,14 @@
     "glyph_prefix": "https://cdn.protomaps.com/fonts/pbf/"
   },
   "pmtiles_range_strategy": "service-worker-local-range-adapter",
+  "basemap": {
+    "primary": "NLSC WMTS EMAP",
+    "tile_url": "https://wmts.nlsc.gov.tw/wmts/EMAP/default/GoogleMapsCompatible/{z}/{y}/{x}",
+    "attribution": "© 內政部國土測繪中心",
+    "cache_policy": "network-only; no bulk caching",
+    "fallback": "local-pmtiles",
+    "forced_url": "nmaAgentDemo.html?basemap=local"
+  },
   "fallback": {
     "mode": "evidence-only",
     "forced_url": "nmaAgentDemo.html?mode=degraded",
@@ -43,8 +51,16 @@
     "tested_on": "2026-08-07",
     "normal_mode": {
       "status": "passed",
-      "runtime_status": "Map ready · local PMTiles · pinned runtime cache enabled",
+      "runtime_status": "Map ready · NLSC EMAP online · local PMTiles data · supervised dynamic layers",
       "local_pmtiles_range_adapter": "passed",
+      "console_errors": 0,
+      "console_warnings": 0
+    },
+    "local_basemap_fallback": {
+      "status": "passed",
+      "runtime_status": "Map ready · local PMTiles basemap fallback · NLSC EMAP unavailable or bypassed",
+      "interactive_map_preserved": true,
+      "forced_url": "nmaAgentDemo.html?basemap=local",
       "console_errors": 0,
       "console_warnings": 0
     },

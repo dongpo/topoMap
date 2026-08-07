@@ -11,12 +11,13 @@ def test_offline_runtime_packages_local_data_and_a_degraded_fallback() -> None:
     result = check_offline_runtime()
 
     assert result == {
-        "runtime_version": "nma-agentic-v0.3-a05",
+        "runtime_version": "nma-agentic-v0.3-a06",
         "status": "passed",
         "local_asset_count": 11,
         "pinned_runtime_asset_count": 3,
         "fallback_mode": "evidence-only",
         "browser_modes_verified": 2,
+        "basemap_modes_verified": 2,
         "deferred_count": 2,
     }
 
@@ -29,6 +30,15 @@ def test_offline_manifest_keeps_deferrals_owned_and_non_blocking() -> None:
     assert runtime["cache"]["glyph_strategy"] == "cache-on-use"
     assert runtime["cache"]["local_shell_strategy"] == "network-first-with-cache-fallback"
     assert runtime["verification"]["normal_mode"]["local_pmtiles_range_adapter"] == "passed"
+    assert runtime["basemap"] == {
+        "primary": "NLSC WMTS EMAP",
+        "tile_url": "https://wmts.nlsc.gov.tw/wmts/EMAP/default/GoogleMapsCompatible/{z}/{y}/{x}",
+        "attribution": "© 內政部國土測繪中心",
+        "cache_policy": "network-only; no bulk caching",
+        "fallback": "local-pmtiles",
+        "forced_url": "nmaAgentDemo.html?basemap=local",
+    }
+    assert runtime["verification"]["local_basemap_fallback"]["interactive_map_preserved"]
     assert runtime["verification"]["degraded_mode"]["passed_scenes"] == 5
     assert all(item["classification"] == "non-blocking" for item in runtime["deferred"])
     assert all(item["owner"] and item["next_action"] for item in runtime["deferred"])

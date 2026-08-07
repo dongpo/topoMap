@@ -1,4 +1,4 @@
-const CACHE_NAME = "nma-agentic-v0.3-a05";
+const CACHE_NAME = "nma-agentic-v0.3-a06";
 const GLYPH_PREFIX = "https://cdn.protomaps.com/fonts/pbf/";
 
 const PINNED_RUNTIME_ASSETS = [

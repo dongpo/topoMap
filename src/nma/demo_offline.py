@@ -37,6 +37,15 @@ def check_offline_runtime(
         raise ValueError("local PMTiles range strategy is not declared")
     if "pmtilesRangeResponse" not in worker or '"Content-Range"' not in worker:
         raise ValueError("local PMTiles byte-range adapter is missing")
+    basemap = runtime["basemap"]
+    if basemap["primary"] != "NLSC WMTS EMAP":
+        raise ValueError("NLSC EMAP is not the declared primary basemap")
+    if basemap["tile_url"] not in html or basemap["attribution"].removeprefix("© ") not in html:
+        raise ValueError("NLSC endpoint or attribution is missing from the demo")
+    if basemap["cache_policy"] not in html or "wmts.nlsc.gov.tw" in worker:
+        raise ValueError("NLSC requests must remain network-only and outside the service-worker cache")
+    if basemap["fallback"] != "local-pmtiles" or 'get("basemap")==="local"' not in html:
+        raise ValueError("interactive local PMTiles basemap fallback is not declared")
     verification = runtime["verification"]
     if verification["normal_mode"]["status"] != "passed":
         raise ValueError("normal offline-ready browser mode is not verified")
@@ -44,7 +53,15 @@ def check_offline_runtime(
         raise ValueError("evidence-only browser mode is not verified")
     if verification["degraded_mode"]["passed_scenes"] != 5:
         raise ValueError("degraded browser verification must cover all five scenes")
-    for mode in (verification["normal_mode"], verification["degraded_mode"]):
+    if verification["local_basemap_fallback"]["status"] != "passed":
+        raise ValueError("local PMTiles basemap fallback is not verified")
+    if not verification["local_basemap_fallback"]["interactive_map_preserved"]:
+        raise ValueError("local basemap fallback must preserve the interactive map")
+    for mode in (
+        verification["normal_mode"],
+        verification["local_basemap_fallback"],
+        verification["degraded_mode"],
+    ):
         if mode["console_errors"] or mode["console_warnings"]:
             raise ValueError("browser verification contains console errors or warnings")
     if not runtime["deferred"]:
@@ -61,5 +78,6 @@ def check_offline_runtime(
         "pinned_runtime_asset_count": len(runtime["cache"]["pinned_runtime_assets"]),
         "fallback_mode": runtime["fallback"]["mode"],
         "browser_modes_verified": 2,
+        "basemap_modes_verified": 2,
         "deferred_count": len(runtime["deferred"]),
     }
