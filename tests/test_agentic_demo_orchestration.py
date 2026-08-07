@@ -22,6 +22,7 @@ def valid_route(**overrides):
         "feature_query": "學校的圖式如何呈現？",
         "feature_code": "9920103",
         "style_request": None,
+        "style_plan": None,
         "reply": "將查詢學校的圖式與證據。",
     }
     route.update(overrides)
@@ -36,6 +37,12 @@ def test_a04_uses_one_strict_bounded_tool_schema() -> None:
     assert parameters["additionalProperties"] is False
     assert set(parameters["required"]) == set(parameters["properties"])
     assert parameters["properties"]["intent"]["enum"] == list(SERVER.INTENTS)
+    plan = parameters["properties"]["style_plan"]
+    assert plan["additionalProperties"] is False
+    assert set(plan["required"]) == set(plan["properties"])
+    operation = plan["properties"]["operations"]["items"]
+    assert operation["additionalProperties"] is False
+    assert set(operation["required"]) == set(operation["properties"])
 
 
 def test_a04_validates_tool_calls_again_after_model_output() -> None:
@@ -52,8 +59,64 @@ def test_a04_validates_tool_calls_again_after_model_output() -> None:
                 feature_query=None,
                 feature_code=None,
                 style_request=None,
+                style_plan=None,
             )
         )
+
+
+def test_v04_validates_allowlisted_symbol_edit_plan_semantics() -> None:
+    plan = {
+        "schema": "nma.symbol-edit-plan/1.0",
+        "source": "responses-api",
+        "operations": [
+            {
+                "action": "set_color",
+                "target": "symbol",
+                "value": "#1565c0",
+                "reference": None,
+                "relation": None,
+            },
+            {
+                "action": "add_shape",
+                "target": "support",
+                "value": "rectangle",
+                "reference": None,
+                "relation": None,
+            },
+            {
+                "action": "match_dimension",
+                "target": "support",
+                "value": None,
+                "reference": "flag",
+                "relation": "same-width",
+            },
+            {
+                "action": "attach",
+                "target": "flag",
+                "value": None,
+                "reference": "support",
+                "relation": "inserted",
+            },
+        ],
+    }
+
+    route = SERVER.validate_route(
+        valid_route(
+            intent="propose_style_revision",
+            feature_query=None,
+            style_request="改成藍色，新增長方形，配合三角旗比例，三角旗下方插在這個長方形",
+            style_plan=plan,
+        )
+    )
+    assert len(route["style_plan"]["operations"]) == 4
+
+    unsafe = {**plan, "operations": [{**plan["operations"][0], "action": "raw_svg"}]}
+    with pytest.raises(SERVER.AgentError, match="unknown or duplicate action"):
+        SERVER.validate_style_plan(unsafe)
+
+    extra = {**plan, "operations": [{**plan["operations"][0], "svg": "<path />"}]}
+    with pytest.raises(SERVER.AgentError, match="invalid style operation"):
+        SERVER.validate_style_plan(extra)
 
 
 def test_a04_builds_responses_api_continuation_with_prior_tool_result() -> None:
@@ -134,9 +197,11 @@ def test_a04_browser_keeps_application_owned_confirmation_gates_and_fallback() -
     assert "state?.draft&&isExplicitApproval(rawMessage)" in html
     assert "state?.draft&&isExplicitDiscard(rawMessage)" in html
     assert "function deterministicRoute(message)" in html
-    assert "input.value=rawMessage;proposeStyleRevision()" in html
+    assert "input.value=rawMessage;proposeStyleRevision(args.style_plan)" in html
     assert "input.value=args.style_request" not in html
     assert 'setAgentMode("deterministic-fallback","bounded fallback")' in html
+    assert "function submitSymbolEdit()" in html
+    assert "function validateSymbolEditPlan(plan,supported)" in html
     assert "lastAgentToolResult=result" in html
     assert "Tool: ${args.intent} · ${result.outcome}" in html
 

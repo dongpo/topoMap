@@ -136,6 +136,11 @@ def check_agentic_freeze(
     server = _load_agent_server(resolve_asset(manifest["acceptance"]["agent_server"]))
     _expect(server.DEFAULT_MODEL, "gpt-5.6-terra", "default language model")
     _expect(set(server.INTENTS), EXPECTED_INTENTS, "bounded intent set")
+    _expect(
+        server.SYMBOL_EDIT_PLAN_SCHEMA,
+        "nma.symbol-edit-plan/1.0",
+        "symbol edit plan schema",
+    )
     inspection = server.inspect_bundled_dataset("school-points")
     collection = server.export_bundled_geojson("school-points")
     _expect(inspection["ready"], True, "school Shapefile readiness")
@@ -150,6 +155,8 @@ def check_agentic_freeze(
         "function renderKnowledgeGraph(decision)",
         "function renderSymbolWorkshop(decision)",
         "function approveStyleRevision()",
+        "function validateSymbolEditPlan(plan,supported)",
+        "Agent interpretation · SymbolEditPlan",
         "async function prepareLayerProposal()",
         "async function createApprovedLayer(approvalSource)",
         "function deterministicRoute(message)",

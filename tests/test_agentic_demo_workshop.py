@@ -15,13 +15,16 @@ def test_a03_keeps_v0_immutable_and_renders_side_by_side_previews() -> None:
     assert "Specification baseline" in html
     assert "Derived preview" in html
     assert "V0 · immutable" in html
-    assert "the authoritative V0 asset is never overwritten" in html
+    assert "authoritative V0 is never overwritten" in html
 
 
 def test_a03_supports_bounded_natural_language_style_patches() -> None:
     html = HTML.read_text(encoding="utf-8")
 
     assert "function parseStylePatch(text,supported)" in html
+    assert "function symbolEditPlanFromText(text,supported)" in html
+    assert "function compileSymbolEditPlan(plan,supported)" in html
+    assert 'typeof op.value==="number"?Math.round' in html
     assert 'setBounded("scale"' in html
     assert 'setBounded("stroke_width"' in html
     assert 'setBounded("opacity"' in html
@@ -51,6 +54,9 @@ def test_a05_supports_bounded_school_geometry_edits() -> None:
     assert 'setValue("support_shape","rectangle","Support shape")' in html
     assert 'setValue("support_proportion","match_flag","Support proportion")' in html
     assert 'setValue("flag_attachment","inserted","Flag attachment")' in html
+    assert 'action:value==="rectangle"?"add_shape":"remove_shape"' in html
+    assert 'action:"match_dimension"' in html
+    assert 'action:value==="inserted"?"attach":"detach"' in html
     assert "三角(?:形)?(?:上方)?頂部" in html
     assert 'style.flag_top_alignment==="aligned"' in html
     assert 'flag_top_alignment:"offset"' in html
@@ -81,14 +87,16 @@ def test_a03_versions_diffs_and_requires_explicit_approval() -> None:
 
     assert "function revisionDiffTable(revision)" in html
     assert "function revisionHistory(state)" in html
-    assert "function proposeStyleRevision()" in html
+    assert "function proposeStyleRevision(planOverride=null)" in html
+    assert "function stylePlanAudit(plan)" in html
+    assert "Agent interpretation · SymbolEditPlan" in html
     assert "function approveStyleRevision()" in html
     assert "function discardStyleRevision()" in html
     assert "function approvedStyleFor(featureCode)" in html
     assert 'status:"pending"' in html
     assert 'status="approved"' in html
     assert 'status="discarded"' in html
-    assert "Only explicit approval advances the selected symbol" in html
+    assert "only explicit approval advances the selected symbol" in html
 
 
 def test_a05_keeps_the_next_supervised_action_in_the_symbol_panel() -> None:

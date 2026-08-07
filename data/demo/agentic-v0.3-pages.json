@@ -16,9 +16,9 @@
     "deployment_state": "not-deployed"
   },
   "runtime": {
-    "conversation": "deterministic fallback; no OpenAI API key is published",
+    "conversation": "strict Responses API SymbolEditPlan locally; deterministic plan fallback publicly; no OpenAI API key is published",
     "knowledge_graph": "42 registered capabilities; 9 evidence-linked",
-    "symbol_workshop": "immutable baseline plus supervised derived revisions",
+    "symbol_workshop": "immutable baseline plus visible, validated SymbolEditPlan and supervised derived revisions",
     "dataset": "static browser-safe export of the bundled synthetic Shapefile fixture",
     "basemap": "NLSC EMAP network-only with bounded background fallback",
     "pmtiles": "excluded pending redistribution permission"
@@ -33,8 +33,8 @@
     {
       "role": "candidate-builder",
       "path": "scripts/build_agentic_v03_pages.py",
-      "size_bytes": 13408,
-      "sha256": "9f922a7065331b0a9519b3e45f7045364dbe1762f19e704fbe8221851e253a7c"
+      "size_bytes": 13556,
+      "sha256": "3e61d7402402e5a657579c8c02a0303b42138d163e6d8497ceb9832ebca790f2"
     },
     {
       "role": "candidate-verifier",
@@ -55,16 +55,22 @@
       "sha256": "60c5b617501f7817d202df17a56c122335b79d196076191a0e8d329f5f7f8a9e"
     },
     {
+      "role": "symbol-edit-plan-schema",
+      "path": "schemas/symbol-edit-plan.schema.json",
+      "size_bytes": 2153,
+      "sha256": "fd964e184d6eaf83d128029729a9b524e52079211b7c6511adfe9a453a29c7c4"
+    },
+    {
       "role": "agentic-browser-source",
       "path": "nmaAgentDemo.html",
-      "size_bytes": 91085,
-      "sha256": "62e3cff90395b50e9792320539ecc36bf819f036c51459a31a24ede34088c17a"
+      "size_bytes": 98044,
+      "sha256": "f23ce96cba35e737e67f4ae5a3983685ec6c444fba6722ee68e4f3ac95d024b0"
     },
     {
       "role": "agentic-freeze-record",
       "path": "data/demo/agentic-v0.3-freeze.json",
-      "size_bytes": 10847,
-      "sha256": "9af5ca1f1f3ba1dc988071eb38a01e3fa06e21b1492b617f4b811d7039006233"
+      "size_bytes": 11202,
+      "sha256": "10c60ce17cc77d39f10312fbbd334a3c5d7252ca2d844e1c0e139c0b3a1799e2"
     },
     {
       "role": "portrayal-graph",

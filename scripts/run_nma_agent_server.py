@@ -29,6 +29,77 @@ SESSION_TTL_SECONDS = 20 * 60
 MAX_BODY_BYTES = 32_768
 SESSION_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]{8,80}$")
 FEATURE_CODE_PATTERN = re.compile(r"^[0-9A-Za-z._-]{1,32}$")
+SYMBOL_EDIT_PLAN_SCHEMA = "nma.symbol-edit-plan/1.0"
+SYMBOL_EDIT_COLORS = (
+    "#111111",
+    "#ffffff",
+    "#c62828",
+    "#1565c0",
+    "#2e7d32",
+    "#f9a825",
+    "#ef6c00",
+    "#6d7772",
+    "#6a1b9a",
+)
+SYMBOL_EDIT_ACTIONS = (
+    "set_color",
+    "set_scale",
+    "set_stroke_width",
+    "set_opacity",
+    "set_rotation",
+    "set_outline",
+    "align",
+    "add_shape",
+    "remove_shape",
+    "match_dimension",
+    "attach",
+    "detach",
+)
+SYMBOL_EDIT_OPERATION_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "action": {"type": "string", "enum": list(SYMBOL_EDIT_ACTIONS)},
+        "target": {
+            "type": ["string", "null"],
+            "enum": ["symbol", "flag", "flag-top", "support", None],
+        },
+        "value": {
+            "anyOf": [
+                {"type": "number"},
+                {
+                    "type": "string",
+                    "enum": [*SYMBOL_EDIT_COLORS, "none", "rectangle"],
+                },
+                {"type": "null"},
+            ]
+        },
+        "reference": {
+            "type": ["string", "null"],
+            "enum": ["flag", "flagpole-top", "support", None],
+        },
+        "relation": {
+            "type": ["string", "null"],
+            "enum": ["aligned", "offset", "same-width", "inserted", "detached", None],
+        },
+    },
+    "required": ["action", "target", "value", "reference", "relation"],
+    "additionalProperties": False,
+}
+SYMBOL_EDIT_PLAN_TOOL_SCHEMA: dict[str, Any] = {
+    "type": ["object", "null"],
+    "properties": {
+        "schema": {"type": "string", "enum": [SYMBOL_EDIT_PLAN_SCHEMA]},
+        "source": {"type": "string", "enum": ["responses-api"]},
+        "operations": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": SYMBOL_EDIT_OPERATION_SCHEMA,
+        },
+    },
+    "required": ["schema", "source", "operations"],
+    "additionalProperties": False,
+}
 
 BUNDLED_DATASETS: dict[str, dict[str, Any]] = {
     "school-points": {
@@ -75,12 +146,20 @@ ROUTE_TOOL: dict[str, Any] = {
             "feature_query": {"type": ["string", "null"]},
             "feature_code": {"type": ["string", "null"]},
             "style_request": {"type": ["string", "null"]},
+            "style_plan": SYMBOL_EDIT_PLAN_TOOL_SCHEMA,
             "reply": {
                 "type": "string",
                 "description": "A concise Traditional Chinese response describing the proposed action.",
             },
         },
-        "required": ["intent", "feature_query", "feature_code", "style_request", "reply"],
+        "required": [
+            "intent",
+            "feature_query",
+            "feature_code",
+            "style_request",
+            "style_plan",
+            "reply",
+        ],
         "additionalProperties": False,
     },
 }
@@ -92,6 +171,14 @@ GIS processing, and layer creation. Never claim an action happened; only propose
 Use inspect_feature when the user asks how a feature is portrayed or where its rule comes from.
 Use propose_style_revision only when the user requests a concrete visual change. Copy the user's
 exact visual-change wording into style_request; do not normalize, translate, or paraphrase it.
+For propose_style_revision, also return style_plan using schema nma.symbol-edit-plan/1.0 and source
+responses-api. Translate every supported part of the request into one or more allowlisted operations.
+Use only the enumerated actions, targets, values, references, and relations. Never emit SVG, code,
+paths, coordinates, URLs, or approval/deployment actions. Examples: blue means set_color with target
+symbol and value #1565c0; add a rectangle means add_shape with target support and value rectangle;
+match the flag width means match_dimension from support to flag with relation same-width; insert the
+flag into the rectangle means attach flag to support with relation inserted. Set unused operation
+fields to null. For every intent other than propose_style_revision, style_plan must be null.
 Use approve_revision or discard_revision only for an explicit decision about a pending revision.
 Use finish_revisions when the user explicitly says no more symbol changes are needed.
 Use request_layer_confirmation only when the application state says a layer proposal is ready and
@@ -284,12 +371,86 @@ def load_local_settings(root: Path = ROOT) -> tuple[str | None, str]:
     return key, model
 
 
+def validate_style_plan(plan: Any) -> dict[str, Any]:
+    if not isinstance(plan, dict) or set(plan) != {"schema", "source", "operations"}:
+        raise AgentError(
+            "invalid_tool_call", "The model returned an invalid style plan shape.", 502
+        )
+    if plan["schema"] != SYMBOL_EDIT_PLAN_SCHEMA or plan["source"] != "responses-api":
+        raise AgentError(
+            "invalid_tool_call", "The model returned an invalid style plan identity.", 502
+        )
+    operations = plan["operations"]
+    if not isinstance(operations, list) or not 1 <= len(operations) <= 8:
+        raise AgentError("invalid_tool_call", "The style plan must contain 1–8 operations.", 502)
+    specs: dict[str, tuple[str, Any, Any, Any]] = {
+        "set_color": ("symbol", None, None, set(SYMBOL_EDIT_COLORS)),
+        "set_scale": ("symbol", None, None, (0.5, 3.0)),
+        "set_stroke_width": ("symbol", None, None, (0.5, 4.0)),
+        "set_opacity": ("symbol", None, None, (0.1, 1.0)),
+        "set_rotation": ("symbol", None, None, (-180.0, 180.0)),
+        "set_outline": ("symbol", None, None, {*SYMBOL_EDIT_COLORS, "none"}),
+        "align": ("flag-top", "flagpole-top", {"aligned", "offset"}, None),
+        "add_shape": ("support", None, None, {"rectangle"}),
+        "remove_shape": ("support", None, None, {"none"}),
+        "match_dimension": ("support", "flag", {"same-width"}, None),
+        "attach": ("flag", "support", {"inserted"}, None),
+        "detach": ("flag", "support", {"detached"}, None),
+    }
+    seen: set[str] = set()
+    for operation in operations:
+        if not isinstance(operation, dict) or set(operation) != {
+            "action",
+            "target",
+            "value",
+            "reference",
+            "relation",
+        }:
+            raise AgentError(
+                "invalid_tool_call", "The model returned an invalid style operation.", 502
+            )
+        action = operation["action"]
+        if action not in specs or action in seen:
+            raise AgentError(
+                "invalid_tool_call", "The style plan has an unknown or duplicate action.", 502
+            )
+        seen.add(action)
+        target, reference, relations, values = specs[action]
+        if operation["target"] != target or operation["reference"] != reference:
+            raise AgentError("invalid_tool_call", "The style operation targets are invalid.", 502)
+        if relations is None:
+            if operation["relation"] is not None:
+                raise AgentError(
+                    "invalid_tool_call", "The style operation relation is invalid.", 502
+                )
+        elif operation["relation"] not in relations or operation["value"] is not None:
+            raise AgentError("invalid_tool_call", "The style operation relation is invalid.", 502)
+        value = operation["value"]
+        if isinstance(values, tuple):
+            if (
+                isinstance(value, bool)
+                or not isinstance(value, (int, float))
+                or not values[0] <= value <= values[1]
+            ):
+                raise AgentError(
+                    "invalid_tool_call", "The numeric style value is out of bounds.", 502
+                )
+        elif values is not None and (not isinstance(value, str) or value not in values):
+            raise AgentError("invalid_tool_call", "The style operation value is invalid.", 502)
+        elif values is None and value is not None:
+            raise AgentError(
+                "invalid_tool_call", "The style operation must not contain a value.", 502
+            )
+    return plan
+
+
 def validate_route(arguments: Any) -> dict[str, Any]:
     if not isinstance(arguments, dict) or set(arguments) != {
         "intent",
         "feature_query",
         "feature_code",
         "style_request",
+        "style_plan",
         "reply",
     }:
         raise AgentError("invalid_tool_call", "The model returned an invalid tool shape.", 502)
@@ -312,8 +473,16 @@ def validate_route(arguments: Any) -> dict[str, Any]:
         raise AgentError("invalid_tool_call", "The model returned an invalid reply.", 502)
     if intent == "inspect_feature" and not (arguments["feature_query"] or feature_code):
         raise AgentError("invalid_tool_call", "Feature inspection requires a query or code.", 502)
-    if intent == "propose_style_revision" and not arguments["style_request"]:
-        raise AgentError("invalid_tool_call", "A style revision requires a bounded request.", 502)
+    if intent == "propose_style_revision":
+        if not arguments["style_request"]:
+            raise AgentError(
+                "invalid_tool_call", "A style revision requires a bounded request.", 502
+            )
+        validate_style_plan(arguments["style_plan"])
+    elif arguments["style_plan"] is not None:
+        raise AgentError(
+            "invalid_tool_call", "Only a style revision may contain a style plan.", 502
+        )
     return arguments
 
 

@@ -152,7 +152,7 @@ def candidate_index() -> str:
 <body><main>
   <span class="badge">candidate · not deployed as stable</span>
   <h1>Agentic Demo v0.3</h1>
-  <p>This bounded candidate demonstrates supervised conversation, evidence-graph inspection, symbol revision, static Shapefile inspection evidence, explicit layer approval, and an NLSC EMAP context map.</p>
+  <p>This bounded candidate demonstrates supervised conversation, evidence-graph inspection, visible SymbolEditPlan interpretation, symbol revision, static Shapefile inspection evidence, explicit layer approval, and an NLSC EMAP context map.</p>
   <p>The repository-only PMTiles archive, API keys, official source PDFs, tests, and development files are excluded. GPT routing falls back deterministically because no server credential is shipped to Pages.</p>
   <a class="button" href="nmaAgentDemo.html">Open Agentic v0.3 candidate</a>
   <a class="button secondary" href="../">Return to stable v0.2</a>
@@ -199,6 +199,8 @@ def build_candidate_subtree(manifest: dict[str, Any], target: Path) -> dict[str,
         "bounded public background fallback",
         "function renderKnowledgeGraph(decision)",
         "function renderSymbolWorkshop(decision)",
+        "function validateSymbolEditPlan(plan,supported)",
+        "Agent interpretation · SymbolEditPlan",
         "async function createApprovedLayer(approvalSource)",
     )
     missing = [marker for marker in required_markers if marker not in demo]

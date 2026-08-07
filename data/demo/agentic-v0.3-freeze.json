@@ -55,7 +55,8 @@
     "graph_nodes": 44,
     "graph_edges": 85,
     "default_model": "gpt-5.6-terra",
-    "model_role": "bounded intent and tool routing only",
+    "model_role": "bounded intent routing and structured SymbolEditPlan proposal only",
+    "symbol_edit_plan": "nma.symbol-edit-plan/1.0; application-validated and application-compiled",
     "approval_owner": "application state machine and explicit human action",
     "school_fixture": {
       "classification": "synthetic",
@@ -93,8 +94,8 @@
     {
       "path": "src/nma/agentic_freeze.py",
       "role": "agentic-freeze-verifier",
-      "size_bytes": 7636,
-      "sha256": "d743e944c02bea4dad25734c63712b3b0cfb3930ab92e5947b7f8ef028ed6f0f"
+      "size_bytes": 7875,
+      "sha256": "382d60067cfde054e16bd0e07b0b2aecc99fab22b56c5b268ffa62fedf3654a8"
     },
     {
       "path": "scripts/check_agentic_v03_freeze.py",
@@ -109,10 +110,16 @@
       "sha256": "2a6bc5967971f3a3a09cc2f0caf186b9e8c1387d5d7331cc1c6c859f34b5ffcc"
     },
     {
+      "path": "schemas/symbol-edit-plan.schema.json",
+      "role": "bounded-symbol-edit-plan-schema",
+      "size_bytes": 2153,
+      "sha256": "fd964e184d6eaf83d128029729a9b524e52079211b7c6511adfe9a453a29c7c4"
+    },
+    {
       "path": "nmaAgentDemo.html",
       "role": "agentic-browser-runtime",
-      "size_bytes": 91085,
-      "sha256": "62e3cff90395b50e9792320539ecc36bf819f036c51459a31a24ede34088c17a"
+      "size_bytes": 98044,
+      "sha256": "f23ce96cba35e737e67f4ae5a3983685ec6c444fba6722ee68e4f3ac95d024b0"
     },
     {
       "path": "nmaDemoWorker.js",
@@ -123,8 +130,8 @@
     {
       "path": "scripts/run_nma_agent_server.py",
       "role": "bounded-agent-server",
-      "size_bytes": 22284,
-      "sha256": "09f8a8f5a17c842d357bf597e0fa3ccdfce71a54bccc7cbf87439fbd77c83a0a"
+      "size_bytes": 29071,
+      "sha256": "b0848f38a5679f1ff604f1341e52e15cd44f3cae9000b6624a081c3f21074102"
     },
     {
       "path": "scripts/build_pmtiles_capability_catalog.py",
