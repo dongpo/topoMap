@@ -39,7 +39,7 @@
           },
           "target": {
             "type": ["string", "null"],
-            "enum": ["symbol", "flag", "flag-top", "support", null]
+            "enum": ["symbol", "flag", "flag-top", "flagpole-bottom", "support", null]
           },
           "value": {
             "anyOf": [
@@ -65,11 +65,11 @@
           },
           "reference": {
             "type": ["string", "null"],
-            "enum": ["flag", "flagpole-top", "support", null]
+            "enum": ["flag", "flagpole-top", "support", "support-top", null]
           },
           "relation": {
             "type": ["string", "null"],
-            "enum": ["aligned", "offset", "same-width", "inserted", "detached", null]
+            "enum": ["aligned", "offset", "same-width", "proportional-width", "inserted-into-top", "detached", null]
           }
         }
       }

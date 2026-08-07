@@ -56,13 +56,22 @@ def test_a05_supports_bounded_school_geometry_edits() -> None:
     assert 'setValue("flag_attachment","inserted","Flag attachment")' in html
     assert 'action:value==="rectangle"?"add_shape":"remove_shape"' in html
     assert 'action:"match_dimension"' in html
-    assert 'action:value==="inserted"?"attach":"detach"' in html
+    assert 'target:"flagpole-bottom"' in html
+    assert 'reference:"support-top"' in html
+    assert '"inserted-into-top"' in html
+    assert '"proportional-width"' in html
     assert "三角(?:形)?(?:上方)?頂部" in html
     assert 'style.flag_top_alignment==="aligned"' in html
     assert 'flag_top_alignment:"offset"' in html
     assert 'support_shape:"none"' in html
     assert "function schoolSymbolGeometry(style)" in html
     assert "function schoolSymbolSvg(style" in html
+    assert "proportional=style.support_proportion" in html
+    assert "y:36,width:proportional?30:sameWidth?22:24,height:17" in html
+    assert 'fill="${style.color}" stroke="${outline}"' in html
+    assert 'fill-opacity=".18"' not in html
+    assert "g.globalAlpha=style.opacity*.18" not in html
+    assert "g.fillRect(shape.rectangle.x" in html
     assert "Flag top alignment" in html
 
 

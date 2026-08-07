@@ -57,20 +57,20 @@
     {
       "role": "symbol-edit-plan-schema",
       "path": "schemas/symbol-edit-plan.schema.json",
-      "size_bytes": 2153,
-      "sha256": "fd964e184d6eaf83d128029729a9b524e52079211b7c6511adfe9a453a29c7c4"
+      "size_bytes": 2218,
+      "sha256": "758326cee9b2e7b1b3d8d2aeea72c146c59ed904ae2edf363992c5ccdcdb7ef7"
     },
     {
       "role": "agentic-browser-source",
       "path": "nmaAgentDemo.html",
-      "size_bytes": 98044,
-      "sha256": "f23ce96cba35e737e67f4ae5a3983685ec6c444fba6722ee68e4f3ac95d024b0"
+      "size_bytes": 98521,
+      "sha256": "8b6d6310d3ac6b45e71b73102de023869b0f56422dfbf1c74d81a6650ba5a470"
     },
     {
       "role": "agentic-freeze-record",
       "path": "data/demo/agentic-v0.3-freeze.json",
       "size_bytes": 11202,
-      "sha256": "10c60ce17cc77d39f10312fbbd334a3c5d7252ca2d844e1c0e139c0b3a1799e2"
+      "sha256": "3fc4086ca224ddef761719ada49da2a2853ea89e7504a50ecaa71458ba69aba8"
     },
     {
       "role": "portrayal-graph",

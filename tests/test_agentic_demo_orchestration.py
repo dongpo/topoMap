@@ -88,14 +88,14 @@ def test_v04_validates_allowlisted_symbol_edit_plan_semantics() -> None:
                 "target": "support",
                 "value": None,
                 "reference": "flag",
-                "relation": "same-width",
+                "relation": "proportional-width",
             },
             {
                 "action": "attach",
-                "target": "flag",
+                "target": "flagpole-bottom",
                 "value": None,
-                "reference": "support",
-                "relation": "inserted",
+                "reference": "support-top",
+                "relation": "inserted-into-top",
             },
         ],
     }

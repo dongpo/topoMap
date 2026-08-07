@@ -112,14 +112,14 @@
     {
       "path": "schemas/symbol-edit-plan.schema.json",
       "role": "bounded-symbol-edit-plan-schema",
-      "size_bytes": 2153,
-      "sha256": "fd964e184d6eaf83d128029729a9b524e52079211b7c6511adfe9a453a29c7c4"
+      "size_bytes": 2218,
+      "sha256": "758326cee9b2e7b1b3d8d2aeea72c146c59ed904ae2edf363992c5ccdcdb7ef7"
     },
     {
       "path": "nmaAgentDemo.html",
       "role": "agentic-browser-runtime",
-      "size_bytes": 98044,
-      "sha256": "f23ce96cba35e737e67f4ae5a3983685ec6c444fba6722ee68e4f3ac95d024b0"
+      "size_bytes": 98521,
+      "sha256": "8b6d6310d3ac6b45e71b73102de023869b0f56422dfbf1c74d81a6650ba5a470"
     },
     {
       "path": "nmaDemoWorker.js",
@@ -130,8 +130,8 @@
     {
       "path": "scripts/run_nma_agent_server.py",
       "role": "bounded-agent-server",
-      "size_bytes": 29071,
-      "sha256": "b0848f38a5679f1ff604f1341e52e15cd44f3cae9000b6624a081c3f21074102"
+      "size_bytes": 29586,
+      "sha256": "829ba75063975327272f19a62f07497f0e777043e274be0151fca1ac27081173"
     },
     {
       "path": "scripts/build_pmtiles_capability_catalog.py",

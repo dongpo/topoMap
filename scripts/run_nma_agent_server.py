@@ -61,7 +61,7 @@ SYMBOL_EDIT_OPERATION_SCHEMA: dict[str, Any] = {
         "action": {"type": "string", "enum": list(SYMBOL_EDIT_ACTIONS)},
         "target": {
             "type": ["string", "null"],
-            "enum": ["symbol", "flag", "flag-top", "support", None],
+            "enum": ["symbol", "flag", "flag-top", "flagpole-bottom", "support", None],
         },
         "value": {
             "anyOf": [
@@ -75,11 +75,19 @@ SYMBOL_EDIT_OPERATION_SCHEMA: dict[str, Any] = {
         },
         "reference": {
             "type": ["string", "null"],
-            "enum": ["flag", "flagpole-top", "support", None],
+            "enum": ["flag", "flagpole-top", "support", "support-top", None],
         },
         "relation": {
             "type": ["string", "null"],
-            "enum": ["aligned", "offset", "same-width", "inserted", "detached", None],
+            "enum": [
+                "aligned",
+                "offset",
+                "same-width",
+                "proportional-width",
+                "inserted-into-top",
+                "detached",
+                None,
+            ],
         },
     },
     "required": ["action", "target", "value", "reference", "relation"],
@@ -176,8 +184,11 @@ responses-api. Translate every supported part of the request into one or more al
 Use only the enumerated actions, targets, values, references, and relations. Never emit SVG, code,
 paths, coordinates, URLs, or approval/deployment actions. Examples: blue means set_color with target
 symbol and value #1565c0; add a rectangle means add_shape with target support and value rectangle;
-match the flag width means match_dimension from support to flag with relation same-width; insert the
-flag into the rectangle means attach flag to support with relation inserted. Set unused operation
+"配合三角旗比例" means match_dimension from support to flag with relation proportional-width;
+explicit same-width wording means relation same-width; insert the
+lower part below the flag into the rectangle means attach flagpole-bottom to support-top with
+relation inserted-into-top. The support is a solid base below the flag face, never a hollow frame
+overlapping the flag. Set unused operation
 fields to null. For every intent other than propose_style_revision, style_plan must be null.
 Use approve_revision or discard_revision only for an explicit decision about a pending revision.
 Use finish_revisions when the user explicitly says no more symbol changes are needed.
@@ -393,9 +404,14 @@ def validate_style_plan(plan: Any) -> dict[str, Any]:
         "align": ("flag-top", "flagpole-top", {"aligned", "offset"}, None),
         "add_shape": ("support", None, None, {"rectangle"}),
         "remove_shape": ("support", None, None, {"none"}),
-        "match_dimension": ("support", "flag", {"same-width"}, None),
-        "attach": ("flag", "support", {"inserted"}, None),
-        "detach": ("flag", "support", {"detached"}, None),
+        "match_dimension": (
+            "support",
+            "flag",
+            {"same-width", "proportional-width"},
+            None,
+        ),
+        "attach": ("flagpole-bottom", "support-top", {"inserted-into-top"}, None),
+        "detach": ("flagpole-bottom", "support-top", {"detached"}, None),
     }
     seen: set[str] = set()
     for operation in operations:
