@@ -1,0 +1,114 @@
+{
+  "schema": "nma.entity-resolution-support/0.10.1",
+  "status": "visually-reviewed-cross-document-support; narrow-scope; non-activating",
+  "reviewed_at": "2026-08-11",
+  "review_scope": {
+    "included": "Only the five listed Annex 7 classification rows and the single Annex 9 DEM definition were visually reviewed for this remediation.",
+    "excluded": "This artifact does not assert that all Annex 7 rows or all Document 02 definitions have been reviewed.",
+    "automatic_rule_activation": false
+  },
+  "source_document": {
+    "document_id": "doc02-1000-production",
+    "filename": "02-一千分之一數值航測地形圖測製作業規定.pdf",
+    "revision": "111年12月",
+    "sha256": "48a6bba5e1d60a4e5094cca761782083c19c35a4eddd9ffa615e70a92d7e6d09"
+  },
+  "reviewed_classification_rows": [
+    {
+      "feature_code": "9380104",
+      "name_zh": "無線電台",
+      "name_en": "radio station",
+      "source_or_basis": {
+        "state": "explicitly-blank-on-reviewed-row",
+        "text": ""
+      },
+      "supports_node_id": "portrayal-rule:doc01:9380104",
+      "evidence": {
+        "pdf_page": 52,
+        "printed_page": 50,
+        "review_status": "source-row-visually-reviewed"
+      }
+    },
+    {
+      "feature_code": "9380105",
+      "name_zh": "天線",
+      "name_en": "antenna",
+      "source_or_basis": {
+        "state": "explicitly-blank-on-reviewed-row",
+        "text": ""
+      },
+      "supports_node_id": "portrayal-rule:doc01:9380105",
+      "evidence": {
+        "pdf_page": 52,
+        "printed_page": 50,
+        "review_status": "source-row-visually-reviewed"
+      }
+    },
+    {
+      "feature_code": "9810500",
+      "name_zh": "數值地形模型",
+      "name_en": "digital terrain model",
+      "source_or_basis": {
+        "state": "explicitly-blank-on-reviewed-row",
+        "text": ""
+      },
+      "supports_node_id": "classification-non-portrayal:doc01:9810500",
+      "evidence": {
+        "pdf_page": 63,
+        "printed_page": 61,
+        "review_status": "source-row-visually-reviewed"
+      }
+    },
+    {
+      "feature_code": "9810501",
+      "name_zh": "數值高程模型",
+      "name_en": "digital elevation model",
+      "source_or_basis": {
+        "state": "stated",
+        "text": "內政部「高精度及高解析度數值地形模型測製規範（技術報告）」"
+      },
+      "supports_node_id": "classification-non-portrayal:doc01:9810501",
+      "evidence": {
+        "pdf_page": 63,
+        "printed_page": 61,
+        "review_status": "source-row-and-basis-cell-visually-reviewed"
+      }
+    },
+    {
+      "feature_code": "9810502",
+      "name_zh": "數值表面模型",
+      "name_en": "digital surface model",
+      "source_or_basis": {
+        "state": "stated",
+        "text": "內政部「高精度及高解析度數值地形模型測製規範（技術報告）」"
+      },
+      "supports_node_id": "classification-non-portrayal:doc01:9810502",
+      "evidence": {
+        "pdf_page": 63,
+        "printed_page": 61,
+        "review_status": "source-row-and-basis-cell-visually-reviewed"
+      }
+    }
+  ],
+  "reviewed_definitions": [
+    {
+      "term_zh": "數值高程模型",
+      "term_en": "Digital Elevation Model",
+      "abbreviation": "DEM",
+      "supports_node_id": "classification-non-portrayal:doc01:9810501",
+      "definition_zh": "描述不含植被及人工構造物之地表天然面高程起伏之數值模型；為二維半（2.5D）模型，並由規則網格式、等間距方格離散點組成。",
+      "evidence": {
+        "pdf_page": 86,
+        "printed_page": 84,
+        "review_status": "source-definition-visually-reviewed"
+      }
+    }
+  ],
+  "related_reviewed_geometry_role_source": {
+    "path": "data/extraction/v0.4/road-compound-portrayal-reviewed.json",
+    "record_id": "BMAP096-P5-TABLE1-GRAPHIC-ELEMENT-CODES",
+    "scope_note": "The reviewed five-code graphic-element scheme is reusable beyond roads; it distinguishes located point features (1) from name annotations (5)."
+  },
+  "generalisation_claim_allowed": false,
+  "automatic_rule_activation": false
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "nma.neo4j-graphrag-retrieval-parity-specification/0.28",
+  "status": "prospective-fixed-cases-before-live-query",
+  "canonical_graph": "data/knowledge/nma-canonical-graph-v0.4.json",
+  "cases": [
+    {
+      "id": "v028-point-school",
+      "query": "小學的官方圖式與證據是什麼？",
+      "geometry": "Point",
+      "capability": "portrayal-evidence",
+      "seed_ids": ["code-value:landmark-type:9920103"],
+      "max_depth": 3,
+      "max_nodes": 300
+    },
+    {
+      "id": "v028-line-river",
+      "query": "河川線狀圖徵的圖式與資料關係是什麼？",
+      "geometry": "LineString",
+      "capability": "portrayal-and-product-layer-evidence",
+      "seed_ids": ["portrayal-rule:doc01:9510101"],
+      "max_depth": 3,
+      "max_nodes": 300
+    },
+    {
+      "id": "v028-polygon-building",
+      "query": "永久性建物面的圖式、幾何與證據是什麼？",
+      "geometry": "Polygon",
+      "capability": "portrayal-and-geometry-evidence",
+      "seed_ids": ["portrayal-rule:doc01:9310100"],
+      "max_depth": 3,
+      "max_nodes": 300
+    },
+    {
+      "id": "v028-source-conflict",
+      "query": "道路來源編碼 941/942 的衝突證據是什麼？",
+      "geometry": null,
+      "capability": "conflict-preservation",
+      "seed_ids": ["source-anomaly:doc02:road-941-prefix-on-bridge-elevated"],
+      "max_depth": 3,
+      "max_nodes": 300
+    },
+    {
+      "id": "v028-quality-rule",
+      "query": "發現的成果問題是否都必須改正？",
+      "geometry": null,
+      "capability": "quality-evidence",
+      "seed_ids": ["quality-rule:doc03-all-errors-corrected"],
+      "max_depth": 3,
+      "max_nodes": 300
+    }
+  ],
+  "expected": {
+    "case_count": 5,
+    "cases_passed": 5,
+    "geometry_coverage": ["LineString", "Point", "Polygon"],
+    "graph_identity_matches": true,
+    "retrieval_parity_verified": true,
+    "new_llm_calls": 0,
+    "new_tokens": 0,
+    "automatic_rule_activation": false,
+    "map_mutations": 0
+  },
+  "automatic_acceptance": false,
+  "claim_boundary": "Fixed canonical seeds isolate live Neo4j typed-graph retrieval parity from entity resolution and LLM behavior."
+}

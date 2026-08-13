@@ -1,0 +1,306 @@
+{
+  "record_set_id": "nma-road-compound-portrayal-reviewed-v0.4",
+  "review_date": "2026-08-10",
+  "status": "source-visually-verified-road-branch; graphic-element-codes-1-5-modeled; road-source-or-basis-cells-preserved; real-archive-profiled; authority-currency-validation-human-signoff-and-runtime-spatial-binding-pending; non-executable",
+  "sources": [
+    {
+      "document_id": "doc01-portrayal",
+      "filename": "01-一千分之一地形圖圖式規格表.pdf",
+      "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+      "evidence": [
+        {
+          "record_id": "DOC01-P22-P24-ROAD-BOUNDARY-LABEL",
+          "pages": [22, 23, 24],
+          "topic": "road-boundary-and-name-annotation",
+          "source_text": "國道、省道、市道、縣道、區道、鄉道及市區道路的圖元類別 2、5 表示線圖元與文字註記；規則為實寬並註記名稱。",
+          "review_status": "source-row-and-symbol-cell-visually-verified"
+        },
+        {
+          "record_id": "DOC01-P34-P35-ROUTE-SHIELDS",
+          "pages": [34, 35],
+          "topic": "route-shield-symbols-and-orientation",
+          "source_text": "9490003 至 9490007 定義國道、省道、縣道、鄉道與省道快速道路線號符號；國道、省道與省道快速道路符號朝正北，縣道與鄉道符號方向與道路平行。",
+          "review_status": "source-row-and-symbol-cell-visually-verified"
+        }
+      ]
+    },
+    {
+      "document_id": "doc02-1000-production",
+      "filename": "02-一千分之一數值航測地形圖測製作業規定.pdf",
+      "sha256": "48a6bba5e1d60a4e5094cca761782083c19c35a4eddd9ffa615e70a92d7e6d09",
+      "evidence": [
+        {
+          "record_id": "DOC02-P45-P46-ANNEX7-CODING-SCHEME",
+          "pages": [45, 46],
+          "printed_pages": [43, 44],
+          "topic": "terrain-data-seven-digit-classification-scheme",
+          "source_text": "附件七採階層樹狀分類；七碼由分類、大類、中類、小類與細類或細目組成，另可附加英文字母屬性碼。第一碼為 9，第二碼表示十類基本地形主題，第三碼為中類，第四至五碼為小類，第六至七碼為細類或細目。分類設計不納入比例尺或圖式設計。",
+          "review_status": "source-visually-verified"
+        },
+        {
+          "record_id": "DOC02-P53-P55-ROAD-CODE-BRANCH",
+          "pages": [53, 54, 55],
+          "printed_pages": [51, 52, 53],
+          "topic": "terrain-data-road-classification-branch",
+          "source_text": "交通系統道路分支 942 包含道路狀態與結構屬性碼、國道、省道、市道、縣道、區道、鄉道、專用公路、市區道路、其他道路及道路附屬設施等階層。",
+          "review_status": "source-visually-verified"
+        }
+      ]
+    },
+    {
+      "document_id": "doc-bmap-schema-096",
+      "filename": "BMAP_SCHEMA TYPE_096.pdf",
+      "sha256": "65faf471bae9786bfc9e3440a3f45045fb49151dce9104fac27b347bd8c30221",
+      "source_role": "supplementary historical portrayal-schema authority supplied by the user; not counted among the 11-document official corpus",
+      "evidence": [
+        {
+          "record_id": "BMAP096-P5-TABLE1-GRAPHIC-ELEMENT-CODES",
+          "pages": [5],
+          "printed_pages": [5],
+          "topic": "terrain-data-graphic-element-type-codes",
+          "source_text": "表1定義五種圖元類別：1明確位置點符號、2線符號位置、3面符號範圍、4以點符號指示空間範圍現象並加強說明狀態、5文字註記以加強說明名稱。",
+          "review_status": "source-table-visually-verified"
+        }
+      ]
+    }
+  ],
+  "graphic_element_type_scheme": {
+    "id": "terrain-data-graphic-element-codes-096",
+    "name": "地形資料圖元之編碼",
+    "source_evidence_record": "BMAP096-P5-TABLE1-GRAPHIC-ELEMENT-CODES",
+    "important_distinction": "These codes describe portrayal element roles and may be combined for one feature. They are not the seven-digit Annex 7 terrain classification codes.",
+    "codes": [
+      {"code": "1", "name_zh": "明確位置點符號", "definition_zh": "以點符號表示地形現象之位置（具有明確點位置）", "geometry_family": "Point", "semantic_role": "located-feature-symbol"},
+      {"code": "2", "name_zh": "線符號", "definition_zh": "以線符號表示地形現象之位置", "geometry_family": "LineString", "semantic_role": "located-feature-line"},
+      {"code": "3", "name_zh": "面符號", "definition_zh": "以面符號表示地形現象之範圍", "geometry_family": "Polygon", "semantic_role": "feature-extent"},
+      {"code": "4", "name_zh": "範圍現象指示符號", "definition_zh": "專指以點符號表示某空間範圍之現象之指示符號，通常用以加強說明現象之狀態", "geometry_family": "Point-on-area", "semantic_role": "area-type-indicator"},
+      {"code": "5", "name_zh": "文字註記", "definition_zh": "文字註記，用以加強說明地形現象之名稱", "geometry_family": "Text", "semantic_role": "name-annotation"}
+    ]
+  },
+  "annex7_field_contract": {
+    "table_name": "標準地形資料分類編碼表",
+    "columns": [
+      {"id": "middle_class", "source_header": "中類", "coverage_before_this_correction": "normalized indirectly through hierarchy; raw cell not preserved", "coverage_after_this_correction": "normalized road context stored on all 41 source rows; partial values on two synthesized ancestors"},
+      {"id": "minor_class", "source_header": "小類", "coverage_before_this_correction": "normalized indirectly through hierarchy; raw cell not preserved", "coverage_after_this_correction": "normalized road context stored on all 41 source rows; partial values on two synthesized ancestors"},
+      {"id": "fine_class", "source_header": "細類", "coverage_before_this_correction": "normalized indirectly through hierarchy; raw cell not preserved", "coverage_after_this_correction": "normalized road context stored on all 41 source rows; partial values on two synthesized ancestors"},
+      {"id": "classification_code", "source_header": "分類編碼", "coverage_before_this_correction": "43/43 modeled road-graph codes, including two synthesized ancestor nodes", "coverage_after_this_correction": "unchanged; source anomaly retained separately for printed 9410000B/E"},
+      {"id": "name_zh", "source_header": "中文名稱", "coverage_before_this_correction": "43/43 modeled road-graph codes", "coverage_after_this_correction": "43/43 modeled road-graph codes"},
+      {"id": "name_en", "source_header": "英文名稱", "coverage_before_this_correction": "43/43 modeled road-graph codes", "coverage_after_this_correction": "43/43 modeled road-graph codes"},
+      {"id": "source_or_basis", "source_header": "來源或依據", "coverage_before_this_correction": "0/43 road-graph nodes; critical evidence-governance gap", "coverage_after_this_correction": "41/41 source rows classified: 27 stated and 14 explicitly blank; two synthesized ancestors marked not applicable"}
+    ],
+    "provenance_layers": [
+      {"id": "documentary_provenance", "meaning": "where the classification row appears in the reviewed PDF"},
+      {"id": "normative_basis", "meaning": "the law, regulation, standard, guideline, dictionary, or applicability note cited by the row's 來源或依據 cell"}
+    ],
+    "blank_cell_policy": "Preserve a blank source cell as explicitly not stated. Do not inherit a parent's legal or normative basis without an explicit reviewed rule.",
+    "legal_currency_policy": "A citation is recorded as cited by the 2022 source document. It is not asserted to be the currently effective version until independently validated.",
+    "full_annex7_status": "not complete; only the road branch has row-level correction in this record set"
+  },
+  "road_source_or_basis_groups": [
+    {
+      "codes": ["9420000a", "9420000b", "9420000c"],
+      "basis_kind": "attribute-scope-note",
+      "raw_text": "「使用狀態」屬性適用於「道路」小類下之「國道」、「省道」、「市道」、「縣道」、「區道」、「鄉道」、「專用公路」、「市區道路」及「其他道路」等細類。",
+      "authorities": []
+    },
+    {
+      "codes": ["9420000G", "9420000B", "9420000E", "9420000T", "9420000U", "9420000R", "9420000X"],
+      "basis_kind": "standard-and-attribute-scope-note",
+      "raw_text": "依據：道路路網資料標準第一版（2011）。「道路結構」屬性適用於「道路」小類下之「國道」、「省道」、「市道」、「縣道」、「區道」、「鄉道」、「專用公路」、「市區道路」及「其他道路」等細類。",
+      "authorities": [
+        {"title": "道路路網資料標準", "locator": "第一版（2011）", "authority_type": "data-standard"}
+      ]
+    },
+    {
+      "codes": ["9420100", "9420200", "9420400", "9420500", "9420600", "9420700"],
+      "basis_kind": "law-and-data-standard",
+      "raw_text": "公路法第2條；道路路網資料標準第一版（2011）。",
+      "authorities": [
+        {"title": "公路法", "locator": "第2條", "authority_type": "law"},
+        {"title": "道路路網資料標準", "locator": "第一版（2011）", "authority_type": "data-standard"}
+      ]
+    },
+    {
+      "codes": ["9420101", "9420102", "9421001"],
+      "basis_kind": "regulation",
+      "raw_text": "高速公路及快速公路交通管制規則第2條。",
+      "authorities": [
+        {"title": "高速公路及快速公路交通管制規則", "locator": "第2條", "authority_type": "regulation"}
+      ]
+    },
+    {
+      "codes": ["9420300"],
+      "basis_kind": "law-and-data-standard",
+      "raw_text": "公路法第2條；交通網路資料基本標準第一版。",
+      "authorities": [
+        {"title": "公路法", "locator": "第2條", "authority_type": "law"},
+        {"title": "交通網路資料基本標準", "locator": "第一版", "authority_type": "data-standard"}
+      ]
+    },
+    {
+      "codes": ["9420800"],
+      "basis_kind": "law-ordinance-and-data-standard",
+      "raw_text": "公路法第4條；市區道路條例第2條；交通網路資料基本標準第一版。",
+      "authorities": [
+        {"title": "公路法", "locator": "第4條", "authority_type": "law"},
+        {"title": "市區道路條例", "locator": "第2條", "authority_type": "law"},
+        {"title": "交通網路資料基本標準", "locator": "第一版", "authority_type": "data-standard"}
+      ]
+    },
+    {
+      "codes": ["9420802"],
+      "basis_kind": "design-standard",
+      "raw_text": "市區道路及附屬工程設計標準第2條。",
+      "authorities": [
+        {"title": "市區道路及附屬工程設計標準", "locator": "第2條", "authority_type": "design-standard"}
+      ]
+    },
+    {
+      "codes": ["9420906"],
+      "basis_kind": "dictionary",
+      "raw_text": "教育部重編國語辭典修訂本（網路版）。",
+      "authorities": [
+        {"title": "教育部重編國語辭典修訂本", "locator": "網路版", "authority_type": "dictionary"}
+      ]
+    },
+    {
+      "codes": ["9420907"],
+      "basis_kind": "administrative-guideline",
+      "raw_text": "行政院農業委員會林務局林道維護管理要點第2條。",
+      "authorities": [
+        {"title": "林道維護管理要點", "locator": "第2條", "issuing_body": "行政院農業委員會林務局", "authority_type": "administrative-guideline"}
+      ]
+    },
+    {
+      "codes": ["9421004", "9421005", "9421006"],
+      "basis_kind": "administrative-guideline",
+      "raw_text": "公路附屬設施設置管理要點第3條。",
+      "authorities": [
+        {"title": "公路附屬設施設置管理要點", "locator": "第3條", "authority_type": "administrative-guideline"}
+      ]
+    }
+  ],
+  "road_source_or_basis_blank_codes": [
+    "9420000", "9420201", "9420202", "9420801", "9420900", "9420901", "9420902",
+    "9420903", "9420904", "9420905", "9420908", "9421000", "9421002", "9421003"
+  ],
+  "source_code_anomalies": [
+    {
+      "source_document": "doc02-1000-production",
+      "page": 54,
+      "printed_page": 52,
+      "printed_codes": ["9410000B", "9410000E"],
+      "context_expected_codes": ["9420000B", "9420000E"],
+      "status": "candidate source-table typo; preserve both literal and normalized forms; domain-expert signoff required",
+      "reason": "The rows are inside the road-structure block between 9420000G and 9420000T, but the printed prefix is 941 rather than 942."
+    }
+  ],
+  "classification_scheme": {
+    "id": "terrain-data-classification-109",
+    "name": "基本地形資料分類架構（109年修訂版）",
+    "code_length": 7,
+    "hierarchical": true,
+    "scale_independent": true,
+    "portrayal_independent": true,
+    "optional_attribute_suffix": true,
+    "evidence_record": "DOC02-P45-P46-ANNEX7-CODING-SCHEME",
+    "levels": [
+      {"id": "classification", "positions": [1], "name": "分類", "road_example": "9"},
+      {"id": "major", "positions": [2], "name": "大類", "road_example": "94"},
+      {"id": "middle", "positions": [3], "name": "中類", "road_example": "9420000"},
+      {"id": "minor", "positions": [4, 5], "name": "小類", "road_example": "9420100"},
+      {"id": "fine", "positions": [6, 7], "name": "細類或細目", "road_example": "9420101"},
+      {"id": "attribute", "positions": [], "name": "屬性碼", "road_example": "9420000G"}
+    ]
+  },
+  "road_codes": [
+    {"code": "9", "name_zh": "基本地形資料庫分類", "name_en": "terrain data classification", "level": "classification", "parent": null},
+    {"code": "94", "name_zh": "交通系統", "name_en": "transportation system", "level": "major", "parent": "9"},
+    {"code": "9420000", "name_zh": "道路", "name_en": "road", "level": "middle", "parent": "94"},
+
+    {"code": "9420000a", "name_zh": "使用中", "name_en": "in use", "level": "attribute", "attribute_family": "使用狀態", "parent": "9420000"},
+    {"code": "9420000b", "name_zh": "建築中", "name_en": "under construction", "level": "attribute", "attribute_family": "使用狀態", "parent": "9420000"},
+    {"code": "9420000c", "name_zh": "廢棄中", "name_en": "in disuse", "level": "attribute", "attribute_family": "使用狀態", "parent": "9420000"},
+    {"code": "9420000G", "name_zh": "平面路段", "name_en": "overground section", "level": "attribute", "attribute_family": "道路結構", "parent": "9420000"},
+    {"code": "9420000B", "name_zh": "橋梁路段", "name_en": "bridge section", "level": "attribute", "attribute_family": "道路結構", "parent": "9420000"},
+    {"code": "9420000E", "name_zh": "高架路段", "name_en": "elevated section", "level": "attribute", "attribute_family": "道路結構", "parent": "9420000"},
+    {"code": "9420000T", "name_zh": "隧道路段", "name_en": "tunnel section", "level": "attribute", "attribute_family": "道路結構", "parent": "9420000"},
+    {"code": "9420000U", "name_zh": "地下路段", "name_en": "underground section", "level": "attribute", "attribute_family": "道路結構", "parent": "9420000"},
+    {"code": "9420000R", "name_zh": "匝道路段", "name_en": "ramp section", "level": "attribute", "attribute_family": "道路結構", "parent": "9420000"},
+    {"code": "9420000X", "name_zh": "其他路段", "name_en": "other section", "level": "attribute", "attribute_family": "道路結構", "parent": "9420000"},
+
+    {"code": "9420100", "name_zh": "國道", "name_en": "national expressway", "level": "minor", "parent": "9420000"},
+    {"code": "9420101", "name_zh": "國道高速公路", "name_en": "national freeway", "level": "fine", "parent": "9420100"},
+    {"code": "9420102", "name_zh": "國道快速公路", "name_en": "national expressway", "level": "fine", "parent": "9420100"},
+    {"code": "9420200", "name_zh": "省道", "name_en": "provincial highway", "level": "minor", "parent": "9420000"},
+    {"code": "9420201", "name_zh": "一般省道", "name_en": "provincial highway", "level": "fine", "parent": "9420200"},
+    {"code": "9420202", "name_zh": "省道快速公路", "name_en": "provincial expressway", "level": "fine", "parent": "9420200"},
+    {"code": "9420300", "name_zh": "市道", "name_en": "city highway", "level": "minor", "parent": "9420000"},
+    {"code": "9420400", "name_zh": "縣道", "name_en": "county highway", "level": "minor", "parent": "9420000"},
+    {"code": "9420500", "name_zh": "區道", "name_en": "district road", "level": "minor", "parent": "9420000"},
+    {"code": "9420600", "name_zh": "鄉道", "name_en": "rural road", "level": "minor", "parent": "9420000"},
+    {"code": "9420700", "name_zh": "專用公路", "name_en": "exclusive highway", "level": "minor", "parent": "9420000"},
+    {"code": "9420800", "name_zh": "市區道路", "name_en": "urban road", "level": "minor", "parent": "9420000"},
+    {"code": "9420801", "name_zh": "一般市區道路", "name_en": "urban road", "level": "fine", "parent": "9420800"},
+    {"code": "9420802", "name_zh": "市區快速道路", "name_en": "urban expressway", "level": "fine", "parent": "9420800"},
+    {"code": "9420900", "name_zh": "其他道路", "name_en": "other roads", "level": "minor", "parent": "9420000"},
+    {"code": "9420901", "name_zh": "小徑", "name_en": "trail", "level": "fine", "parent": "9420900"},
+    {"code": "9420902", "name_zh": "小徑（鬆路面）", "name_en": "unpaved trail", "level": "fine", "parent": "9420900"},
+    {"code": "9420903", "name_zh": "過水路", "name_en": "road on the riverbed", "level": "fine", "parent": "9420900"},
+    {"code": "9420904", "name_zh": "虛擬道路", "name_en": "virtual road", "level": "fine", "parent": "9420900"},
+    {"code": "9420905", "name_zh": "自行車道", "name_en": "cycling routes", "level": "fine", "parent": "9420900"},
+    {"code": "9420906", "name_zh": "產業道路", "name_en": "industrial road", "level": "fine", "parent": "9420900"},
+    {"code": "9420907", "name_zh": "林道", "name_en": "forest road", "level": "fine", "parent": "9420900"},
+    {"code": "9420908", "name_zh": "無名道路", "name_en": "unnamed road", "level": "fine", "parent": "9420900"},
+    {"code": "9421000", "name_zh": "道路構造物及附屬設施", "name_en": "affiliated facilities of road", "level": "minor", "parent": "9420000"},
+    {"code": "9421001", "name_zh": "匝道", "name_en": "ramp", "level": "fine", "parent": "9421000"},
+    {"code": "9421002", "name_zh": "立體交叉道", "name_en": "grade separation", "level": "fine", "parent": "9421000"},
+    {"code": "9421003", "name_zh": "中央分隔島", "name_en": "traffic island", "level": "fine", "parent": "9421000"},
+    {"code": "9421004", "name_zh": "人行陸橋", "name_en": "skywalk", "level": "fine", "parent": "9421000"},
+    {"code": "9421005", "name_zh": "人行地下道", "name_en": "underground passage", "level": "fine", "parent": "9421000"},
+    {"code": "9421006", "name_zh": "人行道", "name_en": "sidewalk", "level": "fine", "parent": "9421000"}
+  ],
+  "compound_road_recipes": [
+    {"road_code": "9420101", "road_name": "國道高速公路", "shield_code": "9490003", "shield_name": "國道線號符號", "shield_orientation": "north-up"},
+    {"road_code": "9420102", "road_name": "國道快速公路", "shield_code": "9490003", "shield_name": "國道線號符號", "shield_orientation": "north-up"},
+    {"road_code": "9420201", "road_name": "一般省道", "shield_code": "9490004", "shield_name": "省道線號符號", "shield_orientation": "north-up"},
+    {"road_code": "9420202", "road_name": "省道快速公路", "shield_code": "9490007", "shield_name": "省道快速道路線號符號", "shield_orientation": "north-up"},
+    {"road_code": "9420300", "road_name": "市道", "shield_code": "9490005", "shield_name": "縣道線號符號", "shield_orientation": "road-parallel"},
+    {"road_code": "9420400", "road_name": "縣道", "shield_code": "9490005", "shield_name": "縣道線號符號", "shield_orientation": "road-parallel"},
+    {"road_code": "9420500", "road_name": "區道", "shield_code": "9490005", "shield_name": "縣道線號符號", "shield_orientation": "road-parallel"},
+    {"road_code": "9420600", "road_name": "鄉道", "shield_code": "9490006", "shield_name": "鄉道線號符號", "shield_orientation": "road-parallel"}
+  ],
+  "source_binding": {
+    "semantic_layer": "product-layer:ROAD",
+    "geometry_layer": "product-layer:ROADA",
+    "primary_boundary_rule": "derive LineString boundary rings from ROADA Polygon",
+    "classification_field_document09": "field:ROAD:ROADCLASS2",
+    "classification_field_observed_j17": "TERRAINID",
+    "name_field": "field:ROAD:ROADNAME",
+    "route_number_fields": ["field:ROAD:ROADNUM", "field:ROAD:ROADNUM1", "field:ROAD:ROADNUM2"],
+    "co_route_count_field": "field:ROAD:ROADCOMNUM",
+    "spatial_association": "required; no reviewed shared ROAD-ROADA key",
+    "fallback": "none approved; do not silently portray ROAD centreline as road edge"
+  },
+  "runtime_evidence": {
+    "archive_path": "data/datasets/112年多維度SHP成果_0502.zip",
+    "archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "road_member_suffix": "J17_ROAD",
+    "road_shape_type": "LineString",
+    "road_record_count": 429,
+    "road_fields": ["ROADSEGID", "TERRAINID", "COUNTY", "ROADCLASS1", "ROADSTRUCT", "ROADNUM", "ROADNUM1", "ROADNUM2", "ROADNAME", "ROADALIAS", "RDNAMESECT", "BRITUNNAME", "RDNAMELANE", "RDNAMENON", "WIDTH", "DEFINITION", "MDATE"],
+    "roada_member_suffix": "J17_ROADA",
+    "roada_shape_type": "Polygon",
+    "roada_record_count": 5,
+    "roada_fields": ["ID", "MDATE"],
+    "observation": "J17_ROADA has no road class, route number, or road name. J17_ROAD uses TERRAINID instead of the Document 09 ROADCLASS2 field."
+  },
+  "activation_gates": [
+    {"id": "road-roada-spatial-association", "status": "pending-human-review", "question": "How are ROAD centreline segments associated with ROADA polygon boundaries when no reviewed shared key exists?"},
+    {"id": "actual-road-classification-field-binding", "status": "pending-human-review", "question": "Approve the dataset-profile mapping from observed J17 ROAD.TERRAINID to the authoritative terrain classification code without asserting global schema equivalence."},
+    {"id": "road-name-label-placement", "status": "pending-human-review", "question": "Approve road-name label repetition, tangent, collision, and junction behaviour."},
+    {"id": "route-shield-placement", "status": "pending-human-review", "question": "Approve shield repetition frequency, collision policy, co-route handling, and empty-number behaviour."},
+    {"id": "road-compound-recipe-signoff", "status": "pending-human-review", "question": "Approve the road boundary + name + route-shield decomposition and crosswalk as the expansion template."}
+  ],
+  "important_boundary": "This record set closes only the visually reviewed Document 02 Annex 7 road branch, the supplementary BMAP096 graphic-element codes 1-5, and their compound portrayal and governance-evidence dependencies. All 41 source road rows now distinguish stated versus blank source-or-basis cells; 9 and 94 remain synthesized ancestors. The cited authorities are recorded as cited by the 2022 source and are not asserted to be current law. It does not claim full Annex 7 row or source-or-basis coverage and does not activate spatial association, labels, shields, or rendering."
+}

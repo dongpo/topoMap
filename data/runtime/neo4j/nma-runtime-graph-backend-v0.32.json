@@ -1,0 +1,80 @@
+{
+  "schema": "nma.runtime-graph-backend/0.29",
+  "status": "agent-runtime-live-neo4j-backend-wiring-verified",
+  "contract": "nma.runtime-graph-backend/0.29",
+  "requested_backend": "neo4j",
+  "active_backend": "live-neo4j",
+  "fallback_backend": "canonical-json",
+  "fallback_used": false,
+  "fallback_reason_code": null,
+  "graph_revision": "nma-canonical-graph-v0.4",
+  "graph_identity_verified": true,
+  "active_graph_authoritative": true,
+  "neo4j_database": "mapfeatures",
+  "typed_tool_only": true,
+  "arbitrary_cypher_allowed": false,
+  "automatic_rule_activation": false,
+  "live_nodes": 4293,
+  "live_edges": 11244,
+  "case_count": 4,
+  "cases_passed": 4,
+  "geometry_coverage": [
+    "LineString",
+    "Point",
+    "Polygon"
+  ],
+  "cases": [
+    {
+      "id": "v029-point-school",
+      "geometry": "Point",
+      "status": "retrieved",
+      "evidence_nodes": 40,
+      "graph_edges": 49,
+      "citations": 4,
+      "conflicts": 0,
+      "backend_trace_present": true,
+      "package_sha256": "1ef6a5845200566e799e2121a4453d0849a2216034c12b62d12745c94db99ddb",
+      "passed": true
+    },
+    {
+      "id": "v029-line-river",
+      "geometry": "LineString",
+      "status": "retrieved",
+      "evidence_nodes": 111,
+      "graph_edges": 186,
+      "citations": 10,
+      "conflicts": 0,
+      "backend_trace_present": true,
+      "package_sha256": "442d53585d4afc0ffa51291a90a7f0160344c302ec0e6c36a36dc8f8f5de1039",
+      "passed": true
+    },
+    {
+      "id": "v029-polygon-building",
+      "geometry": "Polygon",
+      "status": "retrieved",
+      "evidence_nodes": 123,
+      "graph_edges": 208,
+      "citations": 10,
+      "conflicts": 0,
+      "backend_trace_present": true,
+      "package_sha256": "792dccc2c7ba80abcbd133194b068991d77b78d982ee2f0945c195a191e78814",
+      "passed": true
+    },
+    {
+      "id": "v029-source-conflict",
+      "geometry": null,
+      "status": "retrieved-with-conflict",
+      "evidence_nodes": 32,
+      "graph_edges": 57,
+      "citations": 4,
+      "conflicts": 1,
+      "backend_trace_present": true,
+      "package_sha256": "5561ec8e239e5053d5d10d86909931218f02c57b9c76fc26a9703440c29f8757",
+      "passed": true
+    }
+  ],
+  "new_llm_calls": 0,
+  "new_tokens": 0,
+  "map_mutations": 0,
+  "claim_boundary": "This verifies the Agent server's typed graph retriever is wired to the identity-checked live Neo4j projection. Fixed seeds isolate backend wiring from entity-resolution and LLM evaluation."
+}

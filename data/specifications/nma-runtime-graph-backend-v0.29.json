@@ -1,0 +1,63 @@
+{
+  "schema": "nma.runtime-graph-backend-specification/0.29",
+  "status": "prospective-fixed-runtime-wiring-cases-before-live-run",
+  "cases": [
+    {
+      "id": "v029-point-school",
+      "query": "小學的官方圖式與來源證據是什麼？",
+      "geometry": "Point",
+      "seed_ids": ["code-value:landmark-type:9920103"],
+      "max_depth": 3,
+      "max_nodes": 300,
+      "expected_status": "retrieved",
+      "minimum_citations": 1
+    },
+    {
+      "id": "v029-line-river",
+      "query": "河川線狀圖徵的圖式與資料關係是什麼？",
+      "geometry": "LineString",
+      "seed_ids": ["portrayal-rule:doc01:9510101"],
+      "max_depth": 3,
+      "max_nodes": 300,
+      "expected_status": "retrieved",
+      "minimum_citations": 1
+    },
+    {
+      "id": "v029-polygon-building",
+      "query": "永久性建物面的圖式、幾何與證據是什麼？",
+      "geometry": "Polygon",
+      "seed_ids": ["portrayal-rule:doc01:9310100"],
+      "max_depth": 3,
+      "max_nodes": 300,
+      "expected_status": "retrieved",
+      "minimum_citations": 1
+    },
+    {
+      "id": "v029-source-conflict",
+      "query": "道路來源編碼 941/942 的衝突證據是什麼？",
+      "geometry": null,
+      "seed_ids": ["source-anomaly:doc02:road-941-prefix-on-bridge-elevated"],
+      "max_depth": 3,
+      "max_nodes": 300,
+      "expected_status": "retrieved-with-conflict",
+      "minimum_citations": 1
+    }
+  ],
+  "expected": {
+    "requested_backend": "neo4j",
+    "active_backend": "live-neo4j",
+    "fallback_used": false,
+    "graph_identity_verified": true,
+    "typed_tool_only": true,
+    "arbitrary_cypher_allowed": false,
+    "case_count": 4,
+    "cases_passed": 4,
+    "geometry_coverage": ["LineString", "Point", "Polygon"],
+    "new_llm_calls": 0,
+    "new_tokens": 0,
+    "automatic_rule_activation": false,
+    "map_mutations": 0
+  },
+  "automatic_acceptance": false,
+  "claim_boundary": "This verifies the Agent server's typed graph retriever is wired to the identity-checked live Neo4j projection. Fixed seeds isolate backend wiring from entity-resolution and LLM evaluation."
+}

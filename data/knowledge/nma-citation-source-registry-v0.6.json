@@ -1,0 +1,13 @@
+{
+  "schema": "nma.citation-source-registry/0.6",
+  "status": "source-reviewed-supplement-for-citation-resolution",
+  "documents": {
+    "document:doc-bmap-schema-096": {
+      "filename": "BMAP_SCHEMA TYPE_096.pdf",
+      "sha256": "65faf471bae9786bfc9e3440a3f45045fb49151dce9104fac27b347bd8c30221",
+      "source_role": "supplementary historical portrayal-schema authority supplied by the user; not counted among the 11-document official corpus",
+      "registry_source": "data/extraction/v0.4/road-compound-portrayal-reviewed.json"
+    }
+  },
+  "important_boundary": "This registry supplies reviewed document metadata only when the canonical graph contains a document as a CrossGraphReference. It does not create evidence, change a page, or replace the unique Document CONTAINS Section relation."
+}
