@@ -63,6 +63,41 @@ def test_a05_exports_browser_safe_geojson_with_provenance() -> None:
     assert len(provenance["components"]) == 5
 
 
+@pytest.mark.skipif(
+    not SERVER.PRIVATE_SCHOOL_ARCHIVE.is_file(),
+    reason="User-provided production archive is intentionally not redistributed",
+)
+def test_local_private_archive_produces_real_school_layer_without_redistribution() -> None:
+    dataset = SERVER.prepare_private_real_school_dataset()
+    assert dataset is not None
+    assert dataset["synthetic"] is False
+    assert dataset["source_archive_sha256"] == SERVER.PRIVATE_SCHOOL_ARCHIVE_SHA256
+    assert dataset["source_layers"] == [
+        "J01_MARK",
+        "J13_MARK",
+        "J17_MARK",
+        "K01_MARK",
+        "K02_MARK",
+        "K14_MARK",
+    ]
+    original = SERVER.BUNDLED_DATASETS["school-points"]
+    try:
+        SERVER.BUNDLED_DATASETS["school-points"] = dataset
+        inspection = SERVER.inspect_bundled_dataset("school-points")
+        collection = SERVER.export_bundled_geojson("school-points")
+    finally:
+        SERVER.BUNDLED_DATASETS["school-points"] = original
+
+    assert inspection["inspection"]["feature_count"] == 15
+    assert inspection["inspection"]["crs"] == "EPSG:3826"
+    assert len(collection["features"]) == 15
+    assert collection["nma:provenance"]["synthetic"] is False
+    assert collection["nma:provenance"]["redistributed"] is False
+    assert {feature["properties"]["TERRAINID"] for feature in collection["features"]} == {
+        "9920103"
+    }
+
+
 def test_a05_server_rejects_unregistered_dataset_paths() -> None:
     with pytest.raises(SERVER.AgentError) as error:
         SERVER.inspect_bundled_dataset("../../private")
