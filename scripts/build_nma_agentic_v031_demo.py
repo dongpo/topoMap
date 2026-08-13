@@ -22,7 +22,7 @@ RUNTIME_JS = r'''
 function renderAgenticGrounding(grounding){
   if(!grounding)return;
   const pkg=grounding.evidence_package||{},answer=grounding.answer||{},trace=grounding.trace||{},runtime=grounding.runtime_contract||{};
-  if(runtime.schema!=="nma.demo-runtime/0.31")throw new Error("missing v0.31 runtime contract");
+  if(runtime.schema!=="nma.runtime-baseline/0.32")throw new Error("missing v0.32 runtime baseline contract");
   const resolution=runtime.resolution||{},graphRuntime=runtime.graph||{},backend=graphRuntime.backend||{},validation=runtime.answer_validation||{},safety=runtime.safety||{};
   const isLive=backend.active_backend==="live-neo4j"&&backend.fallback_used===false&&backend.graph_identity_verified===true;
   const backendClass=isLive?"backend-live":"backend-fallback";
@@ -41,7 +41,7 @@ function renderAgenticEvidenceSummary(grounding){
   const pkg=grounding.evidence_package||{},answer=grounding.answer||{},runtime=grounding.runtime_contract||{},graph=runtime.graph||{},backend=graph.backend||{},validation=runtime.answer_validation||{};
   const answered=answer.status==="answered",statusClass=answered?"selected":"abstain",usedCitations=validation.citation_ids_used||[],selected=runtime.resolution?.selected_node_ids||[];
   document.querySelector("#answer").innerHTML=`<span class="status ${statusClass}">${escapeAgentHtml(answer.status||"unknown")}</span><div class="value">${escapeAgentHtml(answer.answer||"No grounded answer was produced.")}</div><p>GraphRAG result: <code>${escapeAgentHtml(backend.active_backend||"unavailable")}</code> · validation <code>${escapeAgentHtml(validation.status||"not-run")}</code> · no automatic portrayal or map action.</p>`;
-  document.querySelector("#evidence").innerHTML=`<dl class="facts"><dt>Schema</dt><dd>${escapeAgentHtml(runtime.schema||"nma.demo-runtime/0.31")}</dd><dt>Graph</dt><dd>${escapeAgentHtml(backend.active_backend||"unavailable")} · identity ${backend.graph_identity_verified?"verified":"not verified"}</dd><dt>Resolved</dt><dd>${escapeAgentHtml(selected.length)} canonical entities</dd><dt>Evidence</dt><dd>${escapeAgentHtml(graph.evidence_node_count??(pkg.evidence_nodes||[]).length)} nodes</dd><dt>Citations</dt><dd>${escapeAgentHtml(usedCitations.length)} used · ${escapeAgentHtml(graph.citation_count??(pkg.citations||[]).length)} available</dd><dt>Validation</dt><dd>${escapeAgentHtml(validation.status||"not-run")}</dd></dl><p>${answered?"The answer is grounded in the canonical evidence package shown at right.":"The Agent stopped without activating a portrayal rule."}</p><div class="path">${usedCitations.map(escapeAgentHtml).join(" → ")||"No citation used"}</div><p><strong>Execution boundary:</strong> informational GraphRAG answers do not create symbols, layers, or map mutations.</p>`;
+  document.querySelector("#evidence").innerHTML=`<dl class="facts"><dt>Schema</dt><dd>${escapeAgentHtml(runtime.schema||"nma.runtime-baseline/0.32")}</dd><dt>Graph</dt><dd>${escapeAgentHtml(backend.active_backend||"unavailable")} · identity ${backend.graph_identity_verified?"verified":"not verified"}</dd><dt>Resolved</dt><dd>${escapeAgentHtml(selected.length)} canonical entities</dd><dt>Evidence</dt><dd>${escapeAgentHtml(graph.evidence_node_count??(pkg.evidence_nodes||[]).length)} nodes</dd><dt>Citations</dt><dd>${escapeAgentHtml(usedCitations.length)} used · ${escapeAgentHtml(graph.citation_count??(pkg.citations||[]).length)} available</dd><dt>Validation</dt><dd>${escapeAgentHtml(validation.status||"not-run")}</dd></dl><p>${answered?"The answer is grounded in the canonical evidence package shown at right.":"The Agent stopped without activating a portrayal rule."}</p><div class="path">${usedCitations.map(escapeAgentHtml).join(" → ")||"No citation used"}</div><p><strong>Execution boundary:</strong> informational GraphRAG answers do not create symbols, layers, or map mutations.</p>`;
 }
 '''.strip()
 
@@ -98,7 +98,7 @@ REQUEST_AGENT_ROUTE_V031 = r'''async function requestAgentRoute(message){
   const payload=await response.json();
   if(payload.schema!=="nma.agent-route/1.0"||payload.mode!=="responses-api")throw new Error("invalid agent response");
   lastAgentGrounding=payload.grounding||null;
-  if(lastAgentGrounding&&lastAgentGrounding.runtime_contract?.schema!=="nma.demo-runtime/0.31")throw new Error("invalid runtime contract");
+  if(lastAgentGrounding&&lastAgentGrounding.runtime_contract?.schema!=="nma.runtime-baseline/0.32")throw new Error("invalid runtime contract");
   const backend=lastAgentGrounding?.runtime_contract?.graph?.backend;
   const live=backend?.active_backend==="live-neo4j"&&backend?.fallback_used===false&&backend?.graph_identity_verified===true;
   setAgentMode(lastAgentGrounding&&live?"agentic-vs1":"responses-api-fallback",`${payload.model} · ${backend?.active_backend||"routing"} · ${payload.turn}/${payload.max_turns}`);
@@ -213,7 +213,7 @@ def build_worker(source: str) -> str:
     text = replace_once(
         source,
         'const CACHE_NAME = "nma-agentic-v0.4-vs1";',
-        'const CACHE_NAME = "nma-agentic-v0.31.2-grounding-panels";',
+        'const CACHE_NAME = "nma-agentic-runtime-baseline-0.32-grounding-panels";',
     )
     return replace_once(
         text,

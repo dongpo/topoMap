@@ -239,7 +239,7 @@ def build(source: str) -> str:
 def build_worker(source: str) -> str:
     text = replace_once(
         source,
-        'const CACHE_NAME = "nma-agentic-v0.31.2-grounding-panels";',
+        'const CACHE_NAME = "nma-agentic-runtime-baseline-0.32-grounding-panels";',
         'const CACHE_NAME = "nma-agentic-v0.32.4-school-hero-centered-edit";',
     )
     return replace_once(

@@ -123,7 +123,8 @@ from nma.qa_review import (  # noqa: E402
 
 OPENAI_URL = "https://api.openai.com/v1/responses"
 DEFAULT_MODEL = "gpt-5.6-terra"
-DEMO_RUNTIME_REVISION = "v0.31.1-dynamic-answer-identifier-allowlist"
+RUNTIME_CONTRACT = "nma.runtime-baseline/0.32"
+DEMO_RUNTIME_REVISION = RUNTIME_CONTRACT
 F03_SERVER_REVISION = "f03-school-hero-centered-edit-2026-08-12.4"
 MAX_TURNS = 8
 SESSION_TTL_SECONDS = 20 * 60
@@ -138,9 +139,7 @@ PRIVATE_SCHOOL_FEATURE_CODE = "9920103"
 REAL_LAYER_OUTPUT = ROOT / "artifacts" / "tmp" / "real-layer-v04"
 QA_REPAIR_OUTPUT = ROOT / "artifacts" / "tmp" / "qa-repair-v04"
 CANONICAL_GRAPH = ROOT / "data" / "knowledge" / "nma-canonical-graph-v0.4.json"
-VECTOR_INDEX = (
-    ROOT / "data" / "runtime" / "vector" / "nma-feature-candidate-index-v0.9.json"
-)
+VECTOR_INDEX = ROOT / "data" / "runtime" / "vector" / "nma-vector-index-v0.32.json"
 RETRIEVAL_ANCHORS = ROOT / "data" / "knowledge" / "nma-retrieval-anchors-v0.5.json"
 CITATION_SOURCE_REGISTRY = (
     ROOT / "data" / "knowledge" / "nma-citation-source-registry-v0.6.json"
@@ -915,13 +914,58 @@ def vector_index() -> VectorIndex:
                         503,
                     )
                 try:
-                    _VECTOR_INDEX = VectorIndex.load(VECTOR_INDEX)
+                    loaded = VectorIndex.load(VECTOR_INDEX)
                 except (OSError, json.JSONDecodeError, VectorIndexError) as error:
                     raise AgentError(
                         "vector_index_invalid",
                         "The provider-backed semantic vector index is invalid.",
                         503,
                     ) from error
+                graph_sha256 = _file_sha256(CANONICAL_GRAPH)
+                if loaded.payload.get("canonical_graph_sha256") != graph_sha256:
+                    raise AgentError(
+                        "vector_graph_identity_mismatch",
+                        "The vector index does not match the canonical graph.",
+                        503,
+                    )
+                candidates = semantic_candidates()
+                candidate_ids = {
+                    item["target_node_id"] for item in candidates["candidates"]
+                }
+                missing = sorted(candidate_ids - set(loaded.vectors))
+                if missing:
+                    raise AgentError(
+                        "vector_candidate_view_incomplete",
+                        "The canonical vector index is missing reviewed runtime candidates.",
+                        503,
+                    )
+                loaded.vectors = {
+                    node_id: loaded.vectors[node_id]
+                    for node_id in sorted(candidate_ids)
+                }
+                loaded.node_types = {
+                    node_id: loaded.node_types[node_id]
+                    for node_id in sorted(candidate_ids)
+                }
+                loaded.payload = {
+                    **loaded.payload,
+                    "source_corpus": {
+                        "schema": candidates["schema"],
+                        "path": str(SEMANTIC_CANDIDATES.relative_to(ROOT)),
+                        "sha256": _file_sha256(SEMANTIC_CANDIDATES),
+                        "records": len(candidate_ids),
+                        "interpreted_terms_embedded": False,
+                    },
+                    "runtime_candidate_view": {
+                        "source_index_path": str(VECTOR_INDEX.relative_to(ROOT)),
+                        "source_index_records": int(
+                            loaded.payload["statistics"]["records"]
+                        ),
+                        "candidate_records": len(candidate_ids),
+                        "canonical_graph_sha256": graph_sha256,
+                    },
+                }
+                _VECTOR_INDEX = loaded
     return _VECTOR_INDEX
 
 
@@ -2167,7 +2211,7 @@ def build_demo_runtime_contract_v031(
             502,
         )
     return {
-        "schema": "nma.demo-runtime/0.31",
+        "schema": RUNTIME_CONTRACT,
         "resolution": {
             "mode": (
                 "bounded-llm-entity-resolution"
@@ -3019,8 +3063,12 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
                     "available": bool(api_key),
                     "model": model,
                     "mode": "agentic-vs1" if api_key else "deterministic-fallback",
-                    "runtime_contract": "nma.demo-runtime/0.31",
+                    "runtime_contract": RUNTIME_CONTRACT,
                     "runtime_revision": DEMO_RUNTIME_REVISION,
+                    "vector_index": str(VECTOR_INDEX.relative_to(ROOT)),
+                    "vector_canonical_graph_sha256": _file_sha256(CANONICAL_GRAPH),
+                    "vector_graph_identity_verified": True,
+                    "vector_candidate_view_records": 638,
                     "server_revision": F03_SERVER_REVISION,
                     "school_hero_zero_credit_ready": True,
                     "canonical_graph_available": CANONICAL_GRAPH.is_file(),

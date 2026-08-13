@@ -1,4 +1,4 @@
-const CACHE_NAME = "nma-agentic-v0.31.2-grounding-panels";
+const CACHE_NAME = "nma-agentic-runtime-baseline-0.32-grounding-panels";
 const GLYPH_PREFIX = "https://cdn.protomaps.com/fonts/pbf/";
 
 const PINNED_RUNTIME_ASSETS = [

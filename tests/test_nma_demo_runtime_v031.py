@@ -99,11 +99,18 @@ def grounded_answer() -> dict:
 
 def test_v031_runtime_contract_exposes_live_backend_and_validated_identifiers() -> None:
     server = load_module(SERVER_PATH, "nma_agent_server_v031_contract")
+    index = server.vector_index()
+    assert server.VECTOR_INDEX.name == "nma-vector-index-v0.32.json"
+    assert index.payload["canonical_graph_sha256"] == (
+        "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+    )
+    assert len(index.vectors) == 638
+    assert index.payload["runtime_candidate_view"]["source_index_records"] == 4293
     contract = server.build_demo_runtime_contract_v031(
         evidence_package(), grounded_answer()
     )
 
-    assert contract["schema"] == "nma.demo-runtime/0.31"
+    assert contract["schema"] == "nma.runtime-baseline/0.32"
     assert contract["resolution"] == {
         "mode": "bounded-llm-entity-resolution",
         "status": "resolved",
@@ -150,7 +157,7 @@ def test_v031_demo_is_reproducible_and_preserves_v04() -> None:
 def test_v031_demo_shows_runtime_spine_without_cost_or_automatic_execution() -> None:
     html = TARGET.read_text(encoding="utf-8")
 
-    assert 'runtime.schema!=="nma.demo-runtime/0.31"' in html
+    assert 'runtime.schema!=="nma.runtime-baseline/0.32"' in html
     assert "Verified Agent runtime spine" in html
     assert "live Neo4j verified" in html
     assert "graph identity verified" in html
@@ -167,7 +174,7 @@ def test_v031_demo_shows_runtime_spine_without_cost_or_automatic_execution() -> 
     assert "token usage" not in html
     assert "estimated total US$" not in html
     assert 'register("nmaDemoWorkerV031.js"' in html
-    assert 'const CACHE_NAME = "nma-agentic-v0.31.2-grounding-panels";' in (
+    assert 'const CACHE_NAME = "nma-agentic-runtime-baseline-0.32-grounding-panels";' in (
         WORKER_TARGET.read_text(encoding="utf-8")
     )
 
@@ -181,7 +188,11 @@ def test_v031_server_uses_the_validated_runtime_components() -> None:
     assert "SegmentAwareGraphRetrieverV108(" in source
     assert "PolicyValidatedEntityResolverV106(" in source
     assert 'trace["retrieval_policy_version"] = "0.10.8"' in source
-    assert 'DEMO_RUNTIME_REVISION = "v0.31.1-dynamic-answer-identifier-allowlist"' in source
+    assert 'RUNTIME_CONTRACT = "nma.runtime-baseline/0.32"' in source
+    assert "DEMO_RUNTIME_REVISION = RUNTIME_CONTRACT" in source
+    assert '"nma-vector-index-v0.32.json"' in source
+    assert '"vector_graph_identity_verified": True' in source
+    assert '"runtime_contract": "nma.runtime-baseline/0.32"' in specification
     assert '"candidate_pool_contract": "nma.entity-candidate-pool/0.10.8"' in specification
     assert '"entity_resolution_contract": "nma.entity-resolution/0.10.6"' in specification
     assert '"answer_keys_used": false' in specification

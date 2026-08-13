@@ -1,11 +1,15 @@
 {
   "schema": "nma.demo-runtime-specification/0.31",
-  "status": "development-runtime-integration-after-sealed-v0.30",
+  "status": "historical-v0.31-specification-aligned-to-v0.32-runtime-baseline",
   "source_result": "data/runtime/llm/nma-v030-live-neo4j-grounded-answer-result.json",
   "candidate_pool_contract": "nma.entity-candidate-pool/0.10.8",
   "entity_resolution_contract": "nma.entity-resolution/0.10.6",
   "graph_backend_contract": "nma.runtime-graph-backend/0.29",
-  "runtime_contract": "nma.demo-runtime/0.31",
+  "runtime_contract": "nma.runtime-baseline/0.32",
+  "runtime_revision": "nma.runtime-baseline/0.32",
+  "active_vector_index": "data/runtime/vector/nma-vector-index-v0.32.json",
+  "canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+  "candidate_vector_view": "638 reviewed candidate IDs selected from the v0.32 canonical vector index",
   "candidate_pool_parameters": {
     "raw_top_limit": 40,
     "geometry_top_limit": 16,

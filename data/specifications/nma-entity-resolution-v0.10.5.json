@@ -4,7 +4,7 @@
   "source_first_result": "data/evaluation/nma-v012-first-prospective-run.json",
   "source_first_result_analysis": "data/evaluation/nma-v012-first-prospective-run-analysis.json",
   "candidate_corpus": "data/review/semantic-links/nma-semantic-candidates-v0.8.json",
-  "candidate_index": "data/runtime/vector/nma-feature-candidate-index-v0.9.json",
+  "candidate_index": "data/runtime/vector/nma-vector-index-v0.32.json",
   "reviewed_cross_document_support": "data/knowledge/nma-entity-resolution-support-v0.10.1.json",
   "reviewed_geometry_role_source": "data/extraction/v0.4/road-compound-portrayal-reviewed.json",
   "candidate_pool": {

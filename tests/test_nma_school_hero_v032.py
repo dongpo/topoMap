@@ -86,6 +86,7 @@ def test_v032_shows_only_used_citations_and_never_leaves_ask_disabled_on_tool_fa
     assert "finally{button.disabled=false;button.textContent=originalLabel" in html
     assert "No unverified answer, symbol, or map mutation was accepted." in html
     assert 'REQUIRED_F03_SERVER_REVISION="f03-school-hero-centered-edit-2026-08-12.4"' in html
+    assert 'runtime.schema!=="nma.runtime-baseline/0.32"' in html
     assert "incompatible F03 agent server revision" in html
     assert 'SCHOOL_HERO_EVIDENCE_API="/api/hero/school/evidence"' in html
     assert "requestSchoolHeroEvidence()" in html

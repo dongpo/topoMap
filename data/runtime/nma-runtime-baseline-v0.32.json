@@ -1,12 +1,17 @@
 {
   "schema": "nma.runtime-baseline/0.32",
-  "status": "current-vector-and-live-neo4j-runtime-baseline-verified",
+  "runtime_release": "v0.2.1",
+  "status": "current-vector-live-neo4j-and-agent-runtime-baseline-aligned",
   "recorded_at": "2026-08-12",
+  "aligned_at": "2026-08-14",
   "canonical_graph": {
     "path": "data/knowledge/nma-canonical-graph-v0.4.json",
     "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
     "nodes": 4293,
-    "edges": 11244
+    "edges": 11244,
+    "authority": "consolidated-runtime-artifact",
+    "component_paths_role": "provenance-metadata-only",
+    "provenance_policy": "docs/NMA-V0.2.1-PROVENANCE-POLICY.md"
   },
   "vector_index": {
     "required_path": "data/runtime/vector/nma-vector-index-v0.32.json",
@@ -54,6 +59,15 @@
   },
   "agent_server": {
     "status": "typed-live-neo4j-runtime-backend-wiring-verified",
+    "runtime_contract": "nma.runtime-baseline/0.32",
+    "runtime_revision": "nma.runtime-baseline/0.32",
+    "vector_index": "data/runtime/vector/nma-vector-index-v0.32.json",
+    "vector_canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "vector_candidate_view": {
+      "source": "data/review/semantic-links/nma-semantic-candidates-v0.8.json",
+      "records": 638,
+      "purpose": "preserve-existing-bounded-entity-resolution-over-v0.32-canonical-vectors"
+    },
     "runtime_backend_evidence": "data/runtime/neo4j/nma-runtime-graph-backend-v0.32.json",
     "runtime_backend_evidence_sha256": "3ea944aac5f571b4be457bacde62569a519aaf9ee258a6330f7be4f7996909b3",
     "active_backend": "live-neo4j",
