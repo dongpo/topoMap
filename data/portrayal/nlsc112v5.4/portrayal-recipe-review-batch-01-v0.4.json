@@ -1,0 +1,283 @@
+{
+  "$schema": "../../../schemas/portrayal-recipe-v0.4.schema.json",
+  "schema_version": "0.4",
+  "record_set_id": "nma-portrayal-recipe-review-batch-01-v0.4",
+  "status": "manual-vector-transcription-review-candidates; human-signoff-pending; non-executable",
+  "source": {
+    "document_id": "doc01-portrayal",
+    "filename": "01-一千分之一地形圖圖式規格表.pdf",
+    "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+    "revision": "NLSC112V5.4",
+    "pages_reviewed": [8, 11, 24, 50, 61]
+  },
+  "profile": {
+    "id": "tw-nlsc-1000-NLSC112V5.4",
+    "scale_denominator": 1000
+  },
+  "recipes": [
+    {
+      "feature_code": "9350906",
+      "feature_name": "消防栓",
+      "page": 11,
+      "source_rule_id": "portrayal-rule:doc01:9350906",
+      "evidence_section_id": "section:doc01-portrayal:p11",
+      "geometry_role": "Point",
+      "representation_kind": "fixed-marker",
+      "activation_status": "non-executable-review-candidate",
+      "source_constraints": {
+        "line_code": "2",
+        "color_code": "7",
+        "observed_color": "black",
+        "instruction": "實測",
+        "overall_width_mm": 2.0,
+        "overall_height_mm": 2.5,
+        "component_dimensions_mm": {}
+      },
+      "primitives": [
+        {
+          "id": "outer-box",
+          "type": "rect",
+          "authority": "explicit-source",
+          "parameters": {"width_mm": 2.0, "height_mm": 2.5, "fill": "none", "stroke_ref": "line-code:2", "color_ref": "color-code:7"}
+        },
+        {
+          "id": "hydrant-glyph",
+          "type": "path",
+          "authority": "manual-visual-transcription",
+          "parameters": {"description": "documented 火-like hydrant glyph inside the box", "stroke_ref": "line-code:2", "color_ref": "color-code:7"}
+        }
+      ],
+      "review_asset": {
+        "path": "assets/symbols/nlsc112v5.4/review-candidates/fire-hydrant-v1.svg",
+        "status": "manual-transcription-candidate",
+        "asset_role": "fixed-marker",
+        "preview_color_is_authoritative": false
+      },
+      "runtime_requirements": ["Point geometry", "render at 2.0 x 2.5 mm at output scale 1:1,000"],
+      "activation_gates": [
+        {"id": "line-code-2-metric", "reason": "The reviewed row names line code 2 but does not define its device-independent stroke width.", "status": "pending-human-review"},
+        {"id": "internal-glyph-trace", "reason": "The internal glyph is manually traced from the official symbol cell and requires cartographic comparison approval.", "status": "pending-human-review"},
+        {"id": "color-code-7-profile", "reason": "The row is visually black, but the device-independent colour profile is not defined on this page.", "status": "pending-human-review"}
+      ]
+    },
+    {
+      "feature_code": "9420801",
+      "feature_name": "一般市區道路",
+      "page": 24,
+      "source_rule_id": "portrayal-rule:doc01:9420801",
+      "evidence_section_id": "section:doc01-portrayal:p24",
+      "geometry_role": "LineString",
+      "representation_kind": "compound-road-boundary-and-name",
+      "activation_status": "non-executable-review-candidate",
+      "source_constraints": {
+        "line_code": "2",
+        "color_code": "1",
+        "observed_color": "red",
+        "instruction": "實寬，註記名稱",
+        "overall_width_mm": null,
+        "overall_height_mm": null,
+        "component_dimensions_mm": {}
+      },
+      "primitives": [
+        {
+          "id": "roada-surveyed-road-boundary",
+          "type": "polygon-boundary-line",
+          "authority": "cross-document-reviewed",
+          "parameters": {"geometry_source": "ROADA Polygon exterior/interior boundary rings", "semantic_source": "spatially associated ROAD feature", "must_not_use": "unbuffered ROAD centreline as authoritative road edge", "stroke_ref": "line-code:2", "color_ref": "color-code:1"}
+        },
+        {
+          "id": "road-name",
+          "type": "text-annotation",
+          "authority": "explicit-source",
+          "parameters": {"content_field": "ROADNAME", "semantic_layer": "ROAD", "placement": "unresolved by reviewed row"}
+        }
+      ],
+      "review_asset": null,
+      "runtime_requirements": ["ROADA Polygon boundary geometry", "reviewed spatial association to the semantic ROAD feature", "ROAD.ROADNAME road-name attribute"],
+      "runtime_evidence": {
+        "archive_path": "data/datasets/112年多維度SHP成果_0502.zip",
+        "archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+        "road_layer": "J17_ROAD",
+        "road_shape_type": "LineString",
+        "road_record_count": 429,
+        "road_classification_field": "TERRAINID",
+        "road_name_field": "ROADNAME",
+        "roada_layer": "J17_ROADA",
+        "roada_shape_type": "Polygon",
+        "roada_record_count": 5,
+        "roada_semantic_fields": [],
+        "binding_status": "spatial-association-and-schema-profile-pending"
+      },
+      "activation_gates": [
+        {"id": "road-roada-spatial-association", "reason": "ROAD carries class and name while ROADA carries the Polygon boundary, but no reviewed shared key exists; the association policy requires approval.", "status": "pending-human-review"},
+        {"id": "actual-road-classification-field-binding", "reason": "The observed J17 ROAD uses TERRAINID while Document 09 defines ROADCLASS2; only a bounded dataset-profile mapping may be approved.", "status": "pending-human-review"},
+        {"id": "road-label-placement", "reason": "The reviewed row requires a name annotation but does not define collision or placement rules.", "status": "pending-human-review"},
+        {"id": "line-and-color-profile", "reason": "Line code 2 and colour code 1 require an approved rendering profile before activation.", "status": "pending-human-review"}
+      ]
+    },
+    {
+      "feature_code": "9740100",
+      "feature_name": "養殖池",
+      "page": 50,
+      "source_rule_id": "portrayal-rule:doc01:9740100",
+      "evidence_section_id": "section:doc01-portrayal:p50",
+      "geometry_role": "Polygon",
+      "representation_kind": "single-interior-classification-symbol",
+      "activation_status": "non-executable-review-candidate",
+      "source_constraints": {
+        "line_code": "2",
+        "color_code": "5",
+        "observed_color": "blue",
+        "instruction": "實形測繪",
+        "overall_width_mm": null,
+        "overall_height_mm": null,
+        "component_dimensions_mm": {"fish_marker_width": 4.0, "fish_marker_height": 1.0}
+      },
+      "primitives": [
+        {
+          "id": "surveyed-pond-boundary",
+          "type": "feature-boundary-stroke",
+          "authority": "explicit-source",
+          "parameters": {"geometry": "authoritative polygon boundary", "stroke_ref": "line-code:2", "color_ref": "color-code:5"}
+        },
+        {
+          "id": "fish-marker",
+          "type": "svg-marker",
+          "authority": "manual-visual-transcription",
+          "parameters": {"width_mm": 4.0, "height_mm": 1.0, "asset": "assets/symbols/nlsc112v5.4/review-candidates/fish-pond-marker-v1.svg", "color_ref": "color-code:5"}
+        },
+        {
+          "id": "single-interior-classification-symbol",
+          "type": "single-symbol-placement",
+          "authority": "human-review-decision",
+          "parameters": {"count": 1, "semantic_role": "express polygon type", "placement": "inside polygon", "exact_anchor_algorithm": "unresolved"}
+        }
+      ],
+      "review_asset": {
+        "path": "assets/symbols/nlsc112v5.4/review-candidates/fish-pond-marker-v1.svg",
+        "status": "manual-transcription-candidate",
+        "asset_role": "classification-marker",
+        "preview_color_is_authoritative": false
+      },
+      "runtime_requirements": ["authoritative Polygon geometry", "an interior point that keeps the 4 x 1 mm marker inside the polygon"],
+      "activation_gates": [
+        {"id": "fish-shape-trace", "reason": "The fish marker is manually traced and requires visual comparison approval.", "status": "pending-human-review"},
+        {"id": "fish-interior-anchor-policy", "reason": "One fish symbol represents the polygon type, but the exact stable interior-anchor and collision policy remains unresolved.", "status": "pending-human-review"},
+        {"id": "line-and-color-profile", "reason": "Line code 2 and colour code 5 require an approved rendering profile before activation.", "status": "pending-human-review"}
+      ]
+    },
+    {
+      "feature_code": "9310100",
+      "feature_name": "永久性建物(建築區)",
+      "page": 8,
+      "source_rule_id": "portrayal-rule:doc01:9310100",
+      "evidence_section_id": "section:doc01-portrayal:p8",
+      "geometry_role": "Polygon",
+      "representation_kind": "feature-following-hatched-polygon",
+      "activation_status": "non-executable-review-candidate",
+      "source_constraints": {
+        "line_code": "2",
+        "color_code": "7",
+        "observed_color": "black",
+        "instruction": "實形測繪，建物加剖面線，加註樓層及結構",
+        "overall_width_mm": null,
+        "overall_height_mm": null,
+        "component_dimensions_mm": {"hatch_spacing": 2.0}
+      },
+      "primitives": [
+        {
+          "id": "surveyed-building-boundary",
+          "type": "feature-boundary-stroke",
+          "authority": "explicit-source",
+          "parameters": {"geometry": "authoritative building polygon boundary", "stroke_ref": "line-code:2", "color_ref": "color-code:7"}
+        },
+        {
+          "id": "building-diagonal-hatch",
+          "type": "hatch-fill",
+          "authority": "manual-visual-transcription",
+          "parameters": {"clip_to_feature_geometry": true, "spacing_mm": 2.0, "spacing_authority": "explicit-source", "orientation": "diagonal rising from lower-left to upper-right", "numeric_angle_degrees": null, "stroke_ref": "line-code:2", "color_ref": "color-code:7"}
+        },
+        {
+          "id": "floor-and-structure-annotation",
+          "type": "text-annotation",
+          "authority": "explicit-source",
+          "parameters": {"content": "floor count plus structure code", "source_example": "3R", "placement": "inside polygon; exact collision policy unresolved"}
+        }
+      ],
+      "review_asset": {
+        "path": "assets/symbols/nlsc112v5.4/review-candidates/building-hatch-tile-v1.svg",
+        "status": "manual-transcription-candidate",
+        "asset_role": "pattern-tile",
+        "preview_color_is_authoritative": false
+      },
+      "runtime_requirements": ["authoritative BUILD Polygon or PolygonZ geometry", "BUILD_NO floor count attribute", "BUILD_STR structure attribute", "hatch pattern clipped to each polygon at 2 mm output spacing"],
+      "runtime_evidence": {
+        "archive": "data/datasets/112年多維度SHP成果_0502.zip",
+        "archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+        "inspected_member_suffix": "/SHP/J17_BUILD",
+        "shape_type": "PolygonZ",
+        "record_count": 2839,
+        "dbf_fields": ["BUILD_ID", "TERRAINID", "BUILD_STR", "BUILD_NO", "BUILD_H", "GROUP_ID", "MDATE"],
+        "status": "read-only-inspected; explicit runtime binding pending"
+      },
+      "activation_gates": [
+        {"id": "hatch-angle-transcription", "reason": "The official cell visibly uses diagonal hatching and specifies 2 mm spacing, but does not state a numeric angle.", "status": "pending-human-review"},
+        {"id": "building-annotation-placement", "reason": "The rule requires floor and structure annotation, but collision and placement behavior are not specified.", "status": "pending-human-review"},
+        {"id": "real-build-schema-binding", "reason": "The uploaded J17_BUILD archive exposes BUILD_NO and BUILD_STR, while Document 09's reviewed BUILD layer description lists a different reduced field set; the runtime mapping must preserve this schema drift.", "status": "pending-human-review"},
+        {"id": "line-and-color-profile", "reason": "Line code 2 and colour code 7 require an approved rendering profile before activation.", "status": "pending-human-review"}
+      ]
+    },
+    {
+      "feature_code": "9920103",
+      "feature_name": "小學",
+      "page": 61,
+      "source_rule_id": "portrayal-rule:doc01:9920103",
+      "evidence_section_id": "section:doc01-portrayal:p61",
+      "geometry_role": "Point",
+      "representation_kind": "fixed-marker",
+      "activation_status": "non-executable-review-candidate",
+      "source_constraints": {
+        "line_code": "2",
+        "color_code": "7",
+        "observed_color": "black",
+        "instruction": "註記名稱",
+        "overall_width_mm": 2.2,
+        "overall_height_mm": 3.0,
+        "component_dimensions_mm": {"flag_height": 1.5}
+      },
+      "primitives": [
+        {
+          "id": "flag-pole",
+          "type": "path",
+          "authority": "explicit-source",
+          "parameters": {"height_mm": 3.0, "stroke_ref": "line-code:2", "color_ref": "color-code:7", "top_aligned_with_flag": true}
+        },
+        {
+          "id": "triangular-flag",
+          "type": "polygon",
+          "authority": "manual-visual-transcription",
+          "parameters": {"overall_width_mm": 2.2, "height_mm": 1.5, "fill_ref": "color-code:7", "base_aligned_with_pole": true}
+        },
+        {
+          "id": "school-name",
+          "type": "text-annotation",
+          "authority": "explicit-source",
+          "parameters": {"content": "feature name", "placement": "unresolved by reviewed row"}
+        }
+      ],
+      "review_asset": {
+        "path": "assets/symbols/nlsc112v5.4/review-candidates/school-flag-v1.svg",
+        "status": "manual-transcription-candidate",
+        "asset_role": "fixed-marker",
+        "preview_color_is_authoritative": false
+      },
+      "runtime_requirements": ["Point geometry", "school name attribute", "render at 2.2 x 3.0 mm at output scale 1:1,000"],
+      "activation_gates": [
+        {"id": "flag-primitive-trace", "reason": "The triangle geometry is manually transcribed from the official symbol cell and requires cartographic approval.", "status": "pending-human-review"},
+        {"id": "school-label-placement", "reason": "The reviewed row requires a name annotation but does not define collision or placement rules.", "status": "pending-human-review"},
+        {"id": "line-and-color-profile", "reason": "Line code 2 and colour code 7 require an approved rendering profile before activation.", "status": "pending-human-review"}
+      ]
+    }
+  ],
+  "important_boundary": "These five recipes are review candidates, not activated portrayal rules. Explicit dimensions and instructions come from Document 01 pages 8, 11, 24, 50, and 61. General urban road derives its portrayal LineString from ROADA Polygon boundary geometry while ROAD supplies class and name; an unbuffered ROAD centreline must not be silently portrayed as the authoritative road edge. Aquaculture pond uses one interior fish symbol to express polygon type; permanent building uses a clipped diagonal hatch fill and floor/structure annotation. Internal paths, hatch angle, preview stroke widths, preview RGB colours, label placement, exact interior anchors, schema-drift bindings, spatial associations, and runtime data derivations remain blocked until human approval."
+}

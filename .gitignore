@@ -13,3 +13,7 @@ artifacts/portrayal/
 artifacts/benchmark/portrayal-results.json
 artifacts/release/nma-v0.2-review-package/
 tmp/
+
+# User-provided production data is local-only and must never be committed.
+data/datasets/112年多維度SHP成果_0502.zip
+data/source-pdfs/

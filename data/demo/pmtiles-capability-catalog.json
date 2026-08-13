@@ -786,7 +786,8 @@
         "flag_top_alignment",
         "support_shape",
         "support_proportion",
-        "flag_attachment"
+        "flag_attachment",
+        "flagpole_horizontal_alignment"
       ]
     },
     {
