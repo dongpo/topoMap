@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.school-hero-execution-receipt/1.0",
+  "title": "NMA School Hero Execution Receipt 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "execution_id", "execution_plan_id", "completed_at", "authorization", "proposal", "source", "output", "portrayal", "map", "governance", "receipt_sha256"],
+  "properties": {
+    "schema": {"const": "nma.school-hero-execution-receipt/1.0"},
+    "execution_id": {"$ref": "#/$defs/execution"},
+    "execution_plan_id": {"type": "string", "pattern": "^plan-[0-9a-f]{24}$"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "authorization": {"type": "object", "additionalProperties": false, "required": ["authorization_id", "authorization_hash"], "properties": {"authorization_id": {"type": "string"}, "authorization_hash": {"$ref": "#/$defs/sha256"}}},
+    "proposal": {"type": "object", "additionalProperties": false, "required": ["proposal_id", "revision", "proposal_hash"], "properties": {"proposal_id": {"type": "string"}, "revision": {"oneOf": [{"type": "integer"}, {"type": "string"}]}, "proposal_hash": {"$ref": "#/$defs/sha256"}}},
+    "source": {"type": "object", "additionalProperties": false, "required": ["archive_hash", "profile_id", "source_layers"], "properties": {"archive_hash": {"$ref": "#/$defs/sha256"}, "profile_id": {"const": "school-point"}, "source_layers": {"type": "array", "minItems": 6, "maxItems": 6, "items": {"type": "string"}}}},
+    "output": {"type": "object", "additionalProperties": false, "required": ["geojson_hash", "feature_count", "crs", "geometry_type"], "properties": {"geojson_hash": {"$ref": "#/$defs/sha256"}, "feature_count": {"const": 15}, "crs": {"const": "EPSG:4326"}, "geometry_type": {"const": "Point"}}},
+    "portrayal": {"type": "object", "additionalProperties": false, "required": ["approved_operation_hash", "asset_hash"], "properties": {"approved_operation_hash": {"$ref": "#/$defs/sha256"}, "asset_hash": {"$ref": "#/$defs/sha256"}}},
+    "map": {"type": "object", "additionalProperties": false, "required": ["bundle_id", "bundle_hash"], "properties": {"bundle_id": {"type": "string"}, "bundle_hash": {"$ref": "#/$defs/sha256"}}},
+    "governance": {"type": "object", "additionalProperties": false, "required": ["data_execution_performed", "authoritative_source_mutation_performed", "official_portrayal_activation_performed", "pmtiles_rebuild_performed", "publication_performed"], "properties": {"data_execution_performed": {"const": true}, "authoritative_source_mutation_performed": {"const": false}, "official_portrayal_activation_performed": {"const": false}, "pmtiles_rebuild_performed": {"const": false}, "publication_performed": {"const": false}}},
+    "receipt_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "execution": {"type": "string", "pattern": "^exec-[0-9a-f]{24}$"}}
+}

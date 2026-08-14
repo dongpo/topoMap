@@ -115,6 +115,11 @@ from nma.real_layer import (  # noqa: E402
     execute_real_layer,
     propose_real_layer,
 )
+from nma.school_hero_execution import (  # noqa: E402
+    ExecutionAuthorizationStore,
+    SchoolHeroExecutionEngine,
+    SchoolHeroExecutionError,
+)
 from nma.qa_review import (  # noqa: E402
     QA_PROFILES,
     REAL_QA_DIAGNOSTIC_PROFILES,
@@ -141,6 +146,7 @@ PRIVATE_SCHOOL_ARCHIVE_SHA256 = "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e480
 PRIVATE_SCHOOL_CACHE = ROOT / "artifacts" / "tmp" / "private-real-school"
 PRIVATE_SCHOOL_FEATURE_CODE = "9920103"
 REAL_LAYER_OUTPUT = ROOT / "artifacts" / "tmp" / "real-layer-v04"
+SCHOOL_HERO_EXECUTION_ROOT = ROOT / "artifacts" / "runtime" / "school-hero"
 QA_REPAIR_OUTPUT = ROOT / "artifacts" / "tmp" / "qa-repair-v04"
 SCHOOL_AGENT_SAMPLE_ROOT = ROOT / "data" / "samples" / "school-agent"
 SCHOOL_AGENT_NMA_DATASET = Path(
@@ -778,6 +784,15 @@ class QAProposalStore:
 PORTRAYAL_PROPOSALS = PortrayalProposalStore()
 REAL_LAYER_PROPOSALS = RealLayerProposalStore()
 QA_PROPOSALS = QAProposalStore()
+SCHOOL_HERO_AUTHORIZATIONS = ExecutionAuthorizationStore(
+    SCHOOL_HERO_EXECUTION_ROOT / "authorizations"
+)
+SCHOOL_HERO_EXECUTIONS = SchoolHeroExecutionEngine(
+    storage_root=SCHOOL_HERO_EXECUTION_ROOT,
+    archive_path=PRIVATE_SCHOOL_ARCHIVE,
+    official_symbol_path=ROOT / "assets" / "symbols" / "nlsc112v5.4" / "school.svg",
+    authorization_store=SCHOOL_HERO_AUTHORIZATIONS,
+)
 _RETRIEVER: CitationIntegrityGraphRetrieverV06 | None = None
 _GRAPH_BACKEND_TRACE: dict[str, Any] | None = None
 _RETRIEVER_LOCK = Lock()
@@ -3056,6 +3071,29 @@ def execute_qa_proposal(payload: Any) -> dict[str, Any]:
     }
 
 
+def execute_school_hero_authorization(payload: Any) -> dict[str, Any]:
+    """Resolve a stored HERO-03 authorization; no GIS parameters are client-controlled."""
+
+    return SCHOOL_HERO_EXECUTIONS.execute_by_id(payload)
+
+
+def record_school_hero_observation(execution_id: str, payload: Any) -> dict[str, Any]:
+    return SCHOOL_HERO_EXECUTIONS.observe(execution_id, payload)
+
+
+def rollback_school_hero_execution(execution_id: str, payload: Any) -> dict[str, Any]:
+    if payload is None:
+        payload = {}
+    if not isinstance(payload, dict) or set(payload) - {"client_session"}:
+        raise SchoolHeroExecutionError(
+            "Expected client_session only.", code="invalid_rollback_request", status=400
+        )
+    client_session = payload.get("client_session", "server-runtime")
+    return SCHOOL_HERO_EXECUTIONS.rollback_execution(
+        execution_id, client_session=client_session
+    )
+
+
 class NMARequestHandler(SimpleHTTPRequestHandler):
     server_version = "NMAAgentServer/0.5"
 
@@ -3073,6 +3111,25 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         route = self.path.split("?", 1)[0]
+        execution_match = re.fullmatch(
+            r"/api/school-hero/executions/([A-Za-z0-9._:-]+)(?:/(bundle|data))?", route
+        )
+        if execution_match:
+            execution_id, artifact = execution_match.groups()
+            try:
+                if artifact == "bundle":
+                    result = SCHOOL_HERO_EXECUTIONS.get_bundle(execution_id)
+                elif artifact == "data":
+                    result = SCHOOL_HERO_EXECUTIONS.get_data(execution_id)
+                else:
+                    result = SCHOOL_HERO_EXECUTIONS.get_execution(execution_id)
+                self._json(HTTPStatus.OK, result)
+            except SchoolHeroExecutionError as error:
+                self._json(
+                    error.status,
+                    {"error": {"code": error.code, "message": str(error)}},
+                )
+            return
         if route == "/api/hero/school/evidence":
             try:
                 self._json(HTTPStatus.OK, school_hero_evidence_result())
@@ -3135,6 +3192,12 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self) -> None:  # noqa: N802
         route = self.path.split("?", 1)[0]
+        observation_match = re.fullmatch(
+            r"/api/school-hero/executions/([A-Za-z0-9._:-]+)/observations", route
+        )
+        rollback_match = re.fullmatch(
+            r"/api/school-hero/executions/([A-Za-z0-9._:-]+)/rollback", route
+        )
         if route not in {
             "/api/agent",
             "/api/school-agent/analyze",
@@ -3146,7 +3209,8 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             "/api/real-layer/execute",
             "/api/qa-review",
             "/api/qa-review/execute",
-        }:
+            "/api/school-hero/executions",
+        } and not observation_match and not rollback_match:
             self._json(HTTPStatus.NOT_FOUND, {"error": {"code": "not_found"}})
             return
         try:
@@ -3171,6 +3235,12 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
                 result = orchestrate_real_layer(payload, api_key, model)
             elif route == "/api/real-layer/execute":
                 result = execute_real_layer_proposal(payload)
+            elif route == "/api/school-hero/executions":
+                result = execute_school_hero_authorization(payload)
+            elif observation_match:
+                result = record_school_hero_observation(observation_match.group(1), payload)
+            elif rollback_match:
+                result = rollback_school_hero_execution(rollback_match.group(1), payload)
             elif route == "/api/qa-review":
                 result = orchestrate_qa_review(payload, api_key, model)
             else:
@@ -3179,6 +3249,8 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
         except (UnicodeDecodeError, json.JSONDecodeError):
             self._json(HTTPStatus.BAD_REQUEST, {"error": {"code": "invalid_json"}})
         except AgentError as error:
+            self._json(error.status, {"error": {"code": error.code, "message": str(error)}})
+        except SchoolHeroExecutionError as error:
             self._json(error.status, {"error": {"code": error.code, "message": str(error)}})
         except Exception:
             self._json(
