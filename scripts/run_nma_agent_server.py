@@ -52,6 +52,10 @@ from nma.agentic_vs4 import (  # noqa: E402
     build_qa_plan_payload,
     parse_qa_plan_response,
 )
+from nma.agents.school_agent import (  # noqa: E402
+    SchoolAgentError,
+    analyze_administrative_area,
+)
 from nma.vector_index import (  # noqa: E402
     OpenAIEmbeddingClient,
     VectorIndex,
@@ -138,6 +142,19 @@ PRIVATE_SCHOOL_CACHE = ROOT / "artifacts" / "tmp" / "private-real-school"
 PRIVATE_SCHOOL_FEATURE_CODE = "9920103"
 REAL_LAYER_OUTPUT = ROOT / "artifacts" / "tmp" / "real-layer-v04"
 QA_REPAIR_OUTPUT = ROOT / "artifacts" / "tmp" / "qa-repair-v04"
+SCHOOL_AGENT_SAMPLE_ROOT = ROOT / "data" / "samples" / "school-agent"
+SCHOOL_AGENT_NMA_DATASET = Path(
+    os.environ.get("NMA_SCHOOL_DATASET", SCHOOL_AGENT_SAMPLE_ROOT / "nma-schools.geojson")
+)
+SCHOOL_AGENT_OSM_DATASET = Path(
+    os.environ.get("OSM_SCHOOL_DATASET", SCHOOL_AGENT_SAMPLE_ROOT / "osm-school-pois.geojson")
+)
+SCHOOL_AGENT_OFFICIAL_REGISTRY = Path(
+    os.environ.get(
+        "OFFICIAL_SCHOOL_REGISTRY",
+        SCHOOL_AGENT_SAMPLE_ROOT / "official-school-registry.json",
+    )
+)
 CANONICAL_GRAPH = ROOT / "data" / "knowledge" / "nma-canonical-graph-v0.4.json"
 VECTOR_INDEX = ROOT / "data" / "runtime" / "vector" / "nma-vector-index-v0.32.json"
 RETRIEVAL_ANCHORS = ROOT / "data" / "knowledge" / "nma-retrieval-anchors-v0.5.json"
@@ -1954,6 +1971,30 @@ def validate_portrayal_review_request(payload: Any) -> dict[str, Any]:
     }
 
 
+def analyze_school_agent_request(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict) or set(payload) != {"administrative_area"}:
+        raise AgentError("invalid_request", "Expected administrative_area only.")
+    administrative_area = payload["administrative_area"]
+    if (
+        not isinstance(administrative_area, str)
+        or not administrative_area.strip()
+        or len(administrative_area) > 160
+    ):
+        raise AgentError(
+            "invalid_request",
+            "Administrative area must contain 1–160 characters.",
+        )
+    try:
+        return analyze_administrative_area(
+            administrative_area.strip(),
+            nma_dataset=SCHOOL_AGENT_NMA_DATASET,
+            osm_dataset=SCHOOL_AGENT_OSM_DATASET,
+            official_registry=SCHOOL_AGENT_OFFICIAL_REGISTRY,
+        )
+    except SchoolAgentError as error:
+        raise AgentError("school_agent_analysis_failed", str(error), 422) from error
+
+
 def validate_portrayal_decision_request(payload: Any) -> dict[str, str]:
     if not isinstance(payload, dict) or set(payload) != {"decision", "proposal_id"}:
         raise AgentError("invalid_request", "Expected proposal_id and decision only.")
@@ -3096,6 +3137,7 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
         route = self.path.split("?", 1)[0]
         if route not in {
             "/api/agent",
+            "/api/school-agent/analyze",
             "/api/portrayal-review",
             "/api/portrayal-review/decision",
             "/api/portrayal-review/preview",
@@ -3115,6 +3157,8 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             api_key, model = load_local_settings()
             if route == "/api/agent":
                 result = orchestrate(payload, api_key, model)
+            elif route == "/api/school-agent/analyze":
+                result = analyze_school_agent_request(payload)
             elif route == "/api/portrayal-review":
                 result = orchestrate_portrayal_review(payload, api_key, model)
             elif route == "/api/portrayal-review/decision":

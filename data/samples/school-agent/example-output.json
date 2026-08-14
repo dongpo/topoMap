@@ -1,0 +1,86 @@
+{
+  "@context": {
+    "nma": "https://example.org/nma/",
+    "feature_id": "nma:featureIdentifier",
+    "proposal": "nma:proposalType",
+    "confidence": "nma:confidenceScore",
+    "evidence": "nma:evidence",
+    "reasoning": "nma:reasoningExplanation",
+    "timestamp": "http://purl.org/dc/terms/created"
+  },
+  "@type": "nma:SchoolFeatureAnalysis",
+  "schema": "nma.school-feature-intelligence/0.5",
+  "runtime_contract": "nma.runtime-baseline/0.32",
+  "administrative_area": "North District",
+  "source_counts": {
+    "NMA": 2,
+    "OSM": 3,
+    "OFFICIAL_REGISTRY": 3
+  },
+  "proposal_count": 2,
+  "proposals": [
+    {
+      "@type": "nma:SchoolFeatureUpdateProposal",
+      "@id": "proposal:update_attributes:school002",
+      "feature_id": "school002",
+      "proposal": "UPDATE_ATTRIBUTES",
+      "confidence": 0.9522,
+      "evidence": [
+        {
+          "source": "OFFICIAL_REGISTRY",
+          "type": "registry",
+          "feature_id": "registry002",
+          "detail": "Riverside Elementary School in North District at (121.010100, 24.005050)",
+          "score": 0.9555
+        },
+        {
+          "source": "OSM",
+          "type": "spatial",
+          "feature_id": "osm1002",
+          "detail": "Riverside Elementary School in North District at (121.010080, 24.005040)",
+          "score": 0.9555
+        },
+        {
+          "source": "NMA",
+          "type": "baseline",
+          "feature_id": "school002",
+          "detail": "Riverside Elementary School in North District at (121.010000, 24.005000)",
+          "score": 0.9555
+        }
+      ],
+      "reasoning": "Official registry differs from the NMA feature for: address.",
+      "timestamp": "2026-08-14T00:00:00Z",
+      "human_validation_required": true,
+      "automatic_execution": false
+    },
+    {
+      "@type": "nma:SchoolFeatureUpdateProposal",
+      "@id": "proposal:add_feature:registry003",
+      "feature_id": "registry003",
+      "proposal": "ADD_FEATURE",
+      "confidence": 0.9818,
+      "evidence": [
+        {
+          "source": "OFFICIAL_REGISTRY",
+          "type": "registry",
+          "feature_id": "registry003",
+          "detail": "Pine Grove Elementary School in North District at (121.020000, 24.010000)",
+          "score": 0.9903
+        },
+        {
+          "source": "OSM",
+          "type": "spatial",
+          "feature_id": "osm1003",
+          "detail": "Pine Grove Elementary School in North District at (121.020050, 24.010030)",
+          "score": 0.9903
+        }
+      ],
+      "reasoning": "School exists in OSM and the official registry but has no matching feature in the NMA school dataset.",
+      "timestamp": "2026-08-14T00:00:00Z",
+      "human_validation_required": true,
+      "automatic_execution": false
+    }
+  ],
+  "human_validation_required": true,
+  "automatic_execution": false
+}

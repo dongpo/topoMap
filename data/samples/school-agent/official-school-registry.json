@@ -1,0 +1,32 @@
+{
+  "schema": "nma.sample-official-school-registry/0.5",
+  "schools": [
+    {
+      "feature_id": "registry001",
+      "registry_id": "REG-001",
+      "name": "North District Elementary School",
+      "administrative_area": "North District",
+      "longitude": 121.0001,
+      "latitude": 24.0001,
+      "address": "1 Education Road"
+    },
+    {
+      "feature_id": "registry002",
+      "registry_id": "REG-002",
+      "name": "Riverside Elementary School",
+      "administrative_area": "North District",
+      "longitude": 121.0101,
+      "latitude": 24.00505,
+      "address": "8 River Road"
+    },
+    {
+      "feature_id": "registry003",
+      "registry_id": "REG-003",
+      "name": "Pine Grove Elementary School",
+      "administrative_area": "North District",
+      "longitude": 121.02,
+      "latitude": 24.01,
+      "address": "12 Pine Road"
+    }
+  ]
+}

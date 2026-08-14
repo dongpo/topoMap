@@ -1,0 +1,48 @@
+{
+  "type": "FeatureCollection",
+  "name": "osm-school-poi-sample",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "osm1001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.00012, 24.00011]
+      },
+      "properties": {
+        "name": "North District Elementary School",
+        "administrative_area": "North District",
+        "registry_id": "REG-001",
+        "address": "1 Education Road"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "osm1002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.01008, 24.00504]
+      },
+      "properties": {
+        "name": "Riverside Elementary School",
+        "administrative_area": "North District",
+        "registry_id": "REG-002",
+        "address": "8 River Road"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "osm1003",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.02005, 24.01003]
+      },
+      "properties": {
+        "name": "Pine Grove Elementary School",
+        "administrative_area": "North District",
+        "registry_id": "REG-003",
+        "address": "12 Pine Road"
+      }
+    }
+  ]
+}
