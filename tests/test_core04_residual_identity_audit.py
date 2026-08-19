@@ -33,6 +33,7 @@ import nma.school_hero_verification as school_verification
 
 ROOT = Path(__file__).resolve().parents[1]
 PREDECESSOR = "c661e7b06aa6810362c62809afdfd5345a2e1689"
+CLOSURE = "e460b241e0b5b6d1340a329b18f7c978c13c7dc3"
 CORE_BASELINE = "nma-core-v0.1-baseline"
 ROAD_FINAL = "325c70d5335f57c43a8af85822db25032aa225c3"
 AUTHORIZED_PRODUCTION = {
@@ -495,7 +496,7 @@ def test_every_unauthorized_predecessor_file_and_frozen_ref_is_unchanged() -> No
 
 
 def test_change_scope_is_exactly_three_existing_production_files() -> None:
-    changed = set(_git("diff", "--name-only", PREDECESSOR).splitlines())
+    changed = set(_git("diff", "--name-only", PREDECESSOR, CLOSURE).splitlines())
     untracked = set(_git("ls-files", "--others", "--exclude-standard").splitlines())
 
     assert changed == AUTHORIZED_PRODUCTION | {

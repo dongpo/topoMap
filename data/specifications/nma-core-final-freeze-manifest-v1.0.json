@@ -1,0 +1,145 @@
+{
+  "contract": "nma-core-final-freeze/1.0",
+  "version": "1.0",
+  "status": "accepted-frozen",
+  "repository": {
+    "canonical_root": "/Users/dongpodeng/Library/Mobile Documents/com~apple~CloudDocs/Projects/topoMap",
+    "origin": "https://github.com/dongpo/topoMap.git",
+    "predecessor": {
+      "branch": "core/core-04-residual-identity-audit",
+      "commit_sha": "e460b241e0b5b6d1340a329b18f7c978c13c7dc3",
+      "verdict": "PASS — BOUNDED-CLOSURE"
+    },
+    "final_freeze": {
+      "commit_sha_authority": "resolve the peeled target of annotated tag nma-core-v1.0-final",
+      "branch_pattern": "freeze/core-final-<short-FINAL_SHA>",
+      "annotated_tag": "nma-core-v1.0-final",
+      "tag_target_authority": "the same commit as final_freeze.commit_sha_authority"
+    }
+  },
+  "historical_references": {
+    "core": {
+      "tag": "nma-core-v0.1-baseline",
+      "tag_object_sha": "d86b77392c1dc9c9edc1d4adc370fc73e7e14f75",
+      "commit_sha": "ce6e90c993cb36782da29d7e24369882eb303476"
+    },
+    "road": {
+      "tag": "nma-road-v1.0-final",
+      "tag_object_sha": "d60fffa873428d1ba8b308ea0d4d2028ac8431fd",
+      "commit_sha": "325c70d5335f57c43a8af85822db25032aa225c3"
+    },
+    "school_hero": {
+      "canonical_freeze_reference": "freeze/hero-final-school-hero-56f99eb",
+      "canonical_freeze_sha": "56f99eb9ae63272a68accac3041fb10eacefb986",
+      "accepted_freeze_reference": "freeze/hero-final-school-hero",
+      "accepted_freeze_sha": "75f80d389fe48b6dc33912e45433dc1d7e7b98b5"
+    }
+  },
+  "core_identity": {
+    "owner": "nma.core",
+    "source_files": [
+      {
+        "path": "src/nma/core/__init__.py",
+        "sha256": "a3e410a77ece724eaf505ce8b9dc6694b808d4a7cc96a720500757578077a4f2"
+      },
+      {
+        "path": "src/nma/core/feature_profile.py",
+        "sha256": "e0de362e5f733f0f1d7d5776f830939922a6d66cc552e05186046ca0d71e09f0"
+      },
+      {
+        "path": "src/nma/core/identity.py",
+        "sha256": "d9c4ac0d0d385f6942c552a0b2ffc4c12b3deb0ee876d569aeadc036b1a92e78"
+      }
+    ],
+    "source_baseline_equality": "PASS",
+    "source_mismatch_count": 0,
+    "public_symbols": [
+      "ArtifactReference",
+      "FeatureProfile",
+      "canonical_json",
+      "canonical_sha256",
+      "validate_sha256"
+    ]
+  },
+  "architecture_closure": {
+    "road_provider_adoption": "PASS",
+    "school_execution_adoption": "PASS",
+    "school_verification_adoption": "PASS",
+    "authorization_semantics_domain_owned": "PASS",
+    "record_self_hash_semantics_domain_owned": "PASS",
+    "residual_provider_count": 0,
+    "fallback_stub_auto_repair_provider_count": 0,
+    "missing_core": {
+      "result": "PASS",
+      "failure": "deterministic ModuleNotFoundError before identity execution",
+      "mutation_before_after_equal": true,
+      "fallback_or_repair_observed": false
+    }
+  },
+  "acceptance": {
+    "canonical": {
+      "core": {"passed": 53, "failed": 0, "skipped": 0, "xfailed": 0},
+      "road_historical": {"passed": 199, "failed": 0, "skipped": 0, "xfailed": 0},
+      "school_hero": {"passed": 42, "failed": 0, "skipped": 0, "xfailed": 0},
+      "road_schemas": {"passed": 15, "failed": 0}
+    },
+    "fresh_checkout": {
+      "commit_authority": "final_freeze.commit_sha_authority",
+      "core": {"passed": 53, "failed": 0, "skipped": 0, "xfailed": 0},
+      "road_historical": {"passed": 199, "failed": 0, "skipped": 0, "xfailed": 0},
+      "school_hero": {"passed": 42, "failed": 0, "skipped": 0, "xfailed": 0},
+      "road_schemas": {"passed": 15, "failed": 0},
+      "provider_audit": "PASS",
+      "manifest_validation": "PASS",
+      "core_source_integrity": "PASS",
+      "frozen_artifact_integrity": "PASS",
+      "missing_core_fail_closed_no_mutation": "PASS"
+    }
+  },
+  "known_non_core_baseline_failures": [
+    {
+      "node_id": "tests/test_agentic_demo_catalog.py::test_pmtiles_capability_catalog_is_reproducible",
+      "exception_type": "AssertionError",
+      "signature": "capability 9920103 generated editable_parameters omits flagpole_horizontal_alignment while the tracked catalog includes it",
+      "core03_reproduction": "MATERIALLY IDENTICAL",
+      "classification": "PRE-EXISTING / NON-CORE"
+    },
+    {
+      "node_id": "tests/test_agentic_freeze.py::test_agentic_v03_freeze_verifies_current_and_historical_boundaries",
+      "exception_type": "ValueError",
+      "signature": "scripts/run_nma_agent_server.py size: expected 29586, got 133875",
+      "core03_reproduction": "MATERIALLY IDENTICAL",
+      "classification": "PRE-EXISTING / NON-CORE"
+    },
+    {
+      "node_id": "tests/test_agentic_v03_pages.py::test_agentic_v03_pages_candidate_preserves_v02_and_passes_every_gate",
+      "exception_type": "ValueError",
+      "signature": "data/demo/pmtiles-capability-catalog.json size differs from the candidate manifest",
+      "core03_reproduction": "MATERIALLY IDENTICAL",
+      "classification": "PRE-EXISTING / NON-CORE"
+    }
+  ],
+  "integrity": {
+    "core_source": "BYTE/HASH EXACT",
+    "road_frozen_artifacts": "BYTE/HASH EXACT",
+    "school_hero_frozen_artifacts": "BYTE/HASH EXACT",
+    "historical_tags_and_freeze_references": "PASS",
+    "production_source_changed": false,
+    "private_archive": {
+      "path": "data/datasets/112年多維度SHP成果_0502.zip",
+      "sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+      "used": true,
+      "ignored": true,
+      "tracked": false,
+      "staged": false,
+      "modified": false,
+      "published": false
+    }
+  },
+  "post_freeze_policy": {
+    "immutable": true,
+    "force_move_branch_or_tag_allowed": false,
+    "new_production_behavior": false,
+    "future_core_work_requires_separate_authorization": true
+  }
+}
