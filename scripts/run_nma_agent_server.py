@@ -120,6 +120,12 @@ from nma.school_hero_execution import (  # noqa: E402
     SchoolHeroExecutionEngine,
     SchoolHeroExecutionError,
 )
+from nma.road_execution import (  # noqa: E402
+    FrozenRoadInputs,
+    RoadAuthorizationStore,
+    RoadExecutionEngine,
+    RoadExecutionError,
+)
 from nma.qa_review import (  # noqa: E402
     QA_PROFILES,
     REAL_QA_DIAGNOSTIC_PROFILES,
@@ -147,6 +153,7 @@ PRIVATE_SCHOOL_CACHE = ROOT / "artifacts" / "tmp" / "private-real-school"
 PRIVATE_SCHOOL_FEATURE_CODE = "9920103"
 REAL_LAYER_OUTPUT = ROOT / "artifacts" / "tmp" / "real-layer-v04"
 SCHOOL_HERO_EXECUTION_ROOT = ROOT / "artifacts" / "runtime" / "school-hero"
+ROAD_EXECUTION_ROOT = ROOT / "artifacts" / "runtime" / "road"
 QA_REPAIR_OUTPUT = ROOT / "artifacts" / "tmp" / "qa-repair-v04"
 SCHOOL_AGENT_SAMPLE_ROOT = ROOT / "data" / "samples" / "school-agent"
 SCHOOL_AGENT_NMA_DATASET = Path(
@@ -792,6 +799,14 @@ SCHOOL_HERO_EXECUTIONS = SchoolHeroExecutionEngine(
     archive_path=PRIVATE_SCHOOL_ARCHIVE,
     official_symbol_path=ROOT / "assets" / "symbols" / "nlsc112v5.4" / "school.svg",
     authorization_store=SCHOOL_HERO_AUTHORIZATIONS,
+)
+ROAD_EXECUTION_INPUTS = FrozenRoadInputs(ROOT)
+ROAD_AUTHORIZATIONS = RoadAuthorizationStore(ROAD_EXECUTION_INPUTS.authorization)
+ROAD_EXECUTIONS = RoadExecutionEngine(
+    storage_root=ROAD_EXECUTION_ROOT,
+    archive_path=PRIVATE_SCHOOL_ARCHIVE,
+    frozen_inputs=ROAD_EXECUTION_INPUTS,
+    authorization_store=ROAD_AUTHORIZATIONS,
 )
 _RETRIEVER: CitationIntegrityGraphRetrieverV06 | None = None
 _GRAPH_BACKEND_TRACE: dict[str, Any] | None = None
@@ -3094,6 +3109,28 @@ def rollback_school_hero_execution(execution_id: str, payload: Any) -> dict[str,
     )
 
 
+def execute_road_authorization(payload: Any) -> dict[str, Any]:
+    """Resolve the stored ROAD-03 capability; clients cannot submit GIS parameters."""
+
+    return ROAD_EXECUTIONS.execute_by_id(payload)
+
+
+def record_road_observation(execution_id: str, payload: Any) -> dict[str, Any]:
+    return ROAD_EXECUTIONS.observe(execution_id, payload)
+
+
+def rollback_road_execution(execution_id: str, payload: Any) -> dict[str, Any]:
+    if payload is None:
+        payload = {}
+    if payload != {}:
+        raise RoadExecutionError(
+            "The ROAD rollback request accepts no client-controlled parameters.",
+            code="invalid_rollback_request",
+            status=400,
+        )
+    return ROAD_EXECUTIONS.rollback_execution(execution_id)
+
+
 class NMARequestHandler(SimpleHTTPRequestHandler):
     server_version = "NMAAgentServer/0.5"
 
@@ -3111,6 +3148,25 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:  # noqa: N802
         route = self.path.split("?", 1)[0]
+        road_execution_match = re.fullmatch(
+            r"/api/road/executions/([A-Za-z0-9._:-]+)(?:/(bundle|data))?", route
+        )
+        if road_execution_match:
+            execution_id, artifact = road_execution_match.groups()
+            try:
+                if artifact == "bundle":
+                    result = ROAD_EXECUTIONS.get_bundle(execution_id)
+                elif artifact == "data":
+                    result = ROAD_EXECUTIONS.get_data(execution_id)
+                else:
+                    result = ROAD_EXECUTIONS.get_execution(execution_id)
+                self._json(HTTPStatus.OK, result)
+            except RoadExecutionError as error:
+                self._json(
+                    error.status,
+                    {"error": {"code": error.code, "message": str(error)}},
+                )
+            return
         execution_match = re.fullmatch(
             r"/api/school-hero/executions/([A-Za-z0-9._:-]+)(?:/(bundle|data))?", route
         )
@@ -3198,6 +3254,12 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
         rollback_match = re.fullmatch(
             r"/api/school-hero/executions/([A-Za-z0-9._:-]+)/rollback", route
         )
+        road_observation_match = re.fullmatch(
+            r"/api/road/executions/([A-Za-z0-9._:-]+)/observations", route
+        )
+        road_rollback_match = re.fullmatch(
+            r"/api/road/executions/([A-Za-z0-9._:-]+)/rollback", route
+        )
         if route not in {
             "/api/agent",
             "/api/school-agent/analyze",
@@ -3210,7 +3272,8 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             "/api/qa-review",
             "/api/qa-review/execute",
             "/api/school-hero/executions",
-        } and not observation_match and not rollback_match:
+            "/api/road/executions",
+        } and not observation_match and not rollback_match and not road_observation_match and not road_rollback_match:
             self._json(HTTPStatus.NOT_FOUND, {"error": {"code": "not_found"}})
             return
         try:
@@ -3237,10 +3300,16 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
                 result = execute_real_layer_proposal(payload)
             elif route == "/api/school-hero/executions":
                 result = execute_school_hero_authorization(payload)
+            elif route == "/api/road/executions":
+                result = execute_road_authorization(payload)
             elif observation_match:
                 result = record_school_hero_observation(observation_match.group(1), payload)
             elif rollback_match:
                 result = rollback_school_hero_execution(rollback_match.group(1), payload)
+            elif road_observation_match:
+                result = record_road_observation(road_observation_match.group(1), payload)
+            elif road_rollback_match:
+                result = rollback_road_execution(road_rollback_match.group(1), payload)
             elif route == "/api/qa-review":
                 result = orchestrate_qa_review(payload, api_key, model)
             else:
@@ -3251,6 +3320,8 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
         except AgentError as error:
             self._json(error.status, {"error": {"code": error.code, "message": str(error)}})
         except SchoolHeroExecutionError as error:
+            self._json(error.status, {"error": {"code": error.code, "message": str(error)}})
+        except RoadExecutionError as error:
             self._json(error.status, {"error": {"code": error.code, "message": str(error)}})
         except Exception:
             self._json(

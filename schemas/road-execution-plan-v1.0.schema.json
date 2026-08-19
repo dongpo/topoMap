@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.road-execution-plan/1.0",
+  "title": "NMA ROAD-04 Execution Plan 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "execution_contract_version", "execution_id", "authorization", "frozen_identities", "source", "scope", "portrayal", "runtime_translation", "targets", "permissions", "execution_plan_id", "execution_plan_sha256"],
+  "properties": {
+    "schema": {"const": "nma.road-execution-plan/1.0"},
+    "execution_contract_version": {"const": "road-04/1.0"},
+    "execution_id": {"$ref": "#/$defs/execution"},
+    "authorization": {"$ref": "#/$defs/authorization"},
+    "frozen_identities": {"$ref": "#/$defs/frozen"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["archive_sha256", "layer", "source_crs", "runtime_crs", "ordered_segment_ids", "geometry"],
+      "properties": {
+        "archive_sha256": {"$ref": "#/$defs/sha256"},
+        "layer": {"const": "K14_ROAD"},
+        "source_crs": {"const": "TWD97[2020]_TM121"},
+        "runtime_crs": {"const": "EPSG:4326"},
+        "ordered_segment_ids": {"$ref": "#/$defs/segments"},
+        "geometry": {"type": "array", "prefixItems": [{"$ref": "#/$defs/geometry"}, {"$ref": "#/$defs/geometry"}, {"$ref": "#/$defs/geometry"}], "items": false}
+      }
+    },
+    "scope": {"$ref": "#/$defs/scope"},
+    "portrayal": {"$ref": "#/$defs/portrayal"},
+    "runtime_translation": {"$ref": "#/$defs/translation"},
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["derived_portrayal", "source_geometry", "runtime_geometry", "candidate_runtime", "receipt", "rollback_manifest"],
+      "properties": {
+        "derived_portrayal": {"const": "derived-portrayal.json"},
+        "source_geometry": {"const": "data/road-centreline-source.geojson"},
+        "runtime_geometry": {"const": "data/road-centreline-runtime.geojson"},
+        "candidate_runtime": {"const": "bundle.json"},
+        "receipt": {"const": "receipt.json"},
+        "rollback_manifest": {"const": "rollback-manifest.json"}
+      }
+    },
+    "permissions": {"$ref": "#/$defs/permissions"},
+    "execution_plan_id": {"type": "string", "pattern": "^road-plan-[0-9a-f]{24}$"},
+    "execution_plan_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "execution": {"type": "string", "pattern": "^road-exec-[0-9a-f]{24}$"},
+    "segments": {"type": "array", "prefixItems": [{"const": "K0000004671"}, {"const": "K0000004913"}, {"const": "K0000005348"}], "items": false},
+    "authorization": {"type": "object", "additionalProperties": false, "required": ["authorization_id", "authorization_sha256"], "properties": {"authorization_id": {"type": "string"}, "authorization_sha256": {"$ref": "#/$defs/sha256"}}},
+    "frozen": {"type": "object", "additionalProperties": false, "required": ["road01_package_sha256", "road01_fixture_sha256", "road02_proposal_sha256", "road02_decision_sha256", "road03_approval_sha256", "road03_authorization_sha256"], "properties": {"road01_package_sha256": {"$ref": "#/$defs/sha256"}, "road01_fixture_sha256": {"$ref": "#/$defs/sha256"}, "road02_proposal_sha256": {"$ref": "#/$defs/sha256"}, "road02_decision_sha256": {"$ref": "#/$defs/sha256"}, "road03_approval_sha256": {"$ref": "#/$defs/sha256"}, "road03_authorization_sha256": {"$ref": "#/$defs/sha256"}}},
+    "scope": {"type": "object", "additionalProperties": false, "required": ["route_identity", "class_code", "feature_count"], "properties": {"route_identity": {"const": "ROADNUM=縣126|ROADNUM1=|ROADNUM2=|ROADNAME=中山街"}, "class_code": {"const": "9420400"}, "feature_count": {"const": 3}}},
+    "portrayal": {"type": "object", "additionalProperties": false, "required": ["shield_code", "shield_orientation", "road_name_annotation", "graphic_element_roles"], "properties": {"shield_code": {"const": "9490005"}, "shield_orientation": {"const": "road-parallel"}, "road_name_annotation": {"const": "中山街"}, "graphic_element_roles": {"type": "array", "prefixItems": [{"const": 2}, {"const": 5}], "items": false}}},
+    "translation": {"type": "object", "additionalProperties": false, "required": ["geometry", "road_name", "shield_resolution_mode", "shield_renderer"], "properties": {"geometry": {"type": "string"}, "road_name": {"type": "string"}, "shield_resolution_mode": {"const": "semantic_binding_only"}, "shield_renderer": {"type": "null"}}},
+    "permissions": {"type": "object", "additionalProperties": false, "required": ["execution_allowed", "source_mutation_allowed", "topology_repair_allowed", "roada_execution_allowed", "road_edge_derivation_allowed"], "properties": {"execution_allowed": {"const": true}, "source_mutation_allowed": {"const": false}, "topology_repair_allowed": {"const": false}, "roada_execution_allowed": {"const": false}, "road_edge_derivation_allowed": {"const": false}}},
+    "geometry": {"type": "object", "additionalProperties": false, "required": ["segment_id", "source_geometry_type", "source_crs", "source_geometry_sha256", "source_vertex_count", "source_endpoint_sha256", "runtime_crs", "transformation_method", "runtime_geometry_sha256", "runtime_vertex_count"], "properties": {"segment_id": {"type": "string", "pattern": "^K[0-9]{10}$"}, "source_geometry_type": {"const": "LineString"}, "source_crs": {"const": "TWD97[2020]_TM121"}, "source_geometry_sha256": {"$ref": "#/$defs/sha256"}, "source_vertex_count": {"type": "integer", "minimum": 2}, "source_endpoint_sha256": {"type": "array", "prefixItems": [{"$ref": "#/$defs/sha256"}, {"$ref": "#/$defs/sha256"}], "items": false}, "runtime_crs": {"const": "EPSG:4326"}, "transformation_method": {"type": "string"}, "runtime_geometry_sha256": {"$ref": "#/$defs/sha256"}, "runtime_vertex_count": {"type": "integer", "minimum": 2}}
+    }
+  }
+}

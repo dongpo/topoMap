@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.road-runtime-observation/1.0",
+  "title": "NMA ROAD-04 Runtime Observation 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "observation_id", "execution_id", "bundle_sha256", "client_session", "state", "source_ids", "layer_ids", "observed_feature_count", "runtime_version", "timestamp", "status", "loaded_candidate_representation", "final_qa", "observation_sha256"],
+  "properties": {
+    "schema": {"const": "nma.road-runtime-observation/1.0"},
+    "observation_id": {"type": "string", "pattern": "^road-observation-[0-9a-f]{24}$"},
+    "execution_id": {"type": "string", "pattern": "^road-exec-[0-9a-f]{24}$"},
+    "bundle_sha256": {"$ref": "#/$defs/sha256"},
+    "client_session": {"type": "string", "minLength": 1, "maxLength": 180},
+    "state": {"enum": ["activate", "verify", "rollback"]},
+    "source_ids": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "string"}},
+    "layer_ids": {"type": "array", "minItems": 1, "maxItems": 1, "items": {"type": "string"}},
+    "observed_feature_count": {"const": 3},
+    "runtime_version": {"type": "string", "minLength": 1, "maxLength": 80},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "status": {"enum": ["observed", "verified", "removed", "failed"]},
+    "loaded_candidate_representation": {"type": "boolean"},
+    "final_qa": {"const": false},
+    "observation_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

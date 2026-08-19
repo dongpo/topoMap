@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.road-execution-receipt/1.0",
+  "title": "NMA ROAD-04 Execution Receipt 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "receipt_id", "execution_id", "completed_at", "execution_plan", "authorization", "frozen_identities", "source", "scope", "source_geometry_sha256", "derived_portrayal", "runtime_bundle", "shield_runtime_status", "rollback_manifest_target", "governance", "receipt_sha256"],
+  "properties": {
+    "schema": {"const": "nma.road-execution-receipt/1.0"},
+    "receipt_id": {"type": "string", "pattern": "^road-receipt-road-exec-[0-9a-f]{24}$"},
+    "execution_id": {"type": "string", "pattern": "^road-exec-[0-9a-f]{24}$"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "execution_plan": {"$ref": "#/$defs/ref"},
+    "authorization": {"$ref": "#/$defs/ref"},
+    "frozen_identities": {"$ref": "https://schemas.nma.local/nma.road-execution-plan/1.0#/$defs/frozen"},
+    "source": {"type": "object", "additionalProperties": false, "required": ["archive_sha256", "layer"], "properties": {"archive_sha256": {"$ref": "#/$defs/sha256"}, "layer": {"const": "K14_ROAD"}}},
+    "scope": {"type": "object", "additionalProperties": false, "required": ["route_identity", "class_code", "ordered_segment_ids"], "properties": {"route_identity": {"const": "ROADNUM=縣126|ROADNUM1=|ROADNUM2=|ROADNAME=中山街"}, "class_code": {"const": "9420400"}, "ordered_segment_ids": {"$ref": "https://schemas.nma.local/nma.road-execution-plan/1.0#/$defs/segments"}}},
+    "source_geometry_sha256": {"type": "array", "prefixItems": [{"$ref": "#/$defs/sha256"}, {"$ref": "#/$defs/sha256"}, {"$ref": "#/$defs/sha256"}], "items": false},
+    "derived_portrayal": {"$ref": "#/$defs/ref"},
+    "runtime_bundle": {"$ref": "#/$defs/ref"},
+    "shield_runtime_status": {"const": "semantic_binding_only"},
+    "rollback_manifest_target": {"const": "rollback-manifest.json"},
+    "governance": {"type": "object", "additionalProperties": false, "required": ["data_execution_performed", "authoritative_source_mutation_performed", "topology_repair_performed", "roada_execution_performed", "road_edge_derivation_performed", "canonical_runtime_mutation_performed"], "properties": {"data_execution_performed": {"const": true}, "authoritative_source_mutation_performed": {"const": false}, "topology_repair_performed": {"const": false}, "roada_execution_performed": {"const": false}, "road_edge_derivation_performed": {"const": false}, "canonical_runtime_mutation_performed": {"const": false}}},
+    "receipt_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "ref": {"type": "object", "additionalProperties": false, "required": ["id", "sha256"], "properties": {"id": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}}}
+  }
+}

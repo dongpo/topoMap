@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.road-runtime-bundle/1.0",
+  "title": "NMA ROAD-04 Candidate Runtime Bundle 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "bundle_id", "execution_id", "derived_portrayal", "source", "layers", "shield_binding", "scope", "canonical_runtime_mutation_performed", "bundle_sha256"],
+  "properties": {
+    "schema": {"const": "nma.road-runtime-bundle/1.0"},
+    "bundle_id": {"type": "string", "pattern": "^road-bundle-road-exec-[0-9a-f]{24}$"},
+    "execution_id": {"type": "string", "pattern": "^road-exec-[0-9a-f]{24}$"},
+    "derived_portrayal": {"$ref": "#/$defs/ref"},
+    "source": {"type": "object", "additionalProperties": false, "required": ["id", "type", "data", "crs", "expected_feature_count"], "properties": {"id": {"type": "string", "pattern": "^nma-road-source-road-exec-[0-9a-f]{24}$"}, "type": {"const": "geojson"}, "data": {"type": "string", "pattern": "^/api/road/executions/road-exec-[0-9a-f]{24}/data$"}, "crs": {"const": "EPSG:4326"}, "expected_feature_count": {"const": 3}}},
+    "layers": {"type": "array", "prefixItems": [{"$ref": "#/$defs/layer"}], "items": false},
+    "shield_binding": {"type": "object", "additionalProperties": false, "required": ["shield_code", "shield_orientation", "status", "resolver_identity", "resolved_artifact_sha256"], "properties": {"shield_code": {"const": "9490005"}, "shield_orientation": {"const": "road-parallel"}, "status": {"const": "semantic_binding_only"}, "resolver_identity": {"type": "null"}, "resolved_artifact_sha256": {"type": "null"}}},
+    "scope": {"type": "object", "additionalProperties": false, "required": ["route_identity", "class_code", "ordered_segment_ids", "graphic_element_roles"], "properties": {"route_identity": {"const": "ROADNUM=縣126|ROADNUM1=|ROADNUM2=|ROADNAME=中山街"}, "class_code": {"const": "9420400"}, "ordered_segment_ids": {"$ref": "https://schemas.nma.local/nma.road-execution-plan/1.0#/$defs/segments"}, "graphic_element_roles": {"type": "array", "prefixItems": [{"const": 2}, {"const": 5}], "items": false}}},
+    "canonical_runtime_mutation_performed": {"const": false},
+    "bundle_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "ref": {"type": "object", "additionalProperties": false, "required": ["id", "sha256"], "properties": {"id": {"type": "string"}, "sha256": {"$ref": "#/$defs/sha256"}}},
+    "layer": {"type": "object", "additionalProperties": false, "required": ["id", "type", "source", "layout", "semantic_role"], "properties": {"id": {"type": "string", "pattern": "^nma-road-label-road-exec-[0-9a-f]{24}$"}, "type": {"const": "symbol"}, "source": {"type": "string", "pattern": "^nma-road-source-road-exec-[0-9a-f]{24}$"}, "layout": {"type": "object", "additionalProperties": false, "required": ["symbol-placement", "text-field"], "properties": {"symbol-placement": {"const": "line"}, "text-field": {"type": "array", "prefixItems": [{"const": "literal"}, {"const": "中山街"}], "items": false}}}, "semantic_role": {"const": "authorized-road-name-annotation"}}}
+  }
+}
