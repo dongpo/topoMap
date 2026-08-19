@@ -1,13 +1,15 @@
 from __future__ import annotations
 
 from copy import deepcopy
-import hashlib
 from itertools import combinations
 import json
 from pathlib import Path
 import re
 from typing import Any, Mapping, Sequence
 import unicodedata
+
+from nma.core import canonical_json as canonical_json
+from nma.core import canonical_sha256 as canonical_sha256
 
 
 PACKAGE_SCHEMA = "nma.road-resolution-evidence-package/1.0"
@@ -53,18 +55,6 @@ class RoadResolutionError(ValueError):
         self.code = code
 
 
-def canonical_json(value: Any) -> bytes:
-    """Serialize canonical ROAD-01 content as stable, Unicode-preserving UTF-8 JSON."""
-
-    return json.dumps(
-        value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False
-    ).encode("utf-8")
-
-
-def canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(canonical_json(value)).hexdigest()
-
-
 def _load_object(path: Path, *, label: str) -> dict[str, Any]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
@@ -88,9 +78,7 @@ def normalize_road_request(request: str) -> str:
     text = _normalized_text(request)
     profiles = {
         f"{prefix}{number}"
-        for prefix, number in re.findall(
-            r"(?<![a-z0-9])([jk])\s*(\d{2})(?![a-z0-9])", text
-        )
+        for prefix, number in re.findall(r"(?<![a-z0-9])([jk])\s*(\d{2})(?![a-z0-9])", text)
     }
     if profiles != {"k14"}:
         raise RoadResolutionError(
@@ -98,7 +86,9 @@ def normalize_road_request(request: str) -> str:
             code="unsupported_request",
         )
     if "中山街" not in text:
-        raise RoadResolutionError("The request does not identify road name 中山街.", code="unsupported_request")
+        raise RoadResolutionError(
+            "The request does not identify road name 中山街.", code="unsupported_request"
+        )
 
     route_references = re.findall(r"(?:county\s+highway|縣道|縣)\s*[-#:]?\s*(\d+)", text)
     if set(route_references) != {"126"}:
@@ -113,12 +103,20 @@ def fixture_hash_basis(fixture: Mapping[str, Any]) -> list[Any]:
     identity = fixture.get("road_identity")
     evidence = fixture.get("evidence")
     records = fixture.get("source_records")
-    if not isinstance(identity, Mapping) or not isinstance(evidence, Mapping) or not isinstance(records, list):
-        raise RoadResolutionError("The frozen fixture structure is invalid.", code="fixture_invalid")
+    if (
+        not isinstance(identity, Mapping)
+        or not isinstance(evidence, Mapping)
+        or not isinstance(records, list)
+    ):
+        raise RoadResolutionError(
+            "The frozen fixture structure is invalid.", code="fixture_invalid"
+        )
     ids = [record.get("feature_id") for record in records if isinstance(record, Mapping)]
     evidence_ids = evidence.get("evidence_ids")
     if len(ids) != len(records) or not isinstance(evidence_ids, list):
-        raise RoadResolutionError("The frozen fixture identity is incomplete.", code="fixture_invalid")
+        raise RoadResolutionError(
+            "The frozen fixture identity is incomplete.", code="fixture_invalid"
+        )
     return [
         fixture.get("archive_sha256"),
         fixture.get("profile"),
@@ -147,7 +145,9 @@ def package_sha256(package: Mapping[str, Any]) -> str:
 
 def _validate_fixture(fixture: Mapping[str, Any], observed_fixture_sha256: str) -> None:
     if fixture.get("schema") != FIXTURE_SCHEMA:
-        raise RoadResolutionError("The frozen fixture schema is unsupported.", code="fixture_invalid")
+        raise RoadResolutionError(
+            "The frozen fixture schema is unsupported.", code="fixture_invalid"
+        )
     records = fixture.get("source_records")
     evidence = fixture.get("evidence")
     exact_contract = (
@@ -170,7 +170,9 @@ def _validate_fixture(fixture: Mapping[str, Any], observed_fixture_sha256: str) 
     declared = fixture.get("fixture_sha256")
     computed = canonical_sha256(fixture_hash_basis(fixture))
     if declared != computed or observed_fixture_sha256 != computed:
-        raise RoadResolutionError("The frozen fixture SHA-256 does not match.", code="fixture_hash_mismatch")
+        raise RoadResolutionError(
+            "The frozen fixture SHA-256 does not match.", code="fixture_hash_mismatch"
+        )
 
 
 def _identity_tuple(record: Mapping[str, Any]) -> tuple[Any, ...]:
@@ -199,10 +201,14 @@ def _resolve_records(
     by_id: dict[str, Mapping[str, Any]] = {}
     for record in records:
         if not isinstance(record, Mapping) or not isinstance(record.get("feature_id"), str):
-            raise RoadResolutionError("Source ROAD records are invalid.", code="source_records_invalid")
+            raise RoadResolutionError(
+                "Source ROAD records are invalid.", code="source_records_invalid"
+            )
         feature_id = record["feature_id"]
         if feature_id in by_id:
-            raise RoadResolutionError("A source ROAD feature ID is duplicated.", code="duplicate_segment")
+            raise RoadResolutionError(
+                "A source ROAD feature ID is duplicated.", code="duplicate_segment"
+            )
         by_id[feature_id] = record
 
     missing = [feature_id for feature_id in expected_ids if feature_id not in by_id]
@@ -214,16 +220,22 @@ def _resolve_records(
     resolved = [by_id[feature_id] for feature_id in expected_ids]
     for record in resolved:
         if record.get("class_code") != identity["class_code"]:
-            raise RoadResolutionError("A frozen segment has the wrong road class.", code="class_mismatch")
+            raise RoadResolutionError(
+                "A frozen segment has the wrong road class.", code="class_mismatch"
+            )
         if _identity_tuple(record) != expected_identity:
             raise RoadResolutionError(
                 "A frozen segment has the wrong logical route identity.",
                 code="logical_identity_mismatch",
             )
         if record.get("profile") != fixture["profile"] or record.get("layer") != fixture["layer"]:
-            raise RoadResolutionError("A frozen segment has the wrong source binding.", code="source_mismatch")
+            raise RoadResolutionError(
+                "A frozen segment has the wrong source binding.", code="source_mismatch"
+            )
         if record.get("geometry_type") != fixture["geometry_type"]:
-            raise RoadResolutionError("A frozen segment is not a LineString.", code="geometry_mismatch")
+            raise RoadResolutionError(
+                "A frozen segment is not a LineString.", code="geometry_mismatch"
+            )
 
     expected_id_set = set(expected_ids)
     extra_matches = [
@@ -260,7 +272,9 @@ def _verify_topology(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
             or not all(isinstance(node, str) and node for node in nodes)
             or nodes[0] == nodes[1]
         ):
-            raise RoadResolutionError("A segment endpoint definition is invalid.", code="topology_mismatch")
+            raise RoadResolutionError(
+                "A segment endpoint definition is invalid.", code="topology_mismatch"
+            )
         edge = frozenset(nodes)
         if edge in edges_seen:
             duplicate_count += 1
@@ -321,7 +335,9 @@ def _verify_topology(records: Sequence[Mapping[str, Any]]) -> dict[str, Any]:
         "repair_required": False,
     }
     if topology != expected:
-        raise RoadResolutionError("The frozen topology does not match ROAD-00.", code="topology_mismatch")
+        raise RoadResolutionError(
+            "The frozen topology does not match ROAD-00.", code="topology_mismatch"
+        )
     return topology
 
 
@@ -337,7 +353,9 @@ def _evidence_ids(record_set: Mapping[str, Any]) -> set[str]:
 
 def _bind_evidence(record_set: Mapping[str, Any]) -> dict[str, Any]:
     if record_set.get("record_set_id") != "nma-road-compound-portrayal-reviewed-v0.4":
-        raise RoadResolutionError("The reviewed evidence record set changed.", code="evidence_mismatch")
+        raise RoadResolutionError(
+            "The reviewed evidence record set changed.", code="evidence_mismatch"
+        )
     missing = set(REQUIRED_EVIDENCE_IDS) - _evidence_ids(record_set)
     if missing:
         raise RoadResolutionError(
@@ -394,8 +412,10 @@ def resolve_road_request(
     """Resolve the bounded ROAD-01 request without executing or mutating anything."""
 
     normalized_intent = normalize_road_request(request)
-    frozen = deepcopy(dict(fixture)) if fixture is not None else _load_object(
-        DEFAULT_FIXTURE_PATH, label="fixture"
+    frozen = (
+        deepcopy(dict(fixture))
+        if fixture is not None
+        else _load_object(DEFAULT_FIXTURE_PATH, label="fixture")
     )
     fixture_hash = observed_fixture_sha256 or frozen.get("fixture_sha256")
     _validate_fixture(frozen, fixture_hash)
@@ -406,13 +426,17 @@ def resolve_road_request(
             "The source archive SHA-256 does not match ROAD-00.", code="archive_hash_mismatch"
         )
 
-    records = deepcopy(list(source_records)) if source_records is not None else deepcopy(
-        frozen["source_records"]
+    records = (
+        deepcopy(list(source_records))
+        if source_records is not None
+        else deepcopy(frozen["source_records"])
     )
     resolved = _resolve_records(records, frozen)
     continuity = _verify_topology(resolved)
-    reviewed = deepcopy(dict(evidence_record_set)) if evidence_record_set is not None else _load_object(
-        DEFAULT_EVIDENCE_PATH, label="evidence"
+    reviewed = (
+        deepcopy(dict(evidence_record_set))
+        if evidence_record_set is not None
+        else _load_object(DEFAULT_EVIDENCE_PATH, label="evidence")
     )
     evidence = _bind_evidence(reviewed)
     identity = frozen["road_identity"]

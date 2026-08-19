@@ -614,6 +614,9 @@ def test_cli_declares_no_road04_executor_dependency(tmp_path: Path) -> None:
     clean_files = [
         "scripts/verify_road_authorization_consumption.py",
         "src/nma/__init__.py",
+        "src/nma/core/__init__.py",
+        "src/nma/core/feature_profile.py",
+        "src/nma/core/identity.py",
         "src/nma/road_authorization_consumption.py",
         "src/nma/road_resolution.py",
         f"data/specifications/{AUTHORIZATION_CONSUMPTION_FIXTURE}",
@@ -622,14 +625,69 @@ def test_cli_declares_no_road04_executor_dependency(tmp_path: Path) -> None:
         destination = clean_checkout / relative
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(ROOT / relative, destination)
+    for relative in [path for path in clean_files if path.startswith("src/nma/core/")]:
+        assert (clean_checkout / relative).read_bytes() == (ROOT / relative).read_bytes()
+    road_resolution_source = (clean_checkout / "src/nma/road_resolution.py").read_text(
+        encoding="utf-8"
+    )
+    assert "from nma.core import canonical_json as canonical_json" in road_resolution_source
+    assert "from nma.core import canonical_sha256 as canonical_sha256" in road_resolution_source
+    assert "except ImportError" not in road_resolution_source
+    assert "def canonical_json" not in road_resolution_source
+    assert "def canonical_sha256" not in road_resolution_source
+    subprocess.run(
+        [
+            "python3",
+            "-B",
+            "-c",
+            "import sys; sys.path.insert(0, 'src'); import nma.road_resolution",
+        ],
+        cwd=clean_checkout,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
     clean_completed = subprocess.run(
-        ["python3", "scripts/verify_road_authorization_consumption.py"],
+        ["python3", "-B", "scripts/verify_road_authorization_consumption.py"],
         cwd=clean_checkout,
         check=True,
         capture_output=True,
         text=True,
     )
     assert json.loads(clean_completed.stdout) == reproduced
+
+    missing_core_checkout = tmp_path / "missing-core-checkout"
+    shutil.copytree(clean_checkout, missing_core_checkout)
+    shutil.rmtree(missing_core_checkout / "src/nma/core")
+    before_failed_import = {
+        path.relative_to(missing_core_checkout).as_posix(): hashlib.sha256(
+            path.read_bytes()
+        ).hexdigest()
+        for path in missing_core_checkout.rglob("*")
+        if path.is_file()
+    }
+    failed_import = subprocess.run(
+        [
+            "python3",
+            "-B",
+            "-c",
+            "import sys; sys.path.insert(0, 'src'); import nma.road_resolution",
+        ],
+        cwd=missing_core_checkout,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    after_failed_import = {
+        path.relative_to(missing_core_checkout).as_posix(): hashlib.sha256(
+            path.read_bytes()
+        ).hexdigest()
+        for path in missing_core_checkout.rglob("*")
+        if path.is_file()
+    }
+    assert failed_import.returncode != 0
+    assert "No module named 'nma.core'" in failed_import.stderr
+    assert after_failed_import == before_failed_import
 
     fixture_path = ROOT / "data/specifications" / AUTHORIZATION_CONSUMPTION_FIXTURE
     altered_fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
