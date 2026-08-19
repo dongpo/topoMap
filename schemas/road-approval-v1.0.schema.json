@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.national-map-agent.org/road-approval-v1.0.schema.json",
+  "title": "ROAD-03 Human Approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "approval_version",
+    "schema_version",
+    "human_decision",
+    "actor_type",
+    "bindings",
+    "authorization_effect",
+    "approval_sha256"
+  ],
+  "properties": {
+    "approval_version": {"const": "road-03/1.0"},
+    "schema_version": {"const": "nma.road-approval/1.0"},
+    "human_decision": {"enum": ["approved", "rejected"]},
+    "actor_type": {"const": "human"},
+    "bindings": {"$ref": "#/$defs/bindings"},
+    "authorization_effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "execution_authorization_eligible",
+        "execution_authorization_denied"
+      ],
+      "properties": {
+        "execution_authorization_eligible": {"type": "boolean"},
+        "execution_authorization_denied": {"type": "boolean"}
+      }
+    },
+    "approval_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"human_decision": {"const": "approved"}}},
+      "then": {
+        "properties": {
+          "authorization_effect": {
+            "properties": {
+              "execution_authorization_eligible": {"const": true},
+              "execution_authorization_denied": {"const": false}
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "authorization_effect": {
+            "properties": {
+              "execution_authorization_eligible": {"const": false},
+              "execution_authorization_denied": {"const": true}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "portrayal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "shield_code",
+        "shield_orientation",
+        "road_name_annotation",
+        "graphic_element_roles"
+      ],
+      "properties": {
+        "shield_code": {"const": "9490005"},
+        "shield_orientation": {"const": "road-parallel"},
+        "road_name_annotation": {"const": "中山街"},
+        "graphic_element_roles": {
+          "type": "array",
+          "prefixItems": [{"const": 2}, {"const": 5}],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_sha256",
+        "decision_sha256",
+        "road01_package_sha256",
+        "source_archive_sha256",
+        "fixture_sha256",
+        "ordered_source_ids",
+        "route_identity",
+        "class_code",
+        "evidence_ids",
+        "requested_portrayal",
+        "execution_target"
+      ],
+      "properties": {
+        "proposal_sha256": {"const": "3d45d1ed039c2af1aa7f050fa1e3c22158c891390c001285054b05a02959ce06"},
+        "decision_sha256": {"const": "0d671b1fed3f4b19e4204e745bdcb13f872f3a00dcb4ef5050a091a14065e090"},
+        "road01_package_sha256": {"const": "b5df3f57c33843f354371206c937f52d37ddbbd9d047a31ad7c334532ce30e9a"},
+        "source_archive_sha256": {"const": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53"},
+        "fixture_sha256": {"const": "b01e261971f65cbfc127aed4f1ba17b01b194dd89f256d3c024170c1dc7338f0"},
+        "ordered_source_ids": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "K0000004671"},
+            {"const": "K0000004913"},
+            {"const": "K0000005348"}
+          ],
+          "items": false,
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "route_identity": {"const": "ROADNUM=縣126|ROADNUM1=|ROADNUM2=|ROADNAME=中山街"},
+        "class_code": {"const": "9420400"},
+        "evidence_ids": {
+          "type": "array",
+          "prefixItems": [
+            {"const": "BMAP096-P5-TABLE1-GRAPHIC-ELEMENT-CODES"},
+            {"const": "DOC01-P22-P24-ROAD-BOUNDARY-LABEL"},
+            {"const": "DOC01-P34-P35-ROUTE-SHIELDS"},
+            {"const": "DOC02-P45-P46-ANNEX7-CODING-SCHEME"},
+            {"const": "DOC02-P53-P55-ROAD-CODE-BRANCH"}
+          ],
+          "items": false,
+          "minItems": 5,
+          "maxItems": 5
+        },
+        "requested_portrayal": {"$ref": "#/$defs/portrayal"},
+        "execution_target": {"const": "derived road-centreline portrayal artifact"}
+      }
+    }
+  }
+}

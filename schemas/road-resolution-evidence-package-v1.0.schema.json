@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.road-resolution-evidence-package/1.0",
+  "title": "NMA ROAD-01 Road Resolution and Evidence Package 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["package_version", "schema_version", "request", "source", "road_identity", "segment_set", "continuity", "evidence", "portrayal", "fixture", "permissions", "package_sha256"],
+  "properties": {
+    "package_version": {"const": "road-01/1.0"},
+    "schema_version": {"const": "nma.road-resolution-evidence-package/1.0"},
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw", "normalized_intent"],
+      "properties": {
+        "raw": {"type": "string", "minLength": 1},
+        "normalized_intent": {"const": "resolve-road|profile=K14|layer=K14_ROAD|class=9420400|route=縣126|name=中山街|purpose=evidence-package"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile", "layer", "archive_sha256"],
+      "properties": {
+        "profile": {"const": "K14"},
+        "layer": {"const": "K14_ROAD"},
+        "archive_sha256": {"const": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53"}
+      }
+    },
+    "road_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class_code", "class_name", "route_number", "road_name", "canonical_identity", "identity_basis"],
+      "properties": {
+        "class_code": {"const": "9420400"},
+        "class_name": {"const": "County Highway"},
+        "route_number": {"const": "縣126"},
+        "road_name": {"const": "中山街"},
+        "canonical_identity": {"const": "ROADNUM=縣126|ROADNUM1=|ROADNUM2=|ROADNAME=中山街"},
+        "identity_basis": {"const": ["ROADNUM", "ROADNUM1", "ROADNUM2", "ROADNAME"]}
+      }
+    },
+    "segment_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordered_feature_ids", "count", "geometry_type", "crs"],
+      "properties": {
+        "ordered_feature_ids": {"const": ["K0000004671", "K0000004913", "K0000005348"]},
+        "count": {"const": 3},
+        "geometry_type": {"const": "LineString"},
+        "crs": {"const": "TWD97[2020]_TM121"}
+      }
+    },
+    "continuity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["connected_components", "adjacency", "branch_count", "gap_count", "duplicate_segment_count", "positive_length_overlap_count", "self_intersection_count", "repair_required"],
+      "properties": {
+        "connected_components": {"const": 1},
+        "adjacency": {"const": [["K0000004671", "K0000004913"], ["K0000004913", "K0000005348"]]},
+        "branch_count": {"const": 0},
+        "gap_count": {"const": 0},
+        "duplicate_segment_count": {"const": 0},
+        "positive_length_overlap_count": {"const": 0},
+        "self_intersection_count": {"const": 0},
+        "repair_required": {"const": false}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["record_set", "evidence_ids"],
+      "properties": {
+        "record_set": {"const": "nma-road-compound-portrayal-reviewed-v0.4"},
+        "evidence_ids": {"const": ["BMAP096-P5-TABLE1-GRAPHIC-ELEMENT-CODES", "DOC01-P22-P24-ROAD-BOUNDARY-LABEL", "DOC01-P34-P35-ROUTE-SHIELDS", "DOC02-P45-P46-ANNEX7-CODING-SCHEME", "DOC02-P53-P55-ROAD-CODE-BRANCH"]}
+      }
+    },
+    "portrayal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["road_class", "road_name", "route_number", "shield_code", "shield_orientation", "graphic_element_roles"],
+      "properties": {
+        "road_class": {"const": "9420400"},
+        "road_name": {"const": "中山街"},
+        "route_number": {"const": "縣126"},
+        "shield_code": {"const": "9490005"},
+        "shield_orientation": {"const": "road-parallel"},
+        "graphic_element_roles": {"const": [2, 5]}
+      }
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256"],
+      "properties": {"sha256": {"const": "b01e261971f65cbfc127aed4f1ba17b01b194dd89f256d3c024170c1dc7338f0"}}
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_mutation_allowed", "execution_allowed", "topology_repair_allowed", "roada_execution_allowed", "road_edge_derivation_allowed"],
+      "properties": {
+        "source_mutation_allowed": {"const": false},
+        "execution_allowed": {"const": false},
+        "topology_repair_allowed": {"const": false},
+        "roada_execution_allowed": {"const": false},
+        "road_edge_derivation_allowed": {"const": false}
+      }
+    },
+    "package_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}
