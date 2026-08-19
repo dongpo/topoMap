@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/nma/intent-planning-v1.0.schema.json",
+  "title": "NMA closed proposal-only intent/planning contract",
+  "type": "object",
+  "required": [
+    "schema",
+    "boundary",
+    "route_kind",
+    "disposition",
+    "feature_code",
+    "display_intent",
+    "evidence_intent",
+    "reason_code"
+  ],
+  "properties": {
+    "schema": {"const": "nma.intent-planning/1.0"},
+    "boundary": {"enum": ["canonical-production", "retained-demo"]},
+    "route_kind": {
+      "enum": ["present_evidence", "propose_portrayal_preview", "abstain"]
+    },
+    "disposition": {"enum": ["proposal", "abstention"]},
+    "feature_code": {"type": ["string", "null"], "pattern": "^[0-9]{7}$"},
+    "display_intent": {"enum": ["evidence_panel", "portrayal_preview", "none"]},
+    "evidence_intent": {"enum": ["required", "none"]},
+    "reason_code": {
+      "enum": [
+        "supported_evidence_request",
+        "supported_portrayal_request",
+        "unsupported_request",
+        "ambiguous_request",
+        "missing_feature_context",
+        "downstream_state_transition"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "properties": {
+        "route_kind": {"const": "present_evidence"},
+        "disposition": {"const": "proposal"},
+        "feature_code": {"type": "string", "pattern": "^[0-9]{7}$"},
+        "display_intent": {"const": "evidence_panel"},
+        "evidence_intent": {"const": "required"}
+      }
+    },
+    {
+      "properties": {
+        "route_kind": {"const": "propose_portrayal_preview"},
+        "disposition": {"const": "proposal"},
+        "feature_code": {"type": "string", "pattern": "^[0-9]{7}$"},
+        "display_intent": {"const": "portrayal_preview"},
+        "evidence_intent": {"const": "required"}
+      }
+    },
+    {
+      "properties": {
+        "route_kind": {"const": "abstain"},
+        "disposition": {"const": "abstention"},
+        "feature_code": {"type": "null"},
+        "display_intent": {"const": "none"},
+        "evidence_intent": {"const": "none"}
+      }
+    }
+  ]
+}
