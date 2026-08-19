@@ -47,6 +47,50 @@ example, the frozen ROAD-02 proposal binds the decision hash.
 `nma.road-visual-evidence/1.0` is a separate observation contract. A screenshot hash establishes
 which pixels were inspected, but does not become a self-approved golden.
 
+## Authorization-consumption reproducibility
+
+ROAD-05A makes the historical authorization consumption independently reproducible from tracked
+state. The canonical fixture is
+`data/specifications/nma-road-hero-road-04-authorization-consumption-fixture-v1.0.json`; it is
+closed by `schemas/road-authorization-consumption-fixture-v1.0.schema.json` and consumed by the
+independent verifier. The fixture contains exactly these generation inputs:
+
+- authorization ID and SHA-256;
+- execution ID;
+- the one-time, non-secret idempotency key `road04-controlled-execution-v1`;
+- receipt ID and SHA-256.
+
+Only the exact idempotency-key string contributes to `idempotency_key_sha256`. It is serialized as
+its exact UTF-8 bytes, with no Unicode normalization, prefix, suffix, or line terminator, and is
+hashed with SHA-256. This produces
+`d4645499a8a897194ed49d7cd19edb6acd96bda5db0611fd82a701a875f343cb`. The prior fresh
+reconstruction used the test-only string `road04-session-key`, which produced
+`58f2ce5004d848a077f23c4a9af36d81901d753931dd1d6fddbb6f660f7aa8ae`.
+
+The consumption record is built only from the six fixture inputs plus the fixed
+`nma.road-authorization-consumption/1.0` schema identifier. Persisted bytes are UTF-8 JSON with
+keys sorted lexicographically, `,` and `:` separators, non-ASCII characters emitted directly, and
+one trailing LF. Their SHA-256 is
+`fb21f714f925922938198ac9299a42ea87aaab89b2860d5518a49f5467571330`. No timestamp,
+path, environment variable, random value, runtime ledger, ignored file, or prior execution state is
+an input.
+
+The fixture schema and hashing contract are versioned `1.0`. Any change to input fields,
+serialization, or hashing requires a new major contract version; compatible explanatory additions
+require a minor version. Existing versions remain immutable. `fixture_sha256` is SHA-256 over the
+fixture object serialized with the repository canonical JSON function after removing only the
+`fixture_sha256` self-hash field; unlike the persisted consumption file, this hash input has no
+trailing LF.
+
+Reproduce the identities from a clean checkout with no ROAD runtime artifacts:
+
+```sh
+python3 scripts/verify_road_authorization_consumption.py
+```
+
+Exit status is `0` only when the fixture self-hash, idempotency identity, reconstructed record, and
+canonical consumption-file identity all agree.
+
 ## Visual boundary
 
 The ROAD-04 bundle contains one symbol layer with `symbol-placement: line` and literal `中山街`.

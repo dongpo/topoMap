@@ -13,6 +13,7 @@ from typing import Any, Mapping, Sequence
 from nma.ogr import inspect_dataset, read_vector_dataset
 from nma.real_layer import extract_reviewed_source_layers, file_sha256
 from nma.road_approval import approval_sha256, authorization_sha256, validate_authorization
+from nma.road_authorization_consumption import load_authorization_consumption_fixture
 from nma.road_portrayal_decision import (
     decision_sha256,
     proposal_sha256,
@@ -91,6 +92,9 @@ GOLDENS = {
     "rollback": "nma-road-hero-road-04-golden-rollback-manifest-v1.0.json",
     "observation": "nma-road-hero-road-04-golden-observation-v1.0.json",
 }
+AUTHORIZATION_CONSUMPTION_FIXTURE = (
+    "nma-road-hero-road-04-authorization-consumption-fixture-v1.0.json"
+)
 
 
 class RoadVerificationError(ValueError):
@@ -890,23 +894,31 @@ class RoadExecutionVerifier:
             },
         )
 
-        expected_consumption = {
-            "schema": "nma.road-authorization-consumption/1.0",
-            "authorization_id": AUTHORIZATION_ID,
-            "authorization_sha256": AUTHORIZATION_SHA256,
-            "execution_id": EXECUTION_ID,
-            "idempotency_key_sha256": "d4645499a8a897194ed49d7cd19edb6acd96bda5db0611fd82a701a875f343cb",
-            "receipt_id": RECEIPT_ID,
-            "receipt_sha256": RECEIPT_SHA256,
-        }
+        consumption_fixture_path = (
+            self.repository_root / "data/specifications" / AUTHORIZATION_CONSUMPTION_FIXTURE
+        )
+        try:
+            _, expected_consumption = load_authorization_consumption_fixture(
+                consumption_fixture_path
+            )
+            consumption_fixture_error = None
+        except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
+            expected_consumption = {}
+            consumption_fixture_error = {
+                "error": type(error).__name__,
+                "message": str(error),
+            }
         ledger_path = self.storage_root / "ledger" / f"{AUTHORIZATION_SHA256}.json"
         ledger = _safe_json(ledger_path, provenance_checks, "read_authorization_ledger")
+        consumption_observed = {"execution": actual["consumption"], "ledger": ledger}
+        if consumption_fixture_error is not None:
+            consumption_observed["fixture_error"] = consumption_fixture_error
         _check(
             provenance_checks,
             "authorization_consumption_binding",
             actual["consumption"] == expected_consumption == ledger,
             expected=expected_consumption,
-            observed={"execution": actual["consumption"], "ledger": ledger},
+            observed=consumption_observed,
         )
 
         actual_files = sorted(

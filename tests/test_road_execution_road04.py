@@ -15,6 +15,7 @@ from referencing import Registry, Resource
 
 from nma.real_layer import file_sha256
 from nma.road_approval import authorization_sha256
+from nma.road_authorization_consumption import load_authorization_consumption_fixture
 from nma.road_execution import (
     AUTHORIZATION_ID,
     EXPECTED_ARCHIVE_SHA256,
@@ -34,6 +35,9 @@ from nma.road_portrayal_decision import decision_sha256, proposal_sha256
 ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE = ROOT / "data/datasets/112年多維度SHP成果_0502.zip"
 SERVER_PATH = ROOT / "scripts/run_nma_agent_server.py"
+CONSUMPTION_FIXTURE = (
+    ROOT / "data/specifications/nma-road-hero-road-04-authorization-consumption-fixture-v1.0.json"
+)
 GOLDEN_NAMES = {
     "plan": "nma-road-hero-road-04-golden-plan-v1.0.json",
     "derived": "nma-road-hero-road-04-golden-derived-portrayal-v1.0.json",
@@ -58,6 +62,10 @@ def _authorization() -> dict[str, Any]:
     )
 
 
+def _canonical_consumption() -> tuple[dict[str, Any], dict[str, Any]]:
+    return load_authorization_consumption_fixture(CONSUMPTION_FIXTURE)
+
+
 def _now(day: int = 19):
     return lambda: datetime(2026, 8, day, 12, 0, tzinfo=timezone.utc)
 
@@ -76,7 +84,8 @@ def _engine(storage_root: Path, *, root: Path = ROOT, archive: Path = ARCHIVE, d
 def executed(tmp_path_factory):
     storage = tmp_path_factory.mktemp("road04-executed")
     engine = _engine(storage)
-    receipt = engine.execute(_authorization(), "road04-session-key")
+    fixture, _ = _canonical_consumption()
+    receipt = engine.execute(_authorization(), fixture["inputs"]["idempotency_key"])
     execution_id = receipt["execution_id"]
     bundle = engine.get_bundle(execution_id)
     observation = engine.observe(
@@ -417,7 +426,8 @@ def test_at52_process_safe_lock_allows_at_most_one_promotion(tmp_path: Path) -> 
 
 def test_at53_replay_returns_same_receipt_and_new_key_is_rejected(executed) -> None:
     engine, storage, receipt, _ = executed
-    replay = engine.execute(_authorization(), "road04-session-key")
+    fixture, _ = _canonical_consumption()
+    replay = engine.execute(_authorization(), fixture["inputs"]["idempotency_key"])
     assert replay == receipt
     assert len(list((storage / "executions").iterdir())) == 1
     with pytest.raises(RoadExecutionError) as caught:
@@ -546,6 +556,13 @@ def test_at66_goldens_validate_and_match_real_execution(executed) -> None:
     _, storage, receipt, observation = executed
     actual = _execution_artifacts(storage, receipt["execution_id"])
     actual["observation"] = observation
+    _, expected_consumption = _canonical_consumption()
+    execution_root = storage / "executions" / receipt["execution_id"]
+    assert json.loads((execution_root / "consumption.json").read_text()) == expected_consumption
+    assert (
+        json.loads((storage / "ledger" / f"{EXPECTED_AUTHORIZATION_SHA256}.json").read_text())
+        == expected_consumption
+    )
     schemas, registry = _schema_registry()
     schema_names = {
         "plan": "road-execution-plan-v1.0.schema.json",

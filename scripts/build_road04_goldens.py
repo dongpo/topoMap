@@ -5,17 +5,22 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from nma.road_authorization_consumption import load_authorization_consumption_fixture
 from nma.road_execution import FrozenRoadInputs, RoadExecutionEngine, _write_json
 
 
 ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE = ROOT / "data/datasets/112年多維度SHP成果_0502.zip"
 SPECIFICATIONS = ROOT / "data/specifications"
+CONSUMPTION_FIXTURE = (
+    SPECIFICATIONS / "nma-road-hero-road-04-authorization-consumption-fixture-v1.0.json"
+)
 
 
 def main() -> None:
     inputs = FrozenRoadInputs(ROOT)
     authorization = json.loads(inputs.authorization.read_text(encoding="utf-8"))
+    fixture, expected_consumption = load_authorization_consumption_fixture(CONSUMPTION_FIXTURE)
     with TemporaryDirectory(prefix="nma-road04-goldens-") as temporary:
         storage = Path(temporary)
         engine = RoadExecutionEngine(
@@ -24,9 +29,14 @@ def main() -> None:
             frozen_inputs=inputs,
             now=lambda: datetime(2026, 8, 19, 12, 0, tzinfo=timezone.utc),
         )
-        receipt = engine.execute(authorization, "road04-golden-key")
+        receipt = engine.execute(authorization, fixture["inputs"]["idempotency_key"])
         execution_id = receipt["execution_id"]
         execution = storage / "executions" / execution_id
+        actual_consumption = json.loads(
+            (execution / "consumption.json").read_text(encoding="utf-8")
+        )
+        if actual_consumption != expected_consumption:
+            raise RuntimeError("Generated authorization consumption differs from the fixture.")
         bundle = engine.get_bundle(execution_id)
         observation = engine.observe(
             execution_id,

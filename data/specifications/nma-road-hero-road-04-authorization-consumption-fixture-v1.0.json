@@ -1,0 +1,25 @@
+{
+  "schema": "nma.road-authorization-consumption-fixture/1.0",
+  "contract_version": "road-05a-authorization-consumption/1.0",
+  "consumption_schema": "nma.road-authorization-consumption/1.0",
+  "inputs": {
+    "authorization_id": "road-03-authorization-f68220ecef989e589dd6e28c",
+    "authorization_sha256": "f68220ecef989e589dd6e28c1ad2356a199790f061ea30cc725e42a5bdf92c38",
+    "execution_id": "road-exec-33766f336d9cc18eb2ac159e",
+    "idempotency_key": "road04-controlled-execution-v1",
+    "receipt_id": "road-receipt-road-exec-33766f336d9cc18eb2ac159e",
+    "receipt_sha256": "0ab5964fcc2e1f47d43fd328dbc3771a7e624bf4a3707f91236a1485f5610720"
+  },
+  "canonical_serialization": {
+    "idempotency_key": "exact UTF-8 bytes; no Unicode normalization or line terminator",
+    "consumption_record": "UTF-8 JSON; keys sorted lexicographically; separators ',' and ':'; ensure_ascii=false; one trailing LF"
+  },
+  "hashing": {
+    "algorithm": "SHA-256",
+    "idempotency_input": "inputs.idempotency_key exact UTF-8 bytes",
+    "consumption_input": "canonical persisted consumption_record bytes"
+  },
+  "expected_idempotency_key_sha256": "d4645499a8a897194ed49d7cd19edb6acd96bda5db0611fd82a701a875f343cb",
+  "expected_consumption_file_sha256": "fb21f714f925922938198ac9299a42ea87aaab89b2860d5518a49f5467571330",
+  "fixture_sha256": "32b7e5bb49f9af0aa6d77c43b30a933772d77eb8ac5ae6e83b2d30137522c7f4"
+}

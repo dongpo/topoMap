@@ -13,10 +13,13 @@ from referencing import Registry, Resource
 import pytest
 
 from nma.road_approval import approval_sha256, authorization_sha256
+from nma.road_authorization_consumption import load_authorization_consumption_fixture
 from nma.road_portrayal_decision import decision_sha256, proposal_sha256
 from nma.road_resolution import canonical_json, canonical_sha256
 from nma.road_verification import (
     ARCHIVE_SHA256,
+    AUTHORIZATION_CONSUMPTION_FIXTURE,
+    AUTHORIZATION_SHA256,
     BUNDLE_SHA256,
     CORE_ARTIFACTS,
     EXECUTION_ID,
@@ -178,6 +181,18 @@ def test_road05_outputs_validate_against_closed_schemas(tmp_path: Path) -> None:
     assert verifier.visual_evidence_path is not None
     Draft202012Validator(visual_schema, registry=registry).validate(
         json.loads(verifier.visual_evidence_path.read_text(encoding="utf-8"))
+    )
+    consumption_fixture_schema = schemas["road-authorization-consumption-fixture-v1.0.schema.json"]
+    consumption_fixture, consumption = load_authorization_consumption_fixture(
+        ROOT / "data/specifications" / AUTHORIZATION_CONSUMPTION_FIXTURE
+    )
+    Draft202012Validator.check_schema(consumption_fixture_schema)
+    Draft202012Validator(consumption_fixture_schema, registry=registry).validate(
+        consumption_fixture
+    )
+    assert (
+        consumption["idempotency_key_sha256"]
+        == "d4645499a8a897194ed49d7cd19edb6acd96bda5db0611fd82a701a875f343cb"
     )
 
 
@@ -490,6 +505,7 @@ def test_altered_qa_parent_reference_fails_record_validation(tmp_path: Path) -> 
 
 def test_two_root_canonical_determinism(tmp_path: Path) -> None:
     results = []
+    consumption_identities = []
     roots = [tmp_path / "first-checkout", tmp_path / "nested/second-checkout"]
     for repository in roots:
         shutil.copytree(ROOT / "data/specifications", repository / "data/specifications")
@@ -499,6 +515,20 @@ def test_two_root_canonical_determinism(tmp_path: Path) -> None:
         shutil.copy2(ARCHIVE, archive)
         storage = repository / "artifacts/runtime/road"
         shutil.copytree(STORAGE, storage)
+        _, consumption = load_authorization_consumption_fixture(
+            repository / "data/specifications" / AUTHORIZATION_CONSUMPTION_FIXTURE
+        )
+        consumption_path = storage / "executions" / EXECUTION_ID / "consumption.json"
+        ledger_path = storage / "ledger" / f"{AUTHORIZATION_SHA256}.json"
+        _write_json(consumption_path, consumption)
+        _write_json(ledger_path, consumption)
+        consumption_identities.append(
+            (
+                consumption["idempotency_key_sha256"],
+                hashlib.sha256(consumption_path.read_bytes()).hexdigest(),
+                hashlib.sha256(ledger_path.read_bytes()).hexdigest(),
+            )
+        )
         (repository / ".gitignore").write_text(
             "data/datasets/112年多維度SHP成果_0502.zip\nartifacts/runtime/road/\n",
             encoding="utf-8",
@@ -523,6 +553,17 @@ def test_two_root_canonical_determinism(tmp_path: Path) -> None:
     assert first["qa"]["qa_sha256"] == second["qa"]["qa_sha256"]
     assert first["provenance"]["provenance_sha256"] == second["provenance"]["provenance_sha256"]
     assert roots[0] != roots[1]
+    assert (
+        consumption_identities
+        == [
+            (
+                "d4645499a8a897194ed49d7cd19edb6acd96bda5db0611fd82a701a875f343cb",
+                "fb21f714f925922938198ac9299a42ea87aaab89b2860d5518a49f5467571330",
+                "fb21f714f925922938198ac9299a42ea87aaab89b2860d5518a49f5467571330",
+            )
+        ]
+        * 2
+    )
 
 
 def test_authoritative_identities_and_mutation_boundary(tmp_path: Path) -> None:
@@ -541,7 +582,7 @@ def test_authoritative_identities_and_mutation_boundary(tmp_path: Path) -> None:
     assert set(CORE_ARTIFACTS).issubset(actual)
 
 
-def test_cli_declares_no_road04_executor_dependency() -> None:
+def test_cli_declares_no_road04_executor_dependency(tmp_path: Path) -> None:
     source = (ROOT / "src/nma/road_verification.py").read_text(encoding="utf-8")
     assert "from nma.road_execution" not in source
     assert "RoadExecutionEngine" not in source
@@ -552,3 +593,60 @@ def test_cli_declares_no_road04_executor_dependency() -> None:
         capture_output=True,
         text=True,
     )
+    completed = subprocess.run(
+        ["python3", "scripts/verify_road_authorization_consumption.py"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    reproduced = json.loads(completed.stdout)
+    assert reproduced["status"] == "verified"
+    assert (
+        reproduced["idempotency_key_sha256"]
+        == "d4645499a8a897194ed49d7cd19edb6acd96bda5db0611fd82a701a875f343cb"
+    )
+    assert (
+        reproduced["consumption_file_sha256"]
+        == "fb21f714f925922938198ac9299a42ea87aaab89b2860d5518a49f5467571330"
+    )
+    clean_checkout = tmp_path / "clean-checkout"
+    clean_files = [
+        "scripts/verify_road_authorization_consumption.py",
+        "src/nma/__init__.py",
+        "src/nma/road_authorization_consumption.py",
+        "src/nma/road_resolution.py",
+        f"data/specifications/{AUTHORIZATION_CONSUMPTION_FIXTURE}",
+    ]
+    for relative in clean_files:
+        destination = clean_checkout / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / relative, destination)
+    clean_completed = subprocess.run(
+        ["python3", "scripts/verify_road_authorization_consumption.py"],
+        cwd=clean_checkout,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    assert json.loads(clean_completed.stdout) == reproduced
+
+    fixture_path = ROOT / "data/specifications" / AUTHORIZATION_CONSUMPTION_FIXTURE
+    altered_fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+    altered_fixture["inputs"]["idempotency_key"] = "road04-session-key"
+    altered_path = tmp_path / "altered-consumption-fixture.json"
+    _write_json(altered_path, altered_fixture)
+    failed = subprocess.run(
+        [
+            "python3",
+            "scripts/verify_road_authorization_consumption.py",
+            "--fixture",
+            str(altered_path),
+        ],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert failed.returncode == 1
+    assert json.loads(failed.stdout)["status"] == "failed"
