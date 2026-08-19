@@ -12,6 +12,7 @@ import shutil
 from threading import Lock
 from typing import Any, Callable
 
+from nma.core import canonical_json, canonical_sha256
 from nma.real_layer import (
     REAL_LAYER_PLAN_SCHEMA,
     REAL_LAYER_PROFILES,
@@ -51,16 +52,6 @@ class SchoolHeroExecutionError(ValueError):
         self.status = status
 
 
-def canonical_json(value: Any) -> bytes:
-    return json.dumps(
-        value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False
-    ).encode("utf-8")
-
-
-def canonical_sha256(value: Any) -> str:
-    return hashlib.sha256(canonical_json(value)).hexdigest()
-
-
 def authorization_sha256(authorization: dict[str, Any]) -> str:
     basis = deepcopy(authorization)
     basis.pop("authorization_hash", None)
@@ -89,7 +80,9 @@ def _identity(value: Any, label: str) -> dict[str, str]:
     if not isinstance(value, dict) or set(value) != {"code", "geometry_role"}:
         raise SchoolHeroExecutionError(f"The authorization {label} is invalid.")
     if value["code"] != SCHOOL_FEATURE_CODE or value["geometry_role"] != SCHOOL_GEOMETRY:
-        raise SchoolHeroExecutionError("The authorization feature identity is outside HERO-04 scope.")
+        raise SchoolHeroExecutionError(
+            "The authorization feature identity is outside HERO-04 scope."
+        )
     return {"code": value["code"], "geometry_role": value["geometry_role"]}
 
 
@@ -125,7 +118,11 @@ def _approved_operations(value: Any) -> list[dict[str, Any]]:
             if not isinstance(detail, dict) or set(detail) != {"number"}:
                 raise SchoolHeroExecutionError("The approved numeric value is invalid.")
             number = detail["number"]
-            if isinstance(number, bool) or not isinstance(number, (int, float)) or not math.isfinite(number):
+            if (
+                isinstance(number, bool)
+                or not isinstance(number, (int, float))
+                or not math.isfinite(number)
+            ):
                 raise SchoolHeroExecutionError("The approved numeric value is invalid.")
             bounds = {
                 "set_opacity": (0.1, 1.0),
@@ -203,8 +200,13 @@ class ExecutionAuthorizationVerifier:
         baseline = _baseline(authorization["baseline_identity"], "baseline_identity")
         operations = _approved_operations(authorization["approved_operations"])
         if payload.get("proposal_id") != proposal_id or payload.get("revision") != revision:
-            raise SchoolHeroExecutionError("The proposal identity does not match the authorization.")
-        if payload.get("feature_identity") != feature or payload.get("baseline_identity") != baseline:
+            raise SchoolHeroExecutionError(
+                "The proposal identity does not match the authorization."
+            )
+        if (
+            payload.get("feature_identity") != feature
+            or payload.get("baseline_identity") != baseline
+        ):
             raise SchoolHeroExecutionError("The proposal feature or baseline identity changed.")
         if payload.get("operations") != operations:
             raise SchoolHeroExecutionError("The approved operations do not match the proposal.")
@@ -227,7 +229,9 @@ class ExecutionAuthorizationVerifier:
         if approval.get("actor_type") != "human":
             raise SchoolHeroExecutionError("The approval actor must be human.")
         if any(approval.get(key) != value for key, value in identity.items()):
-            raise SchoolHeroExecutionError("The human approval identity does not match the proposal.")
+            raise SchoolHeroExecutionError(
+                "The human approval identity does not match the proposal."
+            )
         if approval.get("approved_operations_sha256") != canonical_sha256(operations):
             raise SchoolHeroExecutionError("The approved operation hash does not match.")
 
@@ -236,7 +240,9 @@ class ExecutionAuthorizationVerifier:
             raise SchoolHeroExecutionError("The approved source archive hash is invalid.")
         portrayal = authorization["portrayal_reference"]
         if not isinstance(portrayal, dict) or portrayal.get("asset_path") != SAFE_SYMBOL_PATH:
-            raise SchoolHeroExecutionError("The portrayal reference is outside the reviewed baseline.")
+            raise SchoolHeroExecutionError(
+                "The portrayal reference is outside the reviewed baseline."
+            )
         if portrayal.get("baseline_identity") != baseline:
             raise SchoolHeroExecutionError("The portrayal baseline identity changed.")
         if portrayal.get("approved_operations_sha256") != canonical_sha256(operations):
@@ -252,7 +258,10 @@ class ExecutionAuthorizationVerifier:
         now = self._now().astimezone(timezone.utc)
         if _parse_timestamp(authorization["expires_at"], "expires_at") <= now:
             raise SchoolHeroExecutionError("The authorization expired.")
-        if "issued_at" in authorization and _parse_timestamp(authorization["issued_at"], "issued_at") > now:
+        if (
+            "issued_at" in authorization
+            and _parse_timestamp(authorization["issued_at"], "issued_at") > now
+        ):
             raise SchoolHeroExecutionError("The authorization issue time is in the future.")
 
         checked = deepcopy(authorization)
@@ -375,14 +384,22 @@ def _validate_school_geojson(path: Path) -> dict[str, Any]:
         if not isinstance(geometry, dict) or geometry.get("type") != "Point":
             raise SchoolHeroExecutionError("The materialized output must contain Point geometry.")
         if not _coordinate_is_xy(geometry.get("coordinates")):
-            raise SchoolHeroExecutionError("The materialized output must contain finite XY coordinates.")
+            raise SchoolHeroExecutionError(
+                "The materialized output must contain finite XY coordinates."
+            )
         properties = feature.get("properties")
-        if not isinstance(properties, dict) or str(properties.get("TERRAINID")) != SCHOOL_FEATURE_CODE:
+        if (
+            not isinstance(properties, dict)
+            or str(properties.get("TERRAINID")) != SCHOOL_FEATURE_CODE
+        ):
             raise SchoolHeroExecutionError("A feature escaped the authorized TERRAINID filter.")
     provenance = collection.get("nma:provenance")
     if not isinstance(provenance, dict) or provenance.get("output_crs") != "EPSG:4326":
         raise SchoolHeroExecutionError("The materialized output CRS is not EPSG:4326.")
-    if provenance.get("synthetic") is not False or provenance.get("random_coordinates") is not False:
+    if (
+        provenance.get("synthetic") is not False
+        or provenance.get("random_coordinates") is not False
+    ):
         raise SchoolHeroExecutionError("Synthetic or random geometry is forbidden.")
     return collection
 
@@ -466,7 +483,9 @@ class SchoolHeroExecutionEngine:
         try:
             value = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError) as error:
-            raise SchoolHeroExecutionError("The execution idempotency index is unreadable.") from error
+            raise SchoolHeroExecutionError(
+                "The execution idempotency index is unreadable."
+            ) from error
         if value.get("schema") != "nma.school-hero-idempotency-index/1.0" or not isinstance(
             value.get("entries"), list
         ):
@@ -503,7 +522,9 @@ class SchoolHeroExecutionEngine:
         with self._lock:
             index = self._load_index()
             prior = [
-                item for item in index["entries"] if item.get("authorization_id") == authorization_id
+                item
+                for item in index["entries"]
+                if item.get("authorization_id") == authorization_id
             ]
             for item in prior:
                 if (
@@ -517,13 +538,16 @@ class SchoolHeroExecutionEngine:
                     code="authorization_already_executed",
                     status=409,
                 )
-            execution_id = "exec-" + canonical_sha256(
-                {
-                    "authorization_id": authorization_id,
-                    "authorization_hash": checked["authorization_hash"],
-                    "idempotency_key_sha256": key_hash,
-                }
-            )[:24]
+            execution_id = (
+                "exec-"
+                + canonical_sha256(
+                    {
+                        "authorization_id": authorization_id,
+                        "authorization_hash": checked["authorization_hash"],
+                        "idempotency_key_sha256": key_hash,
+                    }
+                )[:24]
+            )
             receipt = self._execute_atomic(checked, execution_id)
             index["entries"].append(
                 {
@@ -794,7 +818,9 @@ class SchoolHeroExecutionEngine:
         expected_sources = [bundle["source"]["id"]]
         expected_layers = [bundle["layer"]["id"]]
         if payload["source_ids"] != expected_sources or payload["layer_ids"] != expected_layers:
-            raise SchoolHeroExecutionError("The observed runtime identifiers do not match the bundle.")
+            raise SchoolHeroExecutionError(
+                "The observed runtime identifiers do not match the bundle."
+            )
         if payload["observed_feature_count"] != bundle["expected_feature_count"]:
             raise SchoolHeroExecutionError("The observed feature count does not match the bundle.")
         if not isinstance(payload["runtime_version"], str) or not payload["runtime_version"]:
@@ -803,9 +829,8 @@ class SchoolHeroExecutionEngine:
             raise SchoolHeroExecutionError("The runtime observation status is invalid.")
         base = {
             "schema": RUNTIME_OBSERVATION_SCHEMA,
-            "observation_id": "observation-" + canonical_sha256(
-                {"execution_id": execution_id, "payload": payload}
-            )[:24],
+            "observation_id": "observation-"
+            + canonical_sha256({"execution_id": execution_id, "payload": payload})[:24],
             "execution_id": execution_id,
             "bundle_hash": bundle["bundle_sha256"],
             "client_session": payload["client_session"],
@@ -819,8 +844,10 @@ class SchoolHeroExecutionEngine:
             "final_qa": False,
         }
         observation = _hash_record(base, "observation_sha256")
-        path = self._execution_path(execution_id) / "observations" / (
-            observation["observation_id"] + ".json"
+        path = (
+            self._execution_path(execution_id)
+            / "observations"
+            / (observation["observation_id"] + ".json")
         )
         _write_json(path, observation)
         return observation

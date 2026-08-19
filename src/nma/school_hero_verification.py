@@ -6,6 +6,7 @@ from pathlib import Path
 import tempfile
 from typing import Any
 
+from nma.core import canonical_json, canonical_sha256
 from nma.real_layer import execute_real_layer, file_sha256
 from nma.school_hero_execution import (
     ExecutionAuthorizationStore,
@@ -13,8 +14,6 @@ from nma.school_hero_execution import (
     _materialize_asset,
     _real_layer_plan,
     authorization_sha256,
-    canonical_json,
-    canonical_sha256,
 )
 
 
@@ -124,8 +123,7 @@ def _lineage_checks(
         isinstance(lineage, dict)
         and lineage.get("schema") == LINEAGE_SCHEMA
         and isinstance(records, list)
-        and [item.get("kind") for item in records if isinstance(item, dict)]
-        == list(LINEAGE_KINDS)
+        and [item.get("kind") for item in records if isinstance(item, dict)] == list(LINEAGE_KINDS)
         and len(records) == len(LINEAGE_KINDS)
     )
     _check(
@@ -288,9 +286,7 @@ class SchoolHeroVerifier:
             raise SchoolHeroVerificationError(f"Execution not found: {execution_id}")
         return root
 
-    def _runtime_identity(
-        self, checks: list[dict[str, Any]]
-    ) -> dict[str, Any]:
+    def _runtime_identity(self, checks: list[dict[str, Any]]) -> dict[str, Any]:
         baseline_path = self.repository_root / "data/runtime/nma-runtime-baseline-v0.32.json"
         baseline = _load_json(baseline_path)
         graph_entry = baseline.get("canonical_graph", {})
@@ -385,8 +381,7 @@ class SchoolHeroVerifier:
         _check(
             qa_checks,
             "receipt_hash",
-            receipt.get("receipt_sha256")
-            == canonical_sha256(_without(receipt, "receipt_sha256")),
+            receipt.get("receipt_sha256") == canonical_sha256(_without(receipt, "receipt_sha256")),
             expected=canonical_sha256(_without(receipt, "receipt_sha256")),
             observed=receipt.get("receipt_sha256"),
         )
@@ -413,10 +408,9 @@ class SchoolHeroVerifier:
                 "sha256": baseline_actual,
             },
         }
-        input_matches = (
-            source_actual == authorization.get("source_archive_sha256")
-            and baseline_actual == authorization.get("baseline_identity", {}).get("sha256")
-        )
+        input_matches = source_actual == authorization.get(
+            "source_archive_sha256"
+        ) and baseline_actual == authorization.get("baseline_identity", {}).get("sha256")
         _check(
             qa_checks,
             "input_artifact_identity",
@@ -588,11 +582,11 @@ class SchoolHeroVerifier:
         )
 
         actual_files = sorted(
-            path.relative_to(root).as_posix()
-            for path in root.rglob("*")
-            if path.is_file()
+            path.relative_to(root).as_posix() for path in root.rglob("*") if path.is_file()
         )
-        unexpected_files = [relative for relative in actual_files if not _allowed_artifact(relative)]
+        unexpected_files = [
+            relative for relative in actual_files if not _allowed_artifact(relative)
+        ]
         _check(
             qa_checks,
             "unexpected_modifications",
@@ -601,9 +595,7 @@ class SchoolHeroVerifier:
             observed=unexpected_files,
         )
 
-        core_hashes = {
-            relative: file_sha256(root / relative) for relative in CORE_ARTIFACTS
-        }
+        core_hashes = {relative: file_sha256(root / relative) for relative in CORE_ARTIFACTS}
         output_identity = {
             "artifact_set_sha256": canonical_sha256(core_hashes),
             "artifacts": core_hashes,
@@ -649,9 +641,10 @@ class SchoolHeroVerifier:
             classification = "expected-change-verified"
         qa_base = {
             "schema": QA_SCHEMA,
-            "qa_id": "qa-" + canonical_sha256(
-                {"execution_id": execution_id, "artifact_set": output_identity}
-            )[:24],
+            "qa_id": "qa-"
+            + canonical_sha256({"execution_id": execution_id, "artifact_set": output_identity})[
+                :24
+            ],
             "execution_id": execution_id,
             "status": "passed" if qa_passed else "failed",
             "classification": classification,
@@ -670,11 +663,13 @@ class SchoolHeroVerifier:
             expected="passed",
             observed=qa["status"],
         )
-        provenance_passed = all(
-            check["status"] == "passed" for check in provenance_checks
-        )
+        provenance_passed = all(check["status"] == "passed" for check in provenance_checks)
         chain = [
-            {"kind": record.get("kind"), "id": record.get("id"), "sha256": record.get("payload_sha256")}
+            {
+                "kind": record.get("kind"),
+                "id": record.get("id"),
+                "sha256": record.get("payload_sha256"),
+            }
             for record in lineage_records
         ]
         chain.extend(
@@ -694,7 +689,8 @@ class SchoolHeroVerifier:
         )
         provenance_base = {
             "schema": PROVENANCE_SCHEMA,
-            "provenance_id": "provenance-" + canonical_sha256(
+            "provenance_id": "provenance-"
+            + canonical_sha256(
                 {
                     "execution_id": execution_id,
                     "qa_sha256": qa["qa_sha256"],
