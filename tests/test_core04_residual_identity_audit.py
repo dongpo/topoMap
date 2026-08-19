@@ -498,12 +498,11 @@ def test_change_scope_is_exactly_three_existing_production_files() -> None:
     changed = set(_git("diff", "--name-only", PREDECESSOR).splitlines())
     untracked = set(_git("ls-files", "--others", "--exclude-standard").splitlines())
 
-    assert changed == AUTHORIZED_PRODUCTION
-    assert untracked <= {
+    assert changed == AUTHORIZED_PRODUCTION | {
         "CORE-04-Completion-Report.md",
         "tests/test_core04_residual_identity_audit.py",
     }
-    assert "tests/test_core04_residual_identity_audit.py" in untracked
+    assert untracked == set()
 
 
 def test_private_archive_remains_exact_ignored_untracked_and_unstaged_if_present() -> None:
