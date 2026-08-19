@@ -7,6 +7,8 @@ from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
+from nma.core import canonical_sha256 as _canonical_sha256
+
 from .vector_index import QueryEmbeddingCache, VectorIndex
 
 
@@ -85,13 +87,6 @@ class EntityResolutionV10Error(ValueError):
     """The v0.10 candidate pool, model output, or cache is invalid."""
 
 
-def _canonical_sha256(value: Any) -> str:
-    encoded = json.dumps(
-        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
-    ).encode("utf-8")
-    return hashlib.sha256(encoded).hexdigest()
-
-
 def infer_geometry_hints(query: str) -> list[str]:
     hints: list[str] = []
     groups = {
@@ -128,12 +123,8 @@ def build_candidate_pool(
     by_id = {item["target_node_id"]: item for item in candidates}
     if len(by_id) != 638:
         raise EntityResolutionV10Error("v0.10 requires the closed 638-candidate corpus.")
-    embedded = query_cache.embed_query(
-        query, vector_index.model, vector_index.dimensions
-    )
-    vector_hits = vector_index.search(
-        embedded["vector"], limit=638, min_similarity=-1.0
-    )
+    embedded = query_cache.embed_query(query, vector_index.model, vector_index.dimensions)
+    vector_hits = vector_index.search(embedded["vector"], limit=638, min_similarity=-1.0)
     rank_by_id = {hit["node_id"]: rank for rank, hit in enumerate(vector_hits, 1)}
     hit_by_id = {hit["node_id"]: hit for hit in vector_hits}
     selected: dict[str, set[str]] = {}
@@ -149,8 +140,7 @@ def build_candidate_pool(
     geometry_matches = [
         hit
         for hit in vector_hits
-        if set(by_id[hit["node_id"]].get("geometry_classes", []))
-        & set(geometry_hints)
+        if set(by_id[hit["node_id"]].get("geometry_classes", [])) & set(geometry_hints)
     ]
     for hit in geometry_matches[:geometry_top_limit]:
         include(hit["node_id"], "geometry-compatible-top-k")
@@ -158,8 +148,7 @@ def build_candidate_pool(
     hierarchy_hits = [
         hit
         for hit in vector_hits
-        if by_id[hit["node_id"]].get("official_status")
-        == "classification-hierarchy"
+        if by_id[hit["node_id"]].get("official_status") == "classification-hierarchy"
     ][:hierarchy_seed_limit]
     for hierarchy_hit in hierarchy_hits:
         hierarchy = by_id[hierarchy_hit["node_id"]]
@@ -189,9 +178,7 @@ def build_candidate_pool(
                 "canonical_name": candidate["canonical_name"],
                 "official_status": candidate["official_status"],
                 "geometry_classes": candidate.get("geometry_classes", []),
-                "source_grounded_retrieval_text": candidate[
-                    "source_grounded_retrieval_text"
-                ],
+                "source_grounded_retrieval_text": candidate["source_grounded_retrieval_text"],
                 "source_evidence": {
                     "filename": evidence.get("filename"),
                     "revision": evidence.get("revision"),
@@ -274,15 +261,11 @@ def _response_output_text(response: Any) -> str:
             ):
                 texts.append(content["text"])
     if len(texts) != 1:
-        raise EntityResolutionV10Error(
-            "Expected exactly one structured resolver text output."
-        )
+        raise EntityResolutionV10Error("Expected exactly one structured resolver text output.")
     return texts[0]
 
 
-def parse_entity_resolution(
-    response: Any, candidate_pool: dict[str, Any]
-) -> dict[str, Any]:
+def parse_entity_resolution(response: Any, candidate_pool: dict[str, Any]) -> dict[str, Any]:
     try:
         resolution = json.loads(_response_output_text(response))
     except json.JSONDecodeError as error:
@@ -313,9 +296,7 @@ def parse_entity_resolution(
             raise EntityResolutionV10Error("Resolver selected a duplicate node.")
         if entity["confidence"] not in {"high", "medium", "low"}:
             raise EntityResolutionV10Error("Resolver confidence is invalid.")
-        if not isinstance(entity["query_segment"], str) or not entity[
-            "query_segment"
-        ].strip():
+        if not isinstance(entity["query_segment"], str) or not entity["query_segment"].strip():
             raise EntityResolutionV10Error("Resolver query segment is empty.")
         basis = entity["evidence_basis"]
         if not isinstance(basis, list) or not basis:
@@ -333,13 +314,15 @@ def parse_entity_resolution(
         raise EntityResolutionV10Error("Resolved status requires at least one entity.")
     if resolution["status"] == "abstained-no-match" and entities:
         raise EntityResolutionV10Error("Abstention cannot select an entity.")
-    if resolution["status"] == "needs-clarification" and not resolution[
-        "clarification_question"
-    ].strip():
+    if (
+        resolution["status"] == "needs-clarification"
+        and not resolution["clarification_question"].strip()
+    ):
         raise EntityResolutionV10Error("Clarification status requires a question.")
-    if not isinstance(resolution["decision_summary"], str) or not resolution[
-        "decision_summary"
-    ].strip():
+    if (
+        not isinstance(resolution["decision_summary"], str)
+        or not resolution["decision_summary"].strip()
+    ):
         raise EntityResolutionV10Error("Resolver decision summary is empty.")
     usage = response.get("usage", {}) if isinstance(response, dict) else {}
     return {
@@ -379,9 +362,7 @@ class OpenAIEntityResolverV10:
         self.timeout_seconds = timeout_seconds
 
     def resolve(self, candidate_pool: dict[str, Any]) -> dict[str, Any]:
-        payload = build_entity_resolution_payload(
-            model=self.model, candidate_pool=candidate_pool
-        )
+        payload = build_entity_resolution_payload(model=self.model, candidate_pool=candidate_pool)
         request = Request(
             self.url,
             data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
@@ -433,13 +414,9 @@ class EntityResolutionCacheV10:
         resolution = record["resolution"]
         if resolution.get("schema") != ENTITY_RESOLUTION_SCHEMA:
             raise EntityResolutionV10Error("Cached resolution schema is invalid.")
-        allowed_ids = {
-            item["node_id"] for item in candidate_pool["candidate_records"]
-        }
+        allowed_ids = {item["node_id"] for item in candidate_pool["candidate_records"]}
         selected_ids = resolution.get("selected_node_ids")
-        if not isinstance(selected_ids, list) or not set(selected_ids).issubset(
-            allowed_ids
-        ):
+        if not isinstance(selected_ids, list) or not set(selected_ids).issubset(allowed_ids):
             raise EntityResolutionV10Error(
                 "Cached resolution selected a node outside the candidate pool."
             )

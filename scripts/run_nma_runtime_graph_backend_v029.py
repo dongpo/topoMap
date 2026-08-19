@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -14,6 +13,8 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+from nma.core import canonical_sha256 as canonical_sha256  # noqa: E402
+
 
 def load_server():
     path = ROOT / "scripts/run_nma_agent_server.py"
@@ -24,13 +25,6 @@ def load_server():
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
-
-
-def canonical_sha256(value) -> str:
-    payload = json.dumps(
-        value, ensure_ascii=False, sort_keys=True, separators=(",", ":")
-    ).encode("utf-8")
-    return hashlib.sha256(payload).hexdigest()
 
 
 def main() -> int:
@@ -102,9 +96,7 @@ def main() -> int:
         **backend,
         "case_count": len(cases),
         "cases_passed": sum(item["passed"] for item in cases),
-        "geometry_coverage": sorted(
-            {item["geometry"] for item in cases if item["geometry"]}
-        ),
+        "geometry_coverage": sorted({item["geometry"] for item in cases if item["geometry"]}),
         "cases": cases,
         "new_llm_calls": 0,
         "new_tokens": 0,

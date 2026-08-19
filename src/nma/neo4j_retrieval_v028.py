@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
+from nma.core import canonical_sha256 as _sha256
 from nma.graphrag import CanonicalGraphRetriever
 from nma.neo4j_roundtrip_v027 import (
     NODE_ROUND_TRIP_CYPHER,
@@ -19,10 +20,6 @@ class Neo4jRetrievalParityError(RuntimeError):
 
 def _canonical_json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-
-
-def _sha256(value: Any) -> str:
-    return hashlib.sha256(_canonical_json(value).encode("utf-8")).hexdigest()
 
 
 def _rows(result: Any) -> list[dict[str, Any]]:
@@ -46,9 +43,7 @@ def _normal_edges(graph: dict[str, Any]) -> list[dict[str, Any]]:
     )
 
 
-def load_live_projection_v028(
-    driver: Any, *, database: str, graph_revision: str
-) -> dict[str, Any]:
+def load_live_projection_v028(driver: Any, *, database: str, graph_revision: str) -> dict[str, Any]:
     """Read one immutable graph revision from Neo4j and reconstruct its canonical shape."""
 
     verify_connectivity = getattr(driver, "verify_connectivity", None)
@@ -70,11 +65,7 @@ def load_live_projection_v028(
             "id": item["id"],
             "type": item["entity_type"],
             "properties": json.loads(item["properties_json"]),
-            **(
-                {"source_graphs": list(item["source_graphs"])}
-                if item.get("source_graphs")
-                else {}
-            ),
+            **({"source_graphs": list(item["source_graphs"])} if item.get("source_graphs") else {}),
         }
         for item in node_records
     ]
@@ -84,11 +75,7 @@ def load_live_projection_v028(
             "type": item["relationship_type"],
             "target": item["target"],
             "properties": json.loads(item["properties_json"]),
-            **(
-                {"source_graphs": list(item["source_graphs"])}
-                if item.get("source_graphs")
-                else {}
-            ),
+            **({"source_graphs": list(item["source_graphs"])} if item.get("source_graphs") else {}),
         }
         for item in relationship_records
     ]
@@ -122,22 +109,16 @@ def _package_projection(package: dict[str, Any]) -> dict[str, Any]:
 
     return {
         "status": package["status"],
-        "resolved_entities": sorted(
-            package["resolved_entities"], key=lambda item: item["id"]
-        ),
+        "resolved_entities": sorted(package["resolved_entities"], key=lambda item: item["id"]),
         "evidence_nodes": sorted(package["evidence_nodes"], key=lambda item: item["id"]),
         "graph_nodes": sorted(package["graph_paths"]["nodes"]),
         "graph_edges": sorted(
             package["graph_paths"]["edges"],
             key=lambda item: (item["type"], item["source"], item["target"]),
         ),
-        "source_documents": sorted(
-            package["source_documents"], key=_canonical_json
-        ),
+        "source_documents": sorted(package["source_documents"], key=_canonical_json),
         "source_sections": sorted(package["source_sections"], key=_canonical_json),
-        "citations": sorted(
-            package["citations"], key=lambda item: item["citation_id"]
-        ),
+        "citations": sorted(package["citations"], key=lambda item: item["citation_id"]),
         "conflicts": sorted(package["conflicts"], key=_canonical_json),
         "clarification": package["clarification"],
         "missing_evidence": package["missing_evidence"],
@@ -183,14 +164,11 @@ def evaluate_live_retrieval_parity_v028(
     database: str,
 ) -> dict[str, Any]:
     revision = canonical_graph["graph_id"]
-    live_graph = load_live_projection_v028(
-        driver, database=database, graph_revision=revision
-    )
+    live_graph = load_live_projection_v028(driver, database=database, graph_revision=revision)
     canonical_nodes = _normal_nodes(canonical_graph)
     canonical_edges = _normal_edges(canonical_graph)
     graph_identity_matches = (
-        canonical_nodes == live_graph["nodes"]
-        and canonical_edges == live_graph["edges"]
+        canonical_nodes == live_graph["nodes"] and canonical_edges == live_graph["edges"]
     )
     if not graph_identity_matches:
         raise Neo4jRetrievalParityError(
@@ -208,12 +186,8 @@ def evaluate_live_retrieval_parity_v028(
             raise Neo4jRetrievalParityError(
                 f"Case {case['id']} has unknown canonical seeds: {missing_seeds}"
             )
-        canonical_package = _package_for_case(
-            canonical_retriever, case, backend="canonical-json"
-        )
-        neo4j_package = _package_for_case(
-            neo4j_retriever, case, backend="live-neo4j"
-        )
+        canonical_package = _package_for_case(canonical_retriever, case, backend="canonical-json")
+        neo4j_package = _package_for_case(neo4j_retriever, case, backend="live-neo4j")
         canonical_projection = _package_projection(canonical_package)
         neo4j_projection = _package_projection(neo4j_package)
         parity = canonical_projection == neo4j_projection
@@ -249,9 +223,7 @@ def evaluate_live_retrieval_parity_v028(
         "graph_identity_matches": True,
         "case_count": len(cases),
         "cases_passed": sum(item["parity"] for item in cases),
-        "geometry_coverage": sorted(
-            {item["geometry"] for item in cases if item.get("geometry")}
-        ),
+        "geometry_coverage": sorted({item["geometry"] for item in cases if item.get("geometry")}),
         "cases": cases,
         "live_neo4j_read_executed": True,
         "retrieval_parity_verified": True,
