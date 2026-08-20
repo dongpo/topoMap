@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.build-fixture-manifest/1.0",
+  "title": "NMA BUILD fixture manifest 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schema", "fixture_id", "status", "source", "selection", "candidates", "fixture", "core_identity", "boundaries"],
+  "properties": {
+    "$schema": {"const": "../../schemas/build-fixture-manifest-v1.0.schema.json"},
+    "schema": {"const": "nma.build-fixture-manifest/1.0"},
+    "fixture_id": {"type": "string", "pattern": "^build-fixture:sha256:[0-9a-f]{64}$"},
+    "status": {"const": "accepted-build-01-entry-fixture"},
+    "source": {"$ref": "#/$defs/source"},
+    "selection": {"$ref": "#/$defs/selection"},
+    "candidates": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/candidate"}
+    },
+    "fixture": {"$ref": "#/$defs/fixture"},
+    "core_identity": {"$ref": "#/$defs/core_identity"},
+    "boundaries": {"$ref": "#/$defs/boundaries"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["archive_name", "archive_sha256", "tracked", "redistributed", "license_status"],
+      "properties": {
+        "archive_name": {"const": "112年多維度SHP成果_0502.zip"},
+        "archive_sha256": {"$ref": "#/$defs/sha256"},
+        "tracked": {"const": false},
+        "redistributed": {"const": false},
+        "license_status": {"const": "source-terms-not-asserted"}
+      }
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selected_layer_id", "feature_code", "feature_name", "policy", "rationale"],
+      "properties": {
+        "selected_layer_id": {"const": "J13_BUILD"},
+        "feature_code": {"const": "9310100"},
+        "feature_name": {"const": "永久性建物(建築區)"},
+        "policy": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layer_id", "feature_count", "selected_feature_count", "other_feature_codes", "null_or_blank_build_id", "duplicate_build_id_groups", "null_or_empty_geometry", "invalid_geometry", "decision", "reason"],
+      "properties": {
+        "layer_id": {"enum": ["J01_BUILD", "J13_BUILD", "J17_BUILD", "K01_BUILD", "K02_BUILD", "K14_BUILD"]},
+        "feature_count": {"type": "integer", "minimum": 1},
+        "selected_feature_count": {"type": "integer", "minimum": 1},
+        "other_feature_codes": {
+          "type": "object",
+          "propertyNames": {"pattern": "^[0-9]{7}$"},
+          "additionalProperties": {"type": "integer", "minimum": 1}
+        },
+        "null_or_blank_build_id": {"type": "integer", "minimum": 0},
+        "duplicate_build_id_groups": {"type": "integer", "minimum": 0},
+        "null_or_empty_geometry": {"type": "integer", "minimum": 0},
+        "invalid_geometry": {"type": "integer", "minimum": 0},
+        "decision": {"enum": ["accepted", "rejected"]},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "width"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "type": {"enum": ["String", "Integer", "Real"]},
+        "width": {"type": "integer", "minimum": 1},
+        "precision": {"type": "integer", "minimum": 0}
+      }
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["extension", "sha256"],
+      "properties": {
+        "extension": {"enum": [".cpg", ".dbf", ".prj", ".shp", ".shx"]},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "fixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layer_id", "source_geometry_type", "canonical_geometry_role", "crs_name", "crs_authority", "extent", "feature_count", "selected_feature_count", "feature_code_distribution", "fields", "components"],
+      "properties": {
+        "layer_id": {"const": "J13_BUILD"},
+        "source_geometry_type": {"const": "PolygonZ"},
+        "canonical_geometry_role": {"const": "Polygon"},
+        "crs_name": {"const": "TWD97[2020]_TM121"},
+        "crs_authority": {"const": "unasserted-source-wkt"},
+        "extent": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"type": "number"}
+        },
+        "feature_count": {"const": 2968},
+        "selected_feature_count": {"const": 2962},
+        "feature_code_distribution": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["9310100", "9310103"],
+          "properties": {
+            "9310100": {"const": 2962},
+            "9310103": {"const": 6}
+          }
+        },
+        "fields": {"type": "array", "minItems": 7, "maxItems": 7, "items": {"$ref": "#/$defs/field"}},
+        "components": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/component"}}
+      }
+    },
+    "core_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "freeze_tag", "freeze_sha", "identity_provider", "feature_profile_provider"],
+      "properties": {
+        "owner": {"const": "nma.core"},
+        "freeze_tag": {"const": "nma-core-v1.0-final"},
+        "freeze_sha": {"const": "5eb138ae7686502431587743ebce9ddf92c5a799"},
+        "identity_provider": {"const": "canonical_sha256"},
+        "feature_profile_provider": {"const": "FeatureProfile"}
+      }
+    },
+    "boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["purpose", "source_mutation_allowed", "geometry_repair_allowed", "z_dimension_drop_authorized", "execution_authorized", "runtime_wiring_authorized", "redistribution_authorized"],
+      "properties": {
+        "purpose": {"const": "build-01-entry-readiness-only"},
+        "source_mutation_allowed": {"const": false},
+        "geometry_repair_allowed": {"const": false},
+        "z_dimension_drop_authorized": {"const": false},
+        "execution_authorized": {"const": false},
+        "runtime_wiring_authorized": {"const": false},
+        "redistribution_authorized": {"const": false}
+      }
+    }
+  }
+}
