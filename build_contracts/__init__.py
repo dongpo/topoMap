@@ -27,12 +27,18 @@ from build_contracts.gate_review import (
     request_build_execution_authorization,
     validate_gate_review,
 )
+from build_contracts.gate_resolution import (
+    BuildGateResolutionError,
+    prepare_build_gate_resolution,
+    validate_gate_resolution,
+)
 
 __all__ = [
     "BuildFixtureError",
     "BuildResolutionError",
     "BuildPortrayalDecisionError",
     "BuildGateReviewError",
+    "BuildGateResolutionError",
     "build_feature_profile",
     "fixture_identity",
     "inspect_private_build_source",
@@ -40,12 +46,14 @@ __all__ = [
     "load_build_source_observation",
     "prepare_build_portrayal",
     "prepare_build_gate_review",
+    "prepare_build_gate_resolution",
     "request_build_execution_authorization",
     "resolve_build_request",
     "validate_build_fixture_manifest",
     "validate_build_source_observation",
     "validate_decision",
     "validate_gate_review",
+    "validate_gate_resolution",
     "validate_portrayal_evidence",
     "validate_proposal",
 ]
