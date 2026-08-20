@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.build-source-observation/1.0",
+  "title": "NMA BUILD-01 redacted private-source observation 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["$schema", "schema", "source", "selection", "resolved_feature", "core_binding", "privacy", "observation_id"],
+  "properties": {
+    "$schema": {"const": "../../schemas/build-source-observation-v1.0.schema.json"},
+    "schema": {"const": "nma.build-source-observation/1.0"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixture_id", "archive_sha256", "layer_id", "feature_code"],
+      "properties": {
+        "fixture_id": {"const": "build-fixture:sha256:7411d8eb06ee70bc24ce7003de0b344a1874c3d606b91571e5913ba766f1162a"},
+        "archive_sha256": {"const": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53"},
+        "layer_id": {"const": "J13_BUILD"},
+        "feature_code": {"const": "9310100"}
+      }
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy", "eligible_feature_count", "selected_rank", "largest_area_tie_count"],
+      "properties": {
+        "policy": {"const": "largest-valid-2d-area-desc-then-build-id-asc"},
+        "eligible_feature_count": {"const": 2962},
+        "selected_rank": {"const": 1},
+        "largest_area_tie_count": {"const": 1}
+      }
+    },
+    "resolved_feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference", "attribute_commitment_sha256", "geometry_commitment_sha256", "source_geometry_type", "canonical_geometry_role", "area_2d_m2", "runner_up_area_2d_m2", "vertex_count", "ring_count", "is_valid", "z_dimension_present"],
+      "properties": {
+        "reference": {"const": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f"},
+        "attribute_commitment_sha256": {"const": "ddfa112586b9c2bc3a61bdf2638b7994ba1200bfce5d8ad34988f2a24da96078"},
+        "geometry_commitment_sha256": {"const": "23f7d5adacfb468bf0105ed66bb6f64ac44b50e22c47a2399a4787f6051bb22f"},
+        "source_geometry_type": {"const": "PolygonZ"},
+        "canonical_geometry_role": {"const": "Polygon"},
+        "area_2d_m2": {"const": "1316.686891452159"},
+        "runner_up_area_2d_m2": {"const": "1252.979028436020"},
+        "vertex_count": {"const": 65},
+        "ring_count": {"const": 1},
+        "is_valid": {"const": true},
+        "z_dimension_present": {"const": true}
+      }
+    },
+    "core_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["identity_provider", "feature_profile_provider", "profile_identity_sha256", "source_scope_sha256"],
+      "properties": {
+        "identity_provider": {"const": "nma.core.canonical_sha256"},
+        "feature_profile_provider": {"const": "nma.core.FeatureProfile"},
+        "profile_identity_sha256": {"const": "5f560c8fde92b7ed590c8f4d1292ae69743e033b2bbf43b837b083b5c611dc09"},
+        "source_scope_sha256": {"const": "a4e3eff87f1df770e01c3675fe883335b4416c405922d22b129e85fc4a44065b"}
+      }
+    },
+    "privacy": {"$ref": "#/$defs/privacy"},
+    "observation_id": {"const": "build-observation:sha256:8fdbb3bdea8ffe715e7d76eed7c5034bd62226ba649be2206cf7a9e07b853bac"}
+  },
+  "$defs": {
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw_feature_id_disclosed", "raw_attributes_disclosed", "raw_geometry_disclosed", "source_redistributed"],
+      "properties": {
+        "raw_feature_id_disclosed": {"const": false},
+        "raw_attributes_disclosed": {"const": false},
+        "raw_geometry_disclosed": {"const": false},
+        "source_redistributed": {"const": false}
+      }
+    }
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.build-resolution-evidence-package/1.0",
+  "title": "NMA BUILD-01 building-polygon resolution evidence package 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["package_version", "schema_version", "request", "source", "resolution", "identity_evidence", "geometry_evidence", "observation", "privacy", "permissions", "package_sha256"],
+  "properties": {
+    "package_version": {"const": "build-01/1.0"},
+    "schema_version": {"const": "nma.build-resolution-evidence-package/1.0"},
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw", "normalized_intent"],
+      "properties": {
+        "raw": {"type": "string", "minLength": 1},
+        "normalized_intent": {"const": "resolve-building-polygon|profile=J13|layer=J13_BUILD|class=9310100|selection=largest-valid-2d-area|purpose=redacted-evidence-package"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fixture_id", "archive_sha256", "layer_id", "feature_code"],
+      "properties": {
+        "fixture_id": {"const": "build-fixture:sha256:7411d8eb06ee70bc24ce7003de0b344a1874c3d606b91571e5913ba766f1162a"},
+        "archive_sha256": {"const": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53"},
+        "layer_id": {"const": "J13_BUILD"},
+        "feature_code": {"const": "9310100"}
+      }
+    },
+    "resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selection_policy", "eligible_feature_count", "selected_rank", "largest_area_tie_count", "feature_reference"],
+      "properties": {
+        "selection_policy": {"const": "largest-valid-2d-area-desc-then-build-id-asc"},
+        "eligible_feature_count": {"const": 2962},
+        "selected_rank": {"const": 1},
+        "largest_area_tie_count": {"const": 1},
+        "feature_reference": {"const": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f"}
+      }
+    },
+    "identity_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "attribute_commitment_sha256", "profile_identity_sha256", "source_scope_sha256"],
+      "properties": {
+        "provider": {"const": "nma.core.canonical_sha256"},
+        "attribute_commitment_sha256": {"const": "ddfa112586b9c2bc3a61bdf2638b7994ba1200bfce5d8ad34988f2a24da96078"},
+        "profile_identity_sha256": {"const": "5f560c8fde92b7ed590c8f4d1292ae69743e033b2bbf43b837b083b5c611dc09"},
+        "source_scope_sha256": {"const": "a4e3eff87f1df770e01c3675fe883335b4416c405922d22b129e85fc4a44065b"}
+      }
+    },
+    "geometry_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["geometry_commitment_sha256", "source_geometry_type", "canonical_geometry_role", "area_2d_m2", "vertex_count", "ring_count", "is_valid", "z_dimension_present", "repair_required"],
+      "properties": {
+        "geometry_commitment_sha256": {"const": "23f7d5adacfb468bf0105ed66bb6f64ac44b50e22c47a2399a4787f6051bb22f"},
+        "source_geometry_type": {"const": "PolygonZ"},
+        "canonical_geometry_role": {"const": "Polygon"},
+        "area_2d_m2": {"const": "1316.686891452159"},
+        "vertex_count": {"const": 65},
+        "ring_count": {"const": 1},
+        "is_valid": {"const": true},
+        "z_dimension_present": {"const": true},
+        "repair_required": {"const": false}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {"id": {"const": "build-observation:sha256:8fdbb3bdea8ffe715e7d76eed7c5034bd62226ba649be2206cf7a9e07b853bac"}}
+    },
+    "privacy": {"$ref": "#/$defs/privacy"},
+    "permissions": {"$ref": "#/$defs/permissions"},
+    "package_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw_feature_id_disclosed", "raw_attributes_disclosed", "raw_geometry_disclosed", "source_redistributed"],
+      "properties": {
+        "raw_feature_id_disclosed": {"const": false},
+        "raw_attributes_disclosed": {"const": false},
+        "raw_geometry_disclosed": {"const": false},
+        "source_redistributed": {"const": false}
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_mutation_allowed", "geometry_repair_allowed", "z_dimension_drop_authorized", "execution_authorized", "runtime_wiring_authorized", "redistribution_authorized"],
+      "properties": {
+        "source_mutation_allowed": {"const": false},
+        "geometry_repair_allowed": {"const": false},
+        "z_dimension_drop_authorized": {"const": false},
+        "execution_authorized": {"const": false},
+        "runtime_wiring_authorized": {"const": false},
+        "redistribution_authorized": {"const": false}
+      }
+    }
+  }
+}
