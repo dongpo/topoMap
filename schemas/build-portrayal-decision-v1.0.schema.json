@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.build-portrayal-decision/1.0",
+  "title": "NMA BUILD-02 building portrayal decision 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["decision_version", "schema_version", "bindings", "decision", "boundaries", "decision_sha256"],
+  "properties": {
+    "decision_version": {"const": "build-02/1.0"},
+    "schema_version": {"const": "nma.build-portrayal-decision/1.0"},
+    "bindings": {"$ref": "#/$defs/bindings"},
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "execution_target", "feature_code", "feature_name", "requested_portrayal", "review_gates"],
+      "properties": {
+        "action": {"const": "prepare review-only derived building-polygon portrayal candidate"},
+        "execution_target": {"const": "derived building-polygon portrayal candidate"},
+        "feature_code": {"const": "9310100"},
+        "feature_name": {"const": "永久性建物(建築區)"},
+        "requested_portrayal": {"$ref": "#/$defs/portrayal"},
+        "review_gates": {"$ref": "#/$defs/review_gates"}
+      }
+    },
+    "boundaries": {"$ref": "#/$defs/boundaries"},
+    "decision_sha256": {"const": "624fafe1f84164f6f28396d21153a3ed0f9795ead87b6e9c605115b35ee3c846"}
+  },
+  "$defs": {
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["upstream_package_sha256", "source_archive_sha256", "fixture_id", "observation_id", "feature_reference", "attribute_commitment_sha256", "geometry_commitment_sha256", "profile_identity_sha256", "source_scope_sha256", "portrayal_record_set_id", "portrayal_record_set_sha256", "portrayal_recipe_sha256", "source_document_sha256", "source_rule_id", "evidence_section_id"],
+      "properties": {
+        "upstream_package_sha256": {"const": "59b6f972046dbe9af295de414525230b03ed6da4f0e78374076b5cc4a2cdd7de"},
+        "source_archive_sha256": {"const": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53"},
+        "fixture_id": {"const": "build-fixture:sha256:7411d8eb06ee70bc24ce7003de0b344a1874c3d606b91571e5913ba766f1162a"},
+        "observation_id": {"const": "build-observation:sha256:8fdbb3bdea8ffe715e7d76eed7c5034bd62226ba649be2206cf7a9e07b853bac"},
+        "feature_reference": {"const": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f"},
+        "attribute_commitment_sha256": {"const": "ddfa112586b9c2bc3a61bdf2638b7994ba1200bfce5d8ad34988f2a24da96078"},
+        "geometry_commitment_sha256": {"const": "23f7d5adacfb468bf0105ed66bb6f64ac44b50e22c47a2399a4787f6051bb22f"},
+        "profile_identity_sha256": {"const": "5f560c8fde92b7ed590c8f4d1292ae69743e033b2bbf43b837b083b5c611dc09"},
+        "source_scope_sha256": {"const": "a4e3eff87f1df770e01c3675fe883335b4416c405922d22b129e85fc4a44065b"},
+        "portrayal_record_set_id": {"const": "nma-portrayal-recipe-review-batch-01-v0.4"},
+        "portrayal_record_set_sha256": {"const": "70ef0c8e8e86ed5d2a2a4a588b41086f3fd20fb6987138e3897b71378f4b294a"},
+        "portrayal_recipe_sha256": {"const": "450ee18fe87ea2a7f1d783747ee22ae927c73a2f46424f65900f28f9981f2e20"},
+        "source_document_sha256": {"const": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620"},
+        "source_rule_id": {"const": "portrayal-rule:doc01:9310100"},
+        "evidence_section_id": {"const": "section:doc01-portrayal:p8"}
+      }
+    },
+    "portrayal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["representation_kind", "geometry_policy", "boundary", "hatch", "annotation"],
+      "properties": {
+        "representation_kind": {"const": "feature-following-hatched-polygon"},
+        "geometry_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_geometry_type", "canonical_geometry_role", "preserve_z_dimension", "dimension_drop_authorized", "geometry_repair_authorized"],
+          "properties": {
+            "source_geometry_type": {"const": "PolygonZ"},
+            "canonical_geometry_role": {"const": "Polygon"},
+            "preserve_z_dimension": {"const": true},
+            "dimension_drop_authorized": {"const": false},
+            "geometry_repair_authorized": {"const": false}
+          }
+        },
+        "boundary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primitive_id", "line_code", "color_code"],
+          "properties": {
+            "primitive_id": {"const": "surveyed-building-boundary"},
+            "line_code": {"const": "2"},
+            "color_code": {"const": "7"}
+          }
+        },
+        "hatch": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primitive_id", "clip_to_feature_geometry", "spacing_mm", "orientation_semantic", "numeric_angle_degrees"],
+          "properties": {
+            "primitive_id": {"const": "building-diagonal-hatch"},
+            "clip_to_feature_geometry": {"const": true},
+            "spacing_mm": {"const": 2.0},
+            "orientation_semantic": {"const": "diagonal rising from lower-left to upper-right"},
+            "numeric_angle_degrees": {"const": null}
+          }
+        },
+        "annotation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["primitive_id", "content_fields", "content_semantics", "placement_policy"],
+          "properties": {
+            "primitive_id": {"const": "floor-and-structure-annotation"},
+            "content_fields": {"const": ["BUILD_NO", "BUILD_STR"]},
+            "content_semantics": {"const": "floor count plus structure code"},
+            "placement_policy": {"const": "unresolved-pending-human-review"}
+          }
+        }
+      }
+    },
+    "review_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_gate_ids", "status", "all_gates_resolved"],
+      "properties": {
+        "required_gate_ids": {"const": ["hatch-angle-transcription", "building-annotation-placement", "real-build-schema-binding", "line-and-color-profile", "j13-polygonz-runtime-policy"]},
+        "status": {"const": "pending-human-review"},
+        "all_gates_resolved": {"const": false}
+      }
+    },
+    "boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorization_required", "human_review_required", "execution_allowed", "source_mutation_allowed", "geometry_repair_allowed", "z_dimension_drop_allowed", "runtime_wiring_allowed", "raw_source_disclosure_allowed", "redistribution_allowed", "legacy_j17_runtime_binding_allowed"],
+      "properties": {
+        "authorization_required": {"const": true},
+        "human_review_required": {"const": true},
+        "execution_allowed": {"const": false},
+        "source_mutation_allowed": {"const": false},
+        "geometry_repair_allowed": {"const": false},
+        "z_dimension_drop_allowed": {"const": false},
+        "runtime_wiring_allowed": {"const": false},
+        "raw_source_disclosure_allowed": {"const": false},
+        "redistribution_allowed": {"const": false},
+        "legacy_j17_runtime_binding_allowed": {"const": false}
+      }
+    }
+  }
+}
