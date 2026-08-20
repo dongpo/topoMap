@@ -1,0 +1,112 @@
+{
+  "review_version": "build-03/1.0",
+  "schema_version": "nma.build-gate-review/1.0",
+  "bindings": {
+    "proposal_sha256": "1e588ea2d7752ce7b02c28d6117c4deb1d6c8995dcbace14cfcb542eca847749",
+    "decision_sha256": "624fafe1f84164f6f28396d21153a3ed0f9795ead87b6e9c605115b35ee3c846",
+    "build01_package_sha256": "59b6f972046dbe9af295de414525230b03ed6da4f0e78374076b5cc4a2cdd7de",
+    "source_archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "fixture_id": "build-fixture:sha256:7411d8eb06ee70bc24ce7003de0b344a1874c3d606b91571e5913ba766f1162a",
+    "observation_id": "build-observation:sha256:8fdbb3bdea8ffe715e7d76eed7c5034bd62226ba649be2206cf7a9e07b853bac",
+    "feature_reference": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f",
+    "attribute_commitment_sha256": "ddfa112586b9c2bc3a61bdf2638b7994ba1200bfce5d8ad34988f2a24da96078",
+    "geometry_commitment_sha256": "23f7d5adacfb468bf0105ed66bb6f64ac44b50e22c47a2399a4787f6051bb22f",
+    "portrayal_record_set_sha256": "70ef0c8e8e86ed5d2a2a4a588b41086f3fd20fb6987138e3897b71378f4b294a",
+    "portrayal_recipe_sha256": "450ee18fe87ea2a7f1d783747ee22ae927c73a2f46424f65900f28f9981f2e20"
+  },
+  "review": {
+    "status": "authorization-blocked-unresolved-gates",
+    "actor_type": "unassigned-human-reviewer",
+    "human_decision": null,
+    "requested_portrayal": {
+      "representation_kind": "feature-following-hatched-polygon",
+      "geometry_policy": {
+        "source_geometry_type": "PolygonZ",
+        "canonical_geometry_role": "Polygon",
+        "preserve_z_dimension": true,
+        "dimension_drop_authorized": false,
+        "geometry_repair_authorized": false
+      },
+      "boundary": {
+        "primitive_id": "surveyed-building-boundary",
+        "line_code": "2",
+        "color_code": "7"
+      },
+      "hatch": {
+        "primitive_id": "building-diagonal-hatch",
+        "clip_to_feature_geometry": true,
+        "spacing_mm": 2.0,
+        "orientation_semantic": "diagonal rising from lower-left to upper-right",
+        "numeric_angle_degrees": null
+      },
+      "annotation": {
+        "primitive_id": "floor-and-structure-annotation",
+        "content_fields": [
+          "BUILD_NO",
+          "BUILD_STR"
+        ],
+        "content_semantics": "floor count plus structure code",
+        "placement_policy": "unresolved-pending-human-review"
+      }
+    },
+    "gates": [
+      {
+        "gate_id": "hatch-angle-transcription",
+        "status": "unresolved",
+        "evidence_state": "numeric-angle-not-specified",
+        "required_human_decision": "approve a numeric angle or a renderer-independent semantic orientation policy",
+        "decision_record": null
+      },
+      {
+        "gate_id": "building-annotation-placement",
+        "status": "unresolved",
+        "evidence_state": "collision-and-placement-policy-not-specified",
+        "required_human_decision": "approve deterministic annotation placement and collision behavior",
+        "decision_record": null
+      },
+      {
+        "gate_id": "real-build-schema-binding",
+        "status": "unresolved",
+        "evidence_state": "documented-and-observed-field-authority-not-equivalent",
+        "required_human_decision": "approve a J13-bounded BUILD_NO/BUILD_STR mapping without asserting ID/SOURCE equivalence",
+        "decision_record": null
+      },
+      {
+        "gate_id": "line-and-color-profile",
+        "status": "unresolved",
+        "evidence_state": "device-independent-line-and-color-profile-not-approved",
+        "required_human_decision": "approve rendering profiles for line code 2 and colour code 7",
+        "decision_record": null
+      },
+      {
+        "gate_id": "j13-polygonz-runtime-policy",
+        "status": "unresolved",
+        "evidence_state": "target-runtime-and-z-policy-not-specified",
+        "required_human_decision": "approve a target-runtime-specific PolygonZ preservation or transformation policy",
+        "decision_record": null
+      }
+    ],
+    "unresolved_gate_count": 5,
+    "all_gates_resolved": false
+  },
+  "authorization_effect": {
+    "execution_authorization_eligible": false,
+    "execution_authorization_issued": false,
+    "issuance_blocked": true,
+    "blocker": "five-explicit-human-gate-decisions-required"
+  },
+  "boundaries": {
+    "human_gate_decisions_inferred": false,
+    "approval_recorded": false,
+    "execution_authorization_eligible": false,
+    "execution_authorization_issued": false,
+    "execution_allowed": false,
+    "source_mutation_allowed": false,
+    "geometry_repair_allowed": false,
+    "z_dimension_drop_allowed": false,
+    "runtime_wiring_allowed": false,
+    "raw_source_disclosure_allowed": false,
+    "redistribution_allowed": false
+  },
+  "review_sha256": "4177a2cc29738ad7b1bc6f00f2c10c724fec3c475e57dee45ad2e8e1f105cbdd"
+}
