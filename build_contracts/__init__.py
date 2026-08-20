@@ -32,6 +32,12 @@ from build_contracts.gate_resolution import (
     prepare_build_gate_resolution,
     validate_gate_resolution,
 )
+from build_contracts.demo_authorization import (
+    BuildDemoAuthorizationError,
+    issue_build_demo_authorization,
+    plan_build_demo_consumption,
+    validate_build_demo_authorization,
+)
 
 __all__ = [
     "BuildFixtureError",
@@ -39,14 +45,17 @@ __all__ = [
     "BuildPortrayalDecisionError",
     "BuildGateReviewError",
     "BuildGateResolutionError",
+    "BuildDemoAuthorizationError",
     "build_feature_profile",
     "fixture_identity",
     "inspect_private_build_source",
+    "issue_build_demo_authorization",
     "load_build_fixture_manifest",
     "load_build_source_observation",
     "prepare_build_portrayal",
     "prepare_build_gate_review",
     "prepare_build_gate_resolution",
+    "plan_build_demo_consumption",
     "request_build_execution_authorization",
     "resolve_build_request",
     "validate_build_fixture_manifest",
@@ -54,6 +63,7 @@ __all__ = [
     "validate_decision",
     "validate_gate_review",
     "validate_gate_resolution",
+    "validate_build_demo_authorization",
     "validate_portrayal_evidence",
     "validate_proposal",
 ]
