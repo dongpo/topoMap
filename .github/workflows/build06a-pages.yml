@@ -1,0 +1,41 @@
+name: Deploy bounded BUILD-06A building DEMO
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}build-demo/
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact authorized branch
+        uses: actions/checkout@v4
+      - name: Build existing bounded public site
+        run: python3 scripts/build_public_site.py --output artifacts/tmp/public-site
+      - name: Add exact three-file BUILD-06A DEMO
+        run: PYTHONPATH=src:. python3 -m build_contracts.demo_publication --site artifacts/tmp/public-site
+      - name: Verify BUILD-06A public scope
+        run: |
+          test "$(find artifacts/tmp/public-site/build-demo -type f | wc -l | tr -d ' ')" = "3"
+          test ! -e artifacts/tmp/public-site/build-demo/112年多維度SHP成果_0502.zip
+          test ! -e artifacts/tmp/public-site/build-demo/out1120902.pmtiles
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload sanitized Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'artifacts/tmp/public-site'
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
