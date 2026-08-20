@@ -38,6 +38,12 @@ from build_contracts.demo_authorization import (
     plan_build_demo_consumption,
     validate_build_demo_authorization,
 )
+from build_contracts.demo_execution import (
+    BuildDemoExecutionError,
+    execute_build_demo_once,
+    validate_build_demo_consumption_ledger,
+    validate_build_demo_execution_package,
+)
 
 __all__ = [
     "BuildFixtureError",
@@ -46,7 +52,9 @@ __all__ = [
     "BuildGateReviewError",
     "BuildGateResolutionError",
     "BuildDemoAuthorizationError",
+    "BuildDemoExecutionError",
     "build_feature_profile",
+    "execute_build_demo_once",
     "fixture_identity",
     "inspect_private_build_source",
     "issue_build_demo_authorization",
@@ -64,6 +72,8 @@ __all__ = [
     "validate_gate_review",
     "validate_gate_resolution",
     "validate_build_demo_authorization",
+    "validate_build_demo_consumption_ledger",
+    "validate_build_demo_execution_package",
     "validate_portrayal_evidence",
     "validate_proposal",
 ]

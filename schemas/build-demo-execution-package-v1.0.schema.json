@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.build-demo-execution-package/1.0",
+  "title": "NMA BUILD-05 controlled building DEMO execution package 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["package_version", "schema_version", "execution_id", "authorization_id", "authorization_sha256", "resolution_sha256", "plan_sha256", "demo_artifact", "consumption_record", "receipt", "boundaries", "package_sha256"],
+  "properties": {
+    "package_version": {"const": "build-05/1.0"},
+    "schema_version": {"const": "nma.build-demo-execution-package/1.0"},
+    "execution_id": {"const": "build-05-demo-exec-b8b5ecd54954b190eb8cda39"},
+    "authorization_id": {"const": "build-04-demo-auth-a5a8f11b94784a60"},
+    "authorization_sha256": {"const": "f609fa99ae0280987e11a3328e04d26484c15a65f72a0266566f2aaa9f650b2d"},
+    "resolution_sha256": {"const": "a5a8f11b94784a6065d7b75e151207126506c85ce826dd526c2c8f4802ba8b01"},
+    "plan_sha256": {"const": "b8b5ecd54954b190eb8cda398710039f334e8424fd0969816380b4a2b52b0b71"},
+    "demo_artifact": {"$ref": "#/$defs/demo_artifact"},
+    "consumption_record": {
+      "const": {
+        "artifact_sha256": "9131df533365e2f42e01edb8988804b850b65e69b932c55b672e0addd3400d84",
+        "authorization_id": "build-04-demo-auth-a5a8f11b94784a60",
+        "authorization_sha256": "f609fa99ae0280987e11a3328e04d26484c15a65f72a0266566f2aaa9f650b2d",
+        "consumption_id": "build-05-consumption-f609fa99ae0280987e11a332",
+        "consumption_schema": "nma.build-demo-authorization-consumption/1.0",
+        "consumption_sha256": "44ab99947d9cb196de6a4f5a5238b4af33eb306a911a104224774425c7ebb108",
+        "execution_id": "build-05-demo-exec-b8b5ecd54954b190eb8cda39",
+        "idempotency_key_sha256": "61adf89dd58741cd582af47b6edaa6b9470b66c975e3b8dbe23e44da32462355",
+        "plan_sha256": "b8b5ecd54954b190eb8cda398710039f334e8424fd0969816380b4a2b52b0b71",
+        "replay_allowed": false,
+        "status": "consumed-once"
+      }
+    },
+    "receipt": {
+      "const": {
+        "artifact_sha256": "9131df533365e2f42e01edb8988804b850b65e69b932c55b672e0addd3400d84",
+        "authorization_id": "build-04-demo-auth-a5a8f11b94784a60",
+        "authorization_sha256": "f609fa99ae0280987e11a3328e04d26484c15a65f72a0266566f2aaa9f650b2d",
+        "boundaries": {
+          "authorization_consumed": true,
+          "demo_policy_promoted": false,
+          "derived_view_uses_xy": true,
+          "execution_performed": true,
+          "production_activated": false,
+          "raw_attributes_disclosed": false,
+          "raw_geographic_coordinates_disclosed": false,
+          "runtime_wired": false,
+          "source_mutated": false,
+          "source_read_only": true,
+          "source_z_preserved": true
+        },
+        "consumption_sha256": "44ab99947d9cb196de6a4f5a5238b4af33eb306a911a104224774425c7ebb108",
+        "execution_id": "build-05-demo-exec-b8b5ecd54954b190eb8cda39",
+        "outcome": "success-derived-demo-only",
+        "plan_sha256": "b8b5ecd54954b190eb8cda398710039f334e8424fd0969816380b4a2b52b0b71",
+        "receipt_id": "build-05-receipt-b8b5ecd54954b190eb8cda39",
+        "receipt_schema": "nma.build-demo-execution-receipt/1.0",
+        "receipt_sha256": "c4ff4017c01aa3ef861530a91204fcd8357387a8400f4a47fcd637033f445573",
+        "resolution_sha256": "a5a8f11b94784a6065d7b75e151207126506c85ce826dd526c2c8f4802ba8b01",
+        "source_verification": {
+          "archive_sha256_after": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+          "archive_sha256_before": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+          "attribute_commitment_sha256": "ddfa112586b9c2bc3a61bdf2638b7994ba1200bfce5d8ad34988f2a24da96078",
+          "geometry_commitment_sha256": "23f7d5adacfb468bf0105ed66bb6f64ac44b50e22c47a2399a4787f6051bb22f"
+        }
+      }
+    },
+    "boundaries": {"$ref": "#/$defs/package_boundaries"},
+    "package_sha256": {"const": "10c22339abb8d2eed489ae56a54214948213bad51a135e00f74e309931c98c97"}
+  },
+  "$defs": {
+    "package_boundaries": {
+      "const": {
+        "authorization_consumed": true,
+        "demo_policy_promoted": false,
+        "derived_view_uses_xy": true,
+        "execution_performed": true,
+        "production_activated": false,
+        "raw_attributes_disclosed": false,
+        "raw_geographic_coordinates_disclosed": false,
+        "runtime_wired": false,
+        "source_mutated": false,
+        "source_read_only": true,
+        "source_z_preserved": true
+      }
+    },
+    "coordinate": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "number", "minimum": 0.0, "maximum": 1.0},
+        {"type": "number", "minimum": 0.0, "maximum": 1.0}
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "demo_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_schema", "status", "execution_id", "authorization_id", "authorization_sha256", "resolution_sha256", "feature_reference", "source_commitments", "privacy", "maplibre_demo", "boundaries", "artifact_sha256"],
+      "properties": {
+        "artifact_schema": {"const": "nma.build-derived-maplibre-demo/1.0"},
+        "status": {"const": "rendered-derived-demo"},
+        "execution_id": {"const": "build-05-demo-exec-b8b5ecd54954b190eb8cda39"},
+        "authorization_id": {"const": "build-04-demo-auth-a5a8f11b94784a60"},
+        "authorization_sha256": {"const": "f609fa99ae0280987e11a3328e04d26484c15a65f72a0266566f2aaa9f650b2d"},
+        "resolution_sha256": {"const": "a5a8f11b94784a6065d7b75e151207126506c85ce826dd526c2c8f4802ba8b01"},
+        "feature_reference": {"const": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f"},
+        "source_commitments": {
+          "const": {
+            "attribute_commitment_sha256": "ddfa112586b9c2bc3a61bdf2638b7994ba1200bfce5d8ad34988f2a24da96078",
+            "geometry_commitment_sha256": "23f7d5adacfb468bf0105ed66bb6f64ac44b50e22c47a2399a4787f6051bb22f",
+            "source_geometry_type": "PolygonZ",
+            "source_ring_count": 1,
+            "source_vertex_count": 65
+          }
+        },
+        "privacy": {
+          "const": {
+            "annotation_value_included": false,
+            "coordinate_space": "normalized-local-demo-not-geographic",
+            "derived_normalized_shape_included": true,
+            "raw_attributes_included": false,
+            "raw_geographic_coordinates_included": false
+          }
+        },
+        "maplibre_demo": {"$ref": "#/$defs/maplibre_demo"},
+        "boundaries": {
+          "const": {
+            "derived_view_uses_xy": true,
+            "production_activated": false,
+            "runtime_wired": false,
+            "source_accessed_read_only": true,
+            "source_mutated": false,
+            "source_z_preserved": true
+          }
+        },
+        "artifact_sha256": {"const": "9131df533365e2f42e01edb8988804b850b65e69b932c55b672e0addd3400d84"}
+      }
+    },
+    "maplibre_demo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "style", "controls"],
+      "properties": {
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "data"],
+          "properties": {
+            "type": {"const": "geojson"},
+            "data": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["type", "features"],
+              "properties": {
+                "type": {"const": "FeatureCollection"},
+                "features": {
+                  "type": "array",
+                  "minItems": 1,
+                  "maxItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["type", "id", "properties", "geometry"],
+                    "properties": {
+                      "type": {"const": "Feature"},
+                      "id": {"const": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f"},
+                      "properties": {
+                        "const": {
+                          "annotation_value_sha256": "17460f383142153fa58b587a2d3902b6cdbbcddb663d151cf28ce86bc6149a52",
+                          "display_annotation": "樓層＋結構",
+                          "feature_code": "9310100"
+                        }
+                      },
+                      "geometry": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["type", "coordinates"],
+                        "properties": {
+                          "type": {"const": "Polygon"},
+                          "coordinates": {
+                            "type": "array",
+                            "minItems": 1,
+                            "maxItems": 1,
+                            "items": {
+                              "type": "array",
+                              "minItems": 65,
+                              "maxItems": 65,
+                              "items": {"$ref": "#/$defs/coordinate"}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "style": {
+          "const": {
+            "annotation": {
+              "anchor_policy": "polygon-pole-of-inaccessibility",
+              "collision_policy": "suppress-if-no-interior-fit-or-higher-priority-collision",
+              "outside_displacement_allowed": false
+            },
+            "boundary": {"color": "#111111", "opacity": 1.0, "style": "solid", "width_css_px": 1.0},
+            "hatch": {"angle_degrees": 45.0, "clip_to_feature_geometry": true, "color": "#111111", "pattern_id": "nma-building-hatch-demo", "spacing_css_px": "7.559055118110236"},
+            "profile_id": "nma-maplibre-web-demo-v1"
+          }
+        },
+        "controls": {
+          "const": {
+            "hatch_angle_degrees": {"default": 45.0, "demo_only": true, "maximum_exclusive": 180.0, "minimum_inclusive": 0.0, "step": 1.0, "user_adjustable": true}
+          }
+        }
+      }
+    }
+  }
+}
