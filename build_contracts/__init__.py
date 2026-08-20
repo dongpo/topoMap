@@ -44,6 +44,11 @@ from build_contracts.demo_execution import (
     validate_build_demo_consumption_ledger,
     validate_build_demo_execution_package,
 )
+from build_contracts.demo_freeze import (
+    BuildDemoFreezeError,
+    build_build_demo_verification_freeze,
+    validate_build_demo_verification_freeze,
+)
 
 __all__ = [
     "BuildFixtureError",
@@ -53,7 +58,9 @@ __all__ = [
     "BuildGateResolutionError",
     "BuildDemoAuthorizationError",
     "BuildDemoExecutionError",
+    "BuildDemoFreezeError",
     "build_feature_profile",
+    "build_build_demo_verification_freeze",
     "execute_build_demo_once",
     "fixture_identity",
     "inspect_private_build_source",
@@ -74,6 +81,7 @@ __all__ = [
     "validate_build_demo_authorization",
     "validate_build_demo_consumption_ledger",
     "validate_build_demo_execution_package",
+    "validate_build_demo_verification_freeze",
     "validate_portrayal_evidence",
     "validate_proposal",
 ]
