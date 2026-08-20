@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/nma/schemas/authorization-handoff-request-v1.0.schema.json",
+  "title": "NMA Authorization Handoff Request 1.0",
+  "description": "A non-authoritative request for an external domain authorization mechanism to validate separately supplied domain authority.",
+  "type": "object",
+  "properties": {
+    "schema": {"const": "nma.authorization-handoff-request/1.0"},
+    "handoff_id": {
+      "type": "string",
+      "pattern": "^authorization-handoff:sha256:[0-9a-f]{64}$"
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "domain": {"enum": ["road", "school-hero"]},
+        "operation_class": {
+          "enum": [
+            "derived-road-centreline-portrayal",
+            "school-symbol-derived-layer-portrayal"
+          ]
+        },
+        "authorization_contract": {
+          "enum": [
+            "nma.road-execution-authorization/1.0",
+            "nma.symbol-edit-authorization/1.0"
+          ]
+        }
+      },
+      "required": ["domain", "operation_class", "authorization_contract"],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "domain": {"const": "road"},
+            "operation_class": {"const": "derived-road-centreline-portrayal"},
+            "authorization_contract": {
+              "const": "nma.road-execution-authorization/1.0"
+            }
+          }
+        },
+        {
+          "properties": {
+            "domain": {"const": "school-hero"},
+            "operation_class": {"const": "school-symbol-derived-layer-portrayal"},
+            "authorization_contract": {"const": "nma.symbol-edit-authorization/1.0"}
+          }
+        }
+      ]
+    },
+    "proposal_reference": {
+      "type": "string",
+      "pattern": "^proposal:sha256:[0-9a-f]{64}$"
+    },
+    "evaluation_reference": {
+      "type": "string",
+      "pattern": "^evaluation:sha256:[0-9a-f]{64}$"
+    },
+    "decision_record_reference": {
+      "type": "string",
+      "pattern": "^decision-record:sha256:[0-9a-f]{64}$"
+    },
+    "run_record_reference": {
+      "type": "string",
+      "pattern": "^agent-run:sha256:[0-9a-f]{64}$"
+    },
+    "evidence_references": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "schema": {"const": "nma.agent-evidence-reference/1.0"},
+          "evidence_id": {
+            "type": "string",
+            "pattern": "^evidence:sha256:[0-9a-f]{64}$"
+          },
+          "purpose": {"const": "proposal"}
+        },
+        "required": ["schema", "evidence_id", "purpose"],
+        "additionalProperties": false
+      }
+    },
+    "domain_authorization_reference": {
+      "description": "Required empty slot. A domain authorization is supplied separately to the domain-owned validator and can never be embedded in this Agent object.",
+      "type": "null"
+    },
+    "replay": {
+      "type": "object",
+      "properties": {
+        "handoff_key": {
+          "type": "string",
+          "pattern": "^handoff-replay:sha256:[0-9a-f]{64}$"
+        },
+        "duplicate_effect": {"const": "same-request-no-new-authority"},
+        "domain_idempotency": {"const": "external-domain-owned"}
+      },
+      "required": ["handoff_key", "duplicate_effect", "domain_idempotency"],
+      "additionalProperties": false
+    },
+    "versions": {
+      "type": "object",
+      "properties": {
+        "production_runtime": {"const": "nma-public-evidence-runtime/v0.2"},
+        "intent_planning": {"const": "nma.intent-planning/1.0"},
+        "evidence_reference": {"const": "nma.agent-evidence-reference/1.0"},
+        "proposal": {"const": "nma.evidence-backed-proposal/1.0"},
+        "evaluation": {"const": "nma.agent-evaluation/1.0"},
+        "decision_record": {"const": "nma.agent-decision-record/1.0"},
+        "run_record": {"const": "nma.agent-run-record/1.0"},
+        "handoff": {"const": "nma.authorization-handoff-request/1.0"}
+      },
+      "required": [
+        "production_runtime",
+        "intent_planning",
+        "evidence_reference",
+        "proposal",
+        "evaluation",
+        "decision_record",
+        "run_record",
+        "handoff"
+      ],
+      "additionalProperties": false
+    },
+    "boundary": {"const": "domain-validation-request-only"},
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "recorded_by": {"type": "string", "minLength": 1, "maxLength": 500},
+        "recorded_at": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        }
+      },
+      "required": ["recorded_by", "recorded_at"],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "handoff_id",
+    "target",
+    "proposal_reference",
+    "evaluation_reference",
+    "decision_record_reference",
+    "run_record_reference",
+    "evidence_references",
+    "domain_authorization_reference",
+    "replay",
+    "versions",
+    "boundary",
+    "provenance"
+  ],
+  "additionalProperties": false
+}
