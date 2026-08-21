@@ -1,0 +1,810 @@
+{
+  "schema_version": "nma.feature-production-generalization-audit/1.0",
+  "audit_id": "GEN-00",
+  "audit_sha256": "2e96f00ada42e22c7dc50387cb1fbf651b6fcbbdff94af796c0fd1985ffe86e3",
+  "verdict": "PASS — GENERALIZATION PARTIAL; DOMAIN BOUNDARIES REQUIRE CLOSURE",
+  "scope": {
+    "mode": "audit-and-architecture-definition-only",
+    "baseline_ref": "nma-build-v1.0-final",
+    "baseline_commit": "95de5fa3657a2c8ac7847f1ee1010c48ea984cd7",
+    "protected_implementations_modified": false,
+    "source_data_modified": false,
+    "private_archive_inspected": false,
+    "refactoring_authorized": false
+  },
+  "frozen_identities": {
+    "build_final_sha": "95de5fa3657a2c8ac7847f1ee1010c48ea984cd7",
+    "build_freeze_branch": "freeze/build-final-95de5fa",
+    "build_annotated_tag": "nma-build-v1.0-final",
+    "build_freeze_manifest_sha256": "627f129f56c22b4f55db51a22fbba02cacaf25e3832056254baf2b850749e30c",
+    "core_tag": "nma-core-v1.0-final",
+    "core_commit": "5eb138ae7686502431587743ebce9ddf92c5a799",
+    "road_tag": "nma-road-v1.0-final",
+    "road_commit": "325c70d5335f57c43a8af85822db25032aa225c3",
+    "school_freeze_branch": "freeze/hero-final-school-hero-56f99eb",
+    "school_commit": "56f99eb9ae63272a68accac3041fb10eacefb986"
+  },
+  "existing_primitives": [
+    {
+      "component": "nma.core.canonical_json and canonical_sha256",
+      "path": "src/nma/core/identity.py",
+      "classification": "canonical-core",
+      "finding": "Sole adopted generic canonical JSON and content-identity provider for School, ROAD, and BUILD contract identities."
+    },
+    {
+      "component": "nma.core.ArtifactReference",
+      "path": "src/nma/core/identity.py",
+      "classification": "canonical-core",
+      "finding": "Domain-neutral immutable id and SHA-256 value object; useful but too small to represent lifecycle lineage by itself."
+    },
+    {
+      "component": "nma.core.FeatureProfile",
+      "path": "src/nma/core/feature_profile.py",
+      "classification": "canonical-core",
+      "finding": "Canonical thin immutable compatibility primitive for geometry role plus opaque identity and source-scope payloads; it is explicitly not an execution or production contract."
+    },
+    {
+      "component": "School and ROAD feature-profile adapters",
+      "path": "src/nma/feature_profile_adapters.py",
+      "classification": "generic-candidate",
+      "finding": "Read-only compatibility views demonstrate adapter feasibility, but frozen School and ROAD execution do not consume them and their payload semantics remain domain-owned."
+    },
+    {
+      "component": "BUILD feature-profile adapter",
+      "path": "build_contracts/feature_profile.py",
+      "classification": "domain-specific",
+      "finding": "A BUILD-owned adapter over the accepted J13 entry fixture; it binds BUILD-01 readiness scope and explicitly grants no execution authority."
+    },
+    {
+      "component": "REAL_LAYER_PROFILES table",
+      "path": "src/nma/real_layer.py",
+      "classification": "legacy",
+      "finding": "A mixed School/RIVERL/Building VS3 profile table. School still consumes it, while BUILD-10 explicitly bypasses its global J17 and destructive drop-z Building path."
+    },
+    {
+      "component": "reviewed archive inventory and extraction helpers",
+      "path": "src/nma/real_layer.py",
+      "classification": "generic-candidate",
+      "finding": "Safely inventories component families and extracts verified copies; reused by School, ROAD, and BUILD, but still coupled to ZIP/Shapefile/GDAL assumptions."
+    },
+    {
+      "component": "School controlled execution engine",
+      "path": "src/nma/school_hero_execution.py",
+      "classification": "domain-specific",
+      "finding": "Point-feature filtering, school schema, SVG transformation, MapLibre bundle, idempotency, receipt, and rollback are one frozen School implementation."
+    },
+    {
+      "component": "School verifier",
+      "path": "src/nma/school_hero_verification.py",
+      "classification": "domain-specific",
+      "finding": "Independently derives expected School data, portrayal, bundle, QA, and provenance, but includes School artifact names and runtime identities."
+    },
+    {
+      "component": "ROAD resolution through execution",
+      "path": "src/nma/road_resolution.py; src/nma/road_portrayal_decision.py; src/nma/road_approval.py; src/nma/road_execution.py",
+      "classification": "domain-specific",
+      "finding": "A deliberately bounded K14 and County Highway 126 chain with route topology, line portrayal, authorization consumption, and immutable frozen identities."
+    },
+    {
+      "component": "ROAD verifier",
+      "path": "src/nma/road_verification.py",
+      "classification": "domain-specific",
+      "finding": "Independent native/runtime reconstruction, geometry continuity, render observation, rollback, QA, and complete ROAD lineage."
+    },
+    {
+      "component": "BUILD evidence and semantic resolution chain",
+      "path": "build_contracts/resolution.py; build_contracts/official_evidence_closure.py; build_contracts/targeted_official_evidence_resolution.py; build_contracts/j13_j17_production_applicability.py",
+      "classification": "domain-specific",
+      "finding": "Building-only evidence authority, J13/J17 applicability, field semantics, and official/local-policy boundaries."
+    },
+    {
+      "component": "BUILD human production policy and finalized contract",
+      "path": "build_contracts/human_building_production_policy.py",
+      "classification": "generic-candidate",
+      "finding": "The separation of official evidence, explicit local policy, and finalized production contract is reusable; all current values and validators are Building-specific."
+    },
+    {
+      "component": "BUILD controlled implementation",
+      "path": "build_contracts/building_production_implementation.py",
+      "classification": "domain-specific",
+      "finding": "Package-scoped PolygonZ preservation, derived XY, annotation, procedural hatch, and Building portrayal are intentionally domain-specific."
+    },
+    {
+      "component": "BUILD readiness and activation authorization",
+      "path": "build_contracts/building_production_verification.py; build_contracts/human_building_production_activation_authorization.py",
+      "classification": "generic-candidate",
+      "finding": "Separate verification readiness and human activation authorization are reusable lifecycle roles, but their current records hard-code Building identities and gates."
+    },
+    {
+      "component": "BUILD activation registry and records",
+      "path": "build_contracts/building_production_activation.py",
+      "classification": "domain-specific",
+      "finding": "Process-local activation of the one canonical Building binding, with Building package replay and portrayal checks; not evidence that every feature needs activation."
+    },
+    {
+      "component": "domain record hashing and canonical JSON persistence helpers",
+      "path": "src/nma/school_hero_execution.py; src/nma/road_execution.py; src/nma/road_verification.py; build_contracts/building_production_implementation.py",
+      "classification": "duplicated",
+      "finding": "Domains correctly share Core hashing but repeatedly implement self-hash exclusion, canonical-file bytes, JSON writing, and record verification."
+    },
+    {
+      "component": "Agent authorization handoff and run provenance contracts",
+      "path": "agent_contracts/handoff.py; agent_contracts/provenance.py",
+      "classification": "intentional-divergence",
+      "finding": "Generic governance metadata deliberately carries no production authority and cannot substitute for domain authorization, execution, receipt, or verification."
+    }
+  ],
+  "lifecycle_crosswalk": [
+    {
+      "stage": "evidence-and-semantic-resolution",
+      "school": "Evidence and proposal lineage exist, but the checkout has no production HERO-03 issuer and no School production-contract stage.",
+      "road": "ROAD-01 resolution binds exact K14 records, topology, route identity, fixture, archive identity, and reviewed evidence.",
+      "build": "BUILD-01 and BUILD-08 through BUILD-09E2 separate source observation, official semantics, evidence closure, applicability, and unresolved local policy.",
+      "classification": "intentional-divergence"
+    },
+    {
+      "stage": "human-policy-and-authorization",
+      "school": "HERO-04 consumes a complete human-approved nma.symbol-edit-authorization/1.0 artifact; issuer implementation is absent from this checkout.",
+      "road": "ROAD-03 emits a frozen approval and execution capability with restricted permissions.",
+      "build": "BUILD-08A bounds evidence work; BUILD-09F authorizes local production policy; BUILD-11A separately authorizes activation.",
+      "classification": "generic-candidate"
+    },
+    {
+      "stage": "production-contract",
+      "school": "No independent production contract; rules are embedded in authorization and execution code.",
+      "road": "No named production contract; proposal, authorization, and ROAD-04 constants jointly form an implicit frozen contract.",
+      "build": "BUILD-09 candidate becomes the BUILD-09F closed finalized production contract.",
+      "classification": "generic-candidate"
+    },
+    {
+      "stage": "controlled-execution",
+      "school": "Atomic School engine validates authorization, source, point geometry, portrayal operations, and writes plan/bundle/receipt/observation.",
+      "road": "Atomic ROAD engine consumes one capability, derives native/runtime line views, portrayal, bundle, receipt, rollback, and consumption ledger.",
+      "build": "BUILD-10 executes package-scoped PolygonZ validation and ephemeral derived-XY portrayal without activation.",
+      "classification": "generic-candidate"
+    },
+    {
+      "stage": "verification-and-provenance",
+      "school": "HERO-05 independently replays expected state and records QA plus request-to-artifact provenance.",
+      "road": "ROAD-05 independently reconstructs native/runtime geometry, verifies frozen lineage, visual evidence, QA, and provenance.",
+      "build": "BUILD-11 verifies deterministic J13/J17 replays, tamper/fail-closed behavior, provenance, and cleanup into activation readiness.",
+      "classification": "generic-candidate"
+    },
+    {
+      "stage": "rollback-or-cleanup",
+      "school": "Explicit idempotent runtime remove-layer/source/image rollback preserves receipt; staging failures are cleaned.",
+      "road": "Explicit deterministic rollback manifest plus staging cleanup and authorization-consumption ledger.",
+      "build": "BUILD-10 outputs are ephemeral and cleaned; source rollback is unnecessary. BUILD-12 deactivates only process-local state.",
+      "classification": "intentional-divergence"
+    },
+    {
+      "stage": "activation",
+      "school": "No separate activation authorization or production-active state in the frozen School path.",
+      "road": "Execution publishes an isolated runtime bundle but has no separate post-verification activation state machine.",
+      "build": "BUILD-11A authorization precedes BUILD-12 precheck, activation, immediate postcheck, receipt, reversible state layer, and activated baseline.",
+      "classification": "intentional-divergence"
+    },
+    {
+      "stage": "freeze-and-release",
+      "school": "A canonical School freeze branch is referenced by Core/BUILD integrity evidence, but no ROAD/BUILD-style feature final manifest is present.",
+      "road": "ROAD-FINAL provides annotated tag, freeze branch, deterministic identities, and final release report/manifest.",
+      "build": "BUILD-FINAL provides annotated tag, freeze branch, closed manifest, active baseline, source boundary, and release identity.",
+      "classification": "generic-candidate"
+    }
+  ],
+  "dimensions": [
+    {
+      "id": "canonical-identity",
+      "classification": "canonical-core",
+      "common_behavior": "Canonical UTF-8 JSON plus SHA-256 content identity is shared and adopted.",
+      "domain_variation": "Each domain owns record hash bases, self-hash exclusions, file-byte identities, and identity prefixes.",
+      "duplicated_implementation": "Self-hash and canonical-file helper logic repeats across all three paths.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "feature-profile",
+      "classification": "generic-candidate",
+      "common_behavior": "Geometry role, domain identity, and source scope can be exposed immutably.",
+      "domain_variation": "School, ROAD, and BUILD payload keys and authority differ; BUILD profile is entry-fixture-only.",
+      "duplicated_implementation": "Three adapters manually map domain constants into opaque payloads.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "source-package-binding",
+      "classification": "generic-candidate",
+      "common_behavior": "Execution binds exact source identity, layer/package scope, and selected members before output.",
+      "domain_variation": "School selects six MARK layers, ROAD selects ordered K14 segments, BUILD selects one package-scoped J13/J17 member.",
+      "duplicated_implementation": "Binding checks and source identity records are independently encoded in each engine.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "schema-validation",
+      "classification": "duplicated",
+      "common_behavior": "All paths fail closed on geometry type, required fields, CRS/profile, and feature invariants.",
+      "domain_variation": "Exact fields, order, types, counts, and tolerances are domain-owned.",
+      "duplicated_implementation": "School GeoJSON checks, ROAD OGR/feature checks, and BUILD seven-field validation use separate validator shapes.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "evidence-provenance",
+      "classification": "generic-candidate",
+      "common_behavior": "Decisions and outputs bind evidence/source identities and preserve authority class or citation context.",
+      "domain_variation": "School requires injected upstream lineage, ROAD binds fixed reviewed evidence IDs, BUILD models official versus reviewed versus local-policy authority.",
+      "duplicated_implementation": "Evidence linkage and validation are separately represented in each lifecycle.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "semantic-mapping",
+      "classification": "domain-specific",
+      "common_behavior": "Source fields and codes are mapped to NMA concepts before portrayal.",
+      "domain_variation": "School point classification, ROAD route/segment identity, and BUILD floor/structure semantics are materially different.",
+      "duplicated_implementation": "The lifecycle role repeats, but the mapping content is not duplicative.",
+      "reusable_contract_justified": false
+    },
+    {
+      "id": "human-policy-authorization",
+      "classification": "generic-candidate",
+      "common_behavior": "Execution requires explicit, hash-bound authority separated from proposal/evidence provenance.",
+      "domain_variation": "School consumes an externally issued artifact, ROAD freezes a capability, BUILD separates production policy and activation authorization.",
+      "duplicated_implementation": "Authorization validators repeat identity, scope, status, and permission checks.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "production-contract",
+      "classification": "generic-candidate",
+      "common_behavior": "A closed contract should bind semantics, policy, source scope, safety boundaries, and implementation readiness.",
+      "domain_variation": "Only BUILD has an explicit finalized contract; School and ROAD distribute the same responsibilities across artifacts and constants.",
+      "duplicated_implementation": "Implicit contract assembly is repeated and difficult to inspect uniformly.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "geometry-policy",
+      "classification": "domain-specific",
+      "common_behavior": "Every path states allowed geometry types and forbidden mutation.",
+      "domain_variation": "Point filtering, contiguous road LineStrings, and PolygonZ preservation/interior-point rules cannot share one policy.",
+      "duplicated_implementation": "Common safety vocabulary repeats, while algorithms are intentionally distinct.",
+      "reusable_contract_justified": false
+    },
+    {
+      "id": "derived-geometry",
+      "classification": "generic-candidate",
+      "common_behavior": "Authoritative source geometry is separated from deterministic runtime/portrayal derivatives with provenance.",
+      "domain_variation": "School reprojects/drops Z on reviewed point copies, ROAD preserves native lines plus EPSG:4326 copies, BUILD preserves authoritative PolygonZ and derives non-authoritative XY.",
+      "duplicated_implementation": "Derivative identity, CRS, source binding, and non-write claims are reimplemented.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "portrayal-policy",
+      "classification": "domain-specific",
+      "common_behavior": "Portrayal is derived and bound to reviewed or human-authorized semantics.",
+      "domain_variation": "School SVG marker operations, ROAD line label/shield semantics, and BUILD procedural hatch/annotation/output profile differ.",
+      "duplicated_implementation": "Resource identity and bundle binding repeat, but portrayal meaning stays domain-owned.",
+      "reusable_contract_justified": false
+    },
+    {
+      "id": "execution-plan",
+      "classification": "duplicated",
+      "common_behavior": "Each execution emits a deterministic, hash-bound plan before effects.",
+      "domain_variation": "Plan operations and geometry/source details differ.",
+      "duplicated_implementation": "Three independent plan shapes and self-hash conventions exist.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "execution-receipt",
+      "classification": "duplicated",
+      "common_behavior": "Receipts bind authorization, plan/execution identity, outputs, and completion state.",
+      "domain_variation": "School and ROAD persist runtime artifacts; BUILD-10 records ephemeral cleanup and BUILD-12 has a separate activation receipt.",
+      "duplicated_implementation": "Receipt envelopes, hash bases, and validation are independently defined.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "provenance-chain",
+      "classification": "generic-candidate",
+      "common_behavior": "Content-addressed parent links connect evidence, authority, execution, verification, and artifacts.",
+      "domain_variation": "School includes request/intent records, ROAD includes frozen evidence and rollback, BUILD includes policy/contract/activation.",
+      "duplicated_implementation": "Chain-node shapes and completeness checks repeat without one production lineage envelope.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "observation",
+      "classification": "duplicated",
+      "common_behavior": "Observed runtime/output state is separated from plan and receipt and is hash-bound.",
+      "domain_variation": "School observes layer events, ROAD observes bundle/render/geometry, BUILD observes controlled and active package replays.",
+      "duplicated_implementation": "Observation schemas and check-record shapes repeat independently.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "verification",
+      "classification": "generic-candidate",
+      "common_behavior": "Independent replay/reconstruction compares expected and observed identities and emits QA/provenance.",
+      "domain_variation": "Each DomainVerifier needs different geometric, semantic, and visual checks.",
+      "duplicated_implementation": "Verification orchestration and check-envelope logic repeat; domain assertions do not.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "fail-closed-behavior",
+      "classification": "generic-candidate",
+      "common_behavior": "Missing, ambiguous, stale, unauthorized, or tampered inputs stop before mutation/activation and never invoke fallback.",
+      "domain_variation": "Failure codes and exact invalidation conditions are domain-specific.",
+      "duplicated_implementation": "Exact-field checks, digest validation, error classes, and negative matrices repeat.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "rollback-cleanup",
+      "classification": "intentional-divergence",
+      "common_behavior": "Failure cleanup and reversibility are explicit and source data are never rollback targets.",
+      "domain_variation": "School removes runtime objects, ROAD records rollback plus ledger state, BUILD discards ephemeral derivatives and deactivates state.",
+      "duplicated_implementation": "Some cleanup mechanics repeat, but one universal rollback contract would misstate effect models.",
+      "reusable_contract_justified": false
+    },
+    {
+      "id": "activation-authorization",
+      "classification": "generic-candidate",
+      "common_behavior": "Where activation exists, it should be a separately authorized transition after verification.",
+      "domain_variation": "Only BUILD has a distinct human activation authorization; School and ROAD do not prove this stage is universally required.",
+      "duplicated_implementation": "No cross-domain duplicate yet; BUILD supplies the candidate pattern.",
+      "reusable_contract_justified": true
+    },
+    {
+      "id": "activation-state",
+      "classification": "intentional-divergence",
+      "common_behavior": "Published state must be explicit and verifiable when a domain has a separately switchable runtime binding.",
+      "domain_variation": "BUILD has process-local active flags and deactivation; School and ROAD produce isolated runtime bundles without the same state machine.",
+      "duplicated_implementation": "No common implementation is evidenced.",
+      "reusable_contract_justified": false
+    },
+    {
+      "id": "freeze-release-identity",
+      "classification": "generic-candidate",
+      "common_behavior": "Release identity binds immutable commit/tag/branch or canonical manifest plus production artifacts.",
+      "domain_variation": "ROAD and BUILD have full final manifests/tags; School has a referenced freeze branch but no equivalent final manifest in this checkout.",
+      "duplicated_implementation": "ROAD and BUILD separately encode freeze manifests, reports, integrity suites, and release checks.",
+      "reusable_contract_justified": true
+    }
+  ],
+  "duplication_matrix": [
+    {
+      "capability": "canonical identity",
+      "school": "Core adopted",
+      "road": "Core adopted transitively",
+      "build": "Core adopted",
+      "common_primitive": true,
+      "domain_specific": false,
+      "duplication_risk": "medium",
+      "evidence": "Core provider is shared, but record-basis and canonical-file helpers repeat."
+    },
+    {
+      "capability": "feature profile",
+      "school": "Read-only adapter; execution uses REAL_LAYER_PROFILES",
+      "road": "Read-only adapter; execution does not consume it",
+      "build": "BUILD-owned entry-fixture adapter consumed by BUILD-01 binding",
+      "common_primitive": true,
+      "domain_specific": true,
+      "duplication_risk": "medium",
+      "evidence": "One thin Core type, three manual payload mappings, unequal authority."
+    },
+    {
+      "capability": "source/package binding",
+      "school": "Six MARK source layers plus archive hash",
+      "road": "K14 package, layer, route, ordered segments",
+      "build": "Exact package scope to J13/J17 member",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "high",
+      "evidence": "Same binding role, separate closed implementations."
+    },
+    {
+      "capability": "schema validation",
+      "school": "Point/TERRAINID/count checks",
+      "road": "LineString/fields/CRS/count/topology checks",
+      "build": "Ordered seven-field/PolygonZ/package checks",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "high",
+      "evidence": "Validator envelope duplicated; predicates correctly vary."
+    },
+    {
+      "capability": "evidence provenance",
+      "school": "Injected request-to-approval lineage",
+      "road": "Frozen reviewed evidence IDs and package",
+      "build": "Authority-classified official/reviewed/local evidence chain",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "high",
+      "evidence": "All bind evidence, but no shared evidence-to-production envelope."
+    },
+    {
+      "capability": "semantic mapping",
+      "school": "School code and MARK field mapping",
+      "road": "Route identity and ordered segment semantics",
+      "build": "Building class, floor, structure, package semantics",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "low",
+      "evidence": "Lifecycle role common; semantic content intentionally different."
+    },
+    {
+      "capability": "human policy/authorization",
+      "school": "Consumed external HERO-03 authorization",
+      "road": "ROAD-03 approval and frozen capability",
+      "build": "BUILD-09F policy plus BUILD-11A activation authorization",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "high",
+      "evidence": "Scope/status/hash validation repeats with different issuers."
+    },
+    {
+      "capability": "production contract",
+      "school": "Implicit in authorization and engine",
+      "road": "Implicit across proposal, capability, and constants",
+      "build": "Explicit finalized BUILD-09F contract",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "high",
+      "evidence": "BUILD demonstrates a reusable role absent as a first-class contract elsewhere."
+    },
+    {
+      "capability": "geometry policy",
+      "school": "Point XY and reviewed reprojection",
+      "road": "Line continuity, vertex/order preservation",
+      "build": "Immutable PolygonZ and deterministic XY/interior point",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "low",
+      "evidence": "Algorithms and invariants materially differ."
+    },
+    {
+      "capability": "derived geometry",
+      "school": "Derived School GeoJSON",
+      "road": "Native and EPSG:4326 line artifacts",
+      "build": "Separate non-authoritative XY view",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "high",
+      "evidence": "Source/derivative identity and non-write metadata repeat."
+    },
+    {
+      "capability": "portrayal policy",
+      "school": "SVG marker color/opacity/scale/rotation",
+      "road": "Line label and semantic-only shield",
+      "build": "Hatch, outline, annotation, output profile",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "medium",
+      "evidence": "Bundle/resource binding repeats; policy meaning does not."
+    },
+    {
+      "capability": "execution plan",
+      "school": "school-hero plan",
+      "road": "road execution plan",
+      "build": "building production plan",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "high",
+      "evidence": "Three deterministic plan envelopes and self-hash conventions."
+    },
+    {
+      "capability": "execution receipt",
+      "school": "Persisted execution receipt",
+      "road": "Persisted receipt plus consumption",
+      "build": "Controlled receipt plus activation receipt",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "high",
+      "evidence": "Authorization/output/completion bindings recur."
+    },
+    {
+      "capability": "provenance chain",
+      "school": "Request through artifact",
+      "road": "Archive/evidence through rollback and artifact set",
+      "build": "Evidence/policy/contract through activation baseline",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "high",
+      "evidence": "Content-addressed chain mechanics recur; nodes vary."
+    },
+    {
+      "capability": "observation",
+      "school": "Runtime layer observation",
+      "road": "Runtime and visual observations",
+      "build": "Controlled and active replay observations",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "high",
+      "evidence": "Expected/observed/check structures are independently encoded."
+    },
+    {
+      "capability": "verification",
+      "school": "Independent expected-state replay",
+      "road": "Independent archive/render reconstruction",
+      "build": "Controlled and post-activation replay matrices",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "high",
+      "evidence": "Orchestration is similar; DomainVerifier predicates must remain separate."
+    },
+    {
+      "capability": "fail-closed behavior",
+      "school": "Reject and clean before commit",
+      "road": "Reject without fallback or source/runtime mutation",
+      "build": "Reject before derivation/activation and deactivate on postcheck failure",
+      "common_primitive": false,
+      "domain_specific": false,
+      "duplication_risk": "high",
+      "evidence": "Shared safety semantics are repeated across error classes and validators."
+    },
+    {
+      "capability": "rollback/cleanup",
+      "school": "Runtime-object rollback and staging cleanup",
+      "road": "Rollback manifest, staging cleanup, immutable ledger",
+      "build": "Ephemeral cleanup and activation-state deactivation",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "medium",
+      "evidence": "Effect models differ; only cleanup outcome vocabulary is common."
+    },
+    {
+      "capability": "activation authorization",
+      "school": "Absent as separate stage",
+      "road": "Absent as separate stage",
+      "build": "BUILD-11A human authorization",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "low",
+      "evidence": "Only one mature implementation; make framework capability optional."
+    },
+    {
+      "capability": "activation state",
+      "school": "No separate active state",
+      "road": "No separate active state",
+      "build": "Process-local active flags with postcheck and deactivation",
+      "common_primitive": false,
+      "domain_specific": true,
+      "duplication_risk": "low",
+      "evidence": "Repository does not justify a mandatory universal state machine."
+    },
+    {
+      "capability": "freeze/release identity",
+      "school": "Referenced canonical freeze branch",
+      "road": "Annotated tag, freeze branch, manifest/report",
+      "build": "Annotated tag, freeze branch, manifest/activated baseline",
+      "common_primitive": false,
+      "domain_specific": false,
+      "duplication_risk": "high",
+      "evidence": "ROAD and BUILD reproduce release identity/integrity machinery."
+    }
+  ],
+  "candidate_architecture": {
+    "supported": true,
+    "model": [
+      "NMA Core Identity",
+      "Feature Profile",
+      "Evidence and Semantic Contract",
+      "Human Policy Authorization",
+      "Feature Production Contract",
+      "Domain Adapter",
+      "Controlled Execution",
+      "Verification",
+      "Optional Activation",
+      "Freeze"
+    ],
+    "required_core": [
+      "canonical identity provider",
+      "immutable feature-profile envelope",
+      "artifact and parent references",
+      "closed lifecycle record envelopes",
+      "fail-closed validation vocabulary"
+    ],
+    "domain_owned": [
+      "source meaning and semantic mapping",
+      "geometry algorithms and invariants",
+      "portrayal semantics and output-profile values",
+      "domain verification predicates",
+      "effect-specific rollback",
+      "whether activation is a distinct lifecycle stage"
+    ],
+    "conditional_stages": [
+      "activation authorization",
+      "activation state",
+      "effect rollback",
+      "full release manifest"
+    ],
+    "evidence_limit": "The repository supports the layered responsibilities but not one universal mandatory sequence. School lacks a local authorization producer and full final manifest; ROAD lacks a distinct production contract and activation stage; BUILD supplies the richest but domain-specific lifecycle."
+  },
+  "adapter_boundaries": [
+    {
+      "interface": "SourceBinding",
+      "owns": [
+        "exact source/package/layer selection",
+        "source and component identities",
+        "ambiguity and availability checks",
+        "read-only source handle description"
+      ],
+      "must_not_own": [
+        "semantic meaning",
+        "portrayal values",
+        "execution authority",
+        "source mutation or repair"
+      ]
+    },
+    {
+      "interface": "SchemaContract",
+      "owns": [
+        "closed field and geometry expectations",
+        "CRS and dimensionality requirements",
+        "schema identity",
+        "fail-closed validation results"
+      ],
+      "must_not_own": [
+        "source selection policy",
+        "semantic equivalence claims",
+        "repair",
+        "authorization"
+      ]
+    },
+    {
+      "interface": "SemanticMapping",
+      "owns": [
+        "source field and code to NMA concept mapping",
+        "annotation content semantics",
+        "authority/evidence references for mappings"
+      ],
+      "must_not_own": [
+        "geometry mutation",
+        "device portrayal serialization",
+        "execution or activation authority",
+        "fallback equivalence"
+      ]
+    },
+    {
+      "interface": "GeometryPolicy",
+      "owns": [
+        "allowed geometry types and transformations",
+        "source immutability and dimensionality rules",
+        "derived-geometry algorithm identity",
+        "geometry-specific validation predicates"
+      ],
+      "must_not_own": [
+        "source package selection",
+        "portrayal styling",
+        "human policy decisions",
+        "source writeback"
+      ]
+    },
+    {
+      "interface": "PortrayalPolicy",
+      "owns": [
+        "domain portrayal semantics",
+        "resource identities",
+        "output-profile conversion and device serialization",
+        "runtime bundle fragments"
+      ],
+      "must_not_own": [
+        "source authority",
+        "semantic field invention",
+        "execution authorization",
+        "geometry repair"
+      ]
+    },
+    {
+      "interface": "DomainVerifier",
+      "owns": [
+        "independent expected-state derivation",
+        "domain invariants and tamper checks",
+        "expected-versus-observed classification",
+        "domain QA evidence"
+      ],
+      "must_not_own": [
+        "authorization issuance",
+        "execution",
+        "silent repair or fallback",
+        "activation unless separately authorized"
+      ]
+    }
+  ],
+  "data_availability": [
+    {
+      "candidate": "RIVERL",
+      "status": "tracked-source-available",
+      "evidence": [
+        "20 tracked Shapefile components across clean, defective, schema-mismatch, and wrong-CRS families",
+        "8 tracked VRT/CSV fixture-source files across the same four families",
+        "data/specifications/taiwan-5000-riverl-112.json",
+        "LineString fixtures exercise feature, schema, and CRS variation"
+      ],
+      "production_source_established": true
+    },
+    {
+      "candidate": "LANDUSE",
+      "status": "not-established",
+      "evidence": [
+        "No tracked LANDUSE-named source shapefile or fixture family was found."
+      ],
+      "production_source_established": false
+    },
+    {
+      "candidate": "STREAM",
+      "status": "unverified-source-availability",
+      "evidence": [
+        "No dedicated tracked STREAM-named source shapefile or fixture family was found."
+      ],
+      "production_source_established": false
+    },
+    {
+      "candidate": "POND_OR_FISH_POND",
+      "status": "portrayal-evidence-only-source-unverified",
+      "evidence": [
+        "Tracked fish-pond SVG and demo/presentation evidence exist.",
+        "No dedicated tracked production pond source shapefile was found."
+      ],
+      "production_source_established": false
+    },
+    {
+      "candidate": "PRIVATE_SOURCE_ARCHIVE",
+      "status": "unknown-not-inspected",
+      "evidence": [
+        "Archive identity and Git boundary were checked without opening or extracting it.",
+        "No private-layer availability was inferred."
+      ],
+      "production_source_established": false
+    }
+  ],
+  "duplication_quantification": {
+    "school_adjacent_schema_files": 7,
+    "road_schema_files": 15,
+    "build_and_building_schema_files": 28,
+    "domain_schema_family_total": 50,
+    "controlled_execution_surfaces": 3,
+    "domain_verifier_surfaces": 3,
+    "explicit_domain_record_hash_helper_surfaces_minimum": 4,
+    "explicit_domain_json_writer_surfaces_minimum": 3,
+    "interpretation": "Counts are structural lower bounds. The higher risk is semantic and lifecycle duplication: the same plan/receipt/observation/provenance/fail-closed roles are independently specified even when code text differs."
+  },
+  "proof_feature_ranking": [
+    {
+      "rank": 1,
+      "candidate": "RIVERL",
+      "recommendation": "recommended-later-proof",
+      "reason": "Tracked source and failure fixtures exist; LineString river semantics and quality rules materially differ from BUILD PolygonZ portrayal."
+    },
+    {
+      "rank": 2,
+      "candidate": "POND_OR_FISH_POND",
+      "recommendation": "hold-until-source-established",
+      "reason": "Portrayal evidence is useful, but no dedicated tracked production source is established."
+    },
+    {
+      "rank": 3,
+      "candidate": "STREAM",
+      "recommendation": "hold-unverified-source-availability",
+      "reason": "No dedicated tracked source is proven."
+    },
+    {
+      "rank": 4,
+      "candidate": "LANDUSE",
+      "recommendation": "do-not-use-as-default-proof",
+      "reason": "No tracked LANDUSE source shapefile is established."
+    }
+  ],
+  "gen01_recommendation": {
+    "title": "GEN-01 — Feature Production Contract Boundary Closure",
+    "objective": "Define and test closed, domain-neutral lifecycle envelopes and adapter protocols without migrating or refactoring frozen School, ROAD, or BUILD implementations.",
+    "in_scope": [
+      "artifact and parent-reference envelope",
+      "feature production contract envelope",
+      "plan, receipt, observation, verification, and release record envelopes",
+      "SourceBinding, SchemaContract, SemanticMapping, GeometryPolicy, PortrayalPolicy, and DomainVerifier ownership rules",
+      "conformance fixtures proving optional activation and effect-specific cleanup",
+      "RIVERL proof plan using only tracked fixtures"
+    ],
+    "out_of_scope": [
+      "frozen implementation migration",
+      "RIVERL production implementation",
+      "LANDUSE nomination",
+      "private archive inspection",
+      "source or portrayal asset mutation",
+      "runtime activation"
+    ],
+    "exit_gate": "Proceed to a later RIVERL proof only when closed envelopes preserve domain ownership, optional lifecycle stages, and fail-closed behavior without BUILD-specific fields."
+  }
+}

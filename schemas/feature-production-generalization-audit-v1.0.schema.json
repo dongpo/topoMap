@@ -1,0 +1,557 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dongpo/topoMap/schemas/feature-production-generalization-audit-v1.0.schema.json",
+  "title": "NMA GEN-00 Feature Production Generalization Audit",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "audit_id",
+    "audit_sha256",
+    "verdict",
+    "scope",
+    "frozen_identities",
+    "existing_primitives",
+    "lifecycle_crosswalk",
+    "dimensions",
+    "duplication_matrix",
+    "candidate_architecture",
+    "adapter_boundaries",
+    "data_availability",
+    "duplication_quantification",
+    "proof_feature_ranking",
+    "gen01_recommendation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "nma.feature-production-generalization-audit/1.0"
+    },
+    "audit_id": {
+      "const": "GEN-00"
+    },
+    "audit_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "verdict": {
+      "enum": [
+        "PASS — FEATURE PRODUCTION GENERALIZATION BOUNDARY ESTABLISHED; GEN-01 READY",
+        "PASS — GENERALIZATION PARTIAL; DOMAIN BOUNDARIES REQUIRE CLOSURE",
+        "FAIL — FEATURE PRODUCTION GENERALIZATION BOUNDARY NOT ESTABLISHED"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "baseline_ref",
+        "baseline_commit",
+        "protected_implementations_modified",
+        "source_data_modified",
+        "private_archive_inspected",
+        "refactoring_authorized"
+      ],
+      "properties": {
+        "mode": {
+          "const": "audit-and-architecture-definition-only"
+        },
+        "baseline_ref": {
+          "const": "nma-build-v1.0-final"
+        },
+        "baseline_commit": {
+          "$ref": "#/$defs/gitCommit"
+        },
+        "protected_implementations_modified": {
+          "const": false
+        },
+        "source_data_modified": {
+          "const": false
+        },
+        "private_archive_inspected": {
+          "const": false
+        },
+        "refactoring_authorized": {
+          "const": false
+        }
+      }
+    },
+    "frozen_identities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "build_final_sha",
+        "build_freeze_branch",
+        "build_annotated_tag",
+        "build_freeze_manifest_sha256",
+        "core_tag",
+        "core_commit",
+        "road_tag",
+        "road_commit",
+        "school_freeze_branch",
+        "school_commit"
+      ],
+      "properties": {
+        "build_final_sha": {
+          "$ref": "#/$defs/gitCommit"
+        },
+        "build_freeze_branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "build_annotated_tag": {
+          "type": "string",
+          "minLength": 1
+        },
+        "build_freeze_manifest_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "core_tag": {
+          "type": "string",
+          "minLength": 1
+        },
+        "core_commit": {
+          "$ref": "#/$defs/gitCommit"
+        },
+        "road_tag": {
+          "type": "string",
+          "minLength": 1
+        },
+        "road_commit": {
+          "$ref": "#/$defs/gitCommit"
+        },
+        "school_freeze_branch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "school_commit": {
+          "$ref": "#/$defs/gitCommit"
+        }
+      }
+    },
+    "existing_primitives": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/component"
+      }
+    },
+    "lifecycle_crosswalk": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/lifecycleStage"
+      }
+    },
+    "dimensions": {
+      "type": "array",
+      "minItems": 21,
+      "maxItems": 21,
+      "items": {
+        "$ref": "#/$defs/dimension"
+      }
+    },
+    "duplication_matrix": {
+      "type": "array",
+      "minItems": 21,
+      "maxItems": 21,
+      "items": {
+        "$ref": "#/$defs/duplicationRow"
+      }
+    },
+    "candidate_architecture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supported",
+        "model",
+        "required_core",
+        "domain_owned",
+        "conditional_stages",
+        "evidence_limit"
+      ],
+      "properties": {
+        "supported": {
+          "const": true
+        },
+        "model": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "required_core": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "domain_owned": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "conditional_stages": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "evidence_limit": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "adapter_boundaries": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/adapter"
+      }
+    },
+    "data_availability": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/dataAvailability"
+      }
+    },
+    "duplication_quantification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "school_adjacent_schema_files",
+        "road_schema_files",
+        "build_and_building_schema_files",
+        "domain_schema_family_total",
+        "controlled_execution_surfaces",
+        "domain_verifier_surfaces",
+        "explicit_domain_record_hash_helper_surfaces_minimum",
+        "explicit_domain_json_writer_surfaces_minimum",
+        "interpretation"
+      ],
+      "properties": {
+        "school_adjacent_schema_files": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "road_schema_files": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "build_and_building_schema_files": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "domain_schema_family_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "controlled_execution_surfaces": {
+          "type": "integer",
+          "minimum": 3
+        },
+        "domain_verifier_surfaces": {
+          "type": "integer",
+          "minimum": 3
+        },
+        "explicit_domain_record_hash_helper_surfaces_minimum": {
+          "type": "integer",
+          "minimum": 4
+        },
+        "explicit_domain_json_writer_surfaces_minimum": {
+          "type": "integer",
+          "minimum": 3
+        },
+        "interpretation": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "proof_feature_ranking": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "$ref": "#/$defs/proofCandidate"
+      }
+    },
+    "gen01_recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "objective",
+        "in_scope",
+        "out_of_scope",
+        "exit_gate"
+      ],
+      "properties": {
+        "title": {
+          "const": "GEN-01 — Feature Production Contract Boundary Closure"
+        },
+        "objective": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "in_scope": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "out_of_scope": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "exit_gate": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "gitCommit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nonEmptyUniqueStrings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      }
+    },
+    "classification": {
+      "enum": [
+        "canonical-core",
+        "generic-candidate",
+        "domain-specific",
+        "duplicated",
+        "intentional-divergence",
+        "legacy",
+        "indeterminate"
+      ]
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "component",
+        "path",
+        "classification",
+        "finding"
+      ],
+      "properties": {
+        "component": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "path": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "classification": {
+          "$ref": "#/$defs/classification"
+        },
+        "finding": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "lifecycleStage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage",
+        "school",
+        "road",
+        "build",
+        "classification"
+      ],
+      "properties": {
+        "stage": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "school": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "road": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "build": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "classification": {
+          "$ref": "#/$defs/classification"
+        }
+      }
+    },
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "classification",
+        "common_behavior",
+        "domain_variation",
+        "duplicated_implementation",
+        "reusable_contract_justified"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "classification": {
+          "$ref": "#/$defs/classification"
+        },
+        "common_behavior": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "domain_variation": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "duplicated_implementation": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "reusable_contract_justified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "duplicationRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capability",
+        "school",
+        "road",
+        "build",
+        "common_primitive",
+        "domain_specific",
+        "duplication_risk",
+        "evidence"
+      ],
+      "properties": {
+        "capability": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "school": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "road": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "build": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "common_primitive": {
+          "type": "boolean"
+        },
+        "domain_specific": {
+          "type": "boolean"
+        },
+        "duplication_risk": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "interface",
+        "owns",
+        "must_not_own"
+      ],
+      "properties": {
+        "interface": {
+          "enum": [
+            "SourceBinding",
+            "SchemaContract",
+            "SemanticMapping",
+            "GeometryPolicy",
+            "PortrayalPolicy",
+            "DomainVerifier"
+          ]
+        },
+        "owns": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "must_not_own": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        }
+      }
+    },
+    "dataAvailability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate",
+        "status",
+        "evidence",
+        "production_source_established"
+      ],
+      "properties": {
+        "candidate": {
+          "enum": [
+            "RIVERL",
+            "LANDUSE",
+            "STREAM",
+            "POND_OR_FISH_POND",
+            "PRIVATE_SOURCE_ARCHIVE"
+          ]
+        },
+        "status": {
+          "enum": [
+            "tracked-source-available",
+            "not-established",
+            "unverified-source-availability",
+            "portrayal-evidence-only-source-unverified",
+            "unknown-not-inspected"
+          ]
+        },
+        "evidence": {
+          "$ref": "#/$defs/nonEmptyUniqueStrings"
+        },
+        "production_source_established": {
+          "type": "boolean"
+        }
+      }
+    },
+    "proofCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rank",
+        "candidate",
+        "recommendation",
+        "reason"
+      ],
+      "properties": {
+        "rank": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "candidate": {
+          "enum": [
+            "RIVERL",
+            "POND_OR_FISH_POND",
+            "STREAM",
+            "LANDUSE"
+          ]
+        },
+        "recommendation": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "reason": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    }
+  }
+}
