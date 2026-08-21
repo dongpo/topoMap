@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/building-j13-j17-production-applicability-resolution-v1.0.schema.json",
+  "title": "BUILD-09E2 J13/J17 production applicability resolution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version", "schema_version", "status", "created_on", "predecessor",
+    "closed_vocabularies", "evidence_items", "claim_separation", "j13_evidence_trace",
+    "j17_evidence_trace", "version_package_scope_hypotheses",
+    "authoritative_applicability_resolution", "missing_edges", "later_human_policy_shape",
+    "frozen_non_j13_j17_findings", "five_gate_readiness", "build09f_readiness",
+    "production_activation_status", "official_portrayal_activation_status",
+    "source_mutation_status", "runtime_activation_policy", "source_mutation_policy",
+    "successor_production_contract", "verdict", "next_stage_recommendation", "scope",
+    "applicability_resolution_sha256"
+  ],
+  "properties": {
+    "contract_version": {"const": "build-09e2/1.0"},
+    "schema_version": {"const": "nma.building-j13-j17-production-applicability-resolution/1.0"},
+    "status": {"const": "official-evidence-search-closed-human-policy-required"},
+    "created_on": {"const": "2026-08-21"},
+    "predecessor": {"$ref": "#/$defs/predecessor"},
+    "closed_vocabularies": {"$ref": "#/$defs/vocabularies"},
+    "evidence_items": {"type": "array", "minItems": 5, "items": {"$ref": "#/$defs/evidence"}},
+    "claim_separation": {"$ref": "#/$defs/claim_separation"},
+    "j13_evidence_trace": {"$ref": "#/$defs/member_trace"},
+    "j17_evidence_trace": {"$ref": "#/$defs/member_trace"},
+    "version_package_scope_hypotheses": {
+      "type": "array", "minItems": 9, "maxItems": 9, "items": {"$ref": "#/$defs/hypothesis"}
+    },
+    "authoritative_applicability_resolution": {"$ref": "#/$defs/resolution"},
+    "missing_edges": {"type": "array", "minItems": 2, "items": {"type": "string", "minLength": 1}},
+    "later_human_policy_shape": {"$ref": "#/$defs/policy_shape"},
+    "frozen_non_j13_j17_findings": {"type": "object", "minProperties": 9},
+    "five_gate_readiness": {
+      "type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/gate"}
+    },
+    "build09f_readiness": {
+      "enum": ["READY-FOR-BUILD-09F", "AUTHORITATIVE-EVIDENCE-ACQUISITION-REQUIRED", "J13-J17-AUTHORITY-STILL-INDETERMINATE"]
+    },
+    "production_activation_status": {"const": "forbidden"},
+    "official_portrayal_activation_status": {"const": "forbidden"},
+    "source_mutation_status": {"const": "forbidden"},
+    "runtime_activation_policy": {"$ref": "#/$defs/runtime_activation"},
+    "source_mutation_policy": {"$ref": "#/$defs/source_mutation"},
+    "successor_production_contract": {"$ref": "#/$defs/successor_reference"},
+    "verdict": {
+      "enum": [
+        "PASS — J13/J17 AUTHORITATIVE PRODUCTION BINDING RESOLVED; HUMAN POLICY GATE READY",
+        "PASS — OFFICIAL J13/J17 APPLICABILITY BOUNDARY CLOSED; HUMAN PRODUCTION BINDING POLICY REQUIRED",
+        "PASS — SPECIFIC AUTHORITATIVE EVIDENCE UNAVAILABLE; ACQUISITION REQUIRED",
+        "PASS — J13/J17 AUTHORITY REMAINS INDETERMINATE",
+        "FAIL — J13/J17 PRODUCTION APPLICABILITY BOUNDARY NOT ESTABLISHED"
+      ]
+    },
+    "next_stage_recommendation": {"type": "string", "minLength": 1},
+    "scope": {"$ref": "#/$defs/scope"},
+    "applicability_resolution_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "predecessor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["build09e1_branch", "build09e1_commit", "build09e1_evidence_resolution_sha256", "build09_contract_sha256", "build09e_evidence_closure_sha256", "build08a_authorization_sha256", "frozen_build09e1_artifact_sha256"],
+      "properties": {
+        "build09e1_branch": {"const": "build/build-09e1-targeted-official-binding-portrayal-resolution"},
+        "build09e1_commit": {"const": "ee4bbc1bf4dc5d70032dcd3129801039f3813a36"},
+        "build09e1_evidence_resolution_sha256": {"const": "f75c44bcb834090277588b3c23cfe48f00e965c947754497f64831d4b47b9b65"},
+        "build09_contract_sha256": {"const": "0b9e0cc9c98274f9efcbed451905fa21857c33f0ec9472254fa6e3b803c24a0c"},
+        "build09e_evidence_closure_sha256": {"const": "bfee262f17b5bc99ff8e55f6b284917cf5507aaa80b0e3bae2454e35da4fbaed"},
+        "build08a_authorization_sha256": {"const": "4eedc443d4f1d5c0af36e696fc67fd0101f6936d78edba19d5c20d41ab2b8da8"},
+        "frozen_build09e1_artifact_sha256": {"type": "object", "minProperties": 7, "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+      }
+    },
+    "vocabularies": {
+      "type": "object", "additionalProperties": false,
+      "required": ["applicability_outcomes", "readiness_decisions", "verdicts", "gate_states", "hypothesis_results"],
+      "properties": {
+        "applicability_outcomes": {"const": ["J13-authoritative-production-binding", "J17-authoritative-production-binding", "version-scoped-dual-binding", "different-semantic-roles", "authoritative-applicability-boundary-not-published", "authoritative-evidence-unavailable", "indeterminate"]},
+        "readiness_decisions": {"const": ["READY-FOR-BUILD-09F", "AUTHORITATIVE-EVIDENCE-ACQUISITION-REQUIRED", "J13-J17-AUTHORITY-STILL-INDETERMINATE"]},
+        "verdicts": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"type": "string"}},
+        "gate_states": {"const": ["P2-production-candidate", "version-scoped-production-candidate", "human-production-binding-policy-required", "evidence-HOLD", "local-policy-required", "local-output-profile-policy-required"]},
+        "hypothesis_results": {"const": ["evidenced-differentiator", "not-supported-as-differentiator", "not-established", "not-applicable"]}
+      }
+    },
+    "evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_id", "authority_class", "source", "identity", "claim"],
+      "properties": {
+        "evidence_id": {"type": "string", "minLength": 1}, "authority_class": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "minLength": 1}, "identity": {"type": "string", "minLength": 1}, "claim": {"type": "string", "minLength": 1}
+      }
+    },
+    "claim_separation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["layer_existence", "layer_semantics", "production_applicability", "existence_implies_applicability", "semantic_similarity_implies_equivalence"],
+      "properties": {
+        "layer_existence": {"const": "established"},
+        "layer_semantics": {"const": "established-within-versioned-logical-BUILD-and-delivered-package-scope"},
+        "production_applicability": {"const": "not-published"},
+        "existence_implies_applicability": {"const": false},
+        "semantic_similarity_implies_equivalence": {"const": false}
+      }
+    },
+    "edge": {
+      "type": "object", "additionalProperties": false, "required": ["status", "value", "evidence_ids"],
+      "properties": {
+        "status": {"enum": ["established", "missing"]}, "value": {"type": ["string", "null"]},
+        "evidence_ids": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "member_trace": {
+      "type": "object", "additionalProperties": false, "required": ["layer_id", "authority_class", "trace", "missing_edges"],
+      "properties": {
+        "layer_id": {"enum": ["J13_BUILD", "J17_BUILD"]},
+        "authority_class": {"const": "authoritative-official-corpus"},
+        "trace": {
+          "type": "object", "additionalProperties": false,
+          "required": ["official_authority", "document_specification", "version_date", "dataset_product", "package", "geographic_product_scope", "layer_code", "official_layer_title", "geometry_type", "official_field_schema", "building_semantic_meaning", "production_applicability"],
+          "properties": {
+            "official_authority": {"$ref": "#/$defs/edge"}, "document_specification": {"$ref": "#/$defs/edge"},
+            "version_date": {"$ref": "#/$defs/edge"}, "dataset_product": {"$ref": "#/$defs/edge"},
+            "package": {"$ref": "#/$defs/edge"}, "geographic_product_scope": {"$ref": "#/$defs/edge"},
+            "layer_code": {"$ref": "#/$defs/edge"}, "official_layer_title": {"$ref": "#/$defs/edge"},
+            "geometry_type": {"$ref": "#/$defs/edge"}, "official_field_schema": {"$ref": "#/$defs/edge"},
+            "building_semantic_meaning": {"$ref": "#/$defs/edge"}, "production_applicability": {"$ref": "#/$defs/edge"}
+          }
+        },
+        "missing_edges": {"const": ["production_applicability"]}
+      }
+    },
+    "hypothesis": {
+      "type": "object", "additionalProperties": false, "required": ["hypothesis", "result", "reason"],
+      "properties": {
+        "hypothesis": {"type": "string", "minLength": 1},
+        "result": {"enum": ["evidenced-differentiator", "not-supported-as-differentiator", "not-established", "not-applicable"]},
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "resolution": {
+      "type": "object", "additionalProperties": false,
+      "required": ["outcome", "selected_layer_id", "selection_rule", "different_semantic_roles", "official_evidence_search_closed", "human_production_binding_policy_required", "additional_authoritative_evidence_acquisition_justified", "concrete_required_artifact", "reason"],
+      "properties": {
+        "outcome": {"enum": ["J13-authoritative-production-binding", "J17-authoritative-production-binding", "version-scoped-dual-binding", "different-semantic-roles", "authoritative-applicability-boundary-not-published", "authoritative-evidence-unavailable", "indeterminate"]},
+        "selected_layer_id": {"type": ["string", "null"]}, "selection_rule": {"type": ["string", "null"]},
+        "different_semantic_roles": {"type": ["string", "null"]}, "official_evidence_search_closed": {"type": "boolean"},
+        "human_production_binding_policy_required": {"type": "boolean"}, "additional_authoritative_evidence_acquisition_justified": {"type": "boolean"},
+        "concrete_required_artifact": {"type": ["string", "null"]}, "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "policy_shape": {
+      "type": "object", "additionalProperties": false, "required": ["policy_value_selected", "allowed_choices"],
+      "properties": {"policy_value_selected": {"const": false}, "allowed_choices": {"type": "array", "minItems": 4, "items": {"type": "string", "minLength": 1}}}
+    },
+    "gate": {
+      "type": "object", "additionalProperties": false, "required": ["gate_id", "state", "reason"],
+      "properties": {"gate_id": {"type": "string", "minLength": 1}, "state": {"enum": ["P2-production-candidate", "version-scoped-production-candidate", "human-production-binding-policy-required", "evidence-HOLD", "local-policy-required", "local-output-profile-policy-required"]}, "reason": {"type": "string", "minLength": 1}}
+    },
+    "runtime_activation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["contract_status_production_active_allowed", "later_separate_authorization_required", "official_portrayal_activation_allowed", "production_activation_allowed", "production_runtime_creation_allowed"],
+      "properties": {
+        "contract_status_production_active_allowed": {"const": false}, "later_separate_authorization_required": {"const": true},
+        "official_portrayal_activation_allowed": {"const": false}, "production_activation_allowed": {"const": false}, "production_runtime_creation_allowed": {"const": false}
+      }
+    },
+    "source_mutation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["derived_output_writeback_allowed", "source_geometry_repair_allowed", "source_mutation_allowed", "source_z_dimension_removal_allowed"],
+      "properties": {"derived_output_writeback_allowed": {"const": false}, "source_geometry_repair_allowed": {"const": false}, "source_mutation_allowed": {"const": false}, "source_z_dimension_removal_allowed": {"const": false}}
+    },
+    "successor_reference": {
+      "type": "object", "additionalProperties": false, "required": ["created", "path", "status", "reason"],
+      "properties": {"created": {"const": true}, "path": {"const": "data/specifications/nma-build-09e2-successor-building-production-contract-v1.0.json"}, "status": {"const": "human-policy-hold"}, "reason": {"type": "string", "minLength": 1}}
+    },
+    "scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["production_runtime_modified", "production_behavior_implemented", "official_portrayal_activated", "source_data_or_geometry_modified", "source_z_removed", "portrayal_asset_created_or_deployed", "j13_j17_policy_value_selected"],
+      "properties": {"production_runtime_modified": {"const": false}, "production_behavior_implemented": {"const": false}, "official_portrayal_activated": {"const": false}, "source_data_or_geometry_modified": {"const": false}, "source_z_removed": {"const": false}, "portrayal_asset_created_or_deployed": {"const": false}, "j13_j17_policy_value_selected": {"const": false}}
+    }
+  }
+}
