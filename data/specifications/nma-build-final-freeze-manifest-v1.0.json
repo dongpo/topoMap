@@ -1,0 +1,283 @@
+{
+  "contract": "nma.building-final-freeze/1.0",
+  "version": "1.0",
+  "status": "PASS — BUILDING PRODUCTION BASELINE FROZEN",
+  "recorded_on": "2026-08-21",
+  "canonical_manifest_sha256": "627f129f56c22b4f55db51a22fbba02cacaf25e3832056254baf2b850749e30c",
+  "repository": {
+    "origin": "https://github.com/dongpo/topoMap.git",
+    "predecessor": {
+      "branch": "build/build-12-controlled-building-production-activation",
+      "commit_sha": "fe0f280f52ba374171010e76b1432b3e414ce927",
+      "verdict": "PASS — BUILDING PRODUCTION ACTIVATED AND POST-ACTIVATION VERIFIED"
+    },
+    "final_identity_strategy": {
+      "commit_sha_authority": "resolve the peeled target of annotated tag nma-build-v1.0-final",
+      "freeze_branch_pattern": "freeze/build-final-<short-FINAL_SHA>",
+      "annotated_tag": "nma-build-v1.0-final",
+      "tag_message": "NMA Building production v1.0 final",
+      "non_self_referential": true
+    }
+  },
+  "identity_provider": {
+    "owner": "nma.core",
+    "callable": "nma.core.canonical_sha256",
+    "source_path": "src/nma/core/identity.py",
+    "source_file_sha256": "d9c4ac0d0d385f6942c552a0b2ffc4c12b3deb0ee876d569aeadc036b1a92e78",
+    "core_final_tag": "nma-core-v1.0-final",
+    "core_final_commit_sha": "5eb138ae7686502431587743ebce9ddf92c5a799",
+    "duplicate_or_fallback_provider_allowed": false,
+    "manifest_hash_basis": "complete manifest with canonical_manifest_sha256 omitted"
+  },
+  "building_identity_chain": {
+    "build09_lineage": [
+      {
+        "stage": "BUILD-09",
+        "artifact": "data/specifications/nma-build-09-golden-building-production-contract-v1.0.json",
+        "canonical_sha256": "0b9e0cc9c98274f9efcbed451905fa21857c33f0ec9472254fa6e3b803c24a0c",
+        "file_sha256": "87355baed4c8277218cafb4bf98114a2d24e8a706fc55540a24b445c60cc7112"
+      },
+      {
+        "stage": "BUILD-09E",
+        "artifact": "data/specifications/nma-build-09e-golden-official-evidence-closure-v1.0.json",
+        "canonical_sha256": "bfee262f17b5bc99ff8e55f6b284917cf5507aaa80b0e3bae2454e35da4fbaed",
+        "file_sha256": "f65862c85ce2ed9e9ea7b2217d4d3a2cd6abf863c2532ab79cf803aa0860e673"
+      },
+      {
+        "stage": "BUILD-09E1",
+        "artifact": "data/specifications/nma-build-09e1-golden-targeted-official-evidence-resolution-v1.0.json",
+        "canonical_sha256": "f75c44bcb834090277588b3c23cfe48f00e965c947754497f64831d4b47b9b65",
+        "file_sha256": "bf49fbdbabd38d8913d7b37a706084850ab52b5fcbbb35cfa07ec686c4ed7232"
+      },
+      {
+        "stage": "BUILD-09E2",
+        "artifact": "data/specifications/nma-build-09e2-golden-j13-j17-production-applicability-resolution-v1.0.json",
+        "canonical_sha256": "1a4a406da130eb34a7f6871e92230d0c82fe4bcf9e475651418780bedd5d1262",
+        "file_sha256": "289d7632fab478518a7a1a0401d0f804291db22c2ff80c64d25e20fb5a9bd01f"
+      }
+    ],
+    "build09f_policy_sha256": "dd15aead073404cd82030104d2603e0dc1461e7a90d972b853d2bcb6d482c8a1",
+    "finalized_contract_sha256": "5c62664ad4884f83454b2ed1d227d7278e8f6e0ce9f85c1f992db5a429d56c88",
+    "build10_implementation_sha256": "2772ce93f81973e1dbbeb2d4ae9bb1307a29dcdcc4a61ca08f382c12b6b3c957",
+    "build11_readiness_sha256": "d2ecb53e74f46e279a5672a182b5a9de602c08d4027023d4fb225132bf3d01fb",
+    "build11a_authorization_sha256": "8bae65726aa0c6901927cb3a0a12a875ac766d45ac9e3a793afb23a85effdb0f",
+    "build12": {
+      "activation_id": "building-activation-03d28cbae50eb2050db4ed08",
+      "activation_configuration_sha256": "03d28cbae50eb2050db4ed0841009e81fab84b18dcb882a7e85fce49818565ad",
+      "activation_record_sha256": "6994abb821287aec015e846148b630054d03c826a6d370ceb625816dfa29d08d",
+      "activation_receipt_sha256": "d50cd21f5caa0428ae2dbd4f7fd8343b0bfc50e387dbd156b71ecb9a88739cb7",
+      "activated_baseline_sha256": "e9ebf1158caef22cb02d98d7ba8bfe4c99df46d4d9e93a47ad234f632a1755b2",
+      "post_activation_verification": "20 / 20 PASS",
+      "deactivation_reactivation_rehearsal": "PASS"
+    }
+  },
+  "active_production_semantics": {
+    "production_active": true,
+    "official_portrayal_active": true,
+    "source_mutation_allowed": false,
+    "source_mutated": false,
+    "source_repair_allowed": false,
+    "source_writeback_allowed": false,
+    "source_z_drop_allowed": false,
+    "bindings": {
+      "J13": {
+        "package_identity": "J13_寶山都市計畫/SHP",
+        "selected_layer": "J13_BUILD",
+        "source_feature_count": 2968,
+        "derived_xy_feature_count": 2968,
+        "annotation_count": 2967,
+        "suppressed_unsafe_placement_count": 1,
+        "source_polygonz_collection_sha256": "49192d22b201961d8db5815c6cbc1ed52d42eab0d29cc331cd0de8500e842910",
+        "derived_xy_collection_sha256": "c32d57a4399898bf60cfe1f30cb47633fbf5c05a0652eb46a2bd763d30f28df0"
+      },
+      "J17": {
+        "package_identity": "J17_新竹科學工業園區特定區計畫(寶山部分)/SHP",
+        "selected_layer": "J17_BUILD",
+        "source_feature_count": 2839,
+        "derived_xy_feature_count": 2839,
+        "annotation_count": 2838,
+        "suppressed_unsafe_placement_count": 1,
+        "source_polygonz_collection_sha256": "67d30181f4b7a35b655e5e1ce01060f78ef12199f26c6513c9db5b13f6effbef",
+        "derived_xy_collection_sha256": "66fa69d919f54e5903dfaad468f7387f102e3dc7c6f5258c2e992ef8c4a8b661"
+      }
+    },
+    "binding_policy": {
+      "cross_prefix_fallback_allowed": false,
+      "global_equivalence_allowed": false,
+      "automatic_substitution_allowed": false,
+      "unknown_package_behavior": "fail-closed",
+      "ambiguous_package_behavior": "fail-closed",
+      "alternate_binding_provider_allowed": false
+    }
+  },
+  "portrayal_profile": {
+    "annotation": {
+      "official_content_semantics": "floor count followed by structure",
+      "production_binding_order": "{BUILD_NO}{BUILD_STR}",
+      "placement": "deterministic local production placement/suppression policy",
+      "unsafe_placement_behavior": "suppress"
+    },
+    "hatch": {
+      "official_diagonal_semantics": true,
+      "official_spacing_mm": 2,
+      "local_production_angle_degrees": 45,
+      "resource_policy": "procedural-canonical",
+      "static_svg_dependency_required": false
+    },
+    "line": {
+      "official_width_mm": 0.2,
+      "output_profile": "nma-screen-96dpi-v1",
+      "dpi": 96,
+      "derived_device_width_px": 0.7559055118110237,
+      "one_px_equivalent": false
+    },
+    "colour": {
+      "official_rgb": [0, 0, 0],
+      "device_serialization": "#000000",
+      "opacity": 1.0,
+      "legacy_111111_allowed": false
+    },
+    "portrayal_profile_sha256": "d9d8c7d329508f4b61c4d0fd15c3d9af5512f5fbac2ab473e47171120a716244",
+    "output_profile_sha256": "bc0c2174433f73691b82dd4f5ba6f93835a32bc26baa7f1d0f814c590779004f"
+  },
+  "geometry_boundary": {
+    "pipeline": [
+      "authoritative-PolygonZ",
+      "non-authoritative-non-writing-derived-XY",
+      "portrayal-runtime"
+    ],
+    "source_polygonz_immutable": true,
+    "source_z_recoverable": true,
+    "source_repair_allowed": false,
+    "source_writeback_allowed": false,
+    "source_normalization_to_xy_allowed": false,
+    "derived_xy_deterministic": true,
+    "derived_xy_separately_identifiable": true,
+    "derived_xy_authoritative": false,
+    "legacy_destructive_drop_z_production_reachable": false,
+    "post_freeze_change_requires_separate_authorization": true
+  },
+  "activation_deactivation_contract": {
+    "activation_requires_exact_authorization_identity": true,
+    "activation_bound_to_exact_implementation_contract_policy": true,
+    "identity_drift_invalidates_activation": true,
+    "unconditional_global_activation_permission": false,
+    "deactivation_controlled_and_source_safe": true,
+    "source_requires_rollback": false,
+    "reactivation_reproduces_canonical_active_configuration": true,
+    "failed_post_activation_verification_final_state": "inactive"
+  },
+  "source_archive": {
+    "path": "data/datasets/112年多維度SHP成果_0502.zip",
+    "sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "private": true,
+    "tracked": false,
+    "ignored": true,
+    "staged": false,
+    "auto_download_allowed": false,
+    "replacement_fixture_allowed": false,
+    "missing_archive_real_execution_behavior": "fail-closed"
+  },
+  "frozen_files": {
+    "production": {
+      "build_contracts/building_production_implementation.py": "2772ce93f81973e1dbbeb2d4ae9bb1307a29dcdcc4a61ca08f382c12b6b3c957",
+      "build_contracts/building_production_activation.py": "a67f79c87072ab23cf546367183a418f60e94baa4fbf48e1d79b93629c4ce484"
+    },
+    "policy_contract_readiness_authorization": {
+      "data/specifications/nma-build-09f-golden-human-building-production-policy-authorization-v1.0.json": "f672c57447dbeed4484a564e5eafcbc72c9de64166f0115e296533451e9dbb38",
+      "data/specifications/nma-build-09f-finalized-building-production-contract-v1.0.json": "2718a89fedfdaf9829dd1957a23f028dcbed8b3aec89d6df6fb511b2f7d08574",
+      "data/specifications/nma-build-11-golden-building-production-activation-readiness-v1.0.json": "d65c33803a2d5a5b3a78a00c5d09606100d0c253d306f6b015bf425f8d728770",
+      "data/specifications/nma-build-11a-golden-human-building-production-activation-authorization-v1.0.json": "14341254e0b38551536d43c88245ccc7bd8c32edd453970062d3837424544288"
+    },
+    "activation_artifacts": {
+      "data/runtime/nma-building-production-activation-v1.0.json": "b5ee8deb67da770348f6ba4449acbcd71c0277ea8e486f4bf22be699a7ac285f",
+      "data/runtime/nma-building-production-activation-receipt-v1.0.json": "83857148f9cd54e69a4fc9ab25470260552fdb7c417b2846d79a7755d58b76fd",
+      "data/specifications/nma-build-12-golden-building-production-activated-baseline-v1.0.json": "b88b1025dbab0a1fb1cc7640173f2af2d110213f3520f085fc7a9ac38837d1e7"
+    },
+    "activation_schemas": {
+      "schemas/building-production-activation-v1.0.schema.json": "f7ea06a432d7dead72e96162ae4f7acd3b9c2c5e1b5834bc8b0599ddd7366a97",
+      "schemas/building-production-activation-receipt-v1.0.schema.json": "681047f6ce8d0a1e3b9d6d48e81fa3834e5f86b8907d1527dcee26faab3aea1d",
+      "schemas/building-production-activated-baseline-v1.0.schema.json": "b1d89ffa26f98b09021546ee1bc21099d7cd7c2b4507e6a82527e51b8ae90783"
+    },
+    "build12_evidence": {
+      "BUILD-12-Completion-Report.md": "4b9c214c68627cc2f57c023ea8f1bad2e0ac243e14599c39063b3402ee8c4f6d",
+      "tests/test_building_production_activation_build12.py": "9086502c85d8d1428dcf58ca7ac25cbaf70a370d7abb36f692ff77b2f4121b9e"
+    },
+    "historical_frozen_architecture": {
+      "data/specifications/nma-core-final-freeze-manifest-v1.0.json": "17f200faabebe30dc84e574bea3f350b5e4d770558557c11001d9c11bf6d26ad",
+      "data/specifications/nma-road-final-freeze-manifest-v1.0.json": "bc6f47b0442c188fa3d4674b3d5d87f7470e6850861fa23d48e92419c836d34c"
+    }
+  },
+  "historical_architecture_references": {
+    "core": {
+      "tag": "nma-core-v1.0-final",
+      "commit_sha": "5eb138ae7686502431587743ebce9ddf92c5a799"
+    },
+    "road": {
+      "tag": "nma-road-v1.0-final",
+      "commit_sha": "325c70d5335f57c43a8af85822db25032aa225c3"
+    },
+    "school_hero": {
+      "canonical_freeze_reference": "freeze/hero-final-school-hero-56f99eb",
+      "canonical_freeze_sha": "56f99eb9ae63272a68accac3041fb10eacefb986",
+      "accepted_freeze_reference": "freeze/hero-final-school-hero",
+      "accepted_freeze_sha": "75f80d389fe48b6dc33912e45433dc1d7e7b98b5"
+    }
+  },
+  "regression_baseline": {
+    "build12_focused": {"passed": 31, "failed": 0},
+    "build11a_focused": {"passed": 19, "inherited_stage_local_failed": 1},
+    "build11_focused": {"passed": 17, "failed": 0},
+    "build10_focused": {"passed": 21, "failed": 0},
+    "build_historical": {"passed": 682, "inherited_stage_local_failed": 5},
+    "core": {"passed": 53, "failed": 0},
+    "road": {"passed": 199, "failed": 0},
+    "school_hero": {"passed": 37, "failed": 0},
+    "complete_repository": {"passed": 1281, "inherited_or_stage_local_failed": 8}
+  },
+  "known_inherited_failures": {
+    "historical_build_descendant_scope": [
+      "tests/test_build_human_official_production_scope_authorization_build08a.py::test_previous_build_and_forbidden_artifacts_remain_unchanged",
+      "tests/test_building_production_contract_build09.py::test_previous_build_frozen_artifacts_and_runtime_remain_unchanged",
+      "tests/test_human_building_production_policy_build09f.py::test_build09f_scope_is_exact_and_contains_no_runtime_source_or_asset_change",
+      "tests/test_official_evidence_closure_build09e.py::test_previous_artifacts_runtime_and_source_scope_remain_unchanged",
+      "tests/test_human_building_production_activation_authorization_build11a.py::test_build11a_changed_file_scope_is_exact_and_production_sources_are_untouched"
+    ],
+    "clean_final_checkout_descendant_scope": [
+      "tests/test_build_human_official_production_scope_authorization_build08a.py::test_previous_build_and_forbidden_artifacts_remain_unchanged",
+      "tests/test_building_production_activation_build12.py::test_exact_build11a_predecessor_is_the_branch_parent",
+      "tests/test_human_building_production_activation_authorization_build11a.py::test_build11a_changed_file_scope_is_exact_and_production_sources_are_untouched",
+      "tests/test_human_building_production_policy_build09f.py::test_build09f_scope_is_exact_and_contains_no_runtime_source_or_asset_change"
+    ],
+    "agentic_demo_pre_existing": [
+      "tests/test_agentic_demo_catalog.py::test_pmtiles_capability_catalog_is_reproducible",
+      "tests/test_agentic_freeze.py::test_agentic_v03_freeze_verifies_current_and_historical_boundaries",
+      "tests/test_agentic_v03_pages.py::test_agentic_v03_pages_candidate_preserves_v02_and_passes_every_gate"
+    ],
+    "new_material_failure_allowed": false
+  },
+  "fresh_checkout_reproduction": {
+    "release_identity": "nma-build-v1.0-final^{commit}",
+    "public_frozen_artifacts_reproducible_without_private_archive": true,
+    "private_archive_injected_from_canonical_checkout": false,
+    "private_source_absent_fails_closed": true,
+    "private_source_auto_download": false,
+    "tests_requiring_private_source_may_be_separately_run_only_with_exact_authorized_archive": true
+  },
+  "change_scope": {
+    "allowed_files": [
+      "BUILD-FINAL-Completion-Report.md",
+      "data/specifications/nma-build-final-freeze-manifest-v1.0.json",
+      "tests/test_building_production_freeze_final.py"
+    ],
+    "production_source_changed": false,
+    "source_data_changed": false,
+    "behavior_changed": false
+  },
+  "post_freeze_policy": {
+    "immutable_baseline": true,
+    "force_move_branch_or_tag_allowed": false,
+    "production_behavior_change_allowed_in_freeze": false,
+    "future_change_requires_separately_authorized_post_freeze_issue": true
+  }
+}
