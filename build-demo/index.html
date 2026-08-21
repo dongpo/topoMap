@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'">
-  <meta name="description" content="BUILD-06 離線建物圖式展示；只呈現 BUILD-05 正規化衍生產物，不使用或揭露私有來源。">
-  <title>BUILD-06 建物圖式 DEMO（非正式）</title>
+  <meta name="description" content="BUILD-07 建物圖式 DEMO 使用者評估；五項語意只能接受目前 DEMO 或要求修訂，不產生正式或 production 權限。">
+  <title>BUILD-07 建物圖式使用者評估（非正式）</title>
   <style>
     :root {
       color-scheme: light;
@@ -80,6 +80,27 @@
     .fact dd { margin: 4px 0 0; overflow-wrap: anywhere; font: 700 .83rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; }
     .boundary { margin-top: 18px; padding: 14px; border-left: 4px solid var(--accent); border-radius: 8px; color: #315046; background: var(--accent-soft); font-size: .86rem; }
     .error { margin: 18px; padding: 14px; border-radius: 10px; color: var(--danger); background: #fff0f0; }
+    .evaluation { margin-top: 24px; padding: 24px; }
+    .evaluation-head { display: flex; justify-content: space-between; gap: 22px; align-items: start; }
+    .evaluation h2 { margin: 0; font-size: 1.4rem; }
+    .evaluation-head p { max-width: 720px; margin: 6px 0 0; color: var(--muted); }
+    .progress { flex: 0 0 auto; padding: 8px 12px; border-radius: 999px; color: #315046; background: var(--accent-soft); font-weight: 850; }
+    .decision-grid { display: grid; gap: 14px; margin-top: 22px; }
+    fieldset { min-width: 0; margin: 0; padding: 18px; border: 1px solid var(--line); border-radius: 14px; }
+    legend { padding: 0 8px; font-weight: 900; }
+    .decision-question { margin: 0 0 8px; font-weight: 800; }
+    .decision-current { margin: 0 0 14px; color: var(--muted); }
+    .verdicts { display: flex; flex-wrap: wrap; gap: 10px; }
+    .verdicts label { display: flex; gap: 8px; align-items: center; padding: 9px 12px; border: 1px solid var(--line); border-radius: 9px; cursor: pointer; }
+    .verdicts label:has(input:checked) { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+    input[type="radio"] { accent-color: var(--accent); }
+    textarea { width: 100%; min-height: 82px; margin-top: 12px; padding: 10px 12px; resize: vertical; border: 1px solid var(--line); border-radius: 9px; font: inherit; }
+    textarea:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+    .export-panel { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; align-items: center; margin-top: 20px; padding: 18px; border-radius: 14px; background: #f5f7f4; }
+    .export-panel p { margin: 0; color: var(--muted); }
+    .export-panel button { margin: 0; color: white; border-color: var(--accent); background: var(--accent); }
+    .export-panel button:disabled { cursor: not-allowed; color: #79827e; border-color: #cfd5d1; background: #e5e9e6; }
+    .export-status { margin-top: 12px; color: var(--accent); font-weight: 800; }
     footer { padding: 26px 4px 0; color: var(--muted); font-size: .82rem; }
     code { padding: 2px 5px; border-radius: 5px; background: #e9eeea; }
     @media (max-width: 860px) {
@@ -87,6 +108,8 @@
       .canvas-wrap { min-height: 420px; }
       .gate { align-items: flex-start; flex-direction: column; }
       .gate span:last-child { text-align: left; }
+      .evaluation-head, .export-panel { display: grid; grid-template-columns: 1fr; }
+      .progress { justify-self: start; }
     }
   </style>
 </head>
@@ -94,16 +117,16 @@
   <main class="shell">
     <div class="gate" role="note" aria-label="DEMO authority boundary">
       <strong>DEMO ONLY · 非正式圖式</strong>
-      <span>不代表官方規範、不連接正式環境、不含原始地理座標或私有屬性</span>
+      <span>評估結果只接受目前 DEMO 或要求修訂；不代表官方規範，也不是 production 授權</span>
     </div>
 
     <header>
-      <div class="eyebrow">BUILD-06 · verified presentation</div>
-      <h1>建物面圖式<br>受控展示</h1>
-      <p>此頁只載入 BUILD-05 已凍結的正規化衍生圖形。你可以調整剖面線角度；來源、圖形身分及其他圖式欄位保持不變。</p>
+      <div class="eyebrow">BUILD-07 · user evaluation gate</div>
+      <h1>建物面圖式<br>使用者評估</h1>
+      <p>先查看已驗證的 DEMO，再逐項接受目前設定或要求修訂。只有剖面線角度可直接試調；其他語意保持不變並以文字評估。</p>
     </header>
 
-    <section class="workspace" aria-label="BUILD-06 building demonstration">
+    <section class="workspace" aria-label="BUILD-07 building demonstration">
       <article class="card stage">
         <div class="stage-head">
           <h2>正規化局部座標視圖</h2>
@@ -148,7 +171,26 @@
       </aside>
     </section>
 
-    <footer>BUILD-06 verification/freeze candidate · 本頁無外部網路依賴；需由本機 HTTP 預覽以載入同源凍結 JSON。</footer>
+    <section class="card evaluation" aria-labelledby="evaluation-title">
+      <div class="evaluation-head">
+        <div>
+          <h2 id="evaluation-title">五項 DEMO 語意決議</h2>
+          <p>每一項都必須選擇「接受目前 DEMO」或「要求修訂」。要求修訂時請說明原因；匯出的 JSON 只是一份本機評估紀錄，不會上傳或啟用正式規則。</p>
+        </div>
+        <div id="evaluation-progress" class="progress" role="status">0 / 5 已決定</div>
+      </div>
+
+      <div id="decision-grid" class="decision-grid" aria-live="polite"></div>
+
+      <div class="export-panel">
+        <p>完成五項決議後，可下載不含姓名的評估紀錄。若任一項要求修訂，整體結果會是 <code>revision-requested-demo-only</code>。</p>
+        <button id="export-evaluation" type="button" disabled>下載評估 JSON</button>
+      </div>
+      <p id="evaluation-error" class="error" hidden></p>
+      <p id="export-status" class="export-status" role="status"></p>
+    </section>
+
+    <footer>BUILD-07 DEMO-only evaluation gate · 無外部網路、無伺服器儲存、無正式或 production 權限。</footer>
   </main>
 
   <script>
@@ -156,10 +198,13 @@
 
     const PACKAGE_URL = "data/specifications/nma-build-05-golden-execution-package-v1.0.json";
     const LEDGER_URL = "data/specifications/nma-build-05-authorization-consumption-v1.0.json";
+    const TEMPLATE_URL = "data/specifications/nma-build-07-golden-evaluation-template-v1.0.json";
     const EXPECTED_PACKAGE_FILE_SHA256 = "508e3378a698f869255485c5008fdb80ed670ce174a3b72092aab5160df7431c";
     const EXPECTED_LEDGER_FILE_SHA256 = "715a5445827b77308ec32a67efe74ac8e5ed29b9037ee543285270a4da1c9d47";
+    const EXPECTED_TEMPLATE_FILE_SHA256 = "9e2b183260c5ac689831b1f5945defad28f27f49447f1a0d3f2b5b0425189364";
     const EXPECTED_PACKAGE_SHA256 = "10c22339abb8d2eed489ae56a54214948213bad51a135e00f74e309931c98c97";
     const EXPECTED_CONSUMPTION_SHA256 = "44ab99947d9cb196de6a4f5a5238b4af33eb306a911a104224774425c7ebb108";
+    const EXPECTED_TEMPLATE_SHA256 = "0fea2e7fe6b8ec9dd10816ba5679b04773ecd3f0761ca7b58e339f7df91139e6";
 
     const status = document.querySelector("#verification-status");
     const errorMessage = document.querySelector("#error-message");
@@ -169,6 +214,13 @@
     const pattern = document.querySelector("#building-hatch");
     const shape = document.querySelector("#building-shape");
     const annotation = document.querySelector("#annotation");
+    const decisionGrid = document.querySelector("#decision-grid");
+    const progress = document.querySelector("#evaluation-progress");
+    const exportButton = document.querySelector("#export-evaluation");
+    const evaluationError = document.querySelector("#evaluation-error");
+    const exportStatus = document.querySelector("#export-status");
+    let evaluationTemplate = null;
+    let verifiedPackage = false;
 
     async function fetchVerifiedJson(url, expectedSha256) {
       const response = await fetch(url, {cache: "no-store", credentials: "same-origin"});
@@ -230,19 +282,139 @@
       output.value = `${angle}°`;
       output.textContent = `${angle}°`;
       pattern.setAttribute("patternTransform", `rotate(${angle})`);
+      exportStatus.textContent = "";
     }
+
+    function canonicalValue(value) {
+      if (Array.isArray(value)) return value.map(canonicalValue);
+      if (value && typeof value === "object") {
+        return Object.fromEntries(Object.keys(value).sort().map(key => [key, canonicalValue(value[key])]));
+      }
+      return value;
+    }
+
+    async function canonicalSha256(value) {
+      const bytes = new TextEncoder().encode(JSON.stringify(canonicalValue(value)));
+      const digest = await crypto.subtle.digest("SHA-256", bytes);
+      return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
+    }
+
+    async function validateTemplate(template) {
+      const basis = structuredClone(template);
+      delete basis.template_sha256;
+      if (template.template_sha256 !== EXPECTED_TEMPLATE_SHA256) throw new Error("BUILD-07 評估範本身分不符");
+      if (await canonicalSha256(basis) !== EXPECTED_TEMPLATE_SHA256) throw new Error("BUILD-07 評估範本內容遭到變更");
+      if (template.status !== "awaiting-user-evaluation" || template.gate_items?.length !== 5) throw new Error("BUILD-07 評估範本結構不符");
+      if (template.boundaries?.demo_only !== true || template.boundaries?.official_portrayal_decided !== false || template.boundaries?.production_activation_allowed !== false) throw new Error("BUILD-07 評估範本越過 DEMO 權限");
+      return template;
+    }
+
+    function renderEvaluation(template) {
+      decisionGrid.replaceChildren();
+      for (const item of template.gate_items) {
+        const fieldset = document.createElement("fieldset");
+        fieldset.dataset.gateId = item.gate_id;
+        fieldset.innerHTML = `
+          <legend>${item.order}. ${item.title_zh_tw}</legend>
+          <p class="decision-question">${item.question_zh_tw}</p>
+          <p class="decision-current">目前 DEMO：${item.current_demo_resolution_zh_tw}</p>
+          <div class="verdicts">
+            <label><input type="radio" name="${item.gate_id}" value="accept-current-demo">接受目前 DEMO</label>
+            <label><input type="radio" name="${item.gate_id}" value="request-demo-revision">要求修訂</label>
+          </div>
+          <textarea maxlength="500" aria-label="${item.title_zh_tw}評估說明" placeholder="接受時可留白；要求修訂時請說明希望調整的內容。"></textarea>`;
+        decisionGrid.append(fieldset);
+      }
+      decisionGrid.addEventListener("input", updateEvaluationState);
+      updateEvaluationState();
+    }
+
+    function selectedDecisions() {
+      return [...decisionGrid.querySelectorAll("fieldset")].map(fieldset => ({
+        gate_id: fieldset.dataset.gateId,
+        verdict: fieldset.querySelector("input[type=radio]:checked")?.value || null,
+        note_zh_tw: fieldset.querySelector("textarea").value.trim(),
+      }));
+    }
+
+    function updateEvaluationState() {
+      const decisions = selectedDecisions();
+      const decided = decisions.filter(item => item.verdict).length;
+      progress.textContent = `${decided} / 5 已決定`;
+      exportButton.disabled = !verifiedPackage || !evaluationTemplate || decided !== 5;
+      evaluationError.hidden = true;
+      exportStatus.textContent = "";
+    }
+
+    function validateUserDecisions(decisions) {
+      for (const decision of decisions) {
+        if (!decision.verdict) throw new Error("五項語意都必須明確決定");
+        if (decision.verdict === "request-demo-revision" && !decision.note_zh_tw) throw new Error("要求修訂時必須填寫說明");
+      }
+      const hatch = decisions[0];
+      hatch.preferred_angle_degrees = Number(slider.value);
+      if (hatch.verdict === "accept-current-demo" && hatch.preferred_angle_degrees !== 45) {
+        throw new Error("若接受目前 DEMO，請先回到 45°；其他角度請選擇要求修訂並說明");
+      }
+      return decisions;
+    }
+
+    async function buildEvaluationRecord() {
+      const decisions = validateUserDecisions(selectedDecisions());
+      const revisionCount = decisions.filter(item => item.verdict === "request-demo-revision").length;
+      const record = {
+        evaluation_version: "build-07/1.0",
+        schema_version: "nma.build-demo-user-evaluation/1.0",
+        record_type: "human-demo-semantic-evaluation",
+        status: revisionCount ? "revision-requested-demo-only" : "accepted-demo-only",
+        template_sha256: evaluationTemplate.template_sha256,
+        evaluated_on: new Date().toISOString().slice(0, 10),
+        evaluator: {actor_type: "human-demo-reviewer", identity_recorded: false},
+        decisions,
+        summary: {
+          gate_count: 5,
+          accepted_count: 5 - revisionCount,
+          revision_requested_count: revisionCount,
+          all_five_decisions_explicit: true,
+        },
+        boundaries: structuredClone(evaluationTemplate.boundaries),
+      };
+      record.record_sha256 = await canonicalSha256(record);
+      return record;
+    }
+
+    exportButton.addEventListener("click", async () => {
+      try {
+        const record = await buildEvaluationRecord();
+        const blob = new Blob([`${JSON.stringify(record, null, 2)}\n`], {type: "application/json"});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `nma-build-07-user-evaluation-${record.evaluated_on}.json`;
+        link.click();
+        URL.revokeObjectURL(url);
+        exportStatus.textContent = `已建立 ${record.status} 評估紀錄；此檔案尚未成為專案決議。`;
+        evaluationError.hidden = true;
+      } catch (error) {
+        evaluationError.textContent = error instanceof Error ? error.message : "無法建立評估紀錄";
+        evaluationError.hidden = false;
+      }
+    });
 
     slider.addEventListener("input", event => setAngle(event.target.value));
     reset.addEventListener("click", () => setAngle(45));
 
     async function initialize() {
       try {
-        const [packageValue, ledger] = await Promise.all([
+        const [packageValue, ledger, templateValue] = await Promise.all([
           fetchVerifiedJson(PACKAGE_URL, EXPECTED_PACKAGE_FILE_SHA256),
           fetchVerifiedJson(LEDGER_URL, EXPECTED_LEDGER_FILE_SHA256),
+          fetchVerifiedJson(TEMPLATE_URL, EXPECTED_TEMPLATE_FILE_SHA256),
         ]);
         const verified = validatePackage(packageValue, ledger);
+        evaluationTemplate = await validateTemplate(templateValue);
         renderRing(verified.ring);
+        renderEvaluation(evaluationTemplate);
         setAngle(verified.artifact.maplibre_demo.controls.hatch_angle_degrees.default);
         document.querySelector("#package-id").textContent = `${packageValue.package_sha256.slice(0, 16)}…`;
         document.querySelector("#consumption-status").textContent = `${verified.consumption.status} · replay=false`;
@@ -250,7 +422,9 @@
         document.querySelector("#coordinate-space").textContent = verified.artifact.privacy.coordinate_space;
         slider.disabled = false;
         reset.disabled = false;
-        status.textContent = "凍結產物驗證通過";
+        verifiedPackage = true;
+        updateEvaluationState();
+        status.textContent = "凍結產物與評估範本驗證通過";
         status.className = "status verified";
       } catch (error) {
         status.textContent = "驗證失敗，展示已封鎖";
@@ -258,6 +432,8 @@
         errorMessage.textContent = error instanceof Error ? error.message : "未知驗證錯誤";
         errorMessage.hidden = false;
         shape.setAttribute("d", "");
+        decisionGrid.replaceChildren();
+        exportButton.disabled = true;
       }
     }
 
