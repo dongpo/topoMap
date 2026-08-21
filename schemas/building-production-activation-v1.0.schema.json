@@ -1,0 +1,472 @@
+{
+  "$id": "https://example.org/nma/schemas/building-production-activation-v1.0.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "const": {
+    "activation_configuration": {
+      "activation_state": {
+        "official_portrayal_active": true,
+        "production_active": true,
+        "source_mutation_allowed": false,
+        "source_repair_allowed": false,
+        "source_writeback_allowed": false,
+        "source_z_drop_allowed": false
+      },
+      "authorization_sha256": "8bae65726aa0c6901927cb3a0a12a875ac766d45ac9e3a793afb23a85effdb0f",
+      "contract_sha256": "5c62664ad4884f83454b2ed1d227d7278e8f6e0ce9f85c1f992db5a429d56c88",
+      "implementation_sha256": "2772ce93f81973e1dbbeb2d4ae9bb1307a29dcdcc4a61ca08f382c12b6b3c957",
+      "output_profile": {
+        "device_colour_serialization": "#000000",
+        "hatch_angle_authority": "local-production-policy",
+        "hatch_angle_degrees": 45,
+        "hatch_spacing_mm": 2.0,
+        "line_width_device_px": 0.7559055118110237,
+        "line_width_mm": 0.2,
+        "official_black_rgb": [
+          0,
+          0,
+          0
+        ],
+        "opacity": 1.0,
+        "output_dpi": 96,
+        "output_profile_sha256": "bc0c2174433f73691b82dd4f5ba6f93835a32bc26baa7f1d0f814c590779004f",
+        "profile_id": "nma-screen-96dpi-v1"
+      },
+      "package_bindings": {
+        "J13": {
+          "annotation_count": 2967,
+          "derived_xy_feature_count": 2968,
+          "package_identity": "J13_寶山都市計畫/SHP",
+          "selected_layer": "J13_BUILD",
+          "source_feature_count": 2968,
+          "suppressed_annotation_count": 1
+        },
+        "J17": {
+          "annotation_count": 2838,
+          "derived_xy_feature_count": 2839,
+          "package_identity": "J17_新竹科學工業園區特定區計畫(寶山部分)/SHP",
+          "selected_layer": "J17_BUILD",
+          "source_feature_count": 2839,
+          "suppressed_annotation_count": 1
+        }
+      },
+      "policy_sha256": "dd15aead073404cd82030104d2603e0dc1461e7a90d972b853d2bcb6d482c8a1",
+      "portrayal_profile": {
+        "annotation": {
+          "anchor": "deterministic-interior-or-representative-point",
+          "annotation_placement_authority": "local-production-policy",
+          "collision_suppression_allowed": true,
+          "content_authority": "official-portrayal-semantics",
+          "content_rule": "floor count followed by structure",
+          "field_binding_rule": "{BUILD_NO}{BUILD_STR}",
+          "near_feature_center_semantics_preserved": true,
+          "outside_polygon_fallback_authorized": false,
+          "preferred_placement": "inside-polygon",
+          "same_geometry_output_profile_is_deterministic": true,
+          "unsafe_label_behavior": "suppress"
+        },
+        "contract_binding": "5c62664ad4884f83454b2ed1d227d7278e8f6e0ce9f85c1f992db5a429d56c88",
+        "device_colour_serialization": "#000000",
+        "hatch": {
+          "angle_authority": "local-production-policy",
+          "asset_created_or_deployed": false,
+          "asset_file_required": false,
+          "asset_if_used_must_derive_from_canonical_specification": true,
+          "deterministic_procedural_rendering_required": true,
+          "hatch_resource_policy": "procedural-canonical",
+          "line_colour_semantics": "official-black-unless-another-officially-supported-mapping-applies",
+          "local_angle_degrees": 45,
+          "missing_building_hatch_tile_dependency_blocks_architecture": false,
+          "official_diagonal_semantics": true,
+          "official_spacing_mm": 2.0,
+          "spacing_scale_boundary": "physical-at-defined-cartographic-output-profile-scale"
+        },
+        "line_width_mm": 0.2,
+        "official_black_rgb": [
+          0,
+          0,
+          0
+        ],
+        "opacity": 1.0,
+        "portrayal_kind": "procedural-hatch-with-outline-and-annotation",
+        "portrayal_profile_sha256": "d9d8c7d329508f4b61c4d0fd15c3d9af5512f5fbac2ab473e47171120a716244"
+      },
+      "readiness_sha256": "d2ecb53e74f46e279a5672a182b5a9de602c08d4027023d4fb225132bf3d01fb",
+      "runtime_module_sha256": "a67f79c87072ab23cf546367183a418f60e94baa4fbf48e1d79b93629c4ce484",
+      "runtime_revision": "nma.building-production-runtime/1.0",
+      "schema_identity": "3f9bdc1d88da286165c185dfae152b867e39cfb6308d17ffe7ff8c4aa79ffa76",
+      "source_archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53"
+    },
+    "activation_configuration_sha256": "03d28cbae50eb2050db4ed0841009e81fab84b18dcb882a7e85fce49818565ad",
+    "activation_id": "building-activation-03d28cbae50eb2050db4ed08",
+    "activation_provenance": {
+      "all_links_canonical_hash_bound": true,
+      "fallback_identity_provider": false,
+      "identity_provider": "nma.core.canonical_sha256",
+      "links": [
+        {
+          "name": "BUILD-11A-authorization",
+          "sha256": "8bae65726aa0c6901927cb3a0a12a875ac766d45ac9e3a793afb23a85effdb0f"
+        },
+        {
+          "name": "BUILD-11-readiness",
+          "sha256": "d2ecb53e74f46e279a5672a182b5a9de602c08d4027023d4fb225132bf3d01fb"
+        },
+        {
+          "name": "BUILD-10-implementation",
+          "sha256": "2772ce93f81973e1dbbeb2d4ae9bb1307a29dcdcc4a61ca08f382c12b6b3c957"
+        },
+        {
+          "name": "BUILD-09F-policy",
+          "sha256": "dd15aead073404cd82030104d2603e0dc1461e7a90d972b853d2bcb6d482c8a1"
+        },
+        {
+          "name": "finalized-contract",
+          "sha256": "5c62664ad4884f83454b2ed1d227d7278e8f6e0ce9f85c1f992db5a429d56c88"
+        },
+        {
+          "name": "activation-event",
+          "sha256": "03d28cbae50eb2050db4ed0841009e81fab84b18dcb882a7e85fce49818565ad"
+        },
+        {
+          "name": "runtime-activation-wiring",
+          "sha256": "a67f79c87072ab23cf546367183a418f60e94baa4fbf48e1d79b93629c4ce484"
+        },
+        {
+          "name": "active-runtime-state",
+          "sha256": "3d9046cc81218ed7d352ebedccdef07e6f543b34ac598408c7afa8552e886623"
+        },
+        {
+          "name": "J13-package",
+          "sha256": "600a1087758bf396655ddbf87e23fdf29f606d9a406fe3e1a64b50a8185c5e9b"
+        },
+        {
+          "name": "J17-package",
+          "sha256": "4c28ccc08ff1ed31452d89b4bc1c7e22ed6ea6862ef904d8653e934242ab5113"
+        },
+        {
+          "name": "J13-source",
+          "sha256": "49192d22b201961d8db5815c6cbc1ed52d42eab0d29cc331cd0de8500e842910"
+        },
+        {
+          "name": "J17-source",
+          "sha256": "67d30181f4b7a35b655e5e1ce01060f78ef12199f26c6513c9db5b13f6effbef"
+        },
+        {
+          "name": "J13-derived-XY",
+          "sha256": "c32d57a4399898bf60cfe1f30cb47633fbf5c05a0652eb46a2bd763d30f28df0"
+        },
+        {
+          "name": "J17-derived-XY",
+          "sha256": "66fa69d919f54e5903dfaad468f7387f102e3dc7c6f5258c2e992ef8c4a8b661"
+        },
+        {
+          "name": "portrayal-profile",
+          "sha256": "d9d8c7d329508f4b61c4d0fd15c3d9af5512f5fbac2ab473e47171120a716244"
+        },
+        {
+          "name": "post-activation-observation",
+          "sha256": "94fc32800a47041a1624cd643397b3ad2e9b790318f3516257188cfc47d15bea"
+        },
+        {
+          "name": "post-activation-verification",
+          "sha256": "723ea166b9aecab6bf5edf4e98d23607cdcbdb858acc8d6226b64808467885de"
+        },
+        {
+          "name": "activation-receipt",
+          "sha256": "d50cd21f5caa0428ae2dbd4f7fd8343b0bfc50e387dbd156b71ecb9a88739cb7"
+        }
+      ],
+      "result": "PASS"
+    },
+    "activation_receipt_sha256": "d50cd21f5caa0428ae2dbd4f7fd8343b0bfc50e387dbd156b71ecb9a88739cb7",
+    "active_replays": {
+      "J13": {
+        "active_runtime": {
+          "activation_configuration_sha256": "03d28cbae50eb2050db4ed0841009e81fab84b18dcb882a7e85fce49818565ad",
+          "active_runtime_observation_sha256": "0f139473852ba9b79c66332185b26ca12e844554136c8b1ea9c4fe9ff32f9d49",
+          "annotation_collection_sha256": "c199a661decad22fb0ee166dc6de84cea168c8e0a7b958095af396db2d4a2d57",
+          "checks": {
+            "annotation_count": true,
+            "archive_unchanged": true,
+            "derived_count": true,
+            "deterministic": true,
+            "layer": true,
+            "package": true,
+            "source_count": true,
+            "source_unchanged": true,
+            "suppression_count": true
+          },
+          "derived_xy_collection_sha256": "c32d57a4399898bf60cfe1f30cb47633fbf5c05a0652eb46a2bd763d30f28df0",
+          "implementation_record_sha256": "ccffdf038cecf06d1dd3341d49b15745f37029f2af78c51bf68b1ab677035b4a",
+          "official_portrayal_active": true,
+          "portrayal_bundle_sha256": "db5334d6e09981a0028fe0f6ed890578b56427d69793eda95d662bbd344cb74c",
+          "prefix": "J13",
+          "production_active": true,
+          "source_polygonz_collection_sha256": "49192d22b201961d8db5815c6cbc1ed52d42eab0d29cc331cd0de8500e842910"
+        },
+        "annotation_count": 2967,
+        "derived_xy_feature_count": 2968,
+        "identities": {
+          "annotation_collection_sha256": "c199a661decad22fb0ee166dc6de84cea168c8e0a7b958095af396db2d4a2d57",
+          "derived_xy_collection_sha256": "c32d57a4399898bf60cfe1f30cb47633fbf5c05a0652eb46a2bd763d30f28df0",
+          "execution_plan_sha256": "5494c6be0753c3b00b15a11134cf8c517d3ba3e6e2d181232acf4c56acf5c42c",
+          "implementation_record_sha256": "ccffdf038cecf06d1dd3341d49b15745f37029f2af78c51bf68b1ab677035b4a",
+          "observation_sha256": "f951ba97b5a72384b7233d578d4219762fe18b88ed8d6ae1d339855473380ca7",
+          "portrayal_bundle_sha256": "db5334d6e09981a0028fe0f6ed890578b56427d69793eda95d662bbd344cb74c",
+          "procedural_hatch_resource_sha256": "b0c5321fe711df44ed357d00605f64d2442394c7623779676c1dafdf230644fb",
+          "provenance_sha256": "f61c3b00c001cd8351ad36b6ee697935a3fe7753b4202b6d19fc6e9c47d23e71",
+          "receipt_sha256": "868535bdb245b602d19934c79f62dc53cccfa4f2e366a23ac787a05ca6c82094",
+          "reprojected_polygonz_collection_sha256": "083678db5e492633c47ed68e9028ae1adcb76ee0f90b3ee607dd171df6c31b4e",
+          "source_polygonz_collection_sha256": "49192d22b201961d8db5815c6cbc1ed52d42eab0d29cc331cd0de8500e842910",
+          "verification_sha256": "7ac8d12c2367c4fda00bc2a8fc892a38bbe97a26eb635c651c8c7e5dcb53921d"
+        },
+        "package_identity": "J13_寶山都市計畫/SHP",
+        "repeated_replay_identical": true,
+        "result": "PASS",
+        "schema_identity": "3f9bdc1d88da286165c185dfae152b867e39cfb6308d17ffe7ff8c4aa79ffa76",
+        "selected_layer": "J13_BUILD",
+        "source_archive_after_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+        "source_archive_before_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+        "source_feature_count": 2968,
+        "source_geometry_after_sha256": "49192d22b201961d8db5815c6cbc1ed52d42eab0d29cc331cd0de8500e842910",
+        "source_geometry_before_sha256": "49192d22b201961d8db5815c6cbc1ed52d42eab0d29cc331cd0de8500e842910",
+        "suppressed_annotation_count": 1,
+        "timestamps_in_canonical_identity": false,
+        "unsafe_placement_suppressed_count": 1
+      },
+      "J17": {
+        "active_runtime": {
+          "activation_configuration_sha256": "03d28cbae50eb2050db4ed0841009e81fab84b18dcb882a7e85fce49818565ad",
+          "active_runtime_observation_sha256": "cc7b77d220278098a754643f7e26eb0d90cfcf90b0426292c2c312aaa90abc5d",
+          "annotation_collection_sha256": "a15ac87b3389549cbee37396a01c47a3bf180c9039004871def54deee0cbb568",
+          "checks": {
+            "annotation_count": true,
+            "archive_unchanged": true,
+            "derived_count": true,
+            "deterministic": true,
+            "layer": true,
+            "package": true,
+            "source_count": true,
+            "source_unchanged": true,
+            "suppression_count": true
+          },
+          "derived_xy_collection_sha256": "66fa69d919f54e5903dfaad468f7387f102e3dc7c6f5258c2e992ef8c4a8b661",
+          "implementation_record_sha256": "0722007704a5a12fb6f314d71bf7898ab1718dd3185bc9060687160a0ce119a7",
+          "official_portrayal_active": true,
+          "portrayal_bundle_sha256": "9dd99e095a721d16d811f7e109c70659834d617ac3da2bc4128f8ee7e1cf393c",
+          "prefix": "J17",
+          "production_active": true,
+          "source_polygonz_collection_sha256": "67d30181f4b7a35b655e5e1ce01060f78ef12199f26c6513c9db5b13f6effbef"
+        },
+        "annotation_count": 2838,
+        "derived_xy_feature_count": 2839,
+        "identities": {
+          "annotation_collection_sha256": "a15ac87b3389549cbee37396a01c47a3bf180c9039004871def54deee0cbb568",
+          "derived_xy_collection_sha256": "66fa69d919f54e5903dfaad468f7387f102e3dc7c6f5258c2e992ef8c4a8b661",
+          "execution_plan_sha256": "e022374fb6078ed14eb3ac76664421c79fde1deb21388375c121a5d7a50d14a8",
+          "implementation_record_sha256": "0722007704a5a12fb6f314d71bf7898ab1718dd3185bc9060687160a0ce119a7",
+          "observation_sha256": "4c9d32b4940a4a64baea98165e2de5854cc213337722d9b75cffba95e1067fa0",
+          "portrayal_bundle_sha256": "9dd99e095a721d16d811f7e109c70659834d617ac3da2bc4128f8ee7e1cf393c",
+          "procedural_hatch_resource_sha256": "b0c5321fe711df44ed357d00605f64d2442394c7623779676c1dafdf230644fb",
+          "provenance_sha256": "b6744a82dfcfdeb02af124f3c92bca33fac803f76e0fd35958458f6477e3be2c",
+          "receipt_sha256": "3a2c8216e79f8ab1684d728b5946b494f69818ce063841aedf8e3ef614991ab1",
+          "reprojected_polygonz_collection_sha256": "cf6cc3609df3bc3646f867db325582e7f1bee58d3bd4a130fe2f716d0196a365",
+          "source_polygonz_collection_sha256": "67d30181f4b7a35b655e5e1ce01060f78ef12199f26c6513c9db5b13f6effbef",
+          "verification_sha256": "5991436b518590c632ba0e429644f009c9e15ed5cb7f93683b93aceea9823434"
+        },
+        "package_identity": "J17_新竹科學工業園區特定區計畫(寶山部分)/SHP",
+        "repeated_replay_identical": true,
+        "result": "PASS",
+        "schema_identity": "3f9bdc1d88da286165c185dfae152b867e39cfb6308d17ffe7ff8c4aa79ffa76",
+        "selected_layer": "J17_BUILD",
+        "source_archive_after_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+        "source_archive_before_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+        "source_feature_count": 2839,
+        "source_geometry_after_sha256": "67d30181f4b7a35b655e5e1ce01060f78ef12199f26c6513c9db5b13f6effbef",
+        "source_geometry_before_sha256": "67d30181f4b7a35b655e5e1ce01060f78ef12199f26c6513c9db5b13f6effbef",
+        "suppressed_annotation_count": 1,
+        "timestamps_in_canonical_identity": false,
+        "unsafe_placement_suppressed_count": 1
+      }
+    },
+    "canonical_activation_record_sha256": "6994abb821287aec015e846148b630054d03c826a6d370ceb625816dfa29d08d",
+    "deactivation_reactivation_rehearsal": {
+      "active_binding_only_disabled": true,
+      "controlled_deactivation_result": "PASS",
+      "final_state": "active",
+      "inactive_state_verified": true,
+      "reactivation_configuration_sha256": "03d28cbae50eb2050db4ed0841009e81fab84b18dcb882a7e85fce49818565ad",
+      "reactivation_identity_equal": true,
+      "result": "PASS",
+      "source_unchanged_after_deactivation": true
+    },
+    "derived_xy_boundary": {
+      "authoritative": false,
+      "materialization": "ephemeral",
+      "non_writing": true,
+      "purpose": "portrayal-only",
+      "result": "PASS",
+      "source_overwrite_possible": false,
+      "stale_or_tampered_artifact_trusted": false
+    },
+    "deterministic_replay": {
+      "all_bound_identities_equal": true,
+      "canonical_ordering_stable": true,
+      "result": "PASS",
+      "runs_per_package": 2,
+      "timestamps_excluded_from_canonical_identities": true,
+      "timestamps_present": false
+    },
+    "drop_z_isolation": {
+      "authoritative_source_write_target": null,
+      "classification": "incompatible-non-authoritative-vs3-path",
+      "disposition": "bypassed-by-build10-controlled-building-path",
+      "production_reachable": false,
+      "result": "PASS"
+    },
+    "fail_closed_matrix": {
+      "fallback_used": false,
+      "positive_controls": {
+        "j13-package-j13-layer": "PASS",
+        "j17-package-j17-layer": "PASS"
+      },
+      "rejections": {
+        "ambiguous-package": "ambiguous_package",
+        "duplicate-candidate-layer": "unexpected_layer",
+        "j13-package-j17-layer": "package_layer_mismatch",
+        "j17-package-j13-layer": "package_layer_mismatch",
+        "missing-layer": "missing_building_layer",
+        "schema-mismatch": "schema_mismatch",
+        "tampered-authorization": "authorization_invalid",
+        "tampered-contract": "contract_identity_drift",
+        "tampered-package-identity": "unauthorized_source_path",
+        "tampered-runtime-activation-identity": "activation_identity_mismatch",
+        "unknown-package": "unknown_package"
+      },
+      "result": "PASS"
+    },
+    "polygonz_source_integrity": {
+      "in_place_transformation_performed": false,
+      "result": "PASS",
+      "source_identity_before_equals_after": true,
+      "source_repair_performed": false,
+      "source_writeback_performed": false,
+      "z_dimension_exists": true,
+      "z_values_recoverable": true
+    },
+    "portrayal_verification": {
+      "annotation": "PASS",
+      "annotation_placement": "PASS",
+      "colour_and_opacity": "PASS",
+      "hatch_spacing_device_px_unquantized": 7.559055118110237,
+      "line_width_conversion": "PASS",
+      "line_width_device_px_unquantized": 0.7559055118110237,
+      "procedural_hatch": "PASS",
+      "representative_placements": {
+        "concave": [
+          3.0,
+          1.0
+        ],
+        "convex": [
+          2.0,
+          2.0
+        ],
+        "narrow": [
+          10.0,
+          0.05
+        ]
+      },
+      "schema": "PASS"
+    },
+    "post_activation_observation": {
+      "activation_id": "building-activation-03d28cbae50eb2050db4ed08",
+      "active_runtime_observation_sha256": {
+        "J13": "0f139473852ba9b79c66332185b26ca12e844554136c8b1ea9c4fe9ff32f9d49",
+        "J17": "cc7b77d220278098a754643f7e26eb0d90cfcf90b0426292c2c312aaa90abc5d"
+      },
+      "official_portrayal_active": true,
+      "production_active": true,
+      "runtime_revision": "nma.building-production-runtime/1.0",
+      "source_archive_after_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+      "source_archive_before_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+      "source_mutated": false
+    },
+    "post_activation_observation_sha256": "94fc32800a47041a1624cd643397b3ad2e9b790318f3516257188cfc47d15bea",
+    "post_activation_verification": {
+      "activation_id": "building-activation-03d28cbae50eb2050db4ed08",
+      "checks": {
+        "activation-receipt-valid": "PASS",
+        "annotation-placement-unchanged": "PASS",
+        "annotation-semantics-unchanged": "PASS",
+        "authorization-identity-exact": "PASS",
+        "colour-opacity-unchanged": "PASS",
+        "contract-identity-exact": "PASS",
+        "derived-xy-non-writing": "PASS",
+        "hatch-semantics-unchanged": "PASS",
+        "implementation-identity-exact": "PASS",
+        "j13-binding-exact": "PASS",
+        "j17-binding-exact": "PASS",
+        "line-width-output-profile-unchanged": "PASS",
+        "no-fallback-introduced": "PASS",
+        "official-building-portrayal-active": "PASS",
+        "policy-identity-exact": "PASS",
+        "polygonz-integrity-unchanged": "PASS",
+        "provenance-chain-complete": "PASS",
+        "runtime-building-production-active": "PASS",
+        "seven-field-schema-unchanged": "PASS",
+        "source-identity-unchanged": "PASS"
+      },
+      "post_activation_observation_sha256": "94fc32800a47041a1624cd643397b3ad2e9b790318f3516257188cfc47d15bea",
+      "result": "PASS"
+    },
+    "post_activation_verification_sha256": "723ea166b9aecab6bf5edf4e98d23607cdcbdb858acc8d6226b64808467885de",
+    "pre_activation_verification": {
+      "checks": {
+        "annotation-contract-exact": "PASS",
+        "authorization-record-valid": "PASS",
+        "authorization-targets-build12": "PASS",
+        "build09f-policy-identity-exact": "PASS",
+        "build10-implementation-identity-exact": "PASS",
+        "build11-readiness-identity-exact": "PASS",
+        "core-identity-provider-exact": "PASS",
+        "finalized-contract-identity-exact": "PASS",
+        "hatch-contract-exact": "PASS",
+        "j13-j17-binding-policy-exact": "PASS",
+        "line-colour-output-profile-exact": "PASS",
+        "no-new-material-regression": "PASS",
+        "polygonz-derived-xy-boundary-exact": "PASS",
+        "remaining-blockers-none": "PASS",
+        "seven-field-schema-exact": "PASS",
+        "source-archive-identity-unchanged": "PASS"
+      },
+      "independent_replay_performed": true,
+      "result": "PASS"
+    },
+    "predecessor": {
+      "authorization_sha256": "8bae65726aa0c6901927cb3a0a12a875ac766d45ac9e3a793afb23a85effdb0f",
+      "branch": "build/build-11a-human-building-production-activation-authorization",
+      "commit": "3370c1a33c46d4ab929911de4d2671a9cd82e6ce",
+      "contract_sha256": "5c62664ad4884f83454b2ed1d227d7278e8f6e0ce9f85c1f992db5a429d56c88",
+      "implementation_sha256": "2772ce93f81973e1dbbeb2d4ae9bb1307a29dcdcc4a61ca08f382c12b6b3c957",
+      "policy_sha256": "dd15aead073404cd82030104d2603e0dc1461e7a90d972b853d2bcb6d482c8a1",
+      "readiness_sha256": "d2ecb53e74f46e279a5672a182b5a9de602c08d4027023d4fb225132bf3d01fb"
+    },
+    "record_version": "build-12/1.0",
+    "schema_version": "nma.building-production-activation/1.0",
+    "source_integrity": {
+      "archive_after_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+      "archive_before_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+      "result": "PASS",
+      "source_before_equals_after": true,
+      "source_mutation_allowed": false,
+      "source_repair_allowed": false,
+      "source_writeback_allowed": false,
+      "source_z_drop_allowed": false
+    },
+    "status": "active-post-activation-verified",
+    "verdict": "PASS — BUILDING PRODUCTION ACTIVATED AND POST-ACTIVATION VERIFIED"
+  },
+  "description": "Closed deterministic schema for the exact authorization-bound active Building runtime state and immediate post-activation verification.",
+  "title": "BUILD-12 Building production active registry",
+  "type": "object"
+}
