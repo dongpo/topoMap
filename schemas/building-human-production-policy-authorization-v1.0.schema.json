@@ -1,0 +1,550 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/building-human-production-policy-authorization-v1.0.schema.json",
+  "title": "BUILD-09F closed human Building production-policy authorization",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_version",
+    "status",
+    "created_on",
+    "predecessor",
+    "human_policy_decision_type",
+    "official_evidence_closure",
+    "j13_j17_binding_policy",
+    "hatch_policy",
+    "annotation_policy",
+    "line_output_profile_policy",
+    "colour_policy",
+    "opacity_policy",
+    "polygonz_derived_xy_policy",
+    "five_gate_readiness",
+    "production_implementation_authorization",
+    "scope",
+    "build10_readiness",
+    "verdict",
+    "next_stage_recommendation",
+    "policy_record_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "nma.building-human-production-policy-authorization/1.0"
+    },
+    "contract_version": {
+      "const": "build-09f/1.0"
+    },
+    "status": {
+      "const": "human-production-policy-resolved"
+    },
+    "created_on": {
+      "const": "2026-08-21"
+    },
+    "predecessor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "build09e2_branch",
+        "build09e2_commit",
+        "build09_contract_sha256",
+        "build09e_evidence_closure_sha256",
+        "build09e1_evidence_resolution_sha256",
+        "build09e2_applicability_resolution_sha256",
+        "build09e2_successor_contract_sha256",
+        "build08a_authorization_sha256",
+        "frozen_build09e2_artifact_sha256"
+      ],
+      "properties": {
+        "build09e2_branch": {
+          "const": "build/build-09e2-j13-j17-production-applicability-resolution"
+        },
+        "build09e2_commit": {
+          "const": "d92fd15bd6b7e40714abf25a8e7857d205fcca10"
+        },
+        "build09_contract_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "build09e_evidence_closure_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "build09e1_evidence_resolution_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "build09e2_applicability_resolution_sha256": {
+          "const": "1a4a406da130eb34a7f6871e92230d0c82fe4bcf9e475651418780bedd5d1262"
+        },
+        "build09e2_successor_contract_sha256": {
+          "const": "71b7f25239eb001454af61358acb67917d9820957ea4aeb2191ff613ee54a043"
+        },
+        "build08a_authorization_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "frozen_build09e2_artifact_sha256": {
+          "type": "object"
+        }
+      }
+    },
+    "human_policy_decision_type": {
+      "enum": [
+        "local-nma-production-policy"
+      ]
+    },
+    "official_evidence_closure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authoritative_applicability_result",
+        "official_evidence_search_closed",
+        "additional_evidence_acquisition_justified",
+        "official_portrayal_semantics_closed",
+        "remaining_authoritative_evidence_blockers"
+      ],
+      "properties": {
+        "authoritative_applicability_result": {
+          "const": "authoritative-applicability-boundary-not-published"
+        },
+        "official_evidence_search_closed": {
+          "const": true
+        },
+        "additional_evidence_acquisition_justified": {
+          "const": false
+        },
+        "official_portrayal_semantics_closed": {
+          "const": true
+        },
+        "remaining_authoritative_evidence_blockers": {
+          "const": []
+        }
+      }
+    },
+    "j13_j17_binding_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "global_permanent_layer_selected",
+        "global_equivalence_asserted",
+        "package_identity_required",
+        "binding_scope",
+        "bindings",
+        "provenance_binding_required",
+        "automatic_cross_prefix_substitution_allowed",
+        "package_layer_mismatch_behavior",
+        "unsupported_package_prefix_behavior"
+      ],
+      "properties": {
+        "classification": {
+          "enum": [
+            "local-version-package-scoped-production-binding"
+          ]
+        },
+        "global_permanent_layer_selected": {
+          "const": false
+        },
+        "global_equivalence_asserted": {
+          "const": false
+        },
+        "package_identity_required": {
+          "const": true
+        },
+        "binding_scope": {
+          "const": "exact-explicitly-selected-and-verified-source-package"
+        },
+        "bindings": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "package_prefix",
+              "package_scope",
+              "layer_identity",
+              "schema_identity_required"
+            ],
+            "properties": {
+              "package_prefix": {
+                "enum": [
+                  "J13",
+                  "J17"
+                ]
+              },
+              "package_scope": {
+                "type": "string",
+                "minLength": 1
+              },
+              "layer_identity": {
+                "enum": [
+                  "J13_BUILD",
+                  "J17_BUILD"
+                ]
+              },
+              "schema_identity_required": {
+                "const": true
+              }
+            }
+          }
+        },
+        "provenance_binding_required": {
+          "const": [
+            "source-package-identity",
+            "package-scope",
+            "exact-layer-identity",
+            "schema-identity"
+          ]
+        },
+        "automatic_cross_prefix_substitution_allowed": {
+          "const": false
+        },
+        "package_layer_mismatch_behavior": {
+          "const": "fail-closed"
+        },
+        "unsupported_package_prefix_behavior": {
+          "const": "fail-closed"
+        }
+      }
+    },
+    "hatch_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "official_diagonal_semantics",
+        "official_spacing_mm",
+        "spacing_scale_boundary",
+        "local_angle_degrees",
+        "angle_authority",
+        "hatch_resource_policy",
+        "line_colour_semantics",
+        "deterministic_procedural_rendering_required",
+        "asset_file_required",
+        "asset_if_used_must_derive_from_canonical_specification",
+        "missing_building_hatch_tile_dependency_blocks_architecture",
+        "asset_created_or_deployed"
+      ],
+      "properties": {
+        "official_diagonal_semantics": {
+          "const": true
+        },
+        "official_spacing_mm": {
+          "const": 2.0
+        },
+        "spacing_scale_boundary": {
+          "const": "physical-at-defined-cartographic-output-profile-scale"
+        },
+        "local_angle_degrees": {
+          "const": 45
+        },
+        "angle_authority": {
+          "enum": [
+            "local-production-policy"
+          ]
+        },
+        "hatch_resource_policy": {
+          "enum": [
+            "procedural-canonical"
+          ]
+        },
+        "line_colour_semantics": {
+          "const": "official-black-unless-another-officially-supported-mapping-applies"
+        },
+        "deterministic_procedural_rendering_required": {
+          "const": true
+        },
+        "asset_file_required": {
+          "const": false
+        },
+        "asset_if_used_must_derive_from_canonical_specification": {
+          "const": true
+        },
+        "missing_building_hatch_tile_dependency_blocks_architecture": {
+          "const": false
+        },
+        "asset_created_or_deployed": {
+          "const": false
+        }
+      }
+    },
+    "annotation_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "content_authority",
+        "content_rule",
+        "field_binding_rule",
+        "annotation_placement_authority",
+        "preferred_placement",
+        "anchor",
+        "near_feature_center_semantics_preserved",
+        "outside_polygon_fallback_authorized",
+        "collision_suppression_allowed",
+        "unsafe_label_behavior",
+        "same_geometry_output_profile_is_deterministic"
+      ],
+      "properties": {
+        "content_authority": {
+          "const": "official-portrayal-semantics"
+        },
+        "content_rule": {
+          "const": "floor count followed by structure"
+        },
+        "field_binding_rule": {
+          "const": "{BUILD_NO}{BUILD_STR}"
+        },
+        "annotation_placement_authority": {
+          "enum": [
+            "local-production-policy"
+          ]
+        },
+        "preferred_placement": {
+          "const": "inside-polygon"
+        },
+        "anchor": {
+          "const": "deterministic-interior-or-representative-point"
+        },
+        "near_feature_center_semantics_preserved": {
+          "const": true
+        },
+        "outside_polygon_fallback_authorized": {
+          "const": false
+        },
+        "collision_suppression_allowed": {
+          "const": true
+        },
+        "unsafe_label_behavior": {
+          "const": "suppress"
+        },
+        "same_geometry_output_profile_is_deterministic": {
+          "const": true
+        }
+      }
+    },
+    "line_output_profile_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "official_physical_width",
+        "output_profile_authority",
+        "profile_id",
+        "output_dpi",
+        "device_pixel_assumption_declared",
+        "conversion_formula",
+        "derived_device_width_px",
+        "official_css_px",
+        "official_one_css_px_rule",
+        "renderer_quantization_authority"
+      ],
+      "properties": {
+        "official_physical_width": {
+          "const": {
+            "unit": "mm",
+            "value": 0.2,
+            "value_text": "0.20"
+          }
+        },
+        "output_profile_authority": {
+          "const": "local-output-profile-policy"
+        },
+        "profile_id": {
+          "const": "nma-screen-96dpi-v1"
+        },
+        "output_dpi": {
+          "const": 96
+        },
+        "device_pixel_assumption_declared": {
+          "const": true
+        },
+        "conversion_formula": {
+          "const": "device_px = physical_mm * output_dpi / 25.4"
+        },
+        "derived_device_width_px": {
+          "const": 0.7559055118110237
+        },
+        "official_css_px": {
+          "const": null
+        },
+        "official_one_css_px_rule": {
+          "const": false
+        },
+        "renderer_quantization_authority": {
+          "const": "local-output-profile-behavior-if-defined-later"
+        }
+      }
+    },
+    "colour_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "official_semantic_name",
+        "official_original_representation",
+        "official_rgb_components",
+        "canonical_device_representation",
+        "optional_hex_serialization",
+        "hex_authority",
+        "official_hex_definition",
+        "rejected_device_representation"
+      ],
+      "properties": {
+        "official_semantic_name": {
+          "const": "black"
+        },
+        "official_original_representation": {
+          "const": "RGB (0,0,0)"
+        },
+        "official_rgb_components": {
+          "const": [
+            0,
+            0,
+            0
+          ]
+        },
+        "canonical_device_representation": {
+          "const": "rgb(0, 0, 0)"
+        },
+        "optional_hex_serialization": {
+          "const": "#000000"
+        },
+        "hex_authority": {
+          "enum": [
+            "derived-device-serialization"
+          ]
+        },
+        "official_hex_definition": {
+          "const": null
+        },
+        "rejected_device_representation": {
+          "const": "#111111"
+        }
+      }
+    },
+    "opacity_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value",
+        "authority",
+        "applies_to",
+        "separate_component_values_require_explicit_contract_binding"
+      ],
+      "properties": {
+        "value": {
+          "const": 1.0
+        },
+        "authority": {
+          "enum": [
+            "local-output-profile-policy"
+          ]
+        },
+        "applies_to": {
+          "const": [
+            "building-line",
+            "building-hatch"
+          ]
+        },
+        "separate_component_values_require_explicit_contract_binding": {
+          "const": true
+        }
+      }
+    },
+    "polygonz_derived_xy_policy": {
+      "type": "object",
+      "required": [
+        "source_representation",
+        "derived_xy_representation",
+        "legacy_drop_z_path",
+        "source_mutation_authority",
+        "production_execution_allowed",
+        "implementation_in_build09f"
+      ]
+    },
+    "five_gate_readiness": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "gate_id",
+          "state"
+        ],
+        "properties": {
+          "gate_id": {
+            "enum": [
+              "hatch",
+              "annotation",
+              "j13-j17",
+              "line-colour",
+              "polygonz-derived-xy"
+            ]
+          },
+          "state": {
+            "enum": [
+              "P2-production-candidate"
+            ]
+          }
+        }
+      }
+    },
+    "production_implementation_authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "controlled_production_implementation_design_allowed",
+        "controlled_production_implementation_allowed",
+        "production_activation_allowed",
+        "official_portrayal_activation_allowed",
+        "source_mutation_allowed",
+        "source_z_drop_allowed",
+        "unbounded_runtime_wiring_allowed"
+      ],
+      "properties": {
+        "controlled_production_implementation_design_allowed": {
+          "const": true
+        },
+        "controlled_production_implementation_allowed": {
+          "const": true
+        },
+        "production_activation_allowed": {
+          "const": false
+        },
+        "official_portrayal_activation_allowed": {
+          "const": false
+        },
+        "source_mutation_allowed": {
+          "const": false
+        },
+        "source_z_drop_allowed": {
+          "const": false
+        },
+        "unbounded_runtime_wiring_allowed": {
+          "const": false
+        }
+      }
+    },
+    "scope": {
+      "type": "object"
+    },
+    "build10_readiness": {
+      "enum": [
+        "READY-FOR-BUILD-10"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "PASS — HUMAN BUILDING PRODUCTION POLICY RESOLVED; BUILD-10 READY"
+      ]
+    },
+    "next_stage_recommendation": {
+      "const": "BUILD-10 — Controlled Building Production Implementation"
+    },
+    "policy_record_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}
