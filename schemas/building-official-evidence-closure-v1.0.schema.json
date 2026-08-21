@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/building-official-evidence-closure-v1.0.schema.json",
+  "title": "BUILD-09E Building official evidence closure",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "closure_version", "schema_version", "status", "created_on", "predecessor",
+    "evidence_policy", "evidence_items", "j13_j17_closure", "annotation_closure",
+    "hatch_closure", "line_color_closure", "polygonz_derived_xy_preservation",
+    "readiness", "local_policy_required", "missing_authoritative_evidence",
+    "conflicting_authoritative_evidence", "successor_production_contract",
+    "build10_readiness_decision", "verdict", "scope", "source_mutation_policy",
+    "runtime_activation_policy", "next_stage_recommendation",
+    "official_evidence_closure_sha256"
+  ],
+  "properties": {
+    "closure_version": {"const": "build-09e/1.0"},
+    "schema_version": {"const": "nma.building-official-evidence-closure/1.0"},
+    "status": {"enum": ["production-candidate", "partial-production-candidate", "evidence-hold"]},
+    "created_on": {"type": "string", "format": "date"},
+    "predecessor": {"$ref": "#/$defs/predecessor"},
+    "evidence_policy": {"$ref": "#/$defs/evidence_policy"},
+    "evidence_items": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence_item"}},
+    "j13_j17_closure": {"$ref": "#/$defs/layer_closure"},
+    "annotation_closure": {"$ref": "#/$defs/annotation_closure"},
+    "hatch_closure": {"$ref": "#/$defs/hatch_closure"},
+    "line_color_closure": {"$ref": "#/$defs/line_color_closure"},
+    "polygonz_derived_xy_preservation": {"$ref": "#/$defs/polygonz_contract"},
+    "readiness": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"$ref": "#/$defs/gate"}},
+    "local_policy_required": {"$ref": "#/$defs/nonempty_strings"},
+    "missing_authoritative_evidence": {"$ref": "#/$defs/nonempty_strings"},
+    "conflicting_authoritative_evidence": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "successor_production_contract": {"$ref": "#/$defs/successor"},
+    "build10_readiness_decision": {"enum": ["READY-FOR-BUILD-10", "HUMAN-POLICY-GATE-REQUIRED", "OFFICIAL-EVIDENCE-STILL-MISSING", "AUTHORITY-CONFLICT-UNRESOLVED"]},
+    "verdict": {"enum": ["PASS — OFFICIAL EVIDENCE CLOSED; BUILD-10 READY", "PASS — OFFICIAL EVIDENCE CLOSED; HUMAN POLICY GATE REQUIRED", "PASS — EVIDENCE CLOSURE PARTIAL; OFFICIAL EVIDENCE STILL MISSING", "PASS — EVIDENCE CLOSURE PARTIAL; AUTHORITY CONFLICT REMAINS", "FAIL — OFFICIAL EVIDENCE CLOSURE NOT ESTABLISHED"]},
+    "scope": {"$ref": "#/$defs/scope"},
+    "source_mutation_policy": {"$ref": "#/$defs/source_mutation"},
+    "runtime_activation_policy": {"$ref": "#/$defs/runtime_activation"},
+    "next_stage_recommendation": {"type": "string", "minLength": 1},
+    "official_evidence_closure_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "nonempty_strings": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "component_outcome": {"enum": ["officially-supported", "documented-source-semantics", "local-policy-required", "local-policy-required-with-official-diagonal-semantics", "implementation-only", "indeterminate", "contradicted"]},
+    "predecessor": {
+      "type": "object", "additionalProperties": false,
+      "required": ["build09_branch", "build09_commit", "build09_contract_sha256", "build09_contract_file_sha256", "build08a_authorization_sha256", "build08a_authorization_file_sha256", "build08_review_sha256", "build08_review_file_sha256", "build07_record_sha256", "build07_record_file_sha256"],
+      "properties": {
+        "build09_branch": {"const": "build/build-09-official-building-production-contract"},
+        "build09_commit": {"const": "23b4f042ee14934b01d6215277e3e0881767a580"},
+        "build09_contract_sha256": {"const": "0b9e0cc9c98274f9efcbed451905fa21857c33f0ec9472254fa6e3b803c24a0c"},
+        "build09_contract_file_sha256": {"const": "87355baed4c8277218cafb4bf98114a2d24e8a706fc55540a24b445c60cc7112"},
+        "build08a_authorization_sha256": {"const": "4eedc443d4f1d5c0af36e696fc67fd0101f6936d78edba19d5c20d41ab2b8da8"},
+        "build08a_authorization_file_sha256": {"const": "a100ef01036207453992981d48c713a619b006c44f10e453cf3e69fcec6799ba"},
+        "build08_review_sha256": {"const": "b48337a6bb8cf1e6cffc54e0bbfe14383f62c1dcfdca54bf706c0ab045b42484"},
+        "build08_review_file_sha256": {"const": "be9ee241d358ba4c426ed7756345b899dffaa2e010f5f66abbe4b24ad7355b1b"},
+        "build07_record_sha256": {"const": "ea44212b1e3bc7e430bf77ac306f1a8d29896221152484f28c3f99ae4daf466c"},
+        "build07_record_file_sha256": {"const": "7b95e8130f4842310ef5c2ff6abb20d24211b803e5e2f412e4cce7ab245ed46d"}
+      }
+    },
+    "evidence_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["priority", "authority_classes", "component_outcomes", "readiness_states", "demo_can_promote", "human_demo_acceptance_can_promote", "implementation_alone_can_promote", "silent_conflict_resolution_allowed"],
+      "properties": {
+        "priority": {"$ref": "#/$defs/nonempty_strings"},
+        "authority_classes": {"type": "array", "items": {"enum": ["authoritative-official", "authoritative-schema", "authoritative-metadata", "documented-source-semantics", "frozen-project-evidence", "implementation-evidence", "demo-evidence", "human-demo-evaluation", "local-policy-required", "unknown"]}},
+        "component_outcomes": {"type": "array", "items": {"$ref": "#/$defs/component_outcome"}},
+        "readiness_states": {"type": "array", "items": {"enum": ["P1-evidence-supported", "P2-production-candidate", "local-policy-required", "HOLD-indeterminate", "HOLD-conflicting-authority"]}},
+        "demo_can_promote": {"const": false},
+        "human_demo_acceptance_can_promote": {"const": false},
+        "implementation_alone_can_promote": {"const": false},
+        "silent_conflict_resolution_allowed": {"const": false}
+      }
+    },
+    "evidence_item": {
+      "type": "object", "additionalProperties": false,
+      "required": ["evidence_id", "source", "version_date", "provenance", "authority_class", "claim", "confidence", "conflicts", "identity"],
+      "properties": {
+        "evidence_id": {"type": "string", "minLength": 1}, "source": {"type": "string", "minLength": 1},
+        "version_date": {"type": "string", "minLength": 1}, "provenance": {"type": "string", "minLength": 1},
+        "authority_class": {"enum": ["authoritative-official", "authoritative-schema", "authoritative-metadata", "documented-source-semantics", "frozen-project-evidence", "implementation-evidence", "demo-evidence", "human-demo-evaluation", "local-policy-required", "unknown"]},
+        "claim": {"type": "string", "minLength": 1}, "confidence": {"type": "string", "minLength": 1},
+        "conflicts": {"type": "array", "items": {"type": "string", "minLength": 1}}, "identity": {"type": "string", "minLength": 1}
+      }
+    },
+    "layer_closure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["outcome", "selected_layer_id", "authoritative_traces", "version_contracts", "source_package_finding", "required_trace", "missing"],
+      "properties": {
+        "outcome": {"enum": ["J13-authoritative-production-candidate", "J17-authoritative-production-candidate", "version-scoped-dual-contract-required", "different-semantic-roles", "indeterminate"]},
+        "selected_layer_id": {"type": ["string", "null"]}, "authoritative_traces": {"type": "array", "items": {"$ref": "#/$defs/authoritative_trace"}},
+        "version_contracts": {"type": "array", "items": {"$ref": "#/$defs/version_contract"}}, "source_package_finding": {"type": "string", "minLength": 1},
+        "required_trace": {"$ref": "#/$defs/nonempty_strings"}, "missing": {"type": "string", "minLength": 1}
+      }
+    },
+    "component": {
+      "type": "object", "additionalProperties": false, "required": ["outcome"],
+      "properties": {
+        "outcome": {"$ref": "#/$defs/component_outcome"}, "rule": {"type": "string"}, "scope": {"type": "string"},
+        "official_semantics": {"type": ["string", "null"]}, "unofficial_detail": {"type": "string"},
+        "value": {"type": ["number", "string", "null"]}, "unit": {"type": "string"}, "value_degrees": {"type": ["number", "null"]},
+        "forbidden_inference": {"type": "string"}, "line_code": {"type": "string"}, "physical_unit_system": {"type": "string"},
+        "color_code": {"type": "string"}, "device_independent_value": {"type": ["string", "null"]}, "semantic": {"type": "string"},
+        "numeric_angle": {"type": ["number", "null"]}, "allowed_form": {"type": "string"}, "created_or_deployed": {"type": "boolean"},
+        "exact_asset_required": {"type": "boolean"}
+      }
+    },
+    "annotation_closure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["content", "field_binding", "placement", "collision_suppression", "scale_visibility", "formatting_order"],
+      "properties": {"content": {"$ref": "#/$defs/component"}, "field_binding": {"$ref": "#/$defs/component"}, "placement": {"$ref": "#/$defs/component"}, "collision_suppression": {"$ref": "#/$defs/component"}, "scale_visibility": {"$ref": "#/$defs/component"}, "formatting_order": {"$ref": "#/$defs/component"}}
+    },
+    "hatch_closure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["spacing", "angle", "line_thickness", "color_relationship", "pattern_orientation", "resource"],
+      "properties": {"spacing": {"$ref": "#/$defs/component"}, "angle": {"$ref": "#/$defs/component"}, "line_thickness": {"$ref": "#/$defs/component"}, "color_relationship": {"$ref": "#/$defs/component"}, "pattern_orientation": {"$ref": "#/$defs/component"}, "resource": {"$ref": "#/$defs/component"}}
+    },
+    "authoritative_trace": {
+      "type": "object", "additionalProperties": false,
+      "required": ["official-specification/version", "layer-code", "layer-meaning", "geometry-type", "field-set", "dataset-version", "NMA-production-contract"],
+      "properties": {
+        "official-specification/version": {"type": "string", "minLength": 1}, "layer-code": {"enum": ["J13_BUILD", "J17_BUILD"]},
+        "layer-meaning": {"type": "string", "minLength": 1}, "geometry-type": {"type": "string", "minLength": 1},
+        "field-set": {"type": "string", "minLength": 1}, "dataset-version": {"type": "string", "minLength": 1},
+        "NMA-production-contract": {"type": "string", "minLength": 1}
+      }
+    },
+    "version_contract": {
+      "type": "object", "additionalProperties": false, "required": ["layer_id", "authoritative_trace"],
+      "properties": {"layer_id": {"enum": ["J13_BUILD", "J17_BUILD"]}, "authoritative_trace": {"$ref": "#/$defs/authoritative_trace"}}
+    },
+    "polygonz_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "pipeline", "source_representation", "derived_xy_representation", "provenance_binding_required", "legacy_drop_z_path", "source_mutation_authority", "production_execution_allowed"],
+      "properties": {
+        "status": {"const": "production-candidate-design-only"},
+        "pipeline": {"$ref": "#/$defs/nonempty_strings"},
+        "source_representation": {
+          "type": "object", "additionalProperties": false,
+          "required": ["authoritative", "immutable", "z_values_preserved_and_recoverable", "write_handle_exposed_to_deriver"],
+          "properties": {"authoritative": {"const": true}, "immutable": {"const": true}, "z_values_preserved_and_recoverable": {"const": true}, "write_handle_exposed_to_deriver": {"const": false}}
+        },
+        "derived_xy_representation": {
+          "type": "object", "additionalProperties": false,
+          "required": ["authoritative", "non_writing", "source_mutation_capability", "purpose", "materialization", "geometry_repair_permitted", "rendering_consumes_derived_only"],
+          "properties": {"authoritative": {"const": false}, "non_writing": {"const": true}, "source_mutation_capability": {"const": false}, "purpose": {"const": "portrayal-only"}, "materialization": {"type": "string", "minLength": 1}, "geometry_repair_permitted": {"const": false}, "rendering_consumes_derived_only": {"const": true}}
+        },
+        "provenance_binding_required": {"$ref": "#/$defs/nonempty_strings"},
+        "legacy_drop_z_path": {
+          "type": "object", "additionalProperties": false, "required": ["classification", "disposition", "reuse_as_is_allowed"],
+          "properties": {"classification": {"const": "incompatible"}, "disposition": {"type": "string", "minLength": 1}, "reuse_as_is_allowed": {"const": false}}
+        },
+        "source_mutation_authority": {"const": false}, "production_execution_allowed": {"const": false}
+      }
+    },
+    "line_color_closure": {
+      "type": "object", "additionalProperties": false, "required": ["line_code_2", "colour_code_7", "rendering_conversion"],
+      "properties": {
+        "line_code_2": {"type": "object", "additionalProperties": false, "required": ["outcome", "official_code", "official_unit_system", "physical_width", "css_px"], "properties": {"outcome": {"$ref": "#/$defs/component_outcome"}, "official_code": {"const": "2"}, "official_unit_system": {"const": "mm"}, "physical_width": {"type": ["number", "null"]}, "css_px": {"type": ["number", "null"]}}},
+        "colour_code_7": {"type": "object", "additionalProperties": false, "required": ["outcome", "official_code", "official_value", "documented_named_context", "rgb_hex"], "properties": {"outcome": {"$ref": "#/$defs/component_outcome"}, "official_code": {"const": "7"}, "official_value": {"type": ["string", "null"]}, "documented_named_context": {"type": ["string", "null"]}, "rgb_hex": {"type": ["string", "null"]}}},
+        "rendering_conversion": {"type": "object", "additionalProperties": false, "required": ["outcome", "documented_conversion_rule", "one_css_px_authorized", "number_111111_authorized", "physical_units_must_be_preserved"], "properties": {"outcome": {"$ref": "#/$defs/component_outcome"}, "documented_conversion_rule": {"type": ["string", "null"]}, "one_css_px_authorized": {"const": false}, "number_111111_authorized": {"const": false}, "physical_units_must_be_preserved": {"const": true}}}
+      }
+    },
+    "gate": {
+      "type": "object", "additionalProperties": false, "required": ["gate_id", "state", "reason"],
+      "properties": {"gate_id": {"enum": ["hatch-angle-transcription", "building-annotation-placement", "real-build-schema-binding", "line-and-color-profile", "j13-polygonz-runtime-policy"]}, "state": {"enum": ["P1-evidence-supported", "P2-production-candidate", "local-policy-required", "HOLD-indeterminate", "HOLD-conflicting-authority"]}, "reason": {"type": "string", "minLength": 1}}
+    },
+    "successor": {"type": "object", "additionalProperties": false, "required": ["created", "sha256", "reason"], "properties": {"created": {"type": "boolean"}, "sha256": {"type": ["string", "null"]}, "reason": {"type": "string", "minLength": 1}}},
+    "scope": {"type": "object", "additionalProperties": false, "required": ["production_runtime_modified", "source_data_or_geometry_modified", "hatch_asset_created", "successor_contract_created"], "properties": {"production_runtime_modified": {"const": false}, "source_data_or_geometry_modified": {"const": false}, "hatch_asset_created": {"const": false}, "successor_contract_created": {"const": false}}},
+    "source_mutation": {"type": "object", "additionalProperties": false, "required": ["source_mutation_allowed", "source_geometry_repair_allowed", "source_z_dimension_removal_allowed", "derived_output_writeback_allowed"], "properties": {"source_mutation_allowed": {"const": false}, "source_geometry_repair_allowed": {"const": false}, "source_z_dimension_removal_allowed": {"const": false}, "derived_output_writeback_allowed": {"const": false}}},
+    "runtime_activation": {"type": "object", "additionalProperties": false, "required": ["production_activation_allowed", "production_runtime_creation_allowed", "official_portrayal_activation_allowed", "contract_status_production_active_allowed", "later_separate_authorization_required"], "properties": {"production_activation_allowed": {"const": false}, "production_runtime_creation_allowed": {"const": false}, "official_portrayal_activation_allowed": {"const": false}, "contract_status_production_active_allowed": {"const": false}, "later_separate_authorization_required": {"const": true}}}
+  }
+}
