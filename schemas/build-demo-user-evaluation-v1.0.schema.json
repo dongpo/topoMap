@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/nma/build-demo-user-evaluation-v1.0.schema.json",
+  "title": "NMA BUILD-07 DEMO user evaluation",
+  "oneOf": [
+    {"$ref": "#/$defs/template"},
+    {"$ref": "#/$defs/record"}
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "boundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "demo_only",
+        "official_portrayal_decided",
+        "production_semantics_decided",
+        "production_activation_allowed",
+        "runtime_wiring_allowed",
+        "source_access_allowed",
+        "source_mutation_allowed",
+        "source_z_dimension_drop_allowed",
+        "raw_source_disclosure_allowed",
+        "evaluation_export_is_authorization"
+      ],
+      "properties": {
+        "demo_only": {"const": true},
+        "official_portrayal_decided": {"const": false},
+        "production_semantics_decided": {"const": false},
+        "production_activation_allowed": {"const": false},
+        "runtime_wiring_allowed": {"const": false},
+        "source_access_allowed": {"const": false},
+        "source_mutation_allowed": {"const": false},
+        "source_z_dimension_drop_allowed": {"const": false},
+        "raw_source_disclosure_allowed": {"const": false},
+        "evaluation_export_is_authorization": {"const": false}
+      }
+    },
+    "interaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["control", "direct_demo_adjustment_allowed"],
+      "properties": {
+        "control": {"enum": ["angle-slider-and-accept-or-revise", "accept-or-revise"]},
+        "direct_demo_adjustment_allowed": {"type": "boolean"},
+        "default_angle_degrees": {"const": 45},
+        "minimum_inclusive": {"const": 0},
+        "maximum_inclusive": {"const": 179},
+        "step": {"const": 1}
+      }
+    },
+    "gateItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gate_id",
+        "order",
+        "title_zh_tw",
+        "question_zh_tw",
+        "current_demo_resolution_zh_tw",
+        "official_status",
+        "interaction"
+      ],
+      "properties": {
+        "gate_id": {
+          "enum": [
+            "hatch-angle-transcription",
+            "building-annotation-placement",
+            "real-build-schema-binding",
+            "line-and-color-profile",
+            "j13-polygonz-runtime-policy"
+          ]
+        },
+        "order": {"type": "integer", "minimum": 1, "maximum": 5},
+        "title_zh_tw": {"type": "string", "minLength": 1},
+        "question_zh_tw": {"type": "string", "minLength": 1},
+        "current_demo_resolution_zh_tw": {"type": "string", "minLength": 1},
+        "official_status": {"const": "unresolved-outside-demo"},
+        "interaction": {"$ref": "#/$defs/interaction"}
+      }
+    },
+    "template": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evaluation_version",
+        "schema_version",
+        "status",
+        "predecessor",
+        "demo",
+        "evaluation_rules",
+        "gate_items",
+        "boundaries",
+        "template_sha256"
+      ],
+      "properties": {
+        "evaluation_version": {"const": "build-07/1.0"},
+        "schema_version": {"const": "nma.build-demo-user-evaluation/1.0"},
+        "status": {"const": "awaiting-user-evaluation"},
+        "predecessor": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "build06a_branch",
+            "build06a_commit",
+            "public_main_commit",
+            "publication_sha256",
+            "build06_freeze_sha256",
+            "build03a_resolution_sha256"
+          ],
+          "properties": {
+            "build06a_branch": {"const": "build/build-06a-safe-demo-publication"},
+            "build06a_commit": {"const": "540153127d26db0197ab0891fb9c07c7fe8f012e"},
+            "public_main_commit": {"const": "88290fa55832edbbe190a68095b115cab93c4eb9"},
+            "publication_sha256": {"const": "83c22625ad99dbc0cb26af614d39cf6fd12e6e77b1c863b501656e46f6d105a9"},
+            "build06_freeze_sha256": {"const": "bc636eb1eed7e055306b7271d2cf169c05a4990ab37cebf0b9f89288d53e7857"},
+            "build03a_resolution_sha256": {"const": "a5a8f11b94784a6065d7b75e151207126506c85ce826dd526c2c8f4802ba8b01"}
+          }
+        },
+        "demo": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["live_url", "verified_file_count", "default_hatch_angle_degrees", "angle_user_adjustable"],
+          "properties": {
+            "live_url": {"const": "https://dongpo.github.io/topoMap/build-demo/"},
+            "verified_file_count": {"const": 3},
+            "default_hatch_angle_degrees": {"const": 45},
+            "angle_user_adjustable": {"const": true}
+          }
+        },
+        "evaluation_rules": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "required_gate_count",
+            "allowed_verdicts",
+            "all_gate_verdicts_required",
+            "revision_note_required",
+            "maximum_note_characters",
+            "accepted_result",
+            "revision_result",
+            "official_or_production_result_allowed"
+          ],
+          "properties": {
+            "required_gate_count": {"const": 5},
+            "allowed_verdicts": {"const": ["accept-current-demo", "request-demo-revision"]},
+            "all_gate_verdicts_required": {"const": true},
+            "revision_note_required": {"const": true},
+            "maximum_note_characters": {"const": 500},
+            "accepted_result": {"const": "accepted-demo-only"},
+            "revision_result": {"const": "revision-requested-demo-only"},
+            "official_or_production_result_allowed": {"const": false}
+          }
+        },
+        "gate_items": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {"$ref": "#/$defs/gateItem"}
+        },
+        "boundaries": {"$ref": "#/$defs/boundaries"},
+        "template_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "verdict", "note_zh_tw"],
+      "properties": {
+        "gate_id": {
+          "enum": [
+            "hatch-angle-transcription",
+            "building-annotation-placement",
+            "real-build-schema-binding",
+            "line-and-color-profile",
+            "j13-polygonz-runtime-policy"
+          ]
+        },
+        "verdict": {"enum": ["accept-current-demo", "request-demo-revision"]},
+        "note_zh_tw": {"type": "string", "maxLength": 500},
+        "preferred_angle_degrees": {"type": "integer", "minimum": 0, "maximum": 179}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"gate_id": {"const": "hatch-angle-transcription"}}},
+          "then": {"required": ["preferred_angle_degrees"]},
+          "else": {"not": {"required": ["preferred_angle_degrees"]}}
+        },
+        {
+          "if": {"properties": {"verdict": {"const": "request-demo-revision"}}},
+          "then": {"properties": {"note_zh_tw": {"minLength": 1}}}
+        }
+      ]
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evaluation_version",
+        "schema_version",
+        "record_type",
+        "status",
+        "template_sha256",
+        "evaluated_on",
+        "evaluator",
+        "decisions",
+        "summary",
+        "boundaries",
+        "record_sha256"
+      ],
+      "properties": {
+        "evaluation_version": {"const": "build-07/1.0"},
+        "schema_version": {"const": "nma.build-demo-user-evaluation/1.0"},
+        "record_type": {"const": "human-demo-semantic-evaluation"},
+        "status": {"enum": ["accepted-demo-only", "revision-requested-demo-only"]},
+        "template_sha256": {"$ref": "#/$defs/sha256"},
+        "evaluated_on": {"type": "string", "format": "date"},
+        "evaluator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["actor_type", "identity_recorded"],
+          "properties": {
+            "actor_type": {"const": "human-demo-reviewer"},
+            "identity_recorded": {"const": false}
+          }
+        },
+        "decisions": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {"$ref": "#/$defs/decision"}
+        },
+        "summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["gate_count", "accepted_count", "revision_requested_count", "all_five_decisions_explicit"],
+          "properties": {
+            "gate_count": {"const": 5},
+            "accepted_count": {"type": "integer", "minimum": 0, "maximum": 5},
+            "revision_requested_count": {"type": "integer", "minimum": 0, "maximum": 5},
+            "all_five_decisions_explicit": {"const": true}
+          }
+        },
+        "boundaries": {"$ref": "#/$defs/boundaries"},
+        "record_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}
