@@ -1,0 +1,272 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/building-targeted-official-evidence-resolution-v1.0.schema.json",
+  "title": "BUILD-09E1 targeted official evidence resolution",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "schema_version",
+    "status",
+    "created_on",
+    "predecessor",
+    "closed_vocabularies",
+    "evidence_items",
+    "frozen_build09e_results",
+    "j13_j17_resolution",
+    "line_code_2_resolution",
+    "colour_code_7_resolution",
+    "output_profile_requirement",
+    "remaining_authoritative_evidence_gaps",
+    "local_policy_required_items",
+    "five_gate_state",
+    "successor_production_contract_candidate",
+    "build10_readiness",
+    "verdict",
+    "conflicting_authoritative_evidence",
+    "scope",
+    "source_mutation_policy",
+    "runtime_activation_policy",
+    "next_stage_recommendation",
+    "targeted_official_evidence_resolution_sha256"
+  ],
+  "properties": {
+    "contract_version": {"const": "build-09e1/1.0"},
+    "schema_version": {"const": "nma.building-targeted-official-evidence-resolution/1.0"},
+    "status": {"enum": ["production-candidate", "partial-production-candidate", "evidence-hold"]},
+    "created_on": {"const": "2026-08-21"},
+    "predecessor": {"$ref": "#/$defs/predecessor"},
+    "closed_vocabularies": {"type": "object"},
+    "evidence_items": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence_item"}},
+    "frozen_build09e_results": {"type": "object"},
+    "j13_j17_resolution": {"$ref": "#/$defs/j13_j17"},
+    "line_code_2_resolution": {"$ref": "#/$defs/line_code_2"},
+    "colour_code_7_resolution": {"$ref": "#/$defs/colour_code_7"},
+    "output_profile_requirement": {"$ref": "#/$defs/output_profile"},
+    "remaining_authoritative_evidence_gaps": {"$ref": "#/$defs/nonempty_strings"},
+    "local_policy_required_items": {"$ref": "#/$defs/nonempty_strings"},
+    "five_gate_state": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/gate"}
+    },
+    "successor_production_contract_candidate": {"type": "object"},
+    "build10_readiness": {
+      "enum": [
+        "READY-FOR-HUMAN-POLICY-GATE",
+        "J13-J17-BINDING-STILL-BLOCKING",
+        "PORTRAYAL-CODE-EVIDENCE-STILL-BLOCKING",
+        "TARGETED-OFFICIAL-EVIDENCE-STILL-MISSING"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "PASS — TARGETED OFFICIAL EVIDENCE CLOSED; HUMAN PRODUCTION POLICY GATE READY",
+        "PASS — PORTRAYAL EVIDENCE CLOSED; J13/J17 PRODUCTION BINDING STILL MISSING",
+        "PASS — J13/J17 RESOLVED; PORTRAYAL CODE EVIDENCE STILL MISSING",
+        "PASS — TARGETED EVIDENCE CLOSURE PARTIAL; OFFICIAL EVIDENCE STILL MISSING",
+        "FAIL — TARGETED OFFICIAL EVIDENCE BOUNDARY NOT ESTABLISHED"
+      ]
+    },
+    "conflicting_authoritative_evidence": {"type": "array", "items": {"type": "string"}},
+    "scope": {"type": "object"},
+    "source_mutation_policy": {"$ref": "#/$defs/source_mutation"},
+    "runtime_activation_policy": {"$ref": "#/$defs/runtime_activation"},
+    "next_stage_recommendation": {"type": "string", "minLength": 1},
+    "targeted_official_evidence_resolution_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "$defs": {
+    "nonempty_strings": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "predecessor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "build09e_branch",
+        "build09e_commit",
+        "build09e_evidence_closure_sha256",
+        "build09_contract_sha256",
+        "build08a_authorization_sha256",
+        "frozen_build09e_artifact_sha256"
+      ],
+      "properties": {
+        "build09e_branch": {"const": "build/build-09e-official-evidence-closure"},
+        "build09e_commit": {"const": "e46ea5eb10f6a177ab084d6ca8743c1011f4c1fd"},
+        "build09e_evidence_closure_sha256": {"const": "bfee262f17b5bc99ff8e55f6b284917cf5507aaa80b0e3bae2454e35da4fbaed"},
+        "build09_contract_sha256": {"const": "0b9e0cc9c98274f9efcbed451905fa21857c33f0ec9472254fa6e3b803c24a0c"},
+        "build08a_authorization_sha256": {"const": "4eedc443d4f1d5c0af36e696fc67fd0101f6936d78edba19d5c20d41ab2b8da8"},
+        "frozen_build09e_artifact_sha256": {"type": "object", "minProperties": 5}
+      }
+    },
+    "evidence_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_id", "source", "authority_class", "claim", "identity"],
+      "properties": {
+        "evidence_id": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "minLength": 1},
+        "authority_class": {"type": "string", "minLength": 1},
+        "claim": {"type": "string", "minLength": 1},
+        "identity": {"type": "string", "minLength": 1}
+      }
+    },
+    "j13_j17": {
+      "type": "object",
+      "required": [
+        "outcome",
+        "selected_layer_id",
+        "authoritative_binding_traces",
+        "available_product_trace",
+        "source_member_scopes",
+        "forced_equivalence_authorized",
+        "selection_rule",
+        "unavailable_material_boundary"
+      ],
+      "properties": {
+        "outcome": {
+          "enum": [
+            "J13-authoritative-production-binding",
+            "J17-authoritative-production-binding",
+            "version-scoped-dual-binding",
+            "different-semantic-roles",
+            "official-binding-not-published-or-not-available",
+            "indeterminate"
+          ]
+        },
+        "selected_layer_id": {"type": ["string", "null"]},
+        "authoritative_binding_traces": {"type": "array"},
+        "available_product_trace": {"type": "object"},
+        "source_member_scopes": {"type": "array", "minItems": 2},
+        "forced_equivalence_authorized": {"const": false},
+        "selection_rule": {"type": "string", "minLength": 1},
+        "unavailable_material_boundary": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "line_code_2": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome", "official_code", "official_symbolic_name", "physical_width",
+        "source_representation", "evidence_ids", "css_px",
+        "device_conversion_authorized", "authority_boundary"
+      ],
+      "properties": {
+        "outcome": {"const": "official-physical-width-established"},
+        "official_code": {"const": "2"},
+        "official_symbolic_name": {"const": "2號線"},
+        "physical_width": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["value_text", "value", "unit"],
+          "properties": {
+            "value_text": {"const": "0.20"},
+            "value": {"const": 0.2},
+            "unit": {"const": "mm"}
+          }
+        },
+        "source_representation": {"type": "string", "minLength": 1},
+        "evidence_ids": {"$ref": "#/$defs/nonempty_strings"},
+        "css_px": {"const": null},
+        "device_conversion_authorized": {"const": false},
+        "authority_boundary": {"type": "string", "minLength": 1}
+      }
+    },
+    "colour_code_7": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome", "official_code", "semantic_name", "original_representation",
+        "official_hex", "evidence_ids", "authority_boundary"
+      ],
+      "properties": {
+        "outcome": {"const": "official-device-value-established"},
+        "official_code": {"const": "7"},
+        "semantic_name": {"const": "黑色"},
+        "original_representation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["representation", "value_text", "components"],
+          "properties": {
+            "representation": {"const": "RGB值 (R-G-B)"},
+            "value_text": {"const": "(0,0,0)"},
+            "components": {"const": [0, 0, 0]}
+          }
+        },
+        "official_hex": {"const": null},
+        "evidence_ids": {"$ref": "#/$defs/nonempty_strings"},
+        "authority_boundary": {"type": "string", "minLength": 1}
+      }
+    },
+    "output_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status", "required", "pipeline", "must_preserve",
+        "local_values_selected", "local_decisions"
+      ],
+      "properties": {
+        "status": {"const": "local-output-profile-policy-required"},
+        "required": {"const": true},
+        "pipeline": {"const": ["official-portrayal-semantics", "authorized-local-output-profile", "MapLibre-device-representation"]},
+        "must_preserve": {"$ref": "#/$defs/nonempty_strings"},
+        "local_values_selected": {"const": false},
+        "local_decisions": {"$ref": "#/$defs/nonempty_strings"}
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "state", "reason"],
+      "properties": {
+        "gate_id": {"type": "string", "minLength": 1},
+        "state": {
+          "enum": [
+            "P2-production-candidate",
+            "version-scoped-production-candidate",
+            "local-policy-required",
+            "local-output-profile-policy-required",
+            "HOLD-indeterminate"
+          ]
+        },
+        "reason": {"type": "string", "minLength": 1}
+      }
+    },
+    "source_mutation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_mutation_allowed", "source_geometry_repair_allowed",
+        "source_z_dimension_removal_allowed", "derived_output_writeback_allowed"
+      ],
+      "properties": {
+        "source_mutation_allowed": {"const": false},
+        "source_geometry_repair_allowed": {"const": false},
+        "source_z_dimension_removal_allowed": {"const": false},
+        "derived_output_writeback_allowed": {"const": false}
+      }
+    },
+    "runtime_activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "production_activation_allowed", "production_runtime_creation_allowed",
+        "official_portrayal_activation_allowed", "contract_status_production_active_allowed",
+        "later_separate_authorization_required"
+      ],
+      "properties": {
+        "production_activation_allowed": {"const": false},
+        "production_runtime_creation_allowed": {"const": false},
+        "official_portrayal_activation_allowed": {"const": false},
+        "contract_status_production_active_allowed": {"const": false},
+        "later_separate_authorization_required": {"const": true}
+      }
+    }
+  }
+}
