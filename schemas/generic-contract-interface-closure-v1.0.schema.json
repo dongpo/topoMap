@@ -1,0 +1,280 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dongpo/topoMap/schemas/generic-contract-interface-closure-v1.0.schema.json",
+  "title": "NMA GEN-01 Generic Contract and Domain Interface Closure v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "closure_id",
+    "closure_sha256",
+    "verdict",
+    "architecture_principle",
+    "canonical_repository",
+    "branch",
+    "predecessor",
+    "scope",
+    "frozen_identities",
+    "contracts",
+    "core_identity_boundary",
+    "lifecycle_decision",
+    "adapter_decision",
+    "capability_declaration_decision",
+    "domain_owned_responsibilities",
+    "invariants",
+    "evidence_matrix",
+    "frozen_compatibility",
+    "mutation_boundary",
+    "riverl_boundary",
+    "allowed_change_paths"
+  ],
+  "properties": {
+    "schema_version": {"const": "nma.generic-contract-interface-closure/1.0"},
+    "closure_id": {"const": "GEN-01"},
+    "closure_sha256": {"$ref": "#/$defs/sha256"},
+    "verdict": {"const": "PASS — GENERIC CONTRACT AND DOMAIN INTERFACE CLOSED"},
+    "architecture_principle": {"const": "Generalize contracts, not domain knowledge."},
+    "canonical_repository": {"const": "https://github.com/dongpo/topoMap.git"},
+    "branch": {"const": "gen/gen-01-generic-contract-interface-closure"},
+    "predecessor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch", "commit", "audit_sha256", "verdict", "artifacts_preserved"],
+      "properties": {
+        "branch": {"const": "gen/gen-00-feature-production-generalization-audit"},
+        "commit": {"const": "b745a98f8d465259a2cb7c2b3af3df112a10ea37"},
+        "audit_sha256": {"const": "2e96f00ada42e22c7dc50387cb1fbf651b6fcbbdff94af796c0fd1985ffe86e3"},
+        "verdict": {"const": "PASS — GENERALIZATION PARTIAL; DOMAIN BOUNDARIES REQUIRE CLOSURE"},
+        "artifacts_preserved": {"const": true}
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["architecture_contract_only", "production_implementation_created", "frozen_code_modified", "private_archive_inspected", "riverl_implemented"],
+      "properties": {
+        "architecture_contract_only": {"const": true},
+        "production_implementation_created": {"const": false},
+        "frozen_code_modified": {"const": false},
+        "private_archive_inspected": {"const": false},
+        "riverl_implemented": {"const": false}
+      }
+    },
+    "frozen_identities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["build_final", "core_final", "road_final", "school_hero"],
+      "properties": {
+        "build_final": {"$ref": "#/$defs/frozen_tag_identity"},
+        "core_final": {"$ref": "#/$defs/frozen_tag_identity"},
+        "road_final": {"$ref": "#/$defs/frozen_tag_identity"},
+        "school_hero": {"$ref": "#/$defs/frozen_branch_identity"}
+      }
+    },
+    "contracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lifecycle_envelope", "domain_adapter_capability", "closure_record"],
+      "properties": {
+        "lifecycle_envelope": {"$ref": "#/$defs/schema_contract"},
+        "domain_adapter_capability": {"$ref": "#/$defs/schema_contract"},
+        "closure_record": {"$ref": "#/$defs/schema_contract"}
+      }
+    },
+    "core_identity_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority_count", "fallback_authority_count", "provider", "canonicalizer", "dependency_required", "missing_dependency_behavior", "production_mutation_before_failure"],
+      "properties": {
+        "authority_count": {"const": 1},
+        "fallback_authority_count": {"const": 0},
+        "provider": {"const": "nma.core.canonical_sha256"},
+        "canonicalizer": {"const": "nma.core.canonical_json"},
+        "dependency_required": {"const": true},
+        "missing_dependency_behavior": {"const": "fail-closed"},
+        "production_mutation_before_failure": {"const": false}
+      }
+    },
+    "lifecycle_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage_sequence_is_generic", "domain_payload_is_opaque", "mandatory_envelope_fields", "mandatory_capabilities", "optional_declared_capabilities", "not_mandatory"],
+      "properties": {
+        "stage_sequence_is_generic": {"const": false},
+        "domain_payload_is_opaque": {"const": true},
+        "mandatory_envelope_fields": {"$ref": "#/$defs/nonempty_unique_strings"},
+        "mandatory_capabilities": {"$ref": "#/$defs/nonempty_unique_strings"},
+        "optional_declared_capabilities": {"$ref": "#/$defs/nonempty_unique_strings"},
+        "not_mandatory": {"$ref": "#/$defs/nonempty_unique_strings"}
+      }
+    },
+    "adapter_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_id", "contract_version", "form", "runtime_framework_created", "capabilities", "generic_must_not"],
+      "properties": {
+        "contract_id": {"const": "nma.generic-domain-adapter"},
+        "contract_version": {"const": "1.0"},
+        "form": {"const": "conceptual-machine-verifiable-sidecar"},
+        "runtime_framework_created": {"const": false},
+        "capabilities": {"$ref": "#/$defs/nonempty_unique_strings"},
+        "generic_must_not": {"$ref": "#/$defs/nonempty_unique_strings"}
+      }
+    },
+    "capability_declaration_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "machine_readable", "minimum_fields", "universal_feature_ontology_created", "riverl_specific_fields", "production_authority_granted"],
+      "properties": {
+        "required": {"const": true},
+        "machine_readable": {"const": true},
+        "minimum_fields": {"$ref": "#/$defs/nonempty_unique_strings"},
+        "universal_feature_ontology_created": {"const": false},
+        "riverl_specific_fields": {"const": false},
+        "production_authority_granted": {"const": false}
+      }
+    },
+    "domain_owned_responsibilities": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {"$ref": "#/$defs/ownership_record"}
+    },
+    "invariants": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {"$ref": "#/$defs/invariant"}
+    },
+    "evidence_matrix": {
+      "type": "array",
+      "minItems": 13,
+      "items": {"$ref": "#/$defs/evidence_row"}
+    },
+    "frozen_compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["compatible", "required_frozen_production_refactors", "existing_implementations_must_consume_contract", "compatibility_mode"],
+      "properties": {
+        "compatible": {"const": true},
+        "required_frozen_production_refactors": {"const": 0},
+        "existing_implementations_must_consume_contract": {"const": false},
+        "compatibility_mode": {"const": "external-description-with-existing-evidence"}
+      }
+    },
+    "mutation_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generic_writeback", "generic_repair", "generic_source_mutation", "generic_geometry_mutation", "generic_portrayal_mutation", "generic_activation", "authorization_bypass", "existing_domain_execution_paths_remain_authoritative"],
+      "properties": {
+        "generic_writeback": {"const": false},
+        "generic_repair": {"const": false},
+        "generic_source_mutation": {"const": false},
+        "generic_geometry_mutation": {"const": false},
+        "generic_portrayal_mutation": {"const": false},
+        "generic_activation": {"const": false},
+        "authorization_bypass": {"const": false},
+        "existing_domain_execution_paths_remain_authoritative": {"const": true}
+      }
+    },
+    "riverl_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "implementation_created", "private_archive_layers_inspected", "permitted_future_use"],
+      "properties": {
+        "status": {"const": "out-of-scope-reserved-for-later-proof"},
+        "implementation_created": {"const": false},
+        "private_archive_layers_inspected": {"const": false},
+        "permitted_future_use": {"type": "string", "minLength": 1}
+      }
+    },
+    "allowed_change_paths": {"$ref": "#/$defs/nonempty_unique_strings"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "classification": {"enum": ["SHARED", "DOMAIN_OWNED", "OPTIONAL_CAPABILITY", "NOT_SUPPORTED", "UNRESOLVED"]},
+    "nonempty_unique_strings": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "frozen_tag_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "tag", "annotated"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "tag": {"type": "string", "minLength": 1},
+        "annotated": {"const": true}
+      }
+    },
+    "frozen_branch_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "branch"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "branch": {"type": "string", "minLength": 1}
+      }
+    },
+    "schema_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_id", "contract_version", "schema_path"],
+      "properties": {
+        "contract_id": {"type": "string", "minLength": 1},
+        "contract_version": {"const": "1.0"},
+        "schema_path": {"type": "string", "pattern": "^schemas/.+\\.schema\\.json$"}
+      }
+    },
+    "ownership_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["area", "owner", "generic_may_carry", "generic_must_not", "evidence_paths"],
+      "properties": {
+        "area": {"enum": ["semantics", "geometry", "portrayal", "rollback", "activation"]},
+        "owner": {"const": "DOMAIN_OWNED"},
+        "generic_may_carry": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "generic_must_not": {"$ref": "#/$defs/nonempty_unique_strings"},
+        "evidence_paths": {"$ref": "#/$defs/nonempty_unique_strings"}
+      }
+    },
+    "invariant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "normative_statement", "evidence_paths", "enforcement", "test_coverage"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^GINV-(0[1-9]|10)$"},
+        "status": {"enum": ["ACCEPTED", "ACCEPTED_BOUNDED", "MODIFIED", "REJECTED"]},
+        "normative_statement": {"type": "string", "minLength": 1},
+        "evidence_paths": {"$ref": "#/$defs/nonempty_unique_strings"},
+        "enforcement": {"$ref": "#/$defs/nonempty_unique_strings"},
+        "test_coverage": {"$ref": "#/$defs/nonempty_unique_strings"}
+      }
+    },
+    "domain_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classification", "evidence_paths", "finding"],
+      "properties": {
+        "classification": {"$ref": "#/$defs/classification"},
+        "evidence_paths": {"$ref": "#/$defs/nonempty_unique_strings"},
+        "finding": {"type": "string", "minLength": 1}
+      }
+    },
+    "evidence_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["concern", "school_hero", "road", "build", "generic_classification", "resolution"],
+      "properties": {
+        "concern": {"type": "string", "minLength": 1},
+        "school_hero": {"$ref": "#/$defs/domain_evidence"},
+        "road": {"$ref": "#/$defs/domain_evidence"},
+        "build": {"$ref": "#/$defs/domain_evidence"},
+        "generic_classification": {"$ref": "#/$defs/classification"},
+        "resolution": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

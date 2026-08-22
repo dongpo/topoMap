@@ -1,0 +1,419 @@
+{
+  "schema_version": "nma.generic-contract-interface-closure/1.0",
+  "closure_id": "GEN-01",
+  "closure_sha256": "03b80441bbf317ac2e2b6cd92c3a86309c4cc7465109a3d34b6d24636491c35d",
+  "verdict": "PASS — GENERIC CONTRACT AND DOMAIN INTERFACE CLOSED",
+  "architecture_principle": "Generalize contracts, not domain knowledge.",
+  "canonical_repository": "https://github.com/dongpo/topoMap.git",
+  "branch": "gen/gen-01-generic-contract-interface-closure",
+  "predecessor": {
+    "branch": "gen/gen-00-feature-production-generalization-audit",
+    "commit": "b745a98f8d465259a2cb7c2b3af3df112a10ea37",
+    "audit_sha256": "2e96f00ada42e22c7dc50387cb1fbf651b6fcbbdff94af796c0fd1985ffe86e3",
+    "verdict": "PASS — GENERALIZATION PARTIAL; DOMAIN BOUNDARIES REQUIRE CLOSURE",
+    "artifacts_preserved": true
+  },
+  "scope": {
+    "architecture_contract_only": true,
+    "production_implementation_created": false,
+    "frozen_code_modified": false,
+    "private_archive_inspected": false,
+    "riverl_implemented": false
+  },
+  "frozen_identities": {
+    "build_final": {
+      "commit": "95de5fa3657a2c8ac7847f1ee1010c48ea984cd7",
+      "tag": "nma-build-v1.0-final",
+      "annotated": true
+    },
+    "core_final": {
+      "commit": "5eb138ae7686502431587743ebce9ddf92c5a799",
+      "tag": "nma-core-v1.0-final",
+      "annotated": true
+    },
+    "road_final": {
+      "commit": "325c70d5335f57c43a8af85822db25032aa225c3",
+      "tag": "nma-road-v1.0-final",
+      "annotated": true
+    },
+    "school_hero": {
+      "commit": "56f99eb9ae63272a68accac3041fb10eacefb986",
+      "branch": "freeze/hero-final-school-hero-56f99eb"
+    }
+  },
+  "contracts": {
+    "lifecycle_envelope": {
+      "contract_id": "nma.generic-lifecycle-envelope",
+      "contract_version": "1.0",
+      "schema_path": "schemas/generic-lifecycle-envelope-v1.0.schema.json"
+    },
+    "domain_adapter_capability": {
+      "contract_id": "nma.generic-domain-adapter-capability",
+      "contract_version": "1.0",
+      "schema_path": "schemas/generic-domain-adapter-capability-v1.0.schema.json"
+    },
+    "closure_record": {
+      "contract_id": "nma.generic-contract-interface-closure",
+      "contract_version": "1.0",
+      "schema_path": "schemas/generic-contract-interface-closure-v1.0.schema.json"
+    }
+  },
+  "core_identity_boundary": {
+    "authority_count": 1,
+    "fallback_authority_count": 0,
+    "provider": "nma.core.canonical_sha256",
+    "canonicalizer": "nma.core.canonical_json",
+    "dependency_required": true,
+    "missing_dependency_behavior": "fail-closed",
+    "production_mutation_before_failure": false
+  },
+  "lifecycle_decision": {
+    "stage_sequence_is_generic": false,
+    "domain_payload_is_opaque": true,
+    "mandatory_envelope_fields": [
+      "schema and contract version",
+      "envelope and artifact identity",
+      "domain and adapter contract identity",
+      "capability declaration reference",
+      "lifecycle role",
+      "parent and provenance linkage",
+      "authorization requirement and linkage state",
+      "canonical Core identity dependency",
+      "pre-mutation validation result",
+      "opaque domain payload",
+      "domain ownership declaration",
+      "non-authorizing mutation boundary"
+    ],
+    "mandatory_capabilities": [
+      "domain identification",
+      "contract and version declaration",
+      "input validation",
+      "canonical Core identity consumption",
+      "authorization consumption before mutation",
+      "planning boundary",
+      "execution boundary",
+      "derived output reference",
+      "observation production",
+      "receipt production",
+      "provenance reporting",
+      "verification boundary",
+      "capability declaration"
+    ],
+    "optional_declared_capabilities": [
+      "rollback evidence",
+      "activation evidence",
+      "release evidence"
+    ],
+    "not_mandatory": [
+      "one universal stage sequence",
+      "a local intent or authorization issuer",
+      "a standalone production-contract artifact",
+      "rollback behavior",
+      "production activation behavior",
+      "a ROAD or BUILD style release manifest"
+    ]
+  },
+  "adapter_decision": {
+    "contract_id": "nma.generic-domain-adapter",
+    "contract_version": "1.0",
+    "form": "conceptual-machine-verifiable-sidecar",
+    "runtime_framework_created": false,
+    "capabilities": [
+      "domain identification",
+      "contract and version declaration",
+      "input validation",
+      "canonical identity consumption",
+      "authorization consumption",
+      "planning boundary",
+      "execution boundary",
+      "observation production",
+      "receipt production",
+      "provenance reporting",
+      "verification boundary",
+      "optional capability declaration"
+    ],
+    "generic_must_not": [
+      "interpret domain payload",
+      "issue production authorization",
+      "execute a domain mutation",
+      "repair source or derived content",
+      "perform rollback",
+      "perform activation",
+      "substitute an identity provider"
+    ]
+  },
+  "capability_declaration_decision": {
+    "required": true,
+    "machine_readable": true,
+    "minimum_fields": [
+      "domain identifier and contract version",
+      "adapter contract identity and version",
+      "canonical identity dependency and no-fallback rule",
+      "mandatory lifecycle boundary capabilities",
+      "optional rollback activation and release capabilities",
+      "domain semantic geometry portrayal verification and provenance contract references",
+      "domain ownership rules",
+      "fail-closed dependency behavior",
+      "non-authorizing mutation boundary",
+      "canonical declaration identity"
+    ],
+    "universal_feature_ontology_created": false,
+    "riverl_specific_fields": false,
+    "production_authority_granted": false
+  },
+  "domain_owned_responsibilities": [
+    {
+      "area": "semantics",
+      "owner": "DOMAIN_OWNED",
+      "generic_may_carry": ["semantic contract identity", "semantic contract version", "evidence reference"],
+      "generic_must_not": ["interpret feature meaning", "invent classifications", "resolve ontology or schema meaning", "apply domain eligibility rules"],
+      "evidence_paths": ["src/nma/school_hero_execution.py", "src/nma/road_resolution.py", "build_contracts/resolution.py", "GEN-00-Generalization-Audit.md"]
+    },
+    {
+      "area": "geometry",
+      "owner": "DOMAIN_OWNED",
+      "generic_may_carry": ["geometry contract identity", "geometry contract version", "derived artifact reference"],
+      "generic_must_not": ["construct or repair geometry", "interpret topology", "drop dimensions", "perform domain transformations"],
+      "evidence_paths": ["src/nma/school_hero_execution.py", "src/nma/road_execution.py", "build_contracts/building_production_implementation.py", "GEN-00-Generalization-Audit.md"]
+    },
+    {
+      "area": "portrayal",
+      "owner": "DOMAIN_OWNED",
+      "generic_may_carry": ["portrayal contract identity", "portrayal contract version", "output artifact reference"],
+      "generic_must_not": ["choose symbols or styles", "construct labels or shields", "set layer ordering", "apply rendering rules"],
+      "evidence_paths": ["src/nma/school_hero_execution.py", "src/nma/road_portrayal_decision.py", "build_contracts/building_production_implementation.py", "GEN-00-Generalization-Audit.md"]
+    },
+    {
+      "area": "rollback",
+      "owner": "DOMAIN_OWNED",
+      "generic_may_carry": ["capability declaration", "rollback evidence identity", "rollback references", "lineage linkage"],
+      "generic_must_not": ["remove domain artifacts", "restore domain state", "select cleanup operations", "mutate production state"],
+      "evidence_paths": ["src/nma/school_hero_execution.py", "src/nma/road_execution.py", "build_contracts/building_production_activation.py", "GEN-00-Generalization-Audit.md"]
+    },
+    {
+      "area": "activation",
+      "owner": "DOMAIN_OWNED",
+      "generic_may_carry": ["capability declaration", "activation evidence identity", "activation status reference", "lineage linkage"],
+      "generic_must_not": ["grant activation authority", "evaluate domain readiness gates", "activate production", "bypass domain authorization"],
+      "evidence_paths": ["build_contracts/building_production_verification.py", "build_contracts/human_building_production_activation_authorization.py", "build_contracts/building_production_activation.py", "GEN-00-Generalization-Audit.md"]
+    }
+  ],
+  "invariants": [
+    {
+      "id": "GINV-01",
+      "status": "ACCEPTED",
+      "normative_statement": "Every generic lifecycle identity and adapter declaration MUST consume nma.core.canonical_sha256 over nma.core.canonical_json.",
+      "evidence_paths": ["src/nma/core/identity.py", "src/nma/school_hero_execution.py", "src/nma/road_resolution.py", "build_contracts/building_production_implementation.py"],
+      "enforcement": ["closed schema constants", "canonical self-hash tests"],
+      "test_coverage": ["test_canonical_core_identity_is_single_and_fail_closed", "test_closed_schemas_and_canonical_closure_identity"]
+    },
+    {
+      "id": "GINV-02",
+      "status": "ACCEPTED",
+      "normative_statement": "A generic adapter or domain MUST NOT silently substitute a fallback, compatibility, local, or shadow identity authority.",
+      "evidence_paths": ["src/nma/core/identity.py", "data/specifications/nma-gen-00-feature-production-generalization-audit-v1.0.json"],
+      "enforcement": ["identity provider const", "fallback_allowed false", "fallback authority count zero"],
+      "test_coverage": ["test_canonical_core_identity_is_single_and_fail_closed", "test_lifecycle_envelope_rejects_missing_extra_version_and_identity_dependency"]
+    },
+    {
+      "id": "GINV-03",
+      "status": "ACCEPTED",
+      "normative_statement": "Missing mandatory Core identity, contract, or authorization dependencies MUST fail closed before production mutation.",
+      "evidence_paths": ["src/nma/school_hero_execution.py", "src/nma/road_execution.py", "build_contracts/building_production_implementation.py"],
+      "enforcement": ["required schema fields", "authorization linkage conditional", "pre-mutation failure constants"],
+      "test_coverage": ["test_lifecycle_envelope_rejects_missing_extra_version_and_identity_dependency", "test_post_authorization_roles_require_authorization_linkage"]
+    },
+    {
+      "id": "GINV-04",
+      "status": "ACCEPTED_BOUNDED",
+      "normative_statement": "Equivalent canonical inputs MUST produce equivalent identities only where the applicable Core or domain contract explicitly promises deterministic canonicalization.",
+      "evidence_paths": ["src/nma/core/identity.py", "schemas/school-hero-execution-plan-v1.0.schema.json", "schemas/road-execution-plan-v1.0.schema.json", "build_contracts/building_production_implementation.py"],
+      "enforcement": ["Core canonical serialization", "self-hash exclusion rules", "repeat-hash tests"],
+      "test_coverage": ["test_closed_schemas_and_canonical_closure_identity", "test_lifecycle_envelope_accepts_closed_valid_instance"]
+    },
+    {
+      "id": "GINV-05",
+      "status": "ACCEPTED",
+      "normative_statement": "Generic infrastructure MUST treat domain semantics, geometry, portrayal, rollback behavior, and activation behavior as opaque domain-owned responsibilities.",
+      "evidence_paths": ["GEN-00-Generalization-Audit.md", "src/nma/school_hero_execution.py", "src/nma/road_execution.py", "build_contracts/building_production_implementation.py"],
+      "enforcement": ["opaque domain_payload", "closed ownership constants", "adapter generic_must_not list"],
+      "test_coverage": ["test_domain_ownership_is_normative_and_opaque"]
+    },
+    {
+      "id": "GINV-06",
+      "status": "ACCEPTED",
+      "normative_statement": "Lifecycle artifacts MUST expose artifact, parent, authorization, provenance, domain, capability, and contract-version linkage sufficient to reconstruct authorized production lineage.",
+      "evidence_paths": ["schemas/school-hero-provenance-v1.0.schema.json", "schemas/road-provenance-v1.0.schema.json", "schemas/building-controlled-production-implementation-v1.0.schema.json"],
+      "enforcement": ["mandatory lifecycle envelope fields", "closed artifact references", "authorization conditional"],
+      "test_coverage": ["test_lifecycle_envelope_accepts_closed_valid_instance", "test_post_authorization_roles_require_authorization_linkage"]
+    },
+    {
+      "id": "GINV-07",
+      "status": "ACCEPTED",
+      "normative_statement": "Generic contract validation, envelope processing, adapter discovery, and capability declaration MUST NOT authorize or execute production mutation.",
+      "evidence_paths": ["agent_contracts/handoff.py", "src/nma/feature_profile_adapters.py", "build_contracts/feature_profile.py", "GEN-00-Generalization-Audit.md"],
+      "enforcement": ["all mutation authority fields const false", "no production source module", "existing domain paths remain authoritative"],
+      "test_coverage": ["test_mutation_boundary_has_no_production_authority", "test_allowed_change_scope_only"]
+    },
+    {
+      "id": "GINV-08",
+      "status": "ACCEPTED",
+      "normative_statement": "Generic and domain boundaries MUST declare explicit adapter, envelope, domain-contract, artifact-contract, and capability-declaration versions; unsupported versions MUST fail validation.",
+      "evidence_paths": ["schemas/school-hero-execution-plan-v1.0.schema.json", "schemas/road-execution-plan-v1.0.schema.json", "schemas/building-finalized-production-contract-v1.0.schema.json"],
+      "enforcement": ["schema const versions", "contract reference version patterns", "closed objects"],
+      "test_coverage": ["test_lifecycle_envelope_rejects_missing_extra_version_and_identity_dependency", "test_adapter_contract_rejects_drift_and_missing_mandatory_capabilities"]
+    },
+    {
+      "id": "GINV-09",
+      "status": "ACCEPTED",
+      "normative_statement": "A domain MUST NOT claim rollback, activation, or release evidence support without a domain-owned contract reference satisfying the declared capability schema.",
+      "evidence_paths": ["schemas/road-rollback-manifest-v1.0.schema.json", "schemas/building-production-activation-v1.0.schema.json", "ROAD-FINAL-Completion-Report.md", "BUILD-FINAL-Completion-Report.md"],
+      "enforcement": ["optional capability supported/reference conditional", "false capability requires null reference"],
+      "test_coverage": ["test_capability_honesty_requires_contract_reference", "test_adapter_declaration_accepts_all_three_evidence_profiles"]
+    },
+    {
+      "id": "GINV-10",
+      "status": "ACCEPTED",
+      "normative_statement": "Generic contract conformance MUST be externally describable and MUST NOT require modification of frozen Core, School Hero, ROAD, BUILD, or Agent runtime implementations.",
+      "evidence_paths": ["GEN-00-Generalization-Audit.md", "CORE-FINAL-Completion-Report.md", "ROAD-FINAL-Completion-Report.md", "BUILD-FINAL-Completion-Report.md"],
+      "enforcement": ["required frozen refactors equals zero", "allowed path allowlist", "predecessor blob equality tests"],
+      "test_coverage": ["test_frozen_implementations_and_gen00_are_unchanged", "test_allowed_change_scope_only"]
+    }
+  ],
+  "evidence_matrix": [
+    {
+      "concern": "Core identity",
+      "school_hero": {"classification": "SHARED", "evidence_paths": ["src/nma/school_hero_execution.py", "src/nma/school_hero_verification.py"], "finding": "Execution and verification import the canonical Core identity functions."},
+      "road": {"classification": "SHARED", "evidence_paths": ["src/nma/road_resolution.py", "src/nma/road_execution.py"], "finding": "ROAD identity resolves through the canonical Core functions."},
+      "build": {"classification": "SHARED", "evidence_paths": ["build_contracts/building_production_implementation.py"], "finding": "BUILD consumes nma.core canonical identity and validation."},
+      "generic_classification": "SHARED",
+      "resolution": "One canonical Core provider is mandatory; no fallback authority exists."
+    },
+    {
+      "concern": "Authorization",
+      "school_hero": {"classification": "SHARED", "evidence_paths": ["src/nma/school_hero_execution.py", "tests/hero04_support.py"], "finding": "School consumes a complete external authorization and fails closed when it is absent or invalid."},
+      "road": {"classification": "SHARED", "evidence_paths": ["src/nma/road_approval.py", "src/nma/road_execution.py", "schemas/road-execution-authorization-v1.0.schema.json"], "finding": "ROAD issues and consumes a restricted frozen execution capability."},
+      "build": {"classification": "SHARED", "evidence_paths": ["build_contracts/human_building_production_policy.py", "build_contracts/building_production_implementation.py"], "finding": "BUILD controlled implementation consumes explicit human production policy authorization."},
+      "generic_classification": "SHARED",
+      "resolution": "Authorization consumption before mutation is mandatory; issuance and policy content remain outside the generic layer."
+    },
+    {
+      "concern": "Planning",
+      "school_hero": {"classification": "SHARED", "evidence_paths": ["schemas/school-hero-execution-plan-v1.0.schema.json", "src/nma/school_hero_execution.py"], "finding": "School creates a hash-bound execution plan."},
+      "road": {"classification": "SHARED", "evidence_paths": ["schemas/road-execution-plan-v1.0.schema.json", "src/nma/road_execution.py"], "finding": "ROAD creates a closed execution plan linked to authorization."},
+      "build": {"classification": "SHARED", "evidence_paths": ["build_contracts/building_production_implementation.py", "schemas/building-controlled-production-implementation-v1.0.schema.json"], "finding": "BUILD emits a deterministic controlled execution plan."},
+      "generic_classification": "SHARED",
+      "resolution": "A planning boundary is mandatory, but plan payload and stage placement remain domain-owned."
+    },
+    {
+      "concern": "Execution",
+      "school_hero": {"classification": "SHARED", "evidence_paths": ["src/nma/school_hero_execution.py"], "finding": "School has an authorized atomic point and portrayal executor."},
+      "road": {"classification": "SHARED", "evidence_paths": ["src/nma/road_execution.py"], "finding": "ROAD has an authorized atomic line and portrayal executor."},
+      "build": {"classification": "SHARED", "evidence_paths": ["build_contracts/building_production_implementation.py"], "finding": "BUILD has a controlled non-activating PolygonZ implementation boundary."},
+      "generic_classification": "SHARED",
+      "resolution": "An execution boundary is mandatory; generic processing never invokes or implements it."
+    },
+    {
+      "concern": "Observation",
+      "school_hero": {"classification": "SHARED", "evidence_paths": ["schemas/runtime-layer-observation-v1.0.schema.json", "src/nma/school_hero_execution.py"], "finding": "School persists runtime observations."},
+      "road": {"classification": "SHARED", "evidence_paths": ["schemas/road-runtime-observation-v1.0.schema.json", "src/nma/road_execution.py"], "finding": "ROAD persists runtime and visual observations."},
+      "build": {"classification": "SHARED", "evidence_paths": ["schemas/building-controlled-production-implementation-v1.0.schema.json", "build_contracts/building_production_implementation.py"], "finding": "BUILD emits a controlled implementation observation."},
+      "generic_classification": "SHARED",
+      "resolution": "Observation production is mandatory; observed predicates and payloads are domain-owned."
+    },
+    {
+      "concern": "Receipt",
+      "school_hero": {"classification": "SHARED", "evidence_paths": ["schemas/school-hero-execution-receipt-v1.0.schema.json"], "finding": "School receipts bind plan, authorization, source, outputs, and governance."},
+      "road": {"classification": "SHARED", "evidence_paths": ["schemas/road-execution-receipt-v1.0.schema.json"], "finding": "ROAD receipts bind authorization, plan, outputs, and rollback target."},
+      "build": {"classification": "SHARED", "evidence_paths": ["schemas/building-controlled-production-implementation-v1.0.schema.json", "build_contracts/building_production_implementation.py"], "finding": "BUILD controlled results include an implementation receipt."},
+      "generic_classification": "SHARED",
+      "resolution": "Receipt production and linkage are mandatory; receipt contents remain domain-owned."
+    },
+    {
+      "concern": "Provenance",
+      "school_hero": {"classification": "SHARED", "evidence_paths": ["schemas/school-hero-provenance-v1.0.schema.json", "src/nma/school_hero_verification.py"], "finding": "School verification emits request-to-artifact provenance."},
+      "road": {"classification": "SHARED", "evidence_paths": ["schemas/road-provenance-v1.0.schema.json", "src/nma/road_verification.py"], "finding": "ROAD emits complete frozen lineage provenance."},
+      "build": {"classification": "SHARED", "evidence_paths": ["build_contracts/building_production_implementation.py", "build_contracts/building_production_verification.py"], "finding": "BUILD records source, derivation, contract, and verification provenance."},
+      "generic_classification": "SHARED",
+      "resolution": "Provenance references and lineage linkage are mandatory; provenance predicates remain domain-owned."
+    },
+    {
+      "concern": "Verification/QA",
+      "school_hero": {"classification": "SHARED", "evidence_paths": ["schemas/school-hero-qa-v1.0.schema.json", "src/nma/school_hero_verification.py"], "finding": "School independently reconstructs expected state and emits QA."},
+      "road": {"classification": "SHARED", "evidence_paths": ["schemas/road-qa-v1.0.schema.json", "src/nma/road_verification.py"], "finding": "ROAD independently verifies source, geometry, portrayal, and lineage."},
+      "build": {"classification": "SHARED", "evidence_paths": ["build_contracts/building_production_verification.py", "schemas/building-production-activation-readiness-v1.0.schema.json"], "finding": "BUILD independently verifies controlled implementation into readiness evidence."},
+      "generic_classification": "SHARED",
+      "resolution": "A verification boundary is mandatory; verifier rules and readiness meaning remain domain-owned."
+    },
+    {
+      "concern": "Semantics",
+      "school_hero": {"classification": "DOMAIN_OWNED", "evidence_paths": ["src/nma/school_hero_execution.py"], "finding": "School codes, fields, filters, and eligibility are point-domain rules."},
+      "road": {"classification": "DOMAIN_OWNED", "evidence_paths": ["src/nma/road_resolution.py"], "finding": "Route identity, ordered segments, class, and topology meaning are ROAD rules."},
+      "build": {"classification": "DOMAIN_OWNED", "evidence_paths": ["build_contracts/resolution.py", "build_contracts/j13_j17_production_applicability.py"], "finding": "Building field meaning and J13/J17 applicability are BUILD rules."},
+      "generic_classification": "DOMAIN_OWNED",
+      "resolution": "Generic contracts carry only semantic contract identity and evidence references."
+    },
+    {
+      "concern": "Geometry",
+      "school_hero": {"classification": "DOMAIN_OWNED", "evidence_paths": ["src/nma/school_hero_execution.py"], "finding": "School point construction, filtering, and transformation are domain rules."},
+      "road": {"classification": "DOMAIN_OWNED", "evidence_paths": ["src/nma/road_execution.py", "src/nma/road_verification.py"], "finding": "ROAD ordering, continuity, vertices, and line translation are domain rules."},
+      "build": {"classification": "DOMAIN_OWNED", "evidence_paths": ["build_contracts/building_production_implementation.py"], "finding": "PolygonZ preservation and derived non-writing XY are BUILD rules."},
+      "generic_classification": "DOMAIN_OWNED",
+      "resolution": "Generic contracts carry geometry contract and artifact references but perform no geometry operation."
+    },
+    {
+      "concern": "Portrayal",
+      "school_hero": {"classification": "DOMAIN_OWNED", "evidence_paths": ["src/nma/school_hero_execution.py"], "finding": "School SVG marker transformation and runtime fragments are domain rules."},
+      "road": {"classification": "DOMAIN_OWNED", "evidence_paths": ["src/nma/road_portrayal_decision.py", "src/nma/road_execution.py"], "finding": "ROAD line, label, and shield portrayal are domain rules."},
+      "build": {"classification": "DOMAIN_OWNED", "evidence_paths": ["build_contracts/building_production_implementation.py"], "finding": "Building hatch, outline, annotation, and profile conversion are domain rules."},
+      "generic_classification": "DOMAIN_OWNED",
+      "resolution": "Generic contracts carry portrayal contract and output references but render nothing."
+    },
+    {
+      "concern": "Rollback",
+      "school_hero": {"classification": "OPTIONAL_CAPABILITY", "evidence_paths": ["src/nma/school_hero_execution.py", "schemas/rollback-manifest-v1.0.schema.json"], "finding": "School supports runtime cleanup and rollback with School-specific operations."},
+      "road": {"classification": "OPTIONAL_CAPABILITY", "evidence_paths": ["src/nma/road_execution.py", "schemas/road-rollback-manifest-v1.0.schema.json"], "finding": "ROAD supports a deterministic domain-specific rollback manifest and ledger."},
+      "build": {"classification": "OPTIONAL_CAPABILITY", "evidence_paths": ["build_contracts/building_production_implementation.py", "build_contracts/building_production_activation.py"], "finding": "BUILD uses ephemeral cleanup and process-local deactivation rather than source rollback."},
+      "generic_classification": "OPTIONAL_CAPABILITY",
+      "resolution": "Only capability and evidence references are generic; restoration and cleanup behavior remain domain-owned."
+    },
+    {
+      "concern": "Activation",
+      "school_hero": {"classification": "NOT_SUPPORTED", "evidence_paths": ["GEN-00-Generalization-Audit.md", "src/nma/school_hero_execution.py"], "finding": "School has no distinct post-verification activation authorization or state machine."},
+      "road": {"classification": "NOT_SUPPORTED", "evidence_paths": ["GEN-00-Generalization-Audit.md", "src/nma/road_execution.py"], "finding": "ROAD has no distinct post-verification production activation state machine."},
+      "build": {"classification": "OPTIONAL_CAPABILITY", "evidence_paths": ["build_contracts/human_building_production_activation_authorization.py", "build_contracts/building_production_activation.py", "schemas/building-production-activation-v1.0.schema.json"], "finding": "BUILD alone proves a separate authorized activation lifecycle."},
+      "generic_classification": "OPTIONAL_CAPABILITY",
+      "resolution": "Activation may be declared with evidence references; authority, gates, mutation, and state remain domain-owned."
+    }
+  ],
+  "frozen_compatibility": {
+    "compatible": true,
+    "required_frozen_production_refactors": 0,
+    "existing_implementations_must_consume_contract": false,
+    "compatibility_mode": "external-description-with-existing-evidence"
+  },
+  "mutation_boundary": {
+    "generic_writeback": false,
+    "generic_repair": false,
+    "generic_source_mutation": false,
+    "generic_geometry_mutation": false,
+    "generic_portrayal_mutation": false,
+    "generic_activation": false,
+    "authorization_bypass": false,
+    "existing_domain_execution_paths_remain_authoritative": true
+  },
+  "riverl_boundary": {
+    "status": "out-of-scope-reserved-for-later-proof",
+    "implementation_created": false,
+    "private_archive_layers_inspected": false,
+    "permitted_future_use": "A later proof may test this closed contract using tracked evidence only after separate authorization."
+  },
+  "allowed_change_paths": [
+    "GEN-01-Completion-Report.md",
+    "data/specifications/nma-gen-01-generic-contract-interface-closure-v1.0.json",
+    "schemas/generic-contract-interface-closure-v1.0.schema.json",
+    "schemas/generic-domain-adapter-capability-v1.0.schema.json",
+    "schemas/generic-lifecycle-envelope-v1.0.schema.json",
+    "tests/test_generic_contract_interface_closure_gen01.py"
+  ]
+}

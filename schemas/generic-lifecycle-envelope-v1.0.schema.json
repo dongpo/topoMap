@@ -1,0 +1,203 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dongpo/topoMap/schemas/generic-lifecycle-envelope-v1.0.schema.json",
+  "title": "NMA Generic Lifecycle Envelope v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "envelope_id",
+    "envelope_sha256",
+    "domain_id",
+    "adapter_contract",
+    "capability_declaration",
+    "lifecycle_role",
+    "artifact",
+    "lineage",
+    "authorization",
+    "canonical_identity",
+    "validation",
+    "domain_payload",
+    "ownership",
+    "mutation_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "nma.generic-lifecycle-envelope/1.0"},
+    "envelope_id": {"$ref": "#/$defs/identifier"},
+    "envelope_sha256": {"$ref": "#/$defs/sha256"},
+    "domain_id": {"$ref": "#/$defs/identifier"},
+    "adapter_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {
+        "id": {"const": "nma.generic-domain-adapter"},
+        "version": {"const": "1.0"}
+      }
+    },
+    "capability_declaration": {"$ref": "#/$defs/artifact_reference"},
+    "lifecycle_role": {
+      "enum": [
+        "intent",
+        "authorization",
+        "plan",
+        "execution",
+        "derived-output",
+        "observation",
+        "receipt",
+        "provenance",
+        "verification",
+        "rollback-evidence",
+        "activation-evidence",
+        "release-evidence"
+      ]
+    },
+    "artifact": {"$ref": "#/$defs/artifact_reference"},
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["parents", "provenance_references"],
+      "properties": {
+        "parents": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/artifact_reference"},
+          "uniqueItems": true
+        },
+        "provenance_references": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/artifact_reference"},
+          "uniqueItems": true
+        }
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_before_mutation", "state", "reference"],
+      "properties": {
+        "required_before_mutation": {"const": true},
+        "state": {"enum": ["pre-authorization", "bound"]},
+        "reference": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/artifact_reference"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"state": {"const": "bound"}}},
+          "then": {"properties": {"reference": {"$ref": "#/$defs/artifact_reference"}}},
+          "else": {"properties": {"reference": {"type": "null"}}}
+        }
+      ]
+    },
+    "canonical_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "canonicalizer", "fallback_allowed"],
+      "properties": {
+        "provider": {"const": "nma.core.canonical_sha256"},
+        "canonicalizer": {"const": "nma.core.canonical_json"},
+        "fallback_allowed": {"const": false}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "completed_before_domain_mutation", "checks"],
+      "properties": {
+        "status": {"enum": ["valid", "invalid"]},
+        "completed_before_domain_mutation": {"const": true},
+        "checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["check_id", "result"],
+            "properties": {
+              "check_id": {"$ref": "#/$defs/identifier"},
+              "result": {"enum": ["PASS", "FAIL"]}
+            }
+          }
+        }
+      }
+    },
+    "domain_payload": {
+      "type": "object",
+      "description": "Opaque domain-owned content. The generic layer validates only that it is a JSON object.",
+      "additionalProperties": true
+    },
+    "ownership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["payload_interpretation", "semantics", "geometry", "portrayal", "rollback_behavior", "activation_behavior"],
+      "properties": {
+        "payload_interpretation": {"const": "domain"},
+        "semantics": {"const": "domain"},
+        "geometry": {"const": "domain"},
+        "portrayal": {"const": "domain"},
+        "rollback_behavior": {"const": "domain"},
+        "activation_behavior": {"const": "domain"}
+      }
+    },
+    "mutation_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_processing_authorized", "domain_executor_invoked", "production_mutation_performed"],
+      "properties": {
+        "contract_processing_authorized": {"const": false},
+        "domain_executor_invoked": {"const": false},
+        "production_mutation_performed": {"const": false}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "lifecycle_role": {
+            "enum": [
+              "plan",
+              "execution",
+              "derived-output",
+              "observation",
+              "receipt",
+              "provenance",
+              "verification",
+              "rollback-evidence",
+              "activation-evidence",
+              "release-evidence"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "authorization": {
+            "properties": {
+              "state": {"const": "bound"},
+              "reference": {"$ref": "#/$defs/artifact_reference"}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 200, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "contract_version": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*/[0-9]+\\.[0-9]+$"},
+    "artifact_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "artifact_sha256", "contract_version"],
+      "properties": {
+        "artifact_id": {"$ref": "#/$defs/identifier"},
+        "artifact_sha256": {"$ref": "#/$defs/sha256"},
+        "contract_version": {"$ref": "#/$defs/contract_version"}
+      }
+    }
+  }
+}
