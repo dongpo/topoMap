@@ -126,6 +126,13 @@ from nma.road_execution import (  # noqa: E402
     RoadExecutionEngine,
     RoadExecutionError,
 )
+from nma.unified_runtime import (  # noqa: E402
+    BuildRuntimeAdapter,
+    RoadRuntimeAdapter,
+    SchoolRuntimeAdapter,
+    UnifiedNMARuntime,
+    UnifiedRuntimeError,
+)
 from nma.qa_review import (  # noqa: E402
     QA_PROFILES,
     REAL_QA_DIAGNOSTIC_PROFILES,
@@ -807,6 +814,25 @@ ROAD_EXECUTIONS = RoadExecutionEngine(
     archive_path=PRIVATE_SCHOOL_ARCHIVE,
     frozen_inputs=ROAD_EXECUTION_INPUTS,
     authorization_store=ROAD_AUTHORIZATIONS,
+)
+UNIFIED_RUNTIME = UnifiedNMARuntime(
+    {
+        "school": SchoolRuntimeAdapter(
+            engine=SCHOOL_HERO_EXECUTIONS,
+            repository_root=ROOT,
+            archive_path=PRIVATE_SCHOOL_ARCHIVE,
+            symbol_path=ROOT / "assets" / "symbols" / "nlsc112v5.4" / "school.svg",
+        ),
+        "road": RoadRuntimeAdapter(
+            engine=ROAD_EXECUTIONS,
+            repository_root=ROOT,
+            archive_path=PRIVATE_SCHOOL_ARCHIVE,
+        ),
+        "build": BuildRuntimeAdapter(
+            repository_root=ROOT,
+            archive_path=PRIVATE_SCHOOL_ARCHIVE,
+        ),
+    }
 )
 _RETRIEVER: CitationIntegrityGraphRetrieverV06 | None = None
 _GRAPH_BACKEND_TRACE: dict[str, Any] | None = None
@@ -3231,6 +3257,22 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
                 },
             )
             return
+        if route == "/api/nma/runtime":
+            self._json(
+                HTTPStatus.OK,
+                {
+                    "schema": "nma.unified-runtime-capabilities/1.0",
+                    "endpoint": "/api/nma/runtime",
+                    "canonical_demo": "/nmaAgentDemoV1.html?basemap=local",
+                    "domains": ["school", "road", "build"],
+                    "operations": ["preview", "replay", "execute", "verify"],
+                    "default_operation": "preview",
+                    "private_archive_auto_read": False,
+                    "automatic_build_activation": False,
+                    "authorization_bypass": False,
+                },
+            )
+            return
         match = re.fullmatch(r"/api/datasets/([a-z0-9-]+)/(inspect|geojson)", route)
         if match:
             try:
@@ -3271,6 +3313,7 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             "/api/real-layer/execute",
             "/api/qa-review",
             "/api/qa-review/execute",
+            "/api/nma/runtime",
             "/api/school-hero/executions",
             "/api/road/executions",
         } and not observation_match and not rollback_match and not road_observation_match and not road_rollback_match:
@@ -3284,6 +3327,8 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             api_key, model = load_local_settings()
             if route == "/api/agent":
                 result = orchestrate(payload, api_key, model)
+            elif route == "/api/nma/runtime":
+                result = UNIFIED_RUNTIME.dispatch(payload)
             elif route == "/api/school-agent/analyze":
                 result = analyze_school_agent_request(payload)
             elif route == "/api/portrayal-review":
@@ -3319,6 +3364,19 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             self._json(HTTPStatus.BAD_REQUEST, {"error": {"code": "invalid_json"}})
         except AgentError as error:
             self._json(error.status, {"error": {"code": error.code, "message": str(error)}})
+        except UnifiedRuntimeError as error:
+            self._json(
+                error.status,
+                {
+                    "error": {
+                        "code": error.code,
+                        "message": str(error),
+                        "domain": error.domain,
+                        "stage": error.stage,
+                        "mutation_performed": False,
+                    }
+                },
+            )
         except SchoolHeroExecutionError as error:
             self._json(error.status, {"error": {"code": error.code, "message": str(error)}})
         except RoadExecutionError as error:
@@ -3339,10 +3397,15 @@ def main() -> None:
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8080)
     args = parser.parse_args()
-    using_real_school_data = activate_private_real_school_dataset()
+    private_archive_opt_in = os.environ.get("NMA_ENABLE_PRIVATE_ARCHIVE") == "1"
+    using_real_school_data = (
+        activate_private_real_school_dataset() if private_archive_opt_in else False
+    )
     api_key, model = load_local_settings()
     mode = "Responses API" if api_key else "deterministic fallback"
     server = ThreadingHTTPServer((args.host, args.port), NMARequestHandler)
+    print(f"NMA unified runtime: http://{args.host}:{args.port}/nmaAgentDemoV1.html?basemap=local")
+    print(f"NMA unified API: http://{args.host}:{args.port}/api/nma/runtime")
     print(f"NMA School Hero v0.32: http://{args.host}:{args.port}/nmaAgentDemoV032.html")
     print(f"F03 server revision: {F03_SERVER_REVISION}")
     print(f"NMA Agentic v0.31: http://{args.host}:{args.port}/nmaAgentDemoV031.html")
@@ -3354,7 +3417,7 @@ def main() -> None:
         + (
             "15 real school features from the verified local Shapefile archive"
             if using_real_school_data
-            else "12 synthetic school fixtures (real archive not present)"
+            else "12 synthetic school fixtures (protected archive access is disabled by default)"
         )
     )
     try:
