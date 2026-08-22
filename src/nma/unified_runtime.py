@@ -56,6 +56,11 @@ _DOMAIN_TERMS = {
     "road": ("road", "county highway", "route", "9420400", "道路", "公路", "縣道", "中山街"),
     "build": ("build", "building", "9310100", "建物", "建築", "樓層"),
 }
+_DOMAIN_FEATURE_CODES = {
+    "school": "9920103",
+    "road": "9420400",
+    "build": "9310100",
+}
 
 
 def _contains_domain_term(request: str, term: str) -> bool:
@@ -144,6 +149,19 @@ def select_domain(explicit: Any, request: str) -> str:
             "The request identifies more than one supported domain.",
         )
     return matches.pop()
+
+
+def _validate_feature_target(request: str, domain: str) -> None:
+    """Fail closed when a request names a feature code outside the selected frozen domain."""
+
+    feature_codes = set(re.findall(r"(?<![0-9])[0-9]{7}(?![0-9])", request))
+    if feature_codes and feature_codes != {_DOMAIN_FEATURE_CODES[domain]}:
+        raise UnifiedRuntimeError(
+            "unsupported_capability",
+            "The requested feature target is not supported by the selected frozen domain.",
+            domain=domain,
+            stage="routing",
+        )
 
 
 def _validate_request(payload: Any) -> dict[str, Any]:
@@ -796,6 +814,7 @@ class UnifiedNMARuntime:
     def dispatch(self, payload: Any) -> dict[str, Any]:
         request = _validate_request(payload)
         domain = select_domain(request["domain"], request["request"])
+        _validate_feature_target(request["request"], domain)
         try:
             result = self.adapters[domain].dispatch(request)
         except UnifiedRuntimeError:
