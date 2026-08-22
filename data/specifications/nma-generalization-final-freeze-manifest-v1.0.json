@@ -1,0 +1,306 @@
+{
+  "contract": "nma.generalization-final-freeze/1.0",
+  "version": "1.0",
+  "status": "release-candidate; external publication and reproduction verification required",
+  "canonical_manifest_sha256": "71683e0486b4ff952e41ad9cd98e6e0405c61f07e09d40b553540a0203c874f1",
+  "repository": {
+    "origin": "https://github.com/dongpo/topoMap.git",
+    "predecessor": {
+      "branch": "gen/gen-02-cross-domain-contract-conformance",
+      "commit_sha": "cca6fe925e517d39a9c82df7d02cc458137b2f37",
+      "verdict": "PASS — CROSS-DOMAIN CONTRACT CONFORMANCE VERIFIED"
+    },
+    "final_identity_strategy": {
+      "commit_sha_authority": "peeled target of annotated tag nma-generalization-v1.0-final",
+      "freeze_branch": "freeze/gen-final-<short-FINAL_SHA>",
+      "freeze_branch_authority": "canonical origin branch whose suffix is the first seven hexadecimal characters of the peeled tag target",
+      "annotated_tag": "nma-generalization-v1.0-final",
+      "tag_target": "same commit as commit_sha_authority",
+      "tag_message": "NMA generalization architecture v1.0 final",
+      "non_self_referential": true
+    }
+  },
+  "generalization_chain": {
+    "gen00": {
+      "commit_sha": "b745a98f8d465259a2cb7c2b3af3df112a10ea37",
+      "parent_sha": "95de5fa3657a2c8ac7847f1ee1010c48ea984cd7",
+      "verdict": "PASS — GENERALIZATION PARTIAL; DOMAIN BOUNDARIES REQUIRE CLOSURE",
+      "audit_sha256": "2e96f00ada42e22c7dc50387cb1fbf651b6fcbbdff94af796c0fd1985ffe86e3"
+    },
+    "gen01": {
+      "commit_sha": "7bb83f05480f642da23e7a2b244b38c3804d5fb7",
+      "parent_sha": "b745a98f8d465259a2cb7c2b3af3df112a10ea37",
+      "verdict": "PASS — GENERIC CONTRACT AND DOMAIN INTERFACE CLOSED",
+      "closure_sha256": "03b80441bbf317ac2e2b6cd92c3a86309c4cc7465109a3d34b6d24636491c35d"
+    },
+    "gen02": {
+      "commit_sha": "cca6fe925e517d39a9c82df7d02cc458137b2f37",
+      "parent_sha": "7bb83f05480f642da23e7a2b244b38c3804d5fb7",
+      "verdict": "PASS — CROSS-DOMAIN CONTRACT CONFORMANCE VERIFIED",
+      "matrix_sha256": "88f3dbaf756b19045b88cf4e68c431fbc05696873b984b913397677e8fc0f3c1"
+    }
+  },
+  "frozen_domain_identities": {
+    "core": {
+      "commit_sha": "5eb138ae7686502431587743ebce9ddf92c5a799",
+      "annotated_tag": "nma-core-v1.0-final",
+      "tag_object_sha": "5729f2db0fc441b3eb0a22c1f76b0f6af3f368ea"
+    },
+    "school_hero": {
+      "commit_sha": "56f99eb9ae63272a68accac3041fb10eacefb986",
+      "canonical_remote_branch": "freeze/hero-final-school-hero-56f99eb"
+    },
+    "road": {
+      "commit_sha": "325c70d5335f57c43a8af85822db25032aa225c3",
+      "annotated_tag": "nma-road-v1.0-final",
+      "tag_object_sha": "d60fffa873428d1ba8b308ea0d4d2028ac8431fd"
+    },
+    "build": {
+      "commit_sha": "95de5fa3657a2c8ac7847f1ee1010c48ea984cd7",
+      "annotated_tag": "nma-build-v1.0-final",
+      "tag_object_sha": "1b55ff67fd670a482da74975ce41fa86df5dd71f"
+    }
+  },
+  "architecture_claims": {
+    "canonical_identity": "one canonical nma.core identity architecture; no generic fallback identity authority",
+    "generic_lifecycle_contract": "bounded cross-domain identity, traceability, authorization linkage, provenance, validation, and lifecycle linkage",
+    "domain_adapter_boundary": "closed generic/domain interface without frozen production refactoring",
+    "domain_owned_responsibilities": [
+      "semantics",
+      "geometry",
+      "portrayal",
+      "rollback behavior",
+      "activation behavior"
+    ],
+    "cross_domain_conformance": [
+      "School Hero",
+      "ROAD",
+      "BUILD"
+    ],
+    "mutation_safety": true,
+    "extensibility_boundary": "future domains may implement but must not silently redefine the frozen contract",
+    "riverl_status": "optional independent-domain/out-of-sample proof; not part of GEN-FINAL and not a prerequisite"
+  },
+  "generic_contract_identities": {
+    "canonical_identity_provider": {
+      "owner": "nma.core",
+      "callable": "nma.core.canonical_sha256",
+      "source_path": "src/nma/core/identity.py",
+      "source_file_sha256": "d9c4ac0d0d385f6942c552a0b2ffc4c12b3deb0ee876d569aeadc036b1a92e78"
+    },
+    "generic_lifecycle_contract": {
+      "schema_id": "https://github.com/dongpo/topoMap/schemas/generic-lifecycle-envelope-v1.0.schema.json",
+      "path": "schemas/generic-lifecycle-envelope-v1.0.schema.json",
+      "file_sha256": "1ba0395fcec1b2234f05406acb9dcfcd066c6af79c773cc50dec201b8eb36bad"
+    },
+    "domain_adapter_capability_contract": {
+      "schema_id": "https://github.com/dongpo/topoMap/schemas/generic-domain-adapter-capability-v1.0.schema.json",
+      "path": "schemas/generic-domain-adapter-capability-v1.0.schema.json",
+      "file_sha256": "79114463a7be4eaf5c1b83c5b98535068e798973864113933aca9630f8e72ffa"
+    },
+    "closure_contract": {
+      "schema_id": "https://github.com/dongpo/topoMap/schemas/generic-contract-interface-closure-v1.0.schema.json",
+      "path": "schemas/generic-contract-interface-closure-v1.0.schema.json",
+      "file_sha256": "111e192611c66894e2e863fe32905843e3771737c07c3a5142768b4f388204b3"
+    },
+    "immutable_paths": [
+      "data/specifications/nma-gen-01-generic-contract-interface-closure-v1.0.json",
+      "schemas/generic-contract-interface-closure-v1.0.schema.json",
+      "schemas/generic-domain-adapter-capability-v1.0.schema.json",
+      "schemas/generic-lifecycle-envelope-v1.0.schema.json"
+    ]
+  },
+  "frozen_generalization_artifacts": [
+    {
+      "path": "GEN-00-Generalization-Audit.md",
+      "stage": "GEN-00",
+      "introduced_at": "b745a98f8d465259a2cb7c2b3af3df112a10ea37",
+      "role": "normative_verdict_provenance",
+      "file_sha256": "fe3bfe3cb17e743d58c885c3e64fe33b54185b668a0521d23137cd681d50d210"
+    },
+    {
+      "path": "data/specifications/nma-gen-00-feature-production-generalization-audit-v1.0.json",
+      "stage": "GEN-00",
+      "introduced_at": "b745a98f8d465259a2cb7c2b3af3df112a10ea37",
+      "role": "canonical_audit_record",
+      "file_sha256": "a609d42e613484cfee0b2bf94f60692616ee91c42e939c2656a01e2c265041f2"
+    },
+    {
+      "path": "schemas/feature-production-generalization-audit-v1.0.schema.json",
+      "stage": "GEN-00",
+      "introduced_at": "b745a98f8d465259a2cb7c2b3af3df112a10ea37",
+      "role": "closed_schema",
+      "file_sha256": "2224db450b0b09aed788a34d031afcfc49b33d66fa4c685fdb1b7800a8d04910"
+    },
+    {
+      "path": "tests/test_feature_production_generalization_gen00.py",
+      "stage": "GEN-00",
+      "introduced_at": "b745a98f8d465259a2cb7c2b3af3df112a10ea37",
+      "role": "executable_integrity_definition",
+      "file_sha256": "6c20aa2b0e7754370406e418e61a5fa98a7e6285e142417d49557b658555db9a"
+    },
+    {
+      "path": "GEN-01-Completion-Report.md",
+      "stage": "GEN-01",
+      "introduced_at": "7bb83f05480f642da23e7a2b244b38c3804d5fb7",
+      "role": "normative_verdict_provenance",
+      "file_sha256": "32ca6a27f0aada7c764f1fb2249b6e5e576b257e82640e7069b808dbe06ea200"
+    },
+    {
+      "path": "data/specifications/nma-gen-01-generic-contract-interface-closure-v1.0.json",
+      "stage": "GEN-01",
+      "introduced_at": "7bb83f05480f642da23e7a2b244b38c3804d5fb7",
+      "role": "canonical_contract_closure",
+      "file_sha256": "44f9390c24e636509bc2efb39735f25029755d899b017be74f78e9745f70192b"
+    },
+    {
+      "path": "schemas/generic-contract-interface-closure-v1.0.schema.json",
+      "stage": "GEN-01",
+      "introduced_at": "7bb83f05480f642da23e7a2b244b38c3804d5fb7",
+      "role": "closed_schema",
+      "file_sha256": "111e192611c66894e2e863fe32905843e3771737c07c3a5142768b4f388204b3"
+    },
+    {
+      "path": "schemas/generic-domain-adapter-capability-v1.0.schema.json",
+      "stage": "GEN-01",
+      "introduced_at": "7bb83f05480f642da23e7a2b244b38c3804d5fb7",
+      "role": "generic_contract_schema",
+      "file_sha256": "79114463a7be4eaf5c1b83c5b98535068e798973864113933aca9630f8e72ffa"
+    },
+    {
+      "path": "schemas/generic-lifecycle-envelope-v1.0.schema.json",
+      "stage": "GEN-01",
+      "introduced_at": "7bb83f05480f642da23e7a2b244b38c3804d5fb7",
+      "role": "generic_contract_schema",
+      "file_sha256": "1ba0395fcec1b2234f05406acb9dcfcd066c6af79c773cc50dec201b8eb36bad"
+    },
+    {
+      "path": "tests/test_generic_contract_interface_closure_gen01.py",
+      "stage": "GEN-01",
+      "introduced_at": "7bb83f05480f642da23e7a2b244b38c3804d5fb7",
+      "role": "executable_integrity_definition",
+      "file_sha256": "b25297f6cf92c3a7bd593d7bb7d89650504a106d92f4e842a565e046718220a5"
+    },
+    {
+      "path": "GEN-02-Completion-Report.md",
+      "stage": "GEN-02",
+      "introduced_at": "cca6fe925e517d39a9c82df7d02cc458137b2f37",
+      "role": "normative_verdict_provenance",
+      "file_sha256": "a817e284cb51f0f59cd3203af9e855174d84d3348a2b9b97832761de99770ead"
+    },
+    {
+      "path": "data/specifications/nma-gen-02-school-hero-contract-conformance-v1.0.json",
+      "stage": "GEN-02",
+      "introduced_at": "cca6fe925e517d39a9c82df7d02cc458137b2f37",
+      "role": "canonical_domain_conformance_record",
+      "file_sha256": "8c4a44a30b104c399fa596ef3ddafb37bc0ff607d57337a6a03f3520e70c262e"
+    },
+    {
+      "path": "data/specifications/nma-gen-02-road-contract-conformance-v1.0.json",
+      "stage": "GEN-02",
+      "introduced_at": "cca6fe925e517d39a9c82df7d02cc458137b2f37",
+      "role": "canonical_domain_conformance_record",
+      "file_sha256": "eb15a4df83517af0e7b069cb0411f05941b3cbc9e02a88b6dfc6487b14ab3091"
+    },
+    {
+      "path": "data/specifications/nma-gen-02-build-contract-conformance-v1.0.json",
+      "stage": "GEN-02",
+      "introduced_at": "cca6fe925e517d39a9c82df7d02cc458137b2f37",
+      "role": "canonical_domain_conformance_record",
+      "file_sha256": "2007f0e3b6fa33d9e63effeb74f10af668475d06e4e9159598731b8fa2d35596"
+    },
+    {
+      "path": "data/specifications/nma-gen-02-cross-domain-contract-conformance-matrix-v1.0.json",
+      "stage": "GEN-02",
+      "introduced_at": "cca6fe925e517d39a9c82df7d02cc458137b2f37",
+      "role": "canonical_aggregate_conformance_matrix",
+      "file_sha256": "da3fe4e037fd023258424ac96d02bd97df27ac152bcc5e4b545b6681e5e35ee0"
+    },
+    {
+      "path": "schemas/domain-contract-conformance-v1.0.schema.json",
+      "stage": "GEN-02",
+      "introduced_at": "cca6fe925e517d39a9c82df7d02cc458137b2f37",
+      "role": "closed_schema",
+      "file_sha256": "1663e7b32c0bb2bb39b6a9500648096b00128d1328978812775da44a23d90848"
+    },
+    {
+      "path": "schemas/cross-domain-contract-conformance-matrix-v1.0.schema.json",
+      "stage": "GEN-02",
+      "introduced_at": "cca6fe925e517d39a9c82df7d02cc458137b2f37",
+      "role": "closed_schema",
+      "file_sha256": "f76409ce011bf6f6cb86562c466071b786621dcb0257203d26c83bbd699b3ad4"
+    },
+    {
+      "path": "tests/test_cross_domain_contract_conformance_gen02.py",
+      "stage": "GEN-02",
+      "introduced_at": "cca6fe925e517d39a9c82df7d02cc458137b2f37",
+      "role": "executable_integrity_definition",
+      "file_sha256": "6f39e176c1614e6edbeef8e197155bab7aeda20ca7b95583e337ade028b09c3a"
+    }
+  ],
+  "aggregate_conformance": {
+    "path": "data/specifications/nma-gen-02-cross-domain-contract-conformance-matrix-v1.0.json",
+    "file_sha256": "da3fe4e037fd023258424ac96d02bd97df27ac152bcc5e4b545b6681e5e35ee0",
+    "matrix_sha256": "88f3dbaf756b19045b88cf4e68c431fbc05696873b984b913397677e8fc0f3c1",
+    "domains_evaluated": 3,
+    "domains_conforming": 3,
+    "gen01_contract_changes": 0,
+    "frozen_production_changes": 0,
+    "required_frozen_refactors": 0,
+    "mutation_bypasses": 0
+  },
+  "integrity_test": {
+    "path": "tests/test_generalization_architecture_freeze_final.py",
+    "file_sha256": "93376f1553c3f13193d75a091e26b9e40dcd803ae3d7ea54e56bb7d07cad03a4",
+    "write_capability": false,
+    "production_imports": false
+  },
+  "production_integrity": {
+    "allowed_files": [
+      "GEN-FINAL-Completion-Report.md",
+      "data/specifications/nma-generalization-final-freeze-manifest-v1.0.json",
+      "tests/test_generalization_architecture_freeze_final.py"
+    ],
+    "production_source_change_count": 0,
+    "frozen_implementation_change_count": 0,
+    "existing_generalization_artifact_modification_count": 0,
+    "mutation_boundary": {
+      "source_mutation": false,
+      "writeback": false,
+      "repair": false,
+      "geometry_mutation": false,
+      "portrayal_mutation": false,
+      "production_activation": false,
+      "independent_mutation_authority": false
+    }
+  },
+  "private_archive": {
+    "path": "data/datasets/112年多維度SHP成果_0502.zip",
+    "sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "private": true,
+    "ignored": true,
+    "tracked": false,
+    "staged": false,
+    "inspected_or_extracted_by_gen_final": false,
+    "fresh_checkout_required": false,
+    "substitute_or_download_allowed": false
+  },
+  "fresh_checkout_reproduction": {
+    "release_identity": "peeled target of nma-generalization-v1.0-final",
+    "public_frozen_artifacts_reproducible_without_private_archive": true,
+    "private_archive_copied": false,
+    "private_archive_downloaded_or_synthesized": false,
+    "missing_private_archive_is_acceptable_for_freeze_integrity": true
+  },
+  "post_freeze_policy": {
+    "version": "NMA generalization architecture v1.0",
+    "immutable": true,
+    "force_move_branch_or_tag_allowed": false,
+    "post_freeze_issue_required_for_contract_change": true,
+    "post_freeze_issue_required_for_boundary_change": true,
+    "new_domain_proven_conformant": false,
+    "riverl_required": false,
+    "successful_terminal_verdict": "PASS — NMA GENERALIZATION ARCHITECTURE FROZEN",
+    "next_gate_recommendation_after_external_verification": "READY FOR NMA-FINAL"
+  }
+}
