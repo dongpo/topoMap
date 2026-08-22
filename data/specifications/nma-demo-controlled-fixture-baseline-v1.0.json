@@ -1,0 +1,393 @@
+{
+  "schema": "nma.demo-controlled-fixture-baseline/1.0",
+  "record_id": "DEMO-FIXTURE-00",
+  "record_status": "audited-controlled-demo-baseline",
+  "verdict": "PASS — CONTROLLED SHAPEFILE DEMO BASELINE ESTABLISHED",
+  "predecessor": {
+    "branch": "demo/demo-data-00-public-demo-data-closure",
+    "commit": "8fb113b8beb00952901abeafa22ebee0c8b76bc6"
+  },
+  "scope": {
+    "claim": "Controlled School and ROAD fixtures support the NMA v1.0 Agent, GraphRAG, cartographic-rule, execution, portrayal, and verification demonstration.",
+    "arbitrary_geospatial_ingestion_claimed": false,
+    "external_data_substitution_performed": false,
+    "raw_fixture_redistributed": false,
+    "production_source_changes": 0,
+    "frozen_implementation_changes": 0
+  },
+  "fixture_authority": {
+    "package_name": "112年多維度SHP成果_0502.zip",
+    "package_role": "owner-supplied controlled demo input; not production canonical data",
+    "package_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "package_size_bytes": 12822898,
+    "repository_policy": "Private/non-redistributable input; authorized developers provide the exact package locally.",
+    "inspection_engine": "GDAL 3.11.0",
+    "inspection_mode": "read-only"
+  },
+  "aggregate_identity_procedure": {
+    "version": "nma-controlled-demo-fixture-v1",
+    "digest": "SHA-256",
+    "encoding": "UTF-8",
+    "prefix_bytes": "nma-controlled-demo-fixture-v1\\n",
+    "ordering": "ascending layer_id, then ascending lowercase extension",
+    "line_format": "{layer_id}\\t{extension}\\t{lowercase_file_sha256}\\n",
+    "included_extensions": [
+      ".cpg",
+      ".dbf",
+      ".prj",
+      ".shp",
+      ".shx"
+    ]
+  },
+  "identity_separation": {
+    "historical_frozen_fixture_identity_is_controlled_demo_fixture_identity": false,
+    "historical_production_authorization_is_demo_execution_authorization": false,
+    "demo_identity_may_impersonate_historical_identity": false,
+    "note": "The package byte hash is intentionally the same observed byte commitment already referenced by frozen contracts. The demo identities below are separately namespaced, role-bounded aggregate identities and do not claim historical transaction identity."
+  },
+  "school": {
+    "controlled_demo_fixture_identity": "nma-demo-fixture:school:sha256:77802b44b97c6687bc626d257e14b57c3d7427949a65942fa721d05bb79fc12d",
+    "aggregate_sha256": "77802b44b97c6687bc626d257e14b57c3d7427949a65942fa721d05bb79fc12d",
+    "fixture_role": "School elementary-feature selection from six controlled MARK layers",
+    "domain": "school-hero",
+    "demo_only": true,
+    "source_filter": {
+      "field": "TERRAINID",
+      "operator": "equals",
+      "value": "9920103"
+    },
+    "field_contract": [
+      {"name": "MARKID", "type": "String", "width": 11, "role": "feature identity"},
+      {"name": "TERRAINID", "type": "String", "width": 8, "role": "classification and rule linkage"},
+      {"name": "MARKNAME1", "type": "String", "width": 254, "role": "school label"},
+      {"name": "MDATE", "type": "String", "width": 8, "role": "optional source currency metadata"}
+    ],
+    "crs": {
+      "declared_name": "TWD97[2020]_TM121",
+      "projected_authority_code_declared": false,
+      "units": "metre",
+      "coordinate_plausibility": "MATCH — easting 230762.8873–256038.6363 and northing 2711769.2762–2741424.0694 are plausible for the supplied Taiwan TM121 profiles",
+      "normalization_performed_by_audit": false
+    },
+    "geometry_quality": {
+      "declared_geometry": "Point",
+      "raw_feature_count": 1464,
+      "selected_feature_count": 15,
+      "invalid_geometry_count": 0,
+      "empty_geometry_count": 0,
+      "multipart_geometry_count": 0,
+      "selected_missing_label_count": 0,
+      "selected_duplicate_identifier_count": 0,
+      "z_feature_count": 0,
+      "m_feature_count": 0
+    },
+    "layers": [
+      {
+        "layer_id": "J01_MARK",
+        "archive_member_suffix": "/SHP/J01_MARK",
+        "geometry_type": "Point",
+        "raw_feature_count": 176,
+        "selected_feature_count": 0,
+        "selected_feature_ids": [],
+        "components": [
+          {"extension": ".cpg", "size_bytes": 5, "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"},
+          {"extension": ".dbf", "size_bytes": 49794, "sha256": "07f31699edd5ec48e1d29eb57a365365df05792b3575082f71fc5c86d61b7c9f"},
+          {"extension": ".prj", "size_bytes": 403, "sha256": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f"},
+          {"extension": ".shp", "size_bytes": 5028, "sha256": "81499af48273d36634c2443ad29cb9e0be3bfcfce44755d6c3ec5a57684cc178"},
+          {"extension": ".shx", "size_bytes": 1508, "sha256": "bd90ba4cbf6253126cc08dd9cdf1d24f439e4664090e55dc17ce0590af6402b7"}
+        ]
+      },
+      {
+        "layer_id": "J13_MARK",
+        "archive_member_suffix": "/SHP/J13_MARK",
+        "geometry_type": "Point",
+        "raw_feature_count": 107,
+        "selected_feature_count": 1,
+        "selected_feature_ids": ["J0000002393"],
+        "components": [
+          {"extension": ".cpg", "size_bytes": 5, "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"},
+          {"extension": ".dbf", "size_bytes": 30336, "sha256": "ced030468b9abcd9da3cdf65ff6f2fb858cb36c95541f73c965014eacf3d7268"},
+          {"extension": ".prj", "size_bytes": 403, "sha256": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f"},
+          {"extension": ".shp", "size_bytes": 3096, "sha256": "2e9c83eb6dfbfc2ddfb8297a8d39e53038b1b5f65912baf114dc9d620e729ec2"},
+          {"extension": ".shx", "size_bytes": 956, "sha256": "bbf7f0d58b5004af677db73eaf21b405e8b05528d3899ffd89196593cde32603"}
+        ]
+      },
+      {
+        "layer_id": "J17_MARK",
+        "archive_member_suffix": "/SHP/J17_MARK",
+        "geometry_type": "Point",
+        "raw_feature_count": 349,
+        "selected_feature_count": 0,
+        "selected_feature_ids": [],
+        "components": [
+          {"extension": ".cpg", "size_bytes": 5, "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"},
+          {"extension": ".dbf", "size_bytes": 98580, "sha256": "3ee4280717e9eb18bab798ae8112b3cb1b977d3548daa66efa150dbc178befb3"},
+          {"extension": ".prj", "size_bytes": 403, "sha256": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f"},
+          {"extension": ".shp", "size_bytes": 9872, "sha256": "47d7639c620fac323549a388de09642958ce0a2173ce47ec847c3fe6712bb422"},
+          {"extension": ".shx", "size_bytes": 2892, "sha256": "783ecb9b98c5787b7b73f96915b7b32c24f47fbc93ec0f99eb7a754dd4620470"}
+        ]
+      },
+      {
+        "layer_id": "K01_MARK",
+        "archive_member_suffix": "/SHP/K01_MARK",
+        "geometry_type": "Point",
+        "raw_feature_count": 668,
+        "selected_feature_count": 12,
+        "selected_feature_ids": [
+          "K0000001676", "K0000001677", "K0000001678", "K0000001679",
+          "K0000001680", "K0000001681", "K0000001682", "K0000001683",
+          "K0000001684", "K0000001685", "K0000001686", "K0000001687"
+        ],
+        "components": [
+          {"extension": ".cpg", "size_bytes": 5, "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"},
+          {"extension": ".dbf", "size_bytes": 188538, "sha256": "4451553a16ec816ec078bf2d8c679fdb6858b8a6b53e37034a99cbcf1710b7c8"},
+          {"extension": ".prj", "size_bytes": 403, "sha256": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f"},
+          {"extension": ".shp", "size_bytes": 18804, "sha256": "93cc8399c649a6af0a0e9b72868b8aa3e9811d78bfb6211d4ef922774544a033"},
+          {"extension": ".shx", "size_bytes": 5444, "sha256": "9a041e14063e09c07a25b1388b82eb7bfe4fbeef6f8e734f9d7650a42c8dfb38"}
+        ]
+      },
+      {
+        "layer_id": "K02_MARK",
+        "archive_member_suffix": "/SHP/K02_MARK",
+        "geometry_type": "Point",
+        "raw_feature_count": 120,
+        "selected_feature_count": 1,
+        "selected_feature_ids": ["K0000001334"],
+        "components": [
+          {"extension": ".cpg", "size_bytes": 5, "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"},
+          {"extension": ".dbf", "size_bytes": 34002, "sha256": "70ac0a22d3b40aefeb8fe140a0d4cc56d83c5331081fda387d2dfbb5ed551250"},
+          {"extension": ".prj", "size_bytes": 403, "sha256": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f"},
+          {"extension": ".shp", "size_bytes": 3460, "sha256": "190a61e649629b2d41cef16535604698d0b48ce791c5f42d568f578054a989d6"},
+          {"extension": ".shx", "size_bytes": 1060, "sha256": "974ed0a178c7b11fc02f98bbeb9491763dfcb26e8cd83d7c148d635c9ad667e4"}
+        ]
+      },
+      {
+        "layer_id": "K14_MARK",
+        "archive_member_suffix": "/SHP/K14_MARK",
+        "geometry_type": "Point",
+        "raw_feature_count": 44,
+        "selected_feature_count": 1,
+        "selected_feature_ids": ["K0000001371"],
+        "components": [
+          {"extension": ".cpg", "size_bytes": 5, "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"},
+          {"extension": ".dbf", "size_bytes": 12570, "sha256": "cb6dab3e110bd8ee3999595d9ebb7e1837df58820443c87d3a8379b1d4fb6cc1"},
+          {"extension": ".prj", "size_bytes": 403, "sha256": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f"},
+          {"extension": ".shp", "size_bytes": 1332, "sha256": "8e8a4ad52f6c8b4df92e08ebb8bd89226859042b48f4094c172470597c615249"},
+          {"extension": ".shx", "size_bytes": 452, "sha256": "c17fadb90bfc5ac2e022ea494728604d00fd8b105cacfa672587d0df3a1d1dba"}
+        ]
+      }
+    ],
+    "frozen_requirements": {
+      "source_layers": "MATCH",
+      "six_layer_count": "MATCH",
+      "selected_fifteen_feature_count": "MATCH",
+      "point_geometry": "MATCH",
+      "declared_crs": "MATCH",
+      "identifier_MARKID": "MATCH",
+      "classification_TERRAINID": "MATCH",
+      "label_MARKNAME1": "MATCH",
+      "dataset_specific_TERRAINID_adapter": "COMPATIBLE_WITH_ADAPTER",
+      "historical_HERO03_authorization": "AUTHORIZATION_BINDING_ONLY"
+    },
+    "graphrag": {
+      "required_nodes": [
+        "code-value:landmark-type:9920103",
+        "portrayal-rule:doc01:9920103",
+        "portrayal-recipe:doc01:9920103:review-v1",
+        "product-layer:MARK"
+      ],
+      "fixture_attributes_available": ["TERRAINID", "MARKNAME1", "MARKID"],
+      "suitability": "MATCH",
+      "boundary": "Retrieved review knowledge does not itself authorize execution or activate unresolved portrayal choices."
+    },
+    "execution_feasibility": {
+      "fixture_validation": "READY",
+      "agent_request": "READY",
+      "graphrag_rule_retrieval": "READY",
+      "planning": "READY",
+      "authorization": "BLOCKED_BY_AUTHORIZATION",
+      "execution": "READY_WITH_DEMO_BINDING",
+      "portrayal": "READY_WITH_DEMO_BINDING",
+      "verification": "READY_WITH_DEMO_BINDING",
+      "map_result": "READY_WITH_DEMO_BINDING"
+    },
+    "blocker": "FIXTURE COMPATIBLE — AUTHORIZATION BINDING BLOCKER",
+    "demo_binding_gap": true
+  },
+  "road": {
+    "controlled_demo_fixture_identity": "nma-demo-fixture:road:sha256:dc82db8bfc96dd6ab16b3206866e000459b9fd59a8f6d44602fcf06586b1ae79",
+    "aggregate_sha256": "dc82db8bfc96dd6ab16b3206866e000459b9fd59a8f6d44602fcf06586b1ae79",
+    "fixture_role": "Frozen K14 county-highway semantic centreline and ordered segment set",
+    "domain": "road",
+    "demo_only": true,
+    "layer": {
+      "layer_id": "K14_ROAD",
+      "archive_member_suffix": "/SHP/K14_ROAD",
+      "declared_geometry_type": "LineString",
+      "feature_count": 196,
+      "field_contract": [
+        "ROADSEGID", "TERRAINID", "COUNTY", "ROADCLASS1", "ROADSTRUCT",
+        "ROADNUM", "ROADNUM1", "ROADNUM2", "ROADNAME", "ROADALIAS",
+        "RDNAMESECT", "BRITUNNAME", "RDNAMELANE", "RDNAMENON", "WIDTH",
+        "DEFINITION", "MDATE"
+      ],
+      "components": [
+        {"extension": ".cpg", "size_bytes": 5, "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"},
+        {"extension": ".dbf", "size_bytes": 93090, "sha256": "6af55549c6b5e5c1bc59d3a0b6e94c4ffd959cf654bb33de4167c85ec985f58b"},
+        {"extension": ".prj", "size_bytes": 403, "sha256": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f"},
+        {"extension": ".shp", "size_bytes": 31248, "sha256": "d5ec2de55a95fa1d8d2d10a2b116b607b0904bea41620f3707c4a7278bfee497"},
+        {"extension": ".shx", "size_bytes": 1668, "sha256": "40fa8648b76df0b2b1e5442f22f8e381a166a91ba4b509059864e999db0fb449"}
+      ]
+    },
+    "crs": {
+      "declared_name": "TWD97[2020]_TM121",
+      "projected_authority_code_declared": false,
+      "units": "metre",
+      "coordinate_plausibility": "MATCH — easting 234582.0027–235841.6277 and northing 2718365.2691–2719467.3085 are plausible for the supplied K14 Taiwan TM121 profile",
+      "normalization_performed_by_audit": false
+    },
+    "geometry_quality": {
+      "feature_count": 196,
+      "invalid_geometry_count": 0,
+      "empty_geometry_count": 0,
+      "multipart_feature_count": 21,
+      "total_vertex_count": 1252,
+      "z_feature_count": 0,
+      "m_feature_count": 0,
+      "authorized_target_multipart_feature_count": 0
+    },
+    "authorized_segments": [
+      {
+        "segment_id": "K0000004671",
+        "class_code": "9420400",
+        "route_identity": "ROADNUM=縣126|ROADNUM1=|ROADNUM2=|ROADNAME=中山街",
+        "geometry_type": "LineString",
+        "vertex_count": 4,
+        "coordinate_array_present": true,
+        "coordinate_array_sha256": "0c6bbf075b4468bcfde9a26ab1a2362dee58af7c140421be2215d142e1fdbeb0",
+        "source_geometry_sha256": "42616b9b91d91efd4582171b23ad70259156c586bef776098329cdd81aa8f800",
+        "valid": true,
+        "simple": true
+      },
+      {
+        "segment_id": "K0000004913",
+        "class_code": "9420400",
+        "route_identity": "ROADNUM=縣126|ROADNUM1=|ROADNUM2=|ROADNAME=中山街",
+        "geometry_type": "LineString",
+        "vertex_count": 3,
+        "coordinate_array_present": true,
+        "coordinate_array_sha256": "c11b2e99fae69e7b4ddf4c902707080cb6365b48dd37a13de5fdac3d440c113c",
+        "source_geometry_sha256": "c075943948c1184493d41672f0ca00e610c90bfa7c721f24a645765dc48b9faf",
+        "valid": true,
+        "simple": true
+      },
+      {
+        "segment_id": "K0000005348",
+        "class_code": "9420400",
+        "route_identity": "ROADNUM=縣126|ROADNUM1=|ROADNUM2=|ROADNAME=中山街",
+        "geometry_type": "LineString",
+        "vertex_count": 4,
+        "coordinate_array_present": true,
+        "coordinate_array_sha256": "f151e78f72c187cada8fbe8364f0276b5ef1255e76839bb4746b3bc2dec7d596",
+        "source_geometry_sha256": "88ad286f2b368130e0870360acd07d1d79614d8005ee53eed966b8db6abd2cc6",
+        "valid": true,
+        "simple": true
+      }
+    ],
+    "coordinate_recording_boundary": {
+      "exact_arrays_read_and_compared": true,
+      "exact_arrays_redistributed_in_public_record": false,
+      "public_record": "Non-invertible canonical coordinate-array SHA-256 commitments, geometry SHA-256 commitments, and exact vertex counts.",
+      "reason": "Repository policy does not authorize private source coordinates or derived copies to enter Git history."
+    },
+    "frozen_requirements": {
+      "K14_ROAD_layer": "MATCH",
+      "feature_count_196": "MATCH",
+      "required_fields": "MATCH",
+      "ordered_segment_ids": "MATCH",
+      "route_identity": "MATCH",
+      "class_code_9420400": "MATCH",
+      "native_coordinate_arrays": "MATCH",
+      "source_geometry_hashes": "MATCH",
+      "line_geometry_and_continuity": "MATCH",
+      "source_to_runtime_serialization": "COMPATIBLE_WITH_SERIALIZATION",
+      "historical_archive_identity": "IDENTITY_BINDING_ONLY",
+      "frozen_ROAD03_authorization": "MATCH"
+    },
+    "graphrag": {
+      "required_nodes": [
+        "code-value:road-class2:9420400",
+        "portrayal-rule:doc01:9420400",
+        "portrayal-rule:doc01:9490005",
+        "portrayal-recipe:road:9420400:compound-v1",
+        "vector-primitive:road:9420400:road-name-label",
+        "vector-primitive:road:9420400:route-shield"
+      ],
+      "fixture_attributes_available": [
+        "TERRAINID", "ROADSEGID", "ROADNUM", "ROADNUM1", "ROADNUM2", "ROADNAME", "WIDTH"
+      ],
+      "suitability": "MATCH",
+      "boundary": "The frozen ROAD demo uses native ROAD LineString geometry for the authorized semantic centreline and line-following label. It preserves shield code/orientation semantically and does not claim an approved shield graphic or ROADA-derived surveyed boundary."
+    },
+    "execution_feasibility": {
+      "fixture_validation": "READY",
+      "agent_request": "READY",
+      "graphrag_rule_retrieval": "READY",
+      "planning": "READY",
+      "authorization": "READY",
+      "execution": "READY",
+      "portrayal": "READY",
+      "verification": "READY",
+      "map_result": "READY"
+    },
+    "blocker": "NONE WHEN THE EXACT CONTROLLED PACKAGE IS LOCALLY AVAILABLE",
+    "demo_binding_gap": false
+  },
+  "minimum_future_binding": {
+    "required_for_school": true,
+    "pattern": [
+      "Controlled Demo Fixture",
+      "Controlled Demo Fixture Identity",
+      "Demo-specific HERO-03 authorization",
+      "Existing frozen School domain contract",
+      "Canonical execution"
+    ],
+    "must_not_change": [
+      "domain semantics", "mapping rules", "geometry semantics", "portrayal rules",
+      "Core identity", "verification rules", "frozen executors"
+    ],
+    "implemented_by_demo_fixture_00": false
+  },
+  "reproducibility": {
+    "authorized_developer_requirements": [
+      "public repository code",
+      "exact controlled fixture package with the recorded package SHA-256",
+      "GDAL/OGR compatible with the frozen runtime",
+      "documented local package placement",
+      "School demo-specific HERO-03 authorization binding for a new School execution"
+    ],
+    "public_fixture_redistribution_required": false,
+    "external_open_data_required": false
+  },
+  "verification": {
+    "focused_demo_fixture_00": {"passed": 7, "failed": 0, "skipped": 0},
+    "demo_01_and_demo_02": {"passed": 34, "failed": 0, "skipped": 1},
+    "exact_detached_gen_final": {"passed": 10, "failed": 0, "skipped": 0},
+    "school_frozen_selection": {"passed": 54, "failed": 0, "skipped": 0},
+    "road_01_through_road_05": {"passed": 199, "failed": 0, "skipped": 0},
+    "applicable_build_10_through_12": {
+      "passed": 87,
+      "failed": 2,
+      "failure_classification": "historical stage-local exact-scope/direct-parent assertions"
+    },
+    "complete_descendant_repository": {
+      "passed": 1382,
+      "failed": 20,
+      "skipped": 1,
+      "failure_classification": "inherited/stage-local exact-scope, lineage, and previously documented stale Agentic manifest/catalog assertions; no fixture compatibility or frozen functional failure"
+    },
+    "ruff": "PASS",
+    "json_parse": "PASS",
+    "diff_check": "PASS"
+  }
+}
