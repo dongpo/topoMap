@@ -324,19 +324,35 @@ The focused suite covers:
 
 ## 15. Verification
 
-Pre-commit focused result:
+Verified result:
 
 | Gate | Result |
 |---|---:|
 | DEMO-DATA-00 focused tests | 10 passed |
+| School/ROAD authorization and identity regressions | 82 passed |
+| Applicable GEN-01/GEN-02 contract checks | 25 passed |
 | JSON parse | passed |
 | JSON Schema check and instance validation | passed |
 | Deterministic matrix SHA-256 | passed |
 | Frozen artifact byte hashes | passed |
 | Private archive ignored/untracked/unstaged | passed |
+| Ruff lint and format check for changed Python | passed |
+| Git diff and frozen-path scope | passed |
+| Fresh GitHub clone at `b6e420a18b797c7790a6a027f1557f4124243f10` | 10 focused tests passed |
+| Remote branch at evidence commit | exact |
 
-Full lint, focused frozen-domain regressions, Git scope, fresh-clone reproduction, commit, and push
-results are recorded in the terminal handoff after execution of those gates.
+Six historical GEN assertions were explicitly excluded from the applicable run: two require and
+read the forbidden private archive, while four intentionally enforce their own historical
+stage-change scope and fail on later GEN/DEMO descendant files. An exploratory run with only the
+archive assertions excluded produced those four expected scope failures and no functional
+failures. The 25 remaining GEN checks passed. DEMO-DATA-00 independently pins frozen byte hashes
+and allowed change scope.
+
+The evidence commit was pushed to
+`origin/demo/demo-data-00-public-demo-data-closure`. A new single-branch clone from the canonical
+GitHub URL was clean, reproduced the exact commit, parsed and schema-validated the tracked records,
+reproduced the matrix hash through the focused suite, passed Ruff, and confirmed the private
+archive remains ignored and untracked. No local file or archive was copied into that clone.
 
 ## 16. Closure decision
 
