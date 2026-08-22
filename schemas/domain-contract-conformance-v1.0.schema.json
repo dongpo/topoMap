@@ -1,0 +1,509 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dongpo/topoMap/schemas/domain-contract-conformance-v1.0.schema.json",
+  "title": "NMA GEN-02 domain contract conformance record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "record_sha256",
+    "domain_id",
+    "evaluated_gen01_contract",
+    "adapter_contract",
+    "frozen_implementation",
+    "contract_concerns",
+    "mandatory_capabilities",
+    "optional_capabilities",
+    "generic_invariants",
+    "domain_owned_responsibilities",
+    "mutation_boundary",
+    "evidence_paths",
+    "overall_conformance_verdict"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "nma.domain-contract-conformance/1.0"
+    },
+    "record_id": {
+      "type": "string",
+      "pattern": "^GEN-02-(SCHOOL-HERO|ROAD|BUILD)$"
+    },
+    "record_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "domain_id": {
+      "enum": [
+        "school-hero",
+        "road",
+        "build"
+      ]
+    },
+    "evaluated_gen01_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "commit",
+        "closure_sha256",
+        "closure_path",
+        "lifecycle_contract",
+        "adapter_capability_contract"
+      ],
+      "properties": {
+        "commit": {
+          "const": "7bb83f05480f642da23e7a2b244b38c3804d5fb7"
+        },
+        "closure_sha256": {
+          "const": "03b80441bbf317ac2e2b6cd92c3a86309c4cc7465109a3d34b6d24636491c35d"
+        },
+        "closure_path": {
+          "const": "data/specifications/nma-gen-01-generic-contract-interface-closure-v1.0.json"
+        },
+        "lifecycle_contract": {
+          "const": "nma.generic-lifecycle-envelope/1.0"
+        },
+        "adapter_capability_contract": {
+          "const": "nma.generic-domain-adapter-capability/1.0"
+        }
+      }
+    },
+    "adapter_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "classification"
+      ],
+      "properties": {
+        "id": {
+          "const": "nma.generic-domain-adapter"
+        },
+        "version": {
+          "const": "1.0"
+        },
+        "classification": {
+          "const": "CONFORMS"
+        }
+      }
+    },
+    "frozen_implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference",
+        "commit",
+        "modified",
+        "refactor_required"
+      ],
+      "properties": {
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "$ref": "#/$defs/gitSha"
+        },
+        "modified": {
+          "const": false
+        },
+        "refactor_required": {
+          "const": false
+        }
+      }
+    },
+    "contract_concerns": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identity",
+        "lifecycle_envelope",
+        "adapter_boundary",
+        "domain_ownership",
+        "versioning",
+        "mutation_boundary"
+      ],
+      "properties": {
+        "identity": {
+          "$ref": "#/$defs/result"
+        },
+        "lifecycle_envelope": {
+          "$ref": "#/$defs/result"
+        },
+        "adapter_boundary": {
+          "$ref": "#/$defs/result"
+        },
+        "domain_ownership": {
+          "$ref": "#/$defs/result"
+        },
+        "versioning": {
+          "$ref": "#/$defs/result"
+        },
+        "mutation_boundary": {
+          "$ref": "#/$defs/result"
+        }
+      }
+    },
+    "mandatory_capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "domain_identification",
+        "contract_version_declaration",
+        "input_validation",
+        "canonical_identity_consumption",
+        "authorization_consumption",
+        "planning_boundary",
+        "execution_boundary",
+        "observation_production",
+        "receipt_production",
+        "provenance_reporting",
+        "verification_boundary",
+        "capability_declaration"
+      ],
+      "properties": {
+        "domain_identification": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "contract_version_declaration": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "input_validation": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "canonical_identity_consumption": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "authorization_consumption": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "planning_boundary": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "execution_boundary": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "observation_production": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "receipt_production": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "provenance_reporting": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "verification_boundary": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "capability_declaration": {
+          "$ref": "#/$defs/conformingResult"
+        }
+      }
+    },
+    "optional_capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rollback_evidence",
+        "activation_evidence",
+        "release_evidence"
+      ],
+      "properties": {
+        "rollback_evidence": {
+          "$ref": "#/$defs/optionalCapability"
+        },
+        "activation_evidence": {
+          "$ref": "#/$defs/optionalCapability"
+        },
+        "release_evidence": {
+          "$ref": "#/$defs/optionalCapability"
+        }
+      }
+    },
+    "generic_invariants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "GINV-01",
+        "GINV-02",
+        "GINV-03",
+        "GINV-04",
+        "GINV-05",
+        "GINV-06",
+        "GINV-07",
+        "GINV-08",
+        "GINV-09",
+        "GINV-10"
+      ],
+      "properties": {
+        "GINV-01": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "GINV-02": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "GINV-03": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "GINV-04": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "GINV-05": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "GINV-06": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "GINV-07": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "GINV-08": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "GINV-09": {
+          "$ref": "#/$defs/conformingResult"
+        },
+        "GINV-10": {
+          "$ref": "#/$defs/conformingResult"
+        }
+      }
+    },
+    "domain_owned_responsibilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "semantics",
+        "geometry",
+        "portrayal",
+        "rollback_behavior",
+        "activation_behavior"
+      ],
+      "properties": {
+        "semantics": {
+          "const": "DOMAIN_OWNED_NOT_APPLICABLE"
+        },
+        "geometry": {
+          "const": "DOMAIN_OWNED_NOT_APPLICABLE"
+        },
+        "portrayal": {
+          "const": "DOMAIN_OWNED_NOT_APPLICABLE"
+        },
+        "rollback_behavior": {
+          "const": "DOMAIN_OWNED_NOT_APPLICABLE"
+        },
+        "activation_behavior": {
+          "const": "DOMAIN_OWNED_NOT_APPLICABLE"
+        }
+      }
+    },
+    "mutation_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_mutation",
+        "writeback",
+        "automatic_repair",
+        "geometry_mutation",
+        "portrayal_mutation",
+        "production_activation",
+        "authorization_bypass",
+        "classification"
+      ],
+      "properties": {
+        "source_mutation": {
+          "const": false
+        },
+        "writeback": {
+          "const": false
+        },
+        "automatic_repair": {
+          "const": false
+        },
+        "geometry_mutation": {
+          "const": false
+        },
+        "portrayal_mutation": {
+          "const": false
+        },
+        "production_activation": {
+          "const": false
+        },
+        "authorization_bypass": {
+          "const": false
+        },
+        "classification": {
+          "const": "CONFORMS"
+        }
+      }
+    },
+    "evidence_paths": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "overall_conformance_verdict": {
+      "const": "CONFORMS"
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "gitSha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "classification": {
+      "enum": [
+        "CONFORMS",
+        "CONFORMS_AS_OPTIONAL_CAPABILITY",
+        "DOMAIN_OWNED_NOT_APPLICABLE",
+        "NOT_SUPPORTED_BY_DOMAIN",
+        "NON_CONFORMING",
+        "UNRESOLVED"
+      ]
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "evidence_paths"
+      ],
+      "properties": {
+        "classification": {
+          "$ref": "#/$defs/classification"
+        },
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "conformingResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "evidence_paths"
+      ],
+      "properties": {
+        "classification": {
+          "const": "CONFORMS"
+        },
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "contractReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_id",
+        "contract_version",
+        "evidence_paths"
+      ],
+      "properties": {
+        "contract_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "contract_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+$"
+        },
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "optionalCapability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "declared",
+        "classification",
+        "behavior_owner",
+        "contract_reference"
+      ],
+      "properties": {
+        "declared": {
+          "type": "boolean"
+        },
+        "classification": {
+          "$ref": "#/$defs/classification"
+        },
+        "behavior_owner": {
+          "const": "domain"
+        },
+        "contract_reference": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/contractReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "declared": {
+                "const": true
+              }
+            },
+            "required": [
+              "declared"
+            ]
+          },
+          "then": {
+            "properties": {
+              "classification": {
+                "const": "CONFORMS_AS_OPTIONAL_CAPABILITY"
+              },
+              "contract_reference": {
+                "$ref": "#/$defs/contractReference"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "classification": {
+                "const": "NOT_SUPPORTED_BY_DOMAIN"
+              },
+              "contract_reference": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

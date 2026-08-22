@@ -1,0 +1,312 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dongpo/topoMap/schemas/cross-domain-contract-conformance-matrix-v1.0.schema.json",
+  "title": "NMA GEN-02 cross-domain contract conformance matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "matrix_id",
+    "matrix_sha256",
+    "verdict",
+    "canonical_repository",
+    "branch",
+    "predecessor",
+    "record_contract",
+    "domain_results",
+    "invariant_matrix",
+    "mandatory_capability_matrix",
+    "optional_capability_matrix",
+    "gen01_artifact_immutability",
+    "frozen_compatibility",
+    "mutation_safety",
+    "aggregate_result",
+    "next_gate_recommendation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "nma.cross-domain-contract-conformance-matrix/1.0"
+    },
+    "matrix_id": {
+      "const": "GEN-02"
+    },
+    "matrix_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "verdict": {
+      "const": "PASS — CROSS-DOMAIN CONTRACT CONFORMANCE VERIFIED"
+    },
+    "canonical_repository": {
+      "const": "https://github.com/dongpo/topoMap.git"
+    },
+    "branch": {
+      "const": "gen/gen-02-cross-domain-contract-conformance"
+    },
+    "predecessor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gen01_commit",
+        "gen01_closure_sha256",
+        "gen00_commit",
+        "gen00_audit_sha256"
+      ],
+      "properties": {
+        "gen01_commit": {
+          "const": "7bb83f05480f642da23e7a2b244b38c3804d5fb7"
+        },
+        "gen01_closure_sha256": {
+          "const": "03b80441bbf317ac2e2b6cd92c3a86309c4cc7465109a3d34b6d24636491c35d"
+        },
+        "gen00_commit": {
+          "const": "b745a98f8d465259a2cb7c2b3af3df112a10ea37"
+        },
+        "gen00_audit_sha256": {
+          "const": "2e96f00ada42e22c7dc50387cb1fbf651b6fcbbdff94af796c0fd1985ffe86e3"
+        }
+      }
+    },
+    "record_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "schema_path"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "nma.domain-contract-conformance/1.0"
+        },
+        "schema_path": {
+          "const": "schemas/domain-contract-conformance-v1.0.schema.json"
+        }
+      }
+    },
+    "domain_results": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "domain_id",
+          "record_path",
+          "record_sha256",
+          "verdict"
+        ],
+        "properties": {
+          "domain_id": {
+            "enum": [
+              "school-hero",
+              "road",
+              "build"
+            ]
+          },
+          "record_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "record_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "verdict": {
+            "const": "CONFORMS"
+          }
+        }
+      }
+    },
+    "invariant_matrix": {
+      "$ref": "#/$defs/matrixRows"
+    },
+    "mandatory_capability_matrix": {
+      "$ref": "#/$defs/matrixRows"
+    },
+    "optional_capability_matrix": {
+      "$ref": "#/$defs/matrixRows"
+    },
+    "gen01_artifact_immutability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "modified_artifact_count",
+        "byte_identical_to_predecessor",
+        "artifact_paths"
+      ],
+      "properties": {
+        "modified_artifact_count": {
+          "const": 0
+        },
+        "byte_identical_to_predecessor": {
+          "const": true
+        },
+        "artifact_paths": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "frozen_compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "core_final_commit",
+        "school_hero_commit",
+        "road_final_commit",
+        "build_final_commit",
+        "frozen_production_changes",
+        "required_frozen_refactors",
+        "generic_contract_changes"
+      ],
+      "properties": {
+        "core_final_commit": {
+          "const": "5eb138ae7686502431587743ebce9ddf92c5a799"
+        },
+        "school_hero_commit": {
+          "const": "56f99eb9ae63272a68accac3041fb10eacefb986"
+        },
+        "road_final_commit": {
+          "const": "325c70d5335f57c43a8af85822db25032aa225c3"
+        },
+        "build_final_commit": {
+          "const": "95de5fa3657a2c8ac7847f1ee1010c48ea984cd7"
+        },
+        "frozen_production_changes": {
+          "const": 0
+        },
+        "required_frozen_refactors": {
+          "const": 0
+        },
+        "generic_contract_changes": {
+          "const": 0
+        }
+      }
+    },
+    "mutation_safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_mutation",
+        "writeback",
+        "automatic_repair",
+        "geometry_mutation",
+        "portrayal_mutation",
+        "production_activation",
+        "authorization_bypass"
+      ],
+      "properties": {
+        "source_mutation": {
+          "const": false
+        },
+        "writeback": {
+          "const": false
+        },
+        "automatic_repair": {
+          "const": false
+        },
+        "geometry_mutation": {
+          "const": false
+        },
+        "portrayal_mutation": {
+          "const": false
+        },
+        "production_activation": {
+          "const": false
+        },
+        "authorization_bypass": {
+          "const": false
+        }
+      }
+    },
+    "aggregate_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "domains_evaluated",
+        "domains_conforming",
+        "mandatory_invariants_nonconforming",
+        "unresolved_mandatory_evidence",
+        "mutation_bypasses"
+      ],
+      "properties": {
+        "domains_evaluated": {
+          "const": 3
+        },
+        "domains_conforming": {
+          "const": 3
+        },
+        "mandatory_invariants_nonconforming": {
+          "const": 0
+        },
+        "unresolved_mandatory_evidence": {
+          "const": 0
+        },
+        "mutation_bypasses": {
+          "const": 0
+        }
+      }
+    },
+    "next_gate_recommendation": {
+      "enum": [
+        "READY FOR GENERALIZATION FREEZE",
+        "READY FOR INDEPENDENT-DOMAIN PROOF",
+        "GEN-01A REQUIRED",
+        "ADDITIONAL CONFORMANCE WORK REQUIRED"
+      ]
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "classification": {
+      "enum": [
+        "CONFORMS",
+        "CONFORMS_AS_OPTIONAL_CAPABILITY",
+        "DOMAIN_OWNED_NOT_APPLICABLE",
+        "NOT_SUPPORTED_BY_DOMAIN",
+        "NON_CONFORMING",
+        "UNRESOLVED"
+      ]
+    },
+    "matrixRows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "concern",
+          "school_hero",
+          "road",
+          "build",
+          "overall"
+        ],
+        "properties": {
+          "concern": {
+            "type": "string",
+            "minLength": 1
+          },
+          "school_hero": {
+            "$ref": "#/$defs/classification"
+          },
+          "road": {
+            "$ref": "#/$defs/classification"
+          },
+          "build": {
+            "$ref": "#/$defs/classification"
+          },
+          "overall": {
+            "$ref": "#/$defs/classification"
+          }
+        }
+      }
+    }
+  }
+}
