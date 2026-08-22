@@ -4,6 +4,8 @@
 
 **Mandatory predecessor:** `2d382a46585faa89311ea6a5502923464ace7758`
 
+**Fresh-clone candidate:** `cc7891f9dbd67c39e3fd0d45ee8cfedcaf5e78fb`
+
 **Machine record:** `data/specifications/nma-demo-02-end-to-end-acceptance-record-v1.0.json`
 
 ## 1. Terminal verdict
@@ -334,6 +336,8 @@ focused suite is run with loopback binding enabled; the recorded standalone resu
 Candidate gates include Ruff lint, Ruff format check, JSON parse and schema checks, deterministic
 hash validation through the frozen suites, frontend source checks, `git diff --check`, credential
 pattern scanning, production-stub scanning, frozen identity checks, and exact change-scope review.
+All applicable gates passed. All 188 tracked JSON documents parsed; the inline browser script parsed;
+Ruff lint/format, staged/working diff whitespace, credential scan, and production-stub scan passed.
 
 No OpenAPI gate applies: the canonical server is Python standard-library HTTP and exposes no
 generated OpenAPI document.
@@ -358,9 +362,28 @@ Public limitations are reported rather than hidden by relying on the archive.
 
 ## 18. Public reproducibility
 
-Candidate fresh-clone reproduction is recorded after the candidate commit. It must use the public
-repository only, with no private archive, no local untracked runtime directory, and no `.env.local`.
-The machine record is updated with the exact reproduced candidate SHA and results afterward.
+Exact candidate reproduced: `cc7891f9dbd67c39e3fd0d45ee8cfedcaf5e78fb`.
+
+A temporary clone was created from `https://github.com/dongpo/topoMap.git`, checked out at that exact
+SHA, and verified clean. It contained no private archive, `.env.local`, or ignored ROAD runtime
+directory. Nothing was copied or linked from the canonical workspace.
+
+Fresh-clone results:
+
+- canonical server started in deterministic fallback mode using the documented command;
+- capability endpoint reported all three domains, private-archive auto-read false, authorization
+  bypass false, and BUILD auto-activation false;
+- School preview, ROAD replay, and BUILD replay each returned HTTP 200 through the unified API;
+- focused tests: 34 passed, one live-loopback test skipped inside the restricted subprocess sandbox;
+- JSON parse, Ruff lint/format, and `git diff --check`: PASS;
+- real browser page load: PASS, fatal JavaScript errors 0, MapLibre canvas present;
+- BUILD public button rendered the same polygon and diagonal hatch with full receipt/provenance and
+  activation hold visible;
+- School remained capability-only and ROAD remained geometry-free, reproducing the material
+  limitations without local contamination.
+
+Therefore the available public paths are reproducible, but DEMO-A12 remains PARTIAL because the
+mandatory full three-domain end-to-end outcome is not publicly available.
 
 ## 19. Required closure before a future PASS
 

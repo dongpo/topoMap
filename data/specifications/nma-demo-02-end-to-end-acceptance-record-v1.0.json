@@ -2,6 +2,7 @@
   "schema": "nma.demo-02-end-to-end-acceptance-record/1.0",
   "branch": "demo/demo-02-end-to-end-demo-acceptance",
   "predecessor": "2d382a46585faa89311ea6a5502923464ace7758",
+  "reproduced_candidate_commit": "cc7891f9dbd67c39e3fd0d45ee8cfedcaf5e78fb",
   "verdict": "FAIL — NMA END-TO-END DEMO NOT ACCEPTED",
   "accepted_terminal_verdict_not_awarded": "PASS — NMA END-TO-END DEMO ACCEPTED",
   "frozen_identities": {
@@ -225,9 +226,34 @@
   },
   "production_reachable_demo_stubs": 0,
   "public_reproduction": {
-    "status": "PENDING_CANDIDATE_COMMIT",
+    "status": "PASS_PUBLIC_PATHS_WITH_DISCLOSED_LIMITATIONS",
+    "candidate_commit": "cc7891f9dbd67c39e3fd0d45ee8cfedcaf5e78fb",
+    "canonical_remote": "https://github.com/dongpo/topoMap.git",
+    "clean_checkout": true,
+    "env_local_present": false,
+    "local_road_runtime_present": false,
     "private_archive_copied": false,
-    "external_openai_call_required": false
+    "private_archive_present": false,
+    "external_openai_call_required": false,
+    "server_started": true,
+    "mode": "deterministic fallback",
+    "api_flows": {
+      "school": 200,
+      "road": 200,
+      "build": 200
+    },
+    "focused_tests": {"passed": 34, "skipped_loopback_in_sandbox": 1, "failed": 0},
+    "ruff": "PASS",
+    "json_parse": "PASS",
+    "git_diff_check": "PASS",
+    "browser_page": "PASS",
+    "browser_fatal_javascript_errors": 0,
+    "build_polygon_and_hatch_rendered": true,
+    "automatic_build_activation": false,
+    "reproduced_limitations": [
+      "School remains capability-only.",
+      "ROAD remains artifact-reference-only without public geometry."
+    ]
   },
   "blocking_findings": [
     "School has no public canonical execution/replay path and returns capability-only preview.",
