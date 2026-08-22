@@ -1,0 +1,344 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.national-map-agent.org/public-demo-data-authority-matrix-v1.0.schema.json",
+  "title": "NMA Public Demo Data Authority Matrix",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "task",
+    "assessed_at",
+    "matrix_sha256",
+    "verdict",
+    "repository",
+    "frozen_identities",
+    "publication_classifications",
+    "source_candidates",
+    "domain_decisions",
+    "accepted_public_demo_fixtures",
+    "demo_authorizations",
+    "historical_identity_protection",
+    "private_archive_boundary"
+  ],
+  "properties": {
+    "schema": {"const": "nma.public-demo-data-authority-matrix/1.0"},
+    "task": {"const": "DEMO-DATA-00"},
+    "assessed_at": {"type": "string", "format": "date"},
+    "matrix_sha256": {"$ref": "#/$defs/sha256"},
+    "verdict": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "terminal_text", "reason_codes"],
+      "properties": {
+        "status": {"enum": ["pass", "fail-closed"]},
+        "terminal_text": {"type": "string", "minLength": 1},
+        "reason_codes": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[A-Z0-9_]+$"},
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["canonical_url", "predecessor_commit", "branch"],
+      "properties": {
+        "canonical_url": {"const": "https://github.com/dongpo/topoMap.git"},
+        "predecessor_commit": {"$ref": "#/$defs/sha1"},
+        "branch": {"const": "demo/demo-data-00-public-demo-data-closure"}
+      }
+    },
+    "frozen_identities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gen_final", "build_final", "core_final", "road_final", "school_hero"],
+      "properties": {
+        "gen_final": {"$ref": "#/$defs/frozenIdentity"},
+        "build_final": {"$ref": "#/$defs/frozenIdentity"},
+        "core_final": {"$ref": "#/$defs/frozenIdentity"},
+        "road_final": {"$ref": "#/$defs/frozenIdentity"},
+        "school_hero": {"$ref": "#/$defs/frozenIdentity"}
+      }
+    },
+    "publication_classifications": {
+      "type": "array",
+      "prefixItems": [
+        {"const": "REDISTRIBUTION_EXPLICITLY_ALLOWED"},
+        {"const": "REDISTRIBUTION_ALLOWED_WITH_ATTRIBUTION"},
+        {"const": "DERIVED_DATA_ALLOWED"},
+        {"const": "ACCESS_ONLY"},
+        {"const": "AUTHORITY_UNRESOLVED"},
+        {"const": "REDISTRIBUTION_PROHIBITED"}
+      ],
+      "items": false,
+      "minItems": 6,
+      "maxItems": 6
+    },
+    "source_candidates": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/sourceCandidate"},
+      "minItems": 3,
+      "uniqueItems": true
+    },
+    "domain_decisions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/domainDecision"},
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "accepted_public_demo_fixtures": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/fixtureReference"}
+    },
+    "demo_authorizations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/authorizationReference"}
+    },
+    "historical_identity_protection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "demo_fixture_may_claim_historical_equivalence",
+        "demo_authorization_may_claim_hero03_identity",
+        "demo_execution_may_claim_frozen_execution_identity",
+        "demo_hash_may_replace_frozen_hash"
+      ],
+      "properties": {
+        "demo_fixture_may_claim_historical_equivalence": {"const": false},
+        "demo_authorization_may_claim_hero03_identity": {"const": false},
+        "demo_execution_may_claim_frozen_execution_identity": {"const": false},
+        "demo_hash_may_replace_frozen_hash": {"const": false}
+      }
+    },
+    "private_archive_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "expected_sha256",
+        "ignored",
+        "tracked",
+        "staged",
+        "extracted",
+        "inspected",
+        "used_for_candidate_design"
+      ],
+      "properties": {
+        "expected_sha256": {"const": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53"},
+        "ignored": {"const": true},
+        "tracked": {"const": false},
+        "staged": {"const": false},
+        "extracted": {"const": false},
+        "inspected": {"const": false},
+        "used_for_candidate_design": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "sha1": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "frozenIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "tag", "immutable"],
+      "properties": {
+        "commit": {"$ref": "#/$defs/sha1"},
+        "tag": {"type": ["string", "null"]},
+        "immutable": {"const": true}
+      }
+    },
+    "authorityStatus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "basis", "uncertainty"],
+      "properties": {
+        "status": {
+          "enum": [
+            "EXPLICITLY_ALLOWED",
+            "ALLOWED_WITH_ATTRIBUTION",
+            "DERIVED_DATA_ALLOWED",
+            "ACCESS_ONLY",
+            "AUTHORITY_UNRESOLVED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "basis": {"type": "string", "minLength": 1},
+        "uncertainty": {"type": "string"}
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["url", "locator", "summary"],
+      "properties": {
+        "url": {"type": "string", "format": "uri"},
+        "locator": {"type": "string", "minLength": 1},
+        "summary": {"type": "string", "minLength": 1}
+      }
+    },
+    "sourceCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {"decision": {"const": "ACCEPT_FOR_PUBLICATION"}},
+            "required": ["decision"]
+          },
+          "then": {
+            "properties": {
+              "redistribution_classification": {
+                "enum": [
+                  "REDISTRIBUTION_EXPLICITLY_ALLOWED",
+                  "REDISTRIBUTION_ALLOWED_WITH_ATTRIBUTION",
+                  "DERIVED_DATA_ALLOWED"
+                ]
+              },
+              "source_retrieved": {"const": true},
+              "retrieval_identity": {"type": "string", "minLength": 1},
+              "contract_compatibility": {
+                "properties": {
+                  "status": {"const": "COMPATIBLE"},
+                  "frozen_changes_required": {"const": false}
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "redistribution_classification": {
+                "const": "REDISTRIBUTION_ALLOWED_WITH_ATTRIBUTION"
+              }
+            },
+            "required": ["redistribution_classification"]
+          },
+          "then": {"properties": {"attribution_required": {"const": true}}}
+        }
+      ],
+      "required": [
+        "candidate_id",
+        "domain",
+        "publisher",
+        "dataset_title",
+        "source_url",
+        "access_mechanism",
+        "access_authority",
+        "use_authority",
+        "redistribution_classification",
+        "redistribution_authority",
+        "provenance_authority",
+        "license",
+        "attribution_required",
+        "modification_rules",
+        "access_date",
+        "source_retrieved",
+        "retrieval_identity",
+        "evidence",
+        "contract_compatibility",
+        "decision"
+      ],
+      "properties": {
+        "candidate_id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+        "domain": {"enum": ["School", "ROAD"]},
+        "publisher": {"type": "string", "minLength": 1},
+        "dataset_title": {"type": "string", "minLength": 1},
+        "source_url": {"type": "string", "format": "uri"},
+        "access_mechanism": {"type": "string", "minLength": 1},
+        "access_authority": {"$ref": "#/$defs/authorityStatus"},
+        "use_authority": {"$ref": "#/$defs/authorityStatus"},
+        "redistribution_classification": {
+          "enum": [
+            "REDISTRIBUTION_EXPLICITLY_ALLOWED",
+            "REDISTRIBUTION_ALLOWED_WITH_ATTRIBUTION",
+            "DERIVED_DATA_ALLOWED",
+            "ACCESS_ONLY",
+            "AUTHORITY_UNRESOLVED",
+            "REDISTRIBUTION_PROHIBITED"
+          ]
+        },
+        "redistribution_authority": {"$ref": "#/$defs/authorityStatus"},
+        "provenance_authority": {"$ref": "#/$defs/authorityStatus"},
+        "license": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version", "terms_url"],
+          "properties": {
+            "name": {"type": "string", "minLength": 1},
+            "version": {"type": "string", "minLength": 1},
+            "terms_url": {"type": "string", "format": "uri"}
+          }
+        },
+        "attribution_required": {"type": "boolean"},
+        "modification_rules": {"type": "string", "minLength": 1},
+        "access_date": {"type": "string", "format": "date"},
+        "source_retrieved": {"type": "boolean"},
+        "retrieval_identity": {"type": ["string", "null"]},
+        "evidence": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/evidence"},
+          "minItems": 2
+        },
+        "contract_compatibility": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "frozen_contract", "verified_requirements", "blockers", "frozen_changes_required"],
+          "properties": {
+            "status": {"enum": ["COMPATIBLE", "INCOMPATIBLE", "UNVERIFIED"]},
+            "frozen_contract": {"type": "string", "minLength": 1},
+            "verified_requirements": {"type": "object"},
+            "blockers": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+            "frozen_changes_required": {"type": "boolean"}
+          }
+        },
+        "decision": {
+          "enum": [
+            "ACCEPT_FOR_PUBLICATION",
+            "REJECT_CONTRACT_INCOMPATIBLE",
+            "REJECT_AUTHORITY_UNRESOLVED",
+            "REJECT_REDISTRIBUTION_PROHIBITED"
+          ]
+        }
+      }
+    },
+    "domainDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["domain", "source_answer", "authority_answer", "architecture_answer", "decision", "reason_codes"],
+      "properties": {
+        "domain": {"enum": ["School", "ROAD"]},
+        "source_answer": {"type": "string", "minLength": 1},
+        "authority_answer": {"type": "string", "minLength": 1},
+        "architecture_answer": {"type": "string", "minLength": 1},
+        "decision": {"enum": ["PASS", "FAIL_CLOSED"]},
+        "reason_codes": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[A-Z0-9_]+$"},
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "fixtureReference": {
+      "type": "object",
+      "required": ["fixture_id", "manifest_path", "canonical_sha256"],
+      "properties": {
+        "fixture_id": {"type": "string"},
+        "manifest_path": {"type": "string"},
+        "canonical_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "authorizationReference": {
+      "type": "object",
+      "required": ["authorization_id", "domain", "fixture_id", "authorization_sha256"],
+      "properties": {
+        "authorization_id": {"type": "string"},
+        "domain": {"enum": ["School", "ROAD"]},
+        "fixture_id": {"type": "string"},
+        "authorization_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

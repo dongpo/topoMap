@@ -1,0 +1,314 @@
+{
+  "schema": "nma.public-demo-data-authority-matrix/1.0",
+  "task": "DEMO-DATA-00",
+  "assessed_at": "2026-08-22",
+  "matrix_sha256": "2cccebe3753385ad1a441b51b776976ec0db9953861ec12a66ab9e27842a1227",
+  "verdict": {
+    "status": "fail-closed",
+    "terminal_text": "FAIL — PUBLIC DEMO DATA AUTHORITY OR FROZEN CONTRACT COMPATIBILITY NOT CLOSED",
+    "reason_codes": [
+      "SCHOOL_PUBLIC_DEMO_REQUIRES_POST_FREEZE_AUTHORIZATION_CHANGE",
+      "ROAD_PUBLIC_DEMO_REQUIRES_POST_FREEZE_EXECUTION_AND_AUTHORIZATION_CHANGE"
+    ]
+  },
+  "repository": {
+    "canonical_url": "https://github.com/dongpo/topoMap.git",
+    "predecessor_commit": "9e59237296ed3baed551db2bbd565234a1b02db5",
+    "branch": "demo/demo-data-00-public-demo-data-closure"
+  },
+  "frozen_identities": {
+    "gen_final": {
+      "commit": "380cc6ea2a4498ce83690521c933accfd918818e",
+      "tag": "nma-generalization-v1.0-final",
+      "immutable": true
+    },
+    "build_final": {
+      "commit": "95de5fa3657a2c8ac7847f1ee1010c48ea984cd7",
+      "tag": "nma-build-v1.0-final",
+      "immutable": true
+    },
+    "core_final": {
+      "commit": "5eb138ae7686502431587743ebce9ddf92c5a799",
+      "tag": "nma-core-v1.0-final",
+      "immutable": true
+    },
+    "road_final": {
+      "commit": "325c70d5335f57c43a8af85822db25032aa225c3",
+      "tag": "nma-road-v1.0-final",
+      "immutable": true
+    },
+    "school_hero": {
+      "commit": "56f99eb9ae63272a68accac3041fb10eacefb986",
+      "tag": null,
+      "immutable": true
+    }
+  },
+  "publication_classifications": [
+    "REDISTRIBUTION_EXPLICITLY_ALLOWED",
+    "REDISTRIBUTION_ALLOWED_WITH_ATTRIBUTION",
+    "DERIVED_DATA_ALLOWED",
+    "ACCESS_ONLY",
+    "AUTHORITY_UNRESOLVED",
+    "REDISTRIBUTION_PROHIBITED"
+  ],
+  "source_candidates": [
+    {
+      "candidate_id": "school-nlsc-campus-121",
+      "domain": "School",
+      "publisher": "Ministry of the Interior Land Surveying and Mapping Center",
+      "dataset_title": "各級學校範圍圖_121分帶",
+      "source_url": "https://data.gov.tw/dataset/174606",
+      "access_mechanism": "Official data.gov.tw SHP resource link",
+      "access_authority": {
+        "status": "EXPLICITLY_ALLOWED",
+        "basis": "The official dataset page publishes a SHP resource for public access.",
+        "uncertainty": "The payload was not downloaded because incompatibility is already established by official metadata."
+      },
+      "use_authority": {
+        "status": "EXPLICITLY_ALLOWED",
+        "basis": "Open Government Data License version 1.0 permits use for any purpose.",
+        "uncertainty": "No dataset-specific exception is displayed on the official metadata page."
+      },
+      "redistribution_classification": "REDISTRIBUTION_ALLOWED_WITH_ATTRIBUTION",
+      "redistribution_authority": {
+        "status": "ALLOWED_WITH_ATTRIBUTION",
+        "basis": "OGDL 1.0 grants reproduction, distribution, adaptation, and sublicensing subject to attribution.",
+        "uncertainty": "This is a defensible publication basis, not a general legal opinion."
+      },
+      "provenance_authority": {
+        "status": "EXPLICITLY_ALLOWED",
+        "basis": "The official metadata names the publishing agency, dataset derivation, fields, resource type, license, and update metadata.",
+        "uncertainty": "No exact retrieved payload identity was established."
+      },
+      "license": {
+        "name": "Open Government Data License",
+        "version": "1.0",
+        "terms_url": "https://data.gov.tw/license"
+      },
+      "attribution_required": true,
+      "modification_rules": "Derived works are allowed and remain subject to explicit attribution; transformation does not remove source obligations.",
+      "access_date": "2026-08-22",
+      "source_retrieved": false,
+      "retrieval_identity": null,
+      "evidence": [
+        {
+          "url": "https://data.gov.tw/dataset/174606",
+          "locator": "dataset description, fields, resource, agency, and license",
+          "summary": "Official metadata identifies a school-area dataset derived from Taiwan Universal Electronic Map BLOCK features, fields OBJECTID/ID/BLOCKTYPE/BLOCKNAME/YYYYMM/EPSGCode, a SHP resource, NLSC as publisher, and OGDL 1.0."
+        },
+        {
+          "url": "https://data.gov.tw/license",
+          "locator": "sections 2.1-2.3, 3.2, and attribution exhibit",
+          "summary": "OGDL 1.0 permits reproduction, distribution, compilation, adaptation, and sublicensing, with explicit attribution required."
+        }
+      ],
+      "contract_compatibility": {
+        "status": "INCOMPATIBLE",
+        "frozen_contract": "School Hero 56f99eb / nma.real-layer-plan/0.4 / nma.symbol-edit-authorization/1.0",
+        "verified_requirements": {
+          "source_layers": ["J01_MARK", "J13_MARK", "J17_MARK", "K01_MARK", "K02_MARK", "K14_MARK"],
+          "geometry_type": "Point",
+          "required_fields": ["MARKID", "TERRAINID", "MARKNAME1"],
+          "terrainid": "9920103",
+          "feature_count": 15,
+          "output_crs": "EPSG:4326"
+        },
+        "blockers": [
+          "Official metadata describes a BLOCK-derived school-area dataset, not the six frozen MARK source layers.",
+          "Advertised fields do not provide MARKID, TERRAINID, or MARKNAME1.",
+          "No exact 15-feature Point selection or source-to-layer relationship is established.",
+          "Renaming or repartitioning the source into frozen historical layer names would misstate provenance."
+        ],
+        "frozen_changes_required": true
+      },
+      "decision": "REJECT_CONTRACT_INCOMPATIBLE"
+    },
+    {
+      "candidate_id": "school-chiayi-special-education-points",
+      "domain": "School",
+      "publisher": "Chiayi City Government",
+      "dataset_title": "嘉義市設有特殊教育班級之學校",
+      "source_url": "https://data.gov.tw/dataset/52297",
+      "access_mechanism": "Official data.gov.tw CSV resource link",
+      "access_authority": {
+        "status": "EXPLICITLY_ALLOWED",
+        "basis": "The official dataset page publishes a CSV resource for public access.",
+        "uncertainty": "The payload was not downloaded because metadata-level incompatibility is sufficient to reject it."
+      },
+      "use_authority": {
+        "status": "EXPLICITLY_ALLOWED",
+        "basis": "Open Government Data License version 1.0 permits use for any purpose.",
+        "uncertainty": "No dataset-specific exception is displayed on the official metadata page."
+      },
+      "redistribution_classification": "REDISTRIBUTION_ALLOWED_WITH_ATTRIBUTION",
+      "redistribution_authority": {
+        "status": "ALLOWED_WITH_ATTRIBUTION",
+        "basis": "OGDL 1.0 grants reproduction, distribution, adaptation, and sublicensing subject to attribution.",
+        "uncertainty": "This is a defensible publication basis, not a general legal opinion."
+      },
+      "provenance_authority": {
+        "status": "EXPLICITLY_ALLOWED",
+        "basis": "The official metadata names the publishing agency, dataset, fields, resource type, license, and update metadata.",
+        "uncertainty": "No exact retrieved payload identity was established."
+      },
+      "license": {
+        "name": "Open Government Data License",
+        "version": "1.0",
+        "terms_url": "https://data.gov.tw/license"
+      },
+      "attribution_required": true,
+      "modification_rules": "Derived works are allowed and remain subject to explicit attribution; transformation does not remove source obligations.",
+      "access_date": "2026-08-22",
+      "source_retrieved": false,
+      "retrieval_identity": null,
+      "evidence": [
+        {
+          "url": "https://data.gov.tw/dataset/52297",
+          "locator": "fields, resource, agency, and license",
+          "summary": "Official metadata advertises school name, education stage, latitude and longitude in a CSV published by Chiayi City Government under OGDL 1.0."
+        },
+        {
+          "url": "https://data.gov.tw/license",
+          "locator": "sections 2.1-2.3, 3.2, and attribution exhibit",
+          "summary": "OGDL 1.0 permits reproduction, distribution, compilation, adaptation, and sublicensing, with explicit attribution required."
+        }
+      ],
+      "contract_compatibility": {
+        "status": "INCOMPATIBLE",
+        "frozen_contract": "School Hero 56f99eb / nma.real-layer-plan/0.4 / nma.symbol-edit-authorization/1.0",
+        "verified_requirements": {
+          "source_layers": ["J01_MARK", "J13_MARK", "J17_MARK", "K01_MARK", "K02_MARK", "K14_MARK"],
+          "geometry_type": "Point",
+          "required_fields": ["MARKID", "TERRAINID", "MARKNAME1"],
+          "terrainid": "9920103",
+          "feature_count": 15,
+          "output_crs": "EPSG:4326"
+        },
+        "blockers": [
+          "The official source is one CSV, not six reviewed MARK Shapefile layers.",
+          "Advertised fields do not provide MARKID, TERRAINID, or the reviewed TERRAINID 9920103 classification.",
+          "No source-backed relationship maps records to J01/J13/J17/K01/K02/K14.",
+          "Artificial repartitioning under frozen source-layer names would be license-compliant but provenance-false."
+        ],
+        "frozen_changes_required": true
+      },
+      "decision": "REJECT_CONTRACT_INCOMPATIBLE"
+    },
+    {
+      "candidate_id": "road-nlsc-national-provincial-centerline",
+      "domain": "ROAD",
+      "publisher": "Ministry of the Interior Land Surveying and Mapping Center",
+      "dataset_title": "National highways and provincial highways (including roads above the level of expressways) center line",
+      "source_url": "https://data.gov.tw/en/datasets/73232",
+      "access_mechanism": "Official data.gov.tw ZIP resource and NLSC open-data SHP zone",
+      "access_authority": {
+        "status": "EXPLICITLY_ALLOWED",
+        "basis": "The official dataset page provides a ZIP resource and directs SHP users to the NLSC open-data zone.",
+        "uncertainty": "The payload was not downloaded because the frozen authorization mismatch is source-independent."
+      },
+      "use_authority": {
+        "status": "EXPLICITLY_ALLOWED",
+        "basis": "Open Government Data License version 1.0 permits use for any purpose.",
+        "uncertainty": "No dataset-specific exception is displayed on the official metadata page."
+      },
+      "redistribution_classification": "REDISTRIBUTION_ALLOWED_WITH_ATTRIBUTION",
+      "redistribution_authority": {
+        "status": "ALLOWED_WITH_ATTRIBUTION",
+        "basis": "OGDL 1.0 grants reproduction, distribution, adaptation, and sublicensing subject to attribution.",
+        "uncertainty": "This is a defensible publication basis, not a general legal opinion."
+      },
+      "provenance_authority": {
+        "status": "EXPLICITLY_ALLOWED",
+        "basis": "The official metadata names NLSC, describes the transportation-network source, lists road fields, identifies the resource, and states the license.",
+        "uncertainty": "No exact retrieved payload identity was established."
+      },
+      "license": {
+        "name": "Open Government Data License",
+        "version": "1.0",
+        "terms_url": "https://data.gov.tw/license"
+      },
+      "attribution_required": true,
+      "modification_rules": "Clipping, attribute selection, reprojection, and GeoJSON conversion are allowed derivative operations but attribution remains mandatory.",
+      "access_date": "2026-08-22",
+      "source_retrieved": false,
+      "retrieval_identity": null,
+      "evidence": [
+        {
+          "url": "https://data.gov.tw/en/datasets/73232",
+          "locator": "description, fields, resource, agency, license, and note",
+          "summary": "Official metadata publishes NLSC national/provincial road centerlines, lists road-number and road-name fields, links downloadable resources, and assigns OGDL 1.0."
+        },
+        {
+          "url": "https://data.gov.tw/license",
+          "locator": "sections 2.1-2.3, 3.2, and attribution exhibit",
+          "summary": "OGDL 1.0 permits reproduction, distribution, compilation, adaptation, and sublicensing, with explicit attribution required."
+        }
+      ],
+      "contract_compatibility": {
+        "status": "INCOMPATIBLE",
+        "frozen_contract": "ROAD-FINAL 325c70d / road-04/1.0 / nma.road-execution-authorization/1.0",
+        "verified_requirements": {
+          "source_archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+          "fixture_sha256": "b01e261971f65cbfc127aed4f1ba17b01b194dd89f256d3c024170c1dc7338f0",
+          "source_layer": "K14_ROAD",
+          "geometry_type": "LineString",
+          "source_crs": "TWD97[2020]_TM121",
+          "runtime_crs": "EPSG:4326",
+          "ordered_segment_ids": ["K0000004671", "K0000004913", "K0000005348"],
+          "class_code": "9420400",
+          "route_identity": "ROADNUM=縣126|ROADNUM1=|ROADNUM2=|ROADNAME=中山街",
+          "authorization_sha256": "f68220ecef989e589dd6e28c1ad2356a199790f061ea30cc725e42a5bdf92c38"
+        },
+        "blockers": [
+          "RoadAuthorizationStore exposes only the single frozen ROAD-03 authorization ID.",
+          "FrozenRoadAuthorizationVerifier requires the historical archive, fixture, proposal, decision, approval, authorization, segment, class, route, and portrayal identities.",
+          "The ROAD-03 issuer builds only the historical bindings; it cannot issue a capability for a new fixture.",
+          "The generic GEN adapter boundary cannot issue domain authorization or execute domain payloads."
+        ],
+        "frozen_changes_required": true
+      },
+      "decision": "REJECT_CONTRACT_INCOMPATIBLE"
+    }
+  ],
+  "domain_decisions": [
+    {
+      "domain": "School",
+      "source_answer": "Officially licensed school sources exist, but no candidate establishes the six source layers, schema bindings, 15 Point features, and provenance relationships required by the frozen executor.",
+      "authority_answer": "OGDL publication authority can be established for the candidates, but the repository has only a School authorization consumer/verifier and test-only constructors; no domain-owned issuer establishes new demo execution authority.",
+      "architecture_answer": "A compatible public School fixture would require false source-layer relabeling or a post-freeze profile/authorization change, both forbidden here.",
+      "decision": "FAIL_CLOSED",
+      "reason_codes": [
+        "SCHOOL_SOURCE_CONTRACT_INCOMPATIBLE",
+        "SCHOOL_PUBLIC_DEMO_REQUIRES_POST_FREEZE_AUTHORIZATION_CHANGE"
+      ]
+    },
+    {
+      "domain": "ROAD",
+      "source_answer": "An officially licensed LineString road-centerline source exists and could support a future demo fixture, but not the immutable ROAD-04 execution path.",
+      "authority_answer": "OGDL publication authority can be established for the candidate; no new ROAD demo authorization can be issued because the frozen issuer and verifier bind only the historical ROAD identities.",
+      "architecture_answer": "The frozen executor cannot accept a different archive, fixture, segment set, route, class, or authorization identity without a post-freeze ROAD contract and implementation change.",
+      "decision": "FAIL_CLOSED",
+      "reason_codes": [
+        "ROAD_SOURCE_PUBLICATION_AUTHORITY_ESTABLISHED",
+        "ROAD_PUBLIC_DEMO_REQUIRES_POST_FREEZE_EXECUTION_AND_AUTHORIZATION_CHANGE"
+      ]
+    }
+  ],
+  "accepted_public_demo_fixtures": [],
+  "demo_authorizations": [],
+  "historical_identity_protection": {
+    "demo_fixture_may_claim_historical_equivalence": false,
+    "demo_authorization_may_claim_hero03_identity": false,
+    "demo_execution_may_claim_frozen_execution_identity": false,
+    "demo_hash_may_replace_frozen_hash": false
+  },
+  "private_archive_boundary": {
+    "expected_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "ignored": true,
+    "tracked": false,
+    "staged": false,
+    "extracted": false,
+    "inspected": false,
+    "used_for_candidate_design": false
+  }
+}
