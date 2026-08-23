@@ -2,9 +2,11 @@
 
 ## Terminal verdict
 
-Deployment remains **PENDING** until the `main` workflow succeeds and the external public URL
-passes School, ROAD, BUILD, MapLibre, evidence-panel, and console acceptance checks. Local-only
-testing is not a PASS.
+> **PASS — STATIC NMA RESEARCH DEMO DEPLOYED TO GITHUB PAGES**
+
+The `main` Pages workflow succeeded and the external public URL passed School, ROAD, BUILD,
+MapLibre, evidence-panel, path-prefix, and console acceptance checks. This verdict is not based on
+localhost-only testing.
 
 ## Publication-source finding
 
@@ -30,6 +32,8 @@ GitHub Pages content.
 - workflow: `.github/workflows/static.yml`;
 - deployment authority: `nma-v1.0-final` / `eb87bde775333811529efb6f651573ea21cf456b`;
 - demo authority: `nma-demo-v1.0-final` / `05af154a14e781f20b5cf2d3996eac8191875b0f`.
+- deployed artifact commit: `79150559eb56df58b10d90a3e8a4f62261c2ace2`;
+- successful workflow: run `32654202890`, run number `41`, job `97230328919`.
 
 The dedicated directory replaces the previous whole-repository upload and excludes the root
 PMTiles archive and all unrelated repository content.
@@ -77,6 +81,24 @@ An initial attempt from `deploy/deploy-02-github-pages-public-demo` at
 stated that the branch was not allowed by `github-pages` environment protection rules (run
 `32654032385`). The solution preserves that protection and publishes the same tested artifact from
 the allowed `main` branch.
+
+Run `32654202890` completed successfully. Checkout, focused acceptance tests, Pages setup, bounded
+artifact upload, and Pages deployment all concluded `success`.
+
+## External acceptance
+
+`https://dongpo.github.io/topoMap/` was reloaded after the successful workflow and verified in a
+real browser:
+
+- title: `NMA v1.0 · Accepted Execution Replay`;
+- old `test` placeholder: absent;
+- School: 15-point caption, accepted authorization identity, MapLibre canvas, and 8 lifecycle
+  stages present;
+- ROAD: accepted `K14_ROAD`, 4/3/4, line-following `中山街`, MapLibre canvas, evidence checks, and
+  8 stages present;
+- BUILD: accepted normalized boundary/hatch visible, production activation held/disabled,
+  MapLibre canvas, and 8 stages present;
+- browser console: 0 errors/warnings.
 
 ## Changed files
 
