@@ -1,0 +1,56 @@
+[Unit]
+Description=NMA v1.0 controlled public research demo
+Documentation=file:/opt/nma-demo/current/deploy/nma-demo/README.md
+After=local-fs.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=simple
+User=nma-demo
+Group=nma-demo
+UMask=0077
+WorkingDirectory=/opt/nma-demo/current
+EnvironmentFile=/etc/nma-demo/nma-demo.env
+Environment=PYTHONPATH=/opt/nma-demo/current/src:/opt/nma-demo/current
+RuntimeDirectory=nma-demo
+RuntimeDirectoryMode=0750
+StateDirectory=nma-demo
+StateDirectoryMode=0750
+ExecStartPre=/usr/bin/python3 scripts/verify_nma_public_demo_startup.py
+ExecStart=/usr/bin/python3 scripts/run_nma_public_demo.py
+Restart=on-failure
+RestartSec=5s
+TimeoutStartSec=120s
+TimeoutStopSec=20s
+KillSignal=SIGTERM
+
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+LockPersonality=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+RestrictAddressFamilies=AF_UNIX
+IPAddressDeny=any
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+MemoryDenyWriteExecute=false
+MemoryMax=512M
+TasksMax=64
+CPUQuota=200%
+LimitNOFILE=4096
+ReadWritePaths=/var/lib/nma-demo /run/nma-demo
+
+[Install]
+WantedBy=multi-user.target

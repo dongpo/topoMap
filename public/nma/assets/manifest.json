@@ -1,0 +1,67 @@
+{
+  "schema": "nma.public-demo-assets/1.0",
+  "maplibre_version": "4.7.0",
+  "runtime_network_dependencies": 0,
+  "assets": [
+    {
+      "public_name": "nma-demo.js",
+      "path": "nma-demo.js",
+      "sha256": "b781c7f0b9e8a64e0445825883e822169e40ee065e4ce448eb0968923ab8a509",
+      "purpose": "CSP-safe public UI"
+    },
+    {
+      "public_name": "nma-demo.css",
+      "path": "nma-demo.css",
+      "sha256": "f53d17c3d6d5996247d5e1927debc1763bf3885995abc13d73130909d2612a1c",
+      "purpose": "public UI styles"
+    },
+    {
+      "path": "assets/maplibre-gl-4.7.0.js",
+      "sha256": "5c4922e8cb364fd14485ca7cba419b89e8d816f5f0c04cfc7d9c8206e0214df6",
+      "purpose": "MapLibre GL JS 4.7.0",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "path": "assets/maplibre-gl-4.7.0.css",
+      "sha256": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9",
+      "purpose": "MapLibre GL JS 4.7.0 styles",
+      "license": "BSD-3-Clause"
+    },
+    {
+      "path": "assets/maplibre-gl-4.7.0-LICENSE.txt",
+      "sha256": "ee5fc05a0677eaf69601d2c7db0d9ecd6cc27c3abc1d0733bc9ed34707cf8ef2",
+      "purpose": "MapLibre and bundled dependency license inventory"
+    },
+    {
+      "path": "assets/NotoSans-LICENSE.txt",
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+      "purpose": "Noto Sans glyph license",
+      "license": "OFL-1.1"
+    },
+    {
+      "path": "assets/NotoSansRegular-0-255.pbf",
+      "sha256": "ef1f38a3f1978591e846e9eaddf8a54f7047f546fc6aaed7872cc53151a5de78",
+      "purpose": "self-hosted label glyphs"
+    },
+    {
+      "path": "assets/NotoSansRegular-19968-20223.pbf",
+      "sha256": "e1c87b549df7bb07b0bb19b52e379b10054872dcec5a86d824440371534060a4",
+      "purpose": "self-hosted 中 glyph range"
+    },
+    {
+      "path": "assets/NotoSansRegular-23552-23807.pbf",
+      "sha256": "2e9cdf17173ba2b75230ce4d3e1b3f44d6d30c7dd0a8719e976346213e2a91af",
+      "purpose": "self-hosted 山 glyph range"
+    },
+    {
+      "path": "assets/NotoSansRegular-34816-35071.pbf",
+      "sha256": "339915b6ff8e3230c8c16bdf527d7277260a6ca4aed64a8e32f710cbd4e8c08c",
+      "purpose": "self-hosted 街 glyph range"
+    },
+    {
+      "path": "assets/school-blue.svg",
+      "sha256": "05e101a5907f05d0df0392691537a4eccfe04a59cd6abea2e5ae82aef1261ca5",
+      "purpose": "accepted official blue School portrayal derivative"
+    }
+  ]
+}

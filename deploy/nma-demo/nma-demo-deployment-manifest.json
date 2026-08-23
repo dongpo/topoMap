@@ -1,0 +1,67 @@
+{
+  "schema": "nma.public-demo-deployment/1.0",
+  "task": "DEPLOY-01",
+  "status": "fail-closed-not-deployed",
+  "canonical_repository": "https://github.com/dongpo/topoMap.git",
+  "deploy00_predecessor": "4fec00c4fd3d0aca8e972079b65ecfa721c06d98",
+  "frozen_nma_release": {
+    "commit": "eb87bde775333811529efb6f651573ea21cf456b",
+    "tag": "nma-v1.0-final",
+    "manifest_self_hash": "623860a18e82ad268ab389b417f3e9edc29c6c398b5dd923b37dbba3b2ba3bb4"
+  },
+  "public_target": "https://demo.geomni.tw/nma/",
+  "public_target_status": "dns-unresolved-not-deployed",
+  "startup_gate": {
+    "status": "blocked",
+    "reason": "public School/ROAD data authority and frozen contract compatibility are not closed",
+    "authority_matrix": "data/demo/public-demo-data-authority-matrix-v1.0.json",
+    "authority_matrix_sha256": "2cccebe3753385ad1a441b51b776976ec0db9953861ec12a66ab9e27842a1227",
+    "accepted_public_demo_fixtures": 0,
+    "public_demo_authorizations": 0
+  },
+  "controlled_assets": {
+    "source_archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "source_archive_size_bytes": 12822898,
+    "school_fixture_aggregate_sha256": "77802b44b97c6687bc626d257e14b57c3d7427949a65942fa721d05bb79fc12d",
+    "road_fixture_aggregate_sha256": "dc82db8bfc96dd6ab16b3206866e000459b9fd59a8f6d44602fcf06586b1ae79",
+    "graphrag_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "school_authorization_id": "authorization-school-demo-b4ecdbfc35ecaf73293ed497",
+    "school_authorization_sha256": "d5546bd1b2176a4ad287acb1c78740ce79a90db76d05739dc871267d901dac67",
+    "build_activation_capability": "not-mounted"
+  },
+  "baseline_dependencies": {
+    "openai_api_key": "absent-not-required",
+    "external_llm": "disabled-not-required",
+    "neo4j": "absent-not-required",
+    "production_credentials": "absent"
+  },
+  "gateway": {
+    "transport": "unix-socket-only",
+    "default_policy": "deny",
+    "request_json_bytes": 2048,
+    "proxy_body_bytes": 16384,
+    "run_rate_per_ip_per_minute": 5,
+    "result_rate_per_ip_per_minute": 30,
+    "static_rate_per_ip_per_minute": 120,
+    "global_active_runs": 4,
+    "per_ip_active_runs": 1,
+    "run_ttl_seconds": 1800
+  },
+  "artifact_hashes": {
+    "src/nma/public_demo_gateway.py": "a4cf31a19b2be066bd1b7c8ee520b23a749a778e863aeb0e69037c58b82d22ec",
+    "scripts/run_nma_public_demo.py": "091f60054265bee3eb62ce94b4445a1ae739a6dffaf7d73523f66aebcf00b7d2",
+    "scripts/verify_nma_public_demo_startup.py": "f60dcda6723237985494bf0a7a215dba46c9bdf8e1c10e57be6e6a73a9deab10",
+    "public/nma/index.html": "20abcec6a0303ed056bf313f6e99251cefeb69eaf8972a6918b414a6dd1eb791",
+    "public/nma/nma-demo.js": "b781c7f0b9e8a64e0445825883e822169e40ee065e4ce448eb0968923ab8a509",
+    "public/nma/nma-demo.css": "f53d17c3d6d5996247d5e1927debc1763bf3885995abc13d73130909d2612a1c",
+    "public/nma/assets/manifest.json": "1ea01766a98b225ee726bf6c5741f52d91c850d7e18556750742ae73de052877",
+    "deploy/nma-demo/nma-demo.service": "63c77872ddfaec6079bed4d117e35940a0bf38da7d87371b2a9f6c4888bde017",
+    "deploy/nma-demo/nginx-nma-demo.conf": "9a0248be6420c4eadefd566ac77f0e67ed684dd43bf9dbd0e06441a494951be1",
+    "deploy/nma-demo/nma-demo.env.example": "a69ee9fe89a0306eaad0fab089af56653f12aa9a2f40daf8f06660586ca6e761",
+    "deploy/nma-demo/README.md": "69ec03796195674b6eae480d03770e6890bbacbc3c6fca81ff7988cf456c453e",
+    "tests/test_public_demo_gateway_deploy01.py": "ae81d56b19b8c9eaf2780a71c5472bfe5880a5eef5aa69d861ffce04fdb4ea2c",
+    "tests/test_public_demo_security_deploy01.py": "e1a245ae253dd6e8c3068df1b6da8e57bbb23b9ae8ec1561dc5c3a9ff8e100d8",
+    "tests/test_public_demo_startup_deploy01.py": "05cb372869801b9db7833be1264e3722b265677f6ff0b748a739e112e2793d2f",
+    "tests/test_public_demo_browser_deploy01.py": "68ef7b56236f4a963628723a69fec11a343520a295babd7c8e0bd1ec5ccff7a9"
+  }
+}

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="NMA v1.0 controlled public research demonstration">
+  <title>NMA Controlled Research Demo</title>
+  <link rel="stylesheet" href="assets/maplibre-gl-4.7.0.css">
+  <link rel="stylesheet" href="assets/nma-demo.css">
+</head>
+<body>
+  <header class="masthead">
+    <div>
+      <p class="eyebrow">NMA v1.0 · Controlled research demonstration</p>
+      <h1>From mapping knowledge to a trusted map</h1>
+      <p class="lede">Inspect the bounded chain: GraphRAG evidence, plan, approved demo authority, canonical execution or replay, verification, provenance, and MapLibre result.</p>
+    </div>
+    <div class="status-card" aria-live="polite">
+      <span class="status-dot" id="status-dot"></span>
+      <div><strong id="service-status">Checking integrity…</strong><small>Deterministic baseline · no LLM · no Neo4j</small></div>
+    </div>
+  </header>
+
+  <main>
+    <section aria-labelledby="choose-title">
+      <div class="section-heading"><span>01</span><div><h2 id="choose-title">Choose a frozen scenario</h2><p>Every path is bound to an accepted fixture and existing authority.</p></div></div>
+      <div class="scenarios" id="scenarios"></div>
+      <form id="language-form" class="language-form">
+        <label for="request">Or use bounded deterministic language</label>
+        <div><input id="request" name="request" maxlength="500" autocomplete="off" placeholder="Show the accepted School mapping lifecycle."><button type="submit">Resolve &amp; run</button></div>
+        <small>Supported intent only. No uploads, URLs, paths, authorization fields, or production actions.</small>
+      </form>
+      <p id="message" class="message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="result" class="result hidden" aria-labelledby="result-title">
+      <div class="section-heading"><span>02</span><div><h2 id="result-title">Auditable lifecycle</h2><p id="result-summary"></p></div></div>
+      <div id="lifecycle" class="lifecycle"></div>
+      <div class="evidence-grid">
+        <article class="panel">
+          <div class="panel-head"><div><p class="eyebrow">Evidence projection</p><h3>GraphRAG &amp; mapping rules</h3></div><span class="pill">Public-safe</span></div>
+          <div id="evidence"></div>
+        </article>
+        <article class="panel map-panel">
+          <div class="panel-head"><div><p class="eyebrow">Live rendering</p><h3>MapLibre result</h3></div><span class="pill" id="map-kind"></span></div>
+          <div id="map" aria-label="Controlled mapping result"></div>
+          <p id="map-caption" class="caption"></p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>NMA v1.0 frozen semantics</span><span>Production authority absent</span><span>BUILD activation not mounted</span></footer>
+  <script src="assets/maplibre-gl-4.7.0.js"></script>
+  <script src="assets/nma-demo.js"></script>
+</body>
+</html>
