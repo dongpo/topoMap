@@ -408,10 +408,20 @@ class SchoolRuntimeAdapter:
 class RoadRuntimeAdapter:
     domain = "road"
 
-    def __init__(self, *, engine: Any, repository_root: Path, archive_path: Path):
+    def __init__(
+        self,
+        *,
+        engine: Any,
+        repository_root: Path,
+        archive_path: Path,
+        visual_evidence_path: Path | None = None,
+        screenshot_path: Path | None = None,
+    ):
         self.engine = engine
         self.repository_root = repository_root
         self.archive_path = archive_path
+        self.visual_evidence_path = visual_evidence_path
+        self.screenshot_path = screenshot_path
 
     def dispatch(self, request: Mapping[str, Any]) -> dict[str, Any]:
         result = _base_result(request, self.domain)
@@ -562,6 +572,8 @@ class RoadRuntimeAdapter:
             storage_root=self.engine.storage_root,
             archive_path=self.archive_path,
             repository_root=self.repository_root,
+            visual_evidence_path=self.visual_evidence_path,
+            screenshot_path=self.screenshot_path,
         )
         try:
             verified = verifier.verify(execution_id, persist=True)

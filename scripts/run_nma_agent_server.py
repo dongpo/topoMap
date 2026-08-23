@@ -827,6 +827,8 @@ UNIFIED_RUNTIME = UnifiedNMARuntime(
             engine=ROAD_EXECUTIONS,
             repository_root=ROOT,
             archive_path=PRIVATE_SCHOOL_ARCHIVE,
+            visual_evidence_path=ROOT / "artifacts/tmp/road05-visual-evidence.json",
+            screenshot_path=ROOT / "artifacts/tmp/road05-render.png",
         ),
         "build": BuildRuntimeAdapter(
             repository_root=ROOT,

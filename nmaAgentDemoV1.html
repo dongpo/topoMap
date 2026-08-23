@@ -57,11 +57,11 @@
 </main>
 <script src="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js"></script>
 <script>
-const endpoint="/api/nma/runtime";let map=null;let dynamicIds=[];
+const endpoint="/api/nma/runtime",glyphs="https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf";let map=null;let dynamicIds=[];
 const $=id=>document.getElementById(id);const safe=value=>value??"—";
 function facts(entries){return `<dl class="facts">${entries.map(([key,value])=>`<dt>${key}</dt><dd>${safe(value)}</dd>`).join("")}</dl>`}
 function toggleFields(){const operation=$("operation").value,isBuild=$("domain").value==="build";$("authorization-fields").hidden=operation!=="execute";$("verification-fields").hidden=operation!=="verify";$("idempotency-field").hidden=isBuild;$("build-execution-fields").hidden=!isBuild;$("authorization-label").textContent=isBuild?"BUILD-09F policy record SHA-256":"Authorization ID"}
-function initializeMap(){if(!window.maplibregl){$("map").innerHTML='<div class="map-fallback">MapLibre library unavailable. Runtime results remain visible below.</div>';return}$("map").innerHTML="";map=new maplibregl.Map({container:"map",center:[121.02,24.78],zoom:11,style:{version:8,sources:{},layers:[{id:"background",type:"background",paint:{"background-color":"#eef4ef"}}]}});map.addControl(new maplibregl.NavigationControl(),"top-right")}
+function initializeMap(){if(!window.maplibregl){$("map").innerHTML='<div class="map-fallback">MapLibre library unavailable. Runtime results remain visible below.</div>';return}$("map").innerHTML="";map=new maplibregl.Map({container:"map",center:[121.02,24.78],zoom:11,style:{version:8,glyphs,sources:{},layers:[{id:"background",type:"background",paint:{"background-color":"#eef4ef"}}]}});map.addControl(new maplibregl.NavigationControl(),"top-right")}
 function clearDynamic(){if(!map?.isStyleLoaded())return;for(const id of dynamicIds.reverse()){if(map.getLayer(id))map.removeLayer(id);if(map.getSource(id))map.removeSource(id);if(map.hasImage(id))map.removeImage(id)}dynamicIds=[]}
 function boundsFor(collection){const points=[];function walk(value){if(Array.isArray(value)&&value.length>=2&&typeof value[0]==="number"&&typeof value[1]==="number")points.push(value);else if(Array.isArray(value))value.forEach(walk)}(collection.features||[]).forEach(feature=>walk(feature.geometry?.coordinates));if(!points.length)return null;return points.reduce((b,p)=>b.extend(p),new maplibregl.LngLatBounds(points[0],points[0]))}
 function hatchImage(id,color="#111111"){const size=16,canvas=document.createElement("canvas");canvas.width=canvas.height=size;const context=canvas.getContext("2d");context.clearRect(0,0,size,size);context.strokeStyle=color;context.lineWidth=1.5;context.beginPath();context.moveTo(-4,size);context.lineTo(size,-4);context.moveTo(4,size+4);context.lineTo(size+4,4);context.stroke();map.addImage(id,{width:size,height:size,data:context.getImageData(0,0,size,size).data});dynamicIds.push(id)}
@@ -85,6 +85,7 @@ async function renderVisualization(result){
     return;
   }
   const bundle=visual.maplibre,sourceDef=bundle?.source;if(!sourceDef)return;const sourceId=sourceDef.id||`nma-${result.selected_domain}-source`;
+  for(const resource of bundle.image_resources||[]){const image=new Image();image.decoding="async";image.src=resource.path;await image.decode();map.addImage(resource.id,image,{sdf:Boolean(resource.sdf)});dynamicIds.push(resource.id)}
   map.addSource(sourceId,{type:"geojson",data:visual.data_reference||sourceDef.data});dynamicIds.push(sourceId);const layers=bundle.layers||[bundle.layer].filter(Boolean);
   for(const layer of layers){const copy=structuredClone(layer);copy.source=sourceId;map.addLayer(copy);dynamicIds.push(copy.id)}
   const response=await fetch(visual.data_reference||sourceDef.data);if(response.ok){const collection=await response.json(),bounds=boundsFor(collection);if(bounds)map.fitBounds(bounds,{padding:60,duration:500})}
