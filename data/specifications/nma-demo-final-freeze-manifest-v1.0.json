@@ -1,0 +1,333 @@
+{
+  "contract": "nma.demo-final-freeze/1.0",
+  "version": "1.0",
+  "status": "release-candidate; canonical publication and fresh-tag reproduction required",
+  "canonical_manifest_sha256": "a4ef21b45f94118661448ad33bd797566c82e72e5090c553b066675e14fa8001",
+  "repository": {
+    "origin": "https://github.com/dongpo/topoMap.git",
+    "predecessor": {
+      "branch": "demo/demo-02-retry-controlled-end-to-end-acceptance",
+      "commit_sha": "b80ea93e5e750948827bfa46fef9fdc1b1352305",
+      "verdict": "PASS — NMA CONTROLLED END-TO-END DEMO ACCEPTED"
+    },
+    "final_identity_strategy": {
+      "commit_sha_authority": "peeled target of annotated tag nma-demo-v1.0-final",
+      "freeze_branch_pattern": "freeze/demo-final-<short-FINAL_SHA>",
+      "freeze_branch_authority": "canonical origin branch whose suffix is the first seven hexadecimal characters of the peeled tag target",
+      "annotated_tag": "nma-demo-v1.0-final",
+      "tag_target": "same commit as commit_sha_authority",
+      "tag_message": "NMA v1.0 controlled demo final",
+      "non_self_referential": true
+    }
+  },
+  "freeze_claim": {
+    "exact": "Given controlled high-quality geospatial fixtures, the NMA Agent can use GraphRAG-retrieved cartographic knowledge to plan, authorize, execute, verify, and present rule-aligned map production across School, ROAD, and BUILD through one unified runtime.",
+    "arbitrary_open_data_ingestion": false,
+    "arbitrary_schema_mapping": false,
+    "generic_crs_repair": false,
+    "arbitrary_topology_repair": false,
+    "unrestricted_geospatial_onboarding": false,
+    "universal_domain_generalization": false,
+    "pixel_perfect_rendering": false
+  },
+  "authoritative_success_chain": {
+    "DEMO-00": "37c8c98e17280e6b89ba1470fc6e176e7fb00fb4",
+    "DEMO-01": "2d382a46585faa89311ea6a5502923464ace7758",
+    "DEMO-FIXTURE-00": "00bd681f2cc5f42873053f37b85724aefc8bec03",
+    "DEMO-AUTH-01": "aa3a59ddececa1bc8b893058febe5cb43d307656",
+    "DEMO-02-RETRY": "b80ea93e5e750948827bfa46fef9fdc1b1352305"
+  },
+  "historical_evidence_only": {
+    "DEMO-01A": "9e59237296ed3baed551db2bbd565234a1b02db5",
+    "DEMO-01B": "5a34a94a3f7922f273de3eebd56da1a47e96851a",
+    "FAILED-DEMO-02": "daf4a7b7ae4d2f95de2d23af561843ef3de18232",
+    "canonical_success_predecessors": false
+  },
+  "frozen_architecture": {
+    "GEN-FINAL": {
+      "commit_sha": "380cc6ea2a4498ce83690521c933accfd918818e",
+      "annotated_tag": "nma-generalization-v1.0-final",
+      "tag_object_sha": "9ba26ff032e23f0ba5de80d809f08eb6e973bb4f"
+    },
+    "CORE-FINAL": {
+      "commit_sha": "5eb138ae7686502431587743ebce9ddf92c5a799",
+      "annotated_tag": "nma-core-v1.0-final",
+      "tag_object_sha": "5729f2db0fc441b3eb0a22c1f76b0f6af3f368ea"
+    },
+    "School-Hero": {
+      "commit_sha": "56f99eb9ae63272a68accac3041fb10eacefb986",
+      "canonical_remote_branch": "freeze/hero-final-school-hero-56f99eb"
+    },
+    "ROAD-FINAL": {
+      "commit_sha": "325c70d5335f57c43a8af85822db25032aa225c3",
+      "annotated_tag": "nma-road-v1.0-final",
+      "tag_object_sha": "d60fffa873428d1ba8b308ea0d4d2028ac8431fd"
+    },
+    "BUILD-FINAL": {
+      "commit_sha": "95de5fa3657a2c8ac7847f1ee1010c48ea984cd7",
+      "annotated_tag": "nma-build-v1.0-final",
+      "tag_object_sha": "1b55ff67fd670a482da74975ce41fa86df5dd71f"
+    }
+  },
+  "controlled_fixtures": {
+    "package": {
+      "path": "data/datasets/112年多維度SHP成果_0502.zip",
+      "sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+      "size_bytes": 12822898,
+      "tracked": false,
+      "redistributed": false
+    },
+    "school": {
+      "identity": "nma-demo-fixture:school:sha256:77802b44b97c6687bc626d257e14b57c3d7427949a65942fa721d05bb79fc12d",
+      "aggregate_sha256": "77802b44b97c6687bc626d257e14b57c3d7427949a65942fa721d05bb79fc12d",
+      "terrainid": "9920103",
+      "geometry": "Point",
+      "crs": "TWD97[2020]_TM121",
+      "feature_distribution": [0, 1, 0, 12, 1, 1],
+      "feature_count": 15,
+      "valid_geometry": true,
+      "unique_ids": true,
+      "labels_present": true,
+      "layers": [
+        {
+          "layer_id": "J01_MARK",
+          "components": {
+            ".cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+            ".dbf": "07f31699edd5ec48e1d29eb57a365365df05792b3575082f71fc5c86d61b7c9f",
+            ".prj": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f",
+            ".shp": "81499af48273d36634c2443ad29cb9e0be3bfcfce44755d6c3ec5a57684cc178",
+            ".shx": "bd90ba4cbf6253126cc08dd9cdf1d24f439e4664090e55dc17ce0590af6402b7"
+          }
+        },
+        {
+          "layer_id": "J13_MARK",
+          "components": {
+            ".cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+            ".dbf": "ced030468b9abcd9da3cdf65ff6f2fb858cb36c95541f73c965014eacf3d7268",
+            ".prj": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f",
+            ".shp": "2e9c83eb6dfbfc2ddfb8297a8d39e53038b1b5f65912baf114dc9d620e729ec2",
+            ".shx": "bbf7f0d58b5004af677db73eaf21b405e8b05528d3899ffd89196593cde32603"
+          }
+        },
+        {
+          "layer_id": "J17_MARK",
+          "components": {
+            ".cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+            ".dbf": "3ee4280717e9eb18bab798ae8112b3cb1b977d3548daa66efa150dbc178befb3",
+            ".prj": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f",
+            ".shp": "47d7639c620fac323549a388de09642958ce0a2173ce47ec847c3fe6712bb422",
+            ".shx": "783ecb9b98c5787b7b73f96915b7b32c24f47fbc93ec0f99eb7a754dd4620470"
+          }
+        },
+        {
+          "layer_id": "K01_MARK",
+          "components": {
+            ".cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+            ".dbf": "4451553a16ec816ec078bf2d8c679fdb6858b8a6b53e37034a99cbcf1710b7c8",
+            ".prj": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f",
+            ".shp": "93cc8399c649a6af0a0e9b72868b8aa3e9811d78bfb6211d4ef922774544a033",
+            ".shx": "9a041e14063e09c07a25b1388b82eb7bfe4fbeef6f8e734f9d7650a42c8dfb38"
+          }
+        },
+        {
+          "layer_id": "K02_MARK",
+          "components": {
+            ".cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+            ".dbf": "70ac0a22d3b40aefeb8fe140a0d4cc56d83c5331081fda387d2dfbb5ed551250",
+            ".prj": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f",
+            ".shp": "190a61e649629b2d41cef16535604698d0b48ce791c5f42d568f578054a989d6",
+            ".shx": "974ed0a178c7b11fc02f98bbeb9491763dfcb26e8cd83d7c148d635c9ad667e4"
+          }
+        },
+        {
+          "layer_id": "K14_MARK",
+          "components": {
+            ".cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+            ".dbf": "cb6dab3e110bd8ee3999595d9ebb7e1837df58820443c87d3a8379b1d4fb6cc1",
+            ".prj": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f",
+            ".shp": "8e8a4ad52f6c8b4df92e08ebb8bd89226859042b48f4094c172470597c615249",
+            ".shx": "c17fadb90bfc5ac2e022ea494728604d00fd8b105cacfa672587d0df3a1d1dba"
+          }
+        }
+      ]
+    },
+    "road": {
+      "identity": "nma-demo-fixture:road:sha256:dc82db8bfc96dd6ab16b3206866e000459b9fd59a8f6d44602fcf06586b1ae79",
+      "aggregate_sha256": "dc82db8bfc96dd6ab16b3206866e000459b9fd59a8f6d44602fcf06586b1ae79",
+      "package": "K14_ROAD.{shp,shx,dbf,prj,cpg}",
+      "feature_count": 196,
+      "crs": "TWD97[2020]_TM121",
+      "components": {
+        ".cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+        ".dbf": "6af55549c6b5e5c1bc59d3a0b6e94c4ffd959cf654bb33de4167c85ec985f58b",
+        ".prj": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f",
+        ".shp": "d5ec2de55a95fa1d8d2d10a2b116b607b0904bea41620f3707c4a7278bfee497",
+        ".shx": "40fa8648b76df0b2b1e5442f22f8e381a166a91ba4b509059864e999db0fb449"
+      },
+      "ordered_segment_ids": ["K0000004671", "K0000004913", "K0000005348"],
+      "vertex_counts": [4, 3, 4],
+      "coordinate_array_sha256": [
+        "0c6bbf075b4468bcfde9a26ab1a2362dee58af7c140421be2215d142e1fdbeb0",
+        "c11b2e99fae69e7b4ddf4c902707080cb6365b48dd37a13de5fdac3d440c113c",
+        "f151e78f72c187cada8fbe8364f0276b5ef1255e76839bb4746b3bc2dec7d596"
+      ],
+      "source_geometry_sha256": [
+        "42616b9b91d91efd4582171b23ad70259156c586bef776098329cdd81aa8f800",
+        "c075943948c1184493d41672f0ca00e610c90bfa7c721f24a645765dc48b9faf",
+        "88ad286f2b368130e0870360acd07d1d79614d8005ee53eed966b8db6abd2cc6"
+      ],
+      "geometry": "finite, valid, simple, contiguous LineStrings",
+      "class_code": "9420400",
+      "route": "縣126",
+      "name": "中山街",
+      "private_coordinate_arrays_published": false
+    }
+  },
+  "school_authorization": {
+    "authorization_id": "authorization-school-demo-b4ecdbfc35ecaf73293ed497",
+    "authorization_hash": "d5546bd1b2176a4ad287acb1c78740ce79a90db76d05739dc871267d901dac67",
+    "human_approval": "approved",
+    "fixture_binding": "exact controlled School identity/archive/six-layer/15-feature scope",
+    "domain": "school",
+    "plan_scope_binding": "derived real layer, derived portrayal, candidate MapLibre layer only",
+    "historical_hero03_authorization_id": "authorization-school-blue",
+    "historical_hero03_authorization_hash": "432c356180843ec27304d7a5b09dbc990c325e90ed67a9e4dcad159f66678d9d",
+    "historical_identity_reused": false,
+    "canonical_validation_consumption": "PASS",
+    "downstream_execution_id": "exec-8d174b62fb63189987eafdb6"
+  },
+  "runtime": {
+    "launch_command": "PYTHONPATH=src:. python3 scripts/run_nma_agent_server.py --host 127.0.0.1 --port 8080",
+    "demo_url": "http://127.0.0.1:8080/nmaAgentDemoV1.html?basemap=local",
+    "unified_api_route": "http://127.0.0.1:8080/api/nma/runtime",
+    "files": {
+      "nmaAgentDemoV1.html": "8921b61c9d7181ec97a38174f82f12fdd8a14493e0dd0e5dd5b368aacd23ffbd",
+      "scripts/run_nma_agent_server.py": "792f3921b1055b3092f2ae047722f37d0c6c84a19d50bfd745ca001abfc6db95",
+      "src/nma/unified_runtime.py": "ba1eedaae92674df6d564ab3ff8a76950d4bd2b118cf0ba3445de47116fb8754"
+    }
+  },
+  "scenarios": {
+    "S": {
+      "domain": "school",
+      "status": "PASS",
+      "request_id": "nma-runtime-request:sha256:29dd75e85b67b35b6b45625e75cb14b62419e7c27e8eb9655635cd985458b92d",
+      "plan_id": "plan-8d174b62fb63189987eafdb6",
+      "plan_sha256": "b7afb38141557c3dad312d89a819243b3225e846883a17565519a75adafa0347",
+      "authorization_id": "authorization-school-demo-b4ecdbfc35ecaf73293ed497",
+      "execution_id": "exec-8d174b62fb63189987eafdb6",
+      "receipt_sha256": "ab929277c217a44659ffd3abed3ba0bcec115465309bfc0c8a044a5cfdd1d36b",
+      "qa_sha256": "2fcc1d90938e7a56bd3cc8cddae12de85d5c59b88c6f9177951a5015732cb538",
+      "provenance_sha256": "bc9392351669fd4bdb5b8e5cd53d0a3facfa94f944448d6f282f6416e05e8ae2",
+      "bundle_sha256": "5b4212a0ae2b232753a85bd0e44b41d9dee988c760084d50f1f147083b83d49e",
+      "data_sha256": "7f62b6259ad3024c57f6ca05e45e50c0bc4dc77a2ceab53855dfa58726932548",
+      "portrayal_sha256": "05e101a5907f05d0df0392691537a4eccfe04a59cd6abea2e5ae82aef1261ca5",
+      "feature_count": 15,
+      "portrayal": "official blue School symbol with MARKNAME1 labels"
+    },
+    "R": {
+      "domain": "road",
+      "status": "PASS",
+      "request_id": "nma-runtime-request:sha256:63d73cc87dc21730e8f5f2e83b963bb80e78d00f3293017cbc9e971776a2082d",
+      "plan_id": "road-plan-cd434d50bd5b49a012bd1e10",
+      "plan_sha256": "e51e42b955ade0d3ff5c6b8fbe00919aac4d9b9f90fe59bd548e14b7a9bf04a0",
+      "authorization_id": "road-03-authorization-f68220ecef989e589dd6e28c",
+      "execution_id": "road-exec-33766f336d9cc18eb2ac159e",
+      "receipt_sha256": "0ab5964fcc2e1f47d43fd328dbc3771a7e624bf4a3707f91236a1485f5610720",
+      "qa_sha256": "8f31ecb25f62b5bc71465db33503a7c37d63fe18e9006ce6801a2ab639464a82",
+      "provenance_sha256": "130a24e15126743466b57dc03e2ca8a652335553b56522e316f47104cc9dbc70",
+      "bundle_sha256": "33aa7c6b0d557fa9a72e2fa4e0106493d8dfe10ec9201bd7762e204bb14a286d",
+      "visual_evidence_sha256": "830087a06a3aa0c05d587532e90649ca5fed5d4418c7d864eb9f6ec9a707662b",
+      "portrayal": "line-following 中山街 over exact 4/3/4 controlled LineStrings"
+    },
+    "B": {
+      "domain": "build",
+      "status": "PASS",
+      "request_id": "nma-runtime-request:sha256:1371ee59a9345b07673b228f88d3841f7c50f5c86d3b7bfb7d57638bbc4da3eb",
+      "plan_sha256": "b8b5ecd54954b190eb8cda398710039f334e8424fd0969816380b4a2b52b0b71",
+      "authorization_id": "build-04-demo-auth-a5a8f11b94784a60",
+      "execution_id": "build-05-demo-exec-b8b5ecd54954b190eb8cda39",
+      "observation_sha256": "9131df533365e2f42e01edb8988804b850b65e69b932c55b672e0addd3400d84",
+      "verification_sha256": "10c22339abb8d2eed489ae56a54214948213bad51a135e00f74e309931c98c97",
+      "receipt_sha256": "c4ff4017c01aa3ef861530a91204fcd8357387a8400f4a47fcd637033f445573",
+      "portrayal": "accepted polygon with solid boundary and diagonal hatch",
+      "automatic_production_activation": false,
+      "activation_status": "held-not-requested"
+    }
+  },
+  "graphrag_mapping_rule_alignment": {
+    "school": "PASS — exact reviewed School nodes and fixture attributes remain bound through plan, authorization, execution, QA, and provenance",
+    "road": "PASS — exact frozen ROAD evidence/nodes, semantics, geometry, portrayal, QA, and provenance remain aligned",
+    "build": "PASS — accepted frozen BUILD execution/replay and portrayal alignment preserved; GraphRAG retrieval not separately claimed",
+    "retrieval_is_authorization": false,
+    "automatic_rule_activation": false
+  },
+  "demo_a1_a12": {
+    "DEMO-A1": "PASS",
+    "DEMO-A2": "PASS",
+    "DEMO-A3": "PASS",
+    "DEMO-A4": "PASS",
+    "DEMO-A5": "PASS",
+    "DEMO-A6": "PASS",
+    "DEMO-A7": "PASS",
+    "DEMO-A8": "PASS",
+    "DEMO-A9": "PASS",
+    "DEMO-A10": "PASS",
+    "DEMO-A11": "PASS",
+    "DEMO-A12": "PASS"
+  },
+  "counts_and_safety": {
+    "external_data_substitutions": 0,
+    "production_reachable_demo_stubs": 0,
+    "controlled_fixture_modifications": 0,
+    "frozen_semantic_changes": 0,
+    "runtime_source_changes": 0,
+    "school_source_changes": 0,
+    "road_source_changes": 0,
+    "build_source_changes": 0,
+    "graphrag_changes": 0,
+    "mapping_rule_changes": 0,
+    "authorization_semantic_changes": 0,
+    "generic_architecture_changes": 0,
+    "build_automatic_activation": false
+  },
+  "controlled_reproduction_model": [
+    "canonical repository",
+    "exact controlled School fixture package",
+    "exact controlled ROAD fixture package",
+    "fixture hash verification",
+    "accepted School demo authorization",
+    "documented runtime launch"
+  ],
+  "normative_evidence_artifacts": [
+    {"path": "NMA-DEMO-00-Runtime-Readiness-Audit.md", "sha256": "e8b33a03d2e1b679a33bee3545aa27b8d4fd3915eb43416ad869eedc028bb506"},
+    {"path": "NMA-DEMO-01-Unified-Runtime-Integration-Report.md", "sha256": "f68af9e01ab3595625e05b1298f1ec37d2c4c905becd9ad0b212cb9eb49872d1"},
+    {"path": "data/specifications/nma-demo-runtime-v0.31.json", "sha256": "f3c1e28d94f5bb9156291ed9085238339cfa97e60ef8717a3562a35142c8dec5"},
+    {"path": "tests/test_demo01_unified_runtime.py", "sha256": "e1a646210f781df3bb1230d26047f1d2836042ece14466d324c075ef8bfa67a2"},
+    {"path": "NMA-DEMO-FIXTURE-00-Controlled-Shapefile-Baseline-Audit.md", "sha256": "0c7dd3c916a022de00aa7e0dce53754dc5db5e00aaf410c1c81612ac33f95a8f"},
+    {"path": "data/specifications/nma-demo-controlled-fixture-baseline-v1.0.json", "sha256": "cd36e3ed0f5bf3e020c4bc4d4f062cf4d663bb27ce6ce0f65241086628fa6a6d"},
+    {"path": "tests/test_demo_fixture00_controlled_baseline.py", "sha256": "d278e70894a5927a484d37ee34ca9d7b7161be977596ddabf4a1a934d446f3db"},
+    {"path": "NMA-DEMO-AUTH-01-School-Demo-Authorization-Binding-Closure-Report.md", "sha256": "bbb7b8a6cb932f08c21bab6bf9defd53fe2cae0ab38a08c0b2f096031acf7cba"},
+    {"path": "artifacts/runtime/school-hero/authorizations/authorization-school-demo-b4ecdbfc35ecaf73293ed497.json", "sha256": "52a56a4a348f64d170e5b80f032d23fd42c499ba482bceff41f7159a80750f55"},
+    {"path": "scripts/issue_school_demo_authorization.py", "sha256": "ab27bc083903136e028d1ee1adee7a9459d8e969e04a499935dce087c007c48c"},
+    {"path": "tests/test_demo_auth01_school_authorization.py", "sha256": "0913054c8327febd511c34522c5f06a771d34db6f12635c7c651e634e27ec622"},
+    {"path": "NMA-DEMO-02-Retry-Controlled-End-to-End-Acceptance-Report.md", "sha256": "14637258e9ad4d19152a72d9b025954ed9317bb8fef3177270daecfc8888097b"},
+    {"path": "data/specifications/nma-demo-02-retry-controlled-e2e-acceptance-record-v1.0.json", "sha256": "90ea975933a00f2f785f9c86006a6634b73243049f25f87dd218a145f18a138d"},
+    {"path": "tests/test_demo02_retry_controlled_e2e_acceptance.py", "sha256": "c8eda0fb3acdc78a03660b9dd67869f800c72a2e2a8c702649178442c16b8da0"}
+  ],
+  "integrity_test_contract": {
+    "DF-01": "exact predecessor",
+    "DF-02": "accepted verdict",
+    "DF-03": "School fixture commitment",
+    "DF-04": "ROAD fixture and geometry commitment",
+    "DF-05": "School authorization identity",
+    "DF-06": "historical authorization separation",
+    "DF-07": "runtime identity",
+    "DF-08": "scenario S/R/B integrity",
+    "DF-09": "DEMO-A1–A12 accepted",
+    "DF-10": "no external substitution",
+    "DF-11": "no production-reachable demo stub",
+    "DF-12": "BUILD automatic activation false",
+    "DF-13": "frozen architecture identities",
+    "DF-14": "reproducible manifest self-hash"
+  }
+}
