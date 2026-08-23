@@ -1,0 +1,81 @@
+{
+  "schema": "nma.github-pages-static-release/1.0",
+  "source_branch": "main",
+  "authority_commit": "eb87bde775333811529efb6f651573ea21cf456b",
+  "mode": "accepted-execution-replay",
+  "private_fixture_bytes_included": false,
+  "production_credentials_included": false,
+  "production_activation": false,
+  "files": [
+    {
+      "path": ".nojekyll",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "app.css",
+      "bytes": 11806,
+      "sha256": "afe165310529fd7e183684b7afe28728c923b4f4aab3eacfa093bad7ea535c42"
+    },
+    {
+      "path": "app.js",
+      "bytes": 11201,
+      "sha256": "8b8437571e96d84805a228e5b330170439e8bb27f5631fd436991d569c4ebed6"
+    },
+    {
+      "path": "assets/NotoSans-LICENSE.txt",
+      "bytes": 4301,
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    {
+      "path": "assets/NotoSansRegular-0-255.pbf",
+      "bytes": 76580,
+      "sha256": "ef1f38a3f1978591e846e9eaddf8a54f7047f546fc6aaed7872cc53151a5de78"
+    },
+    {
+      "path": "assets/NotoSansRegular-19968-20223.pbf",
+      "bytes": 192358,
+      "sha256": "e1c87b549df7bb07b0bb19b52e379b10054872dcec5a86d824440371534060a4"
+    },
+    {
+      "path": "assets/NotoSansRegular-23552-23807.pbf",
+      "bytes": 198190,
+      "sha256": "2e9cdf17173ba2b75230ce4d3e1b3f44d6d30c7dd0a8719e976346213e2a91af"
+    },
+    {
+      "path": "assets/NotoSansRegular-34816-35071.pbf",
+      "bytes": 205444,
+      "sha256": "339915b6ff8e3230c8c16bdf527d7277260a6ca4aed64a8e32f710cbd4e8c08c"
+    },
+    {
+      "path": "assets/maplibre-gl-4.7.0-LICENSE.txt",
+      "bytes": 5984,
+      "sha256": "ee5fc05a0677eaf69601d2c7db0d9ecd6cc27c3abc1d0733bc9ed34707cf8ef2"
+    },
+    {
+      "path": "assets/maplibre-gl-4.7.0.css",
+      "bytes": 65534,
+      "sha256": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9"
+    },
+    {
+      "path": "assets/maplibre-gl-4.7.0.js",
+      "bytes": 803130,
+      "sha256": "5c4922e8cb364fd14485ca7cba419b89e8d816f5f0c04cfc7d9c8206e0214df6"
+    },
+    {
+      "path": "assets/school-blue.svg",
+      "bytes": 158,
+      "sha256": "05e101a5907f05d0df0392691537a4eccfe04a59cd6abea2e5ae82aef1261ca5"
+    },
+    {
+      "path": "data/scenarios.json",
+      "bytes": 29490,
+      "sha256": "e50494a2b9143dc09eb7fb4e84b5437f9b4556d6dedc168dc37becf222879641"
+    },
+    {
+      "path": "index.html",
+      "bytes": 6366,
+      "sha256": "4484f1086393fb8e42b6cfa5b44c948992a679a1a95933346a3f0a4e9557ca2e"
+    }
+  ]
+}

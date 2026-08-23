@@ -1,0 +1,917 @@
+{
+  "schema": "nma.static-accepted-execution-replay/1.0",
+  "release": {
+    "label": "NMA v1.0 final",
+    "tag": "nma-v1.0-final",
+    "commit": "eb87bde775333811529efb6f651573ea21cf456b",
+    "demo_tag": "nma-demo-v1.0-final",
+    "demo_commit": "05af154a14e781f20b5cf2d3996eac8191875b0f",
+    "mode": "accepted execution replay",
+    "live_agent": false,
+    "production_credentials": false,
+    "limits": [
+      "Static accepted-execution replay; no live FastAPI or Agent process",
+      "No arbitrary upload, URL fetch, external data substitution, or writeback",
+      "No OpenAI, Neo4j, or production credentials"
+    ]
+  },
+  "scenarios": [
+    {
+      "id": "school",
+      "domain": "School",
+      "title": "Controlled 15-point School result",
+      "subtitle": "Accepted authorization · official blue portrayal",
+      "request": "Show the accepted School 9920103 mapping lifecycle.",
+      "interpretation": {
+        "status": "resolved",
+        "summary": "School domain · feature code 9920103 · controlled six-layer selection",
+        "boundary": "A deterministic replay selector resolves this request; no model is called."
+      },
+      "knowledge": {
+        "status": "accepted-evidence",
+        "mode": "deterministic accepted-scenario GraphRAG path",
+        "nodes": [
+          {
+            "id": "code-value:landmark-type:9920103",
+            "type": "CodeListValue",
+            "summary": {
+              "code": "9920103",
+              "label": "小學"
+            }
+          },
+          {
+            "id": "portrayal-rule:doc01:9920103",
+            "type": "PortrayalRule",
+            "summary": {
+              "feature_code": "9920103",
+              "feature_name": "小學",
+              "page": 61,
+              "geometry_role": "Point",
+              "instruction": "註記名稱"
+            }
+          },
+          {
+            "id": "portrayal-recipe:doc01:9920103:review-v1",
+            "type": "PortrayalRecipe",
+            "summary": {
+              "feature_code": "9920103",
+              "feature_name": "小學",
+              "page": 61,
+              "geometry_role": "Point",
+              "representation_kind": "fixed-marker"
+            }
+          },
+          {
+            "id": "product-layer:MARK",
+            "type": "ProductLayer",
+            "summary": {}
+          }
+        ],
+        "mapping_rule": "Point portrayal with approved blue School symbol; 15 selected features.",
+        "boundary": "Retrieved review knowledge does not itself authorize execution or activate unresolved portrayal choices."
+      },
+      "plan": {
+        "status": "accepted",
+        "id": "plan-8d174b62fb63189987eafdb6",
+        "sha256": "b7afb38141557c3dad312d89a819243b3225e846883a17565519a75adafa0347",
+        "action": "Filter TERRAINID 9920103, derive EPSG:4326 output, and apply approved School portrayal."
+      },
+      "authorization": {
+        "status": "accepted · consumed idempotently",
+        "id": "authorization-school-demo-b4ecdbfc35ecaf73293ed497",
+        "sha256": "d5546bd1b2176a4ad287acb1c78740ce79a90db76d05739dc871267d901dac67",
+        "scope": "Controlled 15-point School derivative only; demo-only authority."
+      },
+      "execution": {
+        "status": "accepted replay",
+        "id": "exec-8d174b62fb63189987eafdb6",
+        "feature_count": 15,
+        "mode": "Replay of frozen receipt; no current source execution."
+      },
+      "qa": {
+        "status": "PASS",
+        "sha256": "2fcc1d90938e7a56bd3cc8cddae12de85d5c59b88c6f9177951a5015732cb538",
+        "checks": [
+          "15 selected points",
+          "blue School symbol",
+          "accepted authorization binding"
+        ]
+      },
+      "provenance": {
+        "status": "verified",
+        "sha256": "bc9392351669fd4bdb5b8e5cd53d0a3facfa94f944448d6f282f6416e05e8ae2",
+        "fixture_sha256": "77802b44b97c6687bc626d257e14b57c3d7427949a65942fa721d05bb79fc12d",
+        "receipt_sha256": "ab929277c217a44659ffd3abed3ba0bcec115465309bfc0c8a044a5cfdd1d36b"
+      },
+      "map": {
+        "type": "school",
+        "geojson": {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "id": "public-replay-01",
+              "properties": {
+                "layer": "J13_MARK",
+                "selection_index": 1,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 01"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  120.95,
+                  24.7
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-02",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 1,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 02"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  120.99000000000001,
+                  24.7
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-03",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 2,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 03"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  121.03,
+                  24.7
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-04",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 3,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 04"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  121.07000000000001,
+                  24.7
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-05",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 4,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 05"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  121.11,
+                  24.7
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-06",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 5,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 06"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  120.95,
+                  24.74
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-07",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 6,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 07"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  120.99000000000001,
+                  24.74
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-08",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 7,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 08"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  121.03,
+                  24.74
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-09",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 8,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 09"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  121.07000000000001,
+                  24.74
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-10",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 9,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 10"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  121.11,
+                  24.74
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-11",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 10,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 11"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  120.95,
+                  24.779999999999998
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-12",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 11,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 12"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  120.99000000000001,
+                  24.779999999999998
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-13",
+              "properties": {
+                "layer": "K01_MARK",
+                "selection_index": 12,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 13"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  121.03,
+                  24.779999999999998
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-14",
+              "properties": {
+                "layer": "K02_MARK",
+                "selection_index": 1,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 14"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  121.07000000000001,
+                  24.779999999999998
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "public-replay-15",
+              "properties": {
+                "layer": "K14_MARK",
+                "selection_index": 1,
+                "TERRAINID": "9920103",
+                "display_label": "Accepted point 15"
+              },
+              "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  121.11,
+                  24.779999999999998
+                ]
+              }
+            }
+          ]
+        },
+        "caption": "15-point count-faithful normalized replay. Private fixture coordinates and names are intentionally withheld.",
+        "coordinate_policy": "normalized-public-replay-not-source-geography"
+      }
+    },
+    {
+      "id": "road",
+      "domain": "ROAD",
+      "title": "Accepted K14_ROAD evidence",
+      "subtitle": "4 / 3 / 4 vertices · line-following 中山街 portrayal",
+      "request": "Replay the accepted K14_ROAD 9420400 中山街 portrayal.",
+      "interpretation": {
+        "status": "resolved",
+        "summary": "ROAD domain · K14_ROAD · class 9420400 · 縣126 / 中山街",
+        "boundary": "Only the frozen three-segment identity is selectable."
+      },
+      "knowledge": {
+        "status": "accepted-evidence",
+        "mode": "deterministic accepted-scenario GraphRAG path",
+        "nodes": [
+          {
+            "id": "code-value:road-class2:9420400",
+            "type": "CodeListValue",
+            "summary": {
+              "code": "9420400",
+              "label": "縣道"
+            }
+          },
+          {
+            "id": "portrayal-rule:doc01:9420400",
+            "type": "PortrayalRule",
+            "summary": {
+              "feature_code": "9420400",
+              "feature_name": "縣道",
+              "page": 23,
+              "instruction": "實寬，註記名稱"
+            }
+          },
+          {
+            "id": "portrayal-rule:doc01:9490005",
+            "type": "PortrayalRule",
+            "summary": {
+              "feature_code": "9490005",
+              "feature_name": "縣道線號符號",
+              "page": 34,
+              "instruction": "註記線號數字；圖式方向與道路平行"
+            }
+          },
+          {
+            "id": "portrayal-recipe:road:9420400:compound-v1",
+            "type": "PortrayalRecipe",
+            "summary": {
+              "representation_kind": "compound-road-boundary-name-and-route-shield"
+            }
+          },
+          {
+            "id": "vector-primitive:road:9420400:road-name-label",
+            "type": "VectorPrimitive",
+            "summary": {}
+          },
+          {
+            "id": "vector-primitive:road:9420400:route-shield",
+            "type": "VectorPrimitive",
+            "summary": {}
+          }
+        ],
+        "mapping_rule": "Render three ordered LineStrings and place literal 中山街 along the line; shield remains semantic-binding-only.",
+        "boundary": "The frozen ROAD demo uses native ROAD LineString geometry for the authorized semantic centreline and line-following label. It preserves shield code/orientation semantically and does not claim an approved shield graphic or ROADA-derived surveyed boundary."
+      },
+      "plan": {
+        "status": "frozen validated",
+        "id": "road-plan-cd434d50bd5b49a012bd1e10",
+        "sha256": "e51e42b955ade0d3ff5c6b8fbe00919aac4d9b9f90fe59bd548e14b7a9bf04a0",
+        "action": "Render exact accepted vertex counts 4/3/4 with line-following 中山街."
+      },
+      "authorization": {
+        "status": "accepted · consumed evidence",
+        "id": "road-03-authorization-f68220ecef989e589dd6e28c",
+        "sha256": "f68220ecef989e589dd6e28c1ad2356a199790f061ea30cc725e42a5bdf92c38",
+        "scope": "Exact K14_ROAD three-segment derivative; demo-only authority."
+      },
+      "execution": {
+        "status": "accepted replay",
+        "id": "road-exec-33766f336d9cc18eb2ac159e",
+        "feature_count": 3,
+        "mode": "Frozen receipt replay; source mutation and topology repair were not performed."
+      },
+      "qa": {
+        "status": "PASS",
+        "sha256": "8f31ecb25f62b5bc71465db33503a7c37d63fe18e9006ce6801a2ab639464a82",
+        "checks": [
+          "K14_ROAD identity",
+          "ordered segments",
+          "4 / 3 / 4 vertices",
+          "line-following 中山街"
+        ]
+      },
+      "provenance": {
+        "status": "verified",
+        "sha256": "130a24e15126743466b57dc03e2ca8a652335553b56522e316f47104cc9dbc70",
+        "fixture_sha256": "dc82db8bfc96dd6ab16b3206866e000459b9fd59a8f6d44602fcf06586b1ae79",
+        "receipt_sha256": "0ab5964fcc2e1f47d43fd328dbc3771a7e624bf4a3707f91236a1485f5610720"
+      },
+      "map": {
+        "type": "road",
+        "geojson": {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "id": "K0000004671",
+              "properties": {
+                "ROADSEGID": "K0000004671",
+                "ROADNAME": "中山街",
+                "ROADNUM": "縣126",
+                "TERRAINID": "9420400",
+                "vertex_count": 4,
+                "coordinate_policy": "normalized-public-replay"
+              },
+              "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                  [
+                    120.98,
+                    24.74
+                  ],
+                  [
+                    120.995,
+                    24.746
+                  ],
+                  [
+                    121.012,
+                    24.754
+                  ],
+                  [
+                    121.03,
+                    24.765
+                  ]
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "K0000004913",
+              "properties": {
+                "ROADSEGID": "K0000004913",
+                "ROADNAME": "中山街",
+                "ROADNUM": "縣126",
+                "TERRAINID": "9420400",
+                "vertex_count": 3,
+                "coordinate_policy": "normalized-public-replay"
+              },
+              "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                  [
+                    121.03,
+                    24.765
+                  ],
+                  [
+                    121.049,
+                    24.778
+                  ],
+                  [
+                    121.069,
+                    24.794
+                  ]
+                ]
+              }
+            },
+            {
+              "type": "Feature",
+              "id": "K0000005348",
+              "properties": {
+                "ROADSEGID": "K0000005348",
+                "ROADNAME": "中山街",
+                "ROADNUM": "縣126",
+                "TERRAINID": "9420400",
+                "vertex_count": 4,
+                "coordinate_policy": "normalized-public-replay"
+              },
+              "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                  [
+                    121.069,
+                    24.794
+                  ],
+                  [
+                    121.087,
+                    24.811
+                  ],
+                  [
+                    121.103,
+                    24.827
+                  ],
+                  [
+                    121.12,
+                    24.846
+                  ]
+                ]
+              }
+            }
+          ]
+        },
+        "caption": "Topology- and count-faithful normalized replay: ordered 4/3/4 vertices with line-following 中山街. Private source coordinates are not published.",
+        "coordinate_policy": "normalized-public-replay-not-source-geography"
+      }
+    },
+    {
+      "id": "build",
+      "domain": "BUILD",
+      "title": "Boundary / hatch replay",
+      "subtitle": "Accepted derived view · production activation held",
+      "request": "Replay the accepted BUILD 9310100 boundary and hatch demonstration.",
+      "interpretation": {
+        "status": "resolved",
+        "summary": "BUILD domain · feature code 9310100 · derived demonstration only",
+        "boundary": "Production activation requests are outside this static replay and remain disabled."
+      },
+      "knowledge": {
+        "status": "accepted-evidence · GraphRAG not applicable",
+        "mode": "frozen mapping-rule evidence",
+        "nodes": [],
+        "mapping_rule": "Solid boundary with 45° diagonal hatch over a normalized, non-geographic derived polygon.",
+        "boundary": "The accepted BUILD evaluation does not claim GraphRAG retrieval; no claim is fabricated."
+      },
+      "plan": {
+        "status": "frozen validated",
+        "id": "b8b5ecd54954b190eb8cda398710039f334e8424fd0969816380b4a2b52b0b71",
+        "sha256": "b8b5ecd54954b190eb8cda398710039f334e8424fd0969816380b4a2b52b0b71",
+        "action": "Render the accepted normalized boundary and clipped diagonal hatch."
+      },
+      "authorization": {
+        "status": "accepted · consumed once",
+        "id": "build-04-demo-auth-a5a8f11b94784a60",
+        "sha256": "f609fa99ae0280987e11a3328e04d26484c15a65f72a0266566f2aaa9f650b2d",
+        "scope": "Derived demo only; production activation held/disabled."
+      },
+      "execution": {
+        "status": "accepted replay",
+        "id": "build-05-demo-exec-b8b5ecd54954b190eb8cda39",
+        "feature_count": 1,
+        "mode": "Frozen package validation/replay; runtime wiring and production activation are absent."
+      },
+      "qa": {
+        "status": "PASS",
+        "sha256": "10c22339abb8d2eed489ae56a54214948213bad51a135e00f74e309931c98c97",
+        "checks": [
+          "normalized boundary",
+          "45° diagonal hatch",
+          "production activation false",
+          "raw attributes absent"
+        ]
+      },
+      "provenance": {
+        "status": "source commitments verified",
+        "sha256": "9131df533365e2f42e01edb8988804b850b65e69b932c55b672e0addd3400d84",
+        "fixture_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+        "receipt_sha256": "c4ff4017c01aa3ef861530a91204fcd8357387a8400f4a47fcd637033f445573"
+      },
+      "map": {
+        "type": "build",
+        "geojson": {
+          "features": [
+            {
+              "geometry": {
+                "coordinates": [
+                  [
+                    [
+                      1.0,
+                      0.57354
+                    ],
+                    [
+                      0.999044,
+                      0.472806
+                    ],
+                    [
+                      0.998662,
+                      0.432269
+                    ],
+                    [
+                      0.997611,
+                      0.321476
+                    ],
+                    [
+                      0.995761,
+                      0.126029
+                    ],
+                    [
+                      0.993777,
+                      0.126045
+                    ],
+                    [
+                      0.992432,
+                      0.028617
+                    ],
+                    [
+                      0.989113,
+                      0.020178
+                    ],
+                    [
+                      0.985149,
+                      0.01352
+                    ],
+                    [
+                      0.977604,
+                      0.007368
+                    ],
+                    [
+                      0.96936,
+                      0.003845
+                    ],
+                    [
+                      0.962746,
+                      0.003113
+                    ],
+                    [
+                      0.963244,
+                      0.06796
+                    ],
+                    [
+                      0.951396,
+                      0.068169
+                    ],
+                    [
+                      0.951631,
+                      0.086809
+                    ],
+                    [
+                      0.914702,
+                      0.087223
+                    ],
+                    [
+                      0.914789,
+                      0.068811
+                    ],
+                    [
+                      0.898326,
+                      0.069102
+                    ],
+                    [
+                      0.898816,
+                      0.004127
+                    ],
+                    [
+                      0.861147,
+                      0.003884
+                    ],
+                    [
+                      0.788803,
+                      0.00342
+                    ],
+                    [
+                      0.761554,
+                      0.003245
+                    ],
+                    [
+                      0.649625,
+                      0.002526
+                    ],
+                    [
+                      0.607802,
+                      0.002257
+                    ],
+                    [
+                      0.559258,
+                      0.001945
+                    ],
+                    [
+                      0.528918,
+                      0.001838
+                    ],
+                    [
+                      0.474861,
+                      0.001652
+                    ],
+                    [
+                      0.367629,
+                      0.001279
+                    ],
+                    [
+                      0.000344,
+                      0.0
+                    ],
+                    [
+                      0.000325,
+                      0.006444
+                    ],
+                    [
+                      0.000239,
+                      0.037832
+                    ],
+                    [
+                      0.0,
+                      0.124272
+                    ],
+                    [
+                      0.032531,
+                      0.124661
+                    ],
+                    [
+                      0.05069,
+                      0.12488
+                    ],
+                    [
+                      0.050722,
+                      0.126575
+                    ],
+                    [
+                      0.35529,
+                      0.126971
+                    ],
+                    [
+                      0.355387,
+                      0.150991
+                    ],
+                    [
+                      0.357078,
+                      0.15096
+                    ],
+                    [
+                      0.383654,
+                      0.150459
+                    ],
+                    [
+                      0.383238,
+                      0.089409
+                    ],
+                    [
+                      0.455609,
+                      0.089915
+                    ],
+                    [
+                      0.455298,
+                      0.150646
+                    ],
+                    [
+                      0.483503,
+                      0.150389
+                    ],
+                    [
+                      0.48373,
+                      0.126857
+                    ],
+                    [
+                      0.528918,
+                      0.126775
+                    ],
+                    [
+                      0.617277,
+                      0.126613
+                    ],
+                    [
+                      0.790202,
+                      0.127241
+                    ],
+                    [
+                      0.79045,
+                      0.059471
+                    ],
+                    [
+                      0.79051,
+                      0.04319
+                    ],
+                    [
+                      0.822301,
+                      0.043359
+                    ],
+                    [
+                      0.822116,
+                      0.036312
+                    ],
+                    [
+                      0.856205,
+                      0.035702
+                    ],
+                    [
+                      0.857161,
+                      0.061577
+                    ],
+                    [
+                      0.822803,
+                      0.062453
+                    ],
+                    [
+                      0.822694,
+                      0.058321
+                    ],
+                    [
+                      0.808951,
+                      0.058504
+                    ],
+                    [
+                      0.808958,
+                      0.059352
+                    ],
+                    [
+                      0.809475,
+                      0.124957
+                    ],
+                    [
+                      0.871557,
+                      0.124736
+                    ],
+                    [
+                      0.871876,
+                      0.161938
+                    ],
+                    [
+                      0.872419,
+                      0.225074
+                    ],
+                    [
+                      0.872536,
+                      0.238515
+                    ],
+                    [
+                      0.873248,
+                      0.321476
+                    ],
+                    [
+                      0.875439,
+                      0.576045
+                    ],
+                    [
+                      1.0,
+                      0.57354
+                    ]
+                  ]
+                ],
+                "type": "Polygon"
+              },
+              "id": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f",
+              "properties": {
+                "annotation_value_sha256": "17460f383142153fa58b587a2d3902b6cdbbcddb663d151cf28ce86bc6149a52",
+                "display_annotation": "樓層＋結構",
+                "feature_code": "9310100"
+              },
+              "type": "Feature"
+            }
+          ],
+          "type": "FeatureCollection"
+        },
+        "caption": "Accepted normalized-local BUILD geometry with solid boundary and 45° hatch. Not geographic; production activation held/disabled.",
+        "coordinate_policy": "frozen-normalized-local-demo-not-geographic"
+      },
+      "production_activation": false
+    }
+  ]
+}
