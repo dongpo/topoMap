@@ -1,4 +1,4 @@
-name: Deploy bounded NMA public demo to Pages
+name: Deploy NMA v1.0 static accepted replay to Pages
 
 on:
   push:
@@ -25,25 +25,11 @@ jobs:
       - name: Checkout exact deployment branch
         uses: actions/checkout@v4
 
-      - name: Build bounded public artifact
-        run: python3 scripts/build_public_site.py --output artifacts/tmp/public-site
+      - name: Build static accepted-execution replay
+        run: python3 scripts/build_gh_pages.py --output artifacts/tmp/gh-pages
 
-      - name: Verify bounded publication contract
-        run: |
-          test -f artifacts/tmp/public-site/index.html
-          test -f artifacts/tmp/public-site/nmaAgentDemo.html
-          test -f artifacts/tmp/public-site/release.json
-          test -f artifacts/tmp/public-site/.nojekyll
-          test "$(find artifacts/tmp/public-site -type f -name '*.pmtiles' | wc -l | tr -d ' ')" = "0"
-          grep -q 'PUBLIC_EVIDENCE_ONLY=true' artifacts/tmp/public-site/nmaAgentDemo.html
-          python3 - <<'PY'
-          import json
-          from pathlib import Path
-          release = json.loads(Path('artifacts/tmp/public-site/release.json').read_text())
-          assert release['public_mode'] == 'evidence-only'
-          assert release['pmtiles_included'] is False
-          assert all(not item['path'].endswith('.pmtiles') for item in release['files'])
-          PY
+      - name: Run focused Pages acceptance tests
+        run: python3 -m unittest discover -s tests -p 'test_gh_pages_static_demo.py' -v
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -51,7 +37,7 @@ jobs:
       - name: Upload bounded Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: artifacts/tmp/public-site
+          path: artifacts/tmp/gh-pages
 
       - name: Deploy to GitHub Pages
         id: deployment

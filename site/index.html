@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="NMA v1.0 accepted execution replay for School, ROAD, and BUILD">
+  <title>NMA v1.0 · Accepted Execution Replay</title>
+  <link rel="stylesheet" href="assets/maplibre-gl-4.7.0.css">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <a class="skip-link" href="#demo">Skip to demo</a>
+  <header class="hero">
+    <nav class="topbar" aria-label="Primary">
+      <a class="brand" href="./" aria-label="NMA accepted execution replay home">
+        <span class="brand-mark">N</span><span>National Map Agent</span>
+      </a>
+      <a class="source-link" href="https://github.com/dongpo/topoMap/tree/nma-v1.0-final">Frozen source ↗</a>
+    </nav>
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">NMA v1.0 · controlled research demonstration</p>
+        <h1>Evidence you can<br><em>walk through.</em></h1>
+        <p class="lead">Explore three accepted mapping executions as an interactive, public-safe replay—from request and Agent interpretation to MapLibre result, verification, and provenance.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#demo">Explore scenarios <span>↓</span></a>
+          <a class="button ghost" href="#boundary">Read the boundary</a>
+        </div>
+      </div>
+      <aside class="mode-card" aria-label="Replay status">
+        <div class="mode-live"><span></span> Accepted evidence loaded</div>
+        <dl>
+          <div><dt>Mode</dt><dd>Static execution replay</dd></div>
+          <div><dt>Live Agent</dt><dd class="held">Not running</dd></div>
+          <div><dt>Production</dt><dd class="held">Authority absent</dd></div>
+          <div><dt>Authority</dt><dd><code>eb87bde…</code></dd></div>
+        </dl>
+      </aside>
+    </div>
+  </header>
+
+  <main id="demo">
+    <section class="intro-section" aria-labelledby="scenarios-title">
+      <div class="section-kicker"><span>01</span> Frozen scenarios</div>
+      <div class="section-title-row">
+        <div>
+          <h2 id="scenarios-title">Choose an accepted path</h2>
+          <p>Every interaction resolves locally to a frozen, pre-accepted evidence package.</p>
+        </div>
+        <div class="integrity"><span class="integrity-dot"></span><span id="integrity-text">Loading integrity manifest…</span></div>
+      </div>
+      <div class="scenario-tabs" id="scenario-tabs" role="tablist" aria-label="Accepted scenarios"></div>
+      <form class="request-box" id="request-form">
+        <label for="request-input"><span>Bounded request</span><small>Local deterministic selector—no request leaves your browser.</small></label>
+        <div class="request-row">
+          <input id="request-input" maxlength="220" autocomplete="off" value="Show the accepted School mapping lifecycle." aria-describedby="request-note">
+          <button type="submit">Resolve replay</button>
+        </div>
+        <p id="request-note">Try “School”, “K14_ROAD / 中山街”, or “BUILD / 建物”. Uploads, URLs, credentials, and production actions are not supported.</p>
+        <p class="request-status" id="request-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="workspace" id="workspace" aria-live="polite">
+      <div class="section-kicker"><span>02</span> Accepted execution replay</div>
+      <div class="workspace-heading">
+        <div><p class="domain" id="scenario-domain"></p><h2 id="scenario-title"></h2><p id="scenario-subtitle"></p></div>
+        <div class="replay-chip"><span>●</span> REPLAY · NOT LIVE</div>
+      </div>
+
+      <div class="map-evidence-grid">
+        <article class="map-card">
+          <div class="card-heading"><div><p class="mini-label">MapLibre visualization</p><h3>Accepted result portrayal</h3></div><span class="map-kind" id="map-kind"></span></div>
+          <div id="map" aria-label="Interactive MapLibre accepted replay result"></div>
+          <div class="map-caption"><span class="coordinate-badge">PUBLIC-SAFE</span><p id="map-caption"></p></div>
+        </article>
+        <aside class="evidence-card">
+          <div class="card-heading"><div><p class="mini-label">Evidence ledger</p><h3>Inspectable chain</h3></div><span class="pass-badge">VERIFIED</span></div>
+          <div class="evidence-detail" id="evidence-detail"></div>
+        </aside>
+      </div>
+
+      <div class="pipeline-wrap">
+        <div class="pipeline-heading"><p class="mini-label">Lifecycle</p><h3>Request → provenance</h3></div>
+        <div class="pipeline" id="pipeline" role="list"></div>
+      </div>
+    </section>
+
+    <section class="boundary" id="boundary" aria-labelledby="boundary-title">
+      <div class="section-kicker light"><span>03</span> Research boundary</div>
+      <div class="boundary-grid">
+        <div><h2 id="boundary-title">Replay is the feature,<br>not a limitation.</h2><p>This site demonstrates how accepted evidence connects across the NMA lifecycle. It deliberately does not expose private fixture bytes or operate production systems.</p></div>
+        <div class="boundary-list">
+          <article><span>01</span><div><strong>No live service</strong><p>No FastAPI server, Agent process, LLM, Neo4j, or runtime writeback.</p></div></article>
+          <article><span>02</span><div><strong>No data substitution</strong><p>No external open-data replacement and no arbitrary upload or URL fetch.</p></div></article>
+          <article><span>03</span><div><strong>Private geometry withheld</strong><p>School and ROAD use count/topology-faithful normalized views; hashes and accepted identities remain inspectable.</p></div></article>
+          <article><span>04</span><div><strong>BUILD held</strong><p>Production activation is disabled/unavailable. The displayed polygon is the frozen normalized demo artifact.</p></div></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div><span class="brand-mark small">N</span><strong>National Map Agent</strong></div>
+    <p>NMA v1.0 final · accepted execution replay · public research artifact</p>
+    <a href="release.json">Release manifest</a>
+  </footer>
+
+  <script src="assets/maplibre-gl-4.7.0.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
