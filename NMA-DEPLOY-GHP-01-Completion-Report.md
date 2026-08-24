@@ -1,123 +1,163 @@
-# DEPLOY-GHP-01 — Static GitHub Pages NMA Research Demo
+# DEPLOY-GHP-01 — User Shapefile NMA Research Demo
 
 ## Terminal verdict
 
-> **PASS — STATIC NMA RESEARCH DEMO DEPLOYED TO GITHUB PAGES**
+> **PASS — USER-SHAPEFILE NMA RESEARCH DEMO DEPLOYED TO GITHUB PAGES**
 
-The `main` Pages workflow succeeded and the external public URL passed School, ROAD, BUILD,
-MapLibre, evidence-panel, path-prefix, and console acceptance checks. This verdict is not based on
-localhost-only testing.
+The earlier normalized accepted-replay page was not an adequate NMA demo: it rejected uploads and
+rendered preloaded GeoJSON. That implementation has been withdrawn. The public site now requires a
+user-selected Shapefile ZIP before it can produce any School, ROAD, or BUILD result.
 
-## Publication-source finding
+This verdict is based on an external browser execution at the public URL with the controlled user
+archive, not localhost-only testing.
 
-Before this deployment, `https://dongpo.github.io/topoMap/` displayed only `test`. The exact source
-was:
+## What the demo demonstrates
 
-- branch: `main` at `c608acb0c7a0b07459de371c1b2fea4c8a4f62ac`;
+The pre-hero NMA architecture, SHP/OSM tools, CRS handling, PMTiles/MapLibre experience,
+verification methods, Agent bench, and future research routes remain the research baseline. This
+demo isolates one narrower claim:
+
+> Can reviewed mapping knowledge control one authorized, executable, verifiable, and traceable
+> operation on a user's Shapefile?
+
+The visible lifecycle is:
+
+`user request → user SHP intake → Agent interpretation replay → GraphRAG/mapping-rule replay → plan
+→ human authorization → browser-local execution → QA/verification → provenance`
+
+The frozen Agent and GraphRAG steps are deterministic reviewed-knowledge replays. The site does not
+claim that FastAPI, an LLM Agent, Neo4j, or production GIS writeback is live.
+
+## Publication source
+
+The original `test` placeholder was published from `main` by GitHub Actions. Its workflow uploaded
+the repository root and therefore served the root `index.html` containing `<p>test</p>`. There was
+no active `docs/` or `gh-pages` source.
+
+The current source is:
+
+- branch: `main`;
 - mechanism: GitHub Actions Pages deployment;
 - workflow: `.github/workflows/static.yml`;
-- uploaded source: repository root (`path: '.'`);
-- placeholder: root `index.html`, containing `<p>test</p>`.
+- uploaded directory: `public/gh-pages`;
+- authority: `nma-v1.0-final` / `eb87bde775333811529efb6f651573ea21cf456b`;
+- user-Shapefile artifact commit: `d0b1949bb749e1e7f2c58036b3dc8a7755c3c116`;
+- successful deployment run: `32683993790`;
+- deployment job: `97305582763`;
+- public URL: `https://dongpo.github.io/topoMap/`.
 
-An external browser independently rendered the same single `test` paragraph. There was no active
-`docs/` or `gh-pages` publication path. The earlier DEPLOY-02 branch was also inspected: it built an
-older v0.2 five-scene site, while `public/nma` depended on `/nma/api/v1` and was not standalone
-GitHub Pages content.
+All steps in run `32683993790` passed: checkout, focused tests, Pages setup, artifact upload, and
+deployment. GitHub emitted a non-failing annotation that Node.js 20 actions are being forced to
+Node.js 24; it did not affect the deployment.
 
-## Final Pages source
+## User-data and privacy contract
 
-- allowed source branch: `main`;
-- mechanism: GitHub Actions Pages deployment;
-- source directory: `public/gh-pages`;
-- workflow: `.github/workflows/static.yml`;
-- deployment authority: `nma-v1.0-final` / `eb87bde775333811529efb6f651573ea21cf456b`;
-- demo authority: `nma-demo-v1.0-final` / `05af154a14e781f20b5cf2d3996eac8191875b0f`.
-- deployed artifact commit: `79150559eb56df58b10d90a3e8a4f62261c2ace2`;
-- successful workflow: run `32654202890`, run number `41`, job `97230328919`.
+- Before a user chooses a ZIP, the result area says `USER SHP REQUIRED` and contains no map result
+  geometry.
+- The file input uses the browser File API. ZIP inventory, safety gates, SHA-256, Shapefile parsing,
+  CRS conversion, filtering, verification, receipt construction, and MapLibre rendering occur in
+  browser memory.
+- The page has no upload endpoint and performs no open-data or OSM substitution.
+- User SHP/DBF/SHX/PRJ/CPG bytes are not persisted by the page and are not included in the deployed
+  artifact.
+- No OpenAI, Neo4j, FastAPI, or production credentials are present.
+- Every execution requires a proposal to pass the component, geometry, CRS, and identity gates and
+  then requires an explicit browser-session authorization click.
 
-The dedicated directory replaces the previous whole-repository upload and excludes the root
-PMTiles archive and all unrelated repository content.
+The public artifact vendors pinned MapLibre 4.7.0, shpjs 6.2.0, fflate 0.8.3, Noto glyphs, and the
+corresponding licenses. All asset paths are relative and safe under `/topoMap/`.
 
-## Static replay scope
+## Controlled user-Shapefile evidence
 
-This artifact is explicitly an **accepted execution replay**, not a live FastAPI or Agent service.
-It contains:
+External acceptance used the controlled archive only through the public page's file chooser. The
+archive was not committed or published.
 
-- School: accepted 15-point result, blue portrayal, accepted authorization, GraphRAG/rule
-  projection, QA, receipt, and provenance;
-- ROAD: accepted `K14_ROAD` evidence, ordered 4/3/4 vertices, line-following `中山街`, accepted
-  authorization, QA, receipt, and provenance;
-- BUILD: frozen normalized polygon, clipped 45-degree hatch, receipt and verification, with
-  production activation visibly held/disabled;
-- eight inspectable stages from request through provenance;
-- vendored MapLibre 4.7.0 and Noto glyph assets with `/topoMap/`-safe relative URLs.
+- archive: `112年多維度SHP成果_0502.zip`;
+- compressed size shown by the page: 12.2 MB;
+- archive SHA-256:
+  `4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53`;
+- ZIP entries inventoried: 1,318;
+- Shapefile component groups parsed: 128;
+- source CRS reported from PRJ: `TWD97[2020]_TM121`;
+- browser preview CRS: WGS84.
 
-School and ROAD are count/topology-faithful normalized public views. They do not publish private
-source coordinates, names, attributes, raw fixture bytes, or substitute external open data. BUILD
-uses the already frozen normalized-local, non-geographic artifact.
+### School
 
-## Enforced boundaries
+- user layers: six user `*_MARK` Shapefiles;
+- controlled filter: `TERRAINID=9920103`;
+- output: 15 user-source points;
+- identity: 15/15 `MARKID` present and unique;
+- geometry mismatch: 0;
+- frozen count contract: MATCH;
+- authorization: explicit browser-session authorization;
+- execution: MapLibre canvas created from the user features.
 
-- no external data substitution, arbitrary upload, URL fetch, or writeback;
-- no live FastAPI, Agent, LLM, or Neo4j process;
-- no OpenAI, Neo4j, or production credentials;
-- no `.zip`, `.shp`, `.dbf`, `.shx`, or `.pmtiles` deployment payload;
-- no production activation or frozen semantic change.
+### ROAD
 
-## Verification before deployment
+- user layer: `K14_ROAD` only (196 source features);
+- controlled filter: `TERRAINID=9420400 AND ROADNAME=中山街`;
+- output: 3 user-source line features;
+- identity: 3/3 `ROADSEGID` present and unique;
+- accepted ROADSEGID sequence: MATCH;
+- vertex sequence: actual `4/3/4`, expected `4/3/4` — MATCH;
+- portrayal: MapLibre line with line-following `中山街` label;
+- authorization: explicit browser-session authorization.
 
-- focused static acceptance tests: **8 passed**;
-- lint, formatting, compile, and diff checks: **passed**;
-- local browser console after final reload: **0 errors/warnings**;
-- School MapLibre: **15 individually visible public-safe points**;
-- ROAD MapLibre: **ordered 4/3/4 trace and line-following 中山街**;
-- BUILD MapLibre: **boundary and clipped hatch; activation held**;
-- bounded selector: supported request resolves locally; production request fails closed.
+### BUILD
 
-## Deployment history
+- user layer: `J17_BUILD` only (2,839 source features);
+- controlled filter: `TERRAINID=9310100`;
+- output: 2,769 user-source polygon features;
+- identity: 2,769/2,769 `BUILD_ID` present and unique;
+- Z coordinate observed after browser parse: YES;
+- frozen count contract: MATCH;
+- portrayal: MapLibre boundary plus clipped 45-degree hatch;
+- authorization: browser preview only;
+- production activation: **HELD / DISABLED** before and after preview execution.
 
-An initial attempt from `deploy/deploy-02-github-pages-public-demo` at
-`d875210956e02bfb61e8a2e2e23b70529ca8862e` failed before any steps ran. GitHub check annotation
-stated that the branch was not allowed by `github-pages` environment protection rules (run
-`32654032385`). The solution preserves that protection and publishes the same tested artifact from
-the allowed `main` branch.
+For every profile, the evidence ledger includes the archive hash, selected source layers, required
+sidecar completeness, component SHA-256 values, retrieved mapping-rule identities, filter plan,
+authorization state, feature/ID/geometry/CRS checks, and a proposal/receipt SHA-256.
 
-Run `32654202890` completed successfully. Checkout, focused acceptance tests, Pages setup, bounded
-artifact upload, and Pages deployment all concluded `success`.
+## Verification
 
-## External acceptance
+- focused static acceptance tests: 9 passed;
+- JavaScript syntax: passed;
+- Python lint: passed;
+- diff integrity check: passed;
+- local real-browser user-Shapefile QA: School, ROAD, BUILD passed;
+- external public-URL user-Shapefile QA: School, ROAD, BUILD passed;
+- external MapLibre canvases: created for all three authorized scenarios;
+- external browser console: 0 errors/warnings;
+- previous `test` placeholder: absent;
+- previous preloaded `data/scenarios.json`: deleted and not deployed.
 
-`https://dongpo.github.io/topoMap/` was reloaded after the successful workflow and verified in a
-real browser:
+## Explicit limitations
 
-- title: `NMA v1.0 · Accepted Execution Replay`;
-- old `test` placeholder: absent;
-- School: 15-point caption, accepted authorization identity, MapLibre canvas, and 8 lifecycle
-  stages present;
-- ROAD: accepted `K14_ROAD`, 4/3/4, line-following `中山街`, MapLibre canvas, evidence checks, and
-  8 stages present;
-- BUILD: accepted normalized boundary/hatch visible, production activation held/disabled,
-  MapLibre canvas, and 8 stages present;
-- browser console: 0 errors/warnings.
+- This is a static browser-local controlled execution, not a live FastAPI/Agent/Neo4j service.
+- The frozen knowledge selection is replayed deterministically; the demo does not claim live
+  GraphRAG retrieval.
+- PMTiles generation is not performed in the browser. It remains a CLI/backend tool-chain step.
+- Hausdorff distance is displayed as not run because no separate user reference geometry is
+  supplied. The page does not fabricate that metric.
+- No OSM comparison or SHP↔OSM conversion is run by this page; those remain existing capabilities,
+  not evidence produced in this execution.
+- Large or highly layered archives are bounded by explicit compressed-size, uncompressed-size, and
+  entry-count safety limits and may take noticeable time to parse in browser memory.
 
-## Changed files
+## Changed files for the user-Shapefile correction
 
-- `.gitignore`
 - `.github/workflows/static.yml`
 - `NMA-DEPLOY-GHP-01-Completion-Report.md`
-- `public/gh-pages/.nojekyll`
 - `public/gh-pages/app.css`
 - `public/gh-pages/app.js`
+- `public/gh-pages/assets/fflate-0.8.3-LICENSE.txt`
+- `public/gh-pages/assets/fflate-0.8.3.min.js`
+- `public/gh-pages/assets/school-blue.svg` (deleted)
+- `public/gh-pages/assets/shpjs-6.2.0-LICENSE.txt`
+- `public/gh-pages/assets/shpjs-6.2.0.min.js`
+- `public/gh-pages/data/scenarios.json` (deleted)
 - `public/gh-pages/index.html`
 - `public/gh-pages/release.json`
-- `public/gh-pages/data/scenarios.json`
-- `public/gh-pages/assets/NotoSans-LICENSE.txt`
-- `public/gh-pages/assets/NotoSansRegular-0-255.pbf`
-- `public/gh-pages/assets/NotoSansRegular-19968-20223.pbf`
-- `public/gh-pages/assets/NotoSansRegular-23552-23807.pbf`
-- `public/gh-pages/assets/NotoSansRegular-34816-35071.pbf`
-- `public/gh-pages/assets/maplibre-gl-4.7.0-LICENSE.txt`
-- `public/gh-pages/assets/maplibre-gl-4.7.0.css`
-- `public/gh-pages/assets/maplibre-gl-4.7.0.js`
-- `public/gh-pages/assets/school-blue.svg`
+- `scripts/build_gh_pages_release_manifest.py`
 - `tests/test_gh_pages_static_demo.py`
