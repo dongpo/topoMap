@@ -174,3 +174,55 @@ authorization state, feature/ID/geometry/CRS checks, and a proposal/receipt SHA-
 - `public/gh-pages/release.json`
 - `scripts/build_gh_pages_release_manifest.py`
 - `tests/test_gh_pages_static_demo.py`
+
+## 2026-08-24 Knowledge Graph and Agenticity recovery
+
+The previous Pages implementation was rejected because its JavaScript embedded a simplified
+classification table and therefore bypassed the already-built canonical Knowledge Graph. It also
+treated missing schema mappings as an unrecoverable blocked state.
+
+The recovered application now:
+
+- builds `data/nma-runtime-knowledge-v0.4.json` reproducibly from
+  `nma-v1.0-final:data/knowledge/nma-canonical-graph-v0.4.json`;
+- loads 861 selected canonical nodes and 1,040 edges in the browser, including Document 09
+  MARK/ROAD/BUILD schemas, Annex 7 classifications, portrayal evidence, runtime observations, and
+  activation gates;
+- obtains School, ROAD, and BUILD classification labels from graph nodes, including
+  `9310103 無牆建物` and `9310200 建築中建物`;
+- requires exact `TERRAINID` and validates its values against KG codes before planning;
+- recognizes graph-defined ROAD attribute-suffix composition such as `9420900a` and `9420900b`;
+- asks a bounded clarification question when no approved schema mapping exists;
+- records an affirmative answer only as a non-reusable, current-browser-run mapping;
+- uses that observation to replan, which exercises the symbolic Agent loop without claiming that an
+  LLM is necessary;
+- uses ZIP-relative filename plus source ID as logical source identity; record index is renderer-only;
+- removes the fixed 15-school, K14 three-road, and J17 permanent-building acceptance counts from
+  general planning;
+- renders the authorized result only; it does not export data or activate production.
+
+Focused validation now contains 12 tests. Browser-local verification with private user data
+confirmed:
+
+- School: six MARK layers, clarification answered, 77 KG-classified points rendered, no console
+  errors;
+- ROAD: a complete K14 ROAD Shapefile, clarification answered, 192 KG-classified lines rendered,
+  including graph-composed `9420900a/b`, no console errors;
+- BUILD: a complete J17 BUILD Shapefile, clarification answered, 2,839 polygons rendered
+  (`9310100` and `9310103`), production held, no console errors.
+
+The full supplied archive correctly stops the ROAD run at intake because `K01_ROAD` lacks the
+required `TERRAINID`. This is the requested fail-closed behavior, not a recoverable mapping question.
+The ROAD and BUILD browser checks used private, temporary scenario-specific ZIP subsets; no private
+fixture bytes are present in the repository or Pages artifact.
+
+Changed files for this recovery:
+
+- `NMA-DEPLOY-GHP-01-Completion-Report.md`
+- `public/gh-pages/app.css`
+- `public/gh-pages/app.js`
+- `public/gh-pages/data/nma-runtime-knowledge-v0.4.json`
+- `public/gh-pages/index.html`
+- `public/gh-pages/release.json`
+- `scripts/build_gh_pages_knowledge_projection.py`
+- `tests/test_gh_pages_static_demo.py`

@@ -18,13 +18,13 @@
     },
     {
       "path": "app.css",
-      "bytes": 16262,
-      "sha256": "1cb4e47c890fd05424aca4d332b10728eb0805a8e3710d5e01d6a63d5ab65d22"
+      "bytes": 20747,
+      "sha256": "41f4962bee1f5a62faaaf6d23e3c76e7f475f3a927907b4e0e89d19f3c8209ee"
     },
     {
       "path": "app.js",
-      "bytes": 38618,
-      "sha256": "78194bca055f7b61518003a9f40ba2d44101ed6c26a14e623e2824c833e27e89"
+      "bytes": 32323,
+      "sha256": "71018cadfbedc37cc52bcbac2e3f577972828cecf1f52a8cc4496dd03e1899f9"
     },
     {
       "path": "assets/NotoSans-LICENSE.txt",
@@ -87,9 +87,14 @@
       "sha256": "3380a08babfcc8411e5fa7693a4cc443627e43200b0489c81173a55ff1439ca0"
     },
     {
+      "path": "data/nma-runtime-knowledge-v0.4.json",
+      "bytes": 1108633,
+      "sha256": "5a571c2c1740ef4924c9e6393171c6d2f94c7426c166078cd291424fda067a9c"
+    },
+    {
       "path": "index.html",
-      "bytes": 11167,
-      "sha256": "2d5c2e97f975c4c0e999136ddc00c4ecf5dbab425fe290b4d0efe8e5013f0224"
+      "bytes": 9916,
+      "sha256": "094eeca9f22d8b5e50156836c10fe554be4b039b74fe133a37a5c6a4e3cf9472"
     }
   ]
 }

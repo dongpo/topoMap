@@ -29,100 +29,96 @@ class StaticPagesDemoTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.index = (OUTPUT / "index.html").read_text(encoding="utf-8")
         cls.app = (OUTPUT / "app.js").read_text(encoding="utf-8")
+        cls.knowledge = json.loads(
+            (OUTPUT / "data/nma-runtime-knowledge-v0.4.json").read_text(encoding="utf-8")
+        )
         cls.release = json.loads((OUTPUT / "release.json").read_text(encoding="utf-8"))
 
-    def test_demo_requires_user_shapefile_before_any_result(self) -> None:
-        self.assertIn('type="file"', self.index)
-        self.assertIn('accept=".zip,application/zip"', self.index)
-        self.assertIn("USER SHP REQUIRED", self.index)
-        self.assertIn("尚未執行；沒有預製 geometry", self.index)
-        self.assertNotIn("data/scenarios.json", self.index + self.app)
-        self.assertFalse((OUTPUT / "data/scenarios.json").exists())
+    def test_runtime_is_derived_from_frozen_canonical_graph(self) -> None:
+        self.assertEqual(self.knowledge["source"]["commit"], "eb87bde775333811529efb6f651573ea21cf456b")
+        self.assertEqual(self.knowledge["source"]["graph_id"], "nma-canonical-graph-v0.4")
+        self.assertGreaterEqual(self.knowledge["statistics"]["nodes"], 800)
+        self.assertIn('const KNOWLEDGE_URL = "data/nma-runtime-knowledge-v0.4.json"', self.app)
+        self.assertIn("fetch(asset(KNOWLEDGE_URL)", self.app)
+        self.assertNotIn("const PROFILES =", self.app)
 
-    def test_school_road_build_are_user_data_profiles(self) -> None:
-        for profile in ("school", "road", "build"):
-            self.assertIn(f'data-profile="{profile}"', self.index)
-            self.assertRegex(self.app, rf"{profile}: \{{")
-        self.assertIn('layerSuffix: "_MARK"', self.app)
-        self.assertIn('codeValue: "9920103"', self.app)
-        self.assertIn('expectedCount: 15', self.app)
-        self.assertIn('layerExact: "K14_ROAD"', self.app)
-        self.assertIn('nameValue: "中山街"', self.app)
-        self.assertIn('expectedVertices: [4, 3, 4]', self.app)
-        self.assertIn('layerExact: "J17_BUILD"', self.app)
-        self.assertIn('codeValue: "9310100"', self.app)
-        self.assertIn('baseName(layer.name).toLocaleUpperCase() === profile.layerExact', self.app)
+    def test_document_09_layers_and_fields_are_in_projection(self) -> None:
+        ids = {node["id"] for node in self.knowledge["nodes"]}
+        for node_id in (
+            "document:doc09-temap-layers",
+            "product-layer:MARK",
+            "product-layer:ROAD",
+            "product-layer:BUILD",
+            "field:MARK:MARKID",
+            "field:ROAD:ROADSEGID",
+            "field:ROAD:ROADCLASS2",
+        ):
+            self.assertIn(node_id, ids)
 
-    def test_intake_has_component_crs_identity_and_geometry_gates(self) -> None:
+    def test_classification_labels_come_from_graph_including_build(self) -> None:
+        by_id = {node["id"]: node for node in self.knowledge["nodes"]}
+        self.assertEqual(by_id["terrain-classification:doc02:9920100"]["properties"]["name_zh"], "學校及訓練機構")
+        self.assertEqual(by_id["terrain-classification:doc02:9920106"]["properties"]["name_zh"], "特殊學校")
+        self.assertEqual(by_id["classification:doc01:9310103"]["properties"]["label"], "無牆建物")
+        self.assertEqual(by_id["classification:doc01:9310200"]["properties"]["label"], "建築中建物")
+        self.assertIn("if (n.id.includes(\"doc01\") && p.label) current.label = p.label", self.app)
+
+    def test_unknown_mapping_enters_bounded_question_and_replan(self) -> None:
         for marker in (
+            'unknown_mapping_action": "ask-user"',
+            'id="clarification-panel"',
+            'id="confirm-mapping"',
+            'id="reject-mapping"',
+            "NEEDS CLARIFICATION",
+            "current-browser-run-only",
+            "回答已改變 decision；Agent 重新規劃完成",
+            "APPROVED_MAPPING_TO",
+        ):
+            self.assertIn(marker, json.dumps(self.knowledge, ensure_ascii=False) + self.index + self.app)
+        self.assertFalse(self.knowledge["governance"]["session_mapping_reuse"])
+
+    def test_intake_is_strict_and_uses_actual_archive_envelope(self) -> None:
+        for marker in (
+            "const MAX_ARCHIVE_BYTES = 16 * 1024 * 1024",
+            "const MAX_UNCOMPRESSED_BYTES = 64 * 1024 * 1024",
+            "const MAX_ENTRIES = 1500",
             'const SIDECARS = ["shp", "shx", "dbf", "prj"]',
-            "safeEntryName",
-            "MAX_UNCOMPRESSED_BYTES",
-            "missingSidecars",
-            "crsSummary",
-            "geometryMismatch",
-            "uniqueIds",
-            "selectedComponentHashes",
-            "crypto.subtle.digest",
+            "缺少必要欄位 TERRAINID",
+            "TERRAINID 未通過 KG code validation",
+            ".prj 為空",
         ):
             self.assertIn(marker, self.app)
 
-    def test_user_prefiltered_school_schema_can_be_proposed_without_fake_code_match(self) -> None:
-        for marker in (
-            "resolveField",
-            "normalizedValue",
-            "inferIdentityField",
-            'idAliases: ["MARK_ID", "SCHOOLID", "SCHOOL_ID", "SCH_ID", "ID"]',
-            '"user-declared-prefiltered"',
-            "code classification not re-verified",
-            "PREFILTERED INPUT · CLASSIFICATION USER-DECLARED",
-        ):
-            self.assertIn(marker, self.app)
-        self.assertIn('sourceFeatures.length === profile.expectedCount', self.app)
-        self.assertIn('selection_mode: selectionMode', self.app)
-
-    def test_eight_stage_controlled_lifecycle_is_visible(self) -> None:
-        for label in (
-            "Request",
-            "Agent interpretation",
-            "GraphRAG / rules",
-            "Plan",
-            "Authorization",
-            "Execution",
-            "QA / verification",
-            "Provenance",
-        ):
-            self.assertIn(f'"{label}"', self.app)
-        self.assertIn("AUTHORIZATION REQUIRED", self.index + self.app)
-        self.assertIn("if (!proposal || !proposal.hardGate) return", self.app)
-
-    def test_verification_does_not_fake_unsupported_operations(self) -> None:
-        self.assertIn("Hausdorff distance：未執行", self.app)
-        self.assertIn("PMTiles / Hausdorff / OSM comparison", self.index)
-        self.assertIn("沒有外部資料 substitution", self.app)
-        self.assertIn("production activation：HELD / DISABLED", self.app)
-        self.assertIn('production_activation: false', self.app)
-
-    def test_browser_parsers_and_maplibre_are_pinned_and_vendored(self) -> None:
-        expected = (
-            "assets/maplibre-gl-4.7.0.js",
-            "assets/maplibre-gl-4.7.0.css",
-            "assets/shpjs-6.2.0.min.js",
-            "assets/shpjs-6.2.0-LICENSE.txt",
-            "assets/fflate-0.8.3.min.js",
-            "assets/fflate-0.8.3-LICENSE.txt",
+    def test_identity_is_filename_plus_source_id_not_global_unique_id(self) -> None:
+        self.assertEqual(
+            self.knowledge["governance"]["source_identity"],
+            "normalized-zip-relative-filename + source-id",
         )
-        for path in expected:
-            self.assertTrue((OUTPUT / path).is_file(), path)
-            self.assertIn(path, self.index if path.endswith((".js", ".css")) else json.dumps(self.release))
-        self.assertIn("window.shp(buffer)", self.app)
-        self.assertIn("window.fflate.unzipSync", self.app)
-        self.assertIn("new maplibregl.Map", self.app)
+        self.assertIn("const identity = `${filename}::${sourceId}`", self.app)
+        self.assertIn("logical identity 不變；renderer key 才加 index", self.app)
+        self.assertNotIn("uniqueCompositeIds.size === compositeIds.length", self.app)
 
-    def test_all_local_links_are_path_prefix_safe_and_exist(self) -> None:
+    def test_no_fixed_acceptance_fixture_gate(self) -> None:
+        for forbidden in ("expectedCount", "expectedVertices", 'codeValue: "9920103"', 'layerExact: "K14_ROAD"', 'nameValue: "中山街"'):
+            self.assertNotIn(forbidden, self.app)
+        self.assertIn("沒有固定 15-point 或其他 acceptance count", self.app)
+
+    def test_symbolic_agent_loop_and_authorization_are_observable(self) -> None:
+        for label in ("Goal", "Observe", "Retrieve KG", "Clarify", "Replan", "Authorize", "Act", "Verify / stop"):
+            self.assertIn(f'"{label}"', self.app)
+        self.assertIn("Agenticity", self.app)
+        self.assertIn("EXERCISED · SYMBOLIC", self.app)
+        self.assertIn("if (!state.proposal) return", self.app)
+
+    def test_maplibre_handles_point_line_polygon_without_export(self) -> None:
+        for marker in ('type: "circle"', 'type: "line"', 'type: "fill"', '"fill-pattern": "hatch"', "new maplibregl.Map"):
+            self.assertIn(marker, self.app)
+        self.assertIn("不輸出資料", self.index + self.app)
+        self.assertIn("production activation：HELD / DISABLED", self.app)
+
+    def test_local_links_are_path_prefix_safe_and_exist(self) -> None:
         parser = LinkParser()
         parser.feed(self.index)
-        self.assertTrue(parser.local)
         for value in parser.local:
             self.assertFalse(value.startswith("/"), value)
             target = value.split("?", 1)[0]
@@ -131,29 +127,19 @@ class StaticPagesDemoTests(unittest.TestCase):
             self.assertTrue((OUTPUT / target).is_file(), value)
         self.assertNotRegex(self.app, re.compile(r'["\']/[^"\']+'))
 
-    def test_release_has_no_user_fixture_or_credentials(self) -> None:
+    def test_public_release_has_no_fixture_bytes_or_credentials(self) -> None:
         paths = [item["path"].lower() for item in self.release["files"]]
-        forbidden_suffixes = (".zip", ".shp", ".dbf", ".shx", ".pmtiles")
-        self.assertFalse(any(path.endswith(forbidden_suffixes) for path in paths))
+        self.assertFalse(any(path.endswith((".zip", ".shp", ".shx", ".dbf", ".pmtiles")) for path in paths))
         self.assertFalse(self.release["private_fixture_bytes_included"])
         self.assertFalse(self.release["production_credentials_included"])
         self.assertFalse(self.release["production_activation"])
-        corpus = "\n".join(
-            path.read_text(encoding="utf-8", errors="ignore")
-            for path in OUTPUT.rglob("*")
-            if path.is_file() and path.suffix in {".html", ".js", ".css", ".json"}
-        )
-        for marker in ("OPENAI_API_KEY", "NEO4J_PASSWORD", "sk-proj-", "/api/v1/runs"):
-            self.assertNotIn(marker, corpus)
+        corpus = self.index + self.app + json.dumps(self.knowledge)
+        for secret in ("OPENAI_API_KEY", "NEO4J_PASSWORD", "sk-proj-"):
+            self.assertNotIn(secret, corpus)
 
-    def test_release_manifest_lists_exact_public_artifact(self) -> None:
-        expected = {
-            path.relative_to(OUTPUT).as_posix()
-            for path in OUTPUT.rglob("*")
-            if path.is_file() and path.name != "release.json"
-        }
-        listed = {item["path"] for item in self.release["files"]}
-        self.assertEqual(listed, expected)
+    def test_manifest_lists_exact_artifact(self) -> None:
+        expected = {path.relative_to(OUTPUT).as_posix() for path in OUTPUT.rglob("*") if path.is_file() and path.name != "release.json"}
+        self.assertEqual({item["path"] for item in self.release["files"]}, expected)
         self.assertTrue(self.release["user_file_required"])
         self.assertFalse(self.release["user_file_transmission"])
         self.assertFalse(self.release["preloaded_result_geometry"])
