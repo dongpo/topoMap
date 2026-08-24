@@ -123,6 +123,14 @@ from nma.school_hero_execution import (  # noqa: E402
     SchoolHeroExecutionEngine,
     SchoolHeroExecutionError,
 )
+from nma.school_portrayal_v1 import (  # noqa: E402
+    SchoolPortrayalError,
+    SchoolPortrayalPlannerV1,
+    apply_school_tool_observation,
+    authorize_school_portrayal,
+    compile_school_maplibre_preview,
+    verify_school_maplibre_preview,
+)
 from nma.road_execution import (  # noqa: E402
     FrozenRoadInputs,
     RoadAuthorizationStore,
@@ -861,6 +869,15 @@ _ENTITY_RESOLUTION_SPEC: dict[str, Any] | None = None
 _ENTITY_RESOLUTION_SPEC_LOCK = Lock()
 _PORTRAYAL_ENGINE: PortrayalReviewEngine | None = None
 _PORTRAYAL_ENGINE_LOCK = Lock()
+_SCHOOL_PORTRAYAL_PLANNER: SchoolPortrayalPlannerV1 | None = None
+_SCHOOL_PORTRAYAL_PLANNER_LOCK = Lock()
+_SCHOOL_PORTRAYAL_ARTIFACT_LIMIT = 256
+_SCHOOL_PORTRAYAL_ARTIFACT_LOCK = Lock()
+_SCHOOL_PORTRAYAL_ARTIFACTS: dict[str, dict[str, dict[str, Any]]] = {
+    "plan": {},
+    "authorization": {},
+    "adapter_result": {},
+}
 
 
 def canonical_retriever() -> KnowledgeServiceGraphRetriever | CitationIntegrityGraphRetrieverV06:
@@ -906,6 +923,124 @@ def readonly_knowledge_service() -> ReadOnlyKnowledgeService:
             503,
         )
     return _KNOWLEDGE_SERVICE
+
+
+def school_portrayal_planner() -> SchoolPortrayalPlannerV1:
+    """Bind School portrayal planning to the active read-only Knowledge Service."""
+    global _SCHOOL_PORTRAYAL_PLANNER
+    if _SCHOOL_PORTRAYAL_PLANNER is None:
+        with _SCHOOL_PORTRAYAL_PLANNER_LOCK:
+            if _SCHOOL_PORTRAYAL_PLANNER is None:
+                _SCHOOL_PORTRAYAL_PLANNER = SchoolPortrayalPlannerV1(
+                    canonical_retriever(),
+                    repository_root=ROOT,
+                )
+    return _SCHOOL_PORTRAYAL_PLANNER
+
+
+def _register_school_portrayal_artifact(
+    kind: str,
+    identity_field: str,
+    artifact: dict[str, Any],
+) -> dict[str, Any]:
+    identity = artifact.get(identity_field)
+    if not isinstance(identity, str):
+        raise SchoolPortrayalError(f"The School {kind} identity is unavailable.")
+    copied = json.loads(json.dumps(artifact, ensure_ascii=False))
+    with _SCHOOL_PORTRAYAL_ARTIFACT_LOCK:
+        records = _SCHOOL_PORTRAYAL_ARTIFACTS[kind]
+        records[identity] = copied
+        while len(records) > _SCHOOL_PORTRAYAL_ARTIFACT_LIMIT:
+            records.pop(next(iter(records)))
+    return copied
+
+
+def _require_school_portrayal_artifact(
+    kind: str,
+    identity_field: str,
+    artifact: Any,
+) -> dict[str, Any]:
+    if not isinstance(artifact, dict) or not isinstance(artifact.get(identity_field), str):
+        raise SchoolPortrayalError(f"A valid School {kind} is required.")
+    identity = artifact[identity_field]
+    with _SCHOOL_PORTRAYAL_ARTIFACT_LOCK:
+        issued = _SCHOOL_PORTRAYAL_ARTIFACTS[kind].get(identity)
+    if issued is None or issued != artifact:
+        raise SchoolPortrayalError(
+            f"The School {kind} was not issued by this governed server session."
+        )
+    return json.loads(json.dumps(issued, ensure_ascii=False))
+
+
+def propose_school_portrayal(payload: Any) -> dict[str, Any]:
+    return _register_school_portrayal_artifact(
+        "plan",
+        "plan_sha256",
+        school_portrayal_planner().propose(payload),
+    )
+
+
+def authorize_school_portrayal_request(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict) or set(payload) != {"plan", "actor", "decision"}:
+        raise SchoolPortrayalError("The School authorization request has an invalid shape.")
+    plan = _require_school_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    return _register_school_portrayal_artifact(
+        "authorization",
+        "authorization_sha256",
+        authorize_school_portrayal(
+            plan,
+            actor=payload["actor"],
+            decision=payload["decision"],
+        ),
+    )
+
+
+def compile_school_portrayal_request(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict) or set(payload) != {"plan", "authorization"}:
+        raise SchoolPortrayalError("The School compilation request has an invalid shape.")
+    plan = _require_school_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    approved = _require_school_portrayal_artifact(
+        "authorization",
+        "authorization_sha256",
+        payload["authorization"],
+    )
+    return _register_school_portrayal_artifact(
+        "adapter_result",
+        "adapter_result_sha256",
+        compile_school_maplibre_preview(plan, approved),
+    )
+
+
+def observe_school_portrayal_tool(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict) or set(payload) != {"plan", "observation"}:
+        raise SchoolPortrayalError("The School tool observation request has an invalid shape.")
+    plan = _require_school_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    result = apply_school_tool_observation(plan, payload["observation"])
+    if result.get("schema") == "nma.school-portrayal-plan/1.0":
+        return _register_school_portrayal_artifact("plan", "plan_sha256", result)
+    return result
+
+
+def verify_school_portrayal_request(payload: Any) -> dict[str, Any]:
+    required = {"plan", "authorization", "adapter_result"}
+    if not isinstance(payload, dict) or set(payload) != required:
+        raise SchoolPortrayalError("The School verification request has an invalid shape.")
+    plan = _require_school_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    approved = _require_school_portrayal_artifact(
+        "authorization",
+        "authorization_sha256",
+        payload["authorization"],
+    )
+    adapter_result = _require_school_portrayal_artifact(
+        "adapter_result",
+        "adapter_result_sha256",
+        payload["adapter_result"],
+    )
+    return verify_school_maplibre_preview(
+        plan,
+        approved,
+        adapter_result,
+    )
 
 
 def graph_backend_trace() -> dict[str, Any]:
@@ -3365,6 +3500,11 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             "/api/nma/runtime",
             "/api/school-hero/executions",
             "/api/road/executions",
+            "/api/school-portrayal/proposals",
+            "/api/school-portrayal/authorizations",
+            "/api/school-portrayal/compile",
+            "/api/school-portrayal/observations",
+            "/api/school-portrayal/verify",
         } and not observation_match and not rollback_match and not road_observation_match and not road_rollback_match:
             self._json(HTTPStatus.NOT_FOUND, {"error": {"code": "not_found"}})
             return
@@ -3396,6 +3536,16 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
                 result = execute_school_hero_authorization(payload)
             elif route == "/api/road/executions":
                 result = execute_road_authorization(payload)
+            elif route == "/api/school-portrayal/proposals":
+                result = propose_school_portrayal(payload)
+            elif route == "/api/school-portrayal/authorizations":
+                result = authorize_school_portrayal_request(payload)
+            elif route == "/api/school-portrayal/compile":
+                result = compile_school_portrayal_request(payload)
+            elif route == "/api/school-portrayal/observations":
+                result = observe_school_portrayal_tool(payload)
+            elif route == "/api/school-portrayal/verify":
+                result = verify_school_portrayal_request(payload)
             elif observation_match:
                 result = record_school_hero_observation(observation_match.group(1), payload)
             elif rollback_match:
@@ -3428,6 +3578,11 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             )
         except SchoolHeroExecutionError as error:
             self._json(error.status, {"error": {"code": error.code, "message": str(error)}})
+        except SchoolPortrayalError as error:
+            self._json(
+                HTTPStatus.BAD_REQUEST,
+                {"error": {"code": "school_portrayal_invalid", "message": str(error)}},
+            )
         except RoadExecutionError as error:
             self._json(error.status, {"error": {"code": error.code, "message": str(error)}})
         except Exception:

@@ -1,0 +1,92 @@
+{
+  "schema": "nma.school-portrayal-agent-loop-specification/1.0",
+  "status": "implemented-preview-only",
+  "purpose": "Compile a Knowledge-Graph-grounded MapLibre portrayal preview for the actual School features observed in a user's MARK Shapefile.",
+  "source_contract": {
+    "source": "user-shapefile",
+    "layer": "MARK",
+    "geometry": "Point",
+    "required_fields": ["MARKID", "TERRAINID", "MARKNAME1"],
+    "identity_rule": "zip-relative-filename-plus-source-id",
+    "raw_feature_bytes_transmitted_by_portrayal_api": false,
+    "classification_family_code": "9920100",
+    "classification_family_is_not_a_filter": true,
+    "feature_count_limit": null
+  },
+  "classification_and_portrayal": [
+    {
+      "code": "9920101",
+      "name_zh": "大專院校",
+      "render_mode": "school-flag-marker",
+      "portrayal_evidence": "section:doc01-1000-portrayal:p61",
+      "classification_evidence": "section:doc02-1000-production:p65"
+    },
+    {
+      "code": "9920102",
+      "name_zh": "中學",
+      "render_mode": "school-flag-marker",
+      "portrayal_evidence": "section:doc01-1000-portrayal:p61",
+      "classification_evidence": "section:doc02-1000-production:p65"
+    },
+    {
+      "code": "9920103",
+      "name_zh": "小學",
+      "render_mode": "school-flag-marker",
+      "portrayal_evidence": "section:doc01-1000-portrayal:p61",
+      "classification_evidence": "section:doc02-1000-production:p65"
+    },
+    {
+      "code": "9920104",
+      "name_zh": "職訓中心",
+      "render_mode": "name-annotation-only",
+      "portrayal_evidence": "section:doc01-1000-portrayal:p61",
+      "classification_evidence": "section:doc02-1000-production:p65"
+    },
+    {
+      "code": "9920105",
+      "name_zh": "幼兒園",
+      "render_mode": "name-annotation-only",
+      "portrayal_evidence": "section:doc01-1000-portrayal:p61",
+      "classification_evidence": "section:doc02-1000-production:p65"
+    },
+    {
+      "code": "9920106",
+      "name_zh": "特殊學校",
+      "render_mode": "school-flag-marker",
+      "portrayal_evidence": "section:doc01-1000-portrayal:p62",
+      "classification_evidence": "section:doc02-1000-production:p65"
+    }
+  ],
+  "agent_loop": [
+    "observe-validated-source-schema-and-leaf-counts",
+    "retrieve-typed-evidence-from-readonly-knowledge-service",
+    "propose-preview-only-plan",
+    "request-human-authorization",
+    "compile-maplibre-style-without-feature-data",
+    "observe-tool-outcome",
+    "verify-then-stop-or-replan-or-abstain"
+  ],
+  "observation_driven_decisions": {
+    "compiled": "verify-then-stop",
+    "sdf-resource-load-failed": "replan-with-same-reviewed-asset-as-non-sdf-and-require-new-authorization",
+    "style-validation-failed": "abstain-and-stop"
+  },
+  "api": [
+    "/api/school-portrayal/proposals",
+    "/api/school-portrayal/authorizations",
+    "/api/school-portrayal/compile",
+    "/api/school-portrayal/observations",
+    "/api/school-portrayal/verify"
+  ],
+  "governance": {
+    "knowledge_service_mutation_allowed": false,
+    "agent_supplied_cypher_allowed": false,
+    "human_preview_authorization_required": true,
+    "automatic_rule_activation": false,
+    "official_portrayal_activation": false,
+    "production_activation": false,
+    "data_export": false,
+    "external_open_data_substitution": false
+  },
+  "claim_boundary": "This is an evidence-grounded, human-authorized browser preview compiler. Canonical School portrayal rules remain non-executable, so the implementation does not claim official production activation."
+}

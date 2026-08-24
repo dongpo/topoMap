@@ -204,6 +204,12 @@ parameterized operations; Neo4j is not required for reproduction. The portable g
 reviewed semantic authority, and the Agent cannot submit Cypher or modify the canonical KG. See
 [`docs/NMA-V0.33-READONLY-KNOWLEDGE-SERVICE.md`](docs/NMA-V0.33-READONLY-KNOWLEDGE-SERVICE.md).
 
+The School portrayal v1 slice uses that service to plan the actual `9920101`–`9920106` classes
+observed in a user's `MARK` Shapefile. It removes the earlier `9920103`/15-point assumption, compiles
+four flag-and-name and two name-only MapLibre layer families, requires plan-bound human preview
+authorization, and feeds compiler outcomes back into verify, replan, or abstain decisions. See
+[`docs/NMA-SCHOOL-PORTRAYAL-AGENT-LOOP-V1.md`](docs/NMA-SCHOOL-PORTRAYAL-AGENT-LOOP-V1.md).
+
 The API adds:
 
 - `GET /v1/knowledge/portrayal`
