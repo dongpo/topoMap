@@ -16,9 +16,12 @@ const PROFILES = {
     layerExact: null,
     layerSuffix: "_MARK",
     codeField: "TERRAINID",
+    codeAliases: ["TERRAIN_ID", "FEATURECODE", "FEATURE_CODE", "CODE"],
     codeValue: "9920103",
     idField: "MARKID",
+    idAliases: ["MARK_ID", "SCHOOLID", "SCHOOL_ID", "SCH_ID", "ID"],
     labelField: "MARKNAME1",
+    labelAliases: ["MARKNAME", "MARK_NAME", "SCHOOLNAME", "SCHOOL_NAME", "NAME"],
     expectedCount: 15,
     rule: "School symbol portrayal：TERRAINID 9920103 → school point symbol；MARKID 必須保持一對一。",
     nodes: ["FeatureCode:9920103", "LayerRole:MARK", "IdentityRule:MARKID", "PortrayalRule:SCHOOL_POINT"],
@@ -34,11 +37,14 @@ const PROFILES = {
     layerExact: "K14_ROAD",
     layerSuffix: "_ROAD",
     codeField: "TERRAINID",
+    codeAliases: ["TERRAIN_ID", "FEATURECODE", "FEATURE_CODE", "CODE"],
     codeValue: "9420400",
     nameField: "ROADNAME",
     nameValue: "中山街",
     idField: "ROADSEGID",
+    idAliases: ["ROADSEG_ID", "ROADID", "ROAD_ID", "SEGMENT_ID", "ID"],
     labelField: "ROADNAME",
+    labelAliases: ["ROAD_NAME", "NAME"],
     expectedCount: 3,
     expectedVertices: [4, 3, 4],
     expectedIds: ["K0000004671", "K0000004913", "K0000005348"],
@@ -56,9 +62,12 @@ const PROFILES = {
     layerExact: "J17_BUILD",
     layerSuffix: "_BUILD",
     codeField: "TERRAINID",
+    codeAliases: ["TERRAIN_ID", "FEATURECODE", "FEATURE_CODE", "CODE"],
     codeValue: "9310100",
     idField: "BUILD_ID",
+    idAliases: ["BUILDID", "BUILDINGID", "BUILDING_ID", "BLDG_ID", "ID"],
     labelField: null,
+    labelAliases: [],
     expectedCount: 2769,
     rule: "BUILD 9310100 → solid boundary + 45° hatch；可預覽，不得取得 production activation authority。",
     nodes: ["Layer:J17_BUILD", "FeatureCode:9310100", "Geometry:Polygon/MultiPolygonZ", "Governance:PRODUCTION_HELD"],
@@ -221,11 +230,32 @@ function chooseLayers(profile, collections) {
   return collections.filter((layer) => layer.family === profile.geometry);
 }
 
-function featureMatchesProfile(feature, profile) {
-  const properties = feature.properties || {};
-  if (String(properties[profile.codeField] ?? "") !== profile.codeValue) return false;
-  if (profile.nameField && String(properties[profile.nameField] ?? "").trim() !== profile.nameValue) return false;
-  return true;
+function resolveField(fields, requested, aliases = []) {
+  if (!requested) return null;
+  const actualByUpper = new Map(fields.map((field) => [field.toLocaleUpperCase(), field]));
+  for (const candidate of [requested, ...aliases]) {
+    const actual = actualByUpper.get(candidate.toLocaleUpperCase());
+    if (actual) return actual;
+  }
+  return null;
+}
+
+function normalizedValue(value) {
+  const text = String(value ?? "").trim().normalize("NFKC");
+  return /^[-+]?\d+\.0+$/.test(text) ? text.replace(/\.0+$/, "") : text;
+}
+
+function valuesFor(features, field) {
+  return features.map((item) => item.feature.properties && item.feature.properties[field]);
+}
+
+function inferIdentityField(fields, sourceFeatures, preferred) {
+  if (preferred) return preferred;
+  const candidates = fields.filter((field) => /(?:^id$|_id$|id$)/i.test(field));
+  return candidates.find((field) => {
+    const values = valuesFor(sourceFeatures, field).map((value) => normalizedValue(value)).filter(Boolean);
+    return values.length === sourceFeatures.length && new Set(values).size === values.length;
+  }) || null;
 }
 
 function groupForLayer(layer, inventory) {
@@ -266,19 +296,42 @@ async function selectedComponentHashes(layers, inventory, bytes) {
 async function createProposal(token) {
   const profile = PROFILES[state.profileId];
   const layers = chooseLayers(profile, state.collections);
-  const outputFeatures = [];
+  const sourceFeatures = [];
   layers.forEach((layer) => {
     layer.collection.features.forEach((feature, index) => {
-      if (!featureMatchesProfile(feature, profile)) return;
-      const properties = { ...(feature.properties || {}) };
-      const sourceId = properties[profile.idField];
-      outputFeatures.push({
-        type: "Feature",
-        id: sourceId === undefined || sourceId === null || sourceId === "" ? undefined : String(sourceId),
-        properties: { ...properties, __nma_source_layer: layer.name, __nma_source_index: index },
-        geometry: feature.geometry,
-      });
+      sourceFeatures.push({ layer, feature, index });
     });
+  });
+  const fields = [...new Set(layers.flatMap((layer) => layer.fields))];
+  const codeField = resolveField(fields, profile.codeField, profile.codeAliases);
+  const nameField = resolveField(fields, profile.nameField, profile.labelAliases);
+  const preferredIdField = resolveField(fields, profile.idField, profile.idAliases);
+  const labelField = resolveField(fields, profile.labelField, profile.labelAliases);
+  const ruleMatches = sourceFeatures.filter(({ feature }) => {
+    const properties = feature.properties || {};
+    if (!codeField || normalizedValue(properties[codeField]) !== normalizedValue(profile.codeValue)) return false;
+    if (profile.nameField && (!nameField || normalizedValue(properties[nameField]) !== normalizedValue(profile.nameValue))) return false;
+    return true;
+  });
+  const selectionMode = ruleMatches.length
+    ? "mapping-rule-filter"
+    : sourceFeatures.length === profile.expectedCount
+      ? "user-declared-prefiltered"
+      : "no-semantic-match";
+  const plan = selectionMode === "user-declared-prefiltered"
+    ? `將使用者選定的 ${profile.expectedCount}-feature ${profile.geometry} layer 視為 prefiltered ${state.profileId.toUpperCase()} input；不重做 code classification，保留來源 ID 後建立 MapLibre portrayal。`
+    : profile.plan;
+  const selectedFeatures = selectionMode === "mapping-rule-filter" ? ruleMatches : selectionMode === "user-declared-prefiltered" ? sourceFeatures : [];
+  const idField = inferIdentityField(fields, selectedFeatures, preferredIdField);
+  const outputFeatures = selectedFeatures.map(({ layer, feature, index }) => {
+    const properties = { ...(feature.properties || {}) };
+    const sourceId = idField ? properties[idField] : undefined;
+    return {
+      type: "Feature",
+      id: sourceId === undefined || sourceId === null || sourceId === "" ? undefined : String(sourceId),
+      properties: { ...properties, __nma_source_layer: layer.name, __nma_source_index: index },
+      geometry: feature.geometry,
+    };
   });
   if (token !== state.buildToken) return;
 
@@ -296,7 +349,7 @@ async function createProposal(token) {
     const bytes = entry ? state.inventory.textByPath.get(canonical(entry.path)) : null;
     return { layer: group.name, wkt: decodeText(bytes) };
   });
-  const ids = outputFeatures.map((feature) => feature.properties[profile.idField]);
+  const ids = outputFeatures.map((feature) => idField ? feature.properties[idField] : undefined);
   const missingIds = ids.filter((value) => value === undefined || value === null || String(value).trim() === "").length;
   const presentIds = ids.filter((value) => value !== undefined && value !== null && String(value).trim() !== "").map(String);
   const uniqueIds = new Set(presentIds);
@@ -306,7 +359,7 @@ async function createProposal(token) {
   const expectedCountMatch = outputFeatures.length === profile.expectedCount;
   const expectedVerticesMatch = profile.expectedVertices ? equalArray(vertices, profile.expectedVertices) : null;
   const expectedIdsMatch = profile.expectedIds ? equalArray(presentIds, profile.expectedIds) : null;
-  const hardGate = layers.length > 0 && outputFeatures.length > 0 && missingSidecars.length === 0 && missingIds === 0 && uniqueIds.size === presentIds.length && geometryMismatch === 0;
+  const hardGate = layers.length > 0 && outputFeatures.length > 0 && Boolean(idField) && missingSidecars.length === 0 && missingIds === 0 && uniqueIds.size === presentIds.length && geometryMismatch === 0;
   const componentHashes = await selectedComponentHashes(layers, state.inventory, state.archiveBytes);
   if (token !== state.buildToken) return;
 
@@ -315,8 +368,13 @@ async function createProposal(token) {
     archive_sha256: state.archiveHash,
     profile: state.profileId,
     user_intent: byId("intent").value.trim(),
+    plan,
     selected_layers: layers.map((layer) => layer.name),
-    filters: { [profile.codeField]: profile.codeValue, ...(profile.nameField ? { [profile.nameField]: profile.nameValue } : {}) },
+    selection_mode: selectionMode,
+    schema_mapping: { code_field: codeField, name_field: nameField, id_field: idField, label_field: labelField },
+    filters: selectionMode === "mapping-rule-filter"
+      ? { [codeField]: profile.codeValue, ...(profile.nameField ? { [nameField]: profile.nameValue } : {}) }
+      : { user_declared_prefiltered: selectionMode === "user-declared-prefiltered", expected_count: profile.expectedCount },
     feature_ids: presentIds,
     component_hashes: componentHashes,
     output_crs: "EPSG:4326 browser preview",
@@ -328,6 +386,14 @@ async function createProposal(token) {
   state.proposal = {
     profile,
     layers,
+    fields,
+    codeField,
+    nameField,
+    idField,
+    labelField,
+    selectionMode,
+    plan,
+    sourceFeatureCount: sourceFeatures.length,
     collection: { type: "FeatureCollection", features: outputFeatures },
     missingSidecars,
     crsTexts,
@@ -378,9 +444,11 @@ function renderSourceStrip() {
 
 function qaLines(proposal) {
   const profile = proposal.profile;
+  const identityLabel = proposal.idField || `${profile.idField} (unresolved)`;
   const lines = [
+    `selection basis：${proposal.selectionMode === "mapping-rule-filter" ? "reviewed mapping-rule filter" : proposal.selectionMode === "user-declared-prefiltered" ? "user-declared prefiltered layer; code classification not re-verified" : "no semantic match"}`,
     `feature count：實際 ${proposal.collection.features.length} / frozen contract ${profile.expectedCount} — ${proposal.expectedCountMatch ? "MATCH" : "DIFF"}`,
-    `${profile.idField}：missing ${proposal.missingIds} / unique ${proposal.uniqueIds} / total ${proposal.collection.features.length}`,
+    `${identityLabel}：missing ${proposal.missingIds} / unique ${proposal.uniqueIds} / total ${proposal.collection.features.length}`,
     `geometry family：${profile.geometry}；mismatch ${proposal.geometryMismatch}`,
     `CRS：${proposal.crsTexts.map((item) => `${item.layer}=${crsSummary(item.wkt)}`).join(" · ") || "PRJ unavailable"} → WGS84 browser preview`,
     `Hausdorff distance：未執行（沒有使用者提供的 reference geometry）`,
@@ -405,15 +473,28 @@ function renderEvidence() {
   root.append(evidenceGroup("2 · Agent interpretation", "DETERMINISTIC FROZEN REPLAY", "", [
     `intent：${byId("intent").value.trim()}`,
     `interpreted profile：${state.profileId.toUpperCase()} / ${profile.geometry}`,
-    `requested identity field：${profile.idField}`,
+    `schema mapping：code ${profile.codeField} → ${proposal.codeField || "not found"}；ID ${profile.idField} → ${proposal.idField || "not found"}`,
+    `label/name field：${proposal.labelField || proposal.nameField || "not required / not found"}`,
+    `discovered fields：${proposal.fields.slice(0, 18).join(", ") || "none"}${proposal.fields.length > 18 ? "…" : ""}`,
   ]));
   root.append(evidenceGroup("3 · GraphRAG / mapping rules", "REVIEWED KNOWLEDGE RETRIEVED", "", [profile.rule, ...profile.nodes.map((item) => `KG node · ${item}`), `authority · nma-v1.0-final ${FROZEN_AUTHORITY.slice(0, 12)}…`]));
-  root.append(evidenceGroup("4 · Plan", proposal.hardGate ? "PROPOSABLE" : "BLOCKED", proposal.hardGate ? "" : "fail", [profile.plan, `filter · ${profile.codeField}=${profile.codeValue}${profile.nameField ? ` AND ${profile.nameField}=${profile.nameValue}` : ""}`, `output · ${proposal.collection.features.length} user-source features`]));
+  const selectionLine = proposal.selectionMode === "mapping-rule-filter"
+    ? `filter · ${proposal.codeField}=${profile.codeValue}${profile.nameField ? ` AND ${proposal.nameField}=${profile.nameValue}` : ""}`
+    : proposal.selectionMode === "user-declared-prefiltered"
+      ? `fallback · no reviewed-code match; all ${proposal.sourceFeatureCount} features used because the user-selected layer already matches the ${profile.expectedCount}-feature profile contract`
+      : `blocked · no ${profile.codeField}=${profile.codeValue} match and source count ${proposal.sourceFeatureCount} does not establish a prefiltered ${profile.expectedCount}-feature layer`;
+  const planStatus = proposal.hardGate ? proposal.selectionMode === "user-declared-prefiltered" ? "PROPOSABLE · PREFILTERED" : "PROPOSABLE" : "BLOCKED";
+  root.append(evidenceGroup("4 · Plan", planStatus, proposal.hardGate ? proposal.selectionMode === "user-declared-prefiltered" ? "warn" : "" : "fail", [proposal.plan, selectionLine, `identity · ${proposal.idField || "unresolved"}`, `output · ${proposal.collection.features.length} user-source features`]));
   root.append(evidenceGroup("5 · Authorization", state.authorized ? "AUTHORIZED FOR THIS BROWSER SESSION" : "NOT AUTHORIZED", state.authorized ? "" : "warn", [
     state.authorized ? "使用者已核准此 proposal hash 的 browser-local preview。" : "尚未執行；地圖區不含任何 geometry。",
     state.profileId === "build" ? "production activation：HELD / DISABLED" : "production writeback：not available",
   ], [`proposal sha256 ${proposal.proposalHash}`]));
-  root.append(evidenceGroup("6 · QA / verification", proposal.expectedCountMatch && proposal.hardGate ? "FROZEN CONTRACT MATCH" : proposal.hardGate ? "EXECUTABLE WITH CONTRACT DIFF" : "HARD GATE FAILED", proposal.hardGate ? (proposal.expectedCountMatch ? "" : "warn") : "fail", qaLines(proposal)));
+  const qaStatus = proposal.hardGate && proposal.selectionMode === "mapping-rule-filter" && proposal.expectedCountMatch
+    ? "FROZEN CONTRACT MATCH"
+    : proposal.hardGate && proposal.selectionMode === "user-declared-prefiltered"
+      ? "PREFILTERED INPUT · CLASSIFICATION USER-DECLARED"
+      : proposal.hardGate ? "EXECUTABLE WITH CONTRACT DIFF" : "HARD GATE FAILED";
+  root.append(evidenceGroup("6 · QA / verification", qaStatus, proposal.hardGate ? proposal.selectionMode === "mapping-rule-filter" && proposal.expectedCountMatch ? "" : "warn" : "fail", qaLines(proposal)));
   root.append(evidenceGroup("7 · Provenance", state.authorized ? "RECEIPT READY" : "PROPOSED RECEIPT", "", [
     `${proposal.componentHashes.length} selected sidecar component hashes`,
     `source layer(s)：${proposal.layers.map((layer) => layer.name).join(" · ") || "none"}`,
@@ -427,7 +508,7 @@ function renderPipeline() {
     ["Request", "captured", byId("intent").value.trim(), ""],
     ["Agent interpretation", "replayed", `${state.profileId.toUpperCase()} / ${proposal.profile.geometry}`, ""],
     ["GraphRAG / rules", "retrieved", proposal.profile.rule, ""],
-    ["Plan", proposal.hardGate ? "proposed" : "blocked", proposal.profile.plan, proposal.hardGate ? "" : "is-warn"],
+    ["Plan", proposal.hardGate ? "proposed" : "blocked", proposal.plan, proposal.hardGate ? "" : "is-warn"],
     ["Authorization", state.authorized ? "authorized" : "pending", state.authorized ? "browser-local scope only" : "requires user action", state.authorized ? "" : "is-pending"],
     ["Execution", state.authorized ? "executed" : "not run", state.authorized ? `${proposal.collection.features.length} user features rendered` : "no geometry rendered", state.authorized ? "" : "is-pending"],
     ["QA / verification", state.authorized ? "reported" : "preflight", qaLines(proposal).join(" · "), state.authorized ? "" : "is-pending"],
@@ -477,8 +558,12 @@ function renderProposal() {
   byId("evidence-badge").textContent = proposal.hardGate ? "PROPOSED" : "BLOCKED";
   byId("authorization-title").textContent = proposal.hardGate ? "提案尚未授權" : "輸入 gate 未通過";
   byId("authorization-summary").textContent = proposal.hardGate
-    ? `將只在瀏覽器 render ${proposal.collection.features.length} 個使用者來源 feature；不寫回來源或 production。`
-    : "缺少合格圖層、必要 sidecars、來源 ID 或 geometry；禁止執行。";
+    ? proposal.selectionMode === "user-declared-prefiltered"
+      ? `將使用 ${proposal.collection.features.length} 個 prefiltered user features；分類由使用者聲明，未以 ${profile.codeField} 再驗證。`
+      : `將只在瀏覽器 render ${proposal.collection.features.length} 個使用者來源 feature；不寫回來源或 production。`
+    : proposal.selectionMode === "no-semantic-match"
+      ? `找到 ${proposal.sourceFeatureCount} 個 ${profile.geometry} features，但沒有 ${profile.codeField}=${profile.codeValue} match，且不符合 ${profile.expectedCount}-feature prefiltered contract。`
+      : "缺少必要 sidecars、可保留的來源 ID 或合格 geometry；禁止執行。";
   byId("authorize-button").disabled = !proposal.hardGate;
   byId("authorize-button").textContent = state.profileId === "build" ? "授權 browser preview（production held）" : "授權 browser-local execution";
   renderSourceStrip();
@@ -508,22 +593,22 @@ function collectionBounds(collection) {
   return bounds;
 }
 
-function addSchoolLayers(map, profile) {
+function addSchoolLayers(map, proposal) {
   map.addLayer({ id: "school-halo", type: "circle", source: "user-result", paint: { "circle-radius": 8, "circle-color": "#ffffff", "circle-stroke-color": "#176bc1", "circle-stroke-width": 2 } });
   map.addLayer({ id: "school-core", type: "circle", source: "user-result", paint: { "circle-radius": 3.5, "circle-color": "#176bc1" } });
   map.addLayer({
     id: "school-label", type: "symbol", source: "user-result",
-    layout: { "text-field": ["coalesce", ["get", profile.labelField], ["get", profile.idField]], "text-font": ["NotoSansRegular"], "text-size": 11, "text-offset": [0, 1.45], "text-optional": true },
+    layout: { "text-field": ["coalesce", ["get", proposal.labelField || proposal.idField], ["get", proposal.idField]], "text-font": ["NotoSansRegular"], "text-size": 11, "text-offset": [0, 1.45], "text-optional": true },
     paint: { "text-color": "#124b82", "text-halo-color": "#f8fbf7", "text-halo-width": 1.5 },
   });
 }
 
-function addRoadLayers(map, profile) {
+function addRoadLayers(map, proposal) {
   map.addLayer({ id: "road-casing", type: "line", source: "user-result", paint: { "line-color": "#fffaf3", "line-width": 12 } });
   map.addLayer({ id: "road-line", type: "line", source: "user-result", paint: { "line-color": "#d65c36", "line-width": 6 } });
   map.addLayer({
     id: "road-label", type: "symbol", source: "user-result",
-    layout: { "symbol-placement": "line", "symbol-spacing": 130, "text-field": ["get", profile.labelField], "text-font": ["NotoSansRegular"], "text-size": 15, "text-keep-upright": true },
+    layout: { "symbol-placement": "line", "symbol-spacing": 130, "text-field": proposal.labelField ? ["get", proposal.labelField] : proposal.profile.nameValue, "text-font": ["NotoSansRegular"], "text-size": 15, "text-keep-upright": true },
     paint: { "text-color": "#3e2419", "text-halo-color": "#fffaf3", "text-halo-width": 2 },
   });
 }
@@ -554,8 +639,8 @@ function renderExecutedMap() {
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   map.on("load", () => {
     map.addSource("user-result", { type: "geojson", data: proposal.collection });
-    if (state.profileId === "school") addSchoolLayers(map, proposal.profile);
-    if (state.profileId === "road") addRoadLayers(map, proposal.profile);
+    if (state.profileId === "school") addSchoolLayers(map, proposal);
+    if (state.profileId === "road") addRoadLayers(map, proposal);
     if (state.profileId === "build") addBuildLayers(map);
     const bounds = collectionBounds(proposal.collection);
     if (!bounds.isEmpty()) map.fitBounds(bounds, { padding: 55, duration: 0, maxZoom: state.profileId === "build" ? 16 : 15 });
@@ -656,7 +741,9 @@ byId("authorize-button").addEventListener("click", () => {
   byId("run-chip").className = "run-chip is-authorized";
   byId("run-chip").innerHTML = "<span>●</span> AUTHORIZED · BROWSER EXECUTED";
   byId("evidence-badge").className = "proposal-badge is-pass";
-  byId("evidence-badge").textContent = proposal.expectedCountMatch ? "CONTRACT MATCH" : "EXECUTED · DIFF REPORTED";
+  byId("evidence-badge").textContent = proposal.selectionMode === "mapping-rule-filter" && proposal.expectedCountMatch
+    ? "CONTRACT MATCH"
+    : proposal.selectionMode === "user-declared-prefiltered" ? "EXECUTED · PREFILTERED" : "EXECUTED · DIFF REPORTED";
   byId("authorization-title").textContent = "已授權此 browser session";
   byId("authorization-summary").textContent = state.profileId === "build"
     ? "Boundary/hatch preview 已執行；production activation 仍為 HELD / DISABLED。"

@@ -67,6 +67,20 @@ class StaticPagesDemoTests(unittest.TestCase):
         ):
             self.assertIn(marker, self.app)
 
+    def test_user_prefiltered_school_schema_can_be_proposed_without_fake_code_match(self) -> None:
+        for marker in (
+            "resolveField",
+            "normalizedValue",
+            "inferIdentityField",
+            'idAliases: ["MARK_ID", "SCHOOLID", "SCHOOL_ID", "SCH_ID", "ID"]',
+            '"user-declared-prefiltered"',
+            "code classification not re-verified",
+            "PREFILTERED INPUT · CLASSIFICATION USER-DECLARED",
+        ):
+            self.assertIn(marker, self.app)
+        self.assertIn('sourceFeatures.length === profile.expectedCount', self.app)
+        self.assertIn('selection_mode: selectionMode', self.app)
+
     def test_eight_stage_controlled_lifecycle_is_visible(self) -> None:
         for label in (
             "Request",
