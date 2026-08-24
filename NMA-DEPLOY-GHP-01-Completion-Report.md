@@ -41,12 +41,12 @@ The current source is:
 - workflow: `.github/workflows/static.yml`;
 - uploaded directory: `public/gh-pages`;
 - authority: `nma-v1.0-final` / `eb87bde775333811529efb6f651573ea21cf456b`;
-- user-Shapefile artifact commit: `d0b1949bb749e1e7f2c58036b3dc8a7755c3c116`;
-- successful deployment run: `32683993790`;
-- deployment job: `97305582763`;
+- user-Shapefile artifact commit: `d94cf30a6d78ddc1231bd10fd2e4e60a0c353a82`;
+- successful deployment run: `32685867037`;
+- deployment job: `97310679232`;
 - public URL: `https://dongpo.github.io/topoMap/`.
 
-All steps in run `32683993790` passed: checkout, focused tests, Pages setup, artifact upload, and
+All steps in run `32685867037` passed: checkout, focused tests, Pages setup, artifact upload, and
 deployment. GitHub emitted a non-failing annotation that Node.js 20 actions are being forced to
 Node.js 24; it did not affect the deployment.
 
@@ -92,6 +92,19 @@ archive was not committed or published.
 - authorization: explicit browser-session authorization;
 - execution: MapLibre canvas created from the user features.
 
+School schema handling has two explicit paths:
+
+- reviewed-rule path: case-insensitive/normalized `TERRAINID=9920103` filtering followed by the
+  frozen contract checks;
+- user-prefiltered path: when the selected point layer already contains exactly 15 features but has
+  no reviewed code match, the Agent maps identity aliases such as `SCHOOL_ID`, labels the proposal
+  `PROPOSABLE · PREFILTERED`, and requires authorization while stating that classification is
+  user-declared and was not re-verified from `TERRAINID`.
+
+The user-prefiltered path was externally tested with a 15-point School Shapefile containing
+`SCHOOL_ID/SCHOOL_NAME` and no `TERRAINID`. It produced 15 unique IDs, a WGS84 MapLibre canvas, the
+badge `EXECUTED · PREFILTERED`, and zero console errors. It did not claim a reviewed-code match.
+
 ### ROAD
 
 - user layer: `K14_ROAD` only (196 source features);
@@ -121,7 +134,7 @@ authorization state, feature/ID/geometry/CRS checks, and a proposal/receipt SHA-
 
 ## Verification
 
-- focused static acceptance tests: 9 passed;
+- focused static acceptance tests: 10 passed;
 - JavaScript syntax: passed;
 - Python lint: passed;
 - diff integrity check: passed;
