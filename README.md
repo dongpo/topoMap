@@ -20,7 +20,8 @@ Agentic v0.3 has not been deployed.
 [D21 public-assets RC](docs/PUBLIC-ASSETS-RC1.md) ·
 [D24 Q&A](docs/D24-QA.md) ·
 [D24 public-link audit](docs/D24-PUBLIC-DELIVERY.md) ·
-[Agentic v0.3 freeze](docs/AGENTIC-V0.3-FREEZE.md)
+[Agentic v0.3 freeze](docs/AGENTIC-V0.3-FREEZE.md) ·
+[School user-Shapefile application](docs/NMA-SCHOOL-BROWSER-INTEGRATION-V1.md)
 
 ## Five scenes, five agent capabilities
 
@@ -209,6 +210,11 @@ observed in a user's `MARK` Shapefile. It removes the earlier `9920103`/15-point
 four flag-and-name and two name-only MapLibre layer families, requires plan-bound human preview
 authorization, and feeds compiler outcomes back into verify, replan, or abstain decisions. See
 [`docs/NMA-SCHOOL-PORTRAYAL-AGENT-LOOP-V1.md`](docs/NMA-SCHOOL-PORTRAYAL-AGENT-LOOP-V1.md).
+
+`nmaSchoolDemoV1.html` is the corresponding staged browser application: it fail-closes invalid
+user ZIPs before planning, keeps Shapefile/GeoJSON bytes in the browser, retrieves evidence through
+the read-only Knowledge Service, and observes the final MapLibre render before the Agent stops. See
+[`docs/NMA-SCHOOL-BROWSER-INTEGRATION-V1.md`](docs/NMA-SCHOOL-BROWSER-INTEGRATION-V1.md).
 
 The API adds:
 

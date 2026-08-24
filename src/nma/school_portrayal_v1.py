@@ -481,7 +481,6 @@ def compile_school_maplibre_preview(
         code = entry["feature_code"]
         base = {
             "source": "user-school",
-            "source-layer": binding["source_layer"],
             "filter": ["==", ["to-string", ["get", code_field]], code],
         }
         if entry["render_mode"] == "school-flag-marker":
@@ -512,10 +511,14 @@ def compile_school_maplibre_preview(
                         "icon-image": resource_id,
                         "icon-size": 1.0,
                         "icon-anchor": "bottom-left",
-                        "icon-allow-overlap": False,
+                        # A School feature must not disappear merely because its
+                        # name collides with a nearby label.  MapLibre may omit
+                        # the text, but every point keeps its reviewed flag.
+                        "icon-allow-overlap": True,
                         "text-field": ["to-string", ["get", label_field]],
                         "text-offset": [0.0, 1.4],
-                        "text-optional": False,
+                        "text-optional": True,
+                        "text-allow-overlap": False,
                     },
                     "paint": paint,
                     "nma:evidence": {
@@ -534,7 +537,9 @@ def compile_school_maplibre_preview(
                     "layout": {
                         "text-field": ["to-string", ["get", label_field]],
                         "text-size": 12,
-                        "text-allow-overlap": False,
+                        # These classes are portrayed by name alone, so label
+                        # collision cannot be allowed to erase the feature.
+                        "text-allow-overlap": True,
                     },
                     "paint": {
                         "text-color": "#111111",
@@ -652,6 +657,22 @@ def apply_school_tool_observation(
             },
             "decision_sha256",
         )
+    if outcome == "browser-render-verified":
+        return _hashed(
+            {
+                "schema": AGENT_DECISION_SCHEMA,
+                "decision": "stop",
+                "reason": (
+                    "The authorized MapLibre portrayal rendered in the browser and "
+                    "all governed verification checks passed."
+                ),
+                "plan_sha256": plan["plan_sha256"],
+                "observed_outcome": outcome,
+                "map_mutation_allowed": False,
+                "automatic_rule_activation": False,
+            },
+            "decision_sha256",
+        )
     if outcome == "style-validation-failed":
         return _hashed(
             {
@@ -742,6 +763,15 @@ def verify_school_maplibre_preview(
         if has_icon != expected_icon or filter_value != expected_filter:
             layer_semantics_valid = False
         if layout.get("text-field") != expected_text:
+            layer_semantics_valid = False
+        if expected_icon:
+            if (
+                layout.get("icon-allow-overlap") is not True
+                or layout.get("text-optional") is not True
+                or layout.get("text-allow-overlap") is not False
+            ):
+                layer_semantics_valid = False
+        elif layout.get("text-allow-overlap") is not True:
             layer_semantics_valid = False
         evidence = layer.get("nma:evidence", {})
         if (

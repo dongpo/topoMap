@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="National Map Agent School application: validate a user MARK Shapefile, retrieve Knowledge Graph evidence, authorize a plan, and draw a verified MapLibre preview.">
+  <meta name="nma-api-root" content="./api/">
+  <title>NMA · School map application</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="assets/css/nma-school-demo-v1.css">
+</head>
+<body>
+  <a class="skip-link" href="#stage-content">跳至主要內容</a>
+  <header class="app-header">
+    <div>
+      <a class="brand" href="./">NMA</a>
+      <span class="product-name">School map application</span>
+    </div>
+    <div class="runtime-state"><span class="state-dot" aria-hidden="true"></span><span id="server-status">連線 Knowledge Service…</span></div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="flow-sidebar" aria-label="處理流程">
+      <div class="flow-intro">
+        <p class="eyebrow">Point portrayal</p>
+        <h1>把使用者的學校點位畫成有證據的地圖</h1>
+        <p>資料留在瀏覽器；Agent 只接收通過檢查的分類計數與 schema observation。</p>
+      </div>
+      <ol class="step-list">
+        <li><button class="step-button is-active" type="button" data-step="upload" aria-current="step"><span>1</span><strong>資料檢查</strong><small>ZIP、欄位、CRS、分類</small></button></li>
+        <li><button class="step-button" type="button" data-step="evidence" disabled><span>2</span><strong>規範證據</strong><small>KG、GraphRAG、製圖規則</small></button></li>
+        <li><button class="step-button" type="button" data-step="authorize" disabled><span>3</span><strong>人工授權</strong><small>核准本次 preview plan</small></button></li>
+        <li><button class="step-button" type="button" data-step="map" disabled><span>4</span><strong>地圖預覽</strong><small>MapLibre browser-local render</small></button></li>
+        <li><button class="step-button" type="button" data-step="verify" disabled><span>5</span><strong>驗證結果</strong><small>QA、Agent decision、provenance</small></button></li>
+      </ol>
+      <div class="boundary-note"><strong>執行邊界</strong><br>沒有資料輸出；沒有正式 KG 寫入；沒有 production activation。</div>
+    </aside>
+
+    <main id="stage-content" class="stage-content" tabindex="-1">
+      <div id="app-status" class="app-status" aria-live="polite">請選擇一個包含 MARK Shapefile 的 ZIP。</div>
+
+      <section id="stage-upload" class="stage-panel is-active" data-panel="upload" aria-labelledby="upload-title">
+        <div class="panel-heading"><p class="step-kicker">Step 1 of 5</p><h2 id="upload-title">先確認這份資料能不能安全處理</h2><p>任何必要元件、欄位、ID、分類或 CRS 問題都會在這裡終止，不會進入 Agent plan。</p></div>
+        <form id="upload-form" class="task-card">
+          <label for="goal">你想完成什麼？</label>
+          <textarea id="goal" maxlength="500">依測圖規範繪製這份資料中的所有學校及訓練機構點位。</textarea>
+          <label for="school-archive">School Shapefile ZIP</label>
+          <input id="school-archive" type="file" accept=".zip,application/zip" required>
+          <p class="field-help">必要：`.shp`、`.shx`、`.dbf`、`.prj`；`.cpg` 可選。每次只接受一個 `MARK` 或 `*_MARK` Point 圖層，ZIP 上限 16 MiB。</p>
+          <button id="inspect-button" class="primary-button" type="submit">檢查資料並建立 observation</button>
+        </form>
+        <div id="upload-error" class="message message-error" hidden></div>
+        <article id="upload-result" class="result-card" hidden>
+          <div class="result-title"><span class="result-icon">✓</span><div><h3>資料 gate 通過</h3><p>下一步只傳送分類計數與 schema；Shapefile 和 GeoJSON 不會傳送。</p></div></div>
+          <dl id="upload-facts" class="fact-grid"></dl>
+          <div id="component-list" class="component-list"></div>
+          <div class="actions"><button id="continue-evidence" class="primary-button" type="button">查看 Agent 找到的規範證據</button></div>
+        </article>
+      </section>
+
+      <section id="stage-evidence" class="stage-panel" data-panel="evidence" aria-labelledby="evidence-title">
+        <div class="panel-heading"><p class="step-kicker">Step 2 of 5</p><h2 id="evidence-title">Agent 為這份資料找到哪些規則？</h2><p>只顯示實際出現在使用者 Shapefile 的分類；`9920100` 是父分類，不是硬篩選條件。</p></div>
+        <div class="evidence-layout">
+          <article class="task-card">
+            <div class="section-title"><h3>分類與製圖計畫</h3><span id="plan-status" class="status-pill">等待 plan</span></div>
+            <div class="table-wrap"><table><thead><tr><th>實際分類</th><th>圖徵數</th><th>Map portrayal</th><th>官方證據</th></tr></thead><tbody id="evidence-rows"></tbody></table></div>
+          </article>
+          <article class="task-card compact-card"><h3>Knowledge Service</h3><dl id="kg-facts" class="fact-grid"></dl></article>
+          <details class="evidence-details"><summary>查看 plan 的治理與 GraphRAG 路徑</summary><div id="plan-detail"></div></details>
+        </div>
+        <div class="actions split-actions"><button class="text-button" type="button" data-go="upload">返回資料檢查</button><button id="continue-authorize" class="primary-button" type="button">檢視並授權這個 plan</button></div>
+      </section>
+
+      <section id="stage-authorize" class="stage-panel" data-panel="authorize" aria-labelledby="authorize-title">
+        <div class="panel-heading"><p class="step-kicker">Step 3 of 5</p><h2 id="authorize-title">由人決定是否建立地圖預覽</h2><p>授權只綁定目前 plan hash。若 Agent 因工具結果修改 plan，必須重新授權。</p></div>
+        <form id="authorization-form" class="task-card authorization-card">
+          <div id="revision-notice" class="message message-warning" hidden></div>
+          <dl id="authorization-facts" class="fact-grid"></dl>
+          <label for="authorization-actor">審查者識別</label>
+          <input id="authorization-actor" value="browser-human-reviewer" maxlength="120" autocomplete="off">
+          <label class="check-row"><input id="confirm-evidence" type="checkbox"><span>我已檢視實際分類、規則與官方文件頁碼。</span></label>
+          <label class="check-row"><input id="confirm-boundary" type="checkbox"><span>我了解這只是 browser preview，不會啟用正式製圖規則或 production runtime。</span></label>
+          <div class="actions"><button id="reject-plan" class="danger-button" type="button">拒絕 plan</button><button id="authorize-plan" class="primary-button" type="submit" disabled>授權並準備地圖</button></div>
+        </form>
+        <div id="authorization-result" class="message" hidden></div>
+        <div class="actions"><button class="text-button" type="button" data-go="evidence">返回規範證據</button></div>
+      </section>
+
+      <section id="stage-map" class="stage-panel map-panel" data-panel="map" aria-labelledby="map-title">
+        <div class="panel-heading map-heading"><div><p class="step-kicker">Step 4 of 5</p><h2 id="map-title">MapLibre 預覽</h2></div><span id="map-state" class="status-pill">尚未繪製</span></div>
+        <div id="map" aria-label="使用者 School Shapefile 的 MapLibre 預覽"><div class="map-placeholder">等待授權與 QA…</div></div>
+        <div id="map-message" class="message" hidden></div>
+        <article class="map-summary"><h3>目前圖層</h3><dl id="map-facts" class="fact-grid"></dl></article>
+        <div class="actions split-actions"><button class="text-button" type="button" data-go="authorize">查看授權</button><button id="continue-verify" class="primary-button" type="button" disabled>查看驗證與 provenance</button></div>
+      </section>
+
+      <section id="stage-verify" class="stage-panel" data-panel="verify" aria-labelledby="verify-title">
+        <div class="panel-heading"><p class="step-kicker">Step 5 of 5</p><h2 id="verify-title">這張地圖通過了哪些檢查？</h2><p>QA 結果、瀏覽器 render observation 與 Agent 最終 decision 分開呈現，不以「看起來有圖」代替驗證。</p></div>
+        <div class="verification-grid">
+          <article class="task-card"><div class="section-title"><h3>QA checks</h3><span id="qa-status" class="status-pill"></span></div><ul id="qa-checks" class="check-list"></ul></article>
+          <article class="task-card"><div class="section-title"><h3>Agent decision</h3><span id="agent-decision" class="status-pill"></span></div><p id="agent-reason"></p><div id="agent-trace" class="trace-list"></div></article>
+          <article class="task-card"><h3>Provenance</h3><dl id="provenance-facts" class="fact-grid"></dl></article>
+        </div>
+        <div class="actions"><button id="restart-demo" class="primary-button" type="button">處理另一份 School ZIP</button></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js"></script>
+  <script type="module" src="nmaSchoolDemoV1.js"></script>
+</body>
+</html>

@@ -189,7 +189,14 @@ def test_authorized_compile_creates_four_flag_and_two_text_layers_without_data(
     for layer in compiled["layers"]:
         code = layer["filter"][2]
         assert layer["filter"] == ["==", ["to-string", ["get", "TERRAINID"]], code]
+        assert "source-layer" not in layer
         assert layer["nma:evidence"]["rule_id"] == f"portrayal-rule:doc01:{code}"
+        if "icon-image" in layer["layout"]:
+            assert layer["layout"]["icon-allow-overlap"] is True
+            assert layer["layout"]["text-optional"] is True
+            assert layer["layout"]["text-allow-overlap"] is False
+        else:
+            assert layer["layout"]["text-allow-overlap"] is True
 
 
 def test_rejection_tampering_and_stale_authorization_fail_closed(
@@ -254,9 +261,12 @@ def test_tool_outcomes_drive_verify_or_abstain_decisions(
         )
 
     verify = observed("compiled", "MapLibre accepted the compiled style fragment.")
+    stop = observed("browser-render-verified", "MapLibre rendered the governed layer.")
     abstain = observed("style-validation-failed", "Unsupported expression.")
     assert verify["schema"] == AGENT_DECISION_SCHEMA
     assert verify["decision"] == "verify-then-stop"
+    assert stop["decision"] == "stop"
+    assert stop["observed_outcome"] == "browser-render-verified"
     assert abstain["decision"] == "abstain-and-stop"
     assert verify["map_mutation_allowed"] is False
     assert abstain["automatic_rule_activation"] is False
