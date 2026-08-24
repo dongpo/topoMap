@@ -131,6 +131,14 @@ from nma.school_portrayal_v1 import (  # noqa: E402
     compile_school_maplibre_preview,
     verify_school_maplibre_preview,
 )
+from nma.road_portrayal_v1 import (  # noqa: E402
+    RoadPortrayalError,
+    RoadPortrayalPlannerV1,
+    apply_road_tool_observation,
+    authorize_road_portrayal,
+    compile_road_maplibre_preview,
+    verify_road_maplibre_preview,
+)
 from nma.road_execution import (  # noqa: E402
     FrozenRoadInputs,
     RoadAuthorizationStore,
@@ -878,6 +886,15 @@ _SCHOOL_PORTRAYAL_ARTIFACTS: dict[str, dict[str, dict[str, Any]]] = {
     "authorization": {},
     "adapter_result": {},
 }
+_ROAD_PORTRAYAL_PLANNER: RoadPortrayalPlannerV1 | None = None
+_ROAD_PORTRAYAL_PLANNER_LOCK = Lock()
+_ROAD_PORTRAYAL_ARTIFACT_LIMIT = 256
+_ROAD_PORTRAYAL_ARTIFACT_LOCK = Lock()
+_ROAD_PORTRAYAL_ARTIFACTS: dict[str, dict[str, dict[str, Any]]] = {
+    "plan": {},
+    "authorization": {},
+    "adapter_result": {},
+}
 
 
 def canonical_retriever() -> KnowledgeServiceGraphRetriever | CitationIntegrityGraphRetrieverV06:
@@ -1041,6 +1058,112 @@ def verify_school_portrayal_request(payload: Any) -> dict[str, Any]:
         approved,
         adapter_result,
     )
+
+
+def road_portrayal_planner() -> RoadPortrayalPlannerV1:
+    """Bind ROAD portrayal planning to the active read-only Knowledge Service."""
+    global _ROAD_PORTRAYAL_PLANNER
+    if _ROAD_PORTRAYAL_PLANNER is None:
+        with _ROAD_PORTRAYAL_PLANNER_LOCK:
+            if _ROAD_PORTRAYAL_PLANNER is None:
+                _ROAD_PORTRAYAL_PLANNER = RoadPortrayalPlannerV1(canonical_retriever())
+    return _ROAD_PORTRAYAL_PLANNER
+
+
+def _register_road_portrayal_artifact(
+    kind: str,
+    identity_field: str,
+    artifact: dict[str, Any],
+) -> dict[str, Any]:
+    identity = artifact.get(identity_field)
+    if not isinstance(identity, str):
+        raise RoadPortrayalError(f"The ROAD {kind} identity is unavailable.")
+    copied = json.loads(json.dumps(artifact, ensure_ascii=False))
+    with _ROAD_PORTRAYAL_ARTIFACT_LOCK:
+        records = _ROAD_PORTRAYAL_ARTIFACTS[kind]
+        records[identity] = copied
+        while len(records) > _ROAD_PORTRAYAL_ARTIFACT_LIMIT:
+            records.pop(next(iter(records)))
+    return copied
+
+
+def _require_road_portrayal_artifact(
+    kind: str,
+    identity_field: str,
+    artifact: Any,
+) -> dict[str, Any]:
+    if not isinstance(artifact, dict) or not isinstance(artifact.get(identity_field), str):
+        raise RoadPortrayalError(f"A valid ROAD {kind} is required.")
+    identity = artifact[identity_field]
+    with _ROAD_PORTRAYAL_ARTIFACT_LOCK:
+        issued = _ROAD_PORTRAYAL_ARTIFACTS[kind].get(identity)
+    if issued is None or issued != artifact:
+        raise RoadPortrayalError(f"The ROAD {kind} was not issued by this governed server session.")
+    return json.loads(json.dumps(issued, ensure_ascii=False))
+
+
+def propose_road_portrayal(payload: Any) -> dict[str, Any]:
+    return _register_road_portrayal_artifact(
+        "plan",
+        "plan_sha256",
+        road_portrayal_planner().propose(payload),
+    )
+
+
+def authorize_road_portrayal_request(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict) or set(payload) != {"plan", "actor", "decision"}:
+        raise RoadPortrayalError("The ROAD authorization request has an invalid shape.")
+    plan = _require_road_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    return _register_road_portrayal_artifact(
+        "authorization",
+        "authorization_sha256",
+        authorize_road_portrayal(
+            plan,
+            actor=payload["actor"],
+            decision=payload["decision"],
+        ),
+    )
+
+
+def compile_road_portrayal_request(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict) or set(payload) != {"plan", "authorization"}:
+        raise RoadPortrayalError("The ROAD compilation request has an invalid shape.")
+    plan = _require_road_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    approved = _require_road_portrayal_artifact(
+        "authorization",
+        "authorization_sha256",
+        payload["authorization"],
+    )
+    return _register_road_portrayal_artifact(
+        "adapter_result",
+        "adapter_result_sha256",
+        compile_road_maplibre_preview(plan, approved),
+    )
+
+
+def observe_road_portrayal_tool(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict) or set(payload) != {"plan", "observation"}:
+        raise RoadPortrayalError("The ROAD tool observation request has an invalid shape.")
+    plan = _require_road_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    return apply_road_tool_observation(plan, payload["observation"])
+
+
+def verify_road_portrayal_request(payload: Any) -> dict[str, Any]:
+    required = {"plan", "authorization", "adapter_result"}
+    if not isinstance(payload, dict) or set(payload) != required:
+        raise RoadPortrayalError("The ROAD verification request has an invalid shape.")
+    plan = _require_road_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    approved = _require_road_portrayal_artifact(
+        "authorization",
+        "authorization_sha256",
+        payload["authorization"],
+    )
+    adapter_result = _require_road_portrayal_artifact(
+        "adapter_result",
+        "adapter_result_sha256",
+        payload["adapter_result"],
+    )
+    return verify_road_maplibre_preview(plan, approved, adapter_result)
 
 
 def graph_backend_trace() -> dict[str, Any]:
@@ -3505,6 +3628,11 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             "/api/school-portrayal/compile",
             "/api/school-portrayal/observations",
             "/api/school-portrayal/verify",
+            "/api/road-portrayal/proposals",
+            "/api/road-portrayal/authorizations",
+            "/api/road-portrayal/compile",
+            "/api/road-portrayal/observations",
+            "/api/road-portrayal/verify",
         } and not observation_match and not rollback_match and not road_observation_match and not road_rollback_match:
             self._json(HTTPStatus.NOT_FOUND, {"error": {"code": "not_found"}})
             return
@@ -3546,6 +3674,16 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
                 result = observe_school_portrayal_tool(payload)
             elif route == "/api/school-portrayal/verify":
                 result = verify_school_portrayal_request(payload)
+            elif route == "/api/road-portrayal/proposals":
+                result = propose_road_portrayal(payload)
+            elif route == "/api/road-portrayal/authorizations":
+                result = authorize_road_portrayal_request(payload)
+            elif route == "/api/road-portrayal/compile":
+                result = compile_road_portrayal_request(payload)
+            elif route == "/api/road-portrayal/observations":
+                result = observe_road_portrayal_tool(payload)
+            elif route == "/api/road-portrayal/verify":
+                result = verify_road_portrayal_request(payload)
             elif observation_match:
                 result = record_school_hero_observation(observation_match.group(1), payload)
             elif rollback_match:
@@ -3582,6 +3720,11 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             self._json(
                 HTTPStatus.BAD_REQUEST,
                 {"error": {"code": "school_portrayal_invalid", "message": str(error)}},
+            )
+        except RoadPortrayalError as error:
+            self._json(
+                HTTPStatus.BAD_REQUEST,
+                {"error": {"code": "road_portrayal_invalid", "message": str(error)}},
             )
         except RoadExecutionError as error:
             self._json(error.status, {"error": {"code": error.code, "message": str(error)}})
