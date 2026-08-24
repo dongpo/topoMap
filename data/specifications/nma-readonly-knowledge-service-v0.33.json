@@ -1,0 +1,77 @@
+{
+  "schema": "nma.readonly-knowledge-service-specification/0.33",
+  "status": "production-candidate-read-only-contract",
+  "authority": {
+    "canonical_graph": "data/knowledge/nma-canonical-graph-v0.4.json",
+    "graph_revision": "nma-canonical-graph-v0.4",
+    "canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "neo4j_role": "identity-verified rebuildable projection; not independent semantic authority"
+  },
+  "public_operations": {
+    "retrieve_evidence": {
+      "request_contract": "nma.retrieve-evidence-request/0.33",
+      "required": [
+        "query",
+        "seed_ids",
+        "ranked_trace",
+        "retrieval_mode",
+        "max_depth",
+        "max_nodes"
+      ],
+      "optional": ["expand_product_fields", "extra_trace"],
+      "limits": {
+        "query_characters": 4000,
+        "seed_ids": 12,
+        "ranked_trace_records": 100,
+        "max_depth": 3,
+        "max_nodes": 300,
+        "incident_edges_per_node": 5000
+      },
+      "response_contract": "nma.readonly-knowledge-service/0.33"
+    }
+  },
+  "internal_query_templates": {
+    "read_nodes_sha256": "a41790661f55a87da4029c5290c9f3075a87ece50e4cd7428ac5c2fe040c7c76",
+    "read_incident_edges_sha256": "ade891001b9ebce2cd0259c8b313d04e5ebd1f4bf346930ab3d650a35c0fde1b",
+    "parameters_only": true,
+    "agent_supplied_cypher": false
+  },
+  "activation": {
+    "required_credential_scope": "read-only",
+    "required_setting": "NMA_NEO4J_CREDENTIAL_SCOPE=read-only",
+    "driver_access_mode": "READ",
+    "live_projection_check": "full structural parity with canonical revision at activation",
+    "fallback": "same canonical graph revision and SHA-256 only",
+    "fallback_must_be_visible": true,
+    "fail_closed_when_fallback_disabled": true
+  },
+  "response_provenance": [
+    "operation contract",
+    "active backend",
+    "graph revision",
+    "canonical graph SHA-256",
+    "identity verification state",
+    "selected node IDs",
+    "stable selected edge IDs",
+    "read transaction count",
+    "bounded edge scan count"
+  ],
+  "prohibited": [
+    "arbitrary Cypher",
+    "CREATE",
+    "MERGE",
+    "SET",
+    "DELETE",
+    "REMOVE",
+    "DROP",
+    "automatic rule activation",
+    "credential exposure",
+    "LLM substitution for missing KG evidence",
+    "external open-data substitution",
+    "autonomous modification of the canonical Knowledge Graph"
+  ],
+  "future_research_only": [
+    "Agent-proposed KG changes through a separately governed review and activation protocol",
+    "Agent autonomous modification of the formal canonical Knowledge Graph"
+  ]
+}

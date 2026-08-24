@@ -199,9 +199,10 @@ NMA uses open, replaceable components and portable files:
 - GDAL/OGR for the supporting validation workflow;
 - JSON/OpenAPI interfaces that do not require Agno or another large agent framework.
 
-An optional Neo4j adapter may load the same node/edge graph later; Neo4j is not required for
-reproduction. The portable graph, rule evidence, benchmark, and style output remain the research
-assets.
+The v0.33 read-only Knowledge Service can query an identity-verified Neo4j projection through fixed,
+parameterized operations; Neo4j is not required for reproduction. The portable graph remains the
+reviewed semantic authority, and the Agent cannot submit Cypher or modify the canonical KG. See
+[`docs/NMA-V0.33-READONLY-KNOWLEDGE-SERVICE.md`](docs/NMA-V0.33-READONLY-KNOWLEDGE-SERVICE.md).
 
 The API adds:
 

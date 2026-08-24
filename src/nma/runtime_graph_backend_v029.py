@@ -15,6 +15,7 @@ from nma.retrieval_v06 import (
 ALLOWED_LOCAL_SETTINGS = {
     "NMA_GRAPH_BACKEND",
     "NMA_GRAPH_FALLBACK",
+    "NMA_NEO4J_CREDENTIAL_SCOPE",
     "NEO4J_URI",
     "NEO4J_USER",
     "NEO4J_PASSWORD",

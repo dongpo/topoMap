@@ -81,12 +81,14 @@ evidence and graph-path arrays. Unsupported profile or scale also abstains befor
 The response exposes document URI, version, page, source text, source hash, review status, rule ID
 and graph node/edge identifiers so the user can inspect the grounding directly.
 
-## Portable graph and future Neo4j adapter
+## Portable graph and read-only Neo4j projection
 
 The checked-in graph is a portable property-graph export (`nodes`, `edges`, `properties`). It is
-directly inspectable, diffable, testable, and loadable without a database. A future Neo4j adapter
-may persist the same node IDs and edge types and execute equivalent traversals. NMA core must not
-depend on Cypher or Neo4j session state.
+directly inspectable, diffable, testable, and loadable without a database. The v0.33 Knowledge
+Service may read an identity-verified Neo4j projection with the same node IDs and edge types. NMA
+core does not accept Agent-supplied Cypher and does not treat Neo4j session state as semantic
+authority. Autonomous modification of the formal KG remains future research, not a runtime
+capability.
 
 ## Map execution
 

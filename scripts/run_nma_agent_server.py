@@ -97,10 +97,13 @@ from nma.retrieval_v108 import (  # noqa: E402
     RetrievalV108Error,
     SegmentAwareGraphRetrieverV108,
 )
-from nma.runtime_graph_backend_v029 import (  # noqa: E402
-    RuntimeGraphBackendError,
-    load_runtime_graph_settings,
-    select_runtime_graph_backend_v029,
+from nma.runtime_graph_backend_v029 import load_runtime_graph_settings  # noqa: E402
+from nma.readonly_knowledge_service import (  # noqa: E402
+    KnowledgeServiceConfigurationError,
+    KnowledgeServiceGraphRetriever,
+    ReadOnlyKnowledgeService,
+    ReadOnlyKnowledgeServiceError,
+    select_readonly_knowledge_service,
 )
 from nma.maplibre_adapter import compile_maplibre_preview  # noqa: E402
 from nma.portrayal_compile import compile_portrayal_preview  # noqa: E402
@@ -836,7 +839,8 @@ UNIFIED_RUNTIME = UnifiedNMARuntime(
         ),
     }
 )
-_RETRIEVER: CitationIntegrityGraphRetrieverV06 | None = None
+_RETRIEVER: KnowledgeServiceGraphRetriever | CitationIntegrityGraphRetrieverV06 | None = None
+_KNOWLEDGE_SERVICE: ReadOnlyKnowledgeService | None = None
 _GRAPH_BACKEND_TRACE: dict[str, Any] | None = None
 _RETRIEVER_LOCK = Lock()
 _VECTOR_INDEX: VectorIndex | None = None
@@ -859,8 +863,8 @@ _PORTRAYAL_ENGINE: PortrayalReviewEngine | None = None
 _PORTRAYAL_ENGINE_LOCK = Lock()
 
 
-def canonical_retriever() -> CitationIntegrityGraphRetrieverV06:
-    global _RETRIEVER, _GRAPH_BACKEND_TRACE
+def canonical_retriever() -> KnowledgeServiceGraphRetriever | CitationIntegrityGraphRetrieverV06:
+    global _RETRIEVER, _KNOWLEDGE_SERVICE, _GRAPH_BACKEND_TRACE
     if _RETRIEVER is None:
         with _RETRIEVER_LOCK:
             if _RETRIEVER is None:
@@ -871,18 +875,37 @@ def canonical_retriever() -> CitationIntegrityGraphRetrieverV06:
                         503,
                     )
                 try:
-                    _RETRIEVER, _GRAPH_BACKEND_TRACE = select_runtime_graph_backend_v029(
+                    (
+                        _RETRIEVER,
+                        _KNOWLEDGE_SERVICE,
+                        _GRAPH_BACKEND_TRACE,
+                    ) = select_readonly_knowledge_service(
                         canonical_graph_path=CANONICAL_GRAPH,
                         citation_registry_path=CITATION_SOURCE_REGISTRY,
                         settings=load_runtime_graph_settings(ROOT / ".env.local"),
                     )
-                except (OSError, json.JSONDecodeError, RuntimeGraphBackendError) as error:
+                except (
+                    OSError,
+                    json.JSONDecodeError,
+                    KnowledgeServiceConfigurationError,
+                ) as error:
                     raise AgentError(
                         "runtime_graph_backend_invalid",
                         "The configured runtime graph backend could not be activated safely.",
                         503,
                     ) from error
     return _RETRIEVER
+
+
+def readonly_knowledge_service() -> ReadOnlyKnowledgeService:
+    canonical_retriever()
+    if _KNOWLEDGE_SERVICE is None:
+        raise AgentError(
+            "readonly_knowledge_service_unavailable",
+            "The read-only Knowledge Service is not available.",
+            503,
+        )
+    return _KNOWLEDGE_SERVICE
 
 
 def graph_backend_trace() -> dict[str, Any]:
@@ -898,7 +921,11 @@ def graph_backend_trace() -> dict[str, Any]:
 
 def attach_graph_backend_trace_v029(package: dict[str, Any]) -> dict[str, Any]:
     """Make the active graph backend and any fallback visible on every typed retrieval."""
-    package["retrieval_trace"]["v029_graph_backend"] = graph_backend_trace()
+    trace = graph_backend_trace()
+    package["retrieval_trace"]["v029_graph_backend"] = trace
+    package["retrieval_trace"]["v033_readonly_knowledge_service"] = json.loads(
+        json.dumps(trace, ensure_ascii=False)
+    )
     return package
 
 
@@ -947,18 +974,25 @@ def retrieve_evidence_from_resolution_v030(
             "The entity-resolution handoff selected an unknown canonical node.",
             502,
         )
-    package = graph_retriever.package_from_seed_ids(
-        query,
-        selected_ids,
-        ranked_trace=ranked_trace,
-        retrieval_mode="v0.30-llm-resolution-to-typed-live-graph-expansion",
-        max_depth=max_depth,
-        max_nodes=max_nodes,
-        expand_product_fields=any(
-            keyword in query.casefold()
-            for keyword in ("欄位", "屬性", "field", "attribute")
-        ),
-    )
+    try:
+        package = graph_retriever.package_from_seed_ids(
+            query,
+            selected_ids,
+            ranked_trace=ranked_trace,
+            retrieval_mode="v0.30-llm-resolution-to-typed-live-graph-expansion",
+            max_depth=max_depth,
+            max_nodes=max_nodes,
+            expand_product_fields=any(
+                keyword in query.casefold()
+                for keyword in ("欄位", "屬性", "field", "attribute")
+            ),
+        )
+    except ReadOnlyKnowledgeServiceError as error:
+        raise AgentError(
+            "readonly_knowledge_query_failed",
+            "The read-only Knowledge Service rejected or could not complete the evidence query.",
+            503,
+        ) from error
     package["retrieval_trace"]["v030_entity_resolution_handoff"] = {
         "schema": resolution["schema"],
         "status": status,
@@ -1256,6 +1290,12 @@ def retrieve_evidence(
             max_depth=max_depth,
             max_nodes=max_nodes,
         )
+    except ReadOnlyKnowledgeServiceError as error:
+        raise AgentError(
+            "readonly_knowledge_query_failed",
+            "The read-only Knowledge Service rejected or could not complete the evidence query.",
+            503,
+        ) from error
     except (
         VectorIndexError,
         EntityResolutionV101Error,
@@ -2229,14 +2269,21 @@ def public_graph_backend_trace_v031(trace: dict[str, Any]) -> dict[str, Any]:
         "fallback_used",
         "fallback_reason_code",
         "graph_revision",
+        "canonical_graph_sha256",
         "graph_identity_verified",
         "active_graph_authoritative",
         "neo4j_database",
         "live_nodes",
         "live_edges",
+        "live_projection_identity",
+        "fallback_identity",
+        "credential_scope_required",
+        "driver_access_mode",
         "typed_tool_only",
         "arbitrary_cypher_allowed",
+        "mutation_allowed",
         "automatic_rule_activation",
+        "autonomous_canonical_kg_modification",
     )
     return {field: trace.get(field) for field in fields}
 
@@ -3428,6 +3475,8 @@ def main() -> None:
         pass
     finally:
         server.server_close()
+        if _KNOWLEDGE_SERVICE is not None:
+            _KNOWLEDGE_SERVICE.close()
 
 
 if __name__ == "__main__":

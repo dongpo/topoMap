@@ -43,14 +43,23 @@ def _normal_edges(graph: dict[str, Any]) -> list[dict[str, Any]]:
     )
 
 
-def load_live_projection_v028(driver: Any, *, database: str, graph_revision: str) -> dict[str, Any]:
+def load_live_projection_v028(
+    driver: Any,
+    *,
+    database: str,
+    graph_revision: str,
+    read_access_mode: bool = False,
+) -> dict[str, Any]:
     """Read one immutable graph revision from Neo4j and reconstruct its canonical shape."""
 
     verify_connectivity = getattr(driver, "verify_connectivity", None)
     if not callable(verify_connectivity):
         raise Neo4jRetrievalParityError("A Neo4j driver with verify_connectivity() is required.")
     verify_connectivity()
-    with driver.session(database=database) as session:
+    session_options = {"database": database}
+    if read_access_mode:
+        session_options["default_access_mode"] = "READ"
+    with driver.session(**session_options) as session:
         node_records = _rows(
             session.run(NODE_ROUND_TRIP_CYPHER, {"graph_revision": graph_revision})
         )
