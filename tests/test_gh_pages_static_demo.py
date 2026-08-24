@@ -146,6 +146,8 @@ class StaticPagesDemoTests(unittest.TestCase):
         self.assertIn('new URLSearchParams(location.search).get("domain")', self.app)
         self.assertIn('const initialDomain = Object.hasOwn(UI, requestedDomain)', self.app)
         self.assertNotIn('document.querySelectorAll(".scenario-tab")', self.app)
+        self.assertIn('app.css?v=domain-locked-1', self.run_page)
+        self.assertIn('app.js?v=domain-locked-1', self.run_page)
 
     def test_public_release_has_no_fixture_bytes_or_credentials(self) -> None:
         paths = [item["path"].lower() for item in self.release["files"]]
