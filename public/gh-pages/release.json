@@ -1,8 +1,14 @@
 {
-  "schema": "nma.github-pages-static-release/2.0",
+  "schema": "nma.github-pages-static-release/2.1",
   "source_branch": "main",
   "authority_commit": "eb87bde775333811529efb6f651573ea21cf456b",
   "mode": "browser-local-user-shapefile-controlled-execution",
+  "interface": "task-landing-plus-domain-locked-run",
+  "domain_routes": {
+    "school": "run.html?domain=school",
+    "road": "run.html?domain=road",
+    "build": "run.html?domain=build"
+  },
   "user_file_required": true,
   "user_file_transmission": false,
   "preloaded_result_geometry": false,
@@ -18,13 +24,13 @@
     },
     {
       "path": "app.css",
-      "bytes": 20747,
-      "sha256": "41f4962bee1f5a62faaaf6d23e3c76e7f475f3a927907b4e0e89d19f3c8209ee"
+      "bytes": 21263,
+      "sha256": "350a0b8f486e1d014453f1437da4d86c932eb971560b84150a5378c22082ae71"
     },
     {
       "path": "app.js",
-      "bytes": 32323,
-      "sha256": "71018cadfbedc37cc52bcbac2e3f577972828cecf1f52a8cc4496dd03e1899f9"
+      "bytes": 32180,
+      "sha256": "72db05f44960d4f8dd07439b5f0e841589862079665a14c6de8ee6afd2fb7627"
     },
     {
       "path": "assets/NotoSans-LICENSE.txt",
@@ -93,8 +99,23 @@
     },
     {
       "path": "index.html",
-      "bytes": 9916,
-      "sha256": "094eeca9f22d8b5e50156836c10fe554be4b039b74fe133a37a5c6a4e3cf9472"
+      "bytes": 4449,
+      "sha256": "998327680efea9ad97df75d565bc4d24226a90c7d05031034c00f186293be76b"
+    },
+    {
+      "path": "landing.css",
+      "bytes": 5788,
+      "sha256": "697cdb309f113fa05a8281a123573f2452c4a4cacf19206a659f32b061fada8a"
+    },
+    {
+      "path": "landing.js",
+      "bytes": 823,
+      "sha256": "d426dabe849fb2beb64090e43185511b4fbe2b2717c9d060472d8248842edb8d"
+    },
+    {
+      "path": "run.html",
+      "bytes": 9594,
+      "sha256": "6880e2a1d0dd3bdc9c805a9f6a1d799fd85bcc74b14be2e8cea0b23511f7de63"
     }
   ]
 }

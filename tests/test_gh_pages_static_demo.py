@@ -28,7 +28,9 @@ class StaticPagesDemoTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.index = (OUTPUT / "index.html").read_text(encoding="utf-8")
+        cls.run_page = (OUTPUT / "run.html").read_text(encoding="utf-8")
         cls.app = (OUTPUT / "app.js").read_text(encoding="utf-8")
+        cls.landing = (OUTPUT / "landing.js").read_text(encoding="utf-8")
         cls.knowledge = json.loads(
             (OUTPUT / "data/nma-runtime-knowledge-v0.4.json").read_text(encoding="utf-8")
         )
@@ -74,7 +76,7 @@ class StaticPagesDemoTests(unittest.TestCase):
             "回答已改變 decision；Agent 重新規劃完成",
             "APPROVED_MAPPING_TO",
         ):
-            self.assertIn(marker, json.dumps(self.knowledge, ensure_ascii=False) + self.index + self.app)
+            self.assertIn(marker, json.dumps(self.knowledge, ensure_ascii=False) + self.run_page + self.app)
         self.assertFalse(self.knowledge["governance"]["session_mapping_reuse"])
 
     def test_intake_is_strict_and_uses_actual_archive_envelope(self) -> None:
@@ -113,19 +115,37 @@ class StaticPagesDemoTests(unittest.TestCase):
     def test_maplibre_handles_point_line_polygon_without_export(self) -> None:
         for marker in ('type: "circle"', 'type: "line"', 'type: "fill"', '"fill-pattern": "hatch"', "new maplibregl.Map"):
             self.assertIn(marker, self.app)
-        self.assertIn("不輸出資料", self.index + self.app)
+        self.assertIn("不輸出資料", self.run_page + self.app)
         self.assertIn("production activation：HELD / DISABLED", self.app)
 
     def test_local_links_are_path_prefix_safe_and_exist(self) -> None:
-        parser = LinkParser()
-        parser.feed(self.index)
-        for value in parser.local:
-            self.assertFalse(value.startswith("/"), value)
-            target = value.split("?", 1)[0]
-            if target in {".", "./"}:
-                target = "index.html"
-            self.assertTrue((OUTPUT / target).is_file(), value)
+        for page in (self.index, self.run_page):
+            parser = LinkParser()
+            parser.feed(page)
+            for value in parser.local:
+                self.assertFalse(value.startswith("/"), value)
+                target = value.split("?", 1)[0]
+                if target in {".", "./"}:
+                    target = "index.html"
+                self.assertTrue((OUTPUT / target).is_file(), value)
         self.assertNotRegex(self.app, re.compile(r'["\']/[^"\']+'))
+
+    def test_landing_routes_to_three_separate_domain_runs(self) -> None:
+        self.assertNotIn('id="shp-file"', self.index)
+        self.assertNotIn("scenario-tabs", self.index)
+        for domain, geometry in (("school", "POINT"), ("road", "LINE"), ("build", "POLYGON")):
+            self.assertEqual(self.index.count(f'run.html?domain={domain}'), 1)
+            self.assertIn(geometry, self.index)
+        self.assertIn('new URL("data/nma-runtime-knowledge-v0.4.json", document.baseURI)', self.landing)
+
+    def test_run_page_locks_domain_from_path_prefix_safe_query(self) -> None:
+        self.assertNotIn("scenario-tabs", self.run_page)
+        self.assertNotIn("scenario-tab", self.run_page)
+        for domain in ("school", "road", "build"):
+            self.assertIn(f'data-domain-link="{domain}"', self.run_page)
+        self.assertIn('new URLSearchParams(location.search).get("domain")', self.app)
+        self.assertIn('const initialDomain = Object.hasOwn(UI, requestedDomain)', self.app)
+        self.assertNotIn('document.querySelectorAll(".scenario-tab")', self.app)
 
     def test_public_release_has_no_fixture_bytes_or_credentials(self) -> None:
         paths = [item["path"].lower() for item in self.release["files"]]
@@ -133,7 +153,7 @@ class StaticPagesDemoTests(unittest.TestCase):
         self.assertFalse(self.release["private_fixture_bytes_included"])
         self.assertFalse(self.release["production_credentials_included"])
         self.assertFalse(self.release["production_activation"])
-        corpus = self.index + self.app + json.dumps(self.knowledge)
+        corpus = self.index + self.run_page + self.app + self.landing + json.dumps(self.knowledge)
         for secret in ("OPENAI_API_KEY", "NEO4J_PASSWORD", "sk-proj-"):
             self.assertNotIn(secret, corpus)
 
@@ -143,6 +163,16 @@ class StaticPagesDemoTests(unittest.TestCase):
         self.assertTrue(self.release["user_file_required"])
         self.assertFalse(self.release["user_file_transmission"])
         self.assertFalse(self.release["preloaded_result_geometry"])
+        self.assertEqual(self.release["schema"], "nma.github-pages-static-release/2.1")
+        self.assertEqual(self.release["interface"], "task-landing-plus-domain-locked-run")
+        self.assertEqual(
+            self.release["domain_routes"],
+            {
+                "school": "run.html?domain=school",
+                "road": "run.html?domain=road",
+                "build": "run.html?domain=build",
+            },
+        )
 
 
 if __name__ == "__main__":

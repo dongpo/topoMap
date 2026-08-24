@@ -6,11 +6,13 @@ const MAX_UNCOMPRESSED_BYTES = 64 * 1024 * 1024;
 const MAX_ENTRIES = 1500;
 const SIDECARS = ["shp", "shx", "dbf", "prj"];
 const UI = {
-  school: { domain: "SCHOOL · POINT", kind: "POINT", intent: "繪出我的資料中所有學校及訓練機構，保留來源識別，依知識圖譜建立可檢查、可授權的地圖。" },
-  road: { domain: "ROAD · LINE", kind: "LINE", intent: "繪出我的資料中所有道路，保留道路識別與頂點，依知識圖譜建立線狀地圖。" },
-  build: { domain: "BUILD · POLYGON", kind: "POLYGON", intent: "繪出我的資料中所有建物分類，保留來源識別，依知識圖譜建立 boundary / hatch 地圖。" },
+  school: { domain: "SCHOOL · POINT", kind: "POINT", panel: "學校點位製圖", intent: "繪出我的資料中所有學校及訓練機構，保留來源識別，依知識圖譜建立可檢查、可授權的地圖。" },
+  road: { domain: "ROAD · LINE", kind: "LINE", panel: "道路線製圖", intent: "繪出我的資料中所有道路，保留道路識別與頂點，依知識圖譜建立線狀地圖。" },
+  build: { domain: "BUILD · POLYGON", kind: "POLYGON", panel: "建物面製圖", intent: "繪出我的資料中所有建物分類，保留來源識別，依知識圖譜建立 boundary / hatch 地圖。" },
 };
-const state = { profileId: "school", knowledge: null, index: null, file: null, bytes: null, hash: null, inventory: null, collections: null, analysis: null, clarification: null, mapping: null, proposal: null, authorized: false, map: null, token: 0 };
+const requestedDomain = new URLSearchParams(location.search).get("domain");
+const initialDomain = Object.hasOwn(UI, requestedDomain) ? requestedDomain : "school";
+const state = { profileId: initialDomain, knowledge: null, index: null, file: null, bytes: null, hash: null, inventory: null, collections: null, analysis: null, clarification: null, mapping: null, proposal: null, authorized: false, map: null, token: 0 };
 const byId = (id) => document.getElementById(id);
 const asset = (path) => new URL(path, document.baseURI).href;
 
@@ -56,6 +58,10 @@ function updateProfile() {
   if (!state.knowledge) return;
   const p = profile(); const ui = UI[state.profileId]; const count = [...state.index.classes.values()].filter((c) => inFamily(c.code, p.classification_root)).length;
   const scope = byId("domain-scope"); clear(scope); scope.append(node("strong", "", p.title)); scope.append(node("span", "", `${p.classification_root} KG 階層 · ${count} 個已建模分類 · 不限制 feature count`));
+  byId("panel-title").innerHTML = `${ui.panel}<br>建立受治理任務`;
+  byId("intent").value = ui.intent;
+  document.title = `NMA · ${ui.panel}`;
+  document.querySelectorAll("[data-domain-link]").forEach((link) => link.setAttribute("aria-current", link.dataset.domainLink === state.profileId ? "page" : "false"));
   byId("scenario-domain").textContent = ui.domain; byId("scenario-subtitle").textContent = `從 canonical KG 檢索 ${p.layer} schema、分類階層與 portrayal evidence。`; byId("map-kind").textContent = ui.kind;
 }
 
@@ -133,7 +139,6 @@ async function analyze(file) { if (!state.knowledge) throw new Error("Knowledge 
 function showFile(file) { byId("dropzone").classList.toggle("has-file", Boolean(file)); byId("file-title").textContent = file ? file.name : "選擇或拖放 ZIP"; byId("file-subtitle").textContent = file ? `${formatBytes(file.size)} · 不上傳` : "需要 .shp、.shx、.dbf、.prj；.cpg 可選。"; }
 
 document.querySelectorAll("[data-inspector]").forEach((b) => b.addEventListener("click", () => setInspector(b.dataset.inspector)));
-document.querySelectorAll(".scenario-tab").forEach((b) => b.addEventListener("click", () => { if (!state.knowledge || b.dataset.profile === state.profileId) return; state.profileId = b.dataset.profile; document.querySelectorAll(".scenario-tab").forEach((x) => x.setAttribute("aria-selected", String(x === b))); byId("intent").value = UI[state.profileId].intent; Object.assign(state, { proposal: null, analysis: null, mapping: null, clarification: null, authorized: false }); updateProfile(); byId("form-status").textContent = state.collections ? "領域已切換；請重新分析同一份 ZIP。" : ""; lockMap("USER SHP REQUIRED", "地圖從你的資料開始。", "重新觀察資料並檢索 KG。 "); }));
 document.querySelectorAll("[data-intent-example]").forEach((b) => b.addEventListener("click", () => { const p = profile(); if (b.dataset.intentExample === "all") byId("intent").value = UI[state.profileId].intent; else { const code = [...state.index.classes.values()].find((c) => c.code !== p.classification_root && inFamily(c.code, p.classification_root))?.code || p.classification_root; byId("intent").value = `只繪出 TERRAINID ${code} 的 features，保留來源識別並提供 KG evidence。`; } }));
 byId("shp-file").addEventListener("change", (e) => showFile(e.target.files?.[0]));
 byId("input-form").addEventListener("submit", async (e) => { e.preventDefault(); const button = byId("analyze-button"); button.disabled = true; byId("form-status").classList.remove("is-error"); setStep("input"); try { await analyze(byId("shp-file").files?.[0]); } catch (error) { byId("form-status").classList.add("is-error"); byId("form-status").textContent = `分析終止：${error.message}`; setStep("input", "blocked"); } finally { button.disabled = false; } });

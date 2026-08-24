@@ -67,6 +67,10 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 .section-heading h2 { margin: 0; font-size: .87rem; letter-spacing: -.01em; }
 .section-heading > small { color: #87918c; font: 700 .6rem/1 ui-monospace, monospace; text-transform: uppercase; }
 .section-heading.compact { margin-top: 20px; }
+.domain-nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.domain-nav a { min-height: 39px; padding: 7px 5px; display: grid; place-items: center; text-align: center; color: var(--green); border: 1px solid var(--line); border-radius: 8px; background: white; text-decoration: none; font-size: .62rem; font-weight: 800; }
+.domain-nav a:hover { border-color: #8dac9e; background: #f1f7f3; }
+.domain-nav a[aria-current="page"] { color: white; border-color: var(--green); background: var(--green); }
 .scenario-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
 .scenario-tab { min-height: 77px; padding: 10px 7px; display: grid; place-items: center; align-content: center; gap: 2px; border: 1px solid var(--line); border-radius: 11px; background: white; cursor: pointer; }
 .scenario-tab:hover { border-color: #8dac9e; }

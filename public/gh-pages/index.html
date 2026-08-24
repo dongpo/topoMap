@@ -2,176 +2,40 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="National Map Agent governed mapping application for user Shapefiles">
-  <title>National Map Agent · Governed Mapping App</title>
-  <link rel="stylesheet" href="assets/maplibre-gl-4.7.0.css">
-  <link rel="stylesheet" href="app.css?v=app-shell-1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="National Map Agent browser-local application for governed portrayal of user School, ROAD, and BUILD Shapefiles.">
+  <title>National Map Agent · 選擇製圖工作</title>
+  <link rel="stylesheet" href="landing.css?v=unified-pages-1">
 </head>
 <body>
-  <a class="skip-link" href="#demo">前往地圖</a>
-  <div class="app-shell">
-    <header class="app-header">
-      <a class="brand" href="./" aria-label="National Map Agent 首頁">
-        <span class="brand-mark">N</span>
-        <span><strong>National Map Agent</strong><small>Governed mapping app</small></span>
-      </a>
-      <div class="header-status" aria-label="執行模式">
-        <span class="privacy-chip"><i></i> USER DATA · BROWSER LOCAL</span>
-        <span class="runtime-chip" id="runtime-mode">Loading canonical Knowledge Graph…</span>
+  <a class="skip-link" href="#tasks">跳至工作選擇</a>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="National Map Agent 首頁"><span>N</span><strong>National Map Agent</strong></a>
+    <div id="knowledge-status" class="knowledge-status" role="status" aria-live="polite"><i></i><span>檢查 canonical Knowledge Graph…</span></div>
+    <nav><a href="https://github.com/dongpo/topoMap/tree/nma-v1.0-final">Frozen source ↗</a><a href="release.json">Release</a></nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div><p class="eyebrow">USER SHAPEFILE · BROWSER LOCAL</p><h1 id="page-title">你要繪製哪一種地理資料？</h1><p class="lead">先依 Shapefile 的資料角色與幾何選擇工作。NMA 會檢查實際資料、查找 Knowledge Graph 證據、提出計畫、等待授權，最後才在 MapLibre 繪圖並驗證。</p></div>
+      <aside><strong>資料不離開瀏覽器</strong><span>ZIP、Shapefile、GeoJSON 與逐點 geometry 不會送到 server。公開站不含使用者 fixture、LLM／Neo4j credentials 或 production activation。</span></aside>
+    </section>
+
+    <section id="tasks" class="tasks" aria-labelledby="tasks-title">
+      <div class="section-heading"><p class="eyebrow">THREE GEOMETRIES · SEPARATE RUNS</p><h2 id="tasks-title">依資料內容選擇工作</h2><p>每次只進入一個幾何專用流程；不再把 School、ROAD、BUILD 與所有 evidence panel 同時擠在一個操作畫面。</p></div>
+      <div class="task-grid">
+        <article class="task-card school"><div class="visual"><i></i><i></i><i></i></div><p class="kind">POINT · MARK</p><h3>學校及訓練機構</h3><p>處理 <code>9920100</code> 分類家族及已建模子類，不以小學作為硬條件，也沒有固定 feature count。</p><dl><div><dt>識別</dt><dd>filename + MARKID</dd></div><div><dt>地圖</dt><dd>點位與名稱</dd></div></dl><a href="run.html?domain=school">開始 School 工作 <b>→</b></a></article>
+        <article class="task-card road"><div class="visual"><i></i></div><p class="kind">LINE · ROAD</p><h3>道路</h3><p>檢查道路分類階層；缺少 reviewed mapping 時以問答處理，不把 TERRAINID 靜默猜成 canonical field。</p><dl><div><dt>識別</dt><dd>filename + ROADSEGID</dd></div><div><dt>地圖</dt><dd>道路線與沿線名稱</dd></div></dl><a href="run.html?domain=road">開始 ROAD 工作 <b>→</b></a></article>
+        <article class="task-card build"><div class="visual"><i></i></div><p class="kind">POLYGON · BUILD</p><h3>建物</h3><p>依 KG 中的建物分類與文件證據建立 boundary／hatch preview；正式 production activation 持續停用。</p><dl><div><dt>識別</dt><dd>filename + BUILD_ID</dd></div><div><dt>地圖</dt><dd>建物邊界與 hatch</dd></div></dl><a href="run.html?domain=build">開始 BUILD 工作 <b>→</b></a></article>
       </div>
-      <nav class="header-links" aria-label="參考資料">
-        <a href="https://github.com/dongpo/topoMap/tree/nma-v1.0-final">Frozen source ↗</a>
-        <a href="release.json">Release</a>
-      </nav>
-    </header>
+    </section>
 
-    <aside class="task-panel" aria-label="建立 NMA 任務">
-      <div class="panel-intro">
-        <p class="eyebrow">New governed run</p>
-        <h1>從你的資料<br>建立製圖任務</h1>
-        <p>一次處理一個目標。NMA 先理解資料與分類，再提出可檢查的計畫。</p>
-      </div>
-
-      <nav class="run-steps" id="run-steps" aria-label="任務進度">
-        <div class="run-step is-current" data-step="input"><span>1</span><strong>資料與目標</strong><small>等待輸入</small></div>
-        <div class="run-step" data-step="proposal"><span>2</span><strong>證據與計畫</strong><small>尚未建立</small></div>
-        <div class="run-step" data-step="authorization"><span>3</span><strong>人工授權</strong><small>尚未請求</small></div>
-        <div class="run-step" data-step="result"><span>4</span><strong>執行與驗證</strong><small>尚未執行</small></div>
-      </nav>
-
-      <section class="task-composer" aria-labelledby="task-title">
-        <div class="section-heading">
-          <div><span>01</span><h2 id="task-title">選擇任務領域</h2></div>
-          <small>一次一種 geometry</small>
-        </div>
-        <div class="scenario-tabs" id="scenario-tabs" role="tablist" aria-label="任務領域">
-          <button class="scenario-tab" type="button" role="tab" data-profile="school" aria-selected="true"><span class="geometry-icon point"></span><strong>學校</strong><small>Point</small></button>
-          <button class="scenario-tab" type="button" role="tab" data-profile="road" aria-selected="false"><span class="geometry-icon line"></span><strong>道路</strong><small>Line</small></button>
-          <button class="scenario-tab" type="button" role="tab" data-profile="build" aria-selected="false"><span class="geometry-icon polygon"></span><strong>建物</strong><small>Polygon</small></button>
-        </div>
-
-        <div class="domain-scope" id="domain-scope" aria-live="polite">
-          <strong>學校及訓練機構</strong>
-          <span>9920100 分類家族 · 包含所有已識別子類 · 不限制筆數</span>
-        </div>
-
-        <form id="input-form">
-          <div class="section-heading compact">
-            <div><span>02</span><h2>提供 Shapefile</h2></div>
-            <small>ZIP · local only</small>
-          </div>
-          <label class="dropzone" for="shp-file" id="dropzone">
-            <input id="shp-file" name="shp-file" type="file" accept=".zip,application/zip" required>
-            <span class="drop-icon">＋</span>
-            <span><strong id="file-title">選擇或拖放 ZIP</strong><small id="file-subtitle">需要 .shp、.shx、.dbf、.prj</small></span>
-          </label>
-
-          <div class="section-heading compact intent-heading">
-            <div><span>03</span><h2>描述製圖目標</h2></div>
-            <small>自然語言</small>
-          </div>
-          <label class="sr-only" for="intent">製圖目標</label>
-          <textarea id="intent" rows="4" maxlength="500">找出我的資料中所有學校及訓練機構，保留來源 ID，依知識圖譜提出點位製圖計畫並提供驗證證據。</textarea>
-          <div class="intent-examples" aria-label="目標範例">
-            <button type="button" data-intent-example="all">全部子類</button>
-            <button type="button" data-intent-example="specific">指定分類碼</button>
-          </div>
-          <button class="action-button" id="analyze-button" type="submit"><span>建立受治理提案</span><b>→</b></button>
-          <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        </form>
-      </section>
-
-      <details class="safety-boundary">
-        <summary><span>安全與研究邊界</span><small>4 controls</small></summary>
-        <ul>
-          <li>Shapefile bytes 不離開瀏覽器</li>
-          <li>不以 OSM 或外部 open data 替換</li>
-          <li>不需要 LLM、Neo4j 或 production credentials</li>
-          <li>未知 mapping 會提問；回答只形成本次 run 的 provisional mapping</li>
-        </ul>
-      </details>
-    </aside>
-
-    <main class="map-stage" id="demo">
-      <div class="map-toolbar">
-        <div>
-          <p class="domain" id="scenario-domain">SCHOOL · POINT</p>
-          <h2 id="scenario-title">等待使用者資料</h2>
-          <p id="scenario-subtitle">上傳 Shapefile 後，地圖只呈現經授權的使用者來源 features。</p>
-        </div>
-        <div class="run-chip" id="run-chip"><span>●</span> NO ACTIVE RUN</div>
-      </div>
-
-      <div id="map" aria-label="使用者 Shapefile 的 MapLibre 結果">
-        <div class="map-locked initial">
-          <div class="empty-geometry"><i></i><i></i><i></i></div>
-          <span>USER SHP REQUIRED</span>
-          <h2>地圖從你的資料開始。</h2>
-          <p>這裡沒有預製 geometry。完成左側的資料與目標後，NMA 才會建立提案。</p>
-        </div>
-      </div>
-
-      <div class="map-statusbar">
-        <div><span class="coordinate-badge">USER DATA</span><p id="map-caption">尚未執行；沒有預製 geometry。</p></div>
-        <span class="map-kind" id="map-kind">POINT</span>
-      </div>
-    </main>
-
-    <aside class="inspector" id="workspace" aria-label="NMA run record">
-      <div class="inspector-header">
-        <div><p class="eyebrow">Run record</p><h2>決策與證據</h2></div>
-        <span class="proposal-badge" id="evidence-badge">EMPTY</span>
-      </div>
-      <div class="inspector-tabs" role="tablist" aria-label="Run record sections">
-        <button type="button" role="tab" aria-selected="true" data-inspector="decision">決策</button>
-        <button type="button" role="tab" aria-selected="false" data-inspector="evidence">證據</button>
-        <button type="button" role="tab" aria-selected="false" data-inspector="trace">Trace</button>
-      </div>
-
-      <div class="empty-state" id="empty-state">
-        <span>NO RUN</span>
-        <h3>提案建立後，這裡才顯示決策。</h3>
-        <p>證據按需要展開，不會再把 School、ROAD、BUILD 與所有 lifecycle panel 同時擠在頁面上。</p>
-      </div>
-
-      <div class="workspace-content" id="workspace-content" hidden>
-        <section class="inspector-view is-active" data-inspector-view="decision">
-          <div class="source-strip" id="source-strip"></div>
-          <section class="clarification-panel" id="clarification-panel" hidden aria-live="polite">
-            <p class="mini-label">Agent clarification</p>
-            <h3 id="clarification-question">需要釐清 schema mapping</h3>
-            <p id="clarification-context"></p>
-            <p class="clarification-evidence" id="clarification-evidence"></p>
-            <div class="clarification-actions">
-              <button type="button" id="confirm-mapping">確認，只用於本次 run</button>
-              <button type="button" id="reject-mapping">否，停止本次 run</button>
-            </div>
-            <small>此回答不會自動寫回 canonical KG；可重用 mapping 仍需人工審查與版本化更新。</small>
-          </section>
-          <div class="decision-summary" id="decision-summary"></div>
-          <div class="authorization-card" id="authorization-bar">
-            <div><p class="mini-label">Human authorization</p><h3 id="authorization-title">提案尚未授權</h3><p id="authorization-summary">請先核對使用者來源、分類解析與預期操作。</p></div>
-            <button class="authorize-button" id="authorize-button" type="button">授權 browser-local execution</button>
-          </div>
-        </section>
-
-        <section class="inspector-view" data-inspector-view="evidence">
-          <div class="evidence-intro"><p class="mini-label">Evidence ledger</p><h3>可檢查的決策鏈</h3><p>每項證據獨立呈現狀態；未執行的驗證不會被寫成 PASS。</p></div>
-          <div class="evidence-detail" id="evidence-detail"></div>
-        </section>
-
-        <section class="inspector-view" data-inspector-view="trace">
-          <div class="trace-heading"><p class="mini-label">Observable agent loop</p><h3>Goal → observe → retrieve → replan</h3><p>缺少 mapping 時，回答必須實際改變下一步 decision；LLM 不是 Agenticity 的必要條件。</p></div>
-          <div class="pipeline" id="pipeline" role="list"></div>
-        </section>
-      </div>
-    </aside>
-  </div>
-
-  <script src="assets/maplibre-gl-4.7.0.js"></script>
-  <script src="assets/fflate-0.8.3.min.js"></script>
-  <script src="assets/shpjs-6.2.0.min.js"></script>
-  <script src="app.js?v=kg-agent-2"></script>
+    <section class="governance" aria-labelledby="governance-title">
+      <div><p class="eyebrow">ONE GOVERNED INTERACTION</p><h2 id="governance-title">共同控制點，不同 GIS tools</h2><p>三種資料共享治理流程，但各自使用幾何、schema、分類與 portrayal 規則。</p></div>
+      <ol><li><span>1</span><div><strong>Inspect</strong><small>ZIP components、CRS、ID、schema、classification、geometry</small></div></li><li><span>2</span><div><strong>Retrieve & plan</strong><small>canonical KG、GraphRAG evidence、mapping rules</small></div></li><li><span>3</span><div><strong>Clarify & authorize</strong><small>沒有 mapping 就提問；計畫由人核准</small></div></li><li><span>4</span><div><strong>Act & observe</strong><small>MapLibre portrayal、verification、replan／abstain／stop</small></div></li></ol>
+    </section>
+  </main>
+  <footer>Frozen semantic authority: <code>nma-v1.0-final · eb87bde</code> · static symbolic Agent · no user-data transmission</footer>
+  <script src="landing.js?v=unified-pages-1"></script>
 </body>
 </html>
