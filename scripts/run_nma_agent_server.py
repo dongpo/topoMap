@@ -139,6 +139,14 @@ from nma.road_portrayal_v1 import (  # noqa: E402
     compile_road_maplibre_preview,
     verify_road_maplibre_preview,
 )
+from nma.build_portrayal_v1 import (  # noqa: E402
+    BuildPortrayalError,
+    BuildPortrayalPlannerV1,
+    apply_build_tool_observation,
+    authorize_build_portrayal,
+    compile_build_maplibre_preview,
+    verify_build_maplibre_preview,
+)
 from nma.road_execution import (  # noqa: E402
     FrozenRoadInputs,
     RoadAuthorizationStore,
@@ -895,6 +903,15 @@ _ROAD_PORTRAYAL_ARTIFACTS: dict[str, dict[str, dict[str, Any]]] = {
     "authorization": {},
     "adapter_result": {},
 }
+_BUILD_PORTRAYAL_PLANNER: BuildPortrayalPlannerV1 | None = None
+_BUILD_PORTRAYAL_PLANNER_LOCK = Lock()
+_BUILD_PORTRAYAL_ARTIFACT_LIMIT = 256
+_BUILD_PORTRAYAL_ARTIFACT_LOCK = Lock()
+_BUILD_PORTRAYAL_ARTIFACTS: dict[str, dict[str, dict[str, Any]]] = {
+    "plan": {},
+    "authorization": {},
+    "adapter_result": {},
+}
 
 
 def canonical_retriever() -> KnowledgeServiceGraphRetriever | CitationIntegrityGraphRetrieverV06:
@@ -1164,6 +1181,112 @@ def verify_road_portrayal_request(payload: Any) -> dict[str, Any]:
         payload["adapter_result"],
     )
     return verify_road_maplibre_preview(plan, approved, adapter_result)
+
+
+def build_portrayal_planner() -> BuildPortrayalPlannerV1:
+    """Bind BUILD portrayal planning to the active read-only Knowledge Service."""
+    global _BUILD_PORTRAYAL_PLANNER
+    if _BUILD_PORTRAYAL_PLANNER is None:
+        with _BUILD_PORTRAYAL_PLANNER_LOCK:
+            if _BUILD_PORTRAYAL_PLANNER is None:
+                _BUILD_PORTRAYAL_PLANNER = BuildPortrayalPlannerV1(canonical_retriever())
+    return _BUILD_PORTRAYAL_PLANNER
+
+
+def _register_build_portrayal_artifact(
+    kind: str,
+    identity_field: str,
+    artifact: dict[str, Any],
+) -> dict[str, Any]:
+    identity = artifact.get(identity_field)
+    if not isinstance(identity, str):
+        raise BuildPortrayalError(f"The BUILD {kind} identity is unavailable.")
+    copied = json.loads(json.dumps(artifact, ensure_ascii=False))
+    with _BUILD_PORTRAYAL_ARTIFACT_LOCK:
+        records = _BUILD_PORTRAYAL_ARTIFACTS[kind]
+        records[identity] = copied
+        while len(records) > _BUILD_PORTRAYAL_ARTIFACT_LIMIT:
+            records.pop(next(iter(records)))
+    return copied
+
+
+def _require_build_portrayal_artifact(
+    kind: str,
+    identity_field: str,
+    artifact: Any,
+) -> dict[str, Any]:
+    if not isinstance(artifact, dict) or not isinstance(artifact.get(identity_field), str):
+        raise BuildPortrayalError(f"A valid BUILD {kind} is required.")
+    identity = artifact[identity_field]
+    with _BUILD_PORTRAYAL_ARTIFACT_LOCK:
+        issued = _BUILD_PORTRAYAL_ARTIFACTS[kind].get(identity)
+    if issued is None or issued != artifact:
+        raise BuildPortrayalError(f"The BUILD {kind} was not issued by this governed server session.")
+    return json.loads(json.dumps(issued, ensure_ascii=False))
+
+
+def propose_build_portrayal(payload: Any) -> dict[str, Any]:
+    return _register_build_portrayal_artifact(
+        "plan",
+        "plan_sha256",
+        build_portrayal_planner().propose(payload),
+    )
+
+
+def authorize_build_portrayal_request(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict) or set(payload) != {"plan", "actor", "decision"}:
+        raise BuildPortrayalError("The BUILD authorization request has an invalid shape.")
+    plan = _require_build_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    return _register_build_portrayal_artifact(
+        "authorization",
+        "authorization_sha256",
+        authorize_build_portrayal(
+            plan,
+            actor=payload["actor"],
+            decision=payload["decision"],
+        ),
+    )
+
+
+def compile_build_portrayal_request(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict) or set(payload) != {"plan", "authorization"}:
+        raise BuildPortrayalError("The BUILD compilation request has an invalid shape.")
+    plan = _require_build_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    approved = _require_build_portrayal_artifact(
+        "authorization",
+        "authorization_sha256",
+        payload["authorization"],
+    )
+    return _register_build_portrayal_artifact(
+        "adapter_result",
+        "adapter_result_sha256",
+        compile_build_maplibre_preview(plan, approved),
+    )
+
+
+def observe_build_portrayal_tool(payload: Any) -> dict[str, Any]:
+    if not isinstance(payload, dict) or set(payload) != {"plan", "observation"}:
+        raise BuildPortrayalError("The BUILD tool observation request has an invalid shape.")
+    plan = _require_build_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    return apply_build_tool_observation(plan, payload["observation"])
+
+
+def verify_build_portrayal_request(payload: Any) -> dict[str, Any]:
+    required = {"plan", "authorization", "adapter_result"}
+    if not isinstance(payload, dict) or set(payload) != required:
+        raise BuildPortrayalError("The BUILD verification request has an invalid shape.")
+    plan = _require_build_portrayal_artifact("plan", "plan_sha256", payload["plan"])
+    approved = _require_build_portrayal_artifact(
+        "authorization",
+        "authorization_sha256",
+        payload["authorization"],
+    )
+    adapter_result = _require_build_portrayal_artifact(
+        "adapter_result",
+        "adapter_result_sha256",
+        payload["adapter_result"],
+    )
+    return verify_build_maplibre_preview(plan, approved, adapter_result)
 
 
 def graph_backend_trace() -> dict[str, Any]:
@@ -3633,6 +3756,11 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             "/api/road-portrayal/compile",
             "/api/road-portrayal/observations",
             "/api/road-portrayal/verify",
+            "/api/build-portrayal/proposals",
+            "/api/build-portrayal/authorizations",
+            "/api/build-portrayal/compile",
+            "/api/build-portrayal/observations",
+            "/api/build-portrayal/verify",
         } and not observation_match and not rollback_match and not road_observation_match and not road_rollback_match:
             self._json(HTTPStatus.NOT_FOUND, {"error": {"code": "not_found"}})
             return
@@ -3684,6 +3812,16 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
                 result = observe_road_portrayal_tool(payload)
             elif route == "/api/road-portrayal/verify":
                 result = verify_road_portrayal_request(payload)
+            elif route == "/api/build-portrayal/proposals":
+                result = propose_build_portrayal(payload)
+            elif route == "/api/build-portrayal/authorizations":
+                result = authorize_build_portrayal_request(payload)
+            elif route == "/api/build-portrayal/compile":
+                result = compile_build_portrayal_request(payload)
+            elif route == "/api/build-portrayal/observations":
+                result = observe_build_portrayal_tool(payload)
+            elif route == "/api/build-portrayal/verify":
+                result = verify_build_portrayal_request(payload)
             elif observation_match:
                 result = record_school_hero_observation(observation_match.group(1), payload)
             elif rollback_match:
@@ -3725,6 +3863,11 @@ class NMARequestHandler(SimpleHTTPRequestHandler):
             self._json(
                 HTTPStatus.BAD_REQUEST,
                 {"error": {"code": "road_portrayal_invalid", "message": str(error)}},
+            )
+        except BuildPortrayalError as error:
+            self._json(
+                HTTPStatus.BAD_REQUEST,
+                {"error": {"code": "build_portrayal_invalid", "message": str(error)}},
             )
         except RoadExecutionError as error:
             self._json(error.status, {"error": {"code": error.code, "message": str(error)}})

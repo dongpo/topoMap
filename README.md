@@ -22,7 +22,8 @@ Agentic v0.3 has not been deployed.
 [D24 public-link audit](docs/D24-PUBLIC-DELIVERY.md) ·
 [Agentic v0.3 freeze](docs/AGENTIC-V0.3-FREEZE.md) ·
 [School user-Shapefile application](docs/NMA-SCHOOL-BROWSER-INTEGRATION-V1.md) ·
-[ROAD user-Shapefile application](docs/NMA-ROAD-BROWSER-INTEGRATION-V1.md)
+[ROAD user-Shapefile application](docs/NMA-ROAD-BROWSER-INTEGRATION-V1.md) ·
+[BUILD user-Shapefile application](docs/NMA-BUILD-BROWSER-INTEGRATION-V1.md)
 
 ## Five scenes, five agent capabilities
 
@@ -222,6 +223,12 @@ MultiLineString ROAD data. It asks rather than guesses when `TERRAINID` needs a 
 when an Annex 7 parent code needs a child classification, then renders evidence-bound centreline
 and line-following name layers without claiming ROADA surveyed width or a shield graphic. See
 [`docs/NMA-ROAD-BROWSER-INTEGRATION-V1.md`](docs/NMA-ROAD-BROWSER-INTEGRATION-V1.md).
+
+`nmaBuildDemoV1.html` applies the governed loop to user Polygon and MultiPolygon BUILD data. It
+keeps the versioned seven-field source schema explicit, retrieves the correct Document 01 and
+Annex 7 evidence per class, preserves PolygonZ in a browser-local non-writing view, and separates
+official diagonal/2 mm semantics from the human-authorized local hatch profile. See
+[`docs/NMA-BUILD-BROWSER-INTEGRATION-V1.md`](docs/NMA-BUILD-BROWSER-INTEGRATION-V1.md).
 
 The API adds:
 
