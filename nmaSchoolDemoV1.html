@@ -8,14 +8,16 @@
   <title>NMA · School map application</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css">
   <link rel="stylesheet" href="assets/css/nma-school-demo-v1.css">
+  <link rel="stylesheet" href="assets/css/nma-domain-navigation-v1.css">
 </head>
 <body>
   <a class="skip-link" href="#stage-content">跳至主要內容</a>
   <header class="app-header">
     <div>
-      <a class="brand" href="./">NMA</a>
+      <a class="brand" href="nmaApplicationV1.html" aria-label="返回 NMA 工作選擇">NMA</a>
       <span class="product-name">School map application</span>
     </div>
+    <a class="application-home-link" href="nmaApplicationV1.html">更換工作</a>
     <div class="runtime-state"><span class="state-dot" aria-hidden="true"></span><span id="server-status">連線 Knowledge Service…</span></div>
   </header>
 
@@ -26,6 +28,7 @@
         <h1>把使用者的學校點位畫成有證據的地圖</h1>
         <p>資料留在瀏覽器；Agent 只接收通過檢查的分類計數與 schema observation。</p>
       </div>
+      <nav class="domain-switcher" aria-label="資料工作"><strong>目前：School</strong><a href="nmaRoadDemoV1.html">ROAD</a><a href="nmaBuildDemoV1.html">BUILD</a></nav>
       <ol class="step-list">
         <li><button class="step-button is-active" type="button" data-step="upload" aria-current="step"><span>1</span><strong>資料檢查</strong><small>ZIP、欄位、CRS、分類</small></button></li>
         <li><button class="step-button" type="button" data-step="evidence" disabled><span>2</span><strong>規範證據</strong><small>KG、GraphRAG、製圖規則</small></button></li>

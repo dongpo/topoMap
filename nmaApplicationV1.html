@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="National Map Agent application: choose a user Shapefile task, retrieve governed knowledge, authorize a portrayal plan, and verify the resulting MapLibre map.">
+  <meta name="nma-api-root" content="./api/">
+  <title>National Map Agent · 選擇製圖工作</title>
+  <link rel="stylesheet" href="assets/css/nma-application-v1.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳至主要內容</a>
+  <header class="topbar">
+    <a class="brand" href="nmaApplicationV1.html" aria-label="National Map Agent 首頁">NMA</a>
+    <div class="product"><strong>National Map Agent</strong><span>Governed portrayal application</span></div>
+    <div id="runtime-state" class="runtime-state" role="status" aria-live="polite"><span class="state-dot" aria-hidden="true"></span><span id="runtime-label">檢查 NMA Runtime…</span></div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">從使用者資料開始</p>
+        <h1 id="page-title">你要繪製哪一種地理資料？</h1>
+        <p class="lead">選擇與 Shapefile 幾何相符的工作。每一條路徑都會先檢查資料，再由 Agent 查找規範證據、提出計畫、等待授權、繪圖並觀察結果。</p>
+      </div>
+      <aside class="privacy-note"><strong>資料處理邊界</strong><span>Shapefile 與逐點 geometry 留在瀏覽器；Agent 只接收通過 gate 的 schema、分類與幾何摘要。</span></aside>
+    </section>
+
+    <section class="task-section" aria-labelledby="task-title">
+      <div class="section-heading"><p class="eyebrow">三種幾何，三個專用工作流</p><h2 id="task-title">依資料內容選擇</h2></div>
+      <div class="task-grid">
+        <article class="task-card school-card">
+          <div class="task-symbol" aria-hidden="true"><span></span><span></span><span></span></div>
+          <p class="geometry">POINT · MARK</p>
+          <h3>學校及訓練機構</h3>
+          <p>處理 <code>9920101–9920106</code> 的實際學校點位，依分類決定旗幟與名稱 portrayal，不以小學作為硬條件。</p>
+          <dl><div><dt>必要識別</dt><dd>filename + MARKID</dd></div><div><dt>主要結果</dt><dd>學校點符號與名稱</dd></div></dl>
+          <a class="task-link" href="nmaSchoolDemoV1.html">開始 School 工作 <span aria-hidden="true">→</span></a>
+        </article>
+
+        <article class="task-card road-card">
+          <div class="task-symbol road-symbol" aria-hidden="true"><span></span></div>
+          <p class="geometry">LINE · ROAD</p>
+          <h3>道路</h3>
+          <p>辨認道路分類階層，以問答處理可審查的 schema mapping，繪製中心線與沿線道路名稱。</p>
+          <dl><div><dt>必要識別</dt><dd>filename + ROADID</dd></div><div><dt>主要結果</dt><dd>道路線與 line-following label</dd></div></dl>
+          <a class="task-link" href="nmaRoadDemoV1.html">開始 ROAD 工作 <span aria-hidden="true">→</span></a>
+        </article>
+
+        <article class="task-card build-card">
+          <div class="task-symbol build-symbol" aria-hidden="true"><span></span></div>
+          <p class="geometry">POLYGON / POLYGONZ · BUILD</p>
+          <h3>建物</h3>
+          <p>依永久性、建築中、臨時性與無牆建物的文件證據，呈現 boundary、hatch 與對應註記。</p>
+          <dl><div><dt>必要識別</dt><dd>filename + BUILD_ID</dd></div><div><dt>主要結果</dt><dd>建物邊界、填紋與註記</dd></div></dl>
+          <a class="task-link" href="nmaBuildDemoV1.html">開始 BUILD 工作 <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="flow-section" aria-labelledby="flow-title">
+      <div class="flow-copy"><p class="eyebrow">共同治理流程</p><h2 id="flow-title">不是把資料交給模型猜一張圖</h2><p>三種幾何使用相同的控制點；差異只在資料 schema、分類知識與 portrayal tool。</p></div>
+      <ol class="governed-flow">
+        <li><span>1</span><div><strong>資料檢查</strong><small>元件、CRS、ID、schema、分類、geometry</small></div></li>
+        <li><span>2</span><div><strong>查找規範證據</strong><small>Knowledge Graph、GraphRAG、mapping rules</small></div></li>
+        <li><span>3</span><div><strong>人工授權</strong><small>授權綁定目前 plan；修訂後必須重審</small></div></li>
+        <li><span>4</span><div><strong>MapLibre 繪圖</strong><small>執行 geometry-specific portrayal tool</small></div></li>
+        <li><span>5</span><div><strong>觀察與決策</strong><small>verify、replan、abstain、request human 或 stop</small></div></li>
+      </ol>
+    </section>
+
+    <section class="boundary-section" aria-labelledby="boundary-title">
+      <div><p class="eyebrow">目前能力邊界</p><h2 id="boundary-title">可驗證的地圖預覽，不是 production activation</h2></div>
+      <ul>
+        <li><strong>Fail closed</strong><span>缺少必要 Shapefile 元件、TERRAINID、CRS 或可用 ID 時，不建立 plan。</span></li>
+        <li><strong>Read-only knowledge</strong><span>Agent 只能使用受控知識查詢，不會自行修改正式 KG。</span></li>
+        <li><strong>Observation-driven</strong><span>工具與 browser render 結果會回到 Agent decision；失敗可要求修訂或停止。</span></li>
+        <li><strong>No data export</strong><span>本應用只驗證正確 portrayal，不產生下載資料，也不啟用正式製圖規則。</span></li>
+      </ul>
+    </section>
+  </main>
+  <footer>National Map Agent · user Shapefile portrayal application candidate</footer>
+  <script type="module" src="nmaApplicationV1.js"></script>
+</body>
+</html>

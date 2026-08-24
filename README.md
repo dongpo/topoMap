@@ -230,6 +230,13 @@ Annex 7 evidence per class, preserves PolygonZ in a browser-local non-writing vi
 official diagonal/2 mm semantics from the human-authorized local hatch profile. See
 [`docs/NMA-BUILD-BROWSER-INTEGRATION-V1.md`](docs/NMA-BUILD-BROWSER-INTEGRATION-V1.md).
 
+`nmaApplicationV1.html` is the unified application entry point for those three user-Shapefile
+workflows. It routes Point, Line, and Polygon tasks to separate governed interfaces, exposes their
+common inspect → retrieve → authorize → portray → observe/decide interaction, and provides shared
+cross-domain navigation without turning the demo into a research workbench or a one-page replay.
+It intentionally does not replace the historical public `index.html` in this integration package.
+See [`docs/NMA-UNIFIED-SHAPEFILE-APPLICATION-V1.md`](docs/NMA-UNIFIED-SHAPEFILE-APPLICATION-V1.md).
+
 The API adds:
 
 - `GET /v1/knowledge/portrayal`

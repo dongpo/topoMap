@@ -8,11 +8,13 @@
   <title>NMA · BUILD map application</title>
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css">
   <link rel="stylesheet" href="assets/css/nma-school-demo-v1.css">
+  <link rel="stylesheet" href="assets/css/nma-domain-navigation-v1.css">
 </head>
 <body>
   <a class="skip-link" href="#stage-content">跳至主要內容</a>
   <header class="app-header">
-    <div><a class="brand" href="./">NMA</a><span class="product-name">BUILD map application</span></div>
+    <div><a class="brand" href="nmaApplicationV1.html" aria-label="返回 NMA 工作選擇">NMA</a><span class="product-name">BUILD map application</span></div>
+    <a class="application-home-link" href="nmaApplicationV1.html">更換工作</a>
     <div class="runtime-state"><span class="state-dot" aria-hidden="true"></span><span id="server-status">連線 Knowledge Service…</span></div>
   </header>
 
@@ -23,6 +25,7 @@
         <h1>把使用者的建物面畫成有證據的地圖</h1>
         <p>Agent 先辨認 BUILD schema、分類與 geometry，再提出 boundary、hatch、annotation 或 class-marker plan。</p>
       </div>
+      <nav class="domain-switcher" aria-label="資料工作"><a href="nmaSchoolDemoV1.html">School</a><a href="nmaRoadDemoV1.html">ROAD</a><strong>目前：BUILD</strong></nav>
       <ol class="step-list">
         <li><button class="step-button is-active" type="button" data-step="upload" aria-current="step"><span>1</span><strong>資料檢查</strong><small>ZIP、schema、CRS、geometry</small></button></li>
         <li><button class="step-button" type="button" data-step="evidence" disabled><span>2</span><strong>規範證據</strong><small>KG、分類、建物圖式</small></button></li>
