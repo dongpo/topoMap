@@ -3,98 +3,149 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="NMA v1.0 accepted execution replay for School, ROAD, and BUILD">
-  <title>NMA v1.0 · Accepted Execution Replay</title>
+  <meta name="description" content="National Map Agent browser-local user Shapefile research demonstration">
+  <title>National Map Agent · User Shapefile Research Demo</title>
   <link rel="stylesheet" href="assets/maplibre-gl-4.7.0.css">
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
-  <a class="skip-link" href="#demo">Skip to demo</a>
+  <a class="skip-link" href="#demo">前往 demo</a>
   <header class="hero">
-    <nav class="topbar" aria-label="Primary">
-      <a class="brand" href="./" aria-label="NMA accepted execution replay home">
-        <span class="brand-mark">N</span><span>National Map Agent</span>
-      </a>
+    <nav class="topbar" aria-label="主要導覽">
+      <a class="brand" href="./" aria-label="National Map Agent 首頁"><span class="brand-mark">N</span><span>National Map Agent</span></a>
       <a class="source-link" href="https://github.com/dongpo/topoMap/tree/nma-v1.0-final">Frozen source ↗</a>
     </nav>
     <div class="hero-grid">
       <div>
-        <p class="eyebrow">NMA v1.0 · controlled research demonstration</p>
-        <h1>Evidence you can<br><em>walk through.</em></h1>
-        <p class="lead">Explore three accepted mapping executions as an interactive, public-safe replay—from request and Agent interpretation to MapLibre result, verification, and provenance.</p>
+        <p class="eyebrow">NMA v1.0 · user-data controlled research demo</p>
+        <h1>你的 SHP，<br><em>可驗證的製圖。</em></h1>
+        <p class="lead">把使用者的 Shapefile 與製圖意圖，轉成有知識依據、需人工授權、可在地執行且留下驗證與 provenance 的地圖結果。</p>
         <div class="hero-actions">
-          <a class="button primary" href="#demo">Explore scenarios <span>↓</span></a>
-          <a class="button ghost" href="#boundary">Read the boundary</a>
+          <a class="button primary" href="#demo">載入自己的 SHP <span>↓</span></a>
+          <a class="button ghost" href="#claim">這個 demo 證明什麼</a>
         </div>
       </div>
-      <aside class="mode-card" aria-label="Replay status">
-        <div class="mode-live"><span></span> Accepted evidence loaded</div>
+      <aside class="mode-card" aria-label="執行邊界">
+        <div class="mode-live"><span></span> Browser-local processing</div>
         <dl>
-          <div><dt>Mode</dt><dd>Static execution replay</dd></div>
-          <div><dt>Live Agent</dt><dd class="held">Not running</dd></div>
-          <div><dt>Production</dt><dd class="held">Authority absent</dd></div>
-          <div><dt>Authority</dt><dd><code>eb87bde…</code></dd></div>
+          <div><dt>輸入</dt><dd>使用者 SHP ZIP</dd></div>
+          <div><dt>資料傳輸</dt><dd>不離開瀏覽器</dd></div>
+          <div><dt>Agent / Graph</dt><dd class="held">Frozen replay</dd></div>
+          <div><dt>Production</dt><dd class="held">停用</dd></div>
         </dl>
       </aside>
     </div>
   </header>
 
   <main id="demo">
-    <section class="intro-section" aria-labelledby="scenarios-title">
-      <div class="section-kicker"><span>01</span> Frozen scenarios</div>
-      <div class="section-title-row">
+    <section class="claim" id="claim" aria-labelledby="claim-title">
+      <div class="section-kicker"><span>01</span> 研究問題</div>
+      <div class="claim-grid">
         <div>
-          <h2 id="scenarios-title">Choose an accepted path</h2>
-          <p>Every interaction resolves locally to a frozen, pre-accepted evidence package.</p>
+          <h2 id="claim-title">不是展示三張地圖。<br>是展示一次受控決策。</h2>
+          <p>整體架構、SHP/OSM 工具、CRS、PMTiles、MapLibre 與驗證方法是既有基礎。這個 demo 聚焦檢驗：<strong>測圖知識能否控制 NMA 對使用者 Shapefile 的一次可授權、可執行、可驗證操作。</strong></p>
         </div>
-        <div class="integrity"><span class="integrity-dot"></span><span id="integrity-text">Loading integrity manifest…</span></div>
+        <ol class="claim-list">
+          <li><span>01</span><div><strong>理解使用者資料</strong><p>檢查 ZIP sidecars、CRS、geometry、欄位與識別碼，不偷換 open data。</p></div></li>
+          <li><span>02</span><div><strong>用規範形成提案</strong><p>重播 frozen Knowledge Graph / GraphRAG mapping rules，顯示選擇依據。</p></div></li>
+          <li><span>03</span><div><strong>人工授權後才執行</strong><p>提案與結果分離；BUILD production activation 始終 held。</p></div></li>
+          <li><span>04</span><div><strong>用 evidence 收尾</strong><p>feature count、ID、geometry、CRS、頂點與 provenance 可逐項檢查。</p></div></li>
+        </ol>
       </div>
-      <div class="scenario-tabs" id="scenario-tabs" role="tablist" aria-label="Accepted scenarios"></div>
-      <form class="request-box" id="request-form">
-        <label for="request-input"><span>Bounded request</span><small>Local deterministic selector—no request leaves your browser.</small></label>
-        <div class="request-row">
-          <input id="request-input" maxlength="220" autocomplete="off" value="Show the accepted School mapping lifecycle." aria-describedby="request-note">
-          <button type="submit">Resolve replay</button>
-        </div>
-        <p id="request-note">Try “School”, “K14_ROAD / 中山街”, or “BUILD / 建物”. Uploads, URLs, credentials, and production actions are not supported.</p>
-        <p class="request-status" id="request-status" role="status" aria-live="polite"></p>
-      </form>
     </section>
 
-    <section class="workspace" id="workspace" aria-live="polite">
-      <div class="section-kicker"><span>02</span> Accepted execution replay</div>
-      <div class="workspace-heading">
-        <div><p class="domain" id="scenario-domain"></p><h2 id="scenario-title"></h2><p id="scenario-subtitle"></p></div>
-        <div class="replay-chip"><span>●</span> REPLAY · NOT LIVE</div>
+    <section class="demo-section" aria-labelledby="demo-title">
+      <div class="section-kicker"><span>02</span> 使用者 Shapefile 工作台</div>
+      <div class="section-title-row">
+        <div><h2 id="demo-title">一份 ZIP，三種受控任務</h2><p>每個 scenario 都讀取你選擇的 Shapefile。未載入資料前，不存在地圖結果。</p></div>
+        <div class="privacy-chip"><span></span> LOCAL ONLY · NO UPLOAD</div>
       </div>
 
-      <div class="map-evidence-grid">
-        <article class="map-card">
-          <div class="card-heading"><div><p class="mini-label">MapLibre visualization</p><h3>Accepted result portrayal</h3></div><span class="map-kind" id="map-kind"></span></div>
-          <div id="map" aria-label="Interactive MapLibre accepted replay result"></div>
-          <div class="map-caption"><span class="coordinate-badge">PUBLIC-SAFE</span><p id="map-caption"></p></div>
+      <div class="scenario-tabs" id="scenario-tabs" role="tablist" aria-label="Scenario profile">
+        <button class="scenario-tab" type="button" role="tab" data-profile="school" aria-selected="true">
+          <span class="tab-number">01 / SCHOOL</span><span class="arrow">↗</span><strong>15-point school portrayal</strong><small><code>*_MARK</code> · <code>9920103</code> · MARKID preserved</small>
+        </button>
+        <button class="scenario-tab" type="button" role="tab" data-profile="road" aria-selected="false">
+          <span class="tab-number">02 / ROAD</span><span class="arrow">↗</span><strong>K14_ROAD · 中山街</strong><small>line-following label · ROADSEGID · vertex QA</small>
+        </button>
+        <button class="scenario-tab" type="button" role="tab" data-profile="build" aria-selected="false">
+          <span class="tab-number">03 / BUILD</span><span class="arrow">↗</span><strong>Boundary + hatch</strong><small><code>J17_BUILD</code> · MultiPolygonZ aware · production held</small>
+        </button>
+      </div>
+
+      <div class="input-grid">
+        <form class="input-card" id="input-form">
+          <div class="card-heading"><div><p class="mini-label">User source</p><h3>選擇 Shapefile ZIP</h3></div><span class="step-badge">STEP 1</span></div>
+          <div class="input-body">
+            <label class="dropzone" for="shp-file" id="dropzone">
+              <input id="shp-file" name="shp-file" type="file" accept=".zip,application/zip" required>
+              <span class="drop-icon">＋</span><strong id="file-title">選擇或拖放 ZIP</strong>
+              <small id="file-subtitle">包含 .shp + .shx + .dbf + .prj；檔案只在此瀏覽器記憶體內解析。</small>
+            </label>
+            <label class="field-label" for="intent">製圖意圖</label>
+            <textarea id="intent" rows="3" maxlength="300">依測圖規範從我的 Shapefile 建立 School 點位圖，保留來源 ID，並提供可驗證 evidence。</textarea>
+            <button class="action-button" id="analyze-button" type="submit">分析我的 Shapefile</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+
+        <article class="gate-card">
+          <div class="card-heading"><div><p class="mini-label">Safety gate</p><h3>公開站的硬邊界</h3></div><span class="lock-badge">LOCKED</span></div>
+          <ul class="gate-list">
+            <li><span>✓</span><div><strong>不傳送 SHP bytes</strong><p>無 upload endpoint；解析、hash 與 MapLibre render 都在瀏覽器。</p></div></li>
+            <li><span>✓</span><div><strong>不替換資料來源</strong><p>不抓取 OSM 或其他 open data 來補結果。</p></div></li>
+            <li><span>✓</span><div><strong>不需要 credentials</strong><p>無 OpenAI、Neo4j、FastAPI 或 production token。</p></div></li>
+            <li><span>✓</span><div><strong>不假造未執行驗證</strong><p>沒有 reference geometry 時，Hausdorff 會標示「未執行」。</p></div></li>
+          </ul>
         </article>
-        <aside class="evidence-card">
-          <div class="card-heading"><div><p class="mini-label">Evidence ledger</p><h3>Inspectable chain</h3></div><span class="pass-badge">VERIFIED</span></div>
-          <div class="evidence-detail" id="evidence-detail"></div>
-        </aside>
       </div>
+    </section>
 
-      <div class="pipeline-wrap">
-        <div class="pipeline-heading"><p class="mini-label">Lifecycle</p><h3>Request → provenance</h3></div>
-        <div class="pipeline" id="pipeline" role="list"></div>
+    <section class="workspace is-empty" id="workspace" aria-live="polite">
+      <div class="empty-state" id="empty-state">
+        <span>USER SHP REQUIRED</span><h2>這裡目前沒有結果。</h2><p>載入你的 Shapefile ZIP 並建立提案後，NMA evidence chain 才會出現。</p>
+      </div>
+      <div class="workspace-content" id="workspace-content" hidden>
+        <div class="workspace-heading">
+          <div><p class="domain" id="scenario-domain"></p><h2 id="scenario-title"></h2><p id="scenario-subtitle"></p></div>
+          <div class="run-chip" id="run-chip"><span>●</span> PROPOSAL · NOT AUTHORIZED</div>
+        </div>
+
+        <div class="source-strip" id="source-strip"></div>
+
+        <div class="map-evidence-grid">
+          <article class="map-card">
+            <div class="card-heading"><div><p class="mini-label">MapLibre</p><h3 id="map-heading">等待授權</h3></div><span class="map-kind" id="map-kind"></span></div>
+            <div id="map" aria-label="使用者 Shapefile 的 MapLibre 結果"><div class="map-locked"><span>AUTHORIZATION REQUIRED</span><p>先檢視提案與 gate，再授權 browser-local execution。</p></div></div>
+            <div class="map-caption"><span class="coordinate-badge">USER DATA</span><p id="map-caption">尚未執行；沒有預製 geometry。</p></div>
+          </article>
+          <aside class="evidence-card">
+            <div class="card-heading"><div><p class="mini-label">Evidence ledger</p><h3>可檢查的決策鏈</h3></div><span class="proposal-badge" id="evidence-badge">PROPOSED</span></div>
+            <div class="evidence-detail" id="evidence-detail"></div>
+          </aside>
+        </div>
+
+        <div class="authorization-bar" id="authorization-bar">
+          <div><p class="mini-label">Human authorization</p><h3 id="authorization-title">提案尚未授權</h3><p id="authorization-summary">請先核對使用者來源、規則、篩選條件與預期差異。</p></div>
+          <button class="authorize-button" id="authorize-button" type="button">授權 browser-local execution</button>
+        </div>
+
+        <div class="pipeline-wrap">
+          <div class="pipeline-heading"><p class="mini-label">Lifecycle</p><h3>Request → provenance</h3></div>
+          <div class="pipeline" id="pipeline" role="list"></div>
+        </div>
       </div>
     </section>
 
     <section class="boundary" id="boundary" aria-labelledby="boundary-title">
-      <div class="section-kicker light"><span>03</span> Research boundary</div>
+      <div class="section-kicker light"><span>03</span> 能力與限制</div>
       <div class="boundary-grid">
-        <div><h2 id="boundary-title">Replay is the feature,<br>not a limitation.</h2><p>This site demonstrates how accepted evidence connects across the NMA lifecycle. It deliberately does not expose private fixture bytes or operate production systems.</p></div>
+        <div><h2 id="boundary-title">展示 knowledge-controlled execution，<br>不重複假裝整個 NMA 已在線。</h2><p>本頁用 frozen NMA v1.0 規則做 deterministic retrieval replay，再對使用者 SHP 做瀏覽器內執行。它不是 live Agent、Neo4j 或 production GIS service。</p></div>
         <div class="boundary-list">
-          <article><span>01</span><div><strong>No live service</strong><p>No FastAPI server, Agent process, LLM, Neo4j, or runtime writeback.</p></div></article>
-          <article><span>02</span><div><strong>No data substitution</strong><p>No external open-data replacement and no arbitrary upload or URL fetch.</p></div></article>
-          <article><span>03</span><div><strong>Private geometry withheld</strong><p>School and ROAD use count/topology-faithful normalized views; hashes and accepted identities remain inspectable.</p></div></article>
-          <article><span>04</span><div><strong>BUILD held</strong><p>Production activation is disabled/unavailable. The displayed polygon is the frozen normalized demo artifact.</p></div></article>
+          <article><span>既有</span><div><strong>NMA architecture 與工具鏈</strong><p>規範 → KG → GraphRAG → Agent → GIS tools → MapLibre/PMTiles，以及 SHP↔OSM、CRS、dissolve、ID preservation 等能力屬於研究基礎。</p></div></article>
+          <article><span>本頁</span><div><strong>使用者 SHP 的受控 execution loop</strong><p>輸入檢查、規則檢索、提案、人工授權、MapLibre 執行、QA 與 provenance。</p></div></article>
+          <article><span>未做</span><div><strong>PMTiles / Hausdorff / OSM comparison</strong><p>瀏覽器 demo 不假稱已執行；PMTiles 需 CLI/backend，Hausdorff 需使用者提供 reference geometry。</p></div></article>
+          <article><span>BUILD</span><div><strong>Production activation held</strong><p>允許 browser-local boundary/hatch preview；production writeback 永遠停用。</p></div></article>
         </div>
       </div>
     </section>
@@ -102,11 +153,13 @@
 
   <footer>
     <div><span class="brand-mark small">N</span><strong>National Map Agent</strong></div>
-    <p>NMA v1.0 final · accepted execution replay · public research artifact</p>
+    <p>NMA v1.0 final · user Shapefile controlled research demo</p>
     <a href="release.json">Release manifest</a>
   </footer>
 
   <script src="assets/maplibre-gl-4.7.0.js"></script>
+  <script src="assets/fflate-0.8.3.min.js"></script>
+  <script src="assets/shpjs-6.2.0.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

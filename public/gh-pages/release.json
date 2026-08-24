@@ -1,8 +1,12 @@
 {
-  "schema": "nma.github-pages-static-release/1.0",
+  "schema": "nma.github-pages-static-release/2.0",
   "source_branch": "main",
   "authority_commit": "eb87bde775333811529efb6f651573ea21cf456b",
-  "mode": "accepted-execution-replay",
+  "mode": "browser-local-user-shapefile-controlled-execution",
+  "user_file_required": true,
+  "user_file_transmission": false,
+  "preloaded_result_geometry": false,
+  "live_agent": false,
   "private_fixture_bytes_included": false,
   "production_credentials_included": false,
   "production_activation": false,
@@ -14,13 +18,13 @@
     },
     {
       "path": "app.css",
-      "bytes": 11806,
-      "sha256": "afe165310529fd7e183684b7afe28728c923b4f4aab3eacfa093bad7ea535c42"
+      "bytes": 16262,
+      "sha256": "1cb4e47c890fd05424aca4d332b10728eb0805a8e3710d5e01d6a63d5ab65d22"
     },
     {
       "path": "app.js",
-      "bytes": 11201,
-      "sha256": "8b8437571e96d84805a228e5b330170439e8bb27f5631fd436991d569c4ebed6"
+      "bytes": 32754,
+      "sha256": "d2e0598300a3ef55acfb84761e9eccfa7b99cf475d19fbd92c8d215bf35ce1cf"
     },
     {
       "path": "assets/NotoSans-LICENSE.txt",
@@ -48,6 +52,16 @@
       "sha256": "339915b6ff8e3230c8c16bdf527d7277260a6ca4aed64a8e32f710cbd4e8c08c"
     },
     {
+      "path": "assets/fflate-0.8.3-LICENSE.txt",
+      "bytes": 1069,
+      "sha256": "0a1df3a083d0c010560aa342e87959c8c1070e6fd54545741f083f22d0c8b551"
+    },
+    {
+      "path": "assets/fflate-0.8.3.min.js",
+      "bytes": 33044,
+      "sha256": "462ef8041fc970e3615a20a9dd2b2e3047a073b2da729ef4f02b634bba8b7b83"
+    },
+    {
       "path": "assets/maplibre-gl-4.7.0-LICENSE.txt",
       "bytes": 5984,
       "sha256": "ee5fc05a0677eaf69601d2c7db0d9ecd6cc27c3abc1d0733bc9ed34707cf8ef2"
@@ -63,19 +77,19 @@
       "sha256": "5c4922e8cb364fd14485ca7cba419b89e8d816f5f0c04cfc7d9c8206e0214df6"
     },
     {
-      "path": "assets/school-blue.svg",
-      "bytes": 158,
-      "sha256": "05e101a5907f05d0df0392691537a4eccfe04a59cd6abea2e5ae82aef1261ca5"
+      "path": "assets/shpjs-6.2.0-LICENSE.txt",
+      "bytes": 1152,
+      "sha256": "2de371ae03e427342d4c7aacdf295d5ce98476b5fbe951d66ce11aa009613894"
     },
     {
-      "path": "data/scenarios.json",
-      "bytes": 29490,
-      "sha256": "e50494a2b9143dc09eb7fb4e84b5437f9b4556d6dedc168dc37becf222879641"
+      "path": "assets/shpjs-6.2.0.min.js",
+      "bytes": 99931,
+      "sha256": "3380a08babfcc8411e5fa7693a4cc443627e43200b0489c81173a55ff1439ca0"
     },
     {
       "path": "index.html",
-      "bytes": 6366,
-      "sha256": "4484f1086393fb8e42b6cfa5b44c948992a679a1a95933346a3f0a4e9557ca2e"
+      "bytes": 11121,
+      "sha256": "beb7a5348902ce9829207319f2497af8d17753c1444403867f0e2935e58314af"
     }
   ]
 }

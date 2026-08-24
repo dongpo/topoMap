@@ -1,4 +1,4 @@
-name: Deploy NMA v1.0 static accepted replay to Pages
+name: Deploy NMA browser-local user Shapefile demo to Pages
 
 on:
   push:
@@ -27,7 +27,7 @@ jobs:
         run: python3 -m unittest discover -s tests -p 'test_gh_pages_static_demo.py' -v
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Upload bounded static replay artifact
+      - name: Upload browser-local user Shapefile demo artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: public/gh-pages

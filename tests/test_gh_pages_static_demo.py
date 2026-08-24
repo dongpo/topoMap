@@ -3,6 +3,7 @@ from __future__ import annotations
 from html.parser import HTMLParser
 import json
 from pathlib import Path
+import re
 import unittest
 
 
@@ -28,69 +29,81 @@ class StaticPagesDemoTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.index = (OUTPUT / "index.html").read_text(encoding="utf-8")
         cls.app = (OUTPUT / "app.js").read_text(encoding="utf-8")
-        cls.payload = json.loads(
-            (OUTPUT / "data/scenarios.json").read_text(encoding="utf-8")
-        )
         cls.release = json.loads((OUTPUT / "release.json").read_text(encoding="utf-8"))
-        cls.scenarios = {item["id"]: item for item in cls.payload["scenarios"]}
 
-    def test_three_required_scenarios_and_replay_boundary(self) -> None:
-        self.assertEqual(set(self.scenarios), {"school", "road", "build"})
-        self.assertEqual(self.payload["release"]["mode"], "accepted execution replay")
-        self.assertFalse(self.payload["release"]["live_agent"])
-        self.assertFalse(self.payload["release"]["production_credentials"])
-        self.assertIn("REPLAY · NOT LIVE", self.index)
+    def test_demo_requires_user_shapefile_before_any_result(self) -> None:
+        self.assertIn('type="file"', self.index)
+        self.assertIn('accept=".zip,application/zip"', self.index)
+        self.assertIn("USER SHP REQUIRED", self.index)
+        self.assertIn("尚未執行；沒有預製 geometry", self.index)
+        self.assertNotIn("data/scenarios.json", self.index + self.app)
+        self.assertFalse((OUTPUT / "data/scenarios.json").exists())
 
-    def test_school_is_accepted_fifteen_point_public_safe_replay(self) -> None:
-        school = self.scenarios["school"]
-        self.assertEqual(school["execution"]["feature_count"], 15)
-        self.assertEqual(len(school["map"]["geojson"]["features"]), 15)
-        self.assertIn("accepted", school["authorization"]["status"])
-        self.assertEqual(
-            school["map"]["coordinate_policy"],
-            "normalized-public-replay-not-source-geography",
-        )
-        self.assertTrue(
-            all(
-                feature["id"].startswith("public-replay-")
-                for feature in school["map"]["geojson"]["features"]
-            )
-        )
+    def test_school_road_build_are_user_data_profiles(self) -> None:
+        for profile in ("school", "road", "build"):
+            self.assertIn(f'data-profile="{profile}"', self.index)
+            self.assertRegex(self.app, rf"{profile}: \{{")
+        self.assertIn('layerSuffix: "_MARK"', self.app)
+        self.assertIn('codeValue: "9920103"', self.app)
+        self.assertIn('expectedCount: 15', self.app)
+        self.assertIn('layerExact: "K14_ROAD"', self.app)
+        self.assertIn('nameValue: "中山街"', self.app)
+        self.assertIn('expectedVertices: [4, 3, 4]', self.app)
+        self.assertIn('layerExact: "J17_BUILD"', self.app)
+        self.assertIn('codeValue: "9310100"', self.app)
+        self.assertIn('baseName(layer.name).toLocaleUpperCase() === profile.layerExact', self.app)
 
-    def test_road_preserves_accepted_identity_counts_and_label(self) -> None:
-        road = self.scenarios["road"]
-        features = road["map"]["geojson"]["features"]
-        self.assertEqual(
-            [len(item["geometry"]["coordinates"]) for item in features], [4, 3, 4]
-        )
-        self.assertEqual(
-            [item["properties"]["ROADNAME"] for item in features], ["中山街"] * 3
-        )
-        self.assertIn("K14_ROAD", road["title"])
-        self.assertIn("line-following 中山街", road["subtitle"])
+    def test_intake_has_component_crs_identity_and_geometry_gates(self) -> None:
+        for marker in (
+            'const SIDECARS = ["shp", "shx", "dbf", "prj"]',
+            "safeEntryName",
+            "MAX_UNCOMPRESSED_BYTES",
+            "missingSidecars",
+            "crsSummary",
+            "geometryMismatch",
+            "uniqueIds",
+            "selectedComponentHashes",
+            "crypto.subtle.digest",
+        ):
+            self.assertIn(marker, self.app)
 
-    def test_build_is_normalized_hatched_replay_with_activation_disabled(self) -> None:
-        build = self.scenarios["build"]
-        self.assertFalse(build["production_activation"])
-        self.assertEqual(build["execution"]["feature_count"], 1)
-        self.assertEqual(
-            build["map"]["geojson"]["features"][0]["geometry"]["type"], "Polygon"
-        )
-        self.assertIn("45° diagonal hatch", build["knowledge"]["mapping_rule"])
-        self.assertIn("fill-pattern", self.app)
-
-    def test_eight_stage_evidence_chain_is_visible(self) -> None:
+    def test_eight_stage_controlled_lifecycle_is_visible(self) -> None:
         for label in (
             "Request",
             "Agent interpretation",
             "GraphRAG / rules",
             "Plan",
             "Authorization",
-            "Execution replay",
+            "Execution",
             "QA / verification",
             "Provenance",
         ):
             self.assertIn(f'"{label}"', self.app)
+        self.assertIn("AUTHORIZATION REQUIRED", self.index + self.app)
+        self.assertIn("if (!proposal || !proposal.hardGate) return", self.app)
+
+    def test_verification_does_not_fake_unsupported_operations(self) -> None:
+        self.assertIn("Hausdorff distance：未執行", self.app)
+        self.assertIn("PMTiles / Hausdorff / OSM comparison", self.index)
+        self.assertIn("沒有外部資料 substitution", self.app)
+        self.assertIn("production activation：HELD / DISABLED", self.app)
+        self.assertIn('production_activation: false', self.app)
+
+    def test_browser_parsers_and_maplibre_are_pinned_and_vendored(self) -> None:
+        expected = (
+            "assets/maplibre-gl-4.7.0.js",
+            "assets/maplibre-gl-4.7.0.css",
+            "assets/shpjs-6.2.0.min.js",
+            "assets/shpjs-6.2.0-LICENSE.txt",
+            "assets/fflate-0.8.3.min.js",
+            "assets/fflate-0.8.3-LICENSE.txt",
+        )
+        for path in expected:
+            self.assertTrue((OUTPUT / path).is_file(), path)
+            self.assertIn(path, self.index if path.endswith((".js", ".css")) else json.dumps(self.release))
+        self.assertIn("window.shp(buffer)", self.app)
+        self.assertIn("window.fflate.unzipSync", self.app)
+        self.assertIn("new maplibregl.Map", self.app)
 
     def test_all_local_links_are_path_prefix_safe_and_exist(self) -> None:
         parser = LinkParser()
@@ -102,9 +115,9 @@ class StaticPagesDemoTests(unittest.TestCase):
             if target in {".", "./"}:
                 target = "index.html"
             self.assertTrue((OUTPUT / target).is_file(), value)
-        self.assertNotIn('const BASE = "/', self.app)
+        self.assertNotRegex(self.app, re.compile(r'["\']/[^"\']+'))
 
-    def test_release_excludes_private_archives_credentials_and_live_api(self) -> None:
+    def test_release_has_no_user_fixture_or_credentials(self) -> None:
         paths = [item["path"].lower() for item in self.release["files"]]
         forbidden_suffixes = (".zip", ".shp", ".dbf", ".shx", ".pmtiles")
         self.assertFalse(any(path.endswith(forbidden_suffixes) for path in paths))
@@ -119,13 +132,17 @@ class StaticPagesDemoTests(unittest.TestCase):
         for marker in ("OPENAI_API_KEY", "NEO4J_PASSWORD", "sk-proj-", "/api/v1/runs"):
             self.assertNotIn(marker, corpus)
 
-    def test_maplibre_is_vendored_and_manifest_is_complete(self) -> None:
-        self.assertTrue((OUTPUT / "assets/maplibre-gl-4.7.0.js").is_file())
-        self.assertIn("maplibregl.Map", self.app)
+    def test_release_manifest_lists_exact_public_artifact(self) -> None:
+        expected = {
+            path.relative_to(OUTPUT).as_posix()
+            for path in OUTPUT.rglob("*")
+            if path.is_file() and path.name != "release.json"
+        }
         listed = {item["path"] for item in self.release["files"]}
-        self.assertIn("index.html", listed)
-        self.assertIn("data/scenarios.json", listed)
-        self.assertIn("assets/maplibre-gl-4.7.0.js", listed)
+        self.assertEqual(listed, expected)
+        self.assertTrue(self.release["user_file_required"])
+        self.assertFalse(self.release["user_file_transmission"])
+        self.assertFalse(self.release["preloaded_result_geometry"])
 
 
 if __name__ == "__main__":
