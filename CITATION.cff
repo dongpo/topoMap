@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-message: "If you use NMA-Bench or this reference architecture, please cite this software."
-title: "National Map Agent v0.2 Reference Slice and NMA-Bench v0.1"
+message: "If you use the Authoritative Mapping Agent reference architecture, AMA-Bench/NMA-Bench, or its executable mapping knowledge artifacts, please cite this software."
+title: "Authoritative Mapping Agent (AMA): Open Reference Architecture for Knowledge-Grounded Geospatial Agents"
 type: software
 version: 0.2.0
 date-released: 2026-07-15
@@ -9,7 +9,12 @@ authors:
   - family-names: Deng
     given-names: Dongpo
 keywords:
-  - national mapping
+  - authoritative mapping
+  - geospatial agents
   - GeoAI
+  - knowledge graph
+  - GraphRAG
+  - GIScience
   - FOSS4G
+  - research software
   - benchmark
