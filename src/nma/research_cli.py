@@ -7,10 +7,13 @@ from pathlib import Path
 import sys
 from typing import Any
 
+from agent_contracts.governance import request_identity
+
 from nma.demo_reporting import (
     Elapsed,
     RQ1_REQUEST,
     RQ2_REQUEST,
+    SCENARIOS,
     adapter_identity,
     build_rq1_artifact,
     build_rq2_artifact,
@@ -27,6 +30,7 @@ from nma.research_governance_adapter import (
     unsafe_scenario_result,
 )
 from nma.research_runtime import AMAResearchRuntime
+from nma.research_trace import RQ1TraceRecorder, attach_ollama_trace
 
 
 class _UnsafeFieldInjectionAdapter(LLMAdapter):
@@ -74,6 +78,11 @@ def parser() -> argparse.ArgumentParser:
     subcommands = command.add_subparsers(dest="rq", required=True)
     rq1 = subcommands.add_parser("rq1", help="RQ1 knowledge-grounding demo")
     rq1.add_argument("request", nargs="?", default=RQ1_REQUEST)
+    rq1.add_argument(
+        "--trace",
+        action="store_true",
+        help="persist diagnostic-only RQ1 evidence-to-answer trace checkpoints",
+    )
     rq2 = subcommands.add_parser("rq2", help="RQ2 bounded-planning demo")
     rq2.add_argument("request", nargs="?", default=RQ2_REQUEST)
     rq3 = subcommands.add_parser("rq3", help="RQ3 governance and auditability demo")
@@ -109,10 +118,31 @@ def main(argv: list[str] | None = None) -> int:
     run_directory = create_run_directory(
         output_root, rq=arguments.rq, case=case, started_at=started_at
     )
+    trace_recorder = None
+    if arguments.rq == "rq1" and arguments.trace:
+        trace_recorder = RQ1TraceRecorder(
+            question=arguments.request,
+            repository_root=root,
+            scenario=SCENARIOS["rq1"],
+            request_identity=request_identity(arguments.request),
+        )
     adapter = adapter_from_environment()
+    if trace_recorder is not None:
+        attach_ollama_trace(adapter, trace_recorder)
     if arguments.rq == "rq3" and arguments.case == "unsafe":
         adapter = _UnsafeFieldInjectionAdapter(adapter)
-    runtime = AMAResearchRuntime(repository_root=root, adapter=adapter)
+    runtime = AMAResearchRuntime(
+        repository_root=root,
+        adapter=adapter,
+        trace_recorder=trace_recorder,
+    )
+    if trace_recorder is not None:
+        provider, model_id = adapter_identity(adapter)
+        trace_recorder.record_run_identity(
+            provider=provider,
+            model_id=model_id,
+            graph_backend=runtime.graph_backend_trace,
+        )
     elapsed = Elapsed()
     try:
         if arguments.rq == "rq1":
@@ -122,6 +152,7 @@ def main(argv: list[str] | None = None) -> int:
                 request=arguments.request,
                 started_at=started_at,
                 total_ms=elapsed.milliseconds(),
+                trace_recorder=trace_recorder,
             )
         elif arguments.rq == "rq2":
             result = runtime.propose_rq2(arguments.request)
@@ -175,9 +206,16 @@ def main(argv: list[str] | None = None) -> int:
             fallback_graph=runtime.graph_backend_trace,
         )
     summary_path, result_path = write_artifacts(run_directory, artifact)
+    trace_paths = None
+    if trace_recorder is not None:
+        trace_recorder.finalize(result=result, artifact=artifact)
+        trace_paths = trace_recorder.write(run_directory)
     print(render_summary(artifact), end="")
     print(f"\nSummary artifact: {summary_path}")
     print(f"Machine artifact: {result_path}")
+    if trace_paths is not None:
+        print(f"RQ1 trace artifact: {trace_paths[0]}")
+        print(f"RQ1 trace report: {trace_paths[1]}")
     return 0
 
 

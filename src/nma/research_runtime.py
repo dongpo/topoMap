@@ -10,6 +10,7 @@ from agent_contracts.governance import request_identity
 
 from nma.llm import LLMAdapter, LLMAdapterError
 from nma.llm.base import canonical_json, validate_json_schema_subset
+from nma.research_trace import RQ1TraceRecorder
 from nma.runtime_graph_backend_v029 import (
     load_runtime_graph_settings,
     select_runtime_graph_backend_v029,
@@ -19,6 +20,14 @@ from nma.runtime_graph_backend_v029 import (
 RQ1_RESULT_SCHEMA = "nma.ama-rq1-result/1.0"
 RQ2_PLAN_SCHEMA = "nma.ama-bounded-plan/1.0"
 PLAN_CATALOG_SCHEMA = "nma.ama-reviewed-plan-catalog/1.0"
+RQ1_TRACE_REQUIRED_NODE_IDS = (
+    "line-style:doc01:2",
+    "portrayal-color:doc01:7",
+    "portrayal-geometry:Point",
+    "classification:doc01:9350906",
+    "portrayal-rule:doc01:9350906",
+    "portrayal-recipe:doc01:9350906:review-v1",
+)
 
 
 class ResearchRuntimeError(ValueError):
@@ -76,9 +85,11 @@ class AMAResearchRuntime:
         repository_root: str | Path,
         adapter: LLMAdapter,
         graph_settings: dict[str, str] | None = None,
+        trace_recorder: RQ1TraceRecorder | None = None,
     ) -> None:
         self.repository_root = Path(repository_root)
         self.adapter = adapter
+        self.trace_recorder = trace_recorder
         settings = graph_settings or load_runtime_graph_settings(
             self.repository_root / ".env.local"
         )
@@ -138,18 +149,41 @@ class AMAResearchRuntime:
             "required": ["selected_node_ids"],
             "additionalProperties": False,
         }
+        task = "resolve-bounded-canonical-graph-entities"
+        instructions = (
+            "Select only candidate node IDs directly relevant to the request. Return no query, "
+            "Cypher, path, command, explanation, authorization, or invented identity."
+        )
+        context = {"request": request, "allowlisted_candidates": candidates}
+        if self.trace_recorder is not None:
+            self.trace_recorder.record_model_input(
+                stage="entity resolution",
+                task=task,
+                instructions=instructions,
+                context=context,
+                output_schema=schema,
+            )
         result = self.adapter.generate_structured(
-            task="resolve-bounded-canonical-graph-entities",
-            instructions=(
-                "Select only candidate node IDs directly relevant to the request. Return no query, "
-                "Cypher, path, command, explanation, authorization, or invented identity."
-            ),
-            context={"request": request, "allowlisted_candidates": candidates},
+            task=task,
+            instructions=instructions,
+            context=context,
             output_schema=schema,
         )
+        if self.trace_recorder is not None:
+            self.trace_recorder.record_model_output(stage="entity resolution", output=result.output)
         validate_json_schema_subset(result.output, schema)
         raw_selected = result.output["selected_node_ids"]
         selected = list(dict.fromkeys(raw_selected))
+        if self.trace_recorder is not None:
+            self.trace_recorder.record_resolved_entities(
+                candidates=candidates,
+                selected_ids=selected,
+                graph_nodes=self.retriever.nodes,
+            )
+            self.trace_recorder.record_canonical_required_nodes(
+                required_ids=list(RQ1_TRACE_REQUIRED_NODE_IDS),
+                graph_nodes=self.retriever.nodes,
+            )
         trace_candidates = [
             {
                 "id": item["id"],
@@ -181,44 +215,159 @@ class AMAResearchRuntime:
             raise ResearchRuntimeError(
                 "Selected entities did not resolve canonical graph evidence."
             )
+        if self.trace_recorder is not None:
+            self.trace_recorder.record_retrieved_graph(package)
         return package, result.to_trace()
 
     @staticmethod
     def validate_grounded_answer(
-        output: Mapping[str, Any], evidence_package: Mapping[str, Any]
+        output: Mapping[str, Any],
+        evidence_package: Mapping[str, Any],
+        *,
+        trace_recorder: RQ1TraceRecorder | None = None,
     ) -> dict[str, Any]:
         node_by_id = {item["id"]: item for item in evidence_package["evidence_nodes"]}
         citation_by_id = {item["citation_id"]: item for item in evidence_package["citations"]}
         node_ids = output["evidence_node_ids"]
         citation_ids = output["citation_ids"]
         source_ids = output["source_document_ids"]
-        if len(node_ids) != len(set(node_ids)) or any(item not in node_by_id for item in node_ids):
+        node_ids_invalid = len(node_ids) != len(set(node_ids)) or any(
+            item not in node_by_id for item in node_ids
+        )
+        if trace_recorder is not None:
+            trace_recorder.add_validator_check(
+                name="evidence node identity uniqueness and membership",
+                status="FAIL" if node_ids_invalid else "PASS",
+                input_examined={
+                    "declared_evidence_node_ids": node_ids,
+                    "retrieved_evidence_node_ids": list(node_by_id),
+                },
+                reason=(
+                    "declared IDs contain duplicates or IDs absent from retrieved evidence"
+                    if node_ids_invalid
+                    else "declared IDs are unique and present in retrieved evidence"
+                ),
+                matched_ids_or_values=node_ids,
+            )
+        if node_ids_invalid:
             raise ResearchRuntimeError(
                 "The grounded answer invented or duplicated evidence node IDs."
             )
-        if len(citation_ids) != len(set(citation_ids)) or any(
+        citation_ids_invalid = len(citation_ids) != len(set(citation_ids)) or any(
             item not in citation_by_id for item in citation_ids
-        ):
+        )
+        if trace_recorder is not None:
+            trace_recorder.add_validator_check(
+                name="citation identity uniqueness and membership",
+                status="FAIL" if citation_ids_invalid else "PASS",
+                input_examined={
+                    "declared_citation_ids": citation_ids,
+                    "retrieved_citation_ids": list(citation_by_id),
+                },
+                reason=(
+                    "declared citation IDs contain duplicates or IDs absent from retrieved citations"
+                    if citation_ids_invalid
+                    else "declared citation IDs are unique and present in retrieved citations"
+                ),
+                matched_ids_or_values=citation_ids,
+            )
+        if citation_ids_invalid:
             raise ResearchRuntimeError("The grounded answer invented or duplicated citation IDs.")
         cited_documents = {citation_by_id[item].get("document_id") for item in citation_ids}
-        if len(source_ids) != len(set(source_ids)) or any(
+        source_ids_invalid = len(source_ids) != len(set(source_ids)) or any(
             item not in cited_documents for item in source_ids
-        ):
+        )
+        if trace_recorder is not None:
+            trace_recorder.add_validator_check(
+                name="source document identity uniqueness and citation membership",
+                status="FAIL" if source_ids_invalid else "PASS",
+                input_examined={
+                    "declared_source_document_ids": source_ids,
+                    "documents_referenced_by_declared_citations": sorted(
+                        item for item in cited_documents if isinstance(item, str)
+                    ),
+                },
+                reason=(
+                    "declared source IDs contain duplicates or are absent from declared citations"
+                    if source_ids_invalid
+                    else "declared source IDs are unique and referenced by declared citations"
+                ),
+                matched_ids_or_values=source_ids,
+            )
+        if source_ids_invalid:
             raise ResearchRuntimeError(
                 "The grounded answer claimed a source absent from citations."
             )
+        if trace_recorder is not None:
+            trace_recorder.add_validator_check(
+                name="exact machine-checkable claim presence",
+                status="PASS" if output["exact_claims"] else "FAIL",
+                input_examined=output["exact_claims"],
+                reason=(
+                    "at least one exact_claims entry was supplied"
+                    if output["exact_claims"]
+                    else "no exact_claims entry was supplied"
+                ),
+                matched_ids_or_values=len(output["exact_claims"]),
+            )
         if not output["exact_claims"]:
             raise ResearchRuntimeError("Grounded answers require an exact machine-checkable claim.")
-        for claim in output["exact_claims"]:
+        for index, claim in enumerate(output["exact_claims"]):
             node_id = claim["node_id"]
+            declared_node_valid = node_id in node_ids
+            if trace_recorder is not None:
+                trace_recorder.add_validator_check(
+                    name=f"exact claim {index} references declared evidence",
+                    status="PASS" if declared_node_valid else "FAIL",
+                    input_examined={"claim": claim, "declared_evidence_node_ids": node_ids},
+                    reason=(
+                        "claim node_id is present in declared evidence IDs"
+                        if declared_node_valid
+                        else "claim node_id is absent from declared evidence IDs"
+                    ),
+                    matched_ids_or_values=node_id,
+                )
             if node_id not in node_ids:
                 raise ResearchRuntimeError("An exact claim does not reference declared evidence.")
             properties = node_by_id[node_id].get("properties", {})
             property_name = claim["property"]
-            if property_name not in properties or properties[property_name] != claim["value"]:
+            exact_property_valid = (
+                property_name in properties and properties[property_name] == claim["value"]
+            )
+            if trace_recorder is not None:
+                trace_recorder.add_validator_check(
+                    name=f"exact claim {index} property equality",
+                    status="PASS" if exact_property_valid else "FAIL",
+                    input_examined={
+                        "node_id": node_id,
+                        "property": property_name,
+                        "claimed_value": claim["value"],
+                        "retrieved_value": properties.get(property_name),
+                    },
+                    reason=(
+                        "claimed property value exactly equals the retrieved node property"
+                        if exact_property_valid
+                        else "claimed property is absent or differs from the retrieved node property"
+                    ),
+                    matched_ids_or_values={property_name: properties.get(property_name)},
+                )
+            if not exact_property_valid:
                 raise ResearchRuntimeError(
                     "A grounded answer changed an exact reviewed classification or rule value."
                 )
+        if trace_recorder is not None:
+            trace_recorder.add_validator_check(
+                name="claim-level natural-language grounding",
+                status="NOT IMPLEMENTED",
+                input_examined="answer free text",
+                reason="No current validator branch parses or grounds natural-language answer claims.",
+            )
+            trace_recorder.add_validator_check(
+                name="question-answer coverage",
+                status="NOT IMPLEMENTED",
+                input_examined="question requirements versus answer free text",
+                reason="No current validator branch tests whether every requested element is answered.",
+            )
         return dict(output)
 
     def run_rq1(self, request: str) -> dict[str, Any]:
@@ -288,31 +437,47 @@ class AMAResearchRuntime:
             ],
             "additionalProperties": False,
         }
-        answer_result = self.adapter.generate_structured(
-            task="answer-with-authoritative-canonical-graph-evidence",
-            instructions=(
-                "Answer only from the evidence package. Cite exact existing node, citation, and "
-                "document IDs. Each identity or reviewed value claim must copy an exact node "
-                "property into exact_claims. Preserve every full identity prefix, including "
-                "'citation:'. Copy required_exact_claims exactly. Abstain rather than invent."
-            ),
-            context={
-                "request": request,
-                "authoritative_evidence_package": evidence,
-                "allowed_identity_values": {
-                    "evidence_node_ids": node_ids,
-                    "citation_ids": citation_ids,
-                    "source_document_ids": document_ids,
-                },
-                "required_identity_references": {
-                    "evidence_node_ids": [claim_node_id],
-                    "citation_ids": citation_ids,
-                    "source_document_ids": document_ids,
-                },
-                "required_exact_claims": required_exact_claims,
+        answer_task = "answer-with-authoritative-canonical-graph-evidence"
+        answer_instructions = (
+            "Answer only from the evidence package. Cite exact existing node, citation, and "
+            "document IDs. Each identity or reviewed value claim must copy an exact node "
+            "property into exact_claims. Preserve every full identity prefix, including "
+            "'citation:'. Copy required_exact_claims exactly. Abstain rather than invent."
+        )
+        answer_context = {
+            "request": request,
+            "authoritative_evidence_package": evidence,
+            "allowed_identity_values": {
+                "evidence_node_ids": node_ids,
+                "citation_ids": citation_ids,
+                "source_document_ids": document_ids,
             },
+            "required_identity_references": {
+                "evidence_node_ids": [claim_node_id],
+                "citation_ids": citation_ids,
+                "source_document_ids": document_ids,
+            },
+            "required_exact_claims": required_exact_claims,
+        }
+        if self.trace_recorder is not None:
+            self.trace_recorder.record_serialized_evidence(evidence)
+            self.trace_recorder.record_model_input(
+                stage="grounded answer generation",
+                task=answer_task,
+                instructions=answer_instructions,
+                context=answer_context,
+                output_schema=schema,
+            )
+        answer_result = self.adapter.generate_structured(
+            task=answer_task,
+            instructions=answer_instructions,
+            context=answer_context,
             output_schema=schema,
         )
+        if self.trace_recorder is not None:
+            self.trace_recorder.record_model_output(
+                stage="grounded answer generation", output=answer_result.output
+            )
         normalized_output = deepcopy(answer_result.output)
         normalized_citations = []
         citation_normalizations = []
@@ -323,7 +488,47 @@ class AMAResearchRuntime:
                 citation_normalizations.append({"model_value": item, "canonical_value": normalized})
         normalized_output["citation_ids"] = normalized_citations
         validate_json_schema_subset(normalized_output, schema)
-        answer = self.validate_grounded_answer(normalized_output, evidence)
+        if self.trace_recorder is not None:
+            self.trace_recorder.add_validator_check(
+                name="closed output-schema subset validation",
+                status="PASS",
+                input_examined={"output": normalized_output, "schema": schema},
+                reason="normalized structured output satisfies the existing closed schema",
+            )
+            self.trace_recorder.record_postprocessing(
+                raw_output=answer_result.output,
+                postprocessed_output=normalized_output,
+                transformations=[
+                    {
+                        "function": "AMAResearchRuntime.run_rq1 citation identity normalization",
+                        "operation": (
+                            "prefix a citation with 'citation:' only when that exact prefixed "
+                            "identity exists in retrieved citation_ids"
+                        ),
+                        "changes": citation_normalizations,
+                    },
+                    {
+                        "function": "validate_json_schema_subset",
+                        "operation": "validation only; no transformation",
+                        "changes": [],
+                    },
+                ],
+            )
+            self.trace_recorder.record_validator_input(
+                output=normalized_output, evidence_package=evidence
+            )
+        answer = self.validate_grounded_answer(
+            normalized_output,
+            evidence,
+            trace_recorder=self.trace_recorder,
+        )
+        if self.trace_recorder is not None:
+            self.trace_recorder.record_validator_result(
+                {
+                    "runtime_validation": "passed",
+                    "returned_answer_object": answer,
+                }
+            )
         return {
             "schema": RQ1_RESULT_SCHEMA,
             "request_identity": request_identity(request),

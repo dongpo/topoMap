@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import time
-from typing import Any
+from typing import Any, Callable, Mapping
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
@@ -32,6 +32,16 @@ class OllamaAdapter(LLMAdapter):
         self.base_url = base_url.rstrip("/")
         self.model = model
         self.timeout_seconds = timeout_seconds
+        self._trace_hook: Callable[[str, Mapping[str, Any]], None] | None = None
+
+    def set_trace_hook(self, hook: Callable[[str, Mapping[str, Any]], None] | None) -> None:
+        """Observe provider wire values without changing the generated request or response."""
+
+        self._trace_hook = hook
+
+    def _emit_trace(self, event: str, payload: Mapping[str, Any]) -> None:
+        if self._trace_hook is not None:
+            self._trace_hook(event, payload)
 
     def generate_structured(
         self,
@@ -72,10 +82,24 @@ class OllamaAdapter(LLMAdapter):
                 },
             ],
         }
+        request_url = f"{self.base_url}/api/chat"
+        request_bytes = canonical_json(request_body)
+        request_headers = {"Content-Type": "application/json"}
+        self._emit_trace(
+            "request",
+            {
+                "url": request_url,
+                "method": "POST",
+                "headers": request_headers,
+                "timeout_seconds": self.timeout_seconds,
+                "body": request_body,
+                "serialized_body_utf8": request_bytes.decode("utf-8"),
+            },
+        )
         request = Request(
-            f"{self.base_url}/api/chat",
-            data=canonical_json(request_body),
-            headers={"Content-Type": "application/json"},
+            request_url,
+            data=request_bytes,
+            headers=request_headers,
             method="POST",
         )
         started = time.monotonic()
@@ -92,8 +116,18 @@ class OllamaAdapter(LLMAdapter):
                 f"Local Ollama model {self.model!r} is unavailable at {self.base_url}."
             ) from error
         latency_ms = round((time.monotonic() - started) * 1000)
+        self._emit_trace(
+            "raw_response",
+            {
+                "capture_stage": "immediately after response.read(), before JSON parsing",
+                "raw_response_utf8": raw.decode("utf-8", errors="replace"),
+                "raw_response_sha256": hashlib.sha256(raw).hexdigest(),
+                "latency_ms": latency_ms,
+            },
+        )
         try:
             envelope = json.loads(raw)
+            self._emit_trace("response_envelope", envelope)
             content = envelope["message"]["content"]
             output = json.loads(content)
         except (KeyError, TypeError, json.JSONDecodeError, UnicodeDecodeError) as error:

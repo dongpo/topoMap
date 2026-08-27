@@ -168,7 +168,12 @@ def _citations(evidence: Mapping[str, Any]) -> list[dict[str, Any]]:
 
 
 def build_rq1_artifact(
-    result: Mapping[str, Any], *, request: str, started_at: str, total_ms: int
+    result: Mapping[str, Any],
+    *,
+    request: str,
+    started_at: str,
+    total_ms: int,
+    trace_recorder: Any = None,
 ) -> dict[str, Any]:
     evidence = result["evidence_package"]
     answer = result["answer"]
@@ -184,6 +189,70 @@ def build_rq1_artifact(
         and set(answer_citations) <= valid_citations
     )
     passed = result.get("validation") == "passed" and evidence_valid and citations_valid
+    reporting_validation = {
+        "evidence_ids_valid": evidence_valid,
+        "citation_ids_valid": citations_valid,
+        "unsupported_evidence_invented": not (evidence_valid and citations_valid),
+        "grounded_answer_validation": passed,
+    }
+    if trace_recorder is not None:
+        trace_recorder.add_validator_check(
+            name="report label: Evidence IDs valid",
+            status="PASS" if evidence_valid else "FAIL",
+            input_examined={
+                "answer_evidence_node_ids": answer_nodes,
+                "retrieved_evidence_node_ids": sorted(valid_nodes),
+            },
+            reason=(
+                "answer evidence IDs are unique and a subset of retrieved node IDs"
+                if evidence_valid
+                else "answer evidence IDs are duplicated or absent from retrieved node IDs"
+            ),
+            matched_ids_or_values=answer_nodes,
+        )
+        trace_recorder.add_validator_check(
+            name="report label: Citation IDs valid",
+            status="PASS" if citations_valid else "FAIL",
+            input_examined={
+                "answer_citation_ids": answer_citations,
+                "retrieved_citation_ids": sorted(valid_citations),
+            },
+            reason=(
+                "answer citation IDs are unique and a subset of retrieved citation IDs"
+                if citations_valid
+                else "answer citation IDs are duplicated or absent from retrieved citation IDs"
+            ),
+            matched_ids_or_values=answer_citations,
+        )
+        trace_recorder.add_validator_check(
+            name="report label: Unsupported evidence invented",
+            status="PASS" if not reporting_validation["unsupported_evidence_invented"] else "FAIL",
+            input_examined={
+                "evidence_ids_valid": evidence_valid,
+                "citation_ids_valid": citations_valid,
+            },
+            reason=(
+                "label is computed only as NOT (evidence_ids_valid AND citation_ids_valid); "
+                "answer free text is not examined"
+            ),
+            matched_ids_or_values=reporting_validation["unsupported_evidence_invented"],
+        )
+        trace_recorder.add_validator_check(
+            name="report label: Grounded answer validation",
+            status="PASS" if passed else "FAIL",
+            input_examined={
+                "runtime_validation": result.get("validation"),
+                "evidence_ids_valid": evidence_valid,
+                "citation_ids_valid": citations_valid,
+            },
+            reason=(
+                "aggregate is runtime validation passed AND evidence IDs valid AND citation IDs valid"
+            ),
+            matched_ids_or_values=passed,
+        )
+        trace_recorder.record_validator_result(
+            {"reporting_validation_labels": reporting_validation}
+        )
     return {
         "schema": "nma.ama-research-demo-result/1.0",
         "rq": "RQ1",
@@ -201,12 +270,7 @@ def build_rq1_artifact(
         "citations": _citations(evidence),
         "citation_count": len(evidence["citations"]),
         "grounded_answer": answer["answer"],
-        "validation": {
-            "evidence_ids_valid": evidence_valid,
-            "citation_ids_valid": citations_valid,
-            "unsupported_evidence_invented": not (evidence_valid and citations_valid),
-            "grounded_answer_validation": passed,
-        },
+        "validation": reporting_validation,
         "stage_modes": [
             {"stage": "Qwen interpretation", "mode": "LIVE-PROBABILISTIC"},
             {"stage": "Graph traversal", "mode": "LIVE-DETERMINISTIC"},
