@@ -188,13 +188,20 @@ def build_rq1_artifact(
         len(answer_citations) == len(set(answer_citations))
         and set(answer_citations) <= valid_citations
     )
-    passed = result.get("validation") == "passed" and evidence_valid and citations_valid
-    reporting_validation = {
+    reporting_validation = deepcopy(result["answer_validation"])
+    reporting_validation["reference_integrity"] = {
+        "verdict": "PASS" if evidence_valid and citations_valid else "FAIL",
         "evidence_ids_valid": evidence_valid,
         "citation_ids_valid": citations_valid,
-        "unsupported_evidence_invented": not (evidence_valid and citations_valid),
-        "grounded_answer_validation": passed,
     }
+    reporting_validation["overall_verdict"] = (
+        "PASS"
+        if reporting_validation["reference_integrity"]["verdict"]
+        == reporting_validation["claim_grounding"]["verdict"]
+        == reporting_validation["question_coverage"]["verdict"]
+        == "PASS"
+        else "FAIL"
+    )
     if trace_recorder is not None:
         trace_recorder.add_validator_check(
             name="report label: Evidence IDs valid",
@@ -223,32 +230,6 @@ def build_rq1_artifact(
                 else "answer citation IDs are duplicated or absent from retrieved citation IDs"
             ),
             matched_ids_or_values=answer_citations,
-        )
-        trace_recorder.add_validator_check(
-            name="report label: Unsupported evidence invented",
-            status="PASS" if not reporting_validation["unsupported_evidence_invented"] else "FAIL",
-            input_examined={
-                "evidence_ids_valid": evidence_valid,
-                "citation_ids_valid": citations_valid,
-            },
-            reason=(
-                "label is computed only as NOT (evidence_ids_valid AND citation_ids_valid); "
-                "answer free text is not examined"
-            ),
-            matched_ids_or_values=reporting_validation["unsupported_evidence_invented"],
-        )
-        trace_recorder.add_validator_check(
-            name="report label: Grounded answer validation",
-            status="PASS" if passed else "FAIL",
-            input_examined={
-                "runtime_validation": result.get("validation"),
-                "evidence_ids_valid": evidence_valid,
-                "citation_ids_valid": citations_valid,
-            },
-            reason=(
-                "aggregate is runtime validation passed AND evidence IDs valid AND citation IDs valid"
-            ),
-            matched_ids_or_values=passed,
         )
         trace_recorder.record_validator_result(
             {"reporting_validation_labels": reporting_validation}
@@ -666,12 +647,31 @@ def render_summary(artifact: Mapping[str, Any]) -> str:
                 artifact["grounded_answer"],
                 "",
                 "Validation",
-                f"Evidence IDs valid: {_pass_fail(validation['evidence_ids_valid'])}",
-                f"Citation IDs valid: {_pass_fail(validation['citation_ids_valid'])}",
-                "Unsupported evidence invented: "
-                + _yes_no(validation["unsupported_evidence_invented"]),
-                "Grounded answer validation: "
-                + _pass_fail(validation["grounded_answer_validation"]),
+                "Reference integrity",
+                "- Evidence IDs valid: "
+                + _pass_fail(validation["reference_integrity"]["evidence_ids_valid"]),
+                "- Citation IDs valid: "
+                + _pass_fail(validation["reference_integrity"]["citation_ids_valid"]),
+                "",
+                "Claim grounding",
+                f"- Supported claims: {validation['claim_grounding']['supported_count']}",
+                f"- Unsupported claims: {validation['claim_grounding']['unsupported_count']}",
+                f"- Contradicted claims: {validation['claim_grounding']['contradicted_count']}",
+                f"- Unverifiable claims: {validation['claim_grounding']['unverifiable_count']}",
+                "- Verdict: " + validation["claim_grounding"]["verdict"],
+                "",
+                "Question coverage",
+            ]
+        )
+        lines.extend(
+            "- " + item["label"] + ": " + item["status"]
+            for item in validation["question_coverage"]["requirements"]
+        )
+        lines.extend(
+            [
+                "- Verdict: " + validation["question_coverage"]["verdict"],
+                "",
+                "Overall answer validation: " + validation["overall_verdict"],
             ]
         )
     elif rq == "RQ2":

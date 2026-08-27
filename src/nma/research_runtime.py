@@ -10,6 +10,7 @@ from agent_contracts.governance import request_identity
 
 from nma.llm import LLMAdapter, LLMAdapterError
 from nma.llm.base import canonical_json, validate_json_schema_subset
+from nma.research_answer_validation import validate_rq1_answer
 from nma.research_context import project_question_relevant_evidence
 from nma.research_trace import RQ1TraceRecorder
 from nma.runtime_graph_backend_v029 import (
@@ -356,19 +357,6 @@ class AMAResearchRuntime:
                 raise ResearchRuntimeError(
                     "A grounded answer changed an exact reviewed classification or rule value."
                 )
-        if trace_recorder is not None:
-            trace_recorder.add_validator_check(
-                name="claim-level natural-language grounding",
-                status="NOT IMPLEMENTED",
-                input_examined="answer free text",
-                reason="No current validator branch parses or grounds natural-language answer claims.",
-            )
-            trace_recorder.add_validator_check(
-                name="question-answer coverage",
-                status="NOT IMPLEMENTED",
-                input_examined="question requirements versus answer free text",
-                reason="No current validator branch tests whether every requested element is answered.",
-            )
         return dict(output)
 
     def run_rq1(self, request: str) -> dict[str, Any]:
@@ -535,10 +523,37 @@ class AMAResearchRuntime:
             evidence,
             trace_recorder=self.trace_recorder,
         )
+        answer_validation = validate_rq1_answer(answer, evidence)
         if self.trace_recorder is not None:
+            self.trace_recorder.add_validator_check(
+                name="claim-level natural-language grounding",
+                status=answer_validation["claim_grounding"]["verdict"],
+                input_examined={
+                    "displayed_answer": answer["answer"],
+                    "normalized_evidence": answer_validation["normalized_evidence"],
+                },
+                reason=("bounded atomic claims were checked against normalized retrieved evidence"),
+                matched_ids_or_values=answer_validation["claim_grounding"],
+            )
+            self.trace_recorder.add_validator_check(
+                name="question-answer coverage",
+                status=answer_validation["question_coverage"]["verdict"],
+                input_examined={
+                    "displayed_answer": answer["answer"],
+                    "requirements": [
+                        item["id"]
+                        for item in answer_validation["question_coverage"]["requirements"]
+                    ],
+                },
+                reason="each RQ1 semantic requirement was evaluated independently",
+                matched_ids_or_values=answer_validation["question_coverage"],
+            )
             self.trace_recorder.record_validator_result(
                 {
-                    "runtime_validation": "passed",
+                    "runtime_validation": (
+                        "passed" if answer_validation["overall_verdict"] == "PASS" else "failed"
+                    ),
+                    "answer_validation": answer_validation,
                     "returned_answer_object": answer,
                 }
             )
@@ -552,10 +567,13 @@ class AMAResearchRuntime:
             "evidence_package": evidence,
             "llm_evidence_context": evidence_context,
             "answer": answer,
+            "answer_validation": answer_validation,
             "deterministic_identity_normalizations": citation_normalizations,
             "model_calls": [interpretation_trace, answer_result.to_trace()],
             "context_budget": answer_result.context_budget,
-            "validation": "passed",
+            "validation": (
+                "passed" if answer_validation["overall_verdict"] == "PASS" else "failed"
+            ),
             "execution_performed": False,
         }
 

@@ -328,6 +328,12 @@ class RQ1TraceRecorder:
         postprocessed = self.data.get("llm_postprocessing", {}).get(
             "postprocessed_answer_object", {}
         )
+        answer_validation = self.data.get("validator_result", {}).get("answer_validation", {})
+        coverage_by_id = {
+            item.get("id"): item
+            for item in answer_validation.get("question_coverage", {}).get("requirements", [])
+            if isinstance(item, Mapping)
+        }
 
         elements = {
             "line style": {
@@ -408,7 +414,14 @@ class RQ1TraceRecorder:
                     "sent_to_qwen": "PASS" if sent else "FAIL",
                     "raw_answer": "OBSERVED" if raw_present else "NOT OBSERVED",
                     "postprocessed_answer": "OBSERVED" if post_present else "NOT OBSERVED",
-                    "validator_checks_coverage": "NOT IMPLEMENTED",
+                    "validator_checks_coverage": coverage_by_id.get(
+                        {
+                            "line style": "line_style",
+                            "color": "color",
+                            "unresolved binding": "unresolved_binding",
+                        }[label],
+                        {},
+                    ).get("status", "NOT OBSERVED"),
                     "first_absent_stage": first_absent,
                 }
             )
@@ -473,8 +486,8 @@ class RQ1TraceRecorder:
         all_required_sent = all(item["sent_to_qwen"] == "PASS" for item in element_rows) and all(
             (classification_sent, geometry_sent, source_sent, question_sent)
         )
-        raw_requested_elements_covered = all(
-            item["raw_answer"] == "OBSERVED" for item in element_rows
+        raw_requested_elements_covered = (
+            answer_validation.get("question_coverage", {}).get("verdict") == "PASS"
         )
         postprocessing_unchanged = raw_answer == postprocessed
         doc01_citation = next(
@@ -666,27 +679,33 @@ class RQ1TraceRecorder:
             },
             {
                 "stage": "Validator performs claim-level grounding",
-                "observed_status": "NOT IMPLEMENTED"
-                if "claim-level natural-language grounding" in validator_names
-                else "UNKNOWN",
-                "evidence": "current checks validate declared IDs and exact_claims, not free-text answer claims",
+                "observed_status": (
+                    answer_validation.get("claim_grounding", {}).get("verdict", "UNKNOWN")
+                    if "claim-level natural-language grounding" in validator_names
+                    else "UNKNOWN"
+                ),
+                "evidence": answer_validation.get("claim_grounding", {}),
             },
             {
                 "stage": "Validator unsupported-claim detection capability",
-                "observed_status": "NOT IMPLEMENTED",
-                "evidence": "CLAIM-LEVEL GROUNDING CHECK: NOT IMPLEMENTED",
+                "observed_status": (
+                    "PASS" if answer_validation.get("validation_model_calls") == 0 else "FAIL"
+                ),
+                "evidence": "bounded deterministic atomic-claim checks; no validation model call",
             },
             {
                 "stage": "Validator performs question coverage",
-                "observed_status": "NOT IMPLEMENTED"
-                if "question-answer coverage" in validator_names
-                else "UNKNOWN",
-                "evidence": "no current check compares requested answer elements with answer text",
+                "observed_status": (
+                    answer_validation.get("question_coverage", {}).get("verdict", "UNKNOWN")
+                    if "question-answer coverage" in validator_names
+                    else "UNKNOWN"
+                ),
+                "evidence": answer_validation.get("question_coverage", {}),
             },
             {
                 "stage": "Validator question-coverage capability",
-                "observed_status": "NOT IMPLEMENTED",
-                "evidence": "QUESTION-COVERAGE CHECK: NOT IMPLEMENTED",
+                "observed_status": "PASS" if coverage_by_id else "FAIL",
+                "evidence": coverage_by_id,
             },
         ]
         root_causes = []
@@ -718,34 +737,6 @@ class RQ1TraceRecorder:
                     "category": "PIPELINE GAP — provider-side input truncation (outside strict A-G category predicates)",
                     "evidence": "the final API request contains the required evidence, but Ollama truncated 14,738 prompt tokens to 2,050 before inference and did not expose the exact retained subset",
                 }
-            )
-        if (
-            "claim-level natural-language grounding" in validator_names
-            and "question-answer coverage" in validator_names
-        ):
-            root_causes.extend(
-                [
-                    {
-                        "category": "G1 — evidence/citation identity validation limitation",
-                        "evidence": "current deterministic checks validate identities and exact_claims only",
-                    },
-                    {
-                        "category": "G2 — unsupported natural-language claim detection absent",
-                        "evidence": "CLAIM-LEVEL GROUNDING CHECK: NOT IMPLEMENTED",
-                    },
-                    {
-                        "category": "G3 — question-answer coverage validation absent",
-                        "evidence": "QUESTION-COVERAGE CHECK: NOT IMPLEMENTED",
-                    },
-                    {
-                        "category": "G4 — misleading aggregate PASS label",
-                        "evidence": (
-                            "Grounded answer validation remains an aggregate of existing schema, "
-                            "identity, and exact-claim checks; it is not claim-level grounding or "
-                            "question-coverage validation"
-                        ),
-                    },
-                ]
             )
         return {
             "required_node_properties": {

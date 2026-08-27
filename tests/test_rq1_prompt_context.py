@@ -354,6 +354,8 @@ def test_canonical_graph_bytes_are_unchanged() -> None:
 def test_original_short_rq1_path_remains_compatible() -> None:
     adapter = _rq1_adapter()
     result = runtime(adapter).run_rq1(HYDRANT_REQUEST)
-    assert result["validation"] == "passed"
+    assert result["validation"] == "failed"
+    assert result["answer_validation"]["claim_grounding"]["verdict"] == "PASS"
+    assert result["answer_validation"]["question_coverage"]["verdict"] == "FAIL"
     assert result["evidence_package"]["retrieval_trace"]["max_depth"] == 2
     assert len(adapter.calls) == 2

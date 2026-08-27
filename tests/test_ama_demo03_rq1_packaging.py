@@ -10,8 +10,9 @@ from nma import research_cli
 
 ANSWER = {
     "answer": (
-        "Fire hydrant feature 9350906 is a reviewed Point portrayal rule; its activation "
-        "status remains non-executable."
+        "Classification 9350906 / 消防栓 uses Point geometry, line style 2, and color 7 / "
+        "black. The authoritative source is PDF page 11. The ProductLayer binding remains "
+        "unresolved; activation status remains non-executable."
     ),
     "evidence_node_ids": ["portrayal-rule:doc01:9350906"],
     "citation_ids": ["citation:section:doc01-portrayal:p11"],
@@ -74,16 +75,14 @@ def test_rq1_cli_writes_human_and_machine_grounded_evidence_artifacts(
         "model_id": "qwen-test-recording",
     }
     assert artifact["graph_backend"]["active_backend"] == "canonical-json"
-    assert artifact["validation"] == {
-        "evidence_ids_valid": True,
-        "citation_ids_valid": True,
-        "unsupported_evidence_invented": False,
-        "grounded_answer_validation": True,
-    }
+    assert artifact["validation"]["reference_integrity"]["verdict"] == "PASS"
+    assert artifact["validation"]["claim_grounding"]["verdict"] == "PASS"
+    assert artifact["validation"]["question_coverage"]["verdict"] == "PASS"
+    assert artifact["validation"]["overall_verdict"] == "PASS"
     assert artifact["evidence_node_ids"] == ["portrayal-rule:doc01:9350906"]
     assert artifact["citations"][0]["citation_id"] == ("citation:section:doc01-portrayal:p11")
     assert "Graph evidence" in summary
-    assert "Grounded answer validation: PASS" in summary
+    assert "Overall answer validation: PASS" in summary
     assert "Model provider: recorded-local-test" in stdout
 
 

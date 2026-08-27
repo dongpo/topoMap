@@ -10,8 +10,9 @@ from nma.llm import LLMAdapterError
 
 ANSWER = {
     "answer": (
-        "Fire hydrant feature 9350906 is a reviewed Point portrayal rule; its activation "
-        "status remains non-executable."
+        "Classification 9350906 / 消防栓 uses Point geometry, line style 2, and color 7 / "
+        "black. The authoritative source is PDF page 11. The ProductLayer binding remains "
+        "unresolved; activation status remains non-executable."
     ),
     "evidence_node_ids": ["portrayal-rule:doc01:9350906"],
     "citation_ids": ["citation:section:doc01-portrayal:p11"],
@@ -50,6 +51,7 @@ def test_rq1_invokes_provider_neutral_model_retrieval_and_grounded_generation() 
     )
     result = runtime(adapter).run_rq1(HYDRANT_REQUEST)
     assert result["validation"] == "passed"
+    assert result["answer_validation"]["overall_verdict"] == "PASS"
     assert result["provider"] == "recorded-local-test"
     assert result["graph_backend"]["active_backend"] == "canonical-json"
     assert result["graph_backend"]["arbitrary_cypher_allowed"] is False

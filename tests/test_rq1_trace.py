@@ -29,7 +29,8 @@ QUESTION = (
 ANSWER = {
     "answer": (
         "消防栓 9350906 is a reviewed Point portrayal rule using 线型代码2 and color 7 / black; "
-        "the 产品图层 binding is 未确认 and its activation status remains non-executable."
+        "the authoritative source is PDF page 11; the 产品图层 binding is 未确认 and its "
+        "activation status remains non-executable."
     ),
     "evidence_node_ids": ["portrayal-rule:doc01:9350906"],
     "citation_ids": ["citation:section:doc01-portrayal:p11"],
@@ -131,8 +132,8 @@ def test_trace_observes_existing_rq1_path_without_changing_results(tmp_path: Pat
     assert recorder.data["llm_postprocessing"]["postprocessed_answer_object"] == ANSWER
     assert recorder.data["validator_input"]["answer_text"] == ANSWER["answer"]
     checks = {item["check_name"]: item for item in recorder.data["validator_checks"]}
-    assert checks["claim-level natural-language grounding"]["status"] == "NOT IMPLEMENTED"
-    assert checks["question-answer coverage"]["status"] == "NOT IMPLEMENTED"
+    assert checks["claim-level natural-language grounding"]["status"] == "PASS"
+    assert checks["question-answer coverage"]["status"] == "PASS"
 
     artifact = build_rq1_artifact(
         traced,
@@ -181,12 +182,12 @@ def test_trace_cli_creates_both_trace_artifacts_and_only_two_model_calls(
     trace = json.loads((run_directory / "rq1-trace.json").read_text(encoding="utf-8"))
     assert trace["question"]["value"] == QUESTION
     assert trace["retrieved_graph"]["edges"]
-    assert trace["validator_result"]["reporting_validation_labels"] == {
-        "evidence_ids_valid": True,
-        "citation_ids_valid": True,
-        "unsupported_evidence_invented": False,
-        "grounded_answer_validation": True,
-    }
+    validation = trace["validator_result"]["reporting_validation_labels"]
+    assert validation["reference_integrity"]["verdict"] == "PASS"
+    assert validation["claim_grounding"]["verdict"] == "PASS"
+    assert validation["question_coverage"]["verdict"] == "PASS"
+    assert validation["overall_verdict"] == "PASS"
+    assert validation["validation_model_calls"] == 0
 
 
 class _Response:
