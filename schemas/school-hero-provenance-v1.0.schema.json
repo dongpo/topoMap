@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.school-hero-provenance/1.0",
+  "title": "NMA School Hero Verified Provenance 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "provenance_id", "execution_id", "status", "chain", "runtime_identity", "input_artifact_identity", "output_artifact_identity", "checks", "provenance_sha256"],
+  "properties": {
+    "schema": {"const": "nma.school-hero-provenance/1.0"},
+    "provenance_id": {"type": "string", "pattern": "^provenance-[0-9a-f]{24}$"},
+    "execution_id": {"type": "string", "pattern": "^exec-[0-9a-f]{24}$"},
+    "status": {"enum": ["verified", "failed"]},
+    "chain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "id", "sha256"],
+        "properties": {
+          "kind": {"enum": ["request", "intent", "evidence", "decision", "proposal", "approval", "execution", "qa", "artifact"]},
+          "id": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "runtime_identity": {"type": "object"},
+    "input_artifact_identity": {"type": "object"},
+    "output_artifact_identity": {"type": "object"},
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "expected", "observed"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "status": {"enum": ["passed", "failed"]},
+          "expected": {},
+          "observed": {}
+        }
+      }
+    },
+    "provenance_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

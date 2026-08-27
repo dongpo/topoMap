@@ -1,0 +1,10 @@
+National Map Agent v0.2
+Copyright 2026 NMA contributors
+
+Code is licensed under Apache License 2.0.
+
+Synthetic geometries and CSV/VRT fixture sources under data/ are dedicated to
+the public domain under CC0 1.0. The executable Taiwan RIVERL profile is a
+bounded interpretation of cited official pages and remains pending expert
+sign-off. The official PDFs and private test archive are not redistributed and
+no license is asserted for them by this repository.

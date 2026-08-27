@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NMA Unified Runtime Demo v1</title>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css">
+  <style>
+    :root{--ink:#10251f;--green:#096b4e;--paper:#f2f6f3;--line:#cedbd3;--blue:#235c9f;--warn:#8a5b00}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 system-ui,sans-serif}
+    main{display:grid;grid-template-columns:minmax(340px,430px) 1fr;min-height:100vh}aside{padding:22px;background:#fff;border-right:1px solid var(--line);overflow:auto}
+    .eyebrow{color:var(--green);font-weight:800;letter-spacing:.09em;text-transform:uppercase;font-size:.72rem}h1{font-size:1.7rem;line-height:1.1;margin:.4rem 0}.muted{color:#60716b}.notice{border-left:4px solid var(--blue);padding:9px 11px;background:#edf5fc}
+    label{display:block;font-weight:750;margin:.8rem 0 .25rem}select,textarea,input{width:100%;font:inherit;border:1px solid #aebdb4;border-radius:7px;padding:9px;background:#fff}textarea{min-height:86px;resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.actions{display:flex;gap:8px;margin-top:12px}button{border:0;border-radius:7px;padding:10px 14px;background:var(--green);color:#fff;font-weight:750;cursor:pointer}button.secondary{background:#60716b}button:disabled{opacity:.55;cursor:wait}
+    #workspace{min-width:0;display:grid;grid-template-rows:minmax(360px,55vh) auto}#map{min-height:360px;background:#e6ede8}.panels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px}.card{min-width:0;border:1px solid var(--line);border-radius:9px;background:#fff;padding:12px}.card h2{font-size:.92rem;margin:0 0 8px}.facts{display:grid;grid-template-columns:max-content 1fr;gap:5px 9px;margin:0}.facts dt{font-weight:750}.facts dd{margin:0;overflow-wrap:anywhere}.badge{display:inline-block;border-radius:999px;padding:2px 8px;background:#e5f1ea;color:var(--green);font-size:.7rem;font-weight:800}.badge.warn{background:#fff0d5;color:var(--warn)}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:11px/1.45 ui-monospace,monospace;max-height:260px;overflow:auto;background:#edf3ef;border-radius:7px;padding:9px}
+    #status{margin-top:10px;font-size:.8rem}.ok{color:var(--green)}.error{color:#a32920}.runtime-path{display:flex;flex-wrap:wrap;gap:5px;margin:11px 0}.stage{border:1px solid var(--line);border-top:3px solid var(--green);border-radius:7px;padding:6px 8px;background:#fff;font-size:.7rem}.map-fallback{display:grid;place-items:center;height:100%;padding:30px;color:#60716b;text-align:center}
+    @media(max-width:980px){main{display:block}aside{border-right:0}.panels{grid-template-columns:1fr}#workspace{display:block}#map{height:52vh}}
+  </style>
+</head>
+<body>
+<main>
+  <aside>
+    <div class="eyebrow">National Map Agent · DEMO-01</div>
+    <h1>Unified frozen-domain runtime</h1>
+    <p class="muted">One runtime routes requests to School Hero, ROAD, or BUILD while preserving each domain's canonical authorization and execution boundary.</p>
+    <p class="notice"><strong>Safe default:</strong> preview/replay never creates a new execution. Protected source access is opt-in; automatic BUILD activation is always disabled.</p>
+    <form id="request-form">
+      <div class="row">
+        <div><label for="domain">Domain</label><select id="domain"><option value="">Auto (fail closed)</option><option value="school">School</option><option value="road">ROAD</option><option value="build">BUILD</option></select></div>
+        <div><label for="operation">Operation</label><select id="operation"><option value="preview">Preview</option><option value="replay">Frozen replay</option><option value="execute">Execute</option><option value="verify">Verify</option></select></div>
+      </div>
+      <label for="request">Request</label>
+      <textarea id="request">Show the frozen BUILD demo result and verify its receipt.</textarea>
+      <div id="authorization-fields" hidden>
+        <label id="authorization-label" for="authorization-id">Authorization ID</label><input id="authorization-id" autocomplete="off">
+        <div id="idempotency-field"><label for="idempotency-key">Idempotency key</label><input id="idempotency-key" autocomplete="off"></div>
+        <div id="build-execution-fields" hidden><label for="source-package">Source package identity</label><input id="source-package" autocomplete="off" value="J13_寶山都市計畫/SHP"><label for="project-scope">Geographic project scope</label><input id="project-scope" autocomplete="off" value="Baoshan urban-plan project area"></div>
+      </div>
+      <div id="verification-fields" hidden>
+        <label for="execution-id">Execution ID</label><input id="execution-id" autocomplete="off">
+      </div>
+      <div class="actions"><button id="submit" type="submit">Run unified request</button><button id="build-example" class="secondary" type="button">BUILD public example</button></div>
+    </form>
+    <div id="status" aria-live="polite">Checking the unified endpoint…</div>
+    <div class="runtime-path" aria-label="Runtime lifecycle"><span class="stage">Request</span><span class="stage">Route</span><span class="stage">Plan</span><span class="stage">Authorize</span><span class="stage">Execute</span><span class="stage">Verify</span><span class="stage">Receipt</span></div>
+    <p class="muted"><a href="/nmaAgentDemoV032.html?basemap=local">Preserved School v0.32 workbench</a></p>
+  </aside>
+  <section id="workspace">
+    <div id="map" aria-label="Unified NMA map result"><div class="map-fallback">MapLibre is initializing…</div></div>
+    <div class="panels">
+      <article class="card"><h2>Routing &amp; authority</h2><div id="routing" class="muted">Submit a request.</div></article>
+      <article class="card"><h2>Execution &amp; verification</h2><div id="lifecycle" class="muted">No execution selected.</div></article>
+      <article class="card"><h2>Receipt &amp; provenance</h2><div id="provenance" class="muted">No receipt available.</div></article>
+      <article class="card" style="grid-column:1/-1"><h2>Normalized runtime envelope</h2><pre id="raw">{}</pre></article>
+    </div>
+  </section>
+</main>
+<script src="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js"></script>
+<script>
+const endpoint="/api/nma/runtime",glyphs="https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf";let map=null;let dynamicIds=[];
+const $=id=>document.getElementById(id);const safe=value=>value??"—";
+function facts(entries){return `<dl class="facts">${entries.map(([key,value])=>`<dt>${key}</dt><dd>${safe(value)}</dd>`).join("")}</dl>`}
+function toggleFields(){const operation=$("operation").value,isBuild=$("domain").value==="build";$("authorization-fields").hidden=operation!=="execute";$("verification-fields").hidden=operation!=="verify";$("idempotency-field").hidden=isBuild;$("build-execution-fields").hidden=!isBuild;$("authorization-label").textContent=isBuild?"BUILD-09F policy record SHA-256":"Authorization ID"}
+function initializeMap(){if(!window.maplibregl){$("map").innerHTML='<div class="map-fallback">MapLibre library unavailable. Runtime results remain visible below.</div>';return}$("map").innerHTML="";map=new maplibregl.Map({container:"map",center:[121.02,24.78],zoom:11,style:{version:8,glyphs,sources:{},layers:[{id:"background",type:"background",paint:{"background-color":"#eef4ef"}}]}});map.addControl(new maplibregl.NavigationControl(),"top-right")}
+function clearDynamic(){if(!map?.isStyleLoaded())return;for(const id of dynamicIds.reverse()){if(map.getLayer(id))map.removeLayer(id);if(map.getSource(id))map.removeSource(id);if(map.hasImage(id))map.removeImage(id)}dynamicIds=[]}
+function boundsFor(collection){const points=[];function walk(value){if(Array.isArray(value)&&value.length>=2&&typeof value[0]==="number"&&typeof value[1]==="number")points.push(value);else if(Array.isArray(value))value.forEach(walk)}(collection.features||[]).forEach(feature=>walk(feature.geometry?.coordinates));if(!points.length)return null;return points.reduce((b,p)=>b.extend(p),new maplibregl.LngLatBounds(points[0],points[0]))}
+function hatchImage(id,color="#111111"){const size=16,canvas=document.createElement("canvas");canvas.width=canvas.height=size;const context=canvas.getContext("2d");context.clearRect(0,0,size,size);context.strokeStyle=color;context.lineWidth=1.5;context.beginPath();context.moveTo(-4,size);context.lineTo(size,-4);context.moveTo(4,size+4);context.lineTo(size+4,4);context.stroke();map.addImage(id,{width:size,height:size,data:context.getImageData(0,0,size,size).data});dynamicIds.push(id)}
+async function renderVisualization(result){
+  if(!map)return;const run=()=>renderVisualization(result);if(!map.isStyleLoaded()){map.once("load",run);return}
+  clearDynamic();const visual=result.visualization||{};if(visual.status!=="available")return;
+  if(result.selected_domain==="build"){
+    const demo=visual.maplibre;
+    if(demo?.source?.data){
+      const collection=demo.source.data,source="nma-build-runtime";map.addSource(source,{type:"geojson",data:collection});dynamicIds.push(source);
+      const pattern="nma-build-hatch";hatchImage(pattern,demo.style?.hatch?.color);const fill="nma-build-fill",line="nma-build-line";
+      map.addLayer({id:fill,type:"fill",source,paint:{"fill-pattern":pattern,"fill-opacity":.8}});map.addLayer({id:line,type:"line",source,paint:{"line-color":demo.style?.boundary?.color||"#111111","line-width":2}});dynamicIds.push(fill,line);
+      const bounds=boundsFor(collection);if(bounds)map.fitBounds(bounds,{padding:70,duration:500});return;
+    }
+    if(demo?.sources){
+      for(const [id,definition] of Object.entries(demo.sources)){map.addSource(id,structuredClone(definition));dynamicIds.push(id)}
+      for(const resource of demo.resources||[]){if(resource.svg){const loaded=await map.loadImage(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(resource.svg)}`);map.addImage(resource.id,loaded.data);dynamicIds.push(resource.id)}}
+      for(const layer of demo.layers||[]){map.addLayer(structuredClone(layer));dynamicIds.push(layer.id)}
+      const collection=Object.values(demo.sources)[0]?.data,bounds=collection&&boundsFor(collection);if(bounds)map.fitBounds(bounds,{padding:70,duration:500});return;
+    }
+    return;
+  }
+  const bundle=visual.maplibre,sourceDef=bundle?.source;if(!sourceDef)return;const sourceId=sourceDef.id||`nma-${result.selected_domain}-source`;
+  for(const resource of bundle.image_resources||[]){const image=new Image();image.decoding="async";image.src=resource.path;await image.decode();map.addImage(resource.id,image,{sdf:Boolean(resource.sdf)});dynamicIds.push(resource.id)}
+  map.addSource(sourceId,{type:"geojson",data:visual.data_reference||sourceDef.data});dynamicIds.push(sourceId);const layers=bundle.layers||[bundle.layer].filter(Boolean);
+  for(const layer of layers){const copy=structuredClone(layer);copy.source=sourceId;map.addLayer(copy);dynamicIds.push(copy.id)}
+  const response=await fetch(visual.data_reference||sourceDef.data);if(response.ok){const collection=await response.json(),bounds=boundsFor(collection);if(bounds)map.fitBounds(bounds,{padding:60,duration:500})}
+}
+function show(result){$("raw").textContent=JSON.stringify(result,null,2);$("routing").innerHTML=facts([["Domain",result.selected_domain],["Operation",result.operation],["Request ID",result.request_id],["Plan",result.plan?.identity],["Plan status",result.plan?.status],["Authorization",result.authorization?.status]]);$("lifecycle").innerHTML=facts([["Execution",result.execution?.identity],["Status",result.execution?.status],["Observation",result.observation?.status],["Verification",result.verification?.status],["Activation",result.execution?.activation_status],["Mutation",Object.values(result.mutation||{}).some(Boolean)?"YES":"none"]]);$("provenance").innerHTML=facts([["Receipt",result.receipt?.identity],["Receipt SHA",result.receipt?.sha256],["Provenance",result.provenance?.identity||result.provenance?.status],["Visualization",result.visualization?.status]])+(result.warnings?.length?`<p class="badge warn">${result.warnings.join(" ")}</p>`:"");renderVisualization(result)}
+async function submit(event){event?.preventDefault();const button=$("submit");button.disabled=true;$("status").className="";$("status").textContent="Routing through the unified runtime…";const payload={request:$("request").value,operation:$("operation").value,parameters:{}};if($("domain").value)payload.domain=$("domain").value;if(payload.operation==="execute"){if(payload.domain==="build"){payload.authorization={policy_record_sha256:$("authorization-id").value};payload.parameters={source_package_identity:$("source-package").value,geographic_project_scope:$("project-scope").value}}else payload.authorization={authorization_id:$("authorization-id").value,idempotency_key:$("idempotency-key").value}}if(payload.operation==="verify")payload.parameters.execution_id=$("execution-id").value;try{const response=await fetch(endpoint,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(payload)}),body=await response.json();if(!response.ok)throw new Error(`${body.error?.code||response.status}: ${body.error?.message||"Runtime request failed"}`);show(body);$("status").className="ok";$("status").textContent=`${body.selected_domain.toUpperCase()} routed · ${body.operation} · no integration-layer mutation`;}catch(error){$("status").className="error";$("status").textContent=error.message;$("raw").textContent=JSON.stringify({error:error.message},null,2)}finally{button.disabled=false}}
+$("operation").addEventListener("change",toggleFields);$("domain").addEventListener("change",toggleFields);$("request-form").addEventListener("submit",submit);$("build-example").addEventListener("click",()=>{$("domain").value="build";$("operation").value="replay";$("request").value="Show the frozen BUILD demo result and verify its receipt.";toggleFields();submit()});
+initializeMap();toggleFields();fetch(endpoint).then(response=>response.json()).then(body=>{$("status").className="ok";$("status").textContent=`Unified endpoint ready · ${body.domains.join(" / ")} · BUILD auto-activation false`}).catch(()=>{$("status").className="error";$("status").textContent="Unified endpoint unavailable."});
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+{
+  "type": "FeatureCollection",
+  "name": "SCHOOL_POINT",
+  "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}},
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00001",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點01"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0219, 24.7762]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00002",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點02"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0256, 24.7751]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00003",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點03"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0238, 24.7729]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00004",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點04"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0198, 24.7743]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00005",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點05"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0274, 24.7770]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00006",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點06"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0281, 24.7734]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00007",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點07"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0207, 24.7781]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00008",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點08"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0242, 24.7790]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00009",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點09"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0290, 24.7753]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00010",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點10"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0189, 24.7719]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00011",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點11"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0220, 24.7708]}
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "MARKID": "SCHOOL00012",
+        "TERRAINID": "9920103",
+        "MARKNAME1": "NMA合成測試點12"
+      },
+      "geometry": {"type": "Point", "coordinates": [121.0264, 24.7712]}
+    }
+  ]
+}

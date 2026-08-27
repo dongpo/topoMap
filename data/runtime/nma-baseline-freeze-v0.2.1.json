@@ -1,0 +1,130 @@
+{
+  "schema": "nma.baseline-freeze/0.2.1",
+  "baseline": "nma-v0.2.1-baseline",
+  "definition": "An open, reproducible engineering baseline for an evidence-bearing executable portrayal graph and Agent-assisted geospatial portrayal workflow.",
+  "recorded_at": "2026-08-14",
+  "repository": {
+    "url": "https://github.com/dongpo/topoMap.git",
+    "branch": "recovery/nma-v0.32-artifact-isolation",
+    "commit_sha": "991269cea4a8eb6f6e4e9955f592bdf369fcd44c",
+    "commit_role": "verified-synchronized-runtime-source-before-freeze-record",
+    "freeze_tag": "nma-v0.2.1-baseline",
+    "freeze_record_commit_authority": "resolve the immutable annotated freeze_tag"
+  },
+  "runtime": {
+    "version": "nma.runtime-baseline/0.32",
+    "release": "v0.2.1",
+    "manifest": "data/runtime/nma-runtime-baseline-v0.32.json",
+    "agent_runtime_revision": "nma.runtime-baseline/0.32",
+    "api_status_contract": "nma.runtime-baseline/0.32",
+    "demo_contract": "nma.runtime-baseline/0.32"
+  },
+  "graph": {
+    "path": "data/knowledge/nma-canonical-graph-v0.4.json",
+    "graph_id": "nma-canonical-graph-v0.4",
+    "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "nodes": 4293,
+    "edges": 11244,
+    "authority": "consolidated-runtime-artifact"
+  },
+  "vector": {
+    "path": "data/runtime/vector/nma-vector-index-v0.32.json",
+    "index_id": "nma-vector:nma-canonical-graph-v0.4:text-embedding-3-small:512",
+    "sha256": "9f45ba4196e7431eff094b202c8c55d0e99ca4c6f7d39c39fb600dd4d92f4d99",
+    "embedding_model": "text-embedding-3-small",
+    "dimensions": 512,
+    "records": 4293,
+    "canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "graph_identity_matches": true,
+    "runtime_candidate_view_records": 638
+  },
+  "neo4j": {
+    "projection_path": "data/runtime/neo4j/nma-neo4j-projection-v0.32.json",
+    "projection_sha256": "fea319039c7ce3064952645142eef8aa833f4856cacc996b0f502c6fed224725",
+    "database": "mapfeatures",
+    "database_id": "60912A41C00A5078F9EF3E7055537F150D8E4D28D12FFDF10816F70066738F46",
+    "nodes": 4293,
+    "relationships": 11244,
+    "canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "portable_projection_verified": true,
+    "normalized_round_trip": "PASS",
+    "live_verification": "read-only-pass-recorded-by-REC-03B",
+    "mutation_performed_by_freeze": false
+  },
+  "retrieval": {
+    "supported_query": "小學 9920103 圖式規則",
+    "supported_expected": {
+      "feature": "code-value:landmark-type:9920103",
+      "rule": "portrayal-rule:doc01:9920103",
+      "document": "01",
+      "page": 61
+    },
+    "supported_status": "PASS",
+    "unsupported_query": "不存在於官方語料的虛構星際傳送門圖徵",
+    "unsupported_expected": "abstention",
+    "unsupported_status": "PASS"
+  },
+  "school_hero": {
+    "workflow": [
+      "Resolve",
+      "Retrieve",
+      "Explain",
+      "Propose",
+      "Validate",
+      "Approve",
+      "Execute",
+      "Observe",
+      "QA",
+      "Cite"
+    ],
+    "verified": [
+      "contract",
+      "evidence-grounding",
+      "citation-path",
+      "public-runtime-behavior"
+    ],
+    "not_included": [
+      "private-archive-execution",
+      "non-redistributable-data-validation"
+    ]
+  },
+  "verification": {
+    "scope": "approved-existing-baseline-checks-only",
+    "environment": {
+      "checkout": "fresh-remote-branch",
+      "python": "3.13.5",
+      "private_dataset_available": false,
+      "neo4j_credentials_in_repository": false
+    },
+    "focused_tests": 34,
+    "focused_tests_passed": 34,
+    "focused_tests_failed": 0,
+    "historical_excluded_failures": 3,
+    "graph_identity": "PASS",
+    "vector_identity": "PASS",
+    "neo4j_consistency": "PASS",
+    "backend_selection": "PASS",
+    "supported_retrieval": "PASS",
+    "unsupported_abstention": "PASS",
+    "school_hero_public_boundary": "PASS"
+  },
+  "documentation": {
+    "freeze": "docs/NMA-V0.2.1-BASELINE-FREEZE.md",
+    "data_boundary": "docs/NMA-V0.2.1-DATA-BOUNDARY.md",
+    "historical_test_status": "docs/NMA-V0.2.1-HISTORICAL-TEST-STATUS.md",
+    "provenance_policy": "docs/NMA-V0.2.1-PROVENANCE-POLICY.md"
+  },
+  "known_limitations": [
+    "Private archive execution and non-redistributable dataset validation are outside the public baseline.",
+    "Live Neo4j verification requires external credentials not stored in the repository.",
+    "Three pre-existing historical Agentic v0.3 freeze/catalog failures remain unresolved and excluded.",
+    "The baseline does not claim autonomous authoritative map production, production deployment readiness, complete national coverage, or complete ontology reconstruction."
+  ],
+  "excluded_claims": [
+    "autonomous-authoritative-map-production",
+    "complete-national-mapping-specification-coverage",
+    "production-deployment-readiness",
+    "private-dataset-redistribution",
+    "complete-ontology-reconstruction"
+  ]
+}

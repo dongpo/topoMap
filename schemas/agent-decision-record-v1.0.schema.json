@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/nma/schemas/agent-decision-record-v1.0.schema.json",
+  "title": "NMA Agent Accountability Decision Record 1.0",
+  "type": "object",
+  "properties": {
+    "schema": {"const": "nma.agent-decision-record/1.0"},
+    "decision_record_id": {
+      "type": "string",
+      "pattern": "^decision-record:sha256:[0-9a-f]{64}$"
+    },
+    "request_identity": {
+      "type": "string",
+      "pattern": "^request:sha256:[0-9a-f]{64}$"
+    },
+    "intent_reference": {
+      "type": "object",
+      "properties": {
+        "contract": {"const": "nma.intent-planning/1.0"},
+        "sha256": {"type": "string", "pattern": "^intent:sha256:[0-9a-f]{64}$"}
+      },
+      "required": ["contract", "sha256"],
+      "additionalProperties": false
+    },
+    "evidence_references": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "schema": {"const": "nma.agent-evidence-reference/1.0"},
+          "evidence_id": {
+            "type": "string",
+            "pattern": "^evidence:sha256:[0-9a-f]{64}$"
+          },
+          "purpose": {"const": "proposal"}
+        },
+        "required": ["schema", "evidence_id", "purpose"],
+        "additionalProperties": false
+      }
+    },
+    "proposal_identity": {
+      "type": "string",
+      "pattern": "^proposal:sha256:[0-9a-f]{64}$"
+    },
+    "evaluation_reference": {
+      "type": "string",
+      "pattern": "^evaluation:sha256:[0-9a-f]{64}$"
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "status": {"enum": ["pending", "accepted", "rejected"]},
+        "reviewer": {"type": ["string", "null"], "minLength": 1, "maxLength": 500},
+        "domain_decision_reference": {
+          "type": ["string", "null"],
+          "pattern": "^review-decision:sha256:[0-9a-f]{64}$"
+        }
+      },
+      "required": ["status", "reviewer", "domain_decision_reference"],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "pending"}}},
+          "then": {
+            "properties": {
+              "reviewer": {"type": "null"},
+              "domain_decision_reference": {"type": "null"}
+            }
+          },
+          "else": {
+            "properties": {
+              "reviewer": {"type": "string"},
+              "domain_decision_reference": {
+                "type": "string",
+                "pattern": "^review-decision:sha256:[0-9a-f]{64}$"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "boundary": {"const": "accountability-only"},
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "recorded_by": {"type": "string", "minLength": 1, "maxLength": 500},
+        "recorded_at": {"type": "string", "minLength": 1, "maxLength": 500}
+      },
+      "required": ["recorded_by", "recorded_at"],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "decision_record_id",
+    "request_identity",
+    "intent_reference",
+    "evidence_references",
+    "proposal_identity",
+    "evaluation_reference",
+    "review",
+    "boundary",
+    "provenance"
+  ],
+  "additionalProperties": false
+}

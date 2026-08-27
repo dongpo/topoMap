@@ -1,0 +1,367 @@
+{
+  "$schema": "../../schemas/five-scene-soak-report.schema.json",
+  "report_version": "1.0",
+  "generated_at": "2026-08-05T07:54:09.921642+00:00",
+  "baseline": {
+    "freeze_version": "nma-demo-rc1-feature-complete",
+    "approved_base_commit": "06090a04792514b85823457b235f7feebf2660d4",
+    "contract": "data/demo/five-scene-demo.json",
+    "freeze_manifest": "data/demo/five-scene-freeze.json"
+  },
+  "environment": {
+    "python": "3.13.5",
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "protocol": {
+    "iterations": 20,
+    "clean_reset_before_each_run": true,
+    "scene_order": [
+      "school",
+      "fire-hydrant",
+      "police",
+      "fish-pond",
+      "post-office"
+    ],
+    "negative_controls": [
+      "unsupported-scale",
+      "unsupported-profile"
+    ]
+  },
+  "summary": {
+    "passed": 20,
+    "failed": 0,
+    "pass_rate": 1.0,
+    "median_total_ms": 18.235,
+    "p95_total_ms": 23.861,
+    "max_total_ms": 24.118
+  },
+  "runs": [
+    {
+      "run": 1,
+      "status": "passed",
+      "reset_ms": 15.161,
+      "freeze_check_ms": 8.945,
+      "total_ms": 24.118,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 2,
+      "status": "passed",
+      "reset_ms": 15.25,
+      "freeze_check_ms": 5.22,
+      "total_ms": 20.473,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 3,
+      "status": "passed",
+      "reset_ms": 12.339,
+      "freeze_check_ms": 5.269,
+      "total_ms": 17.611,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 4,
+      "status": "passed",
+      "reset_ms": 12.675,
+      "freeze_check_ms": 8.229,
+      "total_ms": 20.909,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 5,
+      "status": "passed",
+      "reset_ms": 12.661,
+      "freeze_check_ms": 6.167,
+      "total_ms": 18.833,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 6,
+      "status": "passed",
+      "reset_ms": 16.173,
+      "freeze_check_ms": 5.468,
+      "total_ms": 21.645,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 7,
+      "status": "passed",
+      "reset_ms": 11.974,
+      "freeze_check_ms": 5.223,
+      "total_ms": 17.2,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 8,
+      "status": "passed",
+      "reset_ms": 12.848,
+      "freeze_check_ms": 5.186,
+      "total_ms": 18.036,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 9,
+      "status": "passed",
+      "reset_ms": 12.013,
+      "freeze_check_ms": 5.109,
+      "total_ms": 17.124,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 10,
+      "status": "passed",
+      "reset_ms": 11.939,
+      "freeze_check_ms": 5.583,
+      "total_ms": 17.525,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 11,
+      "status": "passed",
+      "reset_ms": 17.268,
+      "freeze_check_ms": 5.653,
+      "total_ms": 22.925,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 12,
+      "status": "passed",
+      "reset_ms": 12.39,
+      "freeze_check_ms": 5.715,
+      "total_ms": 18.108,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 13,
+      "status": "passed",
+      "reset_ms": 11.719,
+      "freeze_check_ms": 5.675,
+      "total_ms": 17.399,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 14,
+      "status": "passed",
+      "reset_ms": 14.149,
+      "freeze_check_ms": 9.707,
+      "total_ms": 23.861,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 15,
+      "status": "passed",
+      "reset_ms": 12.442,
+      "freeze_check_ms": 5.415,
+      "total_ms": 17.861,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 16,
+      "status": "passed",
+      "reset_ms": 12.674,
+      "freeze_check_ms": 5.247,
+      "total_ms": 17.923,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 17,
+      "status": "passed",
+      "reset_ms": 13.61,
+      "freeze_check_ms": 5.234,
+      "total_ms": 18.847,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 18,
+      "status": "passed",
+      "reset_ms": 12.435,
+      "freeze_check_ms": 5.366,
+      "total_ms": 17.805,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 19,
+      "status": "passed",
+      "reset_ms": 12.943,
+      "freeze_check_ms": 5.439,
+      "total_ms": 18.386,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    },
+    {
+      "run": 20,
+      "status": "passed",
+      "reset_ms": 12.624,
+      "freeze_check_ms": 5.734,
+      "total_ms": 18.362,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 16,
+      "error": null
+    }
+  ],
+  "defects": [],
+  "known_observations": [
+    {
+      "id": "cold-cache-map-runtime",
+      "classification": "presentation-impacting",
+      "owner": "D16 / GEO-72",
+      "next_action": "A cold cache without network enters the evidence-only fallback; run the online preflight and capture the backup before travel."
+    },
+    {
+      "id": "pmtiles-redistribution-terms",
+      "classification": "deferred",
+      "owner": "publication gate",
+      "next_action": "Confirm redistribution terms for out1120902.pmtiles before publishing a distributable offline bundle."
+    },
+    {
+      "id": "backup-capture",
+      "classification": "presentation-impacting",
+      "owner": "D16 / GEO-72",
+      "next_action": "Backup recording and screenshots have not yet been captured."
+    },
+    {
+      "id": "public-demo-url",
+      "classification": "deferred",
+      "owner": "D17 / GEO-73",
+      "next_action": "The stable public demo URL and presentation freeze remain later delivery gates."
+    },
+    {
+      "id": "expert-sign-off",
+      "classification": "deferred",
+      "owner": "publication gate",
+      "next_action": "Independent cartographer sign-off is still required before publication-grade claims."
+    }
+  ],
+  "recovery_steps": [
+    "Run make demo-reset to rebuild the frozen graph and MapLibre style.",
+    "Run make demo-freeze and stop if any fingerprint differs.",
+    "Run make demo-scenes and confirm all five scenes and two abstention controls pass.",
+    "Restart the local static server from the repository root.",
+    "Open a clean browser tab, reload the demo, and restart at the school scene."
+  ],
+  "browser_soak": {
+    "status": "pending-preview",
+    "required_rounds": 10,
+    "required_console_errors": 0,
+    "required_console_warnings": 0
+  }
+}

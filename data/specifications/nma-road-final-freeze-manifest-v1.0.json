@@ -1,0 +1,158 @@
+{
+  "schema": "nma.road-final-freeze/1.0",
+  "freeze_version": "nma-road-v1.0-final",
+  "status": "accepted-frozen",
+  "recorded_on": "2026-08-19",
+  "repository": {
+    "canonical_root": "/Users/dongpodeng/Library/Mobile Documents/com~apple~CloudDocs/Projects/topoMap",
+    "origin": "https://github.com/dongpo/topoMap.git",
+    "lineage": [
+      {
+        "milestone": "ROAD-05",
+        "branch": "road/road-05-qa-provenance",
+        "commit_sha": "5d23274d7c5d90f86506646de9deb0cc77d86921"
+      },
+      {
+        "milestone": "ROAD-05A corrective closure",
+        "branch": "road/road-05a-authorization-consumption-determinism",
+        "commit_sha": "e2bf999cd19e830d5687da52b826b0fedf69db6a"
+      },
+      {
+        "milestone": "ROAD-FINAL",
+        "branch_pattern": "freeze/road-final-<short-FINAL_SHA>",
+        "commit_authority": "resolve the immutable annotated tag nma-road-v1.0-final"
+      }
+    ],
+    "annotated_tag": "nma-road-v1.0-final"
+  },
+  "authorization_consumption": {
+    "contract_version": "road-05a-authorization-consumption/1.0",
+    "canonical_key": "road04-controlled-execution-v1",
+    "key_serialization": "exact UTF-8 bytes; no Unicode normalization or line terminator",
+    "hash_algorithm": "SHA-256",
+    "idempotency_key_sha256": "d4645499a8a897194ed49d7cd19edb6acd96bda5db0611fd82a701a875f343cb",
+    "consumption_serialization": "UTF-8 JSON; keys sorted lexicographically; compact separators; ensure_ascii=false; exactly one trailing LF",
+    "consumption_file_sha256": "fb21f714f925922938198ac9299a42ea87aaab89b2860d5518a49f5467571330",
+    "canonical_reconstruction": "PASS",
+    "fresh_remote_reconstruction": "PASS",
+    "minimal_root_reconstruction": "PASS"
+  },
+  "private_archive": {
+    "path": "data/datasets/112年多維度SHP成果_0502.zip",
+    "sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "ignored": true,
+    "tracked": false,
+    "staged": false
+  },
+  "accepted_chain": {
+    "authorization_sha256": "f68220ecef989e589dd6e28c1ad2356a199790f061ea30cc725e42a5bdf92c38",
+    "plan_sha256": "e51e42b955ade0d3ff5c6b8fbe00919aac4d9b9f90fe59bd548e14b7a9bf04a0",
+    "derived_artifact_sha256": "fb8762642e4e3e633912028b18ca6aa11545117e15572839896770537a5971b6",
+    "runtime_bundle_sha256": "33aa7c6b0d557fa9a72e2fa4e0106493d8dfe10ec9201bd7762e204bb14a286d",
+    "observation_sha256": "e5263aa67dbb400e0c3a63b7cd1457d9d95428a8d519aef34b3c9b4396ce1d9a",
+    "receipt_sha256": "0ab5964fcc2e1f47d43fd328dbc3771a7e624bf4a3707f91236a1485f5610720",
+    "rollback_sha256": "03bc4f84d27b9b55baa7403d4ff4abc758ff223d0ffe7b7aaaa11233da162ae2",
+    "authorization_consumption_sha256": "d4645499a8a897194ed49d7cd19edb6acd96bda5db0611fd82a701a875f343cb",
+    "qa_sha256": "8f31ecb25f62b5bc71465db33503a7c37d63fe18e9006ce6801a2ab639464a82",
+    "provenance_sha256": "130a24e15126743466b57dc03e2ca8a652335553b56522e316f47104cc9dbc70"
+  },
+  "portrayal_acceptance": {
+    "geometry": {
+      "source_file_sha256": "8baf555b9d4b69bf9e56731fe2233a29822c897f095d0f6257436aa192c89bea",
+      "runtime_file_sha256": "d13096fb82a1e0588898ade94070becec531ebc07e77fe7795a3d92f8d56db08",
+      "source_crs": "TWD97[2020]_TM121",
+      "runtime_crs": "EPSG:4326",
+      "ordered_segment_ids": ["K0000004671", "K0000004913", "K0000005348"],
+      "vertex_counts": [4, 3, 4],
+      "exact_source_runtime_identity": "PASS"
+    },
+    "label": {
+      "text": "中山街",
+      "placement": "line-following",
+      "rendered_feature_count": 1,
+      "duplicate_text": false,
+      "unrelated_feature_contamination": false,
+      "status": "PASS"
+    },
+    "shield": {
+      "code": "9490005",
+      "orientation": "road-parallel",
+      "status": "semantic_binding_only",
+      "fabricated_or_literal_replacement": false,
+      "acceptance": "PASS"
+    },
+    "visual_boundary": {
+      "screenshot_evidence_exists": true,
+      "screenshot_sha256": "4124aef859cd71847f4515ad9bbf09039f35dfeacee37dd78a06921b43379062",
+      "independent_visual_or_pixel_oracle": "absent",
+      "pixel_correctness_claimed": false
+    }
+  },
+  "verification": {
+    "canonical": {
+      "authorization_consumption": "PASS",
+      "road05_tests": {"passed": 39, "failed": 0},
+      "combined_road_tests": {"passed": 199, "failed": 0},
+      "school_hero_tests": {"passed": 11, "failed": 0},
+      "road_schemas": {"passed": 15, "failed": 0},
+      "ruff_and_format_accepted_scope": "PASS",
+      "tamper_and_mutation": "PASS"
+    },
+    "fresh_remote": {
+      "checkout_sha": "e2bf999cd19e830d5687da52b826b0fedf69db6a",
+      "combined_road_tests": {"passed": 199, "failed": 0},
+      "school_hero_tests": {"passed": 11, "failed": 0},
+      "road_schemas": {"passed": 15, "failed": 0},
+      "ruff_and_format_accepted_scope": "PASS",
+      "canonical_artifact_byte_equality": "PASS"
+    },
+    "minimal_root": {
+      "forbidden_state_absent": [
+        ".git",
+        "runtime artifacts",
+        "ledger",
+        "private archive",
+        "caches",
+        "environment files"
+      ],
+      "authorization_consumption": "PASS"
+    }
+  },
+  "changed_file_scope": {
+    "road05a": [
+      "data/specifications/nma-road-hero-road-04-authorization-consumption-fixture-v1.0.json",
+      "docs/ROAD-05-QA-PROVENANCE.md",
+      "schemas/road-authorization-consumption-fixture-v1.0.schema.json",
+      "scripts/build_road04_goldens.py",
+      "scripts/verify_road_authorization_consumption.py",
+      "src/nma/road_authorization_consumption.py",
+      "src/nma/road_verification.py",
+      "tests/test_road_execution_road04.py",
+      "tests/test_road_verification_road05.py"
+    ],
+    "road_final": [
+      "ROAD-FINAL-Completion-Report.md",
+      "data/specifications/nma-road-final-freeze-manifest-v1.0.json"
+    ]
+  },
+  "immutability": {
+    "road05_remote_unchanged": true,
+    "road05a_remote_unchanged": true,
+    "road_execution_semantics_unchanged": true,
+    "geometry_unchanged": true,
+    "labels_unchanged": true,
+    "shields_unchanged": true,
+    "canonical_runtime_unchanged": true,
+    "school_hero_unchanged": true,
+    "frozen_artifacts_unchanged": true
+  },
+  "limitations": [
+    "No reviewed resolver or graphic asset exists for shield code 9490005; the accepted result remains semantic_binding_only.",
+    "Screenshot evidence exists, but no independent ROAD visual or pixel oracle exists; pixel-perfect verification is not claimed."
+  ],
+  "post_freeze_policy": {
+    "immutable_baseline": true,
+    "force_move_tag_allowed": false,
+    "new_capability_in_this_freeze": false
+  }
+}

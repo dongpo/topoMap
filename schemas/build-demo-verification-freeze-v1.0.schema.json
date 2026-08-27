@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.build-demo-verification-freeze/1.0",
+  "title": "NMA BUILD-06 independent DEMO verification and freeze 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["verification_version", "schema_version", "verification_id", "status", "verified_on", "predecessor", "inputs", "independent_verification", "presentation", "boundaries", "known_pre_existing_failures", "freeze_policy", "verification_sha256"],
+  "properties": {
+    "verification_version": {"const": "build-06/1.0"},
+    "schema_version": {"const": "nma.build-demo-verification-freeze/1.0"},
+    "verification_id": {"const": "build-06-verification-10c22339abb8d2ee"},
+    "status": {"const": "accepted-frozen-demo-only"},
+    "verified_on": {"const": "2026-08-20"},
+    "predecessor": {
+      "const": {
+        "branch": "build/build-05-controlled-demo-execution",
+        "commit_sha": "290625111ab7a4ecb8af41be168ca186d55d949c",
+        "package_sha256": "10c22339abb8d2eed489ae56a54214948213bad51a135e00f74e309931c98c97"
+      }
+    },
+    "inputs": {
+      "const": {
+        "execution_package": {
+          "path": "data/specifications/nma-build-05-golden-execution-package-v1.0.json",
+          "file_sha256": "508e3378a698f869255485c5008fdb80ed670ce174a3b72092aab5160df7431c",
+          "record_sha256": "10c22339abb8d2eed489ae56a54214948213bad51a135e00f74e309931c98c97"
+        },
+        "consumption_ledger": {
+          "path": "data/specifications/nma-build-05-authorization-consumption-v1.0.json",
+          "file_sha256": "715a5445827b77308ec32a67efe74ac8e5ed29b9037ee543285270a4da1c9d47",
+          "record_sha256": "44ab99947d9cb196de6a4f5a5238b4af33eb306a911a104224774425c7ebb108"
+        },
+        "presentation": {
+          "path": "buildDemoV06.html",
+          "file_sha256": "de5f6d567810e42af915bdff167fb21e202967b98817e2ef8d2d494d0b47be2d"
+        }
+      }
+    },
+    "independent_verification": {
+      "const": {
+        "execution_package_identity": "PASS",
+        "artifact_identity": "PASS",
+        "consumption_identity": "PASS",
+        "receipt_identity": "PASS",
+        "ledger_equality": "PASS",
+        "replay_blocked": "PASS",
+        "normalized_geometry": "PASS",
+        "privacy_boundary": "PASS",
+        "source_commitments_retained": "PASS",
+        "presentation_contract": "PASS",
+        "artifact_evidence": {
+          "ring_count": 1,
+          "vertex_count": 65,
+          "coordinate_dimensions": 2,
+          "coordinate_space": "normalized-local-demo-not-geographic",
+          "source_geometry_commitment": "23f7d5adacfb468bf0105ed66bb6f64ac44b50e22c47a2399a4787f6051bb22f",
+          "source_attribute_commitment": "ddfa112586b9c2bc3a61bdf2638b7994ba1200bfce5d8ad34988f2a24da96078"
+        }
+      }
+    },
+    "presentation": {
+      "const": {
+        "mode": "offline-static-svg-presentation",
+        "clearly_labeled_demo_only": true,
+        "external_network_dependencies": 0,
+        "private_source_dependencies": 0,
+        "default_hatch_angle_degrees": 45.0,
+        "user_adjustable_hatch_angle": true,
+        "angle_range": {
+          "minimum_inclusive": 0.0,
+          "maximum_exclusive": 180.0,
+          "step": 1.0
+        }
+      }
+    },
+    "boundaries": {
+      "const": {
+        "build05_authorization_reconsumed": false,
+        "build05_execution_repeated": false,
+        "private_source_accessed": false,
+        "private_source_required": false,
+        "normalized_artifact_only": true,
+        "raw_geographic_coordinates_disclosed": false,
+        "raw_attributes_disclosed": false,
+        "network_dependency_added": false,
+        "production_runtime_wired": false,
+        "production_activated": false,
+        "demo_policy_promoted": false
+      }
+    },
+    "known_pre_existing_failures": {
+      "const": [
+        "tests/test_agentic_demo_catalog.py::test_pmtiles_capability_catalog_is_reproducible",
+        "tests/test_agentic_freeze.py::test_agentic_v03_freeze_verifies_current_and_historical_boundaries",
+        "tests/test_agentic_v03_pages.py::test_agentic_v03_pages_candidate_preserves_v02_and_passes_every_gate"
+      ]
+    },
+    "freeze_policy": {
+      "const": {
+        "immutable": true,
+        "authorization_reuse_allowed": false,
+        "source_reexecution_allowed": false,
+        "production_activation_allowed": false,
+        "demo_policy_promotion_allowed": false,
+        "allowed_follow_up": "verify or present this exact normalized DEMO artifact without source access",
+        "change_requires_new_human_gate": true
+      }
+    },
+    "verification_sha256": {"const": "bc636eb1eed7e055306b7271d2cf169c05a4990ab37cebf0b9f89288d53e7857"}
+  }
+}

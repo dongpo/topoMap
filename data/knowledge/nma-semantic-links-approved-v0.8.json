@@ -1,0 +1,200 @@
+{
+  "schema": "nma.semantic-links-approved/0.8",
+  "status": "reviewed-runtime-links; non-executable",
+  "candidate_set_sha256": "5e647b3c6165c9ac1fbca0f5be8e8dd9a42331d3ce1c7c2e53c30e7bb483186c",
+  "statistics": {
+    "approved_links": 9
+  },
+  "links": [
+    {
+      "id": "approved-link:9350904",
+      "target_node_id": "portrayal-rule:doc01:9350904",
+      "approved_terms": [
+        "井口",
+        "取水"
+      ],
+      "match_mode": "all",
+      "reviewer": "dongpo.deng",
+      "reviewed_at": "2026-08-11",
+      "rationale": "User explicitly confirmed that the water-well semantic mapping is correct in the supervised Codex task.",
+      "source_evidence": {
+        "document_id": "doc01-portrayal",
+        "filename": "01-一千分之一地形圖圖式規格表.pdf",
+        "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+        "revision": "NLSC112V5.4",
+        "page": 11,
+        "review_status": "source-row-and-symbol-cell-visually-reviewed"
+      },
+      "automatic_rule_activation": false
+    },
+    {
+      "id": "approved-link:9730101",
+      "target_node_id": "portrayal-rule:doc01:9730101",
+      "approved_terms": [
+        "灌溉",
+        "稻作"
+      ],
+      "match_mode": "all",
+      "reviewer": "dongpo.deng",
+      "reviewed_at": "2026-08-11",
+      "rationale": "User explicitly confirmed that the paddy-field semantic mapping is correct in the supervised Codex task.",
+      "source_evidence": {
+        "document_id": "doc01-portrayal",
+        "filename": "01-一千分之一地形圖圖式規格表.pdf",
+        "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+        "revision": "NLSC112V5.4",
+        "page": 49,
+        "review_status": "source-row-and-symbol-cell-visually-reviewed"
+      },
+      "automatic_rule_activation": false
+    },
+    {
+      "id": "approved-link:9920103",
+      "target_node_id": "portrayal-rule:doc01:9920103",
+      "approved_terms": [
+        "國小",
+        "校名"
+      ],
+      "match_mode": "all",
+      "reviewer": "dongpo.deng",
+      "reviewed_at": "2026-08-11",
+      "rationale": "User approved review batch 02 in full; the mapping targets drawable elementary-school subtype 9920103 rather than non-symbol hierarchy 9920100.",
+      "source_evidence": {
+        "document_id": "doc01-portrayal",
+        "filename": "01-一千分之一地形圖圖式規格表.pdf",
+        "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+        "revision": "NLSC112V5.4",
+        "page": 61,
+        "review_status": "source-row-and-symbol-cell-visually-reviewed"
+      },
+      "automatic_rule_activation": false
+    },
+    {
+      "id": "approved-link:9350906",
+      "target_node_id": "portrayal-rule:doc01:9350906",
+      "approved_terms": [
+        "滅火",
+        "取水"
+      ],
+      "match_mode": "all",
+      "reviewer": "dongpo.deng",
+      "reviewed_at": "2026-08-11",
+      "rationale": "User approved review batch 02 in full; the mapping describes a located fire-hydrant point used for firefighting water supply.",
+      "source_evidence": {
+        "document_id": "doc01-portrayal",
+        "filename": "01-一千分之一地形圖圖式規格表.pdf",
+        "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+        "revision": "NLSC112V5.4",
+        "page": 11,
+        "review_status": "source-row-and-symbol-cell-visually-reviewed"
+      },
+      "automatic_rule_activation": false
+    },
+    {
+      "id": "approved-link:9950201",
+      "target_node_id": "portrayal-rule:doc01:9950201",
+      "approved_terms": [
+        "郵件",
+        "郵政"
+      ],
+      "match_mode": "all",
+      "reviewer": "dongpo.deng",
+      "reviewed_at": "2026-08-11",
+      "rationale": "User approved review batch 02 in full; the mapping describes facilities providing mail and postal services.",
+      "source_evidence": {
+        "document_id": "doc01-portrayal",
+        "filename": "01-一千分之一地形圖圖式規格表.pdf",
+        "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+        "revision": "NLSC112V5.4",
+        "page": 69,
+        "review_status": "source-row-and-symbol-cell-visually-reviewed"
+      },
+      "automatic_rule_activation": false
+    },
+    {
+      "id": "approved-link:9910603",
+      "target_node_id": "portrayal-rule:doc01:9910603",
+      "approved_terms": [
+        "警察",
+        "治安"
+      ],
+      "match_mode": "all",
+      "reviewer": "dongpo.deng",
+      "reviewed_at": "2026-08-11",
+      "rationale": "User approved review batch 02 in full; the mapping covers the official combined police-station, substation, and precinct-office portrayal target.",
+      "source_evidence": {
+        "document_id": "doc01-portrayal",
+        "filename": "01-一千分之一地形圖圖式規格表.pdf",
+        "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+        "revision": "NLSC112V5.4",
+        "page": 60,
+        "review_status": "source-row-and-symbol-cell-visually-reviewed"
+      },
+      "automatic_rule_activation": false
+    },
+    {
+      "id": "approved-link:9740100",
+      "target_node_id": "portrayal-rule:doc01:9740100",
+      "approved_terms": [
+        "水產",
+        "池塘"
+      ],
+      "match_mode": "all",
+      "reviewer": "dongpo.deng",
+      "reviewed_at": "2026-08-11",
+      "rationale": "User approved review batch 02 in full; the mapping retains the aquaculture-pond polygon plus single interior classification-symbol semantics.",
+      "source_evidence": {
+        "document_id": "doc01-portrayal",
+        "filename": "01-一千分之一地形圖圖式規格表.pdf",
+        "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+        "revision": "NLSC112V5.4",
+        "page": 50,
+        "review_status": "source-row-and-symbol-cell-visually-reviewed"
+      },
+      "automatic_rule_activation": false
+    },
+    {
+      "id": "approved-link:9310100",
+      "target_node_id": "portrayal-rule:doc01:9310100",
+      "approved_terms": [
+        "固定結構",
+        "建築物"
+      ],
+      "match_mode": "all",
+      "reviewer": "dongpo.deng",
+      "reviewed_at": "2026-08-11",
+      "rationale": "User approved review batch 02 in full; the mapping targets permanent building extent, hatching, and annotation rather than the non-symbol building hierarchy.",
+      "source_evidence": {
+        "document_id": "doc01-portrayal",
+        "filename": "01-一千分之一地形圖圖式規格表.pdf",
+        "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+        "revision": "NLSC112V5.4",
+        "page": 8,
+        "review_status": "source-row-and-symbol-cell-visually-reviewed"
+      },
+      "automatic_rule_activation": false
+    },
+    {
+      "id": "approved-link:9420101",
+      "target_node_id": "portrayal-rule:doc01:9420101",
+      "approved_terms": [
+        "國道",
+        "高速公路"
+      ],
+      "match_mode": "all",
+      "reviewer": "dongpo.deng",
+      "reviewed_at": "2026-08-11",
+      "rationale": "User approved review batch 02 in full; the semantic seed targets the freeway rule while the canonical graph preserves road-name, national-route shield, and ROAD/ROADA compound portrayal dependencies.",
+      "source_evidence": {
+        "document_id": "doc01-portrayal",
+        "filename": "01-一千分之一地形圖圖式規格表.pdf",
+        "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+        "revision": "NLSC112V5.4",
+        "page": 22,
+        "review_status": "source-row-and-symbol-cell-visually-reviewed"
+      },
+      "automatic_rule_activation": false
+    }
+  ],
+  "automatic_rule_activation": false
+}

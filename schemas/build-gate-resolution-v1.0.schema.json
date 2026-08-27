@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.build-gate-resolution/1.0",
+  "title": "NMA BUILD-03A human-approved DEMO gate resolution 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["resolution_version", "schema_version", "bindings", "human_approval", "scope_policy", "gate_decisions", "resolved_demo_portrayal", "resolution_effect", "boundaries", "resolution_sha256"],
+  "properties": {
+    "resolution_version": {"const": "build-03a/1.0"},
+    "schema_version": {"const": "nma.build-gate-resolution/1.0"},
+    "bindings": {
+      "const": {
+        "review_sha256": "4177a2cc29738ad7b1bc6f00f2c10c724fec3c475e57dee45ad2e8e1f105cbdd",
+        "proposal_sha256": "1e588ea2d7752ce7b02c28d6117c4deb1d6c8995dcbace14cfcb542eca847749",
+        "decision_sha256": "624fafe1f84164f6f28396d21153a3ed0f9795ead87b6e9c605115b35ee3c846",
+        "build01_package_sha256": "59b6f972046dbe9af295de414525230b03ed6da4f0e78374076b5cc4a2cdd7de",
+        "fixture_id": "build-fixture:sha256:7411d8eb06ee70bc24ce7003de0b344a1874c3d606b91571e5913ba766f1162a",
+        "feature_reference": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f"
+      }
+    },
+    "human_approval": {
+      "const": {
+        "actor_type": "human-project-owner",
+        "decision": "approved-demo-scope-with-45-degree-adjustable-hatch",
+        "recorded_on": "2026-08-20",
+        "statement_zh_tw": "核准 BUILD-03A 建議決議。剖面線角度先以45度，DEMO提供使用者調整，凡語意不清者，都是DEMO的項目。",
+        "all_five_gate_decisions_explicit": true
+      }
+    },
+    "scope_policy": {
+      "const": {
+        "target": "derived MapLibre web DEMO portrayal candidate",
+        "ambiguous_semantics_are_demo_only": true,
+        "demo_choices_are_official_source_facts": false,
+        "demo_choices_are_production_authority": false,
+        "user_adjustable_fields": ["hatch.numeric_angle_degrees"],
+        "official_portrayal_baseline_mutated": false
+      }
+    },
+    "gate_decisions": {
+      "const": [
+        {
+          "gate_id": "hatch-angle-transcription",
+          "status": "resolved-for-demo-scope",
+          "plain_language_zh_tw": "官方圖只畫出左下往右上的斜線，沒有記載可直接轉錄的數字角度。",
+          "recommended_resolution_zh_tw": "保留左下往右上的語意方向，不把未記載的數字角度當成官方事實。",
+          "approved_resolution_zh_tw": "DEMO先以45度呈現並允許使用者調整；45度是DEMO預設值，不是官方來源事實。",
+          "evidence_boundary": "human-approved-demo-default-not-source-transcription"
+        },
+        {
+          "gate_id": "building-annotation-placement",
+          "status": "resolved-for-demo-scope",
+          "plain_language_zh_tw": "規則要求顯示樓層與結構，但沒有說明文字位置及碰撞時的處理方式。",
+          "recommended_resolution_zh_tw": "使用建物內部最佳點；文字放不下或與較高優先標註碰撞時隱藏，不移到建物外。",
+          "approved_resolution_zh_tw": "依建議作為DEMO配置；這項不明確的配置不得成為正式生產規則。",
+          "evidence_boundary": "human-approved-demo-placement-not-official-policy"
+        },
+        {
+          "gate_id": "real-build-schema-binding",
+          "status": "resolved-for-demo-scope",
+          "plain_language_zh_tw": "實際J13資料有BUILD_NO與BUILD_STR，但文件的簡化欄位描述不同。",
+          "recommended_resolution_zh_tw": "只使用J13的BUILD_NO與BUILD_STR產生註記，不宣稱與文件ID或SOURCE全域等價。",
+          "approved_resolution_zh_tw": "依建議核准，且權限只限已驗證的J13 DEMO資料範圍。",
+          "evidence_boundary": "j13-bounded-fields-no-global-schema-equivalence"
+        },
+        {
+          "gate_id": "line-and-color-profile",
+          "status": "resolved-for-demo-scope",
+          "plain_language_zh_tw": "官方只給線型代碼2與顏色代碼7，沒有提供網頁顯示所需的實際寬度與色值。",
+          "recommended_resolution_zh_tw": "DEMO採MapLibre web設定：1 CSS px實線、#111111、完全不透明；2 mm間距按96 CSS px/in換算。",
+          "approved_resolution_zh_tw": "依建議作為DEMO顯示設定；不得回寫為官方線型或顏色定義。",
+          "evidence_boundary": "human-approved-demo-profile-not-official-code-definition"
+        },
+        {
+          "gate_id": "j13-polygonz-runtime-policy",
+          "status": "resolved-for-demo-scope",
+          "plain_language_zh_tw": "來源建物是含Z值的PolygonZ，但現有MapLibre顯示路徑是二維。",
+          "recommended_resolution_zh_tw": "來源與正式證據保留PolygonZ；只有衍生DEMO視圖使用XY，且不得回寫、修復或改變來源。",
+          "approved_resolution_zh_tw": "依建議核准，XY使用僅限衍生DEMO顯示邊界。",
+          "evidence_boundary": "source-polygonz-preserved-demo-view-xy-only"
+        }
+      ]
+    },
+    "resolved_demo_portrayal": {
+      "const": {
+        "representation_kind": "feature-following-hatched-polygon",
+        "geometry_policy": {
+          "source_geometry_type": "PolygonZ",
+          "authoritative_z_preserved": true,
+          "demo_view_dimensions": "XY",
+          "demo_xy_projection_writes_back": false,
+          "source_z_dimension_drop_authorized": false,
+          "geometry_repair_authorized": false
+        },
+        "boundary_profile": {
+          "profile_id": "nma-maplibre-web-demo-v1",
+          "line_code": "2",
+          "style": "solid",
+          "width_css_px": 1.0,
+          "color_code": "7",
+          "color_hex": "#111111",
+          "opacity": 1.0,
+          "demo_only": true
+        },
+        "hatch": {
+          "orientation_semantic": "diagonal rising from lower-left to upper-right",
+          "numeric_angle_degrees": 45.0,
+          "angle_user_adjustable": true,
+          "spacing_mm": 2.0,
+          "spacing_css_px": "7.559055118110236",
+          "conversion_policy": "96-css-px-per-inch/25.4-mm-per-inch",
+          "demo_only": true
+        },
+        "annotation": {
+          "content_fields": ["BUILD_NO", "BUILD_STR"],
+          "format": "{BUILD_NO}{BUILD_STR}",
+          "anchor_policy": "polygon-pole-of-inaccessibility",
+          "collision_policy": "suppress-if-no-interior-fit-or-higher-priority-collision",
+          "outside_displacement_allowed": false,
+          "demo_only": true
+        },
+        "schema_binding": {
+          "layer_id": "J13_BUILD",
+          "feature_code": "9310100",
+          "annotation_fields": ["BUILD_NO", "BUILD_STR"],
+          "id_source_global_equivalence_asserted": false,
+          "other_layer_authority_inherited": false,
+          "demo_only": true
+        }
+      }
+    },
+    "resolution_effect": {
+      "const": {
+        "all_gates_resolved_for_demo_scope": true,
+        "production_gates_resolved": false,
+        "demo_candidate_eligible_for_later_authorization": true,
+        "execution_authorization_issued": false
+      }
+    },
+    "boundaries": {
+      "const": {
+        "execution_allowed": false,
+        "runtime_wiring_allowed": false,
+        "source_mutation_allowed": false,
+        "geometry_repair_allowed": false,
+        "source_z_dimension_drop_allowed": false,
+        "production_activation_allowed": false,
+        "raw_source_disclosure_allowed": false,
+        "redistribution_allowed": false,
+        "demo_policy_promotion_allowed": false
+      }
+    },
+    "resolution_sha256": {"const": "a5a8f11b94784a6065d7b75e151207126506c85ce826dd526c2c8f4802ba8b01"}
+  }
+}

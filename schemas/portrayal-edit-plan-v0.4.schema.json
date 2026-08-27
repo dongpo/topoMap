@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://geomni.example/schemas/nma.portrayal-edit-plan.0.4.json",
+  "title": "NMA PortrayalEditPlan 0.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "source", "feature_code", "geometry_role", "operations"],
+  "properties": {
+    "schema": {"const": "nma.portrayal-edit-plan/0.4"},
+    "source": {"enum": ["responses-api", "user-supervised", "deterministic-test"]},
+    "feature_code": {"type": "string", "pattern": "^[0-9A-Za-z._-]{1,32}$"},
+    "geometry_role": {"enum": ["Point", "LineString", "Polygon"]},
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action", "target", "value"],
+        "properties": {
+          "action": {
+            "enum": [
+              "set_color",
+              "set_opacity",
+              "set_stroke_width",
+              "set_scale",
+              "set_rotation",
+              "set_fill_pattern",
+              "set_line_pattern",
+              "set_hatch_spacing",
+              "set_text_visibility",
+              "align",
+              "add_shape",
+              "remove_shape",
+              "match_dimension",
+              "attach",
+              "detach",
+              "center"
+            ]
+          },
+          "target": {
+            "enum": [
+              "portrayal",
+              "marker",
+              "interior-marker",
+              "stroke",
+              "fill",
+              "outline",
+              "hatch",
+              "text",
+              "flag-top",
+              "support",
+              "flagpole-bottom"
+            ]
+          },
+          "value": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "color": {
+                "enum": [
+                  "#111111",
+                  "#ffffff",
+                  "#c62828",
+                  "#1565c0",
+                  "#2e7d32",
+                  "#f9a825",
+                  "#ef6c00",
+                  "#6d7772",
+                  "#6a1b9a"
+                ]
+              },
+              "number": {"type": "number"},
+              "pattern": {"enum": ["solid", "dash", "dot", "hatch", "none"]},
+              "boolean": {"type": "boolean"},
+              "shape": {"enum": ["rectangle", "none"]},
+              "reference": {"enum": ["flagpole-top", "flag", "support-top"]},
+              "relation": {
+                "enum": [
+                  "aligned",
+                  "offset",
+                  "same-width",
+                  "proportional-width",
+                  "inserted-into-top",
+                  "detached"
+                  ,"centered"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

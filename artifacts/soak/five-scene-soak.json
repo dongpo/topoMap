@@ -1,0 +1,415 @@
+{
+  "$schema": "../../schemas/five-scene-soak-report.schema.json",
+  "report_version": "1.0",
+  "generated_at": "2026-08-05T03:58:13.431448+00:00",
+  "baseline": {
+    "freeze_version": "nma-demo-rc1-feature-complete",
+    "approved_base_commit": "06090a04792514b85823457b235f7feebf2660d4",
+    "contract": "data/demo/five-scene-demo.json",
+    "freeze_manifest": "data/demo/five-scene-freeze.json"
+  },
+  "environment": {
+    "python": "3.13.5",
+    "system": "Darwin",
+    "machine": "arm64"
+  },
+  "protocol": {
+    "iterations": 20,
+    "clean_reset_before_each_run": true,
+    "scene_order": [
+      "school",
+      "fire-hydrant",
+      "police",
+      "fish-pond",
+      "post-office"
+    ],
+    "negative_controls": [
+      "unsupported-scale",
+      "unsupported-profile"
+    ]
+  },
+  "summary": {
+    "passed": 20,
+    "failed": 0,
+    "pass_rate": 1.0,
+    "median_total_ms": 17.42,
+    "p95_total_ms": 18.475,
+    "max_total_ms": 22.048
+  },
+  "runs": [
+    {
+      "run": 1,
+      "status": "passed",
+      "reset_ms": 12.999,
+      "freeze_check_ms": 5.469,
+      "total_ms": 18.475,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 2,
+      "status": "passed",
+      "reset_ms": 12.095,
+      "freeze_check_ms": 5.31,
+      "total_ms": 17.408,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 3,
+      "status": "passed",
+      "reset_ms": 11.906,
+      "freeze_check_ms": 5.186,
+      "total_ms": 17.094,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 4,
+      "status": "passed",
+      "reset_ms": 12.306,
+      "freeze_check_ms": 5.594,
+      "total_ms": 17.903,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 5,
+      "status": "passed",
+      "reset_ms": 12.429,
+      "freeze_check_ms": 5.369,
+      "total_ms": 17.801,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 6,
+      "status": "passed",
+      "reset_ms": 12.357,
+      "freeze_check_ms": 5.269,
+      "total_ms": 17.63,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 7,
+      "status": "passed",
+      "reset_ms": 11.847,
+      "freeze_check_ms": 5.204,
+      "total_ms": 17.055,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 8,
+      "status": "passed",
+      "reset_ms": 12.159,
+      "freeze_check_ms": 5.465,
+      "total_ms": 17.627,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 9,
+      "status": "passed",
+      "reset_ms": 12.775,
+      "freeze_check_ms": 5.409,
+      "total_ms": 18.187,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 10,
+      "status": "passed",
+      "reset_ms": 12.808,
+      "freeze_check_ms": 5.23,
+      "total_ms": 18.041,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 11,
+      "status": "passed",
+      "reset_ms": 13.041,
+      "freeze_check_ms": 5.231,
+      "total_ms": 18.275,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 12,
+      "status": "passed",
+      "reset_ms": 12.243,
+      "freeze_check_ms": 5.186,
+      "total_ms": 17.432,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 13,
+      "status": "passed",
+      "reset_ms": 17.111,
+      "freeze_check_ms": 4.934,
+      "total_ms": 22.048,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 14,
+      "status": "passed",
+      "reset_ms": 11.555,
+      "freeze_check_ms": 4.97,
+      "total_ms": 16.527,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 15,
+      "status": "passed",
+      "reset_ms": 11.701,
+      "freeze_check_ms": 4.945,
+      "total_ms": 16.649,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 16,
+      "status": "passed",
+      "reset_ms": 11.689,
+      "freeze_check_ms": 4.972,
+      "total_ms": 16.663,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 17,
+      "status": "passed",
+      "reset_ms": 12.097,
+      "freeze_check_ms": 5.103,
+      "total_ms": 17.203,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 18,
+      "status": "passed",
+      "reset_ms": 12.04,
+      "freeze_check_ms": 5.078,
+      "total_ms": 17.12,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 19,
+      "status": "passed",
+      "reset_ms": 12.002,
+      "freeze_check_ms": 4.961,
+      "total_ms": 16.966,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    },
+    {
+      "run": 20,
+      "status": "passed",
+      "reset_ms": 11.601,
+      "freeze_check_ms": 4.949,
+      "total_ms": 16.552,
+      "scene_count": 5,
+      "negative_controls": [
+        "unsupported-scale",
+        "unsupported-profile"
+      ],
+      "artifact_count": 14,
+      "error": null
+    }
+  ],
+  "defects": [],
+  "known_observations": [
+    {
+      "id": "runtime-dependencies",
+      "classification": "presentation-impacting",
+      "owner": "D15 / GEO-71",
+      "next_action": "MapLibre, PMTiles JavaScript, glyphs, and the hosted tile fallback still require an offline-ready package."
+    },
+    {
+      "id": "backup-capture",
+      "classification": "presentation-impacting",
+      "owner": "D16 / GEO-72",
+      "next_action": "Backup recording and screenshots have not yet been captured."
+    },
+    {
+      "id": "public-demo-url",
+      "classification": "deferred",
+      "owner": "D17 / GEO-73",
+      "next_action": "The stable public demo URL and presentation freeze remain later delivery gates."
+    },
+    {
+      "id": "expert-sign-off",
+      "classification": "deferred",
+      "owner": "publication gate",
+      "next_action": "Independent cartographer sign-off is still required before publication-grade claims."
+    }
+  ],
+  "recovery_steps": [
+    "Run make demo-reset to rebuild the frozen graph and MapLibre style.",
+    "Run make demo-freeze and stop if any fingerprint differs.",
+    "Run make demo-scenes and confirm all five scenes and two abstention controls pass.",
+    "Restart the local static server from the repository root.",
+    "Open a clean browser tab, reload the demo, and restart at the school scene."
+  ],
+  "browser_soak": {
+    "status": "passed",
+    "tested_at": "2026-08-05",
+    "url": "http://127.0.0.1:8080/nmaAgentDemo.html",
+    "required_rounds": 10,
+    "completed_rounds": 10,
+    "passed_rounds": 10,
+    "failed_rounds": 0,
+    "clean_reload_before_each_round": true,
+    "required_console_errors": 0,
+    "required_console_warnings": 0,
+    "console_errors": 0,
+    "console_warnings": 0,
+    "durations_ms": [1781, 1731, 1647, 1652, 1632, 1684, 1650, 1649, 1653, 1631],
+    "median_total_ms": 1651,
+    "p95_total_ms": 1781,
+    "max_total_ms": 1781,
+    "scene_evidence": [
+      {
+        "scene_id": "school",
+        "code": "9920103",
+        "page": 61,
+        "action": "draw_symbol",
+        "result_text": "小學 (9920103) uses school.",
+        "verified": true
+      },
+      {
+        "scene_id": "fire-hydrant",
+        "code": "9350906",
+        "page": 11,
+        "action": "draw_symbol",
+        "result_text": "消防栓 (9350906) uses fire-hydrant.",
+        "verified": true
+      },
+      {
+        "scene_id": "police",
+        "code": "9910603",
+        "page": 60,
+        "action": "draw_symbol",
+        "result_text": "警察局、分駐所、派出所 (9910603) uses police.",
+        "verified": true
+      },
+      {
+        "scene_id": "fish-pond",
+        "code": "9740100",
+        "page": 50,
+        "action": "draw_symbol",
+        "result_text": "養殖池 (9740100) uses fish-pond.",
+        "verified": true
+      },
+      {
+        "scene_id": "post-office",
+        "code": "9950201",
+        "page": 69,
+        "action": "text_only",
+        "result_text": "大型獨幢郵局圖式改用文字註記，註記名稱",
+        "verified": true
+      }
+    ]
+  }
+}

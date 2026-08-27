@@ -1,0 +1,78 @@
+{
+  "proposal_version": "build-02/1.0",
+  "schema_version": "nma.build-portrayal-proposal/1.0",
+  "bindings": {
+    "upstream_package_sha256": "59b6f972046dbe9af295de414525230b03ed6da4f0e78374076b5cc4a2cdd7de",
+    "source_archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "fixture_id": "build-fixture:sha256:7411d8eb06ee70bc24ce7003de0b344a1874c3d606b91571e5913ba766f1162a",
+    "observation_id": "build-observation:sha256:8fdbb3bdea8ffe715e7d76eed7c5034bd62226ba649be2206cf7a9e07b853bac",
+    "feature_reference": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f",
+    "attribute_commitment_sha256": "ddfa112586b9c2bc3a61bdf2638b7994ba1200bfce5d8ad34988f2a24da96078",
+    "geometry_commitment_sha256": "23f7d5adacfb468bf0105ed66bb6f64ac44b50e22c47a2399a4787f6051bb22f",
+    "profile_identity_sha256": "5f560c8fde92b7ed590c8f4d1292ae69743e033b2bbf43b837b083b5c611dc09",
+    "source_scope_sha256": "a4e3eff87f1df770e01c3675fe883335b4416c405922d22b129e85fc4a44065b",
+    "portrayal_record_set_id": "nma-portrayal-recipe-review-batch-01-v0.4",
+    "portrayal_record_set_sha256": "70ef0c8e8e86ed5d2a2a4a588b41086f3fd20fb6987138e3897b71378f4b294a",
+    "portrayal_recipe_sha256": "450ee18fe87ea2a7f1d783747ee22ae927c73a2f46424f65900f28f9981f2e20",
+    "source_document_sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+    "source_rule_id": "portrayal-rule:doc01:9310100",
+    "evidence_section_id": "section:doc01-portrayal:p8",
+    "decision_sha256": "624fafe1f84164f6f28396d21153a3ed0f9795ead87b6e9c605115b35ee3c846"
+  },
+  "proposal": {
+    "action": "prepare review-only derived building-polygon portrayal candidate",
+    "execution_target": "derived building-polygon portrayal candidate",
+    "requested_changes": {
+      "representation_kind": "feature-following-hatched-polygon",
+      "geometry_policy": {
+        "source_geometry_type": "PolygonZ",
+        "canonical_geometry_role": "Polygon",
+        "preserve_z_dimension": true,
+        "dimension_drop_authorized": false,
+        "geometry_repair_authorized": false
+      },
+      "boundary": {
+        "primitive_id": "surveyed-building-boundary",
+        "line_code": "2",
+        "color_code": "7"
+      },
+      "hatch": {
+        "primitive_id": "building-diagonal-hatch",
+        "clip_to_feature_geometry": true,
+        "spacing_mm": 2.0,
+        "orientation_semantic": "diagonal rising from lower-left to upper-right",
+        "numeric_angle_degrees": null
+      },
+      "annotation": {
+        "primitive_id": "floor-and-structure-annotation",
+        "content_fields": ["BUILD_NO", "BUILD_STR"],
+        "content_semantics": "floor count plus structure code",
+        "placement_policy": "unresolved-pending-human-review"
+      }
+    },
+    "review_gates": {
+      "required_gate_ids": [
+        "hatch-angle-transcription",
+        "building-annotation-placement",
+        "real-build-schema-binding",
+        "line-and-color-profile",
+        "j13-polygonz-runtime-policy"
+      ],
+      "status": "pending-human-review",
+      "all_gates_resolved": false
+    }
+  },
+  "boundaries": {
+    "authorization_required": true,
+    "human_review_required": true,
+    "execution_allowed": false,
+    "source_mutation_allowed": false,
+    "geometry_repair_allowed": false,
+    "z_dimension_drop_allowed": false,
+    "runtime_wiring_allowed": false,
+    "raw_source_disclosure_allowed": false,
+    "redistribution_allowed": false,
+    "legacy_j17_runtime_binding_allowed": false
+  },
+  "proposal_sha256": "1e588ea2d7752ce7b02c28d6117c4deb1d6c8995dcbace14cfcb542eca847749"
+}

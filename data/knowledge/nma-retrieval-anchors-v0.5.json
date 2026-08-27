@@ -1,0 +1,17 @@
+{
+  "schema": "nma.retrieval-anchors/0.5",
+  "status": "source-grounded-post-heldout-remediation",
+  "claim_boundary": "Retrieval anchors improve evidence candidate selection only. They do not activate portrayal rules or replace canonical graph evidence.",
+  "anchors": [
+    {
+      "anchor_id": "retrieval-anchor:doc01:levee-top",
+      "target_node_id": "portrayal-rule:doc01:9510301",
+      "match_any": ["堤頂"],
+      "source_node_id": "portrayal-rule:doc01:9510301",
+      "source_filename": "01-一千分之一地形圖圖式規格表.pdf",
+      "source_page": 38,
+      "source_basis": "The reviewed instruction contains 堤頂繪實寬; this phrase anchor compensates for the lexical tokenizer treating long Chinese clauses as one token.",
+      "automatic_rule_activation": false
+    }
+  ]
+}

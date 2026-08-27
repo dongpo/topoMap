@@ -1,0 +1,254 @@
+{
+  "specification_id": "TW-NLSC-5000-RIVERL",
+  "version": "112/114.12.04",
+  "title": "Taiwan 1:5,000 Basic Topographic Map - RIVERL executable profile",
+  "status": "authoritative-source-derived-expert-review-required",
+  "license": "source-terms-not-asserted",
+  "notice": "Rules are a bounded machine-readable interpretation of the cited official documents. They require domain-expert review before authority use.",
+  "sources": [
+    {
+      "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+      "sha256": "07360ba6749638a87c846f12d45ea59a354f68c5152dfb6a0ac4c189ba8d70a6",
+      "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view",
+      "pages_used": [22, 34, 35, 39]
+    },
+    {
+      "document": "臺灣通用電子地圖圖層內容說明",
+      "document_revision": "114.12.04",
+      "sha256": "b3c26f6e2766e9e6fac2a85f935b88e45741708ef6def79213b4c18a2cdb3683",
+      "uri": "https://drive.google.com/file/d/1vKllgEpWFH9-WDagkrVkDtGCf44-m4gj/view",
+      "pages_used": [9]
+    }
+  ],
+  "layer": {
+    "id": "RIVERL",
+    "label": "河川中線 / River centreline",
+    "geometry_type": "LineString",
+    "crs": "TWD97[2020]_TM121",
+    "feature_id_field": "RIVERLID",
+    "feature_id_fallbacks": ["RIVERID"]
+  },
+  "rules": [
+    {
+      "rule_id": "TW-RIVERL-NAME-001",
+      "rule_type": "layer_name_suffix",
+      "target": "RIVERL",
+      "severity": "error",
+      "constraint": {"suffix": "RIVERL"},
+      "message": "The river-centreline layer name must identify the RIVERL layer.",
+      "repair": {"mode": "proposal", "operation": "rename_layer"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "附錄7, 表2",
+        "page": 35,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=35",
+        "excerpt": "水系之河川中線圖層英文名稱為 RIVERL。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-CRS-001",
+      "rule_type": "dataset_crs",
+      "target": "RIVERL.crs",
+      "severity": "error",
+      "constraint": {"any_of": ["TWD97[2020]_TM121", "TWD97_TM121", "EPSG:3826"]},
+      "message": "The mainland profile must use TWD97/TM121, including the 2020 coordinate result profile.",
+      "repair": {"mode": "proposal", "operation": "review_or_transform_crs"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "附錄6, 坐標系統",
+        "page": 34,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=34",
+        "excerpt": "本島採 TWD97 2020 年成果，中央子午線東經 121 度。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-GEOM-001",
+      "rule_type": "geometry_type",
+      "target": "RIVERL.geometry",
+      "severity": "error",
+      "constraint": {"any_of": ["LineString", "MultiLineString"]},
+      "message": "RIVERL features must use line geometry.",
+      "repair": {"mode": "none"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "附錄7, 表2",
+        "page": 35,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=35",
+        "excerpt": "河川中線 RIVERL 的圖徵型態為線。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-FIELD-001",
+      "rule_type": "field_definition",
+      "target": "RIVERL.RIVERLID",
+      "severity": "error",
+      "constraint": {"field": "RIVERLID", "type": "String", "width": 11},
+      "message": "RIVERLID must be a text field of length 11.",
+      "repair": {"mode": "proposal", "operation": "review_schema_mapping"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "附錄7, 水系 5.河川中線",
+        "page": 39,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=39",
+        "excerpt": "RIVERLID：Text，長度 11。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-FIELD-002",
+      "rule_type": "field_definition",
+      "target": "RIVERL.TERRAINID",
+      "severity": "error",
+      "constraint": {"field": "TERRAINID", "type": "String", "width": 8},
+      "message": "TERRAINID must be a text field of length 8.",
+      "repair": {"mode": "proposal", "operation": "review_schema_mapping"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "附錄7, 水系 5.河川中線",
+        "page": 39,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=39",
+        "excerpt": "TERRAINID：Text，長度 8。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-FIELD-003",
+      "rule_type": "field_definition",
+      "target": "RIVERL.RIVERLCODE",
+      "severity": "error",
+      "constraint": {"field": "RIVERLCODE", "type": "String", "width": 30},
+      "message": "RIVERLCODE must be a text field of length 30.",
+      "repair": {"mode": "proposal", "operation": "review_schema_mapping"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "附錄7, 水系 5.河川中線",
+        "page": 39,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=39",
+        "excerpt": "RIVERLCODE：Text，長度 30。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-FIELD-004",
+      "rule_type": "field_definition",
+      "target": "RIVERL.RIVERLNAME",
+      "severity": "error",
+      "constraint": {"field": "RIVERLNAME", "type": "String", "width": 60},
+      "message": "RIVERLNAME must be a text field of length 60.",
+      "repair": {"mode": "proposal", "operation": "review_schema_mapping"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "附錄7, 水系 5.河川中線",
+        "page": 39,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=39",
+        "excerpt": "RIVERLNAME：Text，長度 60。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-REQUIRED-001",
+      "rule_type": "required_field",
+      "target": "RIVERL.RIVERLID",
+      "severity": "error",
+      "constraint": {"field": "RIVERLID", "type": "string"},
+      "message": "A river segment identifier must not be missing or blank.",
+      "repair": {"mode": "none"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "(十) GIS圖層 3.(2)",
+        "page": 22,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=22",
+        "excerpt": "圖層架構及屬性資料格式均須檢查。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-REQUIRED-002",
+      "rule_type": "required_field",
+      "target": "RIVERL.TERRAINID",
+      "severity": "error",
+      "constraint": {"field": "TERRAINID", "type": "string"},
+      "message": "A terrain classification code must not be missing or blank.",
+      "repair": {"mode": "none"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "(十) GIS圖層 3.(2)",
+        "page": 22,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=22",
+        "excerpt": "圖層架構及屬性資料格式均須檢查。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-ID-001",
+      "rule_type": "pattern",
+      "target": "RIVERL.RIVERLID",
+      "severity": "error",
+      "constraint": {"field": "RIVERLID", "regex": "[A-Z][0-9]{10}"},
+      "message": "RIVERLID must contain one county/city code followed by ten digits.",
+      "repair": {"mode": "none"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "附錄7, 水系 5.河川中線",
+        "page": 39,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=39",
+        "excerpt": "識別碼由縣市碼 1 碼加流水號 10 碼組成。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-DOMAIN-001",
+      "rule_type": "domain",
+      "target": "RIVERL.TERRAINID",
+      "severity": "error",
+      "constraint": {"field": "TERRAINID", "allowed": ["9510101", "9510102", "9510103", "9510105", "9510106"]},
+      "message": "TERRAINID must use a documented river-centreline classification code.",
+      "repair": {"mode": "proposal", "operation": "review_classification"},
+      "evidence": {
+        "document": "臺灣通用電子地圖圖層內容說明",
+        "version": "114.12.04",
+        "section": "三、水系 (二)河川中線",
+        "page": 9,
+        "uri": "https://drive.google.com/file/d/1vKllgEpWFH9-WDagkrVkDtGCf44-m4gj/view#page=9",
+        "excerpt": "河川類型列出 9510101、02、03、05、06。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-TOPO-001",
+      "rule_type": "line_no_self_intersection",
+      "target": "RIVERL.geometry",
+      "severity": "error",
+      "constraint": {},
+      "message": "River centreline geometry must not self-intersect.",
+      "repair": {"mode": "proposal", "operation": "review_geometry"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "(十) GIS圖層 3.(2)B(d)",
+        "page": 22,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=22",
+        "excerpt": "空間位相關係應檢查線自我相交。"
+      }
+    },
+    {
+      "rule_id": "TW-RIVERL-FORMAT-001",
+      "rule_type": "trimmed_string",
+      "target": "RIVERL.RIVERLNAME",
+      "severity": "warning",
+      "constraint": {"field": "RIVERLNAME"},
+      "message": "River names should not contain leading or trailing spaces.",
+      "repair": {"mode": "safe", "operation": "trim"},
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "(十) GIS圖層 3.(2)B(e)",
+        "page": 22,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=22",
+        "excerpt": "屬性資料格式應檢查多餘空格。"
+      }
+    }
+  ]
+}

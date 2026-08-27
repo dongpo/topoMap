@@ -1,0 +1,25 @@
+{
+  "schema": "nma.d24-qr-manifest/1.0",
+  "generated_at": "2026-08-07T00:00:00+08:00",
+  "generator": "scripts/generate_d24_qr.js",
+  "error_correction": "M",
+  "release_boundary": "stable-v0.2-public-agentic-v0.3-candidate",
+  "targets": [
+    {
+      "id": "public-demo",
+      "label": "NMA stable public evidence-only demo",
+      "url": "https://dongpo.github.io/topoMap/nmaAgentDemo.html?mode=degraded",
+      "release_state": "stable-v0.2-rc1-public",
+      "asset": "artifacts/public/d24/nma-public-demo.png",
+      "sha256": "9bae6aaafc9c206867412fda3d501caa9f199fcbd55283b6fec91b60fd7fe8ca"
+    },
+    {
+      "id": "candidate-branch",
+      "label": "NMA Agentic v0.3 candidate source",
+      "url": "https://github.com/dongpo/topoMap/tree/codex/nma-v0.2-authoritative",
+      "release_state": "agentic-v0.3-candidate-not-pages-deployed",
+      "asset": "artifacts/public/d24/nma-candidate-branch.png",
+      "sha256": "6dcb83129a95c9869a90aa79eb9cd87a6b989bd551102f74220afe7afe21081f"
+    }
+  ]
+}

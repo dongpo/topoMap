@@ -1,0 +1,226 @@
+{
+  "schema": "nma.demo-02-retry-controlled-e2e-acceptance-record/1.0",
+  "record_id": "DEMO-02-RETRY",
+  "verdict": "PASS — NMA CONTROLLED END-TO-END DEMO ACCEPTED",
+  "canonical_repository": "https://github.com/dongpo/topoMap.git",
+  "predecessor": {
+    "branch": "demo/demo-auth-01-school-demo-authorization-binding",
+    "commit": "aa3a59ddececa1bc8b893058febe5cb43d307656"
+  },
+  "branch": "demo/demo-02-retry-controlled-end-to-end-acceptance",
+  "final_git_identity": {
+    "resolution": "post-commit local/upstream/remote branch equality",
+    "note": "The exact terminal commit cannot self-identify inside its own bytes; the completion response and canonical remote ref provide the final SHA."
+  },
+  "runtime": {
+    "command": "PYTHONPATH=src:. python3 scripts/run_nma_agent_server.py --host 127.0.0.1 --port 8080",
+    "demo_url": "http://127.0.0.1:8080/nmaAgentDemoV1.html?basemap=local",
+    "api_route": "http://127.0.0.1:8080/api/nma/runtime",
+    "single_entry_point": true,
+    "automatic_build_activation": false
+  },
+  "fixtures": {
+    "package_name": "112年多維度SHP成果_0502.zip",
+    "package_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "package_size_bytes": 12822898,
+    "school": {
+      "identity": "nma-demo-fixture:school:sha256:77802b44b97c6687bc626d257e14b57c3d7427949a65942fa721d05bb79fc12d",
+      "layers": [
+        "J01_MARK",
+        "J13_MARK",
+        "J17_MARK",
+        "K01_MARK",
+        "K02_MARK",
+        "K14_MARK"
+      ],
+      "feature_counts": [0, 1, 0, 12, 1, 1],
+      "selected_feature_count": 15,
+      "feature_code": "9920103",
+      "geometry": "Point"
+    },
+    "road": {
+      "identity": "nma-demo-fixture:road:sha256:dc82db8bfc96dd6ab16b3206866e000459b9fd59a8f6d44602fcf06586b1ae79",
+      "layer": "K14_ROAD",
+      "feature_count": 196,
+      "crs": "TWD97[2020]_TM121",
+      "ordered_segment_ids": [
+        "K0000004671",
+        "K0000004913",
+        "K0000005348"
+      ],
+      "vertex_counts": [4, 3, 4],
+      "source_geometry_sha256": [
+        "42616b9b91d91efd4582171b23ad70259156c586bef776098329cdd81aa8f800",
+        "c075943948c1184493d41672f0ca00e610c90bfa7c721f24a645765dc48b9faf",
+        "88ad286f2b368130e0870360acd07d1d79614d8005ee53eed966b8db6abd2cc6"
+      ]
+    }
+  },
+  "school_authorization": {
+    "authorization_id": "authorization-school-demo-b4ecdbfc35ecaf73293ed497",
+    "authorization_hash": "d5546bd1b2176a4ad287acb1c78740ce79a90db76d05739dc871267d901dac67",
+    "human_approval": "approved",
+    "historical_hero03_identity_reused": false,
+    "fixture_and_scope_binding": "verified"
+  },
+  "scenarios": {
+    "school": {
+      "status": "PASS",
+      "request_id": "nma-runtime-request:sha256:29dd75e85b67b35b6b45625e75cb14b62419e7c27e8eb9655635cd985458b92d",
+      "plan_id": "plan-8d174b62fb63189987eafdb6",
+      "plan_sha256": "b7afb38141557c3dad312d89a819243b3225e846883a17565519a75adafa0347",
+      "authorization_id": "authorization-school-demo-b4ecdbfc35ecaf73293ed497",
+      "execution_id": "exec-8d174b62fb63189987eafdb6",
+      "receipt_sha256": "ab929277c217a44659ffd3abed3ba0bcec115465309bfc0c8a044a5cfdd1d36b",
+      "qa_sha256": "2fcc1d90938e7a56bd3cc8cddae12de85d5c59b88c6f9177951a5015732cb538",
+      "provenance_sha256": "bc9392351669fd4bdb5b8e5cd53d0a3facfa94f944448d6f282f6416e05e8ae2",
+      "bundle_sha256": "5b4212a0ae2b232753a85bd0e44b41d9dee988c760084d50f1f147083b83d49e",
+      "data_sha256": "7f62b6259ad3024c57f6ca05e45e50c0bc4dc77a2ceab53855dfa58726932548",
+      "portrayal_sha256": "05e101a5907f05d0df0392691537a4eccfe04a59cd6abea2e5ae82aef1261ca5",
+      "feature_count": 15,
+      "browser_result": "visible blue school flag symbols with MARKNAME1 labels",
+      "pixel_perfect_claim": false
+    },
+    "road": {
+      "status": "PASS",
+      "request_id": "nma-runtime-request:sha256:63d73cc87dc21730e8f5f2e83b963bb80e78d00f3293017cbc9e971776a2082d",
+      "plan_id": "road-plan-cd434d50bd5b49a012bd1e10",
+      "plan_sha256": "e51e42b955ade0d3ff5c6b8fbe00919aac4d9b9f90fe59bd548e14b7a9bf04a0",
+      "authorization_id": "road-03-authorization-f68220ecef989e589dd6e28c",
+      "execution_id": "road-exec-33766f336d9cc18eb2ac159e",
+      "receipt_id": "road-receipt-road-exec-33766f336d9cc18eb2ac159e",
+      "receipt_sha256": "0ab5964fcc2e1f47d43fd328dbc3771a7e624bf4a3707f91236a1485f5610720",
+      "qa_sha256": "8f31ecb25f62b5bc71465db33503a7c37d63fe18e9006ce6801a2ab639464a82",
+      "provenance_sha256": "130a24e15126743466b57dc03e2ca8a652335553b56522e316f47104cc9dbc70",
+      "bundle_sha256": "33aa7c6b0d557fa9a72e2fa4e0106493d8dfe10ec9201bd7762e204bb14a286d",
+      "visual_evidence_sha256": "830087a06a3aa0c05d587532e90649ca5fed5d4418c7d864eb9f6ec9a707662b",
+      "browser_result": "visible line-following 中山街 label positioned by the three exact controlled LineStrings",
+      "shield_result": "9490005 road-parallel semantic binding; no fabricated shield graphic",
+      "pixel_perfect_claim": false
+    },
+    "build": {
+      "status": "PASS",
+      "request_id": "nma-runtime-request:sha256:1371ee59a9345b07673b228f88d3841f7c50f5c86d3b7bfb7d57638bbc4da3eb",
+      "plan_sha256": "b8b5ecd54954b190eb8cda398710039f334e8424fd0969816380b4a2b52b0b71",
+      "authorization_id": "build-04-demo-auth-a5a8f11b94784a60",
+      "execution_id": "build-05-demo-exec-b8b5ecd54954b190eb8cda39",
+      "observation_sha256": "9131df533365e2f42e01edb8988804b850b65e69b932c55b672e0addd3400d84",
+      "verification_sha256": "10c22339abb8d2eed489ae56a54214948213bad51a135e00f74e309931c98c97",
+      "receipt_id": "build-05-receipt-b8b5ecd54954b190eb8cda39",
+      "receipt_sha256": "c4ff4017c01aa3ef861530a91204fcd8357387a8400f4a47fcd637033f445573",
+      "browser_result": "visible accepted polygon with solid boundary and diagonal hatch",
+      "automatic_production_activation": false
+    }
+  },
+  "graphrag": {
+    "claim": "GraphRAG supplies relevant mapping knowledge used by, or demonstrably aligned with, the Agent planning/execution path.",
+    "school": {
+      "evidence_id": "evidence:d8390501f96f29918fbc",
+      "node_ids": [
+        "code-value:landmark-type:9920103",
+        "portrayal-rule:doc01:9920103",
+        "portrayal-recipe:doc01:9920103:review-v1",
+        "product-layer:MARK"
+      ],
+      "alignment": "Point/9920103/MARK classification, school symbol, MARKNAME1 labels, and six-layer selection are bound through evidence, proposal, authorization, plan, bundle, QA, and provenance."
+    },
+    "road": {
+      "evidence_ids": [
+        "BMAP096-P5-TABLE1-GRAPHIC-ELEMENT-CODES",
+        "DOC01-P22-P24-ROAD-BOUNDARY-LABEL",
+        "DOC01-P34-P35-ROUTE-SHIELDS",
+        "DOC02-P45-P46-ANNEX7-CODING-SCHEME",
+        "DOC02-P53-P55-ROAD-CODE-BRANCH"
+      ],
+      "node_ids": [
+        "code-value:road-class2:9420400",
+        "portrayal-rule:doc01:9420400",
+        "portrayal-rule:doc01:9490005",
+        "portrayal-recipe:road:9420400:compound-v1",
+        "vector-primitive:road:9420400:road-name-label",
+        "vector-primitive:road:9420400:route-shield"
+      ],
+      "alignment": "ROAD class, route/name, three ordered LineStrings, line-following name label, and road-parallel shield semantics are preserved from evidence through plan, authorization, execution, observation, QA, and provenance."
+    },
+    "boundary": "Retrieved review knowledge is not itself execution authorization; non-executable and semantic-only rule boundaries remain enforced."
+  },
+  "demo_a1_a12": {
+    "DEMO-A1": "PASS",
+    "DEMO-A2": "PASS",
+    "DEMO-A3": "PASS",
+    "DEMO-A4": "PASS",
+    "DEMO-A5": "PASS",
+    "DEMO-A6": "PASS",
+    "DEMO-A7": "PASS",
+    "DEMO-A8": "PASS",
+    "DEMO-A9": "PASS",
+    "DEMO-A10": "PASS",
+    "DEMO-A11": "PASS",
+    "DEMO-A12": "PASS"
+  },
+  "acceptance_matrix": {
+    "controlled_fixture": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"},
+    "user_request": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"},
+    "graphrag_retrieval": {"school": "PASS", "road": "PASS", "build": "PASS_NOT_APPLICABLE", "overall": "PASS"},
+    "mapping_rule_alignment": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"},
+    "planning": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"},
+    "authorization": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"},
+    "real_execution": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"},
+    "observation": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"},
+    "verification_qa": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"},
+    "receipt_provenance": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"},
+    "map_result": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"},
+    "fail_closed": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"},
+    "controlled_reproducibility": {"school": "PASS", "road": "PASS", "build": "PASS", "overall": "PASS"}
+  },
+  "negative_scenarios": {
+    "N1_unsupported_domain": "PASS",
+    "N2_ambiguous_domain": "PASS",
+    "N3_invalid_request": "PASS",
+    "N4_missing_authorization": "PASS",
+    "N5_invalid_authorization": "PASS",
+    "N6_wrong_school_fixture_identity": "PASS",
+    "N7_wrong_school_plan_scope": "PASS",
+    "N8_unknown_feature_target": "PASS",
+    "N9_unsupported_capability": "PASS",
+    "N10_build_activation_without_authority": "PASS",
+    "N11_missing_controlled_fixture": "PASS",
+    "N12_tampered_evidence": "PASS"
+  },
+  "frozen_baselines": {
+    "GEN-FINAL": "380cc6ea2a4498ce83690521c933accfd918818e",
+    "CORE-FINAL": "5eb138ae7686502431587743ebce9ddf92c5a799",
+    "School-Hero": "56f99eb9ae63272a68accac3041fb10eacefb986",
+    "ROAD-FINAL": "325c70d5335f57c43a8af85822db25032aa225c3",
+    "BUILD-FINAL": "95de5fa3657a2c8ac7847f1ee1010c48ea984cd7"
+  },
+  "counts": {
+    "external_data_substitutions": 0,
+    "production_reachable_demo_stubs": 0,
+    "controlled_fixture_modifications": 0,
+    "runtime_source_modifications": 3
+  },
+  "minimal_fixes": [
+    "The unified MapLibre style now declares the glyph source required by frozen School/ROAD text layers and loads the exact School execution image resource.",
+    "The unified ROAD verify adapter now receives the standard ignored ROAD-05 visual evidence and screenshot paths used by the canonical verifier."
+  ],
+  "browser_acceptance": {
+    "browser": "Codex in-app browser",
+    "school": "PASS — execution, exact authorization, blue school symbol/label map, receipt, and separate verified QA/provenance observed",
+    "road": "PASS — execution, line-following 中山街 result, exact lineage/receipt, and separate verified QA/provenance observed",
+    "build": "PASS — polygon/boundary/hatch, verification, receipt/provenance, and activation hold observed",
+    "fatal_javascript_errors_after_fix": 0
+  },
+  "fresh_clone_reproduction": {
+    "status": "PASS",
+    "inputs": [
+      "canonical repository candidate commit",
+      "exact controlled fixture package SHA-256 4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+      "exact School demo authorization already tracked",
+      "standard ignored ROAD visual QA evidence generated from the exact candidate bundle"
+    ],
+    "external_data_substitution": false,
+    "unrelated_local_state_required": false
+  },
+  "demo_final_readiness": "READY FOR DEMO-FINAL — NMA CONTROLLED DEMO FREEZE"
+}

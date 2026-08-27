@@ -1,0 +1,48 @@
+{
+  "schema": "nma.entity-resolution-specification/0.10.5",
+  "status": "validated-full-post-v0.12-zero-api-regression; bounded-runtime-policy-active",
+  "source_first_result": "data/evaluation/nma-v012-first-prospective-run.json",
+  "source_first_result_analysis": "data/evaluation/nma-v012-first-prospective-run-analysis.json",
+  "candidate_corpus": "data/review/semantic-links/nma-semantic-candidates-v0.8.json",
+  "candidate_index": "data/runtime/vector/nma-vector-index-v0.32.json",
+  "reviewed_cross_document_support": "data/knowledge/nma-entity-resolution-support-v0.10.1.json",
+  "reviewed_geometry_role_source": "data/extraction/v0.4/road-compound-portrayal-reviewed.json",
+  "candidate_pool": {
+    "raw_top_limit": 80,
+    "geometry_top_limit": 24,
+    "hierarchy_seed_limit": 12,
+    "hierarchy_family_limit": 16,
+    "max_candidates": 128,
+    "bounded_source_rescue_expansion": 1,
+    "source_grounded_fields_only": true
+  },
+  "entity_resolver": {
+    "provider": "openai",
+    "endpoint": "responses",
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "low",
+    "structured_output": "strict-json-schema",
+    "hidden_chain_of_thought_exposed": false
+  },
+  "validated_development_policies": {
+    "unique_deepest_common_hierarchy_parent": true,
+    "explicit_official_name_and_code_completion": true,
+    "unique_positive_source_instruction_discriminator_rescue": true,
+    "negative_scope_exclusion": ["但不是", "但非"],
+    "segment_balanced_candidate_pool": false,
+    "answer_keys_used": false,
+    "new_api_request_for_policy_validation": false,
+    "automatic_rule_activation": false
+  },
+  "known_contract_limit": {
+    "current_structured_output_max_resolved_entities": 3,
+    "observed_required_entities": 4,
+    "bounded_local_mitigation": "Only add a candidate when both its exact official name and exact official code occur in the model's user-facing output.",
+    "future_schema_expansion_requires_new_prospective_paid_validation": true
+  },
+  "benchmark_validity_boundary": {
+    "invalid_task_id": "v012-compound-commemorative-upright-marker",
+    "action": "Do not remediate the Agent. Preserve the raw failure; replace only under a new benchmark identity."
+  },
+  "claim_boundary": "This is zero-new-API post-result development evidence over preserved v0.12 raw outputs. It cannot change the official 20/24 first result or support a new generalisation claim."
+}

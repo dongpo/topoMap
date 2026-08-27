@@ -1,0 +1,60 @@
+{
+  "package": "nma-v0.2-review-package",
+  "status": "passed",
+  "source_base_commit": "32a5bc2a763cb99b8a621121d7b0b9f997b0babd",
+  "zip_sha256": "e9fee54cd10657d9b9da77383a5e1b41110ccd13db932f2ad8df888b4d3bf979",
+  "zip_bytes": 173897,
+  "release_exclusions": [
+    "out1120902.pmtiles (redistribution terms pending)",
+    "official NLSC portrayal PDF (referenced, not redistributed)",
+    "public deployment (separate human-approved release step)"
+  ],
+  "verification": {
+    "package": "nma-v0.2-review-package",
+    "status": "passed",
+    "manifest_file_count": 31,
+    "checksum_failures": 0,
+    "checksum_failure_details": [],
+    "sensitive_matches": 0,
+    "sensitive_match_details": [],
+    "scene_count": 5,
+    "scenes": [
+      {
+        "scene": "school",
+        "feature_code": "9920103",
+        "action": "draw_symbol",
+        "evidence_page": 61,
+        "status": "passed"
+      },
+      {
+        "scene": "fire-hydrant",
+        "feature_code": "9350906",
+        "action": "draw_symbol",
+        "evidence_page": 11,
+        "status": "passed"
+      },
+      {
+        "scene": "police",
+        "feature_code": "9910603",
+        "action": "draw_symbol",
+        "evidence_page": 60,
+        "status": "passed"
+      },
+      {
+        "scene": "fish-pond",
+        "feature_code": "9740100",
+        "action": "draw_symbol",
+        "evidence_page": 50,
+        "status": "passed"
+      },
+      {
+        "scene": "post-office",
+        "feature_code": "9950201",
+        "action": "text_only",
+        "evidence_page": 69,
+        "status": "passed"
+      }
+    ],
+    "negative_controls": 2
+  }
+}

@@ -1,0 +1,66 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "national-map-agent"
+version = "0.2.0"
+description = "Open reference implementation and benchmark for authoritative geospatial agents"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+authors = [{name = "AMA contributors"}]
+keywords = ["FOSS4G", "GeoAI", "authoritative-mapping", "benchmark", "geospatial"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3.11",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["jsonschema>=4.23,<5", "pytest>=8", "referencing>=0.35,<1", "ruff==0.15.21"]
+neo4j = ["neo4j>=6,<7"]
+
+[project.scripts]
+nma = "nma.cli:main"
+nma-bench = "nma.portrayal_bench:main"
+nma-validation-bench = "nma.bench:main"
+ama-research-demo = "nma.research_cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.data-files]
+"share/nma/data/specifications" = ["data/specifications/*.json"]
+"share/nma/data" = ["data/README.md"]
+"share/nma/data/sources" = ["data/sources/*.json"]
+"share/nma/data/extraction" = ["data/extraction/*.jsonl"]
+"share/nma/data/knowledge" = ["data/knowledge/*.json"]
+"share/nma/data/demo" = ["data/demo/*.json"]
+"share/nma/assets/symbols/nlsc112v5.4" = ["assets/symbols/nlsc112v5.4/*.svg", "assets/symbols/nlsc112v5.4/manifest.json"]
+"share/nma/data/datasets" = ["data/datasets/*.geojson"]
+"share/nma/data/datasets/authoritative/riverl-clean" = ["data/datasets/authoritative/riverl-clean/*"]
+"share/nma/data/datasets/authoritative/riverl-defective" = ["data/datasets/authoritative/riverl-defective/*"]
+"share/nma/data/datasets/authoritative/riverl-schema-mismatch" = ["data/datasets/authoritative/riverl-schema-mismatch/*"]
+"share/nma/data/datasets/authoritative/riverl-wrong-crs" = ["data/datasets/authoritative/riverl-wrong-crs/*"]
+"share/nma/benchmark" = ["benchmark/manifest.json", "benchmark/ground-truth.json", "benchmark/external-baselines.example.json"]
+"share/nma/benchmark/tasks" = ["benchmark/tasks/*.jsonl"]
+"share/nma/benchmark/adapters" = ["benchmark/adapters/*.py"]
+"share/nma/benchmark/portrayal" = ["benchmark/portrayal/*.json", "benchmark/portrayal/*.jsonl"]
+"share/nma/schemas" = ["schemas/*.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+  "historical_freeze: exact historical release identity/scope assertions; run at the documented frozen ref",
+  "private_data: requires the exact ignored non-redistributable BUILD/ROAD archive",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"

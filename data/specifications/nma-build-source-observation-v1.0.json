@@ -1,0 +1,42 @@
+{
+  "$schema": "../../schemas/build-source-observation-v1.0.schema.json",
+  "schema": "nma.build-source-observation/1.0",
+  "source": {
+    "fixture_id": "build-fixture:sha256:7411d8eb06ee70bc24ce7003de0b344a1874c3d606b91571e5913ba766f1162a",
+    "archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "layer_id": "J13_BUILD",
+    "feature_code": "9310100"
+  },
+  "selection": {
+    "policy": "largest-valid-2d-area-desc-then-build-id-asc",
+    "eligible_feature_count": 2962,
+    "selected_rank": 1,
+    "largest_area_tie_count": 1
+  },
+  "resolved_feature": {
+    "reference": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f",
+    "attribute_commitment_sha256": "ddfa112586b9c2bc3a61bdf2638b7994ba1200bfce5d8ad34988f2a24da96078",
+    "geometry_commitment_sha256": "23f7d5adacfb468bf0105ed66bb6f64ac44b50e22c47a2399a4787f6051bb22f",
+    "source_geometry_type": "PolygonZ",
+    "canonical_geometry_role": "Polygon",
+    "area_2d_m2": "1316.686891452159",
+    "runner_up_area_2d_m2": "1252.979028436020",
+    "vertex_count": 65,
+    "ring_count": 1,
+    "is_valid": true,
+    "z_dimension_present": true
+  },
+  "core_binding": {
+    "identity_provider": "nma.core.canonical_sha256",
+    "feature_profile_provider": "nma.core.FeatureProfile",
+    "profile_identity_sha256": "5f560c8fde92b7ed590c8f4d1292ae69743e033b2bbf43b837b083b5c611dc09",
+    "source_scope_sha256": "a4e3eff87f1df770e01c3675fe883335b4416c405922d22b129e85fc4a44065b"
+  },
+  "privacy": {
+    "raw_feature_id_disclosed": false,
+    "raw_attributes_disclosed": false,
+    "raw_geometry_disclosed": false,
+    "source_redistributed": false
+  },
+  "observation_id": "build-observation:sha256:8fdbb3bdea8ffe715e7d76eed7c5034bd62226ba649be2206cf7a9e07b853bac"
+}

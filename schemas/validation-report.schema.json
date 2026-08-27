@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/nma/schemas/validation-report-1.0.json",
+  "title": "NMA Validation Report",
+  "type": "object",
+  "required": ["report_version", "dataset", "layer", "specification", "status", "summary", "issues", "provenance"],
+  "properties": {
+    "report_version": {"const": "1.0"},
+    "dataset": {"type": "string"},
+    "layer": {"type": "string"},
+    "status": {"enum": ["passed", "passed_with_warnings", "failed"]},
+    "dataset_inspection": {
+      "type": "object",
+      "required": ["available", "engine"],
+      "properties": {
+        "available": {"type": "boolean"},
+        "engine": {"type": "string"},
+        "read_only": {"type": "boolean"}
+      }
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["issue_key", "rule_id", "severity", "expected", "actual", "message", "evidence"],
+        "properties": {
+          "issue_key": {"type": "string"},
+          "rule_id": {"type": "string"},
+          "severity": {"enum": ["error", "warning", "info"]},
+          "evidence": {
+            "type": "object",
+            "required": ["document", "version", "section", "uri", "excerpt"],
+            "properties": {
+              "document": {"type": "string"},
+              "version": {"type": "string"},
+              "section": {"type": "string"},
+              "page": {"type": ["integer", "null"], "minimum": 1},
+              "uri": {"type": "string"},
+              "excerpt": {"type": "string"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

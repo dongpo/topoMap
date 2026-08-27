@@ -1,0 +1,161 @@
+{
+  "$schema": "../../schemas/five-scene-freeze.schema.json",
+  "freeze_version": "nma-demo-rc1-feature-complete",
+  "status": "feature-complete",
+  "created_on": "2026-08-05",
+  "source": {
+    "repository": "dongpo/topoMap",
+    "branch": "codex/nma-v0.2-authoritative",
+    "approved_base_commit": "06090a04792514b85823457b235f7feebf2660d4",
+    "demo_contract": "data/demo/five-scene-demo.json"
+  },
+  "walkthrough": {
+    "acceptance_record": "docs/FIVE-SCENE-ACCEPTANCE.md",
+    "environment": "clean browser session served from the repository root",
+    "scene_order": ["school", "fire-hydrant", "police", "fish-pond", "post-office"],
+    "status": "passed",
+    "console_errors": 0,
+    "console_warnings": 0
+  },
+  "approved_capabilities": [
+    "versioned authoritative-profile retrieval",
+    "evidence-bearing graph path and governance metadata",
+    "deterministic symbol selection and MapLibre compilation",
+    "semantic alias resolution and labelled portrayal",
+    "geometry-aware compound portrayal",
+    "conditional exception handling",
+    "unsupported-scale and unsupported-profile abstention"
+  ],
+  "artifacts": [
+    {
+      "path": "data/demo/five-scene-demo.json",
+      "sha256": "96d89e81e3a3ada7d95397dafd240f21e4adaebfb11799e2704a1974997e3d10",
+      "size_bytes": 5295
+    },
+    {
+      "path": "data/knowledge/portrayal-graph.json",
+      "sha256": "0f90dc365805aaac07ab5aaf61323006bcea1ba8a078470c6872ad63a7eeacca",
+      "size_bytes": 36389
+    },
+    {
+      "path": "data/knowledge/portrayal-profile.json",
+      "sha256": "42bc9401dc1899ff505bf172df47f6a9a87391cdfc0a551ff1d4500c13c75aa7",
+      "size_bytes": 4105
+    },
+    {
+      "path": "data/extraction/portrayal-records.jsonl",
+      "sha256": "ccd732aa3996481682dfe3038d1a8fbf6e115e78a3e6bb29c0c6c4316ce200cb",
+      "size_bytes": 6570
+    },
+    {
+      "path": "artifacts/portrayal/maplibre-layers.json",
+      "sha256": "1e5631c257cdf2295c56483f3520f3b601ff79dbc59c08256d6c027b7f08fb64",
+      "size_bytes": 512066,
+      "generator": {
+        "kind": "maplibre-layers",
+        "graph_path": "data/knowledge/portrayal-graph.json"
+      }
+    },
+    {
+      "path": "nmaAgentDemo.html",
+      "sha256": "6ca5b46449dc83652ecb150dbc4cbd264094b02b83afedfe212797101c519241",
+      "size_bytes": 20541
+    },
+    {
+      "path": "nmaDemoWorker.js",
+      "sha256": "ffff9497789df41ddcb48d529b4b7f00d8a3b3581bcfcbe6e02801ce9050acfd",
+      "size_bytes": 3785
+    },
+    {
+      "path": "data/demo/offline-runtime.json",
+      "sha256": "975e26702cd63d87866bcfa9efe509e1336aca5d7707934b1fc3c5df7f517107",
+      "size_bytes": 2246
+    },
+    {
+      "path": "out1120902.pmtiles",
+      "sha256": "b31c51d13565c8e8b1e213f97087792b148b7945c4f548ac76da91761c6e3ce5",
+      "size_bytes": 9595077
+    },
+    {
+      "path": "docs/FIVE-SCENE-ACCEPTANCE.md",
+      "sha256": "e7110a5d5dd3868acf0d37bfe03113ea0efae9d536bd5c881ef09ad811342edf",
+      "size_bytes": 3792
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/manifest.json",
+      "sha256": "ece61047c4ccf2b32ab3e4fcbd36c47b1462b2d9c5de801cbbf549332c85b5f0",
+      "size_bytes": 1245
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/school.svg",
+      "sha256": "bb3a683f8f4a4250845fec71f678feddd8b50b97d77ceddb65ed5f38f5e0af86",
+      "size_bytes": 155
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/fire-hydrant.svg",
+      "sha256": "e4fe71df56215de92b28dc1458910342de4a9256a85ddfe29733137fdedcf015",
+      "size_bytes": 359
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/police.svg",
+      "sha256": "25b25c439b493b3975e8b99894bf1a00b63bba44ca64f885801d6260ed5fdc3e",
+      "size_bytes": 280
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/fish-pond.svg",
+      "sha256": "5d9c34ab4666537c67e4ebc5138dbcfc4ac71e0841b8b7d8888b2064843a49f6",
+      "size_bytes": 379
+    },
+    {
+      "path": "assets/symbols/nlsc112v5.4/post.svg",
+      "sha256": "b92c253c1cbf2e6bd450f9be185cdc976314327dff83b558687a7baffb5d870c",
+      "size_bytes": 260
+    }
+  ],
+  "known_issues": [
+    {
+      "id": "cold-cache-map-runtime",
+      "severity": "non-blocking",
+      "follow_up": "D16 / GEO-72",
+      "description": "A cold cache without network enters the evidence-only fallback; run the online preflight and capture the backup before travel."
+    },
+    {
+      "id": "pmtiles-redistribution-terms",
+      "severity": "non-blocking",
+      "follow_up": "publication gate",
+      "description": "Confirm redistribution terms for out1120902.pmtiles before publishing a distributable offline bundle."
+    },
+    {
+      "id": "backup-capture",
+      "severity": "non-blocking",
+      "follow_up": "D16 / GEO-72",
+      "description": "Backup recording and screenshots have not yet been captured."
+    },
+    {
+      "id": "public-demo-url",
+      "severity": "non-blocking",
+      "follow_up": "D17 / GEO-73",
+      "description": "The stable public demo URL and presentation freeze remain later delivery gates."
+    },
+    {
+      "id": "expert-sign-off",
+      "severity": "non-blocking",
+      "follow_up": "publication gate",
+      "description": "Independent cartographer sign-off is still required before publication-grade claims."
+    }
+  ],
+  "post_freeze_policy": {
+    "allowed_change": "blocking reliability defect only",
+    "required_evidence": [
+      "tracking issue",
+      "reproduction steps",
+      "fix verification",
+      "updated artifact fingerprints"
+    ],
+    "prohibited_changes": [
+      "new scene",
+      "second portrayal profile",
+      "unrelated presentation polish"
+    ]
+  }
+}

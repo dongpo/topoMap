@@ -1,0 +1,144 @@
+{
+  "$schema": "../../schemas/build-fixture-manifest-v1.0.schema.json",
+  "schema": "nma.build-fixture-manifest/1.0",
+  "fixture_id": "build-fixture:sha256:7411d8eb06ee70bc24ce7003de0b344a1874c3d606b91571e5913ba766f1162a",
+  "status": "accepted-build-01-entry-fixture",
+  "source": {
+    "archive_name": "112年多維度SHP成果_0502.zip",
+    "archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "tracked": false,
+    "redistributed": false,
+    "license_status": "source-terms-not-asserted"
+  },
+  "selection": {
+    "selected_layer_id": "J13_BUILD",
+    "feature_code": "9310100",
+    "feature_name": "永久性建物(建築區)",
+    "policy": [
+      "complete-five-part-shapefile-family",
+      "zero-null-or-blank-build-id",
+      "zero-duplicate-build-id-groups",
+      "zero-null-or-empty-geometry",
+      "zero-invalid-geometry",
+      "smallest-qualifying-feature-population"
+    ],
+    "rationale": "J13_BUILD is the smallest of the two candidates with zero null/blank IDs, zero duplicate ID groups, zero null/empty geometries, and zero invalid geometries. It is selected over the legacy J17 experiment, which contains one invalid geometry."
+  },
+  "candidates": [
+    {
+      "layer_id": "J01_BUILD",
+      "feature_count": 3334,
+      "selected_feature_count": 3314,
+      "other_feature_codes": {"9310103": 20},
+      "null_or_blank_build_id": 0,
+      "duplicate_build_id_groups": 0,
+      "null_or_empty_geometry": 0,
+      "invalid_geometry": 2,
+      "decision": "rejected",
+      "reason": "contains-invalid-geometry"
+    },
+    {
+      "layer_id": "J13_BUILD",
+      "feature_count": 2968,
+      "selected_feature_count": 2962,
+      "other_feature_codes": {"9310103": 6},
+      "null_or_blank_build_id": 0,
+      "duplicate_build_id_groups": 0,
+      "null_or_empty_geometry": 0,
+      "invalid_geometry": 0,
+      "decision": "accepted",
+      "reason": "smallest-zero-defect-candidate"
+    },
+    {
+      "layer_id": "J17_BUILD",
+      "feature_count": 2839,
+      "selected_feature_count": 2769,
+      "other_feature_codes": {"9310103": 70},
+      "null_or_blank_build_id": 0,
+      "duplicate_build_id_groups": 0,
+      "null_or_empty_geometry": 0,
+      "invalid_geometry": 1,
+      "decision": "rejected",
+      "reason": "legacy-experiment-contains-invalid-geometry"
+    },
+    {
+      "layer_id": "K01_BUILD",
+      "feature_count": 46875,
+      "selected_feature_count": 46855,
+      "other_feature_codes": {"9310103": 20},
+      "null_or_blank_build_id": 0,
+      "duplicate_build_id_groups": 1,
+      "null_or_empty_geometry": 0,
+      "invalid_geometry": 5,
+      "decision": "rejected",
+      "reason": "contains-duplicate-id-and-invalid-geometry"
+    },
+    {
+      "layer_id": "K02_BUILD",
+      "feature_count": 10645,
+      "selected_feature_count": 10645,
+      "other_feature_codes": {},
+      "null_or_blank_build_id": 0,
+      "duplicate_build_id_groups": 0,
+      "null_or_empty_geometry": 0,
+      "invalid_geometry": 0,
+      "decision": "rejected",
+      "reason": "larger-zero-defect-candidate"
+    },
+    {
+      "layer_id": "K14_BUILD",
+      "feature_count": 2116,
+      "selected_feature_count": 2099,
+      "other_feature_codes": {"9310103": 4, "9310200": 13},
+      "null_or_blank_build_id": 0,
+      "duplicate_build_id_groups": 0,
+      "null_or_empty_geometry": 0,
+      "invalid_geometry": 2,
+      "decision": "rejected",
+      "reason": "contains-invalid-geometry"
+    }
+  ],
+  "fixture": {
+    "layer_id": "J13_BUILD",
+    "source_geometry_type": "PolygonZ",
+    "canonical_geometry_role": "Polygon",
+    "crs_name": "TWD97[2020]_TM121",
+    "crs_authority": "unasserted-source-wkt",
+    "extent": [248182.50509999902, 2739227.5090999994, 249803.4773000001, 2740787.0414000005],
+    "feature_count": 2968,
+    "selected_feature_count": 2962,
+    "feature_code_distribution": {"9310100": 2962, "9310103": 6},
+    "fields": [
+      {"name": "BUILD_ID", "type": "String", "width": 16},
+      {"name": "TERRAINID", "type": "String", "width": 8},
+      {"name": "BUILD_STR", "type": "String", "width": 3},
+      {"name": "BUILD_NO", "type": "Integer", "width": 3},
+      {"name": "BUILD_H", "type": "Real", "width": 7, "precision": 2},
+      {"name": "GROUP_ID", "type": "String", "width": 16},
+      {"name": "MDATE", "type": "String", "width": 8}
+    ],
+    "components": [
+      {"extension": ".cpg", "sha256": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824"},
+      {"extension": ".dbf", "sha256": "fbda7cde1285b360da5dd535592c09ccbbad958827937d5014223e8a51197a79"},
+      {"extension": ".prj", "sha256": "bc7c22953410ede8aace38a47743f0b49a0fd63a96fc635ac08cc9c7f278e40f"},
+      {"extension": ".shp", "sha256": "3d826d7688923d0c142ecf4c928c3a4817f6f4ad85c98e45a0f9597baa842445"},
+      {"extension": ".shx", "sha256": "2dfc0453508273e52a408009306888f16bbbe062526114594eb5fd92efafa247"}
+    ]
+  },
+  "core_identity": {
+    "owner": "nma.core",
+    "freeze_tag": "nma-core-v1.0-final",
+    "freeze_sha": "5eb138ae7686502431587743ebce9ddf92c5a799",
+    "identity_provider": "canonical_sha256",
+    "feature_profile_provider": "FeatureProfile"
+  },
+  "boundaries": {
+    "purpose": "build-01-entry-readiness-only",
+    "source_mutation_allowed": false,
+    "geometry_repair_allowed": false,
+    "z_dimension_drop_authorized": false,
+    "execution_authorized": false,
+    "runtime_wiring_authorized": false,
+    "redistribution_authorized": false
+  }
+}

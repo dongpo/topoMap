@@ -1,0 +1,42 @@
+{
+  "profile_id": "tw-nlsc-1000-NLSC112V5.4",
+  "title": "Taiwan NLSC 1:1,000 topographic portrayal profile",
+  "version": "NLSC112V5.4",
+  "scale_denominator": 1000,
+  "source": {
+    "document": "01-一千分之一地形圖圖式規格表.pdf",
+    "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+    "pages": 83,
+    "visual_verification_pages": [11, 50, 60, 61, 62, 69],
+    "verification_date": "2026-07-16"
+  },
+  "source_layers": {
+    "93": ["J01_BUILD", "J13_BUILD", "J16_BUILD", "J17_BUILD", "K01_BUILD", "K02_BUILD", "K14_BUILD"],
+    "97": ["J01_WATERA", "J13_WATERA", "J16_WATERA", "J17_WATERA", "K01_WATERA", "K02_WATERA", "K14_WATERA"],
+    "99": ["J01_MARK", "J13_MARK", "J16_MARK", "J17_MARK", "K01_MARK", "K02_MARK", "K14_MARK"]
+  },
+  "implementations": {
+    "9350906": {"symbol_id": "fire-hydrant", "maplibre_type": "symbol", "icon_image": "fire-hydrant", "official_asset": "assets/symbols/nlsc112v5.4/fire-hydrant.svg", "official_dimensions_mm": [2, 2.5]},
+    "9740100": {"symbol_id": "fish-pond", "maplibre_type": "fill", "paint": {"fill-color": "#ffffff", "fill-opacity": 0, "fill-outline-color": "#1565c0"}, "companion_icon": "waterFishIcon", "official_asset": "assets/symbols/nlsc112v5.4/fish-pond.svg", "official_dimensions_mm": [4, 1]},
+    "9910603": {"symbol_id": "police", "maplibre_type": "symbol", "icon_image": "police", "label_field": "MARKNAME1", "official_asset": "assets/symbols/nlsc112v5.4/police.svg", "official_dimensions_mm": [2, 3]},
+    "9920101": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1", "official_asset": "assets/symbols/nlsc112v5.4/school.svg", "official_dimensions_mm": [2.2, 3]},
+    "9920102": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1", "official_asset": "assets/symbols/nlsc112v5.4/school.svg", "official_dimensions_mm": [2.2, 3]},
+    "9920103": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1", "official_asset": "assets/symbols/nlsc112v5.4/school.svg", "official_dimensions_mm": [2.2, 3]},
+    "9920104": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1", "official_asset": "assets/symbols/nlsc112v5.4/school.svg", "official_dimensions_mm": [2.2, 3]},
+    "9920105": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1", "official_asset": "assets/symbols/nlsc112v5.4/school.svg", "official_dimensions_mm": [2.2, 3]},
+    "9920106": {"symbol_id": "school", "maplibre_type": "symbol", "icon_image": "school", "label_field": "MARKNAME1", "official_asset": "assets/symbols/nlsc112v5.4/school.svg", "official_dimensions_mm": [2.2, 3]},
+    "9950201": {"symbol_id": "post", "maplibre_type": "symbol", "icon_image": "post", "label_field": "MARKNAME1", "official_asset": "assets/symbols/nlsc112v5.4/post.svg", "official_dimensions_mm": [4, 3], "exception": {"condition": "large_detached_building", "action": "text_only"}}
+  },
+  "known_conflicts": [
+    {
+      "conflict_id": "school-code-label-conflict-existing-pmtiles-demo",
+      "subject_codes": ["9920101", "9920102", "9920103", "9920104"],
+      "authoritative_profile": {"9920101": "大專院校", "9920102": "中學", "9920103": "小學", "9920104": "職訓中心"},
+      "observed_implementation": {"9920101": "國小", "9920102": "國中", "9920103": "高中", "9920104": "大專院校"},
+      "observed_in": "pmtilesDemo.html",
+      "status": "unresolved profile/version discrepancy; authoritative NLSC112V5.4 labels control this profile"
+    }
+  ],
+  "implementation_status": "official symbol geometry visually verified against rendered NLSC112V5.4 pages; independent cartographer sign-off pending",
+  "important_boundary": "Feature facts and simple symbol geometry were verified against the locally hashed official PDF. SVG/Canvas renderings are open software implementations, not redistributed PDF crops; independent cartographer sign-off remains required for publication claims."
+}

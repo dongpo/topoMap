@@ -1,0 +1,90 @@
+{
+  "schema": "nma.runtime-baseline/0.32",
+  "runtime_release": "v0.2.1",
+  "status": "current-vector-live-neo4j-and-agent-runtime-baseline-aligned",
+  "recorded_at": "2026-08-12",
+  "aligned_at": "2026-08-14",
+  "canonical_graph": {
+    "path": "data/knowledge/nma-canonical-graph-v0.4.json",
+    "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "nodes": 4293,
+    "edges": 11244,
+    "authority": "consolidated-runtime-artifact",
+    "component_paths_role": "provenance-metadata-only",
+    "provenance_policy": "docs/NMA-V0.2.1-PROVENANCE-POLICY.md"
+  },
+  "vector_index": {
+    "required_path": "data/runtime/vector/nma-vector-index-v0.32.json",
+    "sha256": "9f45ba4196e7431eff094b202c8c55d0e99ca4c6f7d39c39fb600dd4d92f4d99",
+    "canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "records": 4293,
+    "status": "provider-backed-semantic-index-built",
+    "requested_model": "text-embedding-3-small",
+    "dimensions": 512,
+    "retained_historical_path": "data/runtime/vector/nma-vector-index-v0.4.json",
+    "retained_historical_sha256": "b1df4aa221ebc26605b457055227088949a0a0db5064ef1b3e97bbe1df713be9",
+    "retained_bound_graph_sha256": "d9410097c8f02802cc0917463120c489faba405a5e001ffc0c837e9c99b328ba",
+    "provider_input_tokens": 760264
+  },
+  "neo4j_projection": {
+    "path": "data/runtime/neo4j/nma-neo4j-projection-v0.32.json",
+    "sha256": "fea319039c7ce3064952645142eef8aa833f4856cacc996b0f502c6fed224725",
+    "canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "status": "reproducible-projection-ready; live-neo4j-import-not-run"
+  },
+  "neo4j_offline_round_trip": {
+    "path": "data/runtime/neo4j/nma-neo4j-round-trip-v0.32.json",
+    "sha256": "a5f85ce1e4546100b5d93c3fc8675a85af0677d7c6ca0ba6427891890ba92b97",
+    "canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "canonical_reconstruction_lossless": true,
+    "live_import_executed": false,
+    "live_round_trip_verified": false
+  },
+  "neo4j_live_round_trip": {
+    "path": "data/runtime/neo4j/nma-neo4j-round-trip-live-v0.32.json",
+    "sha256": "b7fe0849ed937f840758beaf4ea14657f18c4e1cf53f4b763b6402e84ba23e9d",
+    "canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "live_import_executed": true,
+    "live_round_trip_verified": true,
+    "status": "live-neo4j-import-and-round-trip-verified"
+  },
+  "neo4j_retrieval_parity": {
+    "path": "data/runtime/neo4j/nma-neo4j-retrieval-parity-v0.32.json",
+    "sha256": "fdbba0f16d9e449ae6e09412ca5111430aa672a0faafdcc30eea922e3d9e98e5",
+    "cases_passed": 5,
+    "case_count": 5,
+    "geometry_coverage": ["LineString", "Point", "Polygon"],
+    "graph_identity_matches": true,
+    "retrieval_parity_verified": true
+  },
+  "agent_server": {
+    "status": "typed-live-neo4j-runtime-backend-wiring-verified",
+    "runtime_contract": "nma.runtime-baseline/0.32",
+    "runtime_revision": "nma.runtime-baseline/0.32",
+    "vector_index": "data/runtime/vector/nma-vector-index-v0.32.json",
+    "vector_canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "vector_candidate_view": {
+      "source": "data/review/semantic-links/nma-semantic-candidates-v0.8.json",
+      "records": 638,
+      "purpose": "preserve-existing-bounded-entity-resolution-over-v0.32-canonical-vectors"
+    },
+    "runtime_backend_evidence": "data/runtime/neo4j/nma-runtime-graph-backend-v0.32.json",
+    "runtime_backend_evidence_sha256": "3ea944aac5f571b4be457bacde62569a519aaf9ee258a6330f7be4f7996909b3",
+    "active_backend": "live-neo4j",
+    "graph_identity_verified": true,
+    "cases_passed": 4,
+    "case_count": 4,
+    "http_socket_smoke_test": "deferred-to-F07-clean-browser-acceptance-because-Codex-sandbox-prohibits-local-bind"
+  },
+  "verification": {
+    "focused_tests": 34,
+    "focused_tests_passed": 34,
+    "historical_artifacts_overwritten": false,
+    "automatic_rule_activation": false,
+    "map_mutations": 0
+  },
+  "remaining_gates": [
+    "Run the HTTP socket and clean-browser smoke test during F07 conference acceptance."
+  ],
+  "claim_boundary": "This record proves current graph identity, provider-backed vector coverage, live Neo4j lossless round trip, retrieval parity, and typed Agent runtime backend wiring. It does not claim that the HTTP server remained running after verification or that clean-browser conference acceptance has passed."
+}

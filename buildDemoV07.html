@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'none'">
+  <meta name="description" content="BUILD-07 建物圖式 DEMO 使用者評估；五項語意只能接受目前 DEMO 或要求修訂，不產生正式或 production 權限。">
+  <title>BUILD-07 建物圖式使用者評估（非正式）</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #171b1a;
+      --muted: #5d6864;
+      --paper: #f3f5f1;
+      --card: #ffffff;
+      --line: #d8ded9;
+      --accent: #0b6b4f;
+      --accent-soft: #e5f2ec;
+      --warning: #8a4c00;
+      --warning-soft: #fff4dd;
+      --danger: #8c2323;
+      --shadow: 0 18px 50px rgb(24 45 36 / 10%);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 10%, #dfece3 0, transparent 28rem),
+        linear-gradient(145deg, var(--paper), #eef1ed);
+      font: 16px/1.55 ui-sans-serif, system-ui, -apple-system, "Microsoft JhengHei", sans-serif;
+    }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 30px 0 48px; }
+    .gate {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      padding: 14px 18px;
+      border: 1px solid #e6c886;
+      border-radius: 14px;
+      color: var(--warning);
+      background: var(--warning-soft);
+    }
+    .gate strong { font-weight: 900; letter-spacing: .04em; }
+    .gate span:last-child { color: #72562b; font-size: .9rem; text-align: right; }
+    header { padding: 52px 4px 28px; }
+    .eyebrow { color: var(--accent); font-size: .78rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+    h1 { max-width: 780px; margin: 8px 0 12px; font-size: clamp(2.35rem, 6vw, 5rem); line-height: .98; letter-spacing: -.055em; }
+    header p { max-width: 740px; margin: 0; color: var(--muted); font-size: 1.08rem; }
+    .workspace { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 22px; align-items: start; }
+    .card { border: 1px solid var(--line); border-radius: 18px; background: var(--card); box-shadow: var(--shadow); }
+    .stage { overflow: hidden; }
+    .stage-head { display: flex; justify-content: space-between; gap: 14px; align-items: center; padding: 16px 18px; border-bottom: 1px solid var(--line); }
+    .stage-head h2 { margin: 0; font-size: 1rem; }
+    .status { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: .84rem; }
+    .status::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #b87920; }
+    .status.verified { color: var(--accent); }
+    .status.verified::before { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+    .status.failed { color: var(--danger); }
+    .status.failed::before { background: var(--danger); }
+    .canvas-wrap { min-height: 560px; display: grid; place-items: center; padding: 22px; background: linear-gradient(155deg, #f9faf8, #edf1ed); }
+    svg { display: block; width: 100%; height: auto; max-height: 620px; border-radius: 12px; background: white; }
+    #building-shape { fill: url(#building-hatch); stroke: #111111; stroke-width: 1; vector-effect: non-scaling-stroke; }
+    #annotation { fill: #111111; paint-order: stroke; stroke: white; stroke-width: 4px; stroke-linejoin: round; font-size: 22px; font-weight: 850; text-anchor: middle; dominant-baseline: middle; }
+    .panel { padding: 20px; }
+    .panel h2 { margin: 0 0 16px; font-size: 1rem; }
+    .control { padding: 16px; border-radius: 12px; background: #f5f7f4; }
+    .control-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+    label { font-weight: 850; }
+    output { color: var(--accent); font: 850 1.45rem/1 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    input[type="range"] { width: 100%; margin: 20px 0 8px; accent-color: var(--accent); }
+    .range-labels { display: flex; justify-content: space-between; color: var(--muted); font-size: .76rem; }
+    button { width: 100%; min-height: 42px; margin-top: 12px; border: 1px solid #aeb9b3; border-radius: 9px; color: var(--ink); background: white; font-weight: 800; cursor: pointer; }
+    button:hover { border-color: var(--accent); color: var(--accent); }
+    .facts { display: grid; gap: 0; margin: 20px 0 0; }
+    .fact { padding: 13px 0; border-top: 1px solid var(--line); }
+    .fact dt { color: var(--muted); font-size: .76rem; letter-spacing: .04em; text-transform: uppercase; }
+    .fact dd { margin: 4px 0 0; overflow-wrap: anywhere; font: 700 .83rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .boundary { margin-top: 18px; padding: 14px; border-left: 4px solid var(--accent); border-radius: 8px; color: #315046; background: var(--accent-soft); font-size: .86rem; }
+    .error { margin: 18px; padding: 14px; border-radius: 10px; color: var(--danger); background: #fff0f0; }
+    .evaluation { margin-top: 24px; padding: 24px; }
+    .evaluation-head { display: flex; justify-content: space-between; gap: 22px; align-items: start; }
+    .evaluation h2 { margin: 0; font-size: 1.4rem; }
+    .evaluation-head p { max-width: 720px; margin: 6px 0 0; color: var(--muted); }
+    .progress { flex: 0 0 auto; padding: 8px 12px; border-radius: 999px; color: #315046; background: var(--accent-soft); font-weight: 850; }
+    .decision-grid { display: grid; gap: 14px; margin-top: 22px; }
+    fieldset { min-width: 0; margin: 0; padding: 18px; border: 1px solid var(--line); border-radius: 14px; }
+    legend { padding: 0 8px; font-weight: 900; }
+    .decision-question { margin: 0 0 8px; font-weight: 800; }
+    .decision-current { margin: 0 0 14px; color: var(--muted); }
+    .verdicts { display: flex; flex-wrap: wrap; gap: 10px; }
+    .verdicts label { display: flex; gap: 8px; align-items: center; padding: 9px 12px; border: 1px solid var(--line); border-radius: 9px; cursor: pointer; }
+    .verdicts label:has(input:checked) { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+    input[type="radio"] { accent-color: var(--accent); }
+    textarea { width: 100%; min-height: 82px; margin-top: 12px; padding: 10px 12px; resize: vertical; border: 1px solid var(--line); border-radius: 9px; font: inherit; }
+    textarea:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+    .export-panel { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; align-items: center; margin-top: 20px; padding: 18px; border-radius: 14px; background: #f5f7f4; }
+    .export-panel p { margin: 0; color: var(--muted); }
+    .export-panel button { margin: 0; color: white; border-color: var(--accent); background: var(--accent); }
+    .export-panel button:disabled { cursor: not-allowed; color: #79827e; border-color: #cfd5d1; background: #e5e9e6; }
+    .export-status { margin-top: 12px; color: var(--accent); font-weight: 800; }
+    footer { padding: 26px 4px 0; color: var(--muted); font-size: .82rem; }
+    code { padding: 2px 5px; border-radius: 5px; background: #e9eeea; }
+    @media (max-width: 860px) {
+      .workspace { grid-template-columns: 1fr; }
+      .canvas-wrap { min-height: 420px; }
+      .gate { align-items: flex-start; flex-direction: column; }
+      .gate span:last-child { text-align: left; }
+      .evaluation-head, .export-panel { display: grid; grid-template-columns: 1fr; }
+      .progress { justify-self: start; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="gate" role="note" aria-label="DEMO authority boundary">
+      <strong>DEMO ONLY · 非正式圖式</strong>
+      <span>評估結果只接受目前 DEMO 或要求修訂；不代表官方規範，也不是 production 授權</span>
+    </div>
+
+    <header>
+      <div class="eyebrow">BUILD-07 · user evaluation gate</div>
+      <h1>建物面圖式<br>使用者評估</h1>
+      <p>先查看已驗證的 DEMO，再逐項接受目前設定或要求修訂。只有剖面線角度可直接試調；其他語意保持不變並以文字評估。</p>
+    </header>
+
+    <section class="workspace" aria-label="BUILD-07 building demonstration">
+      <article class="card stage">
+        <div class="stage-head">
+          <h2>正規化局部座標視圖</h2>
+          <span id="verification-status" class="status" role="status">正在驗證凍結產物…</span>
+        </div>
+        <div class="canvas-wrap">
+          <svg id="demo-svg" viewBox="0 0 1000 680" role="img" aria-labelledby="svg-title svg-desc">
+            <title id="svg-title">BUILD-05 正規化建物面圖式</title>
+            <desc id="svg-desc">黑色一像素邊界、二毫米間距剖面線及樓層加結構註記；剖面線角度可調。</desc>
+            <defs>
+              <pattern id="building-hatch" width="7.559055118110236" height="7.559055118110236" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <line x1="0" y1="0" x2="7.559055118110236" y2="0" stroke="#111111" stroke-width="1" />
+              </pattern>
+            </defs>
+            <path id="building-shape" d="" />
+            <text id="annotation" x="500" y="340">樓層＋結構</text>
+          </svg>
+        </div>
+        <p id="error-message" class="error" hidden></p>
+      </article>
+
+      <aside class="card panel" aria-label="DEMO controls and verification facts">
+        <h2>DEMO 調整</h2>
+        <div class="control">
+          <div class="control-head">
+            <label for="hatch-angle">剖面線角度</label>
+            <output id="angle-output" for="hatch-angle">45°</output>
+          </div>
+          <input id="hatch-angle" type="range" min="0" max="179" step="1" value="45" disabled>
+          <div class="range-labels"><span>0°</span><span>179°</span></div>
+          <button id="reset-angle" type="button" disabled>回到核准預設值 45°</button>
+        </div>
+
+        <dl class="facts">
+          <div class="fact"><dt>執行包</dt><dd id="package-id">待驗證</dd></div>
+          <div class="fact"><dt>消耗狀態</dt><dd id="consumption-status">待驗證</dd></div>
+          <div class="fact"><dt>來源形態承諾</dt><dd id="geometry-type">待驗證</dd></div>
+          <div class="fact"><dt>展示座標</dt><dd id="coordinate-space">待驗證</dd></div>
+        </dl>
+
+        <p class="boundary">角度調整只影響此頁的視覺呈現，不修改 BUILD-05 產物、不重新讀取來源，也不建立新的授權消耗。</p>
+      </aside>
+    </section>
+
+    <section class="card evaluation" aria-labelledby="evaluation-title">
+      <div class="evaluation-head">
+        <div>
+          <h2 id="evaluation-title">五項 DEMO 語意決議</h2>
+          <p>每一項都必須選擇「接受目前 DEMO」或「要求修訂」。要求修訂時請說明原因；匯出的 JSON 只是一份本機評估紀錄，不會上傳或啟用正式規則。</p>
+        </div>
+        <div id="evaluation-progress" class="progress" role="status">0 / 5 已決定</div>
+      </div>
+
+      <div id="decision-grid" class="decision-grid" aria-live="polite"></div>
+
+      <div class="export-panel">
+        <p>完成五項決議後，可下載不含姓名的評估紀錄。若任一項要求修訂，整體結果會是 <code>revision-requested-demo-only</code>。</p>
+        <button id="export-evaluation" type="button" disabled>下載評估 JSON</button>
+      </div>
+      <p id="evaluation-error" class="error" hidden></p>
+      <p id="export-status" class="export-status" role="status"></p>
+    </section>
+
+    <footer>BUILD-07 DEMO-only evaluation gate · 無外部網路、無伺服器儲存、無正式或 production 權限。</footer>
+  </main>
+
+  <script>
+    "use strict";
+
+    const PACKAGE_URL = "data/specifications/nma-build-05-golden-execution-package-v1.0.json";
+    const LEDGER_URL = "data/specifications/nma-build-05-authorization-consumption-v1.0.json";
+    const TEMPLATE_URL = "data/specifications/nma-build-07-golden-evaluation-template-v1.0.json";
+    const EXPECTED_PACKAGE_FILE_SHA256 = "508e3378a698f869255485c5008fdb80ed670ce174a3b72092aab5160df7431c";
+    const EXPECTED_LEDGER_FILE_SHA256 = "715a5445827b77308ec32a67efe74ac8e5ed29b9037ee543285270a4da1c9d47";
+    const EXPECTED_TEMPLATE_FILE_SHA256 = "9e2b183260c5ac689831b1f5945defad28f27f49447f1a0d3f2b5b0425189364";
+    const EXPECTED_PACKAGE_SHA256 = "10c22339abb8d2eed489ae56a54214948213bad51a135e00f74e309931c98c97";
+    const EXPECTED_CONSUMPTION_SHA256 = "44ab99947d9cb196de6a4f5a5238b4af33eb306a911a104224774425c7ebb108";
+    const EXPECTED_TEMPLATE_SHA256 = "0fea2e7fe6b8ec9dd10816ba5679b04773ecd3f0761ca7b58e339f7df91139e6";
+
+    const status = document.querySelector("#verification-status");
+    const errorMessage = document.querySelector("#error-message");
+    const slider = document.querySelector("#hatch-angle");
+    const output = document.querySelector("#angle-output");
+    const reset = document.querySelector("#reset-angle");
+    const pattern = document.querySelector("#building-hatch");
+    const shape = document.querySelector("#building-shape");
+    const annotation = document.querySelector("#annotation");
+    const decisionGrid = document.querySelector("#decision-grid");
+    const progress = document.querySelector("#evaluation-progress");
+    const exportButton = document.querySelector("#export-evaluation");
+    const evaluationError = document.querySelector("#evaluation-error");
+    const exportStatus = document.querySelector("#export-status");
+    let evaluationTemplate = null;
+    let verifiedPackage = false;
+
+    async function fetchVerifiedJson(url, expectedSha256) {
+      const response = await fetch(url, {cache: "no-store", credentials: "same-origin"});
+      if (!response.ok) throw new Error(`無法載入 ${url}（HTTP ${response.status}）`);
+      const bytes = await response.arrayBuffer();
+      const digest = await crypto.subtle.digest("SHA-256", bytes);
+      const actual = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
+      if (actual !== expectedSha256) throw new Error(`${url} 的檔案雜湊不符合 BUILD-06 凍結值`);
+      return JSON.parse(new TextDecoder().decode(bytes));
+    }
+
+    function validatePackage(packageValue, ledger) {
+      const artifact = packageValue.demo_artifact;
+      const consumption = packageValue.consumption_record;
+      const feature = artifact?.maplibre_demo?.source?.data?.features?.[0];
+      const ring = feature?.geometry?.coordinates?.[0];
+      if (packageValue.package_sha256 !== EXPECTED_PACKAGE_SHA256) throw new Error("BUILD-05 執行包身分不符");
+      if (consumption?.consumption_sha256 !== EXPECTED_CONSUMPTION_SHA256) throw new Error("BUILD-05 消耗身分不符");
+      if (JSON.stringify(ledger) !== JSON.stringify(consumption)) throw new Error("獨立消耗帳本與執行包不一致");
+      if (consumption.status !== "consumed-once" || consumption.replay_allowed !== false) throw new Error("授權未被可靠地封鎖重播");
+      if (artifact?.privacy?.coordinate_space !== "normalized-local-demo-not-geographic") throw new Error("展示座標不是正規化非地理座標");
+      if (artifact.privacy.raw_geographic_coordinates_included || artifact.privacy.raw_attributes_included) throw new Error("執行包越過隱私邊界");
+      if (!Array.isArray(ring) || ring.length !== 65 || ring.some(point => !Array.isArray(point) || point.length !== 2 || point.some(value => !Number.isFinite(value) || value < 0 || value > 1))) throw new Error("正規化建物圖形結構不符");
+      if (ring[0][0] !== ring.at(-1)[0] || ring[0][1] !== ring.at(-1)[1]) throw new Error("建物圖形未閉合");
+      return {artifact, consumption, feature, ring};
+    }
+
+    function toSvgPoint([x, y]) {
+      return [80 + (x * 840), 610 - (y * 520)];
+    }
+
+    function polygonCentroid(points) {
+      let areaTwice = 0;
+      let xSum = 0;
+      let ySum = 0;
+      for (let index = 0; index < points.length - 1; index += 1) {
+        const [x1, y1] = points[index];
+        const [x2, y2] = points[index + 1];
+        const cross = (x1 * y2) - (x2 * y1);
+        areaTwice += cross;
+        xSum += (x1 + x2) * cross;
+        ySum += (y1 + y2) * cross;
+      }
+      if (Math.abs(areaTwice) < 1e-9) return [500, 340];
+      return [xSum / (3 * areaTwice), ySum / (3 * areaTwice)];
+    }
+
+    function renderRing(ring) {
+      const points = ring.map(toSvgPoint);
+      shape.setAttribute("d", points.map(([x, y], index) => `${index ? "L" : "M"}${x.toFixed(3)} ${y.toFixed(3)}`).join(" ") + " Z");
+      const [cx, cy] = polygonCentroid(points);
+      annotation.setAttribute("x", cx.toFixed(3));
+      annotation.setAttribute("y", cy.toFixed(3));
+    }
+
+    function setAngle(value) {
+      const angle = Math.max(0, Math.min(179, Math.round(Number(value))));
+      slider.value = String(angle);
+      output.value = `${angle}°`;
+      output.textContent = `${angle}°`;
+      pattern.setAttribute("patternTransform", `rotate(${angle})`);
+      exportStatus.textContent = "";
+    }
+
+    function canonicalValue(value) {
+      if (Array.isArray(value)) return value.map(canonicalValue);
+      if (value && typeof value === "object") {
+        return Object.fromEntries(Object.keys(value).sort().map(key => [key, canonicalValue(value[key])]));
+      }
+      return value;
+    }
+
+    async function canonicalSha256(value) {
+      const bytes = new TextEncoder().encode(JSON.stringify(canonicalValue(value)));
+      const digest = await crypto.subtle.digest("SHA-256", bytes);
+      return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
+    }
+
+    async function validateTemplate(template) {
+      const basis = structuredClone(template);
+      delete basis.template_sha256;
+      if (template.template_sha256 !== EXPECTED_TEMPLATE_SHA256) throw new Error("BUILD-07 評估範本身分不符");
+      if (await canonicalSha256(basis) !== EXPECTED_TEMPLATE_SHA256) throw new Error("BUILD-07 評估範本內容遭到變更");
+      if (template.status !== "awaiting-user-evaluation" || template.gate_items?.length !== 5) throw new Error("BUILD-07 評估範本結構不符");
+      if (template.boundaries?.demo_only !== true || template.boundaries?.official_portrayal_decided !== false || template.boundaries?.production_activation_allowed !== false) throw new Error("BUILD-07 評估範本越過 DEMO 權限");
+      return template;
+    }
+
+    function renderEvaluation(template) {
+      decisionGrid.replaceChildren();
+      for (const item of template.gate_items) {
+        const fieldset = document.createElement("fieldset");
+        fieldset.dataset.gateId = item.gate_id;
+        fieldset.innerHTML = `
+          <legend>${item.order}. ${item.title_zh_tw}</legend>
+          <p class="decision-question">${item.question_zh_tw}</p>
+          <p class="decision-current">目前 DEMO：${item.current_demo_resolution_zh_tw}</p>
+          <div class="verdicts">
+            <label><input type="radio" name="${item.gate_id}" value="accept-current-demo">接受目前 DEMO</label>
+            <label><input type="radio" name="${item.gate_id}" value="request-demo-revision">要求修訂</label>
+          </div>
+          <textarea maxlength="500" aria-label="${item.title_zh_tw}評估說明" placeholder="接受時可留白；要求修訂時請說明希望調整的內容。"></textarea>`;
+        decisionGrid.append(fieldset);
+      }
+      decisionGrid.addEventListener("input", updateEvaluationState);
+      updateEvaluationState();
+    }
+
+    function selectedDecisions() {
+      return [...decisionGrid.querySelectorAll("fieldset")].map(fieldset => ({
+        gate_id: fieldset.dataset.gateId,
+        verdict: fieldset.querySelector("input[type=radio]:checked")?.value || null,
+        note_zh_tw: fieldset.querySelector("textarea").value.trim(),
+      }));
+    }
+
+    function updateEvaluationState() {
+      const decisions = selectedDecisions();
+      const decided = decisions.filter(item => item.verdict).length;
+      progress.textContent = `${decided} / 5 已決定`;
+      exportButton.disabled = !verifiedPackage || !evaluationTemplate || decided !== 5;
+      evaluationError.hidden = true;
+      exportStatus.textContent = "";
+    }
+
+    function validateUserDecisions(decisions) {
+      for (const decision of decisions) {
+        if (!decision.verdict) throw new Error("五項語意都必須明確決定");
+        if (decision.verdict === "request-demo-revision" && !decision.note_zh_tw) throw new Error("要求修訂時必須填寫說明");
+      }
+      const hatch = decisions[0];
+      hatch.preferred_angle_degrees = Number(slider.value);
+      if (hatch.verdict === "accept-current-demo" && hatch.preferred_angle_degrees !== 45) {
+        throw new Error("若接受目前 DEMO，請先回到 45°；其他角度請選擇要求修訂並說明");
+      }
+      return decisions;
+    }
+
+    async function buildEvaluationRecord() {
+      const decisions = validateUserDecisions(selectedDecisions());
+      const revisionCount = decisions.filter(item => item.verdict === "request-demo-revision").length;
+      const record = {
+        evaluation_version: "build-07/1.0",
+        schema_version: "nma.build-demo-user-evaluation/1.0",
+        record_type: "human-demo-semantic-evaluation",
+        status: revisionCount ? "revision-requested-demo-only" : "accepted-demo-only",
+        template_sha256: evaluationTemplate.template_sha256,
+        evaluated_on: new Date().toISOString().slice(0, 10),
+        evaluator: {actor_type: "human-demo-reviewer", identity_recorded: false},
+        decisions,
+        summary: {
+          gate_count: 5,
+          accepted_count: 5 - revisionCount,
+          revision_requested_count: revisionCount,
+          all_five_decisions_explicit: true,
+        },
+        boundaries: structuredClone(evaluationTemplate.boundaries),
+      };
+      record.record_sha256 = await canonicalSha256(record);
+      return record;
+    }
+
+    exportButton.addEventListener("click", async () => {
+      try {
+        const record = await buildEvaluationRecord();
+        const blob = new Blob([`${JSON.stringify(record, null, 2)}\n`], {type: "application/json"});
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `nma-build-07-user-evaluation-${record.evaluated_on}.json`;
+        link.click();
+        URL.revokeObjectURL(url);
+        exportStatus.textContent = `已建立 ${record.status} 評估紀錄；此檔案尚未成為專案決議。`;
+        evaluationError.hidden = true;
+      } catch (error) {
+        evaluationError.textContent = error instanceof Error ? error.message : "無法建立評估紀錄";
+        evaluationError.hidden = false;
+      }
+    });
+
+    slider.addEventListener("input", event => setAngle(event.target.value));
+    reset.addEventListener("click", () => setAngle(45));
+
+    async function initialize() {
+      try {
+        const [packageValue, ledger, templateValue] = await Promise.all([
+          fetchVerifiedJson(PACKAGE_URL, EXPECTED_PACKAGE_FILE_SHA256),
+          fetchVerifiedJson(LEDGER_URL, EXPECTED_LEDGER_FILE_SHA256),
+          fetchVerifiedJson(TEMPLATE_URL, EXPECTED_TEMPLATE_FILE_SHA256),
+        ]);
+        const verified = validatePackage(packageValue, ledger);
+        evaluationTemplate = await validateTemplate(templateValue);
+        renderRing(verified.ring);
+        renderEvaluation(evaluationTemplate);
+        setAngle(verified.artifact.maplibre_demo.controls.hatch_angle_degrees.default);
+        document.querySelector("#package-id").textContent = `${packageValue.package_sha256.slice(0, 16)}…`;
+        document.querySelector("#consumption-status").textContent = `${verified.consumption.status} · replay=false`;
+        document.querySelector("#geometry-type").textContent = `${verified.artifact.source_commitments.source_geometry_type} · 65 vertices`;
+        document.querySelector("#coordinate-space").textContent = verified.artifact.privacy.coordinate_space;
+        slider.disabled = false;
+        reset.disabled = false;
+        verifiedPackage = true;
+        updateEvaluationState();
+        status.textContent = "凍結產物與評估範本驗證通過";
+        status.className = "status verified";
+      } catch (error) {
+        status.textContent = "驗證失敗，展示已封鎖";
+        status.className = "status failed";
+        errorMessage.textContent = error instanceof Error ? error.message : "未知驗證錯誤";
+        errorMessage.hidden = false;
+        shape.setAttribute("d", "");
+        decisionGrid.replaceChildren();
+        exportButton.disabled = true;
+      }
+    }
+
+    initialize();
+  </script>
+</body>
+</html>

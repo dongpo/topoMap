@@ -1,0 +1,71 @@
+{
+  "schema": "nma.road-hero-road-01-fixture/1.0",
+  "profile": "K14",
+  "layer": "K14_ROAD",
+  "archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+  "fixture_sha256": "b01e261971f65cbfc127aed4f1ba17b01b194dd89f256d3c024170c1dc7338f0",
+  "road_identity": {
+    "class_code": "9420400",
+    "class_name": "County Highway",
+    "route_number": "縣126",
+    "road_name": "中山街",
+    "canonical_identity": "ROADNUM=縣126|ROADNUM1=|ROADNUM2=|ROADNAME=中山街",
+    "identity_basis": ["ROADNUM", "ROADNUM1", "ROADNUM2", "ROADNAME"]
+  },
+  "geometry_type": "LineString",
+  "crs": "TWD97[2020]_TM121",
+  "source_records": [
+    {
+      "feature_id": "K0000004671",
+      "profile": "K14",
+      "layer": "K14_ROAD",
+      "class_code": "9420400",
+      "roadnum": "縣126",
+      "roadnum1": "",
+      "roadnum2": "",
+      "roadname": "中山街",
+      "geometry_type": "LineString",
+      "endpoint_nodes": ["endpoint-1", "endpoint-0"],
+      "is_simple": true,
+      "positive_length_overlaps": []
+    },
+    {
+      "feature_id": "K0000004913",
+      "profile": "K14",
+      "layer": "K14_ROAD",
+      "class_code": "9420400",
+      "roadnum": "縣126",
+      "roadnum1": "",
+      "roadnum2": "",
+      "roadname": "中山街",
+      "geometry_type": "LineString",
+      "endpoint_nodes": ["endpoint-2", "endpoint-1"],
+      "is_simple": true,
+      "positive_length_overlaps": []
+    },
+    {
+      "feature_id": "K0000005348",
+      "profile": "K14",
+      "layer": "K14_ROAD",
+      "class_code": "9420400",
+      "roadnum": "縣126",
+      "roadnum1": "",
+      "roadnum2": "",
+      "roadname": "中山街",
+      "geometry_type": "LineString",
+      "endpoint_nodes": ["endpoint-3", "endpoint-2"],
+      "is_simple": true,
+      "positive_length_overlaps": []
+    }
+  ],
+  "evidence": {
+    "record_set": "nma-road-compound-portrayal-reviewed-v0.4",
+    "evidence_ids": [
+      "BMAP096-P5-TABLE1-GRAPHIC-ELEMENT-CODES",
+      "DOC01-P22-P24-ROAD-BOUNDARY-LABEL",
+      "DOC01-P34-P35-ROUTE-SHIELDS",
+      "DOC02-P45-P46-ANNEX7-CODING-SCHEME",
+      "DOC02-P53-P55-ROAD-CODE-BRANCH"
+    ]
+  }
+}

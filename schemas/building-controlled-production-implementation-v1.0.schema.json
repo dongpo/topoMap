@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://topomap.example/schemas/building-controlled-production-implementation-v1.0.schema.json",
+  "title": "BUILD-10 controlled Building production implementation record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "plan",
+    "provenance",
+    "observation",
+    "verification",
+    "receipt",
+    "production_activation_allowed",
+    "official_portrayal_activation_allowed",
+    "source_mutation_allowed",
+    "source_z_drop_allowed",
+    "implementation_record_sha256"
+  ],
+  "properties": {
+    "schema": {"const": "nma.building-controlled-production-implementation/1.0"},
+    "status": {"const": "implementation-complete-activation-hold"},
+    "plan": {"$ref": "#/$defs/plan"},
+    "provenance": {"$ref": "#/$defs/provenance"},
+    "observation": {"$ref": "#/$defs/observation"},
+    "verification": {"$ref": "#/$defs/verification"},
+    "receipt": {"$ref": "#/$defs/receipt"},
+    "production_activation_allowed": {"const": false},
+    "official_portrayal_activation_allowed": {"const": false},
+    "source_mutation_allowed": {"const": false},
+    "source_z_drop_allowed": {"const": false},
+    "implementation_record_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_package_identity",
+        "geographic_project_scope",
+        "selected_layer",
+        "schema_identity",
+        "schema",
+        "binding_policy_identity",
+        "binding_policy_authority",
+        "source_archive_sha256",
+        "component_sha256",
+        "cross_prefix_fallback_used",
+        "global_equivalence_asserted"
+      ],
+      "properties": {
+        "source_package_identity": {"enum": ["J13_寶山都市計畫/SHP", "J17_新竹科學工業園區特定區計畫(寶山部分)/SHP"]},
+        "geographic_project_scope": {"type": "string", "minLength": 1},
+        "selected_layer": {"enum": ["J13_BUILD", "J17_BUILD"]},
+        "schema_identity": {"$ref": "#/$defs/sha256"},
+        "schema": {"type": "object"},
+        "binding_policy_identity": {"const": "build-09f:local-version-package-scoped-production-binding"},
+        "binding_policy_authority": {"const": "local-nma-production-policy"},
+        "source_archive_sha256": {"const": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53"},
+        "component_sha256": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [".cpg", ".dbf", ".prj", ".shp", ".shx"],
+          "properties": {
+            ".cpg": {"$ref": "#/$defs/sha256"},
+            ".dbf": {"$ref": "#/$defs/sha256"},
+            ".prj": {"$ref": "#/$defs/sha256"},
+            ".shp": {"$ref": "#/$defs/sha256"},
+            ".shx": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "cross_prefix_fallback_used": {"const": false},
+        "global_equivalence_asserted": {"const": false}
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "status", "production_contract_sha256", "policy_authorization_sha256", "binding", "source_geometry", "source_crs", "output_crs", "output_profile_id", "operations", "permissions", "execution_plan_sha256"],
+      "properties": {
+        "schema": {"const": "nma.building-production-execution-plan/1.0"},
+        "status": {"const": "implementation-ready-activation-hold"},
+        "production_contract_sha256": {"const": "5c62664ad4884f83454b2ed1d227d7278e8f6e0ce9f85c1f992db5a429d56c88"},
+        "policy_authorization_sha256": {"const": "dd15aead073404cd82030104d2603e0dc1461e7a90d972b853d2bcb6d482c8a1"},
+        "binding": {"$ref": "#/$defs/binding"},
+        "source_geometry": {"const": "PolygonZ"},
+        "source_crs": {"type": "string", "minLength": 1},
+        "output_crs": {"const": "EPSG:4326"},
+        "output_profile_id": {"const": "nma-screen-96dpi-v1"},
+        "operations": {"type": "array", "minItems": 10, "items": {"type": "string"}},
+        "permissions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_read_allowed", "source_write_allowed", "source_geometry_repair_allowed", "source_z_removal_allowed", "production_activation_allowed", "official_portrayal_activation_allowed"],
+          "properties": {
+            "source_read_allowed": {"const": true},
+            "source_write_allowed": {"const": false},
+            "source_geometry_repair_allowed": {"const": false},
+            "source_z_removal_allowed": {"const": false},
+            "production_activation_allowed": {"const": false},
+            "official_portrayal_activation_allowed": {"const": false}
+          }
+        },
+        "execution_plan_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["schema", "production_contract_sha256", "policy_authorization_sha256", "binding", "source_collection_sha256", "source_geometry_identities", "derived_xy_collection_sha256", "derived_geometry_identities", "annotation_collection_sha256", "derivation_algorithm", "placement_algorithm", "authoritative_source_geometry", "source_immutable", "source_z_preserved_and_recoverable", "source_write_handle_exposed", "derived_xy_authoritative", "derived_xy_non_writing", "derived_xy_purpose", "geometry_repair_performed", "materialization", "provenance_sha256"],
+      "properties": {
+        "schema": {"const": "nma.building-production-provenance/1.0"},
+        "production_contract_sha256": {"$ref": "#/$defs/sha256"},
+        "policy_authorization_sha256": {"$ref": "#/$defs/sha256"},
+        "binding": {"$ref": "#/$defs/binding"},
+        "source_collection_sha256": {"$ref": "#/$defs/sha256"},
+        "source_geometry_identities": {"type": "array", "items": {"type": "object"}},
+        "derived_xy_collection_sha256": {"$ref": "#/$defs/sha256"},
+        "derived_geometry_identities": {"type": "array", "items": {"type": "object"}},
+        "annotation_collection_sha256": {"$ref": "#/$defs/sha256"},
+        "derivation_algorithm": {"const": "nma.derive-xy-for-portrayal/1.0"},
+        "placement_algorithm": {"const": "nma.deterministic-polygon-interior-point/1.0"},
+        "authoritative_source_geometry": {"const": "PolygonZ"},
+        "source_immutable": {"const": true},
+        "source_z_preserved_and_recoverable": {"const": true},
+        "source_write_handle_exposed": {"const": false},
+        "derived_xy_authoritative": {"const": false},
+        "derived_xy_non_writing": {"const": true},
+        "derived_xy_purpose": {"const": "portrayal-only"},
+        "geometry_repair_performed": {"const": false},
+        "materialization": {"const": "ephemeral"},
+        "provenance_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "required": ["schema", "status", "execution_plan_sha256", "provenance_sha256", "maplibre_bundle_sha256", "source_feature_count", "derived_xy_feature_count", "annotation_feature_count", "source_mutated", "source_z_preserved", "derived_xy_non_authoritative", "map_mutation_performed", "production_active", "official_portrayal_active", "observation_sha256"],
+      "properties": {
+        "schema": {"const": "nma.building-production-observation/1.0"},
+        "status": {"const": "controlled-implementation-observed"},
+        "source_mutated": {"const": false},
+        "source_z_preserved": {"const": true},
+        "derived_xy_non_authoritative": {"const": true},
+        "map_mutation_performed": {"const": false},
+        "production_active": {"const": false},
+        "official_portrayal_active": {"const": false},
+        "execution_plan_sha256": {"$ref": "#/$defs/sha256"},
+        "provenance_sha256": {"$ref": "#/$defs/sha256"},
+        "maplibre_bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "observation_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["schema", "status", "checks", "execution_plan_sha256", "provenance_sha256", "observation_sha256", "maplibre_bundle_sha256", "verification_sha256"],
+      "properties": {
+        "schema": {"const": "nma.building-production-verification/1.0"},
+        "status": {"const": "passed-controlled-implementation"},
+        "checks": {"type": "object", "additionalProperties": {"const": true}},
+        "execution_plan_sha256": {"$ref": "#/$defs/sha256"},
+        "provenance_sha256": {"$ref": "#/$defs/sha256"},
+        "observation_sha256": {"$ref": "#/$defs/sha256"},
+        "maplibre_bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "verification_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "required": ["schema", "status", "execution_plan_sha256", "provenance_sha256", "observation_sha256", "verification_sha256", "maplibre_bundle_sha256", "rollback_cleanup", "implementation_ready", "production_active", "official_portrayal_active", "automatic_activation_performed", "receipt_sha256"],
+      "properties": {
+        "schema": {"const": "nma.building-production-receipt/1.0"},
+        "status": {"const": "implementation-complete-activation-hold"},
+        "implementation_ready": {"const": true},
+        "production_active": {"const": false},
+        "official_portrayal_active": {"const": false},
+        "automatic_activation_performed": {"const": false},
+        "execution_plan_sha256": {"$ref": "#/$defs/sha256"},
+        "provenance_sha256": {"$ref": "#/$defs/sha256"},
+        "observation_sha256": {"$ref": "#/$defs/sha256"},
+        "verification_sha256": {"$ref": "#/$defs/sha256"},
+        "maplibre_bundle_sha256": {"$ref": "#/$defs/sha256"},
+        "receipt_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/nma/five-scene-soak-report.schema.json",
+  "title": "NMA RC1 five-scene soak report",
+  "type": "object",
+  "required": [
+    "report_version",
+    "generated_at",
+    "baseline",
+    "environment",
+    "protocol",
+    "summary",
+    "runs",
+    "defects",
+    "known_observations",
+    "recovery_steps",
+    "browser_soak"
+  ],
+  "properties": {
+    "report_version": {"const": "1.0"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "baseline": {"type": "object"},
+    "environment": {"type": "object"},
+    "protocol": {
+      "type": "object",
+      "required": [
+        "iterations",
+        "clean_reset_before_each_run",
+        "scene_order",
+        "negative_controls"
+      ],
+      "properties": {
+        "iterations": {"type": "integer", "minimum": 1},
+        "clean_reset_before_each_run": {"const": true},
+        "scene_order": {"type": "array", "minItems": 5, "maxItems": 5},
+        "negative_controls": {"type": "array", "minItems": 2, "maxItems": 2}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["passed", "failed", "pass_rate", "median_total_ms", "p95_total_ms", "max_total_ms"]
+    },
+    "runs": {"type": "array", "minItems": 1},
+    "defects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "classification", "owner", "next_action"],
+        "properties": {
+          "classification": {
+            "enum": ["blocking", "presentation-impacting", "deferred"]
+          }
+        }
+      }
+    },
+    "known_observations": {"type": "array"},
+    "recovery_steps": {"type": "array", "minItems": 1},
+    "browser_soak": {
+      "type": "object",
+      "required": ["status", "required_rounds", "required_console_errors", "required_console_warnings"],
+      "properties": {
+        "status": {"enum": ["pending-preview", "passed", "failed"]},
+        "tested_at": {"type": "string", "format": "date"},
+        "url": {"type": "string", "format": "uri"},
+        "required_rounds": {"type": "integer", "minimum": 1},
+        "completed_rounds": {"type": "integer", "minimum": 0},
+        "passed_rounds": {"type": "integer", "minimum": 0},
+        "failed_rounds": {"type": "integer", "minimum": 0},
+        "clean_reload_before_each_round": {"type": "boolean"},
+        "required_console_errors": {"type": "integer", "minimum": 0},
+        "required_console_warnings": {"type": "integer", "minimum": 0},
+        "console_errors": {"type": "integer", "minimum": 0},
+        "console_warnings": {"type": "integer", "minimum": 0},
+        "durations_ms": {"type": "array", "items": {"type": "number", "minimum": 0}},
+        "median_total_ms": {"type": "number", "minimum": 0},
+        "p95_total_ms": {"type": "number", "minimum": 0},
+        "max_total_ms": {"type": "number", "minimum": 0},
+        "scene_evidence": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "required": ["scene_id", "code", "page", "action", "result_text", "verified"],
+            "properties": {
+              "scene_id": {"type": "string"},
+              "code": {"type": "string"},
+              "page": {"type": "integer", "minimum": 1},
+              "action": {"enum": ["draw_symbol", "text_only"]},
+              "result_text": {"type": "string"},
+              "verified": {"const": true}
+            },
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

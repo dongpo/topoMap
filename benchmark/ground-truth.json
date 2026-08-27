@@ -1,0 +1,26 @@
+{
+  "version": "0.1.0",
+  "curation": "Executable rules were transcribed from cited pages; geospatial defects were inserted into synthetic Shapefiles and independently frozen as issue keys.",
+  "expert_review_status": "pending",
+  "datasets": {
+    "data/datasets/authoritative/riverl-clean/RIVERL.shp": [],
+    "data/datasets/authoritative/riverl-defective/RIVERL.shp": [
+      "TW-RIVERL-DOMAIN-001|index:1|TERRAINID",
+      "TW-RIVERL-FORMAT-001|index:1|RIVERLNAME",
+      "TW-RIVERL-REQUIRED-001|index:1|RIVERLID",
+      "TW-RIVERL-TOPO-001|J0000000003@index:2|-"
+    ],
+    "data/datasets/authoritative/riverl-schema-mismatch/RIVERL.shp": [
+      "TW-RIVERL-FIELD-001|dataset|RIVERLID"
+    ],
+    "data/datasets/authoritative/riverl-wrong-crs/RIVERL.shp": [
+      "TW-RIVERL-CRS-001|dataset|-"
+    ]
+  },
+  "source_observation": {
+    "archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "archive_redistributed": false,
+    "observed_schema_difference": "The supplied RIVERL layers use RIVERID; the cited 112-year specification page 39 states RIVERLID.",
+    "classification": "candidate finding requiring authority review, not benchmark truth"
+  }
+}

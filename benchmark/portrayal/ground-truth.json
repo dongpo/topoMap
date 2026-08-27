@@ -1,0 +1,23 @@
+{
+  "QA-001":{"status":"answered","feature_codes":["9350906"],"answer_contains":["9350906"],"pages":[11]},
+  "QA-002":{"status":"answered","feature_codes":["9740100"],"answer_contains":["50"],"pages":[50]},
+  "QA-003":{"status":"answered","feature_codes":["9910603"],"answer_contains":["9910603"],"pages":[60]},
+  "QA-004":{"status":"answered","feature_codes":["9920101","9920102","9920103","9920104","9920105","9920106"],"answer_contains":["9920101","9920102","9920103","9920104","9920105","9920106"],"pages":[61,61,61,61,61,62]},
+  "QA-005":{"status":"answered","feature_codes":["9950201"],"answer_contains":["大型獨幢郵局圖式改用文字註記"],"pages":[69]},
+  "QA-006":{"status":"answered","feature_codes":["9920103"],"answer_contains":["9920103"],"pages":[61]},
+  "QA-007":{"status":"answered","feature_codes":["9950201"],"answer_contains":["69"],"pages":[69]},
+  "QA-008":{"status":"abstain","feature_codes":[],"answer_contains":[],"pages":[]},
+  "SD-001":{"status":"selected","feature_code":"9350906","feature_name":"消防栓","symbol_id":"fire-hydrant","selected_action":"draw_symbol","page":11},
+  "SD-002":{"status":"selected","feature_code":"9740100","feature_name":"養殖池","symbol_id":"fish-pond","selected_action":"draw_symbol","page":50},
+  "SD-003":{"status":"selected","feature_code":"9910603","feature_name":"警察局、分駐所、派出所","symbol_id":"police","selected_action":"draw_symbol","page":60},
+  "SD-004":{"status":"selected","feature_code":"9920103","feature_name":"小學","symbol_id":"school","selected_action":"draw_symbol","page":61},
+  "SD-005":{"status":"selected","feature_code":"9950201","feature_name":"郵局","symbol_id":"post","selected_action":"draw_symbol","page":69},
+  "SD-006":{"status":"selected","feature_code":"9950201","feature_name":"郵局","symbol_id":"post","selected_action":"text_only","page":69},
+  "SD-007":{"status":"abstain","feature_code":"9950201"},
+  "SD-008":{"status":"abstain","feature_code":"9950201"},
+  "MAP-001":{"compiled":true,"feature_code":"9350906","source_layer":"J01_BUILD","rule_id":"rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9350906","page":11},
+  "MAP-002":{"compiled":true,"feature_code":"9740100","source_layer":"J01_WATERA","rule_id":"rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9740100","page":50},
+  "MAP-003":{"compiled":true,"feature_code":"9910603","source_layer":"J01_MARK","rule_id":"rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9910603","page":60},
+  "MAP-004":{"compiled":true,"feature_code":"9920103","source_layer":"J01_MARK","rule_id":"rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9920103","page":61},
+  "MAP-005":{"compiled":true,"feature_code":"9950201","source_layer":"J01_MARK","rule_id":"rule:portrayal:tw-nlsc-1000-NLSC112V5.4:9950201","page":69}
+}

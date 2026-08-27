@@ -1,0 +1,39 @@
+{
+  "activation_authorization_sha256": "8bae65726aa0c6901927cb3a0a12a875ac766d45ac9e3a793afb23a85effdb0f",
+  "activation_configuration_sha256": "03d28cbae50eb2050db4ed0841009e81fab84b18dcb882a7e85fce49818565ad",
+  "activation_id": "building-activation-03d28cbae50eb2050db4ed08",
+  "activation_result": "activated-and-post-activation-verified",
+  "active_scope": {
+    "J13": {
+      "active_runtime_observation_sha256": "0f139473852ba9b79c66332185b26ca12e844554136c8b1ea9c4fe9ff32f9d49",
+      "package_identity": "J13_寶山都市計畫/SHP",
+      "selected_layer": "J13_BUILD"
+    },
+    "J17": {
+      "active_runtime_observation_sha256": "cc7b77d220278098a754643f7e26eb0d90cfcf90b0426292c2c312aaa90abc5d",
+      "package_identity": "J17_新竹科學工業園區特定區計畫(寶山部分)/SHP",
+      "selected_layer": "J17_BUILD"
+    }
+  },
+  "canonical_activation_receipt_sha256": "d50cd21f5caa0428ae2dbd4f7fd8343b0bfc50e387dbd156b71ecb9a88739cb7",
+  "canonical_activation_state": {
+    "official_portrayal_active": true,
+    "production_active": true,
+    "source_mutation_allowed": false,
+    "source_z_drop_allowed": false
+  },
+  "canonical_timestamp_included": false,
+  "contract_sha256": "5c62664ad4884f83454b2ed1d227d7278e8f6e0ce9f85c1f992db5a429d56c88",
+  "deactivation_capability": "verified-reversible-state-layer",
+  "implementation_sha256": "2772ce93f81973e1dbbeb2d4ae9bb1307a29dcdcc4a61ca08f382c12b6b3c957",
+  "policy_sha256": "dd15aead073404cd82030104d2603e0dc1461e7a90d972b853d2bcb6d482c8a1",
+  "post_activation_observation_sha256": "94fc32800a47041a1624cd643397b3ad2e9b790318f3516257188cfc47d15bea",
+  "post_activation_verification_result": "PASS",
+  "post_activation_verification_sha256": "723ea166b9aecab6bf5edf4e98d23607cdcbdb858acc8d6226b64808467885de",
+  "readiness_sha256": "d2ecb53e74f46e279a5672a182b5a9de602c08d4027023d4fb225132bf3d01fb",
+  "receipt_version": "build-12/1.0",
+  "runtime_module_sha256": "a67f79c87072ab23cf546367183a418f60e94baa4fbf48e1d79b93629c4ce484",
+  "runtime_revision": "nma.building-production-runtime/1.0",
+  "schema_version": "nma.building-production-activation-receipt/1.0",
+  "source_integrity_result": "PASS"
+}

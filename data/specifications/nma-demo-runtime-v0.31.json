@@ -1,0 +1,32 @@
+{
+  "schema": "nma.demo-runtime-specification/0.31",
+  "status": "historical-v0.31-specification-aligned-to-v0.32-runtime-baseline",
+  "source_result": "data/runtime/llm/nma-v030-live-neo4j-grounded-answer-result.json",
+  "candidate_pool_contract": "nma.entity-candidate-pool/0.10.8",
+  "entity_resolution_contract": "nma.entity-resolution/0.10.6",
+  "graph_backend_contract": "nma.runtime-graph-backend/0.29",
+  "runtime_contract": "nma.runtime-baseline/0.32",
+  "runtime_revision": "nma.runtime-baseline/0.32",
+  "active_vector_index": "data/runtime/vector/nma-vector-index-v0.32.json",
+  "canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+  "candidate_vector_view": "638 reviewed candidate IDs selected from the v0.32 canonical vector index",
+  "candidate_pool_parameters": {
+    "raw_top_limit": 40,
+    "geometry_top_limit": 16,
+    "hierarchy_seed_limit": 8,
+    "hierarchy_family_limit": 10,
+    "max_candidates": 64,
+    "segment_top_limit": 8,
+    "segment_union_limit": 48,
+    "final_candidate_cap": 96
+  },
+  "multi_entity_segment_embeddings": "runtime-provider-calls-with-local-query-sha256-trace",
+  "answer_keys_used": false,
+  "hidden_chain_of_thought_exposed": false,
+  "arbitrary_cypher_allowed": false,
+  "automatic_rule_activation": false,
+  "automatic_acceptance": false,
+  "automatic_execution": false,
+  "automatic_map_mutation": false,
+  "claim_boundary": "Development integration of previously validated components. This is not a held-out evaluation result and does not establish generalisation."
+}

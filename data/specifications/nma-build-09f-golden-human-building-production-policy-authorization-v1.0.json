@@ -1,0 +1,218 @@
+{
+  "annotation_policy": {
+    "anchor": "deterministic-interior-or-representative-point",
+    "annotation_placement_authority": "local-production-policy",
+    "collision_suppression_allowed": true,
+    "content_authority": "official-portrayal-semantics",
+    "content_rule": "floor count followed by structure",
+    "field_binding_rule": "{BUILD_NO}{BUILD_STR}",
+    "near_feature_center_semantics_preserved": true,
+    "outside_polygon_fallback_authorized": false,
+    "preferred_placement": "inside-polygon",
+    "same_geometry_output_profile_is_deterministic": true,
+    "unsafe_label_behavior": "suppress"
+  },
+  "build10_readiness": "READY-FOR-BUILD-10",
+  "colour_policy": {
+    "canonical_device_representation": "rgb(0, 0, 0)",
+    "hex_authority": "derived-device-serialization",
+    "official_hex_definition": null,
+    "official_original_representation": "RGB (0,0,0)",
+    "official_rgb_components": [
+      0,
+      0,
+      0
+    ],
+    "official_semantic_name": "black",
+    "optional_hex_serialization": "#000000",
+    "rejected_device_representation": "#111111"
+  },
+  "contract_version": "build-09f/1.0",
+  "created_on": "2026-08-21",
+  "five_gate_readiness": [
+    {
+      "gate_id": "hatch",
+      "state": "P2-production-candidate"
+    },
+    {
+      "gate_id": "annotation",
+      "state": "P2-production-candidate"
+    },
+    {
+      "gate_id": "j13-j17",
+      "state": "P2-production-candidate"
+    },
+    {
+      "gate_id": "line-colour",
+      "state": "P2-production-candidate"
+    },
+    {
+      "gate_id": "polygonz-derived-xy",
+      "state": "P2-production-candidate"
+    }
+  ],
+  "hatch_policy": {
+    "angle_authority": "local-production-policy",
+    "asset_created_or_deployed": false,
+    "asset_file_required": false,
+    "asset_if_used_must_derive_from_canonical_specification": true,
+    "deterministic_procedural_rendering_required": true,
+    "hatch_resource_policy": "procedural-canonical",
+    "line_colour_semantics": "official-black-unless-another-officially-supported-mapping-applies",
+    "local_angle_degrees": 45,
+    "missing_building_hatch_tile_dependency_blocks_architecture": false,
+    "official_diagonal_semantics": true,
+    "official_spacing_mm": 2.0,
+    "spacing_scale_boundary": "physical-at-defined-cartographic-output-profile-scale"
+  },
+  "human_policy_decision_type": "local-nma-production-policy",
+  "j13_j17_binding_policy": {
+    "automatic_cross_prefix_substitution_allowed": false,
+    "binding_scope": "exact-explicitly-selected-and-verified-source-package",
+    "bindings": [
+      {
+        "layer_identity": "J13_BUILD",
+        "package_prefix": "J13",
+        "package_scope": "J13_寶山都市計畫/SHP",
+        "schema_identity_required": true
+      },
+      {
+        "layer_identity": "J17_BUILD",
+        "package_prefix": "J17",
+        "package_scope": "J17_新竹科學工業園區特定區計畫(寶山部分)/SHP",
+        "schema_identity_required": true
+      }
+    ],
+    "classification": "local-version-package-scoped-production-binding",
+    "global_equivalence_asserted": false,
+    "global_permanent_layer_selected": false,
+    "package_identity_required": true,
+    "package_layer_mismatch_behavior": "fail-closed",
+    "provenance_binding_required": [
+      "source-package-identity",
+      "package-scope",
+      "exact-layer-identity",
+      "schema-identity"
+    ],
+    "unsupported_package_prefix_behavior": "fail-closed"
+  },
+  "line_output_profile_policy": {
+    "conversion_formula": "device_px = physical_mm * output_dpi / 25.4",
+    "derived_device_width_px": 0.7559055118110237,
+    "device_pixel_assumption_declared": true,
+    "official_css_px": null,
+    "official_one_css_px_rule": false,
+    "official_physical_width": {
+      "unit": "mm",
+      "value": 0.2,
+      "value_text": "0.20"
+    },
+    "output_dpi": 96,
+    "output_profile_authority": "local-output-profile-policy",
+    "profile_id": "nma-screen-96dpi-v1",
+    "renderer_quantization_authority": "local-output-profile-behavior-if-defined-later"
+  },
+  "next_stage_recommendation": "BUILD-10 — Controlled Building Production Implementation",
+  "official_evidence_closure": {
+    "additional_evidence_acquisition_justified": false,
+    "authoritative_applicability_result": "authoritative-applicability-boundary-not-published",
+    "official_evidence_search_closed": true,
+    "official_portrayal_semantics_closed": true,
+    "remaining_authoritative_evidence_blockers": []
+  },
+  "opacity_policy": {
+    "applies_to": [
+      "building-line",
+      "building-hatch"
+    ],
+    "authority": "local-output-profile-policy",
+    "separate_component_values_require_explicit_contract_binding": true,
+    "value": 1.0
+  },
+  "policy_record_sha256": "dd15aead073404cd82030104d2603e0dc1461e7a90d972b853d2bcb6d482c8a1",
+  "polygonz_derived_xy_policy": {
+    "controlled_path_may_bypass_replace_or_isolate_legacy_drop_z": true,
+    "derived_xy_representation": {
+      "authoritative": false,
+      "geometry_repair_permitted": false,
+      "materialization": "ephemeral-or-content-addressed-read-only-cache",
+      "non_writing": true,
+      "purpose": "portrayal-only",
+      "rendering_consumes_derived_only": true,
+      "source_mutation_capability": false
+    },
+    "implementation_in_build09f": false,
+    "implementation_stage": "BUILD-10-or-later",
+    "legacy_drop_z_path": {
+      "classification": "incompatible",
+      "disposition": "bypassed-by-future-non-writing-derived-view-adapter",
+      "reuse_as_is_allowed": false
+    },
+    "pipeline": [
+      "authoritative-PolygonZ",
+      "immutable-source-representation",
+      "derived-non-writing-XY-portrayal-view",
+      "rendering-adapter"
+    ],
+    "production_execution_allowed": false,
+    "provenance_binding_required": [
+      "source archive SHA-256",
+      "selected source layer and component SHA-256 values",
+      "source feature identity",
+      "source PolygonZ geometry hash including Z",
+      "derivation algorithm and version",
+      "source and output CRS",
+      "derived XY content hash"
+    ],
+    "source_mutation_authority": false,
+    "source_representation": {
+      "authoritative": true,
+      "immutable": true,
+      "write_handle_exposed_to_deriver": false,
+      "z_values_preserved_and_recoverable": true
+    },
+    "status": "production-candidate-design-only"
+  },
+  "predecessor": {
+    "build08a_authorization_sha256": "4eedc443d4f1d5c0af36e696fc67fd0101f6936d78edba19d5c20d41ab2b8da8",
+    "build09_contract_sha256": "0b9e0cc9c98274f9efcbed451905fa21857c33f0ec9472254fa6e3b803c24a0c",
+    "build09e1_evidence_resolution_sha256": "f75c44bcb834090277588b3c23cfe48f00e965c947754497f64831d4b47b9b65",
+    "build09e2_applicability_resolution_sha256": "1a4a406da130eb34a7f6871e92230d0c82fe4bcf9e475651418780bedd5d1262",
+    "build09e2_branch": "build/build-09e2-j13-j17-production-applicability-resolution",
+    "build09e2_commit": "d92fd15bd6b7e40714abf25a8e7857d205fcca10",
+    "build09e2_successor_contract_sha256": "71b7f25239eb001454af61358acb67917d9820957ea4aeb2191ff613ee54a043",
+    "build09e_evidence_closure_sha256": "bfee262f17b5bc99ff8e55f6b284917cf5507aaa80b0e3bae2454e35da4fbaed",
+    "frozen_build09e2_artifact_sha256": {
+      "BUILD-09E2-Completion-Report.md": "2c39c05fc30a37edf4ff1cba9586e0bb24f43e7a8a54afcd173472034be5255a",
+      "build_contracts/j13_j17_production_applicability.py": "0e1b9dbfbeb0f2700fbc2ad591429dabda135c8f01ddb80dea99c1cbda21898b",
+      "data/specifications/nma-build-09e2-golden-j13-j17-production-applicability-resolution-v1.0.json": "289d7632fab478518a7a1a0401d0f804291db22c2ff80c64d25e20fb5a9bd01f",
+      "data/specifications/nma-build-09e2-successor-building-production-contract-v1.0.json": "e30ca42930ba44be450155214cd76f2c256a8b560b1fbe22b9d98e23e857fc7f",
+      "schemas/building-human-policy-production-contract-v1.0.schema.json": "055aa74021987520500bde4e604803ced464b7ccba2b046b9d50e6954948da25",
+      "schemas/building-j13-j17-production-applicability-resolution-v1.0.schema.json": "993d57d89417a7fdd7e7653d76bbc2f528f7bb2e598b5c539d51dfd9ec0549f2",
+      "tests/test_j13_j17_production_applicability_build09e2.py": "15ba280555f39f7bd19bf3674d4993f7c8eb9c137f49955315fec12b5c02dcd1"
+    }
+  },
+  "production_implementation_authorization": {
+    "controlled_production_implementation_allowed": true,
+    "controlled_production_implementation_design_allowed": true,
+    "official_portrayal_activation_allowed": false,
+    "production_activation_allowed": false,
+    "source_mutation_allowed": false,
+    "source_z_drop_allowed": false,
+    "unbounded_runtime_wiring_allowed": false
+  },
+  "schema_version": "nma.building-human-production-policy-authorization/1.0",
+  "scope": {
+    "hatch_asset_created_or_deployed": false,
+    "j13_j17_routing_implemented": false,
+    "maplibre_style_modified": false,
+    "official_evidence_reopened": false,
+    "production_behavior_implemented": false,
+    "production_runtime_modified": false,
+    "source_data_or_geometry_modified": false,
+    "source_polygonz_transformed": false,
+    "source_z_removed": false
+  },
+  "status": "human-production-policy-resolved",
+  "verdict": "PASS — HUMAN BUILDING PRODUCTION POLICY RESOLVED; BUILD-10 READY"
+}

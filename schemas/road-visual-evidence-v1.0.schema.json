@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.road-visual-evidence/1.0",
+  "title": "NMA ROAD Runtime Visual Evidence 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "execution_id", "bundle_sha256", "runtime_geojson_sha256", "rendering_mechanism", "render_environment", "render_observation", "oracle", "pixel_correctness_status", "evidence_sha256"],
+  "properties": {
+    "schema": {"const": "nma.road-visual-evidence/1.0"},
+    "execution_id": {"const": "road-exec-33766f336d9cc18eb2ac159e"},
+    "bundle_sha256": {"const": "33aa7c6b0d557fa9a72e2fa4e0106493d8dfe10ec9201bd7762e204bb14a286d"},
+    "runtime_geojson_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "rendering_mechanism": {"type": "string", "minLength": 1},
+    "render_environment": {"type": "object"},
+    "render_observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["map_loaded", "source_ids", "layer_ids", "rendered_label_texts", "rendered_label_feature_count", "unrelated_feature_count", "shield_graphic_count", "unexpected_layer_ids", "unexpected_source_ids", "screenshot_sha256"],
+      "properties": {
+        "map_loaded": {"type": "boolean"},
+        "source_ids": {"type": "array", "items": {"type": "string"}},
+        "layer_ids": {"type": "array", "items": {"type": "string"}},
+        "rendered_label_texts": {"type": "array", "items": {"type": "string"}},
+        "rendered_label_feature_count": {"type": "integer", "minimum": 0},
+        "unrelated_feature_count": {"type": "integer", "minimum": 0},
+        "shield_graphic_count": {"type": "integer", "minimum": 0},
+        "unexpected_layer_ids": {"type": "array", "items": {"type": "string"}},
+        "unexpected_source_ids": {"type": "array", "items": {"type": "string"}},
+        "screenshot_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "oracle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "identity"],
+      "properties": {
+        "status": {"const": "absent"},
+        "identity": {"type": "null"}
+      }
+    },
+    "pixel_correctness_status": {"const": "evidence_generated_but_no_independent_visual_oracle"},
+    "evidence_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

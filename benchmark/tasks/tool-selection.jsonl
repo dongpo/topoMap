@@ -1,0 +1,8 @@
+{"task_id":"T001","category":"tool_selection","input":"Inspect the Shapefile driver, layer, CRS, feature count, and fields.","expected":"inspect_dataset"}
+{"task_id":"T002","category":"tool_selection","input":"Check whether the field names, types, and widths match the specification.","expected":"validate_schema"}
+{"task_id":"T003","category":"tool_selection","input":"Check whether this layer uses the required CRS.","expected":"validate_crs"}
+{"task_id":"T004","category":"tool_selection","input":"Check whether each feature has line geometry.","expected":"validate_geometry"}
+{"task_id":"T005","category":"tool_selection","input":"Check whether TERRAINID uses a documented code.","expected":"validate_domain"}
+{"task_id":"T006","category":"tool_selection","input":"Check the linework for self-intersection.","expected":"validate_topology"}
+{"task_id":"T007","category":"tool_selection","input":"Compare two specification profiles and identify rule changes.","expected":"compare_specifications"}
+{"task_id":"T008","category":"tool_selection","input":"Prepare a human-reviewable repair proposal without changing the source data.","expected":"propose_repair"}

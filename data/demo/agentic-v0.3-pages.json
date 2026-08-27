@@ -1,0 +1,204 @@
+{
+  "$schema": "../../schemas/agentic-v0.3-pages.schema.json",
+  "release_version": "nma-agentic-v0.3-pages-rc1",
+  "status": "candidate-not-deployed",
+  "source": {
+    "repository": "dongpo/topoMap",
+    "branch": "codex/nma-v0.2-authoritative",
+    "agentic_freeze_commit": "29b7dd816fa4b718a7d27fc9db16a6e688b082c9",
+    "agentic_freeze_manifest": "data/demo/agentic-v0.3-freeze.json"
+  },
+  "website": {
+    "stable_root_release": "nma-public-assets-v0.2-rc1",
+    "stable_root_snapshot": "60eb2857b1ff14b0baa51732373ca5c8b697c1c3",
+    "candidate_path": "agentic-v0.3",
+    "planned_url": "https://dongpo.github.io/topoMap/agentic-v0.3/",
+    "deployment_state": "not-deployed"
+  },
+  "runtime": {
+    "conversation": "strict Responses API SymbolEditPlan locally; deterministic plan fallback publicly; no OpenAI API key is published",
+    "knowledge_graph": "42 registered capabilities; 9 evidence-linked",
+    "symbol_workshop": "immutable baseline plus visible, validated SymbolEditPlan and supervised derived revisions",
+    "dataset": "static browser-safe export of the bundled synthetic Shapefile fixture",
+    "basemap": "NLSC EMAP network-only with bounded background fallback",
+    "pmtiles": "excluded pending redistribution permission"
+  },
+  "source_assets": [
+    {
+      "role": "scripts-package-marker",
+      "path": "scripts/__init__.py",
+      "size_bytes": 60,
+      "sha256": "d0df4e99ed034207630ba4b79c3cc15ed4bd36500ad252270dcaca662fe750db"
+    },
+    {
+      "role": "candidate-builder",
+      "path": "scripts/build_agentic_v03_pages.py",
+      "size_bytes": 13556,
+      "sha256": "3e61d7402402e5a657579c8c02a0303b42138d163e6d8497ceb9832ebca790f2"
+    },
+    {
+      "role": "candidate-verifier",
+      "path": "scripts/check_agentic_v03_pages.py",
+      "size_bytes": 8397,
+      "sha256": "467312ccbae20dbf86e1fef931c415916369429e8ec986ccba5d0d254ef852ac"
+    },
+    {
+      "role": "synthetic-school-fixture-builder",
+      "path": "scripts/sync_school_fixture.py",
+      "size_bytes": 3489,
+      "sha256": "b8cac1d99b91e647dbf7ebfdbd4bebbf98b6b1727f2e11450b925233500795bf"
+    },
+    {
+      "role": "candidate-schema",
+      "path": "schemas/agentic-v0.3-pages.schema.json",
+      "size_bytes": 1858,
+      "sha256": "60c5b617501f7817d202df17a56c122335b79d196076191a0e8d329f5f7f8a9e"
+    },
+    {
+      "role": "symbol-edit-plan-schema",
+      "path": "schemas/symbol-edit-plan.schema.json",
+      "size_bytes": 2218,
+      "sha256": "758326cee9b2e7b1b3d8d2aeea72c146c59ed904ae2edf363992c5ccdcdb7ef7"
+    },
+    {
+      "role": "agentic-browser-source",
+      "path": "nmaAgentDemo.html",
+      "size_bytes": 98521,
+      "sha256": "8b6d6310d3ac6b45e71b73102de023869b0f56422dfbf1c74d81a6650ba5a470"
+    },
+    {
+      "role": "agentic-freeze-record",
+      "path": "data/demo/agentic-v0.3-freeze.json",
+      "size_bytes": 11202,
+      "sha256": "3fc4086ca224ddef761719ada49da2a2853ea89e7504a50ecaa71458ba69aba8"
+    },
+    {
+      "role": "portrayal-graph",
+      "path": "data/knowledge/portrayal-graph.json",
+      "size_bytes": 36389,
+      "sha256": "0f90dc365805aaac07ab5aaf61323006bcea1ba8a078470c6872ad63a7eeacca"
+    },
+    {
+      "role": "five-scene-regression-contract",
+      "path": "data/demo/five-scene-demo.json",
+      "size_bytes": 5295,
+      "sha256": "96d89e81e3a3ada7d95397dafd240f21e4adaebfb11799e2704a1974997e3d10"
+    },
+    {
+      "role": "capability-catalog",
+      "path": "data/demo/pmtiles-capability-catalog.json",
+      "size_bytes": 25780,
+      "sha256": "993207906d518dd41b3039be624e97f576aa077bd2283db79b28d8673834b13d"
+    },
+    {
+      "role": "public-dataset-inspection",
+      "path": "data/demo/school-points-public-inspection.json",
+      "size_bytes": 4034,
+      "sha256": "ee513b053a0399bec205dd384faf2da6d524dd98e9d4c5ee2969e15f9350684c"
+    },
+    {
+      "role": "public-dataset-export",
+      "path": "data/demo/school-points-public.geojson",
+      "size_bytes": 4879,
+      "sha256": "d2172447e2e39cd5dba73582c879a9793c2a5854e5bf09279f52daaf24c9883e"
+    },
+    {
+      "role": "school-symbol",
+      "path": "assets/symbols/nlsc112v5.4/school.svg",
+      "size_bytes": 155,
+      "sha256": "bb3a683f8f4a4250845fec71f678feddd8b50b97d77ceddb65ed5f38f5e0af86"
+    },
+    {
+      "role": "fire-hydrant-symbol",
+      "path": "assets/symbols/nlsc112v5.4/fire-hydrant.svg",
+      "size_bytes": 359,
+      "sha256": "e4fe71df56215de92b28dc1458910342de4a9256a85ddfe29733137fdedcf015"
+    },
+    {
+      "role": "police-symbol",
+      "path": "assets/symbols/nlsc112v5.4/police.svg",
+      "size_bytes": 280,
+      "sha256": "25b25c439b493b3975e8b99894bf1a00b63bba44ca64f885801d6260ed5fdc3e"
+    },
+    {
+      "role": "fish-pond-symbol",
+      "path": "assets/symbols/nlsc112v5.4/fish-pond.svg",
+      "size_bytes": 379,
+      "sha256": "5d9c34ab4666537c67e4ebc5138dbcfc4ac71e0841b8b7d8888b2064843a49f6"
+    },
+    {
+      "role": "post-symbol",
+      "path": "assets/symbols/nlsc112v5.4/post.svg",
+      "size_bytes": 260,
+      "sha256": "b92c253c1cbf2e6bd450f9be185cdc976314327dff83b558687a7baffb5d870c"
+    }
+  ],
+  "candidate_assets": [
+    {
+      "source": "data/knowledge/portrayal-graph.json",
+      "target": "data/knowledge/portrayal-graph.json"
+    },
+    {
+      "source": "data/demo/five-scene-demo.json",
+      "target": "data/demo/five-scene-demo.json"
+    },
+    {
+      "source": "data/demo/pmtiles-capability-catalog.json",
+      "target": "data/demo/pmtiles-capability-catalog.json"
+    },
+    {
+      "source": "data/demo/school-points-public-inspection.json",
+      "target": "data/demo/school-points-public-inspection.json"
+    },
+    {
+      "source": "data/demo/school-points-public.geojson",
+      "target": "data/demo/school-points-public.geojson"
+    },
+    {
+      "source": "assets/symbols/nlsc112v5.4/school.svg",
+      "target": "assets/symbols/nlsc112v5.4/school.svg"
+    },
+    {
+      "source": "assets/symbols/nlsc112v5.4/fire-hydrant.svg",
+      "target": "assets/symbols/nlsc112v5.4/fire-hydrant.svg"
+    },
+    {
+      "source": "assets/symbols/nlsc112v5.4/police.svg",
+      "target": "assets/symbols/nlsc112v5.4/police.svg"
+    },
+    {
+      "source": "assets/symbols/nlsc112v5.4/fish-pond.svg",
+      "target": "assets/symbols/nlsc112v5.4/fish-pond.svg"
+    },
+    {
+      "source": "assets/symbols/nlsc112v5.4/post.svg",
+      "target": "assets/symbols/nlsc112v5.4/post.svg"
+    }
+  ],
+  "exclusions": [
+    "out1120902.pmtiles",
+    "nmaDemoWorker.js",
+    ".env.local and all API credentials",
+    "official NLSC portrayal PDFs",
+    "tests and development files",
+    "new or modified owner-controlled presentation files"
+  ],
+  "approval": {
+    "candidate_build": "approved in GEO-91",
+    "public_deployment": "separate explicit owner approval required",
+    "pull_request_merge": "not authorized"
+  },
+  "blocking_defects": [],
+  "deferred_defects": [
+    {
+      "id": "pmtiles-redistribution",
+      "classification": "deferred",
+      "next_action": "Confirm redistribution terms before any public PMTiles inclusion."
+    },
+    {
+      "id": "static-pages-llm-routing",
+      "classification": "deferred",
+      "next_action": "Use the deterministic bounded fallback until a credential-safe hosted agent endpoint is approved."
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "activation_configuration_sha256": "03d28cbae50eb2050db4ed0841009e81fab84b18dcb882a7e85fce49818565ad",
+  "activation_id": "building-activation-03d28cbae50eb2050db4ed08",
+  "activation_provenance_sha256": "97da5bd6c52b392edbce46be204dc49112a8e00f94305a8a0e7e957eb039395e",
+  "activation_receipt_sha256": "d50cd21f5caa0428ae2dbd4f7fd8343b0bfc50e387dbd156b71ecb9a88739cb7",
+  "activation_record_sha256": "6994abb821287aec015e846148b630054d03c826a6d370ceb625816dfa29d08d",
+  "active_j13_j17_scope": {
+    "J13": {
+      "annotation_count": 2967,
+      "derived_xy_feature_count": 2968,
+      "package_identity": "J13_寶山都市計畫/SHP",
+      "selected_layer": "J13_BUILD",
+      "source_feature_count": 2968,
+      "suppressed_annotation_count": 1
+    },
+    "J17": {
+      "annotation_count": 2838,
+      "derived_xy_feature_count": 2839,
+      "package_identity": "J17_新竹科學工業園區特定區計畫(寶山部分)/SHP",
+      "selected_layer": "J17_BUILD",
+      "source_feature_count": 2839,
+      "suppressed_annotation_count": 1
+    }
+  },
+  "active_runtime_state": {
+    "official_portrayal_active": true,
+    "production_active": true,
+    "source_mutation_allowed": false,
+    "source_repair_allowed": false,
+    "source_writeback_allowed": false,
+    "source_z_drop_allowed": false
+  },
+  "authorization_sha256": "8bae65726aa0c6901927cb3a0a12a875ac766d45ac9e3a793afb23a85effdb0f",
+  "baseline_version": "build-12/1.0",
+  "canonical_activated_baseline_sha256": "e9ebf1158caef22cb02d98d7ba8bfe4c99df46d4d9e93a47ad234f632a1755b2",
+  "contract_sha256": "5c62664ad4884f83454b2ed1d227d7278e8f6e0ce9f85c1f992db5a429d56c88",
+  "deactivation_contract": {
+    "same_authorization_reactivation_is_canonical": true,
+    "source_is_never_a_rollback_target": true,
+    "source_rollback_required": false,
+    "state_layer_reversible": true
+  },
+  "implementation_sha256": "2772ce93f81973e1dbbeb2d4ae9bb1307a29dcdcc4a61ca08f382c12b6b3c957",
+  "output_profile_sha256": "bc0c2174433f73691b82dd4f5ba6f93835a32bc26baa7f1d0f814c590779004f",
+  "policy_sha256": "dd15aead073404cd82030104d2603e0dc1461e7a90d972b853d2bcb6d482c8a1",
+  "portrayal_profile_sha256": "d9d8c7d329508f4b61c4d0fd15c3d9af5512f5fbac2ab473e47171120a716244",
+  "readiness_sha256": "d2ecb53e74f46e279a5672a182b5a9de602c08d4027023d4fb225132bf3d01fb",
+  "runtime_module_sha256": "a67f79c87072ab23cf546367183a418f60e94baa4fbf48e1d79b93629c4ce484",
+  "runtime_revision": "nma.building-production-runtime/1.0",
+  "schema_version": "nma.building-production-activated-baseline/1.0",
+  "source_integrity": {
+    "archive_after_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "archive_before_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "result": "PASS",
+    "source_before_equals_after": true,
+    "source_mutation_allowed": false,
+    "source_repair_allowed": false,
+    "source_writeback_allowed": false,
+    "source_z_drop_allowed": false
+  },
+  "status": "activated-baseline-frozen",
+  "verdict": "PASS — BUILDING PRODUCTION ACTIVATED AND POST-ACTIVATION VERIFIED"
+}

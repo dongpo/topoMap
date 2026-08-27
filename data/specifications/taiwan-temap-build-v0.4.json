@@ -1,0 +1,142 @@
+{
+  "specification_id": "TW-TEMAP-BUILD-V0.4",
+  "version": "112/114.12.04-bounded",
+  "title": "Taiwan Electronic Map BUILD bounded diagnostic profile",
+  "status": "authoritative-source-derived-expert-review-required",
+  "license": "source-terms-not-asserted",
+  "notice": "This profile records the documented ID/SOURCE schema boundary and observed archive fields. It is diagnostic only and grants no repair, execution, or schema-equivalence authority.",
+  "sources": [
+    {
+      "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+      "sha256": "07360ba6749638a87c846f12d45ea59a354f68c5152dfb6a0ac4c189ba8d70a6",
+      "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view",
+      "pages_used": [22, 34, 35]
+    },
+    {
+      "document": "臺灣通用電子地圖圖層內容說明",
+      "document_revision": "114.12.04",
+      "sha256": "b3c26f6e2766e9e6fac2a85f935b88e45741708ef6def79213b4c18a2cdb3683",
+      "uri": "https://drive.google.com/file/d/1vKllgEpWFH9-WDagkrVkDtGCf44-m4gj/view",
+      "pages_used": [9]
+    }
+  ],
+  "layer": {
+    "id": "BUILD",
+    "label": "建物 / Building polygon",
+    "geometry_type": "Polygon",
+    "crs": "TWD97[2020]_TM121",
+    "feature_id_field": "BUILD_ID"
+  },
+  "rules": [
+    {
+      "rule_id": "TW-BUILD-NAME-001",
+      "rule_type": "layer_name_suffix",
+      "target": "BUILD",
+      "severity": "error",
+      "constraint": {"suffix": "BUILD"},
+      "message": "The building layer name must identify BUILD.",
+      "repair": {"mode": "none"},
+      "evidence": {"document": "五千分之一基本地形圖測製及檢核說明(112年度版)", "version": "112", "section": "附錄7, 表2", "page": 35, "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=35", "excerpt": "建物圖層英文名稱為 BUILD。"}
+    },
+    {
+      "rule_id": "TW-BUILD-CRS-001",
+      "rule_type": "dataset_crs",
+      "target": "BUILD.crs",
+      "severity": "error",
+      "constraint": {"any_of": ["TWD97[2020]_TM121", "TWD97_TM121", "EPSG:3826"]},
+      "message": "The mainland BUILD profile must use the reviewed TWD97/TM121 coordinate profile.",
+      "repair": {"mode": "none"},
+      "evidence": {"document": "五千分之一基本地形圖測製及檢核說明(112年度版)", "version": "112", "section": "附錄6, 坐標系統", "page": 34, "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=34", "excerpt": "本島採 TWD97 2020 年成果，中央子午線東經 121 度。"}
+    },
+    {
+      "rule_id": "TW-BUILD-GEOM-001",
+      "rule_type": "geometry_type",
+      "target": "BUILD.geometry",
+      "severity": "error",
+      "constraint": {"any_of": ["Polygon", "MultiPolygon"]},
+      "message": "BUILD features must use polygon geometry.",
+      "repair": {"mode": "none"},
+      "evidence": {"document": "五千分之一基本地形圖測製及檢核說明(112年度版)", "version": "112", "section": "附錄7, 表2", "page": 35, "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=35", "excerpt": "建物 BUILD 的圖徵型態為面。"}
+    },
+    {
+      "rule_id": "TW-BUILD-DOC-FIELD-001",
+      "rule_type": "field_definition",
+      "target": "BUILD.ID",
+      "severity": "error",
+      "constraint": {"field": "ID", "type": "String"},
+      "message": "The documented BUILD ID field is absent from the observed archive schema; equivalence to BUILD_ID requires authority review.",
+      "repair": {"mode": "none"},
+      "evidence": {"document": "臺灣通用電子地圖圖層內容說明", "version": "114.12.04", "section": "建物 BUILD 欄位", "page": 9, "uri": "https://drive.google.com/file/d/1vKllgEpWFH9-WDagkrVkDtGCf44-m4gj/view#page=9", "excerpt": "文件欄位說明使用 ID；本規格不主張其與 BUILD_ID 等價。"}
+    },
+    {
+      "rule_id": "TW-BUILD-DOC-FIELD-002",
+      "rule_type": "field_definition",
+      "target": "BUILD.SOURCE",
+      "severity": "error",
+      "constraint": {"field": "SOURCE", "type": "String"},
+      "message": "The documented BUILD SOURCE field is absent from the observed archive schema and must not be invented.",
+      "repair": {"mode": "none"},
+      "evidence": {"document": "臺灣通用電子地圖圖層內容說明", "version": "114.12.04", "section": "建物 BUILD 欄位", "page": 9, "uri": "https://drive.google.com/file/d/1vKllgEpWFH9-WDagkrVkDtGCf44-m4gj/view#page=9", "excerpt": "文件欄位說明使用 SOURCE；觀察資料缺少此欄位。"}
+    },
+    {
+      "rule_id": "TW-BUILD-OBSERVED-FIELD-001",
+      "rule_type": "field_definition",
+      "target": "BUILD.BUILD_ID",
+      "severity": "error",
+      "constraint": {"field": "BUILD_ID", "type": "String", "width": 16},
+      "message": "The accepted archive observation binds BUILD_ID as String(16) without asserting documentary equivalence.",
+      "repair": {"mode": "none"},
+      "evidence": {"document": "BUILD-00A private archive inspection", "version": "1.0", "section": "six-candidate field inventory", "page": null, "uri": "urn:nma:build-fixture:J13_BUILD", "excerpt": "All six reviewed BUILD sources expose BUILD_ID as String(16)."}
+    },
+    {
+      "rule_id": "TW-BUILD-OBSERVED-FIELD-002",
+      "rule_type": "field_definition",
+      "target": "BUILD.TERRAINID",
+      "severity": "error",
+      "constraint": {"field": "TERRAINID", "type": "String", "width": 8},
+      "message": "The accepted archive observation binds TERRAINID as String(8).",
+      "repair": {"mode": "none"},
+      "evidence": {"document": "BUILD-00A private archive inspection", "version": "1.0", "section": "six-candidate field inventory", "page": null, "uri": "urn:nma:build-fixture:J13_BUILD", "excerpt": "All six reviewed BUILD sources expose TERRAINID as String(8)."}
+    },
+    {
+      "rule_id": "TW-BUILD-REQUIRED-001",
+      "rule_type": "required_field",
+      "target": "BUILD.BUILD_ID",
+      "severity": "error",
+      "constraint": {"field": "BUILD_ID", "type": "string"},
+      "message": "Observed BUILD identifiers must not be missing or blank.",
+      "repair": {"mode": "none"},
+      "evidence": {"document": "五千分之一基本地形圖測製及檢核說明(112年度版)", "version": "112", "section": "(十) GIS圖層 3.(2)", "page": 22, "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=22", "excerpt": "圖層架構及屬性資料格式均須檢查。"}
+    },
+    {
+      "rule_id": "TW-BUILD-REQUIRED-002",
+      "rule_type": "required_field",
+      "target": "BUILD.TERRAINID",
+      "severity": "error",
+      "constraint": {"field": "TERRAINID", "type": "string"},
+      "message": "Observed BUILD classification codes must not be missing or blank.",
+      "repair": {"mode": "none"},
+      "evidence": {"document": "五千分之一基本地形圖測製及檢核說明(112年度版)", "version": "112", "section": "(十) GIS圖層 3.(2)", "page": 22, "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=22", "excerpt": "圖層架構及屬性資料格式均須檢查。"}
+    },
+    {
+      "rule_id": "TW-BUILD-UNIQUE-001",
+      "rule_type": "unique_field",
+      "target": "BUILD.BUILD_ID",
+      "severity": "error",
+      "constraint": {"field": "BUILD_ID"},
+      "message": "Observed BUILD_ID values must be unique within the selected source layer.",
+      "repair": {"mode": "none"},
+      "evidence": {"document": "BUILD-00A private archive inspection", "version": "1.0", "section": "identifier integrity", "page": null, "uri": "urn:nma:build-fixture:J13_BUILD", "excerpt": "J13_BUILD has no null, blank, or duplicate BUILD_ID values."}
+    },
+    {
+      "rule_id": "TW-BUILD-DOMAIN-001",
+      "rule_type": "domain",
+      "target": "BUILD.TERRAINID",
+      "severity": "error",
+      "constraint": {"field": "TERRAINID", "allowed": ["9310100", "9310103"]},
+      "message": "The accepted J13 BUILD fixture is closed to its two observed classification codes.",
+      "repair": {"mode": "none"},
+      "evidence": {"document": "BUILD-00A private archive inspection", "version": "1.0", "section": "classification distribution", "page": null, "uri": "urn:nma:build-fixture:J13_BUILD", "excerpt": "J13_BUILD contains 2,962 records of 9310100 and 6 records of 9310103."}
+    }
+  ]
+}

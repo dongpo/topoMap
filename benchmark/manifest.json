@@ -1,0 +1,16 @@
+{
+  "benchmark": "NMA-Bench",
+  "version": "0.1.0",
+  "fixture_kind": "authoritative-rule-derived-synthetic-geospatial",
+  "specification": "data/specifications/taiwan-5000-riverl-112.json",
+  "task_files": [
+    "benchmark/tasks/knowledge.jsonl",
+    "benchmark/tasks/evidence.jsonl",
+    "benchmark/tasks/versioning.jsonl",
+    "benchmark/tasks/tool-selection.jsonl",
+    "benchmark/tasks/validation.jsonl",
+    "benchmark/tasks/safety.jsonl"
+  ],
+  "ground_truth": "benchmark/ground-truth.json",
+  "notice": "Rules are page-grounded in official documents; controlled geospatial defects are synthetic. Expert sign-off remains required before authority claims."
+}

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.build-demo-safe-publication/1.0",
+  "title": "NMA BUILD-06A bounded public DEMO publication 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["publication_version", "schema_version", "publication_id", "status", "prepared_on", "predecessor", "destination", "files", "boundaries", "deployment", "publication_sha256"],
+  "properties": {
+    "publication_version": {"const": "build-06a/1.0"},
+    "schema_version": {"const": "nma.build-demo-safe-publication/1.0"},
+    "publication_id": {"const": "build-06a-pages-bc636eb1eed7e055"},
+    "status": {"const": "bounded-public-demo-ready"},
+    "prepared_on": {"const": "2026-08-20"},
+    "predecessor": {
+      "const": {
+        "branch": "build/build-06-demo-verification-freeze",
+        "commit_sha": "ac8552066f85e07358751b1f15a6fbc085f7fc67",
+        "freeze_sha256": "bc636eb1eed7e055306b7271d2cf169c05a4990ab37cebf0b9f89288d53e7857"
+      }
+    },
+    "destination": {
+      "const": {
+        "provider": "github-pages",
+        "repository": "dongpo/topoMap",
+        "public_path": "build-demo/",
+        "expected_live_url": "https://dongpo.github.io/topoMap/build-demo/"
+      }
+    },
+    "files": {
+      "const": [
+        {
+          "path": "data/specifications/nma-build-05-authorization-consumption-v1.0.json",
+          "bytes": 737,
+          "sha256": "715a5445827b77308ec32a67efe74ac8e5ed29b9037ee543285270a4da1c9d47"
+        },
+        {
+          "path": "data/specifications/nma-build-05-golden-execution-package-v1.0.json",
+          "bytes": 6767,
+          "sha256": "508e3378a698f869255485c5008fdb80ed670ce174a3b72092aab5160df7431c"
+        },
+        {
+          "path": "index.html",
+          "bytes": 14981,
+          "sha256": "de5f6d567810e42af915bdff167fb21e202967b98817e2ef8d2d494d0b47be2d"
+        }
+      ]
+    },
+    "boundaries": {
+      "const": {
+        "dedicated_subdirectory": "build-demo/",
+        "published_file_count": 3,
+        "private_archive_published": false,
+        "raw_geographic_coordinates_published": false,
+        "raw_attributes_published": false,
+        "source_pdf_published": false,
+        "pmtiles_published_by_build06a": false,
+        "api_credentials_published": false,
+        "external_runtime_dependency": false,
+        "production_runtime_wired": false,
+        "official_portrayal_claimed": false,
+        "demo_only": true
+      }
+    },
+    "deployment": {
+      "const": {
+        "workflow": ".github/workflows/build06a-pages.yml",
+        "artifact_root": "artifacts/tmp/public-site",
+        "base_public_release_preserved": true,
+        "deployment_performed": false,
+        "live_verification_performed": false
+      }
+    },
+    "publication_sha256": {"const": "83c22625ad99dbc0cb26af614d39cf6fd12e6e77b1c863b501656e46f6d105a9"}
+  }
+}

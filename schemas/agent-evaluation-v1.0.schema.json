@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/nma/schemas/agent-evaluation-v1.0.schema.json",
+  "title": "NMA Agent Proposal Evaluation 1.0",
+  "type": "object",
+  "properties": {
+    "schema": {"const": "nma.agent-evaluation/1.0"},
+    "evaluation_id": {
+      "type": "string",
+      "pattern": "^evaluation:sha256:[0-9a-f]{64}$"
+    },
+    "request_identity": {
+      "type": "string",
+      "pattern": "^request:sha256:[0-9a-f]{64}$"
+    },
+    "intent_reference": {
+      "type": "object",
+      "properties": {
+        "contract": {"const": "nma.intent-planning/1.0"},
+        "sha256": {"type": "string", "pattern": "^intent:sha256:[0-9a-f]{64}$"}
+      },
+      "required": ["contract", "sha256"],
+      "additionalProperties": false
+    },
+    "evidence_references": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "properties": {
+          "schema": {"const": "nma.agent-evidence-reference/1.0"},
+          "evidence_id": {
+            "type": "string",
+            "pattern": "^evidence:sha256:[0-9a-f]{64}$"
+          },
+          "purpose": {"const": "proposal"}
+        },
+        "required": ["schema", "evidence_id", "purpose"],
+        "additionalProperties": false
+      }
+    },
+    "proposal_identity": {
+      "type": "string",
+      "pattern": "^proposal:sha256:[0-9a-f]{64}$"
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "intent_correctness": {"enum": ["pass", "fail"]},
+        "evidence_completeness": {"enum": ["pass", "fail"]},
+        "evidence_provenance_validity": {"enum": ["pass", "fail"]},
+        "proposal_determinism": {"enum": ["pass", "fail"]},
+        "unsupported_request_handling": {"enum": ["pass", "fail"]},
+        "fail_closed_behavior": {"enum": ["pass", "fail"]},
+        "reproducibility": {"enum": ["pass", "fail"]},
+        "contract_compliance": {"enum": ["pass", "fail"]}
+      },
+      "required": [
+        "intent_correctness",
+        "evidence_completeness",
+        "evidence_provenance_validity",
+        "proposal_determinism",
+        "unsupported_request_handling",
+        "fail_closed_behavior",
+        "reproducibility",
+        "contract_compliance"
+      ],
+      "additionalProperties": false
+    },
+    "result": {"enum": ["satisfactory", "rejected"]},
+    "review_requirement": {"const": "human-domain-review-required"},
+    "boundary": {"const": "proposal-quality-only"},
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "evaluator": {"type": "string", "minLength": 1, "maxLength": 500},
+        "evaluated_at": {"type": "string", "minLength": 1, "maxLength": 500},
+        "method": {"const": "deterministic-contract-validation"}
+      },
+      "required": ["evaluator", "evaluated_at", "method"],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema",
+    "evaluation_id",
+    "request_identity",
+    "intent_reference",
+    "evidence_references",
+    "proposal_identity",
+    "dimensions",
+    "result",
+    "review_requirement",
+    "boundary",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "dimensions": {
+            "properties": {
+              "intent_correctness": {"const": "pass"},
+              "evidence_completeness": {"const": "pass"},
+              "evidence_provenance_validity": {"const": "pass"},
+              "proposal_determinism": {"const": "pass"},
+              "unsupported_request_handling": {"const": "pass"},
+              "fail_closed_behavior": {"const": "pass"},
+              "reproducibility": {"const": "pass"},
+              "contract_compliance": {"const": "pass"}
+            },
+            "required": [
+              "intent_correctness",
+              "evidence_completeness",
+              "evidence_provenance_validity",
+              "proposal_determinism",
+              "unsupported_request_handling",
+              "fail_closed_behavior",
+              "reproducibility",
+              "contract_compliance"
+            ]
+          }
+        }
+      },
+      "then": {"properties": {"result": {"const": "satisfactory"}}},
+      "else": {"properties": {"result": {"const": "rejected"}}}
+    }
+  ]
+}

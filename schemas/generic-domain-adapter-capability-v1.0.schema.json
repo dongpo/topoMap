@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dongpo/topoMap/schemas/generic-domain-adapter-capability-v1.0.schema.json",
+  "title": "NMA Generic Domain Adapter Capability Declaration v1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "declaration_id",
+    "declaration_sha256",
+    "domain",
+    "adapter_contract",
+    "canonical_identity",
+    "mandatory_capabilities",
+    "optional_capabilities",
+    "domain_contract_references",
+    "ownership",
+    "dependency_failure",
+    "mutation_boundary"
+  ],
+  "properties": {
+    "schema_version": {"const": "nma.generic-domain-adapter-capability/1.0"},
+    "declaration_id": {"$ref": "#/$defs/identifier"},
+    "declaration_sha256": {"$ref": "#/$defs/sha256"},
+    "domain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["domain_id", "contract_id", "contract_version"],
+      "properties": {
+        "domain_id": {"$ref": "#/$defs/identifier"},
+        "contract_id": {"$ref": "#/$defs/identifier"},
+        "contract_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"}
+      }
+    },
+    "adapter_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {
+        "id": {"const": "nma.generic-domain-adapter"},
+        "version": {"const": "1.0"}
+      }
+    },
+    "canonical_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "required", "fallback_allowed"],
+      "properties": {
+        "provider": {"const": "nma.core.canonical_sha256"},
+        "required": {"const": true},
+        "fallback_allowed": {"const": false}
+      }
+    },
+    "mandatory_capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "domain_identification",
+        "contract_version_declaration",
+        "input_validation",
+        "canonical_identity_consumption",
+        "authorization_consumption",
+        "planning_boundary",
+        "execution_boundary",
+        "observation_production",
+        "receipt_production",
+        "provenance_reporting",
+        "verification_boundary",
+        "capability_declaration"
+      ],
+      "properties": {
+        "domain_identification": {"const": true},
+        "contract_version_declaration": {"const": true},
+        "input_validation": {"const": true},
+        "canonical_identity_consumption": {"const": true},
+        "authorization_consumption": {"const": true},
+        "planning_boundary": {"const": true},
+        "execution_boundary": {"const": true},
+        "observation_production": {"const": true},
+        "receipt_production": {"const": true},
+        "provenance_reporting": {"const": true},
+        "verification_boundary": {"const": true},
+        "capability_declaration": {"const": true}
+      }
+    },
+    "optional_capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rollback_evidence", "activation_evidence", "release_evidence"],
+      "properties": {
+        "rollback_evidence": {"$ref": "#/$defs/optional_capability"},
+        "activation_evidence": {"$ref": "#/$defs/optional_capability"},
+        "release_evidence": {"$ref": "#/$defs/optional_capability"}
+      }
+    },
+    "domain_contract_references": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["semantics", "geometry", "portrayal", "verification", "provenance"],
+      "properties": {
+        "semantics": {"$ref": "#/$defs/contract_reference"},
+        "geometry": {"$ref": "#/$defs/contract_reference"},
+        "portrayal": {"$ref": "#/$defs/contract_reference"},
+        "verification": {"$ref": "#/$defs/contract_reference"},
+        "provenance": {"$ref": "#/$defs/contract_reference"}
+      }
+    },
+    "ownership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generic_payload_treatment", "semantics", "geometry", "portrayal", "rollback_behavior", "activation_behavior"],
+      "properties": {
+        "generic_payload_treatment": {"const": "opaque"},
+        "semantics": {"const": "domain"},
+        "geometry": {"const": "domain"},
+        "portrayal": {"const": "domain"},
+        "rollback_behavior": {"const": "domain"},
+        "activation_behavior": {"const": "domain"}
+      }
+    },
+    "dependency_failure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fails_before_mutation", "fallback_allowed"],
+      "properties": {
+        "fails_before_mutation": {"const": true},
+        "fallback_allowed": {"const": false}
+      }
+    },
+    "mutation_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["declaration_grants_production_authority", "validation_invokes_execution", "validation_performs_mutation"],
+      "properties": {
+        "declaration_grants_production_authority": {"const": false},
+        "validation_invokes_execution": {"const": false},
+        "validation_performs_mutation": {"const": false}
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {"type": "string", "minLength": 1, "maxLength": 200, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "contract_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_id", "contract_version", "evidence_paths"],
+      "properties": {
+        "contract_id": {"$ref": "#/$defs/identifier"},
+        "contract_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+$"},
+        "evidence_paths": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "optional_capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supported", "behavior_owner", "contract_reference"],
+      "properties": {
+        "supported": {"type": "boolean"},
+        "behavior_owner": {"const": "domain"},
+        "contract_reference": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/contract_reference"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"supported": {"const": true}}},
+          "then": {"properties": {"contract_reference": {"$ref": "#/$defs/contract_reference"}}},
+          "else": {"properties": {"contract_reference": {"type": "null"}}}
+        }
+      ]
+    }
+  }
+}

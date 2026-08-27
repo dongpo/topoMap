@@ -1,0 +1,55 @@
+{
+  "inventory_date": "2026-07-16",
+  "source_folder": "https://drive.google.com/drive/folders/1iMVLeHI1yfCfOlfkXNd7Ti1CoxW3aBPg",
+  "documents_used": [
+    {
+      "id": "1KQN1GCwVPFSms3IUi4pmNqM4ru3TYVrZ",
+      "title": "01-一千分之一地形圖圖式規格表.pdf",
+      "document_revision": "NLSC112V5.4",
+      "effective_date": "2024-02-28",
+      "pages_used": [11, 50, 60, 61, 62, 69],
+      "pages": 83,
+      "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+      "hash_status": "verified from user-supplied NMA_OfficialDocuments.zip",
+      "visual_verification_pages": [11, 50, 60, 61, 62, 69],
+      "use": "portrayal executable knowledge and NMA-Bench"
+    },
+    {
+      "id": "1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e",
+      "title": "11-五千分之一基本地形圖測製及檢核說明(112年度版).pdf",
+      "pages": 49,
+      "pages_used": [22, 34, 35, 39],
+      "sha256": "07360ba6749638a87c846f12d45ea59a354f68c5152dfb6a0ac4c189ba8d70a6"
+    },
+    {
+      "id": "1vKllgEpWFH9-WDagkrVkDtGCf44-m4gj",
+      "title": "09-臺灣通用電子地圖圖層內容說明.pdf",
+      "document_revision": "114.12.04",
+      "pages": 15,
+      "pages_used": [9],
+      "sha256": "b3c26f6e2766e9e6fac2a85f935b88e45741708ef6def79213b4c18a2cdb3683"
+    },
+    {
+      "id": "1YMl1dIcV2A0xHGPYv_qr7-7CYJb3iU9b",
+      "title": "10-臺灣通用電子地圖品質查核作業說明.pdf",
+      "pages": 12,
+      "pages_used": [8],
+      "sha256": "a40c03372e75c4c618d141bfdce14f6105a1d2b32c863571a5a044ee96436bd3"
+    },
+    {
+      "id": "1jlJ1qtxHVUL2DDoDC2kZMqCACWdOTMTN",
+      "title": "07-臺灣通用電子地圖資料標準(第二版).pdf",
+      "pages": 88,
+      "pages_used": [14],
+      "sha256": "29752de36ba719231ea555f73c45c88273ae7c2b7cdf64c71de1f37e25b3c7bf"
+    }
+  ],
+  "observed_test_archive": {
+    "title": "112年多維度SHP成果_0502.zip",
+    "size_bytes": 12822898,
+    "sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "redistributed": false,
+    "observation": "Six RIVERL and six RIVERA layer sets were inspected. The RIVERL files use RIVERID while the cited page 39 states RIVERLID.",
+    "review_status": "candidate discrepancy pending authority review"
+  }
+}

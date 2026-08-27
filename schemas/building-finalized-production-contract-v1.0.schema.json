@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/building-finalized-production-contract-v1.0.schema.json",
+  "title": "BUILD-09F finalized Building production contract candidate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "contract_version", "status", "created_on", "bindings", "official_evidence_findings", "authorized_local_policies", "polygonz_derived_xy_contract", "final_gates", "implementation_authorization", "production_activation_allowed", "official_portrayal_activation_allowed", "source_mutation_allowed", "source_z_drop_allowed", "unbounded_runtime_wiring_allowed", "build10_readiness", "next_stage", "finalized_contract_sha256"],
+  "properties": {
+    "schema_version": {"const": "nma.building-finalized-production-contract/1.0"},
+    "contract_version": {"const": "build-09f-successor/1.0"},
+    "status": {"const": "production-candidate"},
+    "created_on": {"const": "2026-08-21"},
+    "bindings": {"type": "object", "additionalProperties": false, "required": ["build09e2_predecessor_commit", "build09e2_applicability_resolution_sha256", "build09e2_successor_contract_sha256", "build09f_policy_record_sha256"], "properties": {"build09e2_predecessor_commit": {"const": "d92fd15bd6b7e40714abf25a8e7857d205fcca10"}, "build09e2_applicability_resolution_sha256": {"const": "1a4a406da130eb34a7f6871e92230d0c82fe4bcf9e475651418780bedd5d1262"}, "build09e2_successor_contract_sha256": {"const": "71b7f25239eb001454af61358acb67917d9820957ea4aeb2191ff613ee54a043"}, "build09f_policy_record_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}},
+    "official_evidence_findings": {"type": "object", "additionalProperties": false, "required": ["applicability_result", "official_evidence_search_closed", "remaining_authoritative_evidence_blockers", "annotation_content", "hatch_diagonal_semantics", "hatch_spacing_mm", "line_width_mm", "colour_original_representation"], "properties": {"applicability_result": {"const": "authoritative-applicability-boundary-not-published"}, "official_evidence_search_closed": {"const": true}, "remaining_authoritative_evidence_blockers": {"const": []}, "annotation_content": {"const": "floor count followed by structure"}, "hatch_diagonal_semantics": {"const": true}, "hatch_spacing_mm": {"const": 2.0}, "line_width_mm": {"const": 0.2}, "colour_original_representation": {"const": "RGB (0,0,0)"}}},
+    "authorized_local_policies": {"type": "object", "additionalProperties": false, "required": ["j13_j17", "hatch", "annotation", "line_output_profile", "colour", "opacity"], "properties": {"j13_j17": {"type": "object"}, "hatch": {"type": "object"}, "annotation": {"type": "object"}, "line_output_profile": {"type": "object"}, "colour": {"type": "object"}, "opacity": {"type": "object"}}},
+    "polygonz_derived_xy_contract": {"type": "object"},
+    "final_gates": {"type": "array", "minItems": 5, "maxItems": 5, "items": {"type": "object", "additionalProperties": false, "required": ["gate_id", "state"], "properties": {"gate_id": {"enum": ["hatch", "annotation", "j13-j17", "line-colour", "polygonz-derived-xy"]}, "state": {"enum": ["P2-production-candidate"]}}}},
+    "implementation_authorization": {"type": "object", "additionalProperties": false, "required": ["controlled_production_implementation_design_allowed", "controlled_production_implementation_allowed", "production_activation_allowed", "official_portrayal_activation_allowed", "source_mutation_allowed", "source_z_drop_allowed", "unbounded_runtime_wiring_allowed"], "properties": {"controlled_production_implementation_design_allowed": {"const": true}, "controlled_production_implementation_allowed": {"const": true}, "production_activation_allowed": {"const": false}, "official_portrayal_activation_allowed": {"const": false}, "source_mutation_allowed": {"const": false}, "source_z_drop_allowed": {"const": false}, "unbounded_runtime_wiring_allowed": {"const": false}}},
+    "production_activation_allowed": {"const": false},
+    "official_portrayal_activation_allowed": {"const": false},
+    "source_mutation_allowed": {"const": false},
+    "source_z_drop_allowed": {"const": false},
+    "unbounded_runtime_wiring_allowed": {"const": false},
+    "build10_readiness": {"const": "READY-FOR-BUILD-10"},
+    "next_stage": {"const": "BUILD-10 — Controlled Building Production Implementation"},
+    "finalized_contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

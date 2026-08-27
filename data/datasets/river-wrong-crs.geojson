@@ -1,0 +1,9 @@
+{
+  "type": "FeatureCollection",
+  "name": "J01_RIVERL",
+  "nma:crs": "EPSG:3826",
+  "nma:specification_version": "2023",
+  "features": [
+    {"type": "Feature", "properties": {"feature_id": "R900", "name": "Example River", "river_class": "primary"}, "geometry": {"type": "LineString", "coordinates": [[121.0, 24.0], [121.1, 24.1]]}}
+  ]
+}

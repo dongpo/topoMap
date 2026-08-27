@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.build-portrayal-proposal/1.0",
+  "title": "NMA BUILD-02 building portrayal proposal 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["proposal_version", "schema_version", "bindings", "proposal", "boundaries", "proposal_sha256"],
+  "properties": {
+    "proposal_version": {"const": "build-02/1.0"},
+    "schema_version": {"const": "nma.build-portrayal-proposal/1.0"},
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["upstream_package_sha256", "source_archive_sha256", "fixture_id", "observation_id", "feature_reference", "attribute_commitment_sha256", "geometry_commitment_sha256", "profile_identity_sha256", "source_scope_sha256", "portrayal_record_set_id", "portrayal_record_set_sha256", "portrayal_recipe_sha256", "source_document_sha256", "source_rule_id", "evidence_section_id", "decision_sha256"],
+      "properties": {
+        "upstream_package_sha256": {"const": "59b6f972046dbe9af295de414525230b03ed6da4f0e78374076b5cc4a2cdd7de"},
+        "source_archive_sha256": {"const": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53"},
+        "fixture_id": {"const": "build-fixture:sha256:7411d8eb06ee70bc24ce7003de0b344a1874c3d606b91571e5913ba766f1162a"},
+        "observation_id": {"const": "build-observation:sha256:8fdbb3bdea8ffe715e7d76eed7c5034bd62226ba649be2206cf7a9e07b853bac"},
+        "feature_reference": {"const": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f"},
+        "attribute_commitment_sha256": {"const": "ddfa112586b9c2bc3a61bdf2638b7994ba1200bfce5d8ad34988f2a24da96078"},
+        "geometry_commitment_sha256": {"const": "23f7d5adacfb468bf0105ed66bb6f64ac44b50e22c47a2399a4787f6051bb22f"},
+        "profile_identity_sha256": {"const": "5f560c8fde92b7ed590c8f4d1292ae69743e033b2bbf43b837b083b5c611dc09"},
+        "source_scope_sha256": {"const": "a4e3eff87f1df770e01c3675fe883335b4416c405922d22b129e85fc4a44065b"},
+        "portrayal_record_set_id": {"const": "nma-portrayal-recipe-review-batch-01-v0.4"},
+        "portrayal_record_set_sha256": {"const": "70ef0c8e8e86ed5d2a2a4a588b41086f3fd20fb6987138e3897b71378f4b294a"},
+        "portrayal_recipe_sha256": {"const": "450ee18fe87ea2a7f1d783747ee22ae927c73a2f46424f65900f28f9981f2e20"},
+        "source_document_sha256": {"const": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620"},
+        "source_rule_id": {"const": "portrayal-rule:doc01:9310100"},
+        "evidence_section_id": {"const": "section:doc01-portrayal:p8"},
+        "decision_sha256": {"const": "624fafe1f84164f6f28396d21153a3ed0f9795ead87b6e9c605115b35ee3c846"}
+      }
+    },
+    "proposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "execution_target", "requested_changes", "review_gates"],
+      "properties": {
+        "action": {"const": "prepare review-only derived building-polygon portrayal candidate"},
+        "execution_target": {"const": "derived building-polygon portrayal candidate"},
+        "requested_changes": {"$ref": "https://schemas.nma.local/nma.build-portrayal-decision/1.0#/$defs/portrayal"},
+        "review_gates": {"$ref": "https://schemas.nma.local/nma.build-portrayal-decision/1.0#/$defs/review_gates"}
+      }
+    },
+    "boundaries": {"$ref": "https://schemas.nma.local/nma.build-portrayal-decision/1.0#/$defs/boundaries"},
+    "proposal_sha256": {"const": "1e588ea2d7752ce7b02c28d6117c4deb1d6c8995dcbace14cfcb542eca847749"}
+  }
+}

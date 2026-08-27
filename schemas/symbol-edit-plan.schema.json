@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://geomni.example/schemas/nma.symbol-edit-plan.1.0.json",
+  "title": "NMA SymbolEditPlan 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "source", "operations"],
+  "properties": {
+    "schema": {
+      "const": "nma.symbol-edit-plan/1.0"
+    },
+    "source": {
+      "enum": ["responses-api", "deterministic-fallback"]
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["action", "target", "value", "reference", "relation"],
+        "properties": {
+          "action": {
+            "enum": [
+              "set_color",
+              "set_scale",
+              "set_stroke_width",
+              "set_opacity",
+              "set_rotation",
+              "set_outline",
+              "align",
+              "add_shape",
+              "remove_shape",
+              "match_dimension",
+              "attach",
+              "detach"
+            ]
+          },
+          "target": {
+            "type": ["string", "null"],
+            "enum": ["symbol", "flag", "flag-top", "flagpole-bottom", "support", null]
+          },
+          "value": {
+            "anyOf": [
+              {"type": "number"},
+              {
+                "type": "string",
+                "enum": [
+                  "#111111",
+                  "#ffffff",
+                  "#c62828",
+                  "#1565c0",
+                  "#2e7d32",
+                  "#f9a825",
+                  "#ef6c00",
+                  "#6d7772",
+                  "#6a1b9a",
+                  "none",
+                  "rectangle"
+                ]
+              },
+              {"type": "null"}
+            ]
+          },
+          "reference": {
+            "type": ["string", "null"],
+            "enum": ["flag", "flagpole-top", "support", "support-top", null]
+          },
+          "relation": {
+            "type": ["string", "null"],
+            "enum": ["aligned", "offset", "same-width", "proportional-width", "inserted-into-top", "detached", null]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "approval_version": "road-03/1.0",
+  "schema_version": "nma.road-approval/1.0",
+  "human_decision": "rejected",
+  "actor_type": "human",
+  "bindings": {
+    "proposal_sha256": "3d45d1ed039c2af1aa7f050fa1e3c22158c891390c001285054b05a02959ce06",
+    "decision_sha256": "0d671b1fed3f4b19e4204e745bdcb13f872f3a00dcb4ef5050a091a14065e090",
+    "road01_package_sha256": "b5df3f57c33843f354371206c937f52d37ddbbd9d047a31ad7c334532ce30e9a",
+    "source_archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "fixture_sha256": "b01e261971f65cbfc127aed4f1ba17b01b194dd89f256d3c024170c1dc7338f0",
+    "ordered_source_ids": [
+      "K0000004671",
+      "K0000004913",
+      "K0000005348"
+    ],
+    "route_identity": "ROADNUM=縣126|ROADNUM1=|ROADNUM2=|ROADNAME=中山街",
+    "class_code": "9420400",
+    "evidence_ids": [
+      "BMAP096-P5-TABLE1-GRAPHIC-ELEMENT-CODES",
+      "DOC01-P22-P24-ROAD-BOUNDARY-LABEL",
+      "DOC01-P34-P35-ROUTE-SHIELDS",
+      "DOC02-P45-P46-ANNEX7-CODING-SCHEME",
+      "DOC02-P53-P55-ROAD-CODE-BRANCH"
+    ],
+    "requested_portrayal": {
+      "shield_code": "9490005",
+      "shield_orientation": "road-parallel",
+      "road_name_annotation": "中山街",
+      "graphic_element_roles": [2, 5]
+    },
+    "execution_target": "derived road-centreline portrayal artifact"
+  },
+  "authorization_effect": {
+    "execution_authorization_eligible": false,
+    "execution_authorization_denied": true
+  },
+  "approval_sha256": "a327ae30d6bd4efa53c5df43859e80b0ae0a771035bb2de40d6881f82a62f6eb"
+}

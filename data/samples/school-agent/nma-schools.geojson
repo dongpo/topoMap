@@ -1,0 +1,34 @@
+{
+  "type": "FeatureCollection",
+  "name": "nma-school-sample",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "school001",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.0, 24.0]
+      },
+      "properties": {
+        "name": "North District Elementary School",
+        "administrative_area": "North District",
+        "registry_id": "REG-001",
+        "address": "1 Education Road"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "school002",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.01, 24.005]
+      },
+      "properties": {
+        "name": "Riverside Elementary School",
+        "administrative_area": "North District",
+        "registry_id": "REG-002",
+        "address": "5 Old River Road"
+      }
+    }
+  ]
+}

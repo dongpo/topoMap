@@ -1,0 +1,132 @@
+{
+  "$schema": "../../schemas/public-assets-rc.schema.json",
+  "release_version": "nma-public-assets-v0.2-rc1",
+  "status": "release-candidate",
+  "source": {
+    "repository": "dongpo/topoMap",
+    "branch": "codex/nma-v0.2-authoritative",
+    "base_commit": "70c71708c8dcbd35204eab710f7bdd0725817ea4",
+    "pull_request": "https://github.com/dongpo/topoMap/pull/1",
+    "stable_demo_release": "nma-demo-v0.2-rc1",
+    "stable_demo_manifest": "data/demo/stable-rc1.json"
+  },
+  "website": {
+    "public_url": "https://dongpo.github.io/topoMap/",
+    "demo_url": "https://dongpo.github.io/topoMap/nmaAgentDemo.html?mode=degraded",
+    "public_mode": "evidence-only",
+    "builder": "scripts/build_public_site.py",
+    "workflow": ".github/workflows/static.yml",
+    "staging_path": "artifacts/tmp/public-site",
+    "deployment_state": "deployed",
+    "deployment_evidence": {
+      "checked_at": "2026-08-05T23:24:00+08:00",
+      "workflow_run": "https://github.com/dongpo/topoMap/actions/runs/31019900015",
+      "run_id": 31019900015,
+      "head_sha": "60eb2857b1ff14b0baa51732373ca5c8b697c1c3",
+      "artifact_id": 8936130053,
+      "artifact_digest": "sha256:22a8bac8c8ceda73926770bb7939272f3f32bd4cf807952bcfe669bd119476a6",
+      "homepage": "200-equivalent browser load; title National Map Agent v0.2 · Stable Demo RC1",
+      "demo": "evidence-only five-scene controls and school evidence loaded",
+      "architecture_image": "loaded at 1280x720",
+      "browser_console": "0 errors; 0 warnings"
+    },
+    "exclusions": [
+      "out1120902.pmtiles",
+      "official NLSC portrayal PDF",
+      "repository-only development and test files"
+    ]
+  },
+  "frozen_assets": [
+    {
+      "role": "stable-demo-manifest",
+      "path": "data/demo/stable-rc1.json",
+      "sha256": "c7eaf5e102824a1895a7294173cbfedfec61b2545906c8b6939f4f839ce2427f"
+    },
+    {
+      "role": "website-source",
+      "path": "index.html",
+      "sha256": "4ea9436ae3ffbb0fe045b0bbe778570745a4028562a1afc5ba16662cca95d8d8"
+    },
+    {
+      "role": "demo-source",
+      "path": "nmaAgentDemo.html",
+      "sha256": "6ca5b46449dc83652ecb150dbc4cbd264094b02b83afedfe212797101c519241"
+    },
+    {
+      "role": "website-builder",
+      "path": "scripts/build_public_site.py",
+      "sha256": "2430f06bc37cc913018cf311753e00280d4c268684ce89fc8f5d7176d78d8e91"
+    },
+    {
+      "role": "pages-workflow",
+      "path": ".github/workflows/static.yml",
+      "sha256": "62a10d1b14310076cd7eca62b032a5f240f4c49be5ae70a40dfdafb392c7dfa0"
+    },
+    {
+      "role": "website-image",
+      "path": "artifacts/presentation/d18/architecture.png",
+      "sha256": "87c081e5f58222456ecbc0f44e52682474cf0333ee6b6e1b979f7ff318b77ef3"
+    },
+    {
+      "role": "presentation-rc",
+      "path": "artifacts/presentation/nma-foss4g-presentation-v0.9.pptx",
+      "sha256": "1dc2ca3c68d11512a08930a95912b6b1cb26ba7ac0a5d8e05bdb6128930b42a6"
+    },
+    {
+      "role": "runnable-review-package",
+      "path": "artifacts/release/nma-v0.2-review-package.zip",
+      "sha256": "e9fee54cd10657d9b9da77383a5e1b41110ccd13db932f2ad8df888b4d3bf979"
+    },
+    {
+      "role": "review-package-verification",
+      "path": "artifacts/release/nma-v0.2-review-package-verification.json",
+      "sha256": "e6079a5139beb72bc0af9f19724ff4daaffaf08f379ff3718e5303ce102f8d9f"
+    }
+  ],
+  "install_and_demo_contract": {
+    "quickstart": "docs/QUICKSTART.md",
+    "required_commands": [
+      "git switch codex/nma-v0.2-authoritative",
+      "python3 -m venv .venv",
+      "python -m pip install \".[dev]\"",
+      "make demo-reset",
+      "make demo-rc1",
+      "make test",
+      "python -m http.server 8000"
+    ],
+    "expected_scene_count": 5
+  },
+  "blocking_defects": [],
+  "resolved_defects": [
+    {
+      "id": "pages-not-yet-public-assets-rc1",
+      "classification": "resolved",
+      "owner": "dongpo",
+      "evidence": "GitHub Pages run 31019900015 deployed the bounded artifact from 60eb285; live homepage and evidence-only demo passed browser verification on 2026-08-05."
+    }
+  ],
+  "deferred_defects": [
+    {
+      "id": "pmtiles-redistribution",
+      "classification": "deferred",
+      "owner": "dongpo",
+      "next_action": "Confirm redistribution terms or replace the map archive with a clearly licensed dataset."
+    },
+    {
+      "id": "cartographer-signoff",
+      "classification": "deferred",
+      "owner": "research",
+      "next_action": "Obtain independent review before publication-grade authority claims."
+    },
+    {
+      "id": "sealed-held-out-benchmark",
+      "classification": "deferred",
+      "owner": "research",
+      "next_action": "Seal held-out tasks and run named versioned baselines before paper submission."
+    }
+  ],
+  "post_freeze_policy": {
+    "allowed_categories": ["correctness", "clarity", "reliability", "conference-needs"],
+    "prohibited": ["new demo scenes", "new portrayal profiles", "unsupported factual claims"]
+  }
+}

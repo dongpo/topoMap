@@ -1,0 +1,102 @@
+{
+  "schema": "nma.neo4j-graphrag-retrieval-parity/0.28",
+  "status": "live-neo4j-graphrag-retrieval-parity-verified",
+  "database": "mapfeatures",
+  "canonical_graph_id": "nma-canonical-graph-v0.4",
+  "canonical_graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+  "live_graph_nodes": 4293,
+  "live_graph_edges": 11244,
+  "graph_identity_matches": true,
+  "case_count": 5,
+  "cases_passed": 5,
+  "geometry_coverage": [
+    "LineString",
+    "Point",
+    "Polygon"
+  ],
+  "cases": [
+    {
+      "id": "v028-point-school",
+      "geometry": "Point",
+      "capability": "portrayal-evidence",
+      "status": "retrieved",
+      "seed_ids": [
+        "code-value:landmark-type:9920103"
+      ],
+      "evidence_nodes": 40,
+      "graph_edges": 49,
+      "citations": 4,
+      "conflicts": 0,
+      "package_sha256": "fb12f0115328f3154df82fe48efb1800e7bb491943cc23080ac1013c6b384a51",
+      "parity": true
+    },
+    {
+      "id": "v028-line-river",
+      "geometry": "LineString",
+      "capability": "portrayal-and-product-layer-evidence",
+      "status": "retrieved",
+      "seed_ids": [
+        "portrayal-rule:doc01:9510101"
+      ],
+      "evidence_nodes": 111,
+      "graph_edges": 186,
+      "citations": 10,
+      "conflicts": 0,
+      "package_sha256": "0bfbb2d4b73321d65cb67151d2ca48aaa89a7832a595252ae6daf0b1cdc1dde7",
+      "parity": true
+    },
+    {
+      "id": "v028-polygon-building",
+      "geometry": "Polygon",
+      "capability": "portrayal-and-geometry-evidence",
+      "status": "retrieved",
+      "seed_ids": [
+        "portrayal-rule:doc01:9310100"
+      ],
+      "evidence_nodes": 123,
+      "graph_edges": 208,
+      "citations": 10,
+      "conflicts": 0,
+      "package_sha256": "d5e3b19ca4d994f96d6e13c9653a472ada0d9c14e2feabb5434c5895a8e21ba2",
+      "parity": true
+    },
+    {
+      "id": "v028-source-conflict",
+      "geometry": null,
+      "capability": "conflict-preservation",
+      "status": "retrieved-with-conflict",
+      "seed_ids": [
+        "source-anomaly:doc02:road-941-prefix-on-bridge-elevated"
+      ],
+      "evidence_nodes": 32,
+      "graph_edges": 57,
+      "citations": 4,
+      "conflicts": 1,
+      "package_sha256": "a12c5c5d33db2be87f384c06827f28dcf1ffe76b87e93317c5cf9b622d6a1283",
+      "parity": true
+    },
+    {
+      "id": "v028-quality-rule",
+      "geometry": null,
+      "capability": "quality-evidence",
+      "status": "retrieved",
+      "seed_ids": [
+        "quality-rule:doc03-all-errors-corrected"
+      ],
+      "evidence_nodes": 36,
+      "graph_edges": 68,
+      "citations": 5,
+      "conflicts": 0,
+      "package_sha256": "039be22d43543b7a8330bfa6884611b769cf2571a05faeeb4d992078621d3969",
+      "parity": true
+    }
+  ],
+  "live_neo4j_read_executed": true,
+  "retrieval_parity_verified": true,
+  "new_llm_calls": 0,
+  "new_tokens": 0,
+  "automatic_rule_activation": false,
+  "map_mutations": 0,
+  "source_of_truth": "version-controlled canonical JSON; Neo4j is a rebuildable runtime projection",
+  "claim_boundary": "This verifies that a live Neo4j projection reproduces canonical typed-graph evidence packages for the sealed v0.28 cases. Fixed canonical seeds isolate graph backend parity; this does not evaluate entity resolution, LLM answers, arbitrary Cypher generation, portrayal execution, or map rendering."
+}

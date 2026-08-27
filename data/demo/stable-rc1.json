@@ -1,0 +1,230 @@
+{
+  "$schema": "../../schemas/stable-rc1.schema.json",
+  "release_version": "nma-demo-v0.2-rc1",
+  "status": "stable-rc1",
+  "frozen_on": "2026-08-05",
+  "source": {
+    "repository": "dongpo/topoMap",
+    "branch": "codex/nma-v0.2-authoritative",
+    "frozen_baseline_commit": "ff408b319a6945a14cd7832ea0597f47b0ce16cf",
+    "release_tag": "nma-demo-v0.2-rc1",
+    "pull_request": "https://github.com/dongpo/topoMap/pull/1",
+    "public_demo_url": "https://dongpo.github.io/topoMap/nmaAgentDemo.html",
+    "public_demo_state": "pending-main-deployment"
+  },
+  "scene_order": [
+    "school",
+    "fire-hydrant",
+    "police",
+    "fish-pond",
+    "post-office"
+  ],
+  "components": {
+    "demo_contract": "data/demo/five-scene-demo.json",
+    "feature_freeze": "data/demo/five-scene-freeze.json",
+    "offline_runtime": "data/demo/offline-runtime.json",
+    "portable_backup": "artifacts/presentation/nma-demo-backup/MANIFEST.json",
+    "live_runbook": "docs/FIVE-SCENE-DEMO.md",
+    "backup_runbook": "artifacts/presentation/nma-demo-backup/RUNBOOK.md"
+  },
+  "verification": {
+    "automated_soak": {
+      "evidence": "artifacts/rc1/automated-soak.json",
+      "clean_reset_rounds": 20,
+      "passed_rounds": 20,
+      "failed_rounds": 0,
+      "blocking_defects": 0
+    },
+    "browser_soak": {
+      "evidence": "artifacts/rc1/browser-soak.json",
+      "mode": "pinned-offline-cache-with-origin-unavailable",
+      "passed_rounds": 10,
+      "failed_rounds": 0,
+      "console_errors": 0,
+      "console_warnings": 0
+    },
+    "offline_fallback": {
+      "manifest": "data/demo/offline-runtime.json",
+      "verified_modes": ["normal", "evidence-only"],
+      "passed_scenes": 5
+    },
+    "recorded_fallback": {
+      "status": "human-approved",
+      "issue": "GEO-72",
+      "approved_on": "2026-08-05",
+      "bundle": "artifacts/presentation/nma-demo-backup.zip",
+      "no_repository_required": true
+    }
+  },
+  "environment": {
+    "python_minimum": "3.11",
+    "local_acceptance": {
+      "operating_system": "Darwin 25.5.0",
+      "machine": "arm64",
+      "python": "3.13.5",
+      "gdal": "3.11.0"
+    },
+    "ci": {
+      "runner": "ubuntu-latest",
+      "python": "3.11",
+      "gdal": "distribution package",
+      "workflow": ".github/workflows/verify.yml"
+    },
+    "browser_runtime": {
+      "maplibre": "4.7.0",
+      "pmtiles": "4.3.0",
+      "glyphs": "cache-on-use"
+    }
+  },
+  "artifacts": [
+    {
+      "path": "data/demo/five-scene-demo.json",
+      "role": "demo-contract",
+      "sha256": "96d89e81e3a3ada7d95397dafd240f21e4adaebfb11799e2704a1974997e3d10",
+      "size_bytes": 5295
+    },
+    {
+      "path": "data/demo/five-scene-freeze.json",
+      "role": "feature-freeze",
+      "sha256": "7327286c6322314a7a1949fe7a8c7b0addf43e2e92a534d33aec606f01882607",
+      "size_bytes": 5583
+    },
+    {
+      "path": "data/demo/offline-runtime.json",
+      "role": "offline-runtime",
+      "sha256": "975e26702cd63d87866bcfa9efe509e1336aca5d7707934b1fc3c5df7f517107",
+      "size_bytes": 2246
+    },
+    {
+      "path": "artifacts/presentation/nma-demo-backup/MANIFEST.json",
+      "role": "portable-backup-manifest",
+      "sha256": "5ef86d880175ac08ec544d46ed42b1e9cd560743bdd2e2033ea40b56cd900d59",
+      "size_bytes": 4439
+    },
+    {
+      "path": "artifacts/presentation/nma-demo-backup.zip",
+      "role": "portable-backup",
+      "sha256": "a9860527970103cb5418e00ea7da3238d029da2981651ab2112de493e8af828e",
+      "size_bytes": 2049025
+    },
+    {
+      "path": "artifacts/rc1/automated-soak.json",
+      "role": "automated-soak",
+      "sha256": "8f272f7052842486da076ed9a10dff1eda821b94b33ca653f5fd705d786e49c1",
+      "size_bytes": 8922
+    },
+    {
+      "path": "artifacts/rc1/browser-soak.json",
+      "role": "browser-soak",
+      "sha256": "f1e34e50666d8f7cc41a7d3e1d15fd12867a5614aa4513b6589fb7bb10aee082",
+      "size_bytes": 1800
+    },
+    {
+      "path": "nmaAgentDemo.html",
+      "role": "live-runner",
+      "sha256": "6ca5b46449dc83652ecb150dbc4cbd264094b02b83afedfe212797101c519241",
+      "size_bytes": 20541
+    },
+    {
+      "path": "nmaDemoWorker.js",
+      "role": "offline-worker",
+      "sha256": "ffff9497789df41ddcb48d529b4b7f00d8a3b3581bcfcbe6e02801ce9050acfd",
+      "size_bytes": 3785
+    },
+    {
+      "path": "out1120902.pmtiles",
+      "role": "map-dataset",
+      "sha256": "b31c51d13565c8e8b1e213f97087792b148b7945c4f548ac76da91761c6e3ce5",
+      "size_bytes": 9595077
+    },
+    {
+      "path": "data/knowledge/portrayal-graph.json",
+      "role": "executable-graph",
+      "sha256": "0f90dc365805aaac07ab5aaf61323006bcea1ba8a078470c6872ad63a7eeacca",
+      "size_bytes": 36389
+    },
+    {
+      "path": "pyproject.toml",
+      "role": "environment-lock",
+      "sha256": "12400ad79ef5e2cc50a0c08e32e0ff44b00b574ae2d49e7d9b0beae744c0c1bc",
+      "size_bytes": 2374
+    },
+    {
+      "path": ".github/workflows/verify.yml",
+      "role": "ci-environment",
+      "sha256": "4714bab98a49e4fe2b79d4e1022fc706617b3735f5adcffa550bce26a281b7c9",
+      "size_bytes": 540
+    },
+    {
+      "path": "docs/FIVE-SCENE-DEMO.md",
+      "role": "live-runbook",
+      "sha256": "b4a5fdf938e2e25ed9903a8c071b40613f30a309b4f31e9f277cf0385b652aa6",
+      "size_bytes": 4035
+    },
+    {
+      "path": "artifacts/presentation/nma-demo-backup/RUNBOOK.md",
+      "role": "backup-runbook",
+      "sha256": "d8f0c100ab1047d93f3e000247451e5bfc532462992b34b68362bfbadc099f2c",
+      "size_bytes": 2987
+    },
+    {
+      "path": "docs/STABLE-DEMO-RC1.md",
+      "role": "release-record",
+      "sha256": "4e4434658d6820d0abcf660fcd32aa06444ae18ea2a572c56a5ae867571c134e",
+      "size_bytes": 3797
+    }
+  ],
+  "resolved_risks": [
+    {
+      "id": "cold-cache-map-runtime",
+      "resolution": "Online preflight, pinned D15 cache, evidence-only mode, and D16 portable backup."
+    },
+    {
+      "id": "backup-capture",
+      "resolution": "D16 video, screenshots, evidence panels, playback page, runbook, and checksums approved in GEO-72."
+    },
+    {
+      "id": "browser-repeatability",
+      "resolution": "Ten D17 cached live-map rounds passed with zero console errors or warnings."
+    }
+  ],
+  "non_blocking_release_gates": [
+    {
+      "id": "pmtiles-redistribution-terms",
+      "classification": "non-blocking",
+      "owner": "publication gate",
+      "next_action": "Confirm redistribution terms before publishing the portable archive externally."
+    },
+    {
+      "id": "expert-sign-off",
+      "classification": "non-blocking",
+      "owner": "publication gate",
+      "next_action": "Obtain independent cartographer sign-off before publication-grade claims."
+    },
+    {
+      "id": "public-demo-deployment",
+      "classification": "non-blocking",
+      "owner": "PR #1 merge or separately approved Pages deployment",
+      "next_action": "Deploy the stable branch through the existing Pages workflow before using the public URL."
+    }
+  ],
+  "blocking_defects": [],
+  "post_freeze_policy": {
+    "allowed_change": "critical defect only",
+    "required_evidence": [
+      "Linear issue and impact statement",
+      "reproduction steps",
+      "approved fix",
+      "full automated and browser reruns",
+      "updated artifact fingerprints",
+      "replacement RC tag",
+      "human approval"
+    ],
+    "prohibited_changes": [
+      "new scene",
+      "second portrayal profile",
+      "new factual claim",
+      "unrelated presentation polish"
+    ]
+  }
+}

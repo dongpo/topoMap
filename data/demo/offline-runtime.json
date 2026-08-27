@@ -1,0 +1,91 @@
+{
+  "runtime_version": "nma-agentic-v0.3-a06",
+  "status": "mitigated",
+  "local_assets": [
+    "nmaAgentDemo.html",
+    "nmaDemoWorker.js",
+    "data/knowledge/portrayal-graph.json",
+    "data/demo/five-scene-demo.json",
+    "data/demo/pmtiles-capability-catalog.json",
+    "assets/symbols/nlsc112v5.4/school.svg",
+    "assets/symbols/nlsc112v5.4/fire-hydrant.svg",
+    "assets/symbols/nlsc112v5.4/police.svg",
+    "assets/symbols/nlsc112v5.4/fish-pond.svg",
+    "assets/symbols/nlsc112v5.4/post.svg",
+    "out1120902.pmtiles"
+  ],
+  "local_pmtiles_url": "out1120902.pmtiles",
+  "cache": {
+    "worker": "nmaDemoWorker.js",
+    "name": "nma-agentic-v0.3-a06",
+    "local_shell_strategy": "network-first-with-cache-fallback",
+    "pinned_runtime_assets": [
+      "https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css",
+      "https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js",
+      "https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"
+    ],
+    "glyph_strategy": "cache-on-use",
+    "glyph_prefix": "https://cdn.protomaps.com/fonts/pbf/"
+  },
+  "pmtiles_range_strategy": "service-worker-local-range-adapter",
+  "basemap": {
+    "primary": "NLSC WMTS EMAP",
+    "tile_url": "https://wmts.nlsc.gov.tw/wmts/EMAP/default/GoogleMapsCompatible/{z}/{y}/{x}",
+    "attribution": "© 內政部國土測繪中心",
+    "cache_policy": "network-only; no bulk caching",
+    "fallback": "local-pmtiles",
+    "forced_url": "nmaAgentDemo.html?basemap=local"
+  },
+  "fallback": {
+    "mode": "evidence-only",
+    "forced_url": "nmaAgentDemo.html?mode=degraded",
+    "preserves": [
+      "five-scene controls",
+      "feature code and portrayal action",
+      "PDF evidence page and source hash",
+      "graph path and execution log"
+    ],
+    "omits": ["interactive map rendering"]
+  },
+  "verification": {
+    "tested_on": "2026-08-07",
+    "normal_mode": {
+      "status": "passed",
+      "runtime_status": "Map ready · NLSC EMAP online · local PMTiles data · supervised dynamic layers",
+      "local_pmtiles_range_adapter": "passed",
+      "console_errors": 0,
+      "console_warnings": 0
+    },
+    "local_basemap_fallback": {
+      "status": "passed",
+      "runtime_status": "Map ready · local PMTiles basemap fallback · NLSC EMAP unavailable or bypassed",
+      "interactive_map_preserved": true,
+      "forced_url": "nmaAgentDemo.html?basemap=local",
+      "console_errors": 0,
+      "console_warnings": 0
+    },
+    "degraded_mode": {
+      "status": "passed",
+      "runtime_status": "Evidence-only mode · map unavailable · reviewed decisions preserved",
+      "scene_order": ["school", "fire-hydrant", "police", "fish-pond", "post-office"],
+      "passed_scenes": 5,
+      "failed_scenes": 0,
+      "console_errors": 0,
+      "console_warnings": 0
+    }
+  },
+  "deferred": [
+    {
+      "id": "cold-cache-map-runtime",
+      "classification": "non-blocking",
+      "owner": "D16 / GEO-72",
+      "next_action": "Run the online preflight once before travel and capture the evidence-only backup recording."
+    },
+    {
+      "id": "pmtiles-redistribution-terms",
+      "classification": "non-blocking",
+      "owner": "publication gate",
+      "next_action": "Confirm redistribution terms for out1120902.pmtiles before publishing a distributable offline bundle."
+    }
+  ]
+}

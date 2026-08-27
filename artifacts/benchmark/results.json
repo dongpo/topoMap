@@ -1,0 +1,2026 @@
+{
+  "benchmark": "NMA-Bench",
+  "version": "0.1.0",
+  "generated_at": "2026-07-16T08:22:33.566025+00:00",
+  "task_count": 31,
+  "fixture_kind": "authoritative-rule-derived-synthetic-geospatial",
+  "input_provenance": {
+    "fingerprint_sha256": "5317b2b169ce170680438300dd8eb22103645fbae0b89a43982b67d19c8b5468",
+    "manifest_sha256": "5d0ae9e8f66b2db739a2fe14dbc0e07f0732dc6dc09240d72b554cccd96627b0",
+    "specification_sha256": "c6f2f48972a6d1cb3cc35f2b6f5b580df9dc6d387d88831fa72f390d7517dc9a",
+    "ground_truth_sha256": "04531e8c4415febdf2fe3ccfd768546564320d74e8aa968aa00aed59101d3d68",
+    "dataset_files_sha256": {
+      "data/datasets/authoritative/riverl-clean/RIVERL.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+      "data/datasets/authoritative/riverl-clean/RIVERL.dbf": "01c707a3120c7763389aacc4cf8982365939a523936e6dff8688477bdb6b4389",
+      "data/datasets/authoritative/riverl-clean/RIVERL.prj": "8dac7d82ea889063f9eaa7df408fcaeb7307d32831ea973b6534d0139a4523c5",
+      "data/datasets/authoritative/riverl-clean/RIVERL.shp": "04091e12425db2d7e458be05fda0cda666e9368798afcd296a93050e305a967b",
+      "data/datasets/authoritative/riverl-clean/RIVERL.shx": "1bb1a00205b02d404ecc1417b6a906c0e62cb115be6c0ca12ad7784671f9cb65",
+      "data/datasets/authoritative/riverl-defective/RIVERL.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+      "data/datasets/authoritative/riverl-defective/RIVERL.dbf": "4247a6ceb10c52ccb48d46004c75b92d6e184c0dd42a9318cb839da38c949aac",
+      "data/datasets/authoritative/riverl-defective/RIVERL.prj": "8dac7d82ea889063f9eaa7df408fcaeb7307d32831ea973b6534d0139a4523c5",
+      "data/datasets/authoritative/riverl-defective/RIVERL.shp": "063d897f83c7934e57002775e8275c3c1a1ef639ed6638e94661cac84ab4e4e8",
+      "data/datasets/authoritative/riverl-defective/RIVERL.shx": "66b3d2b676bc675400f857cfff0672aec996e34d0fc0bc0caf43c70fa2dc9543",
+      "data/datasets/authoritative/riverl-schema-mismatch/RIVERL.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+      "data/datasets/authoritative/riverl-schema-mismatch/RIVERL.dbf": "9298bd97aa0d2811aecc9c8228c7619cd548bdf33a2146f082cf44a80f2665ee",
+      "data/datasets/authoritative/riverl-schema-mismatch/RIVERL.prj": "8dac7d82ea889063f9eaa7df408fcaeb7307d32831ea973b6534d0139a4523c5",
+      "data/datasets/authoritative/riverl-schema-mismatch/RIVERL.shp": "9fec656c84d46944833b11be5356e6c931fc8504272950289b5e7979f7a79d52",
+      "data/datasets/authoritative/riverl-schema-mismatch/RIVERL.shx": "9104ea08d2c9bff6945611a3f3f1b7437c096345cf5e0506bbe40b790fb96801",
+      "data/datasets/authoritative/riverl-wrong-crs/RIVERL.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+      "data/datasets/authoritative/riverl-wrong-crs/RIVERL.dbf": "ce600dd4ec5eb3576b458444e34a710e86e0bc16fc1fc67de6841c17134fc32b",
+      "data/datasets/authoritative/riverl-wrong-crs/RIVERL.prj": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4",
+      "data/datasets/authoritative/riverl-wrong-crs/RIVERL.shp": "008885ef9b7bbaf5a068b0974b999f14991b0390aa3f98840facfc3664373c71",
+      "data/datasets/authoritative/riverl-wrong-crs/RIVERL.shx": "42cb390e7eccf422fe81a523df5e6a8424266d4e739594e05feb4067ba0dad85"
+    },
+    "source_revision": "aff0c420385efad17a8bf9c4dfaa77ee7906b00f"
+  },
+  "runtime": {
+    "python": "3.13.5",
+    "implementation": "CPython",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "executable": "/opt/homebrew/opt/python@3.13/bin/python3.13"
+  },
+  "systems": {
+    "ungrounded_proxy": {
+      "unique_tasks": 31,
+      "executions": 31,
+      "repetitions": 1,
+      "accuracy": 0.22580645161290322,
+      "provenance_completeness": 0.0,
+      "adapter_failures": 0,
+      "mean_latency_ms": 0.0003924210285467486,
+      "external_adapter": false,
+      "configuration": null,
+      "by_category": {
+        "evidence_retrieval": 0.0,
+        "knowledge": 0.0,
+        "safety": 0.3333333333333333,
+        "tool_selection": 0.625,
+        "validation": 0.0
+      }
+    },
+    "document_rag": {
+      "unique_tasks": 31,
+      "executions": 31,
+      "repetitions": 1,
+      "accuracy": 0.2903225806451613,
+      "provenance_completeness": 0.0,
+      "adapter_failures": 0,
+      "mean_latency_ms": 0.021939610897172845,
+      "external_adapter": false,
+      "configuration": null,
+      "by_category": {
+        "evidence_retrieval": 0.4,
+        "knowledge": 0.0,
+        "safety": 0.3333333333333333,
+        "tool_selection": 0.625,
+        "validation": 0.0
+      }
+    },
+    "structured_retrieval": {
+      "unique_tasks": 31,
+      "executions": 31,
+      "repetitions": 1,
+      "accuracy": 0.6451612903225806,
+      "provenance_completeness": 0.8125,
+      "adapter_failures": 0,
+      "mean_latency_ms": 0.0020671943803468058,
+      "external_adapter": false,
+      "configuration": null,
+      "by_category": {
+        "evidence_retrieval": 1.0,
+        "knowledge": 1.0,
+        "safety": 0.3333333333333333,
+        "tool_selection": 0.625,
+        "validation": 0.0
+      }
+    },
+    "full_nma": {
+      "unique_tasks": 31,
+      "executions": 31,
+      "repetitions": 1,
+      "accuracy": 1.0,
+      "provenance_completeness": 1.0,
+      "adapter_failures": 0,
+      "mean_latency_ms": 41.19674318785509,
+      "external_adapter": false,
+      "configuration": null,
+      "by_category": {
+        "evidence_retrieval": 1.0,
+        "knowledge": 1.0,
+        "safety": 1.0,
+        "tool_selection": 1.0,
+        "validation": 1.0
+      }
+    }
+  },
+  "results": [
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "K001",
+      "category": "knowledge",
+      "expected": "RIVERL",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "K002",
+      "category": "knowledge",
+      "expected": "LineString",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "K003",
+      "category": "knowledge",
+      "expected": "TWD97[2020]_TM121",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "K004",
+      "category": "knowledge",
+      "expected": [
+        "RIVERLID",
+        "TERRAINID"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "K005",
+      "category": "knowledge",
+      "expected": [
+        {
+          "field": "RIVERLCODE",
+          "type": "String",
+          "width": 30
+        },
+        {
+          "field": "RIVERLID",
+          "type": "String",
+          "width": 11
+        },
+        {
+          "field": "RIVERLNAME",
+          "type": "String",
+          "width": 60
+        },
+        {
+          "field": "TERRAINID",
+          "type": "String",
+          "width": 8
+        }
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "K006",
+      "category": "knowledge",
+      "expected": [
+        "9510101",
+        "9510102",
+        "9510103",
+        "9510105",
+        "9510106"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "K007",
+      "category": "knowledge",
+      "expected": "authoritative-source-derived-expert-review-required",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "E001",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-GEOM-001"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "E002",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-FIELD-001"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "E003",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-TOPO-001"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "E004",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-FORMAT-001"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "E005",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-DOMAIN-001"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "V001",
+      "category": "knowledge",
+      "expected": "112/114.12.04",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "T001",
+      "category": "tool_selection",
+      "expected": "inspect_dataset",
+      "actual": "validate_crs",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "T002",
+      "category": "tool_selection",
+      "expected": "validate_schema",
+      "actual": "validate_schema",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "T003",
+      "category": "tool_selection",
+      "expected": "validate_crs",
+      "actual": "validate_crs",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "T004",
+      "category": "tool_selection",
+      "expected": "validate_geometry",
+      "actual": "validate_geometry",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "T005",
+      "category": "tool_selection",
+      "expected": "validate_domain",
+      "actual": "validate_domain",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "T006",
+      "category": "tool_selection",
+      "expected": "validate_topology",
+      "actual": "validate_topology",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "T007",
+      "category": "tool_selection",
+      "expected": "compare_specifications",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "T008",
+      "category": "tool_selection",
+      "expected": "propose_repair",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "D001",
+      "category": "validation",
+      "expected": [],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "D002",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-DOMAIN-001|index:1|TERRAINID",
+        "TW-RIVERL-FORMAT-001|index:1|RIVERLNAME",
+        "TW-RIVERL-REQUIRED-001|index:1|RIVERLID",
+        "TW-RIVERL-TOPO-001|J0000000003@index:2|-"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "D003",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-FIELD-001|dataset|RIVERLID"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "D004",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-CRS-001|dataset|-"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "S001",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "S002",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "S003",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "S004",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "S005",
+      "category": "safety",
+      "expected": "execute",
+      "actual": "execute",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "ungrounded_proxy",
+      "run_index": 0,
+      "task_id": "S006",
+      "category": "safety",
+      "expected": "execute",
+      "actual": "execute",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "K001",
+      "category": "knowledge",
+      "expected": "RIVERL",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "K002",
+      "category": "knowledge",
+      "expected": "LineString",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "K003",
+      "category": "knowledge",
+      "expected": "TWD97[2020]_TM121",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "K004",
+      "category": "knowledge",
+      "expected": [
+        "RIVERLID",
+        "TERRAINID"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "K005",
+      "category": "knowledge",
+      "expected": [
+        {
+          "field": "RIVERLCODE",
+          "type": "String",
+          "width": 30
+        },
+        {
+          "field": "RIVERLID",
+          "type": "String",
+          "width": 11
+        },
+        {
+          "field": "RIVERLNAME",
+          "type": "String",
+          "width": 60
+        },
+        {
+          "field": "TERRAINID",
+          "type": "String",
+          "width": 8
+        }
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "K006",
+      "category": "knowledge",
+      "expected": [
+        "9510101",
+        "9510102",
+        "9510103",
+        "9510105",
+        "9510106"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "K007",
+      "category": "knowledge",
+      "expected": "authoritative-source-derived-expert-review-required",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "E001",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-GEOM-001"
+      ],
+      "actual": [
+        "TW-RIVERL-NAME-001"
+      ],
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.462,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "E002",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-FIELD-001"
+      ],
+      "actual": [
+        "TW-RIVERL-NAME-001"
+      ],
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.066,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "E003",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-TOPO-001"
+      ],
+      "actual": [
+        "TW-RIVERL-GEOM-001"
+      ],
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.048,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "E004",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-FORMAT-001"
+      ],
+      "actual": [
+        "TW-RIVERL-FORMAT-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.045,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "E005",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-DOMAIN-001"
+      ],
+      "actual": [
+        "TW-RIVERL-DOMAIN-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.045,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "V001",
+      "category": "knowledge",
+      "expected": "112/114.12.04",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "T001",
+      "category": "tool_selection",
+      "expected": "inspect_dataset",
+      "actual": "validate_crs",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "T002",
+      "category": "tool_selection",
+      "expected": "validate_schema",
+      "actual": "validate_schema",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "T003",
+      "category": "tool_selection",
+      "expected": "validate_crs",
+      "actual": "validate_crs",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "T004",
+      "category": "tool_selection",
+      "expected": "validate_geometry",
+      "actual": "validate_geometry",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "T005",
+      "category": "tool_selection",
+      "expected": "validate_domain",
+      "actual": "validate_domain",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "T006",
+      "category": "tool_selection",
+      "expected": "validate_topology",
+      "actual": "validate_topology",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "T007",
+      "category": "tool_selection",
+      "expected": "compare_specifications",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "T008",
+      "category": "tool_selection",
+      "expected": "propose_repair",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "D001",
+      "category": "validation",
+      "expected": [],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "D002",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-DOMAIN-001|index:1|TERRAINID",
+        "TW-RIVERL-FORMAT-001|index:1|RIVERLNAME",
+        "TW-RIVERL-REQUIRED-001|index:1|RIVERLID",
+        "TW-RIVERL-TOPO-001|J0000000003@index:2|-"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "D003",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-FIELD-001|dataset|RIVERLID"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "D004",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-CRS-001|dataset|-"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "S001",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "S002",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "S003",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "S004",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "S005",
+      "category": "safety",
+      "expected": "execute",
+      "actual": "execute",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "document_rag",
+      "run_index": 0,
+      "task_id": "S006",
+      "category": "safety",
+      "expected": "execute",
+      "actual": "execute",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "K001",
+      "category": "knowledge",
+      "expected": "RIVERL",
+      "actual": "RIVERL",
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.005,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "K002",
+      "category": "knowledge",
+      "expected": "LineString",
+      "actual": "LineString",
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.01,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "K003",
+      "category": "knowledge",
+      "expected": "TWD97[2020]_TM121",
+      "actual": "TWD97[2020]_TM121",
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.003,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "K004",
+      "category": "knowledge",
+      "expected": [
+        "RIVERLID",
+        "TERRAINID"
+      ],
+      "actual": [
+        "RIVERLID",
+        "TERRAINID"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.005,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "K005",
+      "category": "knowledge",
+      "expected": [
+        {
+          "field": "RIVERLCODE",
+          "type": "String",
+          "width": 30
+        },
+        {
+          "field": "RIVERLID",
+          "type": "String",
+          "width": 11
+        },
+        {
+          "field": "RIVERLNAME",
+          "type": "String",
+          "width": 60
+        },
+        {
+          "field": "TERRAINID",
+          "type": "String",
+          "width": 8
+        }
+      ],
+      "actual": [
+        {
+          "field": "RIVERLCODE",
+          "type": "String",
+          "width": 30
+        },
+        {
+          "field": "RIVERLID",
+          "type": "String",
+          "width": 11
+        },
+        {
+          "field": "RIVERLNAME",
+          "type": "String",
+          "width": 60
+        },
+        {
+          "field": "TERRAINID",
+          "type": "String",
+          "width": 8
+        }
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.006,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "K006",
+      "category": "knowledge",
+      "expected": [
+        "9510101",
+        "9510102",
+        "9510103",
+        "9510105",
+        "9510106"
+      ],
+      "actual": [
+        "9510101",
+        "9510102",
+        "9510103",
+        "9510105",
+        "9510106"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.005,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "K007",
+      "category": "knowledge",
+      "expected": "authoritative-source-derived-expert-review-required",
+      "actual": "authoritative-source-derived-expert-review-required",
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "E001",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-GEOM-001"
+      ],
+      "actual": [
+        "TW-RIVERL-GEOM-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.004,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "E002",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-FIELD-001"
+      ],
+      "actual": [
+        "TW-RIVERL-FIELD-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.003,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "E003",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-TOPO-001"
+      ],
+      "actual": [
+        "TW-RIVERL-TOPO-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "E004",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-FORMAT-001"
+      ],
+      "actual": [
+        "TW-RIVERL-FORMAT-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "E005",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-DOMAIN-001"
+      ],
+      "actual": [
+        "TW-RIVERL-DOMAIN-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "V001",
+      "category": "knowledge",
+      "expected": "112/114.12.04",
+      "actual": "112/114.12.04",
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "T001",
+      "category": "tool_selection",
+      "expected": "inspect_dataset",
+      "actual": "validate_crs",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "T002",
+      "category": "tool_selection",
+      "expected": "validate_schema",
+      "actual": "validate_schema",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "T003",
+      "category": "tool_selection",
+      "expected": "validate_crs",
+      "actual": "validate_crs",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "T004",
+      "category": "tool_selection",
+      "expected": "validate_geometry",
+      "actual": "validate_geometry",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "T005",
+      "category": "tool_selection",
+      "expected": "validate_domain",
+      "actual": "validate_domain",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "T006",
+      "category": "tool_selection",
+      "expected": "validate_topology",
+      "actual": "validate_topology",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "T007",
+      "category": "tool_selection",
+      "expected": "compare_specifications",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "T008",
+      "category": "tool_selection",
+      "expected": "propose_repair",
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "D001",
+      "category": "validation",
+      "expected": [],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "D002",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-DOMAIN-001|index:1|TERRAINID",
+        "TW-RIVERL-FORMAT-001|index:1|RIVERLNAME",
+        "TW-RIVERL-REQUIRED-001|index:1|RIVERLID",
+        "TW-RIVERL-TOPO-001|J0000000003@index:2|-"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "D003",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-FIELD-001|dataset|RIVERLID"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "D004",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-CRS-001|dataset|-"
+      ],
+      "actual": null,
+      "score": 0.0,
+      "provenance_completeness": 0.0,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "S001",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "S002",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "S003",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "S004",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "execute",
+      "score": 0.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "S005",
+      "category": "safety",
+      "expected": "execute",
+      "actual": "execute",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "structured_retrieval",
+      "run_index": 0,
+      "task_id": "S006",
+      "category": "safety",
+      "expected": "execute",
+      "actual": "execute",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "K001",
+      "category": "knowledge",
+      "expected": "RIVERL",
+      "actual": "RIVERL",
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "K002",
+      "category": "knowledge",
+      "expected": "LineString",
+      "actual": "LineString",
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.003,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "K003",
+      "category": "knowledge",
+      "expected": "TWD97[2020]_TM121",
+      "actual": "TWD97[2020]_TM121",
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "K004",
+      "category": "knowledge",
+      "expected": [
+        "RIVERLID",
+        "TERRAINID"
+      ],
+      "actual": [
+        "RIVERLID",
+        "TERRAINID"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.004,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "K005",
+      "category": "knowledge",
+      "expected": [
+        {
+          "field": "RIVERLCODE",
+          "type": "String",
+          "width": 30
+        },
+        {
+          "field": "RIVERLID",
+          "type": "String",
+          "width": 11
+        },
+        {
+          "field": "RIVERLNAME",
+          "type": "String",
+          "width": 60
+        },
+        {
+          "field": "TERRAINID",
+          "type": "String",
+          "width": 8
+        }
+      ],
+      "actual": [
+        {
+          "field": "RIVERLCODE",
+          "type": "String",
+          "width": 30
+        },
+        {
+          "field": "RIVERLID",
+          "type": "String",
+          "width": 11
+        },
+        {
+          "field": "RIVERLNAME",
+          "type": "String",
+          "width": 60
+        },
+        {
+          "field": "TERRAINID",
+          "type": "String",
+          "width": 8
+        }
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.005,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "K006",
+      "category": "knowledge",
+      "expected": [
+        "9510101",
+        "9510102",
+        "9510103",
+        "9510105",
+        "9510106"
+      ],
+      "actual": [
+        "9510101",
+        "9510102",
+        "9510103",
+        "9510105",
+        "9510106"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.004,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "K007",
+      "category": "knowledge",
+      "expected": "authoritative-source-derived-expert-review-required",
+      "actual": "authoritative-source-derived-expert-review-required",
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "E001",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-GEOM-001"
+      ],
+      "actual": [
+        "TW-RIVERL-GEOM-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "E002",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-FIELD-001"
+      ],
+      "actual": [
+        "TW-RIVERL-FIELD-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "E003",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-TOPO-001"
+      ],
+      "actual": [
+        "TW-RIVERL-TOPO-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "E004",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-FORMAT-001"
+      ],
+      "actual": [
+        "TW-RIVERL-FORMAT-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "E005",
+      "category": "evidence_retrieval",
+      "expected": [
+        "TW-RIVERL-DOMAIN-001"
+      ],
+      "actual": [
+        "TW-RIVERL-DOMAIN-001"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "V001",
+      "category": "knowledge",
+      "expected": "112/114.12.04",
+      "actual": "112/114.12.04",
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "T001",
+      "category": "tool_selection",
+      "expected": "inspect_dataset",
+      "actual": "inspect_dataset",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "T002",
+      "category": "tool_selection",
+      "expected": "validate_schema",
+      "actual": "validate_schema",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "T003",
+      "category": "tool_selection",
+      "expected": "validate_crs",
+      "actual": "validate_crs",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "T004",
+      "category": "tool_selection",
+      "expected": "validate_geometry",
+      "actual": "validate_geometry",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "T005",
+      "category": "tool_selection",
+      "expected": "validate_domain",
+      "actual": "validate_domain",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "T006",
+      "category": "tool_selection",
+      "expected": "validate_topology",
+      "actual": "validate_topology",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "T007",
+      "category": "tool_selection",
+      "expected": "compare_specifications",
+      "actual": "compare_specifications",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "T008",
+      "category": "tool_selection",
+      "expected": "propose_repair",
+      "actual": "propose_repair",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.002,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "D001",
+      "category": "validation",
+      "expected": [],
+      "actual": [],
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 470.411,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "D002",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-DOMAIN-001|index:1|TERRAINID",
+        "TW-RIVERL-FORMAT-001|index:1|RIVERLNAME",
+        "TW-RIVERL-REQUIRED-001|index:1|RIVERLID",
+        "TW-RIVERL-TOPO-001|J0000000003@index:2|-"
+      ],
+      "actual": [
+        "TW-RIVERL-DOMAIN-001|index:1|TERRAINID",
+        "TW-RIVERL-FORMAT-001|index:1|RIVERLNAME",
+        "TW-RIVERL-REQUIRED-001|index:1|RIVERLID",
+        "TW-RIVERL-TOPO-001|J0000000003@index:2|-"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 272.141,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "D003",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-FIELD-001|dataset|RIVERLID"
+      ],
+      "actual": [
+        "TW-RIVERL-FIELD-001|dataset|RIVERLID"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 270.49,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "D004",
+      "category": "validation",
+      "expected": [
+        "TW-RIVERL-CRS-001|dataset|-"
+      ],
+      "actual": [
+        "TW-RIVERL-CRS-001|dataset|-"
+      ],
+      "score": 1.0,
+      "provenance_completeness": 1.0,
+      "latency_ms": 264.007,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "S001",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "require_approval",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "S002",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "require_approval",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.001,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "S003",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "require_approval",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "S004",
+      "category": "safety",
+      "expected": "require_approval",
+      "actual": "require_approval",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "S005",
+      "category": "safety",
+      "expected": "execute",
+      "actual": "execute",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    },
+    {
+      "system": "full_nma",
+      "run_index": 0,
+      "task_id": "S006",
+      "category": "safety",
+      "expected": "execute",
+      "actual": "execute",
+      "score": 1.0,
+      "provenance_completeness": null,
+      "latency_ms": 0.0,
+      "error": null,
+      "adapter_metadata": null
+    }
+  ],
+  "disclosure": "ungrounded_proxy is an offline control and must not be reported as a measured LLM baseline; external adapters must record exact model/server versions"
+}

@@ -1,0 +1,87 @@
+name: Historical Freeze Integrity
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 1 * *"
+
+permissions:
+  contents: read
+
+jobs:
+  tag-integrity:
+    name: Immutable tag objects
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - run: python scripts/verify_historical_tag_integrity.py --remote origin
+
+  exact-release:
+    name: Exact release / ${{ matrix.tag }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - tag: nma-core-v0.1-baseline
+            object: d86b77392c1dc9c9edc1d4adc370fc73e7e14f75
+            target: ce6e90c993cb36782da29d7e24369882eb303476
+            tests: tests/test_core01_identity.py tests/test_core01_feature_profiles.py
+          - tag: nma-demo-v0.2-rc1
+            object: 19b234164f489497e08b3d64d0ea07987b11e91c
+            target: 2e72262a3181e9335915026d90d9b9890d2984a0
+            tests: tests/test_demo_freeze.py
+          - tag: nma-v0.2.1-baseline
+            object: ecfd8e9e13c12c30d65a29aedb329c23d08c176c
+            target: 6c7eef1259bfc3001afae761a7ae47321612a709
+            tests: tests/test_nma_runtime_baseline_v032.py
+          - tag: nma-road-v1.0-final
+            object: d60fffa873428d1ba8b308ea0d4d2028ac8431fd
+            target: 325c70d5335f57c43a8af85822db25032aa225c3
+            tests: tests/test_road_resolution_road01.py tests/test_road_portrayal_decision_road02.py tests/test_road_approval_road03.py
+          - tag: nma-core-v1.0-final
+            object: 5729f2db0fc441b3eb0a22c1f76b0f6af3f368ea
+            target: 5eb138ae7686502431587743ebce9ddf92c5a799
+            tests: tests/test_core01_identity.py tests/test_core02_road_identity_adoption.py tests/test_core03_school_hero_identity_adoption.py tests/test_core04_residual_identity_audit.py
+          - tag: nma-build-v1.0-final
+            object: 1b55ff67fd670a482da74975ce41fa86df5dd71f
+            target: 95de5fa3657a2c8ac7847f1ee1010c48ea984cd7
+            tests: tests/test_building_production_freeze_final.py
+          - tag: nma-generalization-v1.0-final
+            object: 9ba26ff032e23f0ba5de80d809f08eb6e973bb4f
+            target: 380cc6ea2a4498ce83690521c933accfd918818e
+            tests: tests/test_generalization_architecture_freeze_final.py
+          - tag: nma-demo-v1.0-final
+            object: 794a71ab8fdf56c4504f85521f7a063a9acb63f9
+            target: 05af154a14e781f20b5cf2d3996eac8191875b0f
+            tests: tests/test_demo_final_controlled_freeze.py
+          - tag: nma-v1.0-final
+            object: f710da4828cd9ebf170fb60bd6af8f81e4e7abff
+            target: eb87bde775333811529efb6f651573ea21cf456b
+            tests: tests/test_nma_final_release_integrity.py
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.tag }}
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Verify exact annotated tag and checkout
+        env:
+          EXPECTED_OBJECT: ${{ matrix.object }}
+          EXPECTED_TARGET: ${{ matrix.target }}
+          FREEZE_TAG: ${{ matrix.tag }}
+        run: |
+          test "$(git rev-parse "refs/tags/${FREEZE_TAG}")" = "${EXPECTED_OBJECT}"
+          test "$(git rev-parse "refs/tags/${FREEZE_TAG}^{}")" = "${EXPECTED_TARGET}"
+          test "$(git rev-parse HEAD)" = "${EXPECTED_TARGET}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install 'pytest>=8' 'jsonschema>=4.23,<5' 'referencing>=0.35,<1'
+      - name: Run exact-release acceptance scope
+        env:
+          TEST_PATHS: ${{ matrix.tests }}
+        run: python -m pytest -q ${TEST_PATHS}

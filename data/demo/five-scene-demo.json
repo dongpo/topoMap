@@ -1,0 +1,163 @@
+{
+  "$schema": "../../schemas/five-scene-demo.schema.json",
+  "contract_version": "1.0",
+  "title": "NMA RC1 frozen five-scene demonstration",
+  "profile": {
+    "id": "tw-nlsc-1000-NLSC112V5.4",
+    "version": "NLSC112V5.4",
+    "scale_denominator": 1000
+  },
+  "shared": {
+    "records_path": "data/extraction/portrayal-records.jsonl",
+    "profile_path": "data/knowledge/portrayal-profile.json",
+    "graph_path": "data/knowledge/portrayal-graph.json",
+    "runner_path": "nmaAgentDemo.html",
+    "pmtiles_path": "out1120902.pmtiles",
+    "style_output_path": "artifacts/portrayal/maplibre-layers.json",
+    "evidence_fields": [
+      "document",
+      "version",
+      "page",
+      "text",
+      "uri",
+      "source_sha256",
+      "review_status"
+    ],
+    "map_metadata_fields": [
+      "nma:featureCode",
+      "nma:featureName",
+      "nma:ruleId",
+      "nma:evidence",
+      "nma:graphPath",
+      "nma:executionLog"
+    ],
+    "execution_log_stages": [
+      "profile_guard",
+      "scale_guard",
+      "portrayal_rule",
+      "conditional_exception",
+      "evidence_link"
+    ],
+    "licenses": {
+      "code": "Apache-2.0",
+      "synthetic_fixtures": "CC0-1.0",
+      "official_pdf": "referenced, not redistributed",
+      "pmtiles": "existing demo dataset; confirm redistribution terms before publication"
+    }
+  },
+  "scenes": [
+    {
+      "id": "school",
+      "order": 1,
+      "title": "School anchor golden path",
+      "time_budget_seconds": 90,
+      "capability": "versioned retrieval, governance, evidence path, and map execution",
+      "prompt": "依 NLSC112V5.4，小學的地形代碼是什麼？請套用 1:1,000 圖式並顯示證據。",
+      "input": {"feature_code": "9920103", "attributes": {}},
+      "expected": {
+        "feature_code": "9920103",
+        "evidence_page": 61,
+        "primary_source_layer": "J01_MARK",
+        "symbol_id": "school",
+        "selected_action": "draw_symbol",
+        "label_field": "MARKNAME1"
+      }
+    },
+    {
+      "id": "fire-hydrant",
+      "order": 2,
+      "title": "Fire-hydrant authoritative dimensions",
+      "time_budget_seconds": 30,
+      "capability": "deterministic symbol selection and authoritative dimensions",
+      "prompt": "消防栓的代碼與圖式是什麼？",
+      "input": {"feature_code": "9350906", "attributes": {}},
+      "expected": {
+        "feature_code": "9350906",
+        "evidence_page": 11,
+        "primary_source_layer": "J01_BUILD",
+        "symbol_id": "fire-hydrant",
+        "selected_action": "draw_symbol",
+        "official_dimensions_mm": [2, 2.5]
+      }
+    },
+    {
+      "id": "police",
+      "order": 3,
+      "title": "Police alias and labelled portrayal",
+      "time_budget_seconds": 30,
+      "capability": "semantic alias resolution and labelled portrayal",
+      "prompt": "警察局、分駐所或派出所應如何表示？",
+      "input": {"feature_code": "9910603", "attributes": {}},
+      "expected": {
+        "feature_code": "9910603",
+        "evidence_page": 60,
+        "primary_source_layer": "J01_MARK",
+        "symbol_id": "police",
+        "selected_action": "draw_symbol",
+        "label_field": "MARKNAME1"
+      }
+    },
+    {
+      "id": "fish-pond",
+      "order": 4,
+      "title": "Fish-pond compound portrayal",
+      "time_budget_seconds": 30,
+      "capability": "geometry-aware fill, outline, and companion icon",
+      "prompt": "養殖池應使用哪個圖式？",
+      "input": {"feature_code": "9740100", "attributes": {}},
+      "expected": {
+        "feature_code": "9740100",
+        "evidence_page": 50,
+        "primary_source_layer": "J01_WATERA",
+        "symbol_id": "fish-pond",
+        "maplibre_type": "fill",
+        "geometry_type": "polygon",
+        "selected_action": "draw_symbol",
+        "companion_icon": "waterFishIcon"
+      }
+    },
+    {
+      "id": "post-office",
+      "order": 5,
+      "title": "Post-office conditional exception",
+      "time_budget_seconds": 30,
+      "capability": "conditional reasoning, exception handling, and abstention",
+      "prompt": "大型獨幢郵局有什麼圖式例外？",
+      "input": {"feature_code": "9950201", "attributes": {"large_detached_building": true}},
+      "expected": {
+        "feature_code": "9950201",
+        "evidence_page": 69,
+        "primary_source_layer": "J01_MARK",
+        "symbol_id": "post",
+        "selected_action": "text_only",
+        "normal_action": "draw_symbol",
+        "map_symbol_layer_enabled": false,
+        "map_label_layer_enabled": true,
+        "exception_condition": "large_detached_building"
+      }
+    }
+  ],
+  "negative_control": {
+    "feature_code": "9950201",
+    "scale_denominator": 5000,
+    "unsupported_profile_id": "unknown-profile",
+    "expected_status": "abstain"
+  },
+  "runbook": {
+    "setup": [
+      "python3 -m venv .venv",
+      ". .venv/bin/activate",
+      "python -m pip install -e '.[dev]'",
+      "make demo-reset"
+    ],
+    "check": ["make demo-scenes", "make test"],
+    "serve": "python3 -m http.server 8080",
+    "open": "http://127.0.0.1:8080/nmaAgentDemo.html",
+    "reset": "make demo-reset",
+    "expected_artifacts": [
+      "data/knowledge/portrayal-graph.json",
+      "artifacts/portrayal/maplibre-layers.json"
+    ],
+    "full_segment_budget_seconds": 300
+  }
+}

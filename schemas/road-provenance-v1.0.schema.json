@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.road-provenance/1.0",
+  "title": "NMA ROAD Verified Provenance 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "provenance_id", "execution_id", "status", "lineage_completeness", "chain", "input_artifact_identity", "output_artifact_identity", "qa_parent", "checks", "provenance_sha256"],
+  "properties": {
+    "schema": {"const": "nma.road-provenance/1.0"},
+    "provenance_id": {"type": "string", "pattern": "^road-provenance-[0-9a-f]{24}$"},
+    "execution_id": {"const": "road-exec-33766f336d9cc18eb2ac159e"},
+    "status": {"enum": ["verified", "failed"]},
+    "lineage_completeness": {"enum": ["complete", "incomplete"]},
+    "chain": {
+      "type": "array",
+      "minItems": 17,
+      "maxItems": 17,
+      "items": {"$ref": "#/$defs/node"}
+    },
+    "input_artifact_identity": {"type": "object"},
+    "output_artifact_identity": {"type": "object"},
+    "qa_parent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^road-qa-[0-9a-f]{24}$"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "checks": {"$ref": "https://schemas.nma.local/nma.road-qa/1.0#/$defs/checks"},
+    "provenance_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "record_id", "sha256", "byte_sha256", "parent_sha256"],
+      "properties": {
+        "kind": {"type": "string", "minLength": 1},
+        "record_id": {"type": ["string", "null"]},
+        "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "byte_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "parent_sha256": {
+          "type": "array",
+          "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

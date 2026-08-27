@@ -1,0 +1,29 @@
+{
+  "systems": [
+    {
+      "name": "plain_llm_qwen3_8b",
+      "command": ["python3", "benchmark/adapters/openai_compatible.py", "--base-url", "http://127.0.0.1:11434/v1", "--model", "qwen3:8b"],
+      "context_mode": "none",
+      "repetitions": 3,
+      "timeout_seconds": 180,
+      "metadata": {"model": "qwen3:8b", "model_version": "REPLACE_WITH_DIGEST", "server": "Ollama or vLLM", "server_version": "REPLACE_WITH_VERSION", "prompt_version": "openai-compatible/1.0"}
+    },
+    {
+      "name": "document_rag_qwen3_8b",
+      "command": ["python3", "benchmark/adapters/openai_compatible.py", "--base-url", "http://127.0.0.1:11434/v1", "--model", "qwen3:8b"],
+      "context_mode": "document_rag",
+      "top_k": 3,
+      "repetitions": 3,
+      "timeout_seconds": 180,
+      "metadata": {"model": "qwen3:8b", "model_version": "REPLACE_WITH_DIGEST", "server": "Ollama or vLLM", "server_version": "REPLACE_WITH_VERSION", "prompt_version": "openai-compatible/1.0"}
+    },
+    {
+      "name": "structured_context_qwen3_8b",
+      "command": ["python3", "benchmark/adapters/openai_compatible.py", "--base-url", "http://127.0.0.1:11434/v1", "--model", "qwen3:8b"],
+      "context_mode": "structured",
+      "repetitions": 3,
+      "timeout_seconds": 180,
+      "metadata": {"model": "qwen3:8b", "model_version": "REPLACE_WITH_DIGEST", "server": "Ollama or vLLM", "server_version": "REPLACE_WITH_VERSION", "prompt_version": "openai-compatible/1.0"}
+    }
+  ]
+}

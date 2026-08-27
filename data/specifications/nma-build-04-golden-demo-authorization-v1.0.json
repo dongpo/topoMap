@@ -1,0 +1,87 @@
+{
+  "authorization_version": "build-04/1.0",
+  "schema_version": "nma.build-demo-authorization/1.0",
+  "authorization_id": "build-04-demo-auth-a5a8f11b94784a60",
+  "issuance": {
+    "actor_type": "human-project-owner",
+    "decision": "issue-single-consumption-build-demo-authorization",
+    "statement_zh_tw": "進行 BUILD-04。",
+    "issued_on": "2026-08-20",
+    "basis": "exact-human-approved-build-03a-demo-resolution"
+  },
+  "bindings": {
+    "resolution_sha256": "a5a8f11b94784a6065d7b75e151207126506c85ce826dd526c2c8f4802ba8b01",
+    "review_sha256": "4177a2cc29738ad7b1bc6f00f2c10c724fec3c475e57dee45ad2e8e1f105cbdd",
+    "proposal_sha256": "1e588ea2d7752ce7b02c28d6117c4deb1d6c8995dcbace14cfcb542eca847749",
+    "decision_sha256": "624fafe1f84164f6f28396d21153a3ed0f9795ead87b6e9c605115b35ee3c846",
+    "build01_package_sha256": "59b6f972046dbe9af295de414525230b03ed6da4f0e78374076b5cc4a2cdd7de",
+    "source_archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+    "fixture_id": "build-fixture:sha256:7411d8eb06ee70bc24ce7003de0b344a1874c3d606b91571e5913ba766f1162a",
+    "feature_reference": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f"
+  },
+  "capability": {
+    "scope": "single-consumption-derived-demo",
+    "target": "derived MapLibre web DEMO portrayal candidate",
+    "operation": "render-derived-maplibre-building-demo",
+    "feature_reference": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f",
+    "source_scope": {
+      "source_archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+      "fixture_id": "build-fixture:sha256:7411d8eb06ee70bc24ce7003de0b344a1874c3d606b91571e5913ba766f1162a",
+      "layer_id": "J13_BUILD",
+      "feature_code": "9310100",
+      "feature_reference": "build-feature:sha256:14ea3d0010f07e672ba549bd9a1963eec97f5029cbb68e3aea6cc908b241801f",
+      "access_mode": "read-only-single-feature-after-consumption-validation"
+    },
+    "allowed_parameter_overrides": {
+      "hatch.numeric_angle_degrees": {
+        "type": "number",
+        "minimum_inclusive": 0.0,
+        "maximum_exclusive": 180.0,
+        "default": 45.0,
+        "step": 1.0,
+        "demo_only": true
+      }
+    },
+    "all_other_portrayal_fields_fixed_by_resolution": true
+  },
+  "lifecycle": {
+    "issued_status": "issued-not-consumed",
+    "single_consumption": true,
+    "non_transferable": true,
+    "revocable_before_consumption": true,
+    "expiry_policy": "first-consumption-or-revocation-or-predecessor-change",
+    "wall_clock_expiry": null,
+    "required_binding_fields": [
+      "authorization_id",
+      "authorization_sha256",
+      "resolution_sha256",
+      "fixture_id",
+      "layer_id",
+      "feature_code",
+      "feature_reference",
+      "target",
+      "operation"
+    ],
+    "idempotency_key_required": true
+  },
+  "permissions": {
+    "demo_execution_allowed_after_consumption_validation": true,
+    "production_execution_allowed": false,
+    "exact_bound_source_read_allowed_after_consumption_validation": true,
+    "source_write_allowed": false,
+    "geometry_repair_allowed": false,
+    "source_z_dimension_drop_allowed": false,
+    "runtime_wiring_allowed": false,
+    "network_access_allowed": false,
+    "raw_source_disclosure_allowed": false,
+    "redistribution_allowed": false,
+    "demo_policy_promotion_allowed": false
+  },
+  "authorization_effect": {
+    "authorization_issued": true,
+    "authorization_consumed": false,
+    "actual_execution_performed": false,
+    "runtime_wired": false
+  },
+  "authorization_sha256": "f609fa99ae0280987e11a3328e04d26484c15a65f72a0266566f2aaa9f650b2d"
+}

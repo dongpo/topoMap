@@ -1,0 +1,257 @@
+{
+  "schema_version": "nma.cross-domain-contract-conformance-matrix/1.0",
+  "matrix_id": "GEN-02",
+  "matrix_sha256": "88f3dbaf756b19045b88cf4e68c431fbc05696873b984b913397677e8fc0f3c1",
+  "verdict": "PASS — CROSS-DOMAIN CONTRACT CONFORMANCE VERIFIED",
+  "canonical_repository": "https://github.com/dongpo/topoMap.git",
+  "branch": "gen/gen-02-cross-domain-contract-conformance",
+  "predecessor": {
+    "gen01_commit": "7bb83f05480f642da23e7a2b244b38c3804d5fb7",
+    "gen01_closure_sha256": "03b80441bbf317ac2e2b6cd92c3a86309c4cc7465109a3d34b6d24636491c35d",
+    "gen00_commit": "b745a98f8d465259a2cb7c2b3af3df112a10ea37",
+    "gen00_audit_sha256": "2e96f00ada42e22c7dc50387cb1fbf651b6fcbbdff94af796c0fd1985ffe86e3"
+  },
+  "record_contract": {
+    "schema_version": "nma.domain-contract-conformance/1.0",
+    "schema_path": "schemas/domain-contract-conformance-v1.0.schema.json"
+  },
+  "domain_results": [
+    {
+      "domain_id": "school-hero",
+      "record_path": "data/specifications/nma-gen-02-school-hero-contract-conformance-v1.0.json",
+      "record_sha256": "685dd08ed34ce7fbe3506c0d54e320b28592443ce371c2f0f93499e86c8d67b5",
+      "verdict": "CONFORMS"
+    },
+    {
+      "domain_id": "road",
+      "record_path": "data/specifications/nma-gen-02-road-contract-conformance-v1.0.json",
+      "record_sha256": "6b9f3c1511cb6ff9dfc3f1f731a4d315360a83f2fb8490302fe805efd7bd9288",
+      "verdict": "CONFORMS"
+    },
+    {
+      "domain_id": "build",
+      "record_path": "data/specifications/nma-gen-02-build-contract-conformance-v1.0.json",
+      "record_sha256": "d780bd83706749b37dbfcb0ae5d9d06ac1626827bc20cbc0c6226bf314ddd97a",
+      "verdict": "CONFORMS"
+    }
+  ],
+  "invariant_matrix": [
+    {
+      "concern": "GINV-01 canonical identity",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "GINV-02 no identity fallback",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "GINV-03 fail-closed dependencies",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "GINV-04 deterministic identity where promised",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "GINV-05 domain ownership",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "GINV-06 traceable lifecycle",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "GINV-07 no unauthorized mutation",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "GINV-08 explicit contract versioning",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "GINV-09 capability honesty",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "GINV-10 frozen compatibility",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    }
+  ],
+  "mandatory_capability_matrix": [
+    {
+      "concern": "domain_identification",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "contract_version_declaration",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "input_validation",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "canonical_identity_consumption",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "authorization_consumption",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "planning_boundary",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "execution_boundary",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "observation_production",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "receipt_production",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "provenance_reporting",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "verification_boundary",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    },
+    {
+      "concern": "capability_declaration",
+      "school_hero": "CONFORMS",
+      "road": "CONFORMS",
+      "build": "CONFORMS",
+      "overall": "CONFORMS"
+    }
+  ],
+  "optional_capability_matrix": [
+    {
+      "concern": "rollback_evidence",
+      "school_hero": "CONFORMS_AS_OPTIONAL_CAPABILITY",
+      "road": "CONFORMS_AS_OPTIONAL_CAPABILITY",
+      "build": "CONFORMS_AS_OPTIONAL_CAPABILITY",
+      "overall": "CONFORMS_AS_OPTIONAL_CAPABILITY"
+    },
+    {
+      "concern": "activation_evidence",
+      "school_hero": "NOT_SUPPORTED_BY_DOMAIN",
+      "road": "NOT_SUPPORTED_BY_DOMAIN",
+      "build": "CONFORMS_AS_OPTIONAL_CAPABILITY",
+      "overall": "CONFORMS_AS_OPTIONAL_CAPABILITY"
+    },
+    {
+      "concern": "release_evidence",
+      "school_hero": "NOT_SUPPORTED_BY_DOMAIN",
+      "road": "CONFORMS_AS_OPTIONAL_CAPABILITY",
+      "build": "CONFORMS_AS_OPTIONAL_CAPABILITY",
+      "overall": "CONFORMS_AS_OPTIONAL_CAPABILITY"
+    }
+  ],
+  "gen01_artifact_immutability": {
+    "modified_artifact_count": 0,
+    "byte_identical_to_predecessor": true,
+    "artifact_paths": [
+      "GEN-01-Completion-Report.md",
+      "data/specifications/nma-gen-01-generic-contract-interface-closure-v1.0.json",
+      "schemas/generic-contract-interface-closure-v1.0.schema.json",
+      "schemas/generic-domain-adapter-capability-v1.0.schema.json",
+      "schemas/generic-lifecycle-envelope-v1.0.schema.json",
+      "tests/test_generic_contract_interface_closure_gen01.py"
+    ]
+  },
+  "frozen_compatibility": {
+    "core_final_commit": "5eb138ae7686502431587743ebce9ddf92c5a799",
+    "school_hero_commit": "56f99eb9ae63272a68accac3041fb10eacefb986",
+    "road_final_commit": "325c70d5335f57c43a8af85822db25032aa225c3",
+    "build_final_commit": "95de5fa3657a2c8ac7847f1ee1010c48ea984cd7",
+    "frozen_production_changes": 0,
+    "required_frozen_refactors": 0,
+    "generic_contract_changes": 0
+  },
+  "mutation_safety": {
+    "source_mutation": false,
+    "writeback": false,
+    "automatic_repair": false,
+    "geometry_mutation": false,
+    "portrayal_mutation": false,
+    "production_activation": false,
+    "authorization_bypass": false
+  },
+  "aggregate_result": {
+    "domains_evaluated": 3,
+    "domains_conforming": 3,
+    "mandatory_invariants_nonconforming": 0,
+    "unresolved_mandatory_evidence": 0,
+    "mutation_bypasses": 0
+  },
+  "next_gate_recommendation": "READY FOR GENERALIZATION FREEZE"
+}

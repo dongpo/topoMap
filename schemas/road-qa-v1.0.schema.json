@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/nma.road-qa/1.0",
+  "title": "NMA ROAD Deterministic QA 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "qa_id", "execution_id", "status", "classification", "expected_transition", "observed_transition", "visual_qa", "checks", "qa_sha256"],
+  "properties": {
+    "schema": {"const": "nma.road-qa/1.0"},
+    "qa_id": {"type": "string", "pattern": "^road-qa-[0-9a-f]{24}$"},
+    "execution_id": {"const": "road-exec-33766f336d9cc18eb2ac159e"},
+    "status": {"enum": ["passed", "failed"]},
+    "classification": {"enum": ["expected-change-verified", "expected-change-missing", "incorrect-change", "unexpected-additional-change", "verification-blocked"]},
+    "expected_transition": {"type": "object"},
+    "observed_transition": {"type": "object"},
+    "visual_qa": {"type": "object"},
+    "checks": {"$ref": "#/$defs/checks"},
+    "qa_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "$defs": {
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "expected", "observed"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "status": {"enum": ["passed", "failed"]},
+          "expected": {},
+          "observed": {}
+        }
+      }
+    }
+  }
+}

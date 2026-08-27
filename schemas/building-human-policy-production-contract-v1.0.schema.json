@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/building-human-policy-production-contract-v1.0.schema.json",
+  "title": "BUILD-09E2 successor human-policy-hold Building production contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "schema_version", "status", "created_on", "bindings", "production_binding_policy", "remaining_authoritative_evidence_blockers", "human_policy_required_items", "official_portrayal_semantics", "output_profile_requirement", "polygonz_derived_xy_contract", "runtime_activation_policy", "source_mutation_policy", "production_activation_forbidden", "official_portrayal_activation_forbidden", "next_stage", "successor_contract_sha256"],
+  "properties": {
+    "contract_version": {"const": "build-09e2-successor/1.0"},
+    "schema_version": {"const": "nma.building-human-policy-production-contract/1.0"},
+    "status": {"const": "human-policy-hold"},
+    "created_on": {"const": "2026-08-21"},
+    "bindings": {
+      "type": "object", "additionalProperties": false,
+      "required": ["build09e1_predecessor_commit", "build09e1_evidence_resolution_sha256", "build09_contract_sha256", "build09e_evidence_closure_sha256", "build08a_authorization_sha256", "build09e2_applicability_resolution_sha256"],
+      "properties": {
+        "build09e1_predecessor_commit": {"const": "ee4bbc1bf4dc5d70032dcd3129801039f3813a36"},
+        "build09e1_evidence_resolution_sha256": {"const": "f75c44bcb834090277588b3c23cfe48f00e965c947754497f64831d4b47b9b65"},
+        "build09_contract_sha256": {"const": "0b9e0cc9c98274f9efcbed451905fa21857c33f0ec9472254fa6e3b803c24a0c"},
+        "build09e_evidence_closure_sha256": {"const": "bfee262f17b5bc99ff8e55f6b284917cf5507aaa80b0e3bae2454e35da4fbaed"},
+        "build08a_authorization_sha256": {"const": "4eedc443d4f1d5c0af36e696fc67fd0101f6936d78edba19d5c20d41ab2b8da8"},
+        "build09e2_applicability_resolution_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "production_binding_policy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["state", "selected_layer_id", "selection_rule", "policy_value_selected", "official_evidence_search_closed"],
+      "properties": {"state": {"const": "human-production-binding-policy-required"}, "selected_layer_id": {"const": null}, "selection_rule": {"const": null}, "policy_value_selected": {"const": false}, "official_evidence_search_closed": {"const": true}}
+    },
+    "remaining_authoritative_evidence_blockers": {"const": []},
+    "human_policy_required_items": {"type": "array", "minItems": 6, "items": {"type": "string", "minLength": 1}},
+    "official_portrayal_semantics": {"type": "object", "minProperties": 6},
+    "output_profile_requirement": {"type": "object"},
+    "polygonz_derived_xy_contract": {"type": "object"},
+    "runtime_activation_policy": {"type": "object"},
+    "source_mutation_policy": {"type": "object"},
+    "production_activation_forbidden": {"const": true},
+    "official_portrayal_activation_forbidden": {"const": true},
+    "next_stage": {"const": "BUILD-09F — Human Building Production Policy Resolution"},
+    "successor_contract_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

@@ -1,0 +1,264 @@
+{
+  "schema_version": "nma.domain-contract-conformance/1.0",
+  "record_id": "GEN-02-SCHOOL-HERO",
+  "record_sha256": "685dd08ed34ce7fbe3506c0d54e320b28592443ce371c2f0f93499e86c8d67b5",
+  "domain_id": "school-hero",
+  "evaluated_gen01_contract": {
+    "commit": "7bb83f05480f642da23e7a2b244b38c3804d5fb7",
+    "closure_sha256": "03b80441bbf317ac2e2b6cd92c3a86309c4cc7465109a3d34b6d24636491c35d",
+    "closure_path": "data/specifications/nma-gen-01-generic-contract-interface-closure-v1.0.json",
+    "lifecycle_contract": "nma.generic-lifecycle-envelope/1.0",
+    "adapter_capability_contract": "nma.generic-domain-adapter-capability/1.0"
+  },
+  "adapter_contract": {
+    "id": "nma.generic-domain-adapter",
+    "version": "1.0",
+    "classification": "CONFORMS"
+  },
+  "frozen_implementation": {
+    "reference": "freeze/hero-final-school-hero-56f99eb",
+    "commit": "56f99eb9ae63272a68accac3041fb10eacefb986",
+    "modified": false,
+    "refactor_required": false
+  },
+  "contract_concerns": {
+    "identity": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/core/identity.py",
+        "src/nma/school_hero_execution.py"
+      ]
+    },
+    "lifecycle_envelope": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/school-hero-execution-plan-v1.0.schema.json",
+        "schemas/school-hero-execution-receipt-v1.0.schema.json",
+        "schemas/school-hero-provenance-v1.0.schema.json"
+      ]
+    },
+    "adapter_boundary": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/school_hero_execution.py",
+        "src/nma/school_hero_verification.py"
+      ]
+    },
+    "domain_ownership": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/school_hero_execution.py",
+        "GEN-00-Generalization-Audit.md"
+      ]
+    },
+    "versioning": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/school-hero-execution-plan-v1.0.schema.json",
+        "schemas/school-hero-qa-v1.0.schema.json"
+      ]
+    },
+    "mutation_boundary": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/school_hero_execution.py",
+        "src/nma/school_hero_verification.py"
+      ]
+    }
+  },
+  "mandatory_capabilities": {
+    "domain_identification": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/school_hero_execution.py"
+      ]
+    },
+    "contract_version_declaration": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/school-hero-execution-plan-v1.0.schema.json"
+      ]
+    },
+    "input_validation": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/school_hero_execution.py"
+      ]
+    },
+    "canonical_identity_consumption": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/core/identity.py",
+        "src/nma/school_hero_execution.py"
+      ]
+    },
+    "authorization_consumption": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/school_hero_execution.py",
+        "tests/hero04_support.py"
+      ]
+    },
+    "planning_boundary": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/school-hero-execution-plan-v1.0.schema.json"
+      ]
+    },
+    "execution_boundary": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/school_hero_execution.py"
+      ]
+    },
+    "observation_production": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/runtime-layer-observation-v1.0.schema.json"
+      ]
+    },
+    "receipt_production": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/school-hero-execution-receipt-v1.0.schema.json"
+      ]
+    },
+    "provenance_reporting": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/school-hero-provenance-v1.0.schema.json"
+      ]
+    },
+    "verification_boundary": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/school_hero_verification.py",
+        "schemas/school-hero-qa-v1.0.schema.json"
+      ]
+    },
+    "capability_declaration": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/generic-domain-adapter-capability-v1.0.schema.json"
+      ]
+    }
+  },
+  "optional_capabilities": {
+    "rollback_evidence": {
+      "declared": true,
+      "classification": "CONFORMS_AS_OPTIONAL_CAPABILITY",
+      "behavior_owner": "domain",
+      "contract_reference": {
+        "contract_id": "nma.school-hero-rollback",
+        "contract_version": "1.0",
+        "evidence_paths": [
+          "schemas/rollback-manifest-v1.0.schema.json",
+          "src/nma/school_hero_execution.py"
+        ]
+      }
+    },
+    "activation_evidence": {
+      "declared": false,
+      "classification": "NOT_SUPPORTED_BY_DOMAIN",
+      "behavior_owner": "domain",
+      "contract_reference": null
+    },
+    "release_evidence": {
+      "declared": false,
+      "classification": "NOT_SUPPORTED_BY_DOMAIN",
+      "behavior_owner": "domain",
+      "contract_reference": null
+    }
+  },
+  "generic_invariants": {
+    "GINV-01": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/school_hero_execution.py"
+      ]
+    },
+    "GINV-02": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/core/identity.py",
+        "src/nma/school_hero_execution.py"
+      ]
+    },
+    "GINV-03": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "tests/test_core03_school_hero_identity_adoption.py"
+      ]
+    },
+    "GINV-04": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/school-hero-execution-plan-v1.0.schema.json"
+      ]
+    },
+    "GINV-05": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "src/nma/school_hero_execution.py"
+      ]
+    },
+    "GINV-06": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/school-hero-provenance-v1.0.schema.json"
+      ]
+    },
+    "GINV-07": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/generic-lifecycle-envelope-v1.0.schema.json"
+      ]
+    },
+    "GINV-08": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/school-hero-execution-receipt-v1.0.schema.json"
+      ]
+    },
+    "GINV-09": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "schemas/rollback-manifest-v1.0.schema.json"
+      ]
+    },
+    "GINV-10": {
+      "classification": "CONFORMS",
+      "evidence_paths": [
+        "CORE-FINAL-Completion-Report.md",
+        "GEN-01-Completion-Report.md"
+      ]
+    }
+  },
+  "domain_owned_responsibilities": {
+    "semantics": "DOMAIN_OWNED_NOT_APPLICABLE",
+    "geometry": "DOMAIN_OWNED_NOT_APPLICABLE",
+    "portrayal": "DOMAIN_OWNED_NOT_APPLICABLE",
+    "rollback_behavior": "DOMAIN_OWNED_NOT_APPLICABLE",
+    "activation_behavior": "DOMAIN_OWNED_NOT_APPLICABLE"
+  },
+  "mutation_boundary": {
+    "source_mutation": false,
+    "writeback": false,
+    "automatic_repair": false,
+    "geometry_mutation": false,
+    "portrayal_mutation": false,
+    "production_activation": false,
+    "authorization_bypass": false,
+    "classification": "CONFORMS"
+  },
+  "evidence_paths": [
+    "src/nma/school_hero_execution.py",
+    "src/nma/school_hero_verification.py",
+    "schemas/school-hero-execution-plan-v1.0.schema.json",
+    "schemas/school-hero-execution-receipt-v1.0.schema.json",
+    "schemas/school-hero-provenance-v1.0.schema.json",
+    "schemas/school-hero-qa-v1.0.schema.json",
+    "schemas/rollback-manifest-v1.0.schema.json"
+  ],
+  "overall_conformance_verdict": "CONFORMS"
+}

@@ -1,0 +1,17 @@
+services:
+  nma:
+    build: .
+    ports:
+      - "8000:8000"
+  demo:
+    build: .
+    command: ["nma", "demo", "--approve-safe-repairs", "--output", "/app/artifacts/demo"]
+    volumes:
+      - ./artifacts:/app/artifacts
+    profiles: ["tools"]
+  benchmark:
+    build: .
+    command: ["nma-bench", "--root", "/app", "--output", "artifacts/benchmark/results.json"]
+    volumes:
+      - ./artifacts:/app/artifacts
+    profiles: ["tools"]

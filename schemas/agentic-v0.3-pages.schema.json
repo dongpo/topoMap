@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/nma/agentic-v0.3-pages.schema.json",
+  "title": "NMA Agentic v0.3 bounded Pages candidate",
+  "type": "object",
+  "required": [
+    "release_version",
+    "status",
+    "source",
+    "website",
+    "runtime",
+    "source_assets",
+    "candidate_assets",
+    "exclusions",
+    "approval",
+    "blocking_defects",
+    "deferred_defects"
+  ],
+  "properties": {
+    "release_version": {"const": "nma-agentic-v0.3-pages-rc1"},
+    "status": {"const": "candidate-not-deployed"},
+    "source": {
+      "type": "object",
+      "required": ["repository", "branch", "agentic_freeze_commit", "agentic_freeze_manifest"]
+    },
+    "website": {
+      "type": "object",
+      "required": [
+        "stable_root_release",
+        "stable_root_snapshot",
+        "candidate_path",
+        "planned_url",
+        "deployment_state"
+      ]
+    },
+    "runtime": {"type": "object"},
+    "source_assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["role", "path", "size_bytes", "sha256"],
+        "properties": {
+          "role": {"type": "string"},
+          "path": {"type": "string"},
+          "size_bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "candidate_assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["source", "target"],
+        "properties": {
+          "source": {"type": "string"},
+          "target": {"type": "string"}
+        }
+      }
+    },
+    "exclusions": {"type": "array", "items": {"type": "string"}},
+    "approval": {"type": "object"},
+    "blocking_defects": {"type": "array"},
+    "deferred_defects": {"type": "array"}
+  }
+}

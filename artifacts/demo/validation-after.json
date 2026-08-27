@@ -1,0 +1,150 @@
+{
+  "report_version": "1.0",
+  "generated_at": "2026-07-16T06:18:18.249785+00:00",
+  "dataset": "artifacts/demo/riverl-repaired.geojson",
+  "layer": "RIVERL",
+  "specification": {
+    "id": "TW-NLSC-5000-RIVERL",
+    "title": "Taiwan 1:5,000 Basic Topographic Map - RIVERL executable profile",
+    "version": "112/114.12.04",
+    "status": "authoritative-source-derived-expert-review-required"
+  },
+  "status": "failed",
+  "summary": {
+    "features": 3,
+    "rules_evaluated": 13,
+    "issues": 3,
+    "errors": 3,
+    "warnings": 0,
+    "safe_repairs_available": 0
+  },
+  "issues": [
+    {
+      "issue_key": "TW-RIVERL-REQUIRED-001|index:1|RIVERLID",
+      "rule_id": "TW-RIVERL-REQUIRED-001",
+      "severity": "error",
+      "feature_id": null,
+      "feature_index": 1,
+      "field": "RIVERLID",
+      "expected": "non-empty string",
+      "actual": null,
+      "message": "A river segment identifier must not be missing or blank.",
+      "repair": {
+        "mode": "none"
+      },
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "(十) GIS圖層 3.(2)",
+        "page": 22,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=22",
+        "excerpt": "圖層架構及屬性資料格式均須檢查。"
+      }
+    },
+    {
+      "issue_key": "TW-RIVERL-DOMAIN-001|index:1|TERRAINID",
+      "rule_id": "TW-RIVERL-DOMAIN-001",
+      "severity": "error",
+      "feature_id": null,
+      "feature_index": 1,
+      "field": "TERRAINID",
+      "expected": [
+        "9510101",
+        "9510102",
+        "9510103",
+        "9510105",
+        "9510106"
+      ],
+      "actual": "9999999",
+      "message": "TERRAINID must use a documented river-centreline classification code.",
+      "repair": {
+        "mode": "proposal",
+        "operation": "review_classification"
+      },
+      "evidence": {
+        "document": "臺灣通用電子地圖圖層內容說明",
+        "version": "114.12.04",
+        "section": "三、水系 (二)河川中線",
+        "page": 9,
+        "uri": "https://drive.google.com/file/d/1vKllgEpWFH9-WDagkrVkDtGCf44-m4gj/view#page=9",
+        "excerpt": "河川類型列出 9510101、02、03、05、06。"
+      }
+    },
+    {
+      "issue_key": "TW-RIVERL-TOPO-001|J0000000003@index:2|-",
+      "rule_id": "TW-RIVERL-TOPO-001",
+      "severity": "error",
+      "feature_id": "J0000000003",
+      "feature_index": 2,
+      "field": null,
+      "expected": "simple LineString",
+      "actual": "self-intersection",
+      "message": "River centreline geometry must not self-intersect.",
+      "repair": {
+        "mode": "proposal",
+        "operation": "review_geometry"
+      },
+      "evidence": {
+        "document": "五千分之一基本地形圖測製及檢核說明(112年度版)",
+        "version": "112",
+        "section": "(十) GIS圖層 3.(2)B(d)",
+        "page": 22,
+        "uri": "https://drive.google.com/file/d/1gdAlYCbOkO6N-xdKiOm2H8JQwx92RG6e/view#page=22",
+        "excerpt": "空間位相關係應檢查線自我相交。"
+      }
+    }
+  ],
+  "provenance": {
+    "engine": "nma.validator/0.2.0",
+    "deterministic": true,
+    "specification_source": "data/specifications/taiwan-5000-riverl-112.json",
+    "geospatial_inspector": "GDAL 3.11.0 \"Eganville\", released 2025/05/06",
+    "geospatial_inspector_available": true,
+    "approved_repair_count": 1,
+    "approval_mode": "explicit-cli-flag"
+  },
+  "dataset_inspection": {
+    "available": true,
+    "engine": "GDAL 3.11.0 \"Eganville\", released 2025/05/06",
+    "driver": "GeoJSON",
+    "layer": "RIVERL",
+    "feature_count": 3,
+    "geometry_type": "LineString",
+    "extent": [
+      250000.0,
+      2739800.0,
+      250200.0,
+      2740100.0
+    ],
+    "crs": "EPSG:4326",
+    "crs_name": "WGS 84",
+    "crs_wkt": "GEOGCRS[\"WGS 84\",\n    DATUM[\"World Geodetic System 1984\",\n        ELLIPSOID[\"WGS 84\",6378137,298.257223563,\n            LENGTHUNIT[\"metre\",1]]],\n    PRIMEM[\"Greenwich\",0,\n        ANGLEUNIT[\"degree\",0.0174532925199433]],\n    CS[ellipsoidal,2],\n        AXIS[\"geodetic latitude (Lat)\",north,\n            ORDER[1],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n        AXIS[\"geodetic longitude (Lon)\",east,\n            ORDER[2],\n            ANGLEUNIT[\"degree\",0.0174532925199433]],\n    ID[\"EPSG\",4326]]",
+    "fields": [
+      {
+        "name": "RIVERLID",
+        "type": "String",
+        "nullable": true,
+        "uniqueConstraint": false
+      },
+      {
+        "name": "TERRAINID",
+        "type": "String",
+        "nullable": true,
+        "uniqueConstraint": false
+      },
+      {
+        "name": "RIVERLCODE",
+        "type": "String",
+        "nullable": true,
+        "uniqueConstraint": false
+      },
+      {
+        "name": "RIVERLNAME",
+        "type": "String",
+        "nullable": true,
+        "uniqueConstraint": false
+      }
+    ],
+    "read_only": true
+  }
+}

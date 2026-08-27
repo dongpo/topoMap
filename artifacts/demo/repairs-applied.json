@@ -1,0 +1,9 @@
+[
+  {
+    "issue_key": "TW-RIVERL-FORMAT-001|index:1|RIVERLNAME",
+    "operation": "trim",
+    "before": "　示範排水　",
+    "after": "示範排水",
+    "approved": true
+  }
+]
