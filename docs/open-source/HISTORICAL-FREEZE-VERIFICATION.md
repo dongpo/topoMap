@@ -95,8 +95,10 @@ test, benchmark, contract, and script roots.
 - Newly added Python is automatically checked and formatted. Legacy/frozen files are not mass
   reformatted, and the baseline cannot grow as an incidental change.
 
-At closure the broader repository has 82 hash-locked legacy-format files; 72 are under the former
-`src tests benchmark/adapters scripts` command scope. The maintained `src/nma/graphrag.py` `F841`
+At closure the broader repository has 85 hash-locked legacy-format files; 73 are under the former
+`src tests benchmark/adapters scripts` command scope. Three entries reproduce only under the pinned
+Linux Ruff build, so their cross-platform debt is locked rather than mass-formatted. The maintained
+`src/nma/graphrag.py` `F841`
 defect was fixed and that file was formatted. No frozen tag or historical commit was changed.
 
 ## Change control

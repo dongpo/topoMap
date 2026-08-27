@@ -1,12 +1,14 @@
 {
   "schema": "ama.ruff-legacy-baseline/1.0",
   "format": {
-    "aggregate_sha256": "513619799170660a01e57737e155e9a372052ef897547b1166cc66a43485f4d8",
+    "aggregate_sha256": "63f4269bb505df70a0ab0ce95c40ad26b7380c79aad9099d40f51b4b832a343e",
     "paths": [
+      "build_contracts/building_production_activation.py",
       "build_contracts/building_production_implementation.py",
       "build_contracts/demo_authorization.py",
       "build_contracts/demo_execution.py",
       "build_contracts/demo_freeze.py",
+      "build_contracts/demo_publication.py",
       "build_contracts/fixture.py",
       "build_contracts/gate_resolution.py",
       "build_contracts/gate_review.py",
@@ -61,6 +63,7 @@
       "tests/test_build00a_readiness_closure.py",
       "tests/test_build_demo_authorization_build04.py",
       "tests/test_build_demo_execution_build05.py",
+      "tests/test_build_demo_safe_publication_build06a.py",
       "tests/test_build_demo_user_evaluation_freeze_build07.py",
       "tests/test_build_demo_verification_freeze_build06.py",
       "tests/test_build_gate_resolution_build03a.py",
