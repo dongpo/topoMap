@@ -16,7 +16,7 @@ Contributions are especially welcome in these areas:
 
 A software test demonstrates that an implementation satisfies a contract. It does **not** by itself establish a scientific hypothesis. Contributions that make research claims should identify the research question, comparison condition, evaluation dataset, metric, and evidence needed to support that claim.
 
-See [`docs/RESEARCH-AND-OPEN-SOURCE-CONTRIBUTIONS.md`](docs/RESEARCH-AND-OPEN-SOURCE-CONTRIBUTIONS.md).
+See the [research and open-source contribution model](docs/research/RESEARCH-AND-OPEN-SOURCE-CONTRIBUTIONS.md).
 
 ## Rule contribution requirements
 
@@ -53,6 +53,8 @@ validation cases
 ```
 
 Profiles should not hard-code jurisdiction-specific assumptions into the shared core when those assumptions can remain profile data.
+Use the [mapping-profile authoring entry point](profiles/README.md) for the canonical package
+requirements and current compatibility locations.
 
 ## Validator requirements
 
@@ -82,6 +84,8 @@ Do not tune a system against sealed held-out cases and then report them as indep
 ## Compatibility and naming
 
 The research programme is transitioning from National Map Agent (NMA) to **Authoritative Mapping Agent (AMA)**. Historical `nma` package names, CLI commands, schemas, tags, and evidence remain valid compatibility identifiers. Do not rename frozen identifiers in an unrelated contribution.
+The [version policy](docs/open-source/VERSIONING.md) defines the separate AMA branding, package,
+and frozen-evidence namespaces.
 
 ## Before submitting
 

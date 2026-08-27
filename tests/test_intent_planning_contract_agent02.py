@@ -30,7 +30,7 @@ SCHEMA_PATH = ROOT / "schemas" / "intent-planning-v1.0.schema.json"
 PROTECTED_PRODUCTION_HASHES = {
     "nmaAgentDemo.html": "8b6d6310d3ac6b45e71b73102de023869b0f56422dfbf1c74d81a6650ba5a470",
     "scripts/build_public_site.py": "6f9e6e75281f50eb4d6297d9fea7018e165cfdcb0d6ac56873f9940e0a50c55e",
-    "pyproject.toml": "ccf4d084262633d8806b48645a56ab56c2f6b58566cadcb6fc3c24e6a9592d34",
+    "pyproject.toml": "56a2ece294c01d90f59d349d9f8a99f782dcb07a372259196023ecf87a7837a8",
 }
 FORBIDDEN_FIELD_FRAGMENTS = {
     "approval",

@@ -40,7 +40,7 @@ PROTECTED_PRODUCTION_HASHES = {
     "data/knowledge/portrayal-graph.json": (
         "0f90dc365805aaac07ab5aaf61323006bcea1ba8a078470c6872ad63a7eeacca"
     ),
-    "pyproject.toml": "ccf4d084262633d8806b48645a56ab56c2f6b58566cadcb6fc3c24e6a9592d34",
+    "pyproject.toml": "56a2ece294c01d90f59d349d9f8a99f782dcb07a372259196023ecf87a7837a8",
 }
 FROZEN_CORE_HASHES = {
     "src/nma/core/__init__.py": "a3e410a77ece724eaf505ce8b9dc6694b808d4a7cc96a720500757578077a4f2",

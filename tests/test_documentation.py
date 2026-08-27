@@ -23,7 +23,12 @@ class _LandingParser(HTMLParser):
 
 
 def test_local_markdown_links_resolve() -> None:
-    markdown_files = [ROOT / "README.md", *sorted((ROOT / "docs").glob("*.md"))]
+    markdown_files = [
+        ROOT / "README.md",
+        ROOT / "CONTRIBUTING.md",
+        *sorted((ROOT / "profiles").rglob("*.md")),
+        *sorted((ROOT / "docs").rglob("*.md")),
+    ]
     missing: list[str] = []
     for source in markdown_files:
         text = source.read_text(encoding="utf-8")
@@ -36,19 +41,24 @@ def test_local_markdown_links_resolve() -> None:
     assert not missing, "Missing local documentation links:\n" + "\n".join(missing)
 
 
-def test_d19_readme_exposes_reproducible_public_entry_point() -> None:
+def test_readme_exposes_canonical_ama_entry_points_and_boundaries() -> None:
     text = (ROOT / "README.md").read_text(encoding="utf-8")
     for heading in (
-        "## Five scenes, five agent capabilities",
-        "## Quickstart",
-        "## Public entry points",
-        "## Known limitations",
+        "## Research problem",
+        "## Five open-source contributions",
+        "## Architecture",
+        "## Smallest reproducible example",
+        "## Run AMA-Bench",
+        "## Currently validated claims",
+        "## Remaining research work",
+        "## Contribute",
+        "## NMA → AMA compatibility",
     ):
         assert heading in text
-    for command in ("git switch codex/nma-v0.2-authoritative", "make demo-reset", "make demo-rc1"):
+    for command in ("nma compile-knowledge", "nma ask", "nma-bench --root ."):
         assert command in text
-    assert "Public RC1" in text
-    assert "evidence-only mode" in text
+    assert "Software tests establish implementation conformance" in text
+    assert "does not claim an `ama-v1.0` release" in text
 
 
 def test_d19_landing_links_and_assets_resolve() -> None:

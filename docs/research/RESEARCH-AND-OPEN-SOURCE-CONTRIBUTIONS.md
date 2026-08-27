@@ -30,13 +30,13 @@ Can authorization, deterministic verification, and provenance make probabilistic
 
 ## Open-source contribution units
 
-### O1 — AMA reference architecture
+### O1 — AMA Core
 A vendor-neutral, replaceable-component architecture for knowledge-grounded geospatial agents.
 
 ### O2 — Executable mapping knowledge
 A reproducible pipeline from source specification to candidate extraction, expert-reviewed observation, graph compilation, retrieval, executable rule, and evidence path.
 
-### O3 — Geospatial agent contracts
+### O3 — AMA Contracts
 Machine-readable structures for intent, evidence, rules, execution plans, authorization, verification, receipts, and provenance.
 
 ### O4 — AMA-Bench / NMA-Bench

@@ -54,6 +54,6 @@ def test_public_assets_manifest_triages_every_remaining_defect() -> None:
 def test_pages_workflow_never_uploads_the_entire_repository() -> None:
     workflow = (ROOT / ".github/workflows/static.yml").read_text(encoding="utf-8")
 
-    assert "python3 scripts/build_public_site.py" in workflow
-    assert "path: 'artifacts/tmp/public-site'" in workflow
+    assert "test_gh_pages_static_demo.py" in workflow
+    assert "path: public/gh-pages" in workflow
     assert "path: '.'" not in workflow
