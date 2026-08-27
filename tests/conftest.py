@@ -61,6 +61,7 @@ PRIVATE_DATA_FILE_PREFIXES = (
     "tests/test_road_verification_road05.py::",
 )
 PRIVATE_DATA_NODE_IDS = {
+    "tests/test_ama_demo02_rq3.py::test_rq3_valid_scenario_executes_existing_engine_then_independent_verifier",
     "tests/test_build_demo_execution_build05.py::test_changed_archive_is_rejected_and_leaves_claim",
     "tests/test_build_demo_execution_build05.py::test_controlled_execution_reproduces_golden_package_and_blocks_replay",
     "tests/test_cross_domain_contract_conformance_gen02.py::test_private_archive_remains_sha_exact_ignored_untracked_and_unstaged",
