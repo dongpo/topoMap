@@ -1,9 +1,18 @@
-.PHONY: test demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-rc1 demo-reset agentic-freeze bench bench-models review-package public-assets-rc verify
+.PHONY: test test-current test-historical lint format-check demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-rc1 demo-reset agentic-freeze bench bench-models review-package public-assets-rc verify
 
-test:
-	PYTHONPATH=src python3 -m pytest -q
-	ruff check src tests benchmark/adapters scripts
-	ruff format --check src tests benchmark/adapters scripts
+test: test-current
+
+test-current:
+	PYTHONPATH=src python3 -m pytest -q -m "not historical_freeze"
+
+test-historical:
+	PYTHONPATH=src python3 -m pytest -q -m historical_freeze
+
+lint:
+	python3 scripts/run_maintained_ruff.py check
+
+format-check:
+	python3 scripts/run_maintained_ruff.py format
 
 demo:
 	PYTHONPATH=src python3 -m nma.cli demo --approve-safe-repairs
@@ -45,4 +54,4 @@ review-package:
 public-assets-rc:
 	PYTHONPATH=src python3 scripts/check_public_assets_rc.py --verify-install
 
-verify: test demo bench
+verify: lint format-check test-current demo bench

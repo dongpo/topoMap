@@ -119,6 +119,7 @@ def compile_catalog(pmtiles_path: Path, graph_path: Path) -> dict:
                         "support_shape",
                         "support_proportion",
                         "flag_attachment",
+                        "flagpole_horizontal_alignment",
                     ]
                     if code == "9920103"
                     else []

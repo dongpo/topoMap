@@ -89,7 +89,10 @@ and frozen-evidence namespaces.
 
 ## Before submitting
 
-Run the relevant project verification commands, including `make verify` when available. A contribution should leave existing frozen evidence reproducible unless its purpose is an explicitly authorized new release or research experiment.
+Run the relevant project verification commands, including `make verify` when available. The normal
+gate tests current AMA behavior; exact historical assertions use `make test-historical` at their
+documented frozen ref. A contribution should leave existing frozen evidence reproducible unless its
+purpose is an explicitly authorized new release or research experiment.
 
 Do not commit:
 

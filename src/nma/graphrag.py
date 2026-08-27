@@ -105,8 +105,7 @@ class CanonicalGraphRetriever:
         self, query: str, *, node_types: set[str] | None = None, limit: int = 10
     ) -> list[dict[str, Any]]:
         return [
-            item["node"]
-            for item in self.ranked_search(query, node_types=node_types, limit=limit)
+            item["node"] for item in self.ranked_search(query, node_types=node_types, limit=limit)
         ]
 
     def alias_search(self, query: str, *, limit: int = 10) -> list[dict[str, Any]]:
@@ -149,9 +148,9 @@ class CanonicalGraphRetriever:
                 "matched_terms": [literal],
                 "match_mode": "explicit-alias",
             }
-            for score, _, node, literal in sorted(
-                ranked, key=lambda item: (-item[0], item[1])
-            )[:limit]
+            for score, _, node, literal in sorted(ranked, key=lambda item: (-item[0], item[1]))[
+                :limit
+            ]
         ]
 
     def expand(
@@ -327,8 +326,7 @@ class CanonicalGraphRetriever:
             max_depth=max_depth,
             max_nodes=max_nodes,
             expand_product_fields=any(
-                keyword in query.casefold()
-                for keyword in ("欄位", "屬性", "field", "attribute")
+                keyword in query.casefold() for keyword in ("欄位", "屬性", "field", "attribute")
             ),
         )
 
@@ -370,8 +368,7 @@ class CanonicalGraphRetriever:
             node
             for node in seeds
             if node["type"] == "ClassificationHierarchy"
-            and node.get("properties", {}).get("status")
-            == "not-applicable-for-symbol-generation"
+            and node.get("properties", {}).get("status") == "not-applicable-for-symbol-generation"
             and "子類別承接" in node.get("properties", {}).get("reason", "")
         ]
         if not seeds:
@@ -433,7 +430,9 @@ class CanonicalGraphRetriever:
             "missing_evidence": (
                 []
                 if seeds
-                else ["No reviewed canonical-graph node matched the query; LLM must abstain or clarify."]
+                else [
+                    "No reviewed canonical-graph node matched the query; LLM must abstain or clarify."
+                ]
             ),
             "automatic_rule_activation": False,
         }
@@ -442,11 +441,6 @@ class CanonicalGraphRetriever:
         self, nodes: list[dict[str, Any]], edges: list[dict[str, Any]]
     ) -> list[dict[str, Any]]:
         selected = {node["id"]: node for node in nodes}
-        documents = {
-            node_id: node
-            for node_id, node in selected.items()
-            if node["type"] == "SpecificationDocument"
-        }
         citations: list[dict[str, Any]] = []
         for section_id, section in sorted(selected.items()):
             if section["type"] != "DocumentSection":
@@ -456,8 +450,7 @@ class CanonicalGraphRetriever:
                     edge["source"]
                     for edge in self.edges
                     if edge["target"] == section_id
-                    and self.nodes.get(edge["source"], {}).get("type")
-                    == "SpecificationDocument"
+                    and self.nodes.get(edge["source"], {}).get("type") == "SpecificationDocument"
                 }
             )
             section_properties = section.get("properties", {})

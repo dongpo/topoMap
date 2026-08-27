@@ -262,7 +262,7 @@ def test_private_archive_policy_and_absence_are_fail_closed(manifest: dict, tmp_
 def test_no_alternate_identity_provider_or_production_reachable_drop_z(manifest: dict) -> None:
     providers = []
     for path in ROOT.rglob("*.py"):
-        if any(part in {".git", ".venv", "node_modules"} for part in path.parts):
+        if any(part in {".git", ".venv", "build", "node_modules"} for part in path.parts):
             continue
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         if any(

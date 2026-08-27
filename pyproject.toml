@@ -19,7 +19,7 @@ classifiers = [
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff==0.15.21"]
+dev = ["jsonschema>=4.23,<5", "pytest>=8", "referencing>=0.35,<1", "ruff==0.15.21"]
 neo4j = ["neo4j>=6,<7"]
 
 [project.scripts]
@@ -55,6 +55,10 @@ where = ["src"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+markers = [
+  "historical_freeze: exact historical release identity/scope assertions; run at the documented frozen ref",
+  "private_data: requires the exact ignored non-redistributable BUILD/ROAD archive",
+]
 
 [tool.ruff]
 line-length = 100

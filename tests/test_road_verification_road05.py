@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
@@ -16,6 +17,7 @@ from nma.road_approval import approval_sha256, authorization_sha256
 from nma.road_authorization_consumption import load_authorization_consumption_fixture
 from nma.road_portrayal_decision import decision_sha256, proposal_sha256
 from nma.road_resolution import canonical_json, canonical_sha256
+from nma.road_execution import FrozenRoadInputs, RoadExecutionEngine
 from nma.road_verification import (
     ARCHIVE_SHA256,
     AUTHORIZATION_CONSUMPTION_FIXTURE,
@@ -36,12 +38,50 @@ from nma.road_verification import (
 
 ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE = ROOT / "data/datasets/112年多維度SHP成果_0502.zip"
-STORAGE = ROOT / "artifacts/runtime/road"
-EXECUTION_ROOT = STORAGE / "executions" / EXECUTION_ID
+STORAGE: Path | None = None
 
 pytestmark = pytest.mark.skipif(
-    not shutil.which("ogr2ogr"), reason="GDAL/OGR is required for ROAD-05 reconstruction."
+    not ARCHIVE.is_file() or not shutil.which("ogr2ogr") or not shutil.which("ogrinfo"),
+    reason="The exact private ROAD archive and GDAL/OGR are required.",
 )
+
+
+@pytest.fixture(scope="session", autouse=True)
+def isolated_road_storage(tmp_path_factory: pytest.TempPathFactory) -> None:
+    """Recreate ROAD-04 once; never trust ignored developer-machine runtime state."""
+
+    storage = tmp_path_factory.mktemp("road05-isolated-runtime")
+    authorization = json.loads(
+        (
+            ROOT / "data/specifications/nma-road-hero-road-03-golden-authorization-v1.0.json"
+        ).read_text(encoding="utf-8")
+    )
+    fixture, _ = load_authorization_consumption_fixture(
+        ROOT / "data/specifications" / AUTHORIZATION_CONSUMPTION_FIXTURE
+    )
+    engine = RoadExecutionEngine(
+        storage_root=storage,
+        archive_path=ARCHIVE,
+        frozen_inputs=FrozenRoadInputs(ROOT),
+        now=lambda: datetime(2026, 8, 19, 12, 0, tzinfo=timezone.utc),
+    )
+    receipt = engine.execute(authorization, fixture["inputs"]["idempotency_key"])
+    bundle = engine.get_bundle(receipt["execution_id"])
+    engine.observe(
+        receipt["execution_id"],
+        {
+            "state": "verify",
+            "client_session": "road04-verification",
+            "source_ids": [bundle["source"]["id"]],
+            "layer_ids": [layer["id"] for layer in bundle["layers"]],
+            "observed_feature_count": 3,
+            "runtime_version": "maplibre-reviewed-line-mechanism/1",
+            "status": "verified",
+        },
+    )
+
+    global STORAGE
+    STORAGE = storage
 
 
 def _write_json(path: Path, value: dict[str, Any]) -> None:
@@ -97,6 +137,7 @@ def _visual_evidence(root: Path, runtime_sha256: str) -> tuple[Path, Path]:
 
 
 def _case(tmp_path: Path, *, repository_root: Path = ROOT) -> tuple[Path, RoadExecutionVerifier]:
+    assert STORAGE is not None
     storage = tmp_path / "runtime"
     shutil.copytree(STORAGE, storage)
     runtime_path = storage / "executions" / EXECUTION_ID / "data/road-centreline-runtime.geojson"

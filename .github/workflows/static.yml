@@ -1,4 +1,4 @@
-name: Deploy NMA browser-local user Shapefile demo to Pages
+name: AMA Pages
 
 on:
   push:

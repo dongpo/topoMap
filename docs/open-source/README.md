@@ -1,6 +1,8 @@
 # Open-source policy
 
 - [Version and compatibility policy](VERSIONING.md)
+- [Historical freeze verification and canonical CI](HISTORICAL-FREEZE-VERIFICATION.md)
+- [AMA-REL-00 failure classification](AMA-REL-00-FAILURE-CLASSIFICATION.md)
 - [Contribution guide](../../CONTRIBUTING.md)
 - [Mapping-profile guide](../../profiles/README.md)
 - [Security policy](../../SECURITY.md)
