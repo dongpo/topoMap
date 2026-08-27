@@ -28,8 +28,8 @@ QUESTION = (
 )
 ANSWER = {
     "answer": (
-        "Fire hydrant feature 9350906 is a reviewed Point portrayal rule; its activation "
-        "status remains non-executable."
+        "消防栓 9350906 is a reviewed Point portrayal rule using 线型代码2 and color 7 / black; "
+        "the 产品图层 binding is 未确认 and its activation status remains non-executable."
     ),
     "evidence_node_ids": ["portrayal-rule:doc01:9350906"],
     "citation_ids": ["citation:section:doc01-portrayal:p11"],
@@ -112,12 +112,15 @@ def test_trace_observes_existing_rq1_path_without_changing_results(tmp_path: Pat
     assert retrieved["line-style:doc01:2"]["properties"]["code"] == "2"
     assert retrieved["portrayal-color:doc01:7"]["properties"]["observed_color"] == "black"
     assert retrieved["portrayal-geometry:Point"]["properties"]["name"] == "Point"
-    assert recorder.data["serialized_evidence"]["value"] == traced["evidence_package"]
+    assert recorder.data["serialized_evidence"]["value"] == traced["llm_evidence_context"]
     assert (
         recorder.data["llm_request"]["provider_neutral_calls"][1]["context"][
-            "authoritative_evidence_package"
+            "authoritative_evidence_context"
         ]
-        == traced["evidence_package"]
+        == traced["llm_evidence_context"]
+    )
+    assert len(traced["llm_evidence_context"]["evidence_nodes"]) < len(
+        traced["evidence_package"]["evidence_nodes"]
     )
     assert (
         recorder.data["llm_raw_response"]["structured_outputs"][1][
@@ -139,6 +142,11 @@ def test_trace_observes_existing_rq1_path_without_changing_results(tmp_path: Pat
         trace_recorder=recorder,
     )
     recorder.finalize(result=traced, artifact=artifact)
+    diagnosis = {
+        item["stage"]: item
+        for item in recorder.data["diagnostic_observations"]["diagnostic_matrix"]
+    }
+    assert diagnosis["Raw Qwen answer covers requested elements"]["observed_status"] == "PASS"
     json_path, text_path = recorder.write(tmp_path)
     persisted = json.loads(json_path.read_text(encoding="utf-8"))
     assert persisted["trace_contract"] == "rq1-trace-01/1.0"
@@ -229,6 +237,10 @@ def test_ollama_observer_captures_exact_request_and_preparse_raw_response(monkey
     wire = recorder.data["llm_request"]["ollama_wire_calls"][0]
     assert json.loads(wire["serialized_body_utf8"]) == wire["body"]
     assert wire["body"]["model"] == "qwen2.5:latest"
+    assert wire["body"]["options"]["num_ctx"] == 8_192
+    assert wire["body"]["options"]["num_predict"] == 2_048
+    assert recorder.data["context_budget"]["answer_generation"]["budget_status"] == "PASS"
+    assert recorder.data["context_budget"]["answer_generation"]["observed_prompt_tokens"] == 12
     captured_raw = recorder.data["llm_raw_response"]["ollama_wire_calls"][0]
     assert captured_raw["raw_response_utf8"] == raw.decode("utf-8")
     assert captured_raw["raw_response_sha256"] == hashlib.sha256(raw).hexdigest()

@@ -269,6 +269,10 @@ def build_rq1_artifact(
         "graph_paths_summary": _path_summary(evidence, set(answer_nodes)),
         "citations": _citations(evidence),
         "citation_count": len(evidence["citations"]),
+        "llm_evidence_projection": deepcopy(
+            result.get("llm_evidence_context", {}).get("projection", {})
+        ),
+        "context_budget": deepcopy(result.get("context_budget")),
         "grounded_answer": answer["answer"],
         "validation": reporting_validation,
         "stage_modes": [
@@ -626,6 +630,27 @@ def render_summary(artifact: Mapping[str, Any]) -> str:
             ]
         )
         lines.extend(f"- {item}" for item in paths["selected_paths"])
+        context_budget = artifact.get("context_budget") or {}
+        projection = artifact.get("llm_evidence_projection") or {}
+        if context_budget:
+            lines.extend(
+                [
+                    "",
+                    "LLM context budget",
+                    f"Context budget status: {context_budget.get('budget_status')}",
+                    f"Configured context window: {context_budget.get('context_window')}",
+                    f"Prompt token estimate: {context_budget.get('prompt_token_estimate')}",
+                    f"Observed prompt tokens: {context_budget.get('observed_prompt_tokens', 'unknown')}",
+                    f"Reserved output tokens: {context_budget.get('reserved_output_tokens')}",
+                    f"Available input tokens: {context_budget.get('available_input_tokens')}",
+                    f"Silent truncation: {'YES' if context_budget.get('silent_truncation') else 'NO'}",
+                    (
+                        "Evidence projection: "
+                        f"{projection.get('retrieved_node_count', 'unknown')} retrieved -> "
+                        f"{projection.get('projected_node_count', 'unknown')} LLM-facing nodes"
+                    ),
+                ]
+            )
         lines.extend(["", "Sources"])
         for item in artifact["citations"]:
             lines.append(

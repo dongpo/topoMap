@@ -57,7 +57,13 @@ def test_rq1_invokes_provider_neutral_model_retrieval_and_grounded_generation() 
         "resolve-bounded-canonical-graph-entities",
         "answer-with-authoritative-canonical-graph-evidence",
     ]
-    assert "authoritative_evidence_package" in adapter.calls[1]["context"]
+    assert "authoritative_evidence_context" in adapter.calls[1]["context"]
+    assert (
+        adapter.calls[1]["context"]["authoritative_evidence_context"]["projection"][
+            "projected_node_count"
+        ]
+        < len(result["evidence_package"]["evidence_nodes"])
+    )
     assert result["execution_performed"] is False
 
 

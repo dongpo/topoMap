@@ -10,6 +10,7 @@ from agent_contracts.governance import request_identity
 
 from nma.llm import LLMAdapter, LLMAdapterError
 from nma.llm.base import canonical_json, validate_json_schema_subset
+from nma.research_context import project_question_relevant_evidence
 from nma.research_trace import RQ1TraceRecorder
 from nma.runtime_graph_backend_v029 import (
     load_runtime_graph_settings,
@@ -372,7 +373,6 @@ class AMAResearchRuntime:
 
     def run_rq1(self, request: str) -> dict[str, Any]:
         evidence, interpretation_trace = self.retrieve_with_live_interpretation(request)
-        node_ids = [item["id"] for item in evidence["evidence_nodes"]]
         evidence_by_id = {item["id"]: item for item in evidence["evidence_nodes"]}
         selected_ids = evidence["retrieval_trace"]["model_selected_seed_ids"]
         claim_node_id = next(
@@ -399,14 +399,25 @@ class AMAResearchRuntime:
             ][:4]
         if not required_exact_claims:
             raise ResearchRuntimeError("Retrieved evidence has no exact string claims to validate.")
-        citation_ids = [item["citation_id"] for item in evidence["citations"]]
+        try:
+            evidence_context = project_question_relevant_evidence(
+                question=request, evidence=evidence
+            )
+        except ValueError as error:
+            raise ResearchRuntimeError(f"Evidence projection failed closed: {error}") from error
+        node_ids = [item["id"] for item in evidence_context["evidence_nodes"]]
+        citation_ids = [item["citation_id"] for item in evidence_context["citations"]]
         document_ids = sorted(
             {
                 item["document_id"]
-                for item in evidence["citations"]
+                for item in evidence_context["citations"]
                 if isinstance(item.get("document_id"), str)
             }
         )
+        if claim_node_id not in node_ids or not citation_ids or not document_ids:
+            raise ResearchRuntimeError(
+                "Evidence projection omitted the claim anchor or authoritative provenance."
+            )
         schema = {
             "type": "object",
             "properties": {
@@ -439,14 +450,16 @@ class AMAResearchRuntime:
         }
         answer_task = "answer-with-authoritative-canonical-graph-evidence"
         answer_instructions = (
-            "Answer only from the evidence package. Cite exact existing node, citation, and "
+            "Explain the request freely, using only the projected evidence context. Cite exact "
+            "existing node, citation, and "
             "document IDs. Each identity or reviewed value claim must copy an exact node "
             "property into exact_claims. Preserve every full identity prefix, including "
-            "'citation:'. Copy required_exact_claims exactly. Abstain rather than invent."
+            "'citation:'. Copy required_exact_claims exactly. Preserve unresolved, unknown, "
+            "review, authority, and non-executable states. Abstain rather than invent."
         )
         answer_context = {
             "request": request,
-            "authoritative_evidence_package": evidence,
+            "authoritative_evidence_context": evidence_context,
             "allowed_identity_values": {
                 "evidence_node_ids": node_ids,
                 "citation_ids": citation_ids,
@@ -460,7 +473,7 @@ class AMAResearchRuntime:
             "required_exact_claims": required_exact_claims,
         }
         if self.trace_recorder is not None:
-            self.trace_recorder.record_serialized_evidence(evidence)
+            self.trace_recorder.record_serialized_evidence(evidence_context)
             self.trace_recorder.record_model_input(
                 stage="grounded answer generation",
                 task=answer_task,
@@ -537,9 +550,11 @@ class AMAResearchRuntime:
             "graph_backend": deepcopy(self.graph_backend_trace),
             "evidence_package_identity": "evidence-package:sha256:" + _sha256(evidence),
             "evidence_package": evidence,
+            "llm_evidence_context": evidence_context,
             "answer": answer,
             "deterministic_identity_normalizations": citation_normalizations,
             "model_calls": [interpretation_trace, answer_result.to_trace()],
+            "context_budget": answer_result.context_budget,
             "validation": "passed",
             "execution_performed": False,
         }

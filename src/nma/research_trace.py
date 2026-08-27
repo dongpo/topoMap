@@ -111,6 +111,7 @@ class RQ1TraceRecorder:
                 "citations": [],
             },
             "serialized_evidence": {},
+            "context_budget": {"calls": [], "answer_generation": {}},
             "llm_request": {"provider_neutral_calls": [], "ollama_wire_calls": []},
             "llm_raw_response": {"ollama_wire_calls": [], "structured_outputs": []},
             "llm_postprocessing": {},
@@ -209,14 +210,27 @@ class RQ1TraceRecorder:
         self.data["serialized_evidence"] = {
             "capture_stage": (
                 "exact JSON-compatible Python value supplied as "
-                "context.authoritative_evidence_package immediately before adapter invocation"
+                "context.authoritative_evidence_context immediately before adapter invocation"
             ),
             "runtime_type": type(evidence).__name__,
             "value": deepcopy(dict(evidence)),
         }
 
     def record_ollama_event(self, event: str, payload: Mapping[str, Any]) -> None:
-        if event == "request":
+        if event == "context_budget":
+            context_budget = self.data.setdefault("context_budget", {})
+            calls = context_budget.setdefault("calls", [])
+            calls.append(deepcopy(dict(payload)))
+            context_budget["answer_generation"] = deepcopy(dict(payload))
+        elif event == "context_budget_result":
+            context_budget = self.data.setdefault("context_budget", {})
+            calls = context_budget.setdefault("calls", [])
+            if calls:
+                calls[-1] = deepcopy(dict(payload))
+            else:
+                calls.append(deepcopy(dict(payload)))
+            context_budget["answer_generation"] = deepcopy(dict(payload))
+        elif event == "request":
             cleaned, redactions = redact_unexpected_secrets(payload)
             entry = dict(cleaned) if isinstance(cleaned, Mapping) else {"value": cleaned}
             entry["redacted_secret_locations"] = redactions
@@ -325,6 +339,8 @@ class RQ1TraceRecorder:
                     "line code",
                     "線號",
                     "線式",
+                    "线号",
+                    "线型",
                 ),
             },
             "color": {
@@ -348,7 +364,10 @@ class RQ1TraceRecorder:
                     "mapping_status",
                     "unresolved binding",
                     "未確認",
+                    "未确认",
                     "未解析",
+                    "產品圖層",
+                    "产品图层",
                 ),
             },
         }
@@ -477,7 +496,15 @@ class RQ1TraceRecorder:
         provider_observations = self.data["diagnostic_observations"].get(
             "provider_runtime_observations", []
         )
-        provider_prompt_truncated = any(
+        answer_budget = self.data.get("context_budget", {}).get("answer_generation", {})
+        effective_context_verified = bool(
+            answer_budget.get("fits")
+            and answer_budget.get("budget_status") == "PASS"
+            and answer_budget.get("observed_within_input_budget") is True
+            and not answer_budget.get("truncation_expected")
+        )
+        ollama_observed = bool(self.data["llm_request"].get("ollama_wire_calls"))
+        provider_prompt_truncated = (ollama_observed and not effective_context_verified) or any(
             item.get("code") == "ollama-input-truncated"
             for item in provider_observations
             if isinstance(item, Mapping)
@@ -571,6 +598,17 @@ class RQ1TraceRecorder:
                 "evidence": "the final user message contains classification, geometry, line style, color, source, and unresolved binding evidence",
             },
             {
+                "stage": "Context budget preflight",
+                "observed_status": (
+                    "PASS"
+                    if effective_context_verified
+                    else "FAIL"
+                    if ollama_observed
+                    else "NOT OBSERVED"
+                ),
+                "evidence": answer_budget,
+            },
+            {
                 "stage": "Prompt/message propagation",
                 "observed_status": "FAIL"
                 if provider_prompt_truncated
@@ -583,11 +621,11 @@ class RQ1TraceRecorder:
             },
             {
                 "stage": "Qwen internal context retains required evidence",
-                "observed_status": "UNKNOWN" if provider_prompt_truncated else "PASS",
+                "observed_status": "PASS" if effective_context_verified else "UNKNOWN",
                 "evidence": (
-                    "Ollama reported input truncation; exact retained tokens were not exposed"
-                    if provider_prompt_truncated
-                    else "no provider-side truncation was observed"
+                    "explicit num_ctx, preflight fit, and observed prompt usage verify the input budget"
+                    if effective_context_verified
+                    else "effective input retention was not verified"
                 ),
             },
             {
@@ -663,7 +701,15 @@ class RQ1TraceRecorder:
             root_causes.append(
                 {
                     "category": "E — LLM synthesis/instruction-following defect",
-                    "evidence": "required facts reached the exact Ollama request but were omitted, and 打印頁10 first appeared in the raw response",
+                    "evidence": (
+                        "required facts reached the effective Ollama context, but one or more "
+                        "requested answer elements were not observed in the raw response"
+                        + (
+                            "; 打印頁10 also first appeared in the raw response"
+                            if printed_page_observed
+                            else ""
+                        )
+                    ),
                 }
             )
         if provider_prompt_truncated:
@@ -693,7 +739,11 @@ class RQ1TraceRecorder:
                     },
                     {
                         "category": "G4 — misleading aggregate PASS label",
-                        "evidence": "Grounded answer validation passes although the raw answer omits three requested elements and introduces 打印頁10",
+                        "evidence": (
+                            "Grounded answer validation remains an aggregate of existing schema, "
+                            "identity, and exact-claim checks; it is not claim-level grounding or "
+                            "question-coverage validation"
+                        ),
                     },
                 ]
             )
@@ -757,6 +807,9 @@ class RQ1TraceRecorder:
             "",
             "6. Serialized evidence",
             json.dumps(data["serialized_evidence"], ensure_ascii=False, indent=2, sort_keys=True),
+            "",
+            "6a. Context budget preflight",
+            json.dumps(data.get("context_budget", {}), ensure_ascii=False, indent=2, sort_keys=True),
             "",
             "7. Exact Ollama request/messages",
             json.dumps(data["llm_request"], ensure_ascii=False, indent=2, sort_keys=True),

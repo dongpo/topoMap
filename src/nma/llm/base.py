@@ -42,6 +42,7 @@ class LLMResult:
     latency_ms: int
     usage: dict[str, int] | None
     raw_response_hash: str
+    context_budget: dict[str, Any] | None = None
 
     def __post_init__(self) -> None:
         if not self.model_id.strip() or not self.provider.strip():
@@ -55,6 +56,8 @@ class LLMResult:
             raise LLMAdapterError("Model usage values must be non-negative integers.")
         if _SHA256.fullmatch(self.raw_response_hash) is None:
             raise LLMAdapterError("The raw model response hash is malformed.")
+        if self.context_budget is not None and not isinstance(self.context_budget, dict):
+            raise LLMAdapterError("Model context budget metadata must be a dictionary.")
 
     def to_trace(self) -> dict[str, object]:
         return {
@@ -63,6 +66,7 @@ class LLMResult:
             "latency_ms": self.latency_ms,
             "usage": self.usage,
             "raw_response_hash": self.raw_response_hash,
+            "context_budget": self.context_budget,
         }
 
 
