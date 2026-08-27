@@ -26,6 +26,7 @@ neo4j = ["neo4j>=6,<7"]
 nma = "nma.cli:main"
 nma-bench = "nma.portrayal_bench:main"
 nma-validation-bench = "nma.bench:main"
+ama-research-demo = "nma.research_cli:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

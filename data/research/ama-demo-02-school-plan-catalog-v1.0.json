@@ -1,0 +1,80 @@
+{
+  "schema": "nma.ama-reviewed-plan-catalog/1.0",
+  "candidates": [
+    {
+      "candidate_id": "school-blue-controlled-v1",
+      "operation_class": "school-symbol-derived-layer-portrayal",
+      "feature_identity": {
+        "code": "9920103",
+        "geometry_role": "Point"
+      },
+      "profile_id": "school-point",
+      "product_layer": "MARK",
+      "source_identity": {
+        "archive_sha256": "4888dbf9a838ed5c41e20c3b528c542c7e52845b4d8e4809f58ea5afcec2da53",
+        "layers": [
+          "J01_MARK",
+          "J13_MARK",
+          "J17_MARK",
+          "K01_MARK",
+          "K02_MARK",
+          "K14_MARK"
+        ]
+      },
+      "schema_constraints": {
+        "feature_code_field": "TERRAINID",
+        "id_field": "MARKID",
+        "label_field": "MARKNAME1",
+        "source_filter": {
+          "field": "TERRAINID",
+          "operator": "equals",
+          "value": "9920103"
+        }
+      },
+      "classification_constraint": {
+        "field": "TERRAINID",
+        "code": "9920103"
+      },
+      "geometry_constraint": {
+        "input": "Point",
+        "output": "Point",
+        "runtime_crs": "EPSG:4326"
+      },
+      "bounded_operations": [
+        "extract-reviewed-components",
+        "filter",
+        "reproject-to-epsg-4326",
+        "drop-z",
+        "set-derived-symbol-color-#1565c0"
+      ],
+      "approved_portrayal_operations": [
+        {
+          "action": "set_color",
+          "target": "symbol",
+          "value": {
+            "color": "#1565c0"
+          }
+        }
+      ],
+      "execution_scope": [
+        "derived-real-layer",
+        "derived-portrayal",
+        "candidate-maplibre-layer"
+      ],
+      "evidence_node_ids": [
+        "code-value:landmark-type:9920103",
+        "portrayal-rule:doc01:9920103",
+        "product-layer:MARK"
+      ],
+      "citation_ids": [
+        "citation:section:doc01-portrayal:p61",
+        "citation:section:doc07-temap-standard:p33",
+        "citation:section:doc09-temap-layers:doc09-p11-block-build-mark"
+      ],
+      "approval_required": true,
+      "authorization_required": true,
+      "execution_performed": false,
+      "production_writeback": false
+    }
+  ]
+}
