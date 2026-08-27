@@ -1,0 +1,122 @@
+{
+  "schema": "ama.foss4g-software-freeze/1.0",
+  "repository": "https://github.com/dongpo/topoMap",
+  "freeze_identity": {
+    "tag": "ama-foss4g-2026-freeze",
+    "tag_kind": "annotated",
+    "evidence_commit": {
+      "identity": "self",
+      "resolution": "refs/tags/ama-foss4g-2026-freeze^{}",
+      "reason": "A commit cannot embed its own object ID without changing that object ID. The peeled annotated tag target is the normative evidence-commit resolution."
+    }
+  },
+  "software": {
+    "accepted_demo_03_software_sha": "b2cb911e81c7455bb525de87921edd932c9def82",
+    "accepted_software_candidate_sha": "b2cb911e81c7455bb525de87921edd932c9def82",
+    "candidate_tree_sha": "89bd251e886ae8cc02e3e62969b0a98c9419633e",
+    "merged_main_software_predecessor": "a1d6e758408f8bb51a3ed725b86b153ccba32569",
+    "merged_main_tree_sha": "89bd251e886ae8cc02e3e62969b0a98c9419633e",
+    "merge_content_equivalent": true,
+    "pr": 4,
+    "pr_merge_commit": "a1d6e758408f8bb51a3ed725b86b153ccba32569",
+    "package_distribution": "national-map-agent",
+    "package_version": "0.2.0",
+    "import_name": "nma"
+  },
+  "research_demo": {
+    "architecture": "AMA is provider-neutral; the validated local provider is replaceable and does not define canonical AMA identities.",
+    "validated_provider": "ollama",
+    "validated_model": "qwen2.5:3b",
+    "supported_workflow": "clean checkout plus editable install plus local Ollama/Qwen",
+    "cloud_key_required": false,
+    "openai_responses_api_required": false,
+    "graph_backend": "canonical-json",
+    "canonical_graph_identity": "nma-canonical-graph-v0.4",
+    "optional_neo4j": "Optional. Missing or incomplete Neo4j may degrade explicitly to the healthy authoritative canonical JSON backend.",
+    "commands": {
+      "rq1": "python -m nma.research_cli rq1",
+      "rq2": "python -m nma.research_cli rq2",
+      "rq3_valid": "python -m nma.research_cli rq3 --case valid",
+      "rq3_unsafe": "python -m nma.research_cli rq3 --case unsafe"
+    }
+  },
+  "validation": {
+    "fresh_main_checkout": "/private/tmp/ama-freeze-fresh-main.uPBJO4/checkout",
+    "fresh_main_sha": "a1d6e758408f8bb51a3ed725b86b153ccba32569",
+    "environment_status": "READY",
+    "live_qwen": {
+      "rq1": "PASS",
+      "rq2": "PASS",
+      "rq2_invalid_companion": "PASS: rejected before execution",
+      "rq3_valid": "PASS",
+      "rq3_unsafe": "PASS: no handoff, authorization consumption, or execution"
+    },
+    "counts": {
+      "ama_demo_02_focused": 13,
+      "ama_demo_03_focused": 7,
+      "rq1_focused": 6,
+      "rq2_focused": 6,
+      "rq3_focused": 8,
+      "canonical_pytest_passed": 1457,
+      "canonical_pytest_skipped_classified_optional": 1,
+      "canonical_pytest_selected": 1458,
+      "historical_marker_deselected": 38,
+      "core_agent_benchmark_focused": 169,
+      "road_verifier": 39,
+      "school_execution_verifier": 14,
+      "pages_acceptance": 14,
+      "historical_exact_release_tests": 223,
+      "historical_tags": 9
+    },
+    "package_build": "PASS: sdist and wheel",
+    "editable_install_import": "PASS",
+    "isolated_wheel_import": "PASS",
+    "cli_smoke": "PASS: nma, nma-bench, and editable research-demo help",
+    "ama_bench": "PASS: 21 tasks; full NMA accuracy/evidence/graph 1.000/1.000/1.000",
+    "knowledge_rebuild": "PASS: 10 observations, 44 nodes, 85 edges, byte-identical",
+    "maplibre_style_rebuild": "PASS: 133 layers, byte-identical",
+    "pmtiles_reproduction": "PASS",
+    "maintained_ruff": "PASS",
+    "maintained_format": "PASS: 171 files",
+    "pages": {
+      "status": "PASS",
+      "github_actions_run": 33059604233,
+      "boundary": "Only public/gh-pages is deployed; no live Qwen, Neo4j, private School data, credentials, research backend, or runtime artifact is published."
+    },
+    "canonical_ci": {
+      "status": "PASS",
+      "github_actions_run": 33059604199
+    }
+  },
+  "historical_integrity": {
+    "summary": "9/9 annotated tag objects and 9/9 peeled targets exact locally/remotely; 9/9 exact-release scopes pass (223 tests).",
+    "tags": {
+      "nma-build-v1.0-final": ["1b55ff67fd670a482da74975ce41fa86df5dd71f", "95de5fa3657a2c8ac7847f1ee1010c48ea984cd7"],
+      "nma-core-v0.1-baseline": ["d86b77392c1dc9c9edc1d4adc370fc73e7e14f75", "ce6e90c993cb36782da29d7e24369882eb303476"],
+      "nma-core-v1.0-final": ["5729f2db0fc441b3eb0a22c1f76b0f6af3f368ea", "5eb138ae7686502431587743ebce9ddf92c5a799"],
+      "nma-demo-v0.2-rc1": ["19b234164f489497e08b3d64d0ea07987b11e91c", "2e72262a3181e9335915026d90d9b9890d2984a0"],
+      "nma-demo-v1.0-final": ["794a71ab8fdf56c4504f85521f7a063a9acb63f9", "05af154a14e781f20b5cf2d3996eac8191875b0f"],
+      "nma-generalization-v1.0-final": ["9ba26ff032e23f0ba5de80d809f08eb6e973bb4f", "380cc6ea2a4498ce83690521c933accfd918818e"],
+      "nma-road-v1.0-final": ["d60fffa873428d1ba8b308ea0d4d2028ac8431fd", "325c70d5335f57c43a8af85822db25032aa225c3"],
+      "nma-v0.2.1-baseline": ["ecfd8e9e13c12c30d65a29aedb329c23d08c176c", "6c7eef1259bfc3001afae761a7ae47321612a709"],
+      "nma-v1.0-final": ["f710da4828cd9ebf170fb60bd6af8f81e4e7abff", "eb87bde775333811529efb6f651573ea21cf456b"]
+    }
+  },
+  "compatibility_commands": [
+    "nma",
+    "nma-bench",
+    "ama-research-demo"
+  ],
+  "known_non_blocking_debt": "Wheel-only research-demo entry point currently expects repository-scoped agent_contracts. The supported FOSS4G workflow—clean checkout plus editable install—remains fully functional.",
+  "scientific_claim_boundary": [
+    "RQ1–RQ3 are frozen as executable software mechanisms and engineering evidence.",
+    "The FOSS4G freeze does not establish statistical superiority of GraphRAG over vector RAG or LLM-only approaches.",
+    "It does not establish statistically improved reliability or institutional safety.",
+    "Publication-grade hypothesis testing remains post-FOSS4G work."
+  ],
+  "manifest_integrity": {
+    "algorithm": "sha256",
+    "canonicalization": "UTF-8 canonical JSON with sorted keys, compact separators, and this sha256 value replaced by 64 zeroes",
+    "sha256": "25b488b7d1bb0e7c5e09175911f8f600cad4306723782dfade1518c9b6a24831"
+  }
+}
