@@ -62,7 +62,10 @@ marker warnings are errors neither locally nor in CI.
 The initial clean-tree audit found 23 failing historical assertions. Fixing the maintained
 `graphrag.py` lint defect and making the closure changes activated eight additional exact-byte or
 stage-worktree assertions that had passed only while the successor tree happened to retain those
-specific bytes or was clean. All 31 semantic historical nodes are routed explicitly.
+specific bytes or was clean. Detached GitHub checkout then exposed seven predecessor-identity
+assertions that additionally require old branch names under `refs/heads`; those are historical
+provenance checks, not current functional behavior. All 38 semantic historical nodes are routed
+explicitly without changing their assertions.
 
 Run the two classes independently:
 

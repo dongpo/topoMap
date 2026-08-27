@@ -39,7 +39,7 @@ jobs:
       - name: Historical marker discovery sanity
         run: |
           python -m pytest -o addopts='' --collect-only -q -m historical_freeze
-          test "$(python -m pytest -o addopts='' --collect-only -q -m historical_freeze | tail -1 | cut -d/ -f1)" = "31"
+          test "$(python -m pytest -o addopts='' --collect-only -q -m historical_freeze | tail -1 | cut -d/ -f1)" = "38"
       - name: PMTiles capability-catalog reproducibility
         run: python -m pytest -q tests/test_agentic_demo_catalog.py::test_pmtiles_capability_catalog_is_reproducible
       - name: ROAD public-state determinism

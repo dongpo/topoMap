@@ -55,6 +55,24 @@ historical Agent/evidence tests pin the old `graphrag.py` bytes, and three BUILD
 historical stage's dirty-worktree/change scope. They were not pre-change failures, but their
 semantics are historical, so the final central classifier contains 31 exact node IDs.
 
+The first detached GitHub Actions run exposed seven more `HISTORICAL_HEAD_IDENTITY` nodes that had
+passed in the long-lived audit clone only because its local namespace retained the old predecessor
+branches. Each calls `git rev-parse` on a historical `refs/heads/build/...`, `refs/heads/gen/...`, or
+`freeze/build-final-...` ref and compares it with a recorded old commit. A detached canonical
+checkout correctly has no obligation to manufacture those local branch refs. The assertions remain
+unchanged and runnable in their historical repository context; the central classifier therefore
+contains 38 exact node IDs:
+
+| Test | Failure class | Historical/current | Root cause | Release blocker? | Recommended action |
+| --- | --- | --- | --- | --- | --- |
+| `test_building_production_contract_build09.py::test_exact_build08a_predecessor_identity` | `HISTORICAL_HEAD_IDENTITY` | Historical | Requires the BUILD-08A predecessor branch as a local `refs/heads` ref. | No, in historical route | Run in the BUILD lineage context. |
+| `test_cross_domain_contract_conformance_gen02.py::test_exact_predecessor_closure_and_gen00_identities` | `HISTORICAL_HEAD_IDENTITY` | Historical | Requires local GEN-00/GEN-01 branch refs as well as their old commits. | No, in historical route | Run in the GEN-02 lineage context. |
+| `test_feature_production_generalization_gen00.py::test_build_final_identity_and_manifest_are_exact` | `HISTORICAL_HEAD_IDENTITY` | Historical | Requires the historical BUILD-FINAL freeze branch in the local namespace. | No, in historical route | Run in the GEN-00/frozen BUILD context. |
+| `test_human_building_production_policy_build09f.py::test_exact_build09e2_predecessor_identity` | `HISTORICAL_HEAD_IDENTITY` | Historical | Requires the BUILD-09E2 predecessor branch as a local ref. | No, in historical route | Run in the BUILD-09F lineage context. |
+| `test_j13_j17_production_applicability_build09e2.py::test_exact_build09e1_predecessor_sha` | `HISTORICAL_HEAD_IDENTITY` | Historical | Requires the BUILD-09E1 predecessor branch as a local ref. | No, in historical route | Run in the BUILD-09E2 lineage context. |
+| `test_official_evidence_closure_build09e.py::test_exact_build09_predecessor_identity` | `HISTORICAL_HEAD_IDENTITY` | Historical | Requires the BUILD-09 predecessor branch as a local ref. | No, in historical route | Run in the BUILD-09E lineage context. |
+| `test_targeted_official_evidence_resolution_build09e1.py::test_exact_build09e_predecessor_identity` | `HISTORICAL_HEAD_IDENTITY` | Historical | Requires the BUILD-09E predecessor branch as a local ref. | No, in historical route | Run in the BUILD-09E1 lineage context. |
+
 Wheel validation also exposed a separate `TEST_ISOLATION_DEFECT`: a BUILD-FINAL source scan walked
 the ignored generated `build/lib` copy and reported a duplicate identity provider. The scan now
 excludes the standard `build` output directory while continuing to inspect all repository sources.
