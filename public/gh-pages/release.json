@@ -1,0 +1,121 @@
+{
+  "schema": "nma.github-pages-static-release/2.1",
+  "source_branch": "main",
+  "authority_commit": "eb87bde775333811529efb6f651573ea21cf456b",
+  "mode": "browser-local-user-shapefile-controlled-execution",
+  "interface": "task-landing-plus-domain-locked-run",
+  "domain_routes": {
+    "school": "run.html?domain=school",
+    "road": "run.html?domain=road",
+    "build": "run.html?domain=build"
+  },
+  "user_file_required": true,
+  "user_file_transmission": false,
+  "preloaded_result_geometry": false,
+  "live_agent": false,
+  "private_fixture_bytes_included": false,
+  "production_credentials_included": false,
+  "production_activation": false,
+  "files": [
+    {
+      "path": ".nojekyll",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "app.css",
+      "bytes": 21263,
+      "sha256": "350a0b8f486e1d014453f1437da4d86c932eb971560b84150a5378c22082ae71"
+    },
+    {
+      "path": "app.js",
+      "bytes": 32180,
+      "sha256": "72db05f44960d4f8dd07439b5f0e841589862079665a14c6de8ee6afd2fb7627"
+    },
+    {
+      "path": "assets/NotoSans-LICENSE.txt",
+      "bytes": 4301,
+      "sha256": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+    },
+    {
+      "path": "assets/NotoSansRegular-0-255.pbf",
+      "bytes": 76580,
+      "sha256": "ef1f38a3f1978591e846e9eaddf8a54f7047f546fc6aaed7872cc53151a5de78"
+    },
+    {
+      "path": "assets/NotoSansRegular-19968-20223.pbf",
+      "bytes": 192358,
+      "sha256": "e1c87b549df7bb07b0bb19b52e379b10054872dcec5a86d824440371534060a4"
+    },
+    {
+      "path": "assets/NotoSansRegular-23552-23807.pbf",
+      "bytes": 198190,
+      "sha256": "2e9cdf17173ba2b75230ce4d3e1b3f44d6d30c7dd0a8719e976346213e2a91af"
+    },
+    {
+      "path": "assets/NotoSansRegular-34816-35071.pbf",
+      "bytes": 205444,
+      "sha256": "339915b6ff8e3230c8c16bdf527d7277260a6ca4aed64a8e32f710cbd4e8c08c"
+    },
+    {
+      "path": "assets/fflate-0.8.3-LICENSE.txt",
+      "bytes": 1069,
+      "sha256": "0a1df3a083d0c010560aa342e87959c8c1070e6fd54545741f083f22d0c8b551"
+    },
+    {
+      "path": "assets/fflate-0.8.3.min.js",
+      "bytes": 33044,
+      "sha256": "462ef8041fc970e3615a20a9dd2b2e3047a073b2da729ef4f02b634bba8b7b83"
+    },
+    {
+      "path": "assets/maplibre-gl-4.7.0-LICENSE.txt",
+      "bytes": 5984,
+      "sha256": "ee5fc05a0677eaf69601d2c7db0d9ecd6cc27c3abc1d0733bc9ed34707cf8ef2"
+    },
+    {
+      "path": "assets/maplibre-gl-4.7.0.css",
+      "bytes": 65534,
+      "sha256": "576b085fdd9487a65a19215328c1e086c07ce5bf6da09b666b3806d3d008dae9"
+    },
+    {
+      "path": "assets/maplibre-gl-4.7.0.js",
+      "bytes": 803130,
+      "sha256": "5c4922e8cb364fd14485ca7cba419b89e8d816f5f0c04cfc7d9c8206e0214df6"
+    },
+    {
+      "path": "assets/shpjs-6.2.0-LICENSE.txt",
+      "bytes": 1152,
+      "sha256": "2de371ae03e427342d4c7aacdf295d5ce98476b5fbe951d66ce11aa009613894"
+    },
+    {
+      "path": "assets/shpjs-6.2.0.min.js",
+      "bytes": 99931,
+      "sha256": "3380a08babfcc8411e5fa7693a4cc443627e43200b0489c81173a55ff1439ca0"
+    },
+    {
+      "path": "data/nma-runtime-knowledge-v0.4.json",
+      "bytes": 1108633,
+      "sha256": "5a571c2c1740ef4924c9e6393171c6d2f94c7426c166078cd291424fda067a9c"
+    },
+    {
+      "path": "index.html",
+      "bytes": 4449,
+      "sha256": "998327680efea9ad97df75d565bc4d24226a90c7d05031034c00f186293be76b"
+    },
+    {
+      "path": "landing.css",
+      "bytes": 5788,
+      "sha256": "697cdb309f113fa05a8281a123573f2452c4a4cacf19206a659f32b061fada8a"
+    },
+    {
+      "path": "landing.js",
+      "bytes": 823,
+      "sha256": "d426dabe849fb2beb64090e43185511b4fbe2b2717c9d060472d8248842edb8d"
+    },
+    {
+      "path": "run.html",
+      "bytes": 9603,
+      "sha256": "1775c3371dce03db8b2d44c1df259cfae51cd6782805b428b0a3891326c65ef0"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="National Map Agent browser-local application for governed portrayal of user School, ROAD, and BUILD Shapefiles.">
+  <title>National Map Agent · 選擇製圖工作</title>
+  <link rel="stylesheet" href="landing.css?v=unified-pages-1">
+</head>
+<body>
+  <a class="skip-link" href="#tasks">跳至工作選擇</a>
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="National Map Agent 首頁"><span>N</span><strong>National Map Agent</strong></a>
+    <div id="knowledge-status" class="knowledge-status" role="status" aria-live="polite"><i></i><span>檢查 canonical Knowledge Graph…</span></div>
+    <nav><a href="https://github.com/dongpo/topoMap/tree/nma-v1.0-final">Frozen source ↗</a><a href="release.json">Release</a></nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div><p class="eyebrow">USER SHAPEFILE · BROWSER LOCAL</p><h1 id="page-title">你要繪製哪一種地理資料？</h1><p class="lead">先依 Shapefile 的資料角色與幾何選擇工作。NMA 會檢查實際資料、查找 Knowledge Graph 證據、提出計畫、等待授權，最後才在 MapLibre 繪圖並驗證。</p></div>
+      <aside><strong>資料不離開瀏覽器</strong><span>ZIP、Shapefile、GeoJSON 與逐點 geometry 不會送到 server。公開站不含使用者 fixture、LLM／Neo4j credentials 或 production activation。</span></aside>
+    </section>
+
+    <section id="tasks" class="tasks" aria-labelledby="tasks-title">
+      <div class="section-heading"><p class="eyebrow">THREE GEOMETRIES · SEPARATE RUNS</p><h2 id="tasks-title">依資料內容選擇工作</h2><p>每次只進入一個幾何專用流程；不再把 School、ROAD、BUILD 與所有 evidence panel 同時擠在一個操作畫面。</p></div>
+      <div class="task-grid">
+        <article class="task-card school"><div class="visual"><i></i><i></i><i></i></div><p class="kind">POINT · MARK</p><h3>學校及訓練機構</h3><p>處理 <code>9920100</code> 分類家族及已建模子類，不以小學作為硬條件，也沒有固定 feature count。</p><dl><div><dt>識別</dt><dd>filename + MARKID</dd></div><div><dt>地圖</dt><dd>點位與名稱</dd></div></dl><a href="run.html?domain=school">開始 School 工作 <b>→</b></a></article>
+        <article class="task-card road"><div class="visual"><i></i></div><p class="kind">LINE · ROAD</p><h3>道路</h3><p>檢查道路分類階層；缺少 reviewed mapping 時以問答處理，不把 TERRAINID 靜默猜成 canonical field。</p><dl><div><dt>識別</dt><dd>filename + ROADSEGID</dd></div><div><dt>地圖</dt><dd>道路線與沿線名稱</dd></div></dl><a href="run.html?domain=road">開始 ROAD 工作 <b>→</b></a></article>
+        <article class="task-card build"><div class="visual"><i></i></div><p class="kind">POLYGON · BUILD</p><h3>建物</h3><p>依 KG 中的建物分類與文件證據建立 boundary／hatch preview；正式 production activation 持續停用。</p><dl><div><dt>識別</dt><dd>filename + BUILD_ID</dd></div><div><dt>地圖</dt><dd>建物邊界與 hatch</dd></div></dl><a href="run.html?domain=build">開始 BUILD 工作 <b>→</b></a></article>
+      </div>
+    </section>
+
+    <section class="governance" aria-labelledby="governance-title">
+      <div><p class="eyebrow">ONE GOVERNED INTERACTION</p><h2 id="governance-title">共同控制點，不同 GIS tools</h2><p>三種資料共享治理流程，但各自使用幾何、schema、分類與 portrayal 規則。</p></div>
+      <ol><li><span>1</span><div><strong>Inspect</strong><small>ZIP components、CRS、ID、schema、classification、geometry</small></div></li><li><span>2</span><div><strong>Retrieve & plan</strong><small>canonical KG、GraphRAG evidence、mapping rules</small></div></li><li><span>3</span><div><strong>Clarify & authorize</strong><small>沒有 mapping 就提問；計畫由人核准</small></div></li><li><span>4</span><div><strong>Act & observe</strong><small>MapLibre portrayal、verification、replan／abstain／stop</small></div></li></ol>
+    </section>
+  </main>
+  <footer>Frozen semantic authority: <code>nma-v1.0-final · eb87bde</code> · static symbolic Agent · no user-data transmission</footer>
+  <script src="landing.js?v=unified-pages-1"></script>
+</body>
+</html>
