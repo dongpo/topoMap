@@ -1,0 +1,86 @@
+{
+  "allowlist_version": "rq2-tool-allowlist/1.0",
+  "baseline": {
+    "execution": "BLOCKED",
+    "validator": "FAIL",
+    "verification": "N/A"
+  },
+  "constrained": {
+    "execution": "BLOCKED",
+    "validator": "FAIL",
+    "verification": "N/A"
+  },
+  "negative_cases": [
+    {
+      "case": "A_VALID_CONSTRAINED",
+      "decision": "PROCEED",
+      "execution_status": "PASS",
+      "expected": "PROCEED; execution PASS; verification PASS",
+      "failure_taxonomy": [],
+      "validator_status": "PASS",
+      "verification_status": "PASS"
+    },
+    {
+      "case": "B_UNRESOLVED_PRODUCT_LAYER_PRESERVED",
+      "decision": "PROCEED_WITH_BOUNDED_UNRESOLVED",
+      "expected": "PROCEED_WITH_BOUNDED_UNRESOLVED",
+      "failure_taxonomy": [
+        "PLAN_SCHEMA_INVALID"
+      ],
+      "product_layer": null,
+      "validator_status": "FAIL"
+    },
+    {
+      "case": "C_FABRICATED_PRODUCT_LAYER",
+      "execution_status": "BLOCKED",
+      "expected": "REJECT / BLOCK",
+      "failure_taxonomy": [
+        "PLAN_SCHEMA_INVALID"
+      ],
+      "validator_status": "FAIL"
+    },
+    {
+      "case": "D_REQUIRED_CONSTRAINT_OMITTED",
+      "execution_status": "BLOCKED",
+      "expected": "REJECT",
+      "failure_taxonomy": [
+        "PLAN_SCHEMA_INVALID"
+      ],
+      "validator_status": "FAIL"
+    },
+    {
+      "case": "E_UNKNOWN_TOOL",
+      "execution_status": "BLOCKED",
+      "expected": "BLOCK",
+      "failure_taxonomy": [
+        "PLAN_SCHEMA_INVALID"
+      ],
+      "validator_status": "FAIL"
+    },
+    {
+      "case": "F_CONTRADICTED_CRITICAL_CONSTRAINT",
+      "decision": "BLOCK",
+      "execution_status": "BLOCKED",
+      "expected": "BLOCK",
+      "failure_taxonomy": [],
+      "tool_call_count": 0,
+      "validator_status": "PASS"
+    },
+    {
+      "case": "G_POSTCONDITION_VIOLATION",
+      "execution_status": "BLOCKED",
+      "expected": "execution PASS; verification FAIL",
+      "failure_taxonomy": [
+        "PLAN_SCHEMA_INVALID"
+      ],
+      "validator_status": "FAIL",
+      "verification_failure_taxonomy": [],
+      "verification_status": "N/A"
+    }
+  ],
+  "proposal_hash": "e333357745b581c12e1b39b3f6bbe038d1fb9adf6bb093912721ba973e7ca718",
+  "proposal_id": "rq2-proposal:knowledge-constrained:2a0d21e8063c8c79e574a05d",
+  "required_postcondition_count": 12,
+  "rq3_handoff": "FAIL",
+  "verdict": "FAIL — RQ2 CONSTRAINED EXECUTION NOT DEMONSTRATED"
+}

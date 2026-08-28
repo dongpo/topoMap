@@ -1,0 +1,14 @@
+{
+  "architectures": ["llm-only", "knowledge-constrained"],
+  "attempt_id": "rq2-demo-01-attempt-03",
+  "failure_stage": "final_proposal_schema_validation",
+  "failure_taxonomy": ["PLAN_SCHEMA_INVALID"],
+  "model": "qwen2.5:latest",
+  "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+  "mutation_started": false,
+  "observed": "Both model drafts used lowercase trace-basis labels as decision reason codes. The constrained draft otherwise resolved all five resolvable semantic values correctly, preserved ProductLayer as null, and referenced all 11 applicable constraints, but the final frozen schema rejected the proposal.",
+  "preserved_artifact_directory": "artifacts/rq2/attempt-03",
+  "proposal_created": true,
+  "retry_disposition": "Preserved as a failed paired attempt. A new full paired attempt constrains draft reason codes to uppercase values permitted by the unchanged final proposal schema; no attempt-03 proposal is repaired or executed.",
+  "schema": "nma.rq2-demo-01-failed-attempt/1.0"
+}

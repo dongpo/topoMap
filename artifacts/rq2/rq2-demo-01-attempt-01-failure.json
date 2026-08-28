@@ -1,0 +1,14 @@
+{
+  "architecture": "llm-only",
+  "attempt_id": "rq2-demo-01-attempt-01",
+  "failure_stage": "planner_generation",
+  "failure_taxonomy": ["OTHER"],
+  "model": "qwen2.5:latest",
+  "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+  "mutation_started": false,
+  "observed": "The local adapter reached its frozen 600-second request timeout before receiving a planner draft.",
+  "planner_output_persisted": false,
+  "proposal_created": false,
+  "retry_disposition": "Preserved as failed attempt; compact provider-neutral draft projection introduced without changing the final rq2-proposal/1.0 contract, semantic requirements, model, evidence, validator, tools, or verifier.",
+  "schema": "nma.rq2-demo-01-failed-attempt/1.0"
+}

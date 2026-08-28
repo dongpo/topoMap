@@ -1,0 +1,461 @@
+{
+  "answers": {
+    "baseline_absent_or_guessed": [
+      "classification",
+      "geometry",
+      "line_style",
+      "color_code",
+      "observed_color",
+      "source_authority"
+    ],
+    "unresolved_preserved": true,
+    "unsafe_or_unsupported_action_prevented": "The constrained plan binds symbolic derivation to evidence and carries unresolved render/ProductLayer guards; the validator forbids rendering or guessed binding.",
+    "what_changed": "See plan_diff: semantic values, operation sequence, conditions, and explicit constraint references are preserved from the two first-pass model drafts."
+  },
+  "architectures": {
+    "baseline_evidence_count": 0,
+    "constrained_evidence_count": 11,
+    "post_hoc_repair": false,
+    "same_allowlist": true,
+    "same_model_identity": true,
+    "same_proposal_version": true,
+    "same_temperature": true,
+    "validator_model_calls": 0,
+    "verifier_model_calls": 0
+  },
+  "constraint_to_plan_trace": [
+    {
+      "constraint_id": "constraint:classification.feature_code",
+      "evidence_refs": [
+        "classification:doc01:9350906",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "execution_effect": "required",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "resolution_status": "resolved"
+    },
+    {
+      "constraint_id": "constraint:geometry.type",
+      "evidence_refs": [
+        "portrayal-geometry:Point",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "execution_effect": "required",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "resolution_status": "resolved"
+    },
+    {
+      "constraint_id": "constraint:guard.authoritative_render",
+      "evidence_refs": [
+        "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "execution_effect": "forbidden",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "resolution_status": "resolved"
+    },
+    {
+      "constraint_id": "constraint:portrayal.color_code",
+      "evidence_refs": [
+        "portrayal-color:doc01:7",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "execution_effect": "required",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "resolution_status": "resolved"
+    },
+    {
+      "constraint_id": "constraint:portrayal.line_code",
+      "evidence_refs": [
+        "line-style:doc01:2",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "execution_effect": "required",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "resolution_status": "resolved"
+    },
+    {
+      "constraint_id": "constraint:portrayal.observed_color",
+      "evidence_refs": [
+        "portrayal-color:doc01:7",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "execution_effect": "required",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "resolution_status": "resolved"
+    },
+    {
+      "constraint_id": "constraint:source.authority",
+      "evidence_refs": [
+        "document:doc01-portrayal"
+      ],
+      "execution_effect": "required",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "resolution_status": "resolved"
+    },
+    {
+      "constraint_id": "constraint:guard.color-code-7-profile",
+      "evidence_refs": [
+        "activation-gate:doc01:9350906:color-code-7-profile"
+      ],
+      "execution_effect": "guard",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "resolution_status": "unresolved"
+    },
+    {
+      "constraint_id": "constraint:guard.internal-glyph-trace",
+      "evidence_refs": [
+        "activation-gate:doc01:9350906:internal-glyph-trace"
+      ],
+      "execution_effect": "guard",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "resolution_status": "unresolved"
+    },
+    {
+      "constraint_id": "constraint:guard.line-code-2-metric",
+      "evidence_refs": [
+        "activation-gate:doc01:9350906:line-code-2-metric"
+      ],
+      "execution_effect": "guard",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "resolution_status": "unresolved"
+    },
+    {
+      "constraint_id": "constraint:relationship.product_layer",
+      "evidence_refs": [
+        "classification:doc01:9350906",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "execution_effect": "guard",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "resolution_status": "unresolved"
+    }
+  ],
+  "controlled_variables": [
+    "intent",
+    "model and model identity",
+    "temperature",
+    "context/output budget",
+    "proposal schema",
+    "tool allowlist",
+    "validator",
+    "executor",
+    "verifier"
+  ],
+  "independent_variable": "explicit knowledge-derived constraints",
+  "negative_cases": [
+    {
+      "case": "A_VALID_CONSTRAINED",
+      "decision": "PROCEED",
+      "execution_status": "PASS",
+      "expected": "PROCEED; execution PASS; verification PASS",
+      "failure_taxonomy": [],
+      "validator_status": "PASS",
+      "verification_status": "PASS"
+    },
+    {
+      "case": "B_UNRESOLVED_PRODUCT_LAYER_PRESERVED",
+      "decision": "PROCEED_WITH_BOUNDED_UNRESOLVED",
+      "expected": "PROCEED_WITH_BOUNDED_UNRESOLVED",
+      "failure_taxonomy": [
+        "PLAN_SCHEMA_INVALID"
+      ],
+      "product_layer": null,
+      "validator_status": "FAIL"
+    },
+    {
+      "case": "C_FABRICATED_PRODUCT_LAYER",
+      "execution_status": "BLOCKED",
+      "expected": "REJECT / BLOCK",
+      "failure_taxonomy": [
+        "PLAN_SCHEMA_INVALID"
+      ],
+      "validator_status": "FAIL"
+    },
+    {
+      "case": "D_REQUIRED_CONSTRAINT_OMITTED",
+      "execution_status": "BLOCKED",
+      "expected": "REJECT",
+      "failure_taxonomy": [
+        "PLAN_SCHEMA_INVALID"
+      ],
+      "validator_status": "FAIL"
+    },
+    {
+      "case": "E_UNKNOWN_TOOL",
+      "execution_status": "BLOCKED",
+      "expected": "BLOCK",
+      "failure_taxonomy": [
+        "PLAN_SCHEMA_INVALID"
+      ],
+      "validator_status": "FAIL"
+    },
+    {
+      "case": "F_CONTRADICTED_CRITICAL_CONSTRAINT",
+      "decision": "BLOCK",
+      "execution_status": "BLOCKED",
+      "expected": "BLOCK",
+      "failure_taxonomy": [],
+      "tool_call_count": 0,
+      "validator_status": "PASS"
+    },
+    {
+      "case": "G_POSTCONDITION_VIOLATION",
+      "execution_status": "BLOCKED",
+      "expected": "execution PASS; verification FAIL",
+      "failure_taxonomy": [
+        "PLAN_SCHEMA_INVALID"
+      ],
+      "validator_status": "FAIL",
+      "verification_failure_taxonomy": [],
+      "verification_status": "N/A"
+    }
+  ],
+  "plan_diff": {
+    "baseline_constraint_refs": [],
+    "baseline_semantic_values": {
+      "classification": "fire hydrant",
+      "color_code": null,
+      "geometry": "point",
+      "line_style": null,
+      "observed_color": null,
+      "product_layer": null,
+      "source_authority_handled": false
+    },
+    "baseline_tools": [
+      "rq2.feature.read/1.0",
+      "rq2.source-authority.validate/1.0",
+      "rq2.geometry.validate/1.0",
+      "rq2.representation.derive/1.0",
+      "rq2.artifact.write-derived/1.0",
+      "rq2.postconditions.verify/1.0"
+    ],
+    "constrained_constraint_refs": [
+      "constraint:classification.feature_code",
+      "constraint:geometry.type",
+      "constraint:guard.authoritative_render",
+      "constraint:guard.color-code-7-profile",
+      "constraint:guard.internal-glyph-trace",
+      "constraint:guard.line-code-2-metric",
+      "constraint:portrayal.color_code",
+      "constraint:portrayal.line_code",
+      "constraint:portrayal.observed_color",
+      "constraint:relationship.product_layer",
+      "constraint:source.authority"
+    ],
+    "constrained_semantic_values": {
+      "classification": "9350906",
+      "color_code": "7",
+      "geometry": "Point",
+      "line_style": "2",
+      "observed_color": "black",
+      "product_layer": null,
+      "source_authority_handled": true
+    },
+    "constrained_tools": [
+      "rq2.feature.read/1.0",
+      "rq2.source-authority.validate/1.0",
+      "rq2.geometry.validate/1.0",
+      "rq2.representation.derive/1.0",
+      "rq2.artifact.write-derived/1.0",
+      "rq2.postconditions.verify/1.0"
+    ],
+    "tools_absent_from_constrained": [],
+    "tools_added_by_constrained": []
+  },
+  "primary_table": {
+    "Classification correct": [
+      "FAIL",
+      "PASS"
+    ],
+    "Color correct": [
+      "FAIL",
+      "PASS"
+    ],
+    "Constraint coverage": [
+      {
+        "ratio": null,
+        "represented": 0,
+        "required": 0
+      },
+      {
+        "ratio": 1.0,
+        "represented": 11,
+        "required": 11
+      }
+    ],
+    "Constraint preservation": [
+      {
+        "applicable": 6,
+        "ratio": 0,
+        "satisfied": 0
+      },
+      {
+        "applicable": 6,
+        "ratio": 0,
+        "satisfied": 0
+      }
+    ],
+    "Executable": [
+      "FAIL",
+      "FAIL"
+    ],
+    "Execution successful": [
+      "FAIL",
+      "FAIL"
+    ],
+    "Geometry correct": [
+      "FAIL",
+      "PASS"
+    ],
+    "Line style correct": [
+      "FAIL",
+      "PASS"
+    ],
+    "Postconditions complete": [
+      {
+        "ratio": 1.0,
+        "represented": 12,
+        "required": 12
+      },
+      {
+        "ratio": 1.0,
+        "represented": 12,
+        "required": 12
+      }
+    ],
+    "Preconditions complete": [
+      {
+        "ratio": 1.0,
+        "represented": 10,
+        "required": 10
+      },
+      {
+        "ratio": 1.0,
+        "represented": 11,
+        "required": 11
+      }
+    ],
+    "ProductLayer unresolved preserved": [
+      "PASS",
+      "PASS"
+    ],
+    "Semantic plan validity": [
+      "FAIL",
+      "PASS"
+    ],
+    "Source authority handling": [
+      "FAIL",
+      "PASS"
+    ],
+    "Unknown/forbidden operations": [
+      0,
+      0
+    ],
+    "Verification successful": [
+      "FAIL",
+      "FAIL"
+    ]
+  },
+  "proposal_hash_reload_stability": true,
+  "rq3_handoff": {
+    "checks": {
+      "authorization_declarations_present": true,
+      "expected_postconditions_present": true,
+      "knowledge_identity_present": true,
+      "load_without_replanning": true,
+      "proposal_hash_valid": true,
+      "required_fields_complete": true,
+      "schema_valid": false
+    },
+    "missing_fields": [],
+    "planner_model_calls": 0,
+    "schema_errors": [
+      "decision/reason_codes/0: 'knowledge_constraint' does not match '^[A-Z][A-Z0-9_]*$'",
+      "decision/reason_codes/1: 'deterministic_execution_requirement' does not match '^[A-Z][A-Z0-9_]*$'",
+      "decision/reason_codes/2: 'verification_requirement' does not match '^[A-Z][A-Z0-9_]*$'"
+    ],
+    "status": "FAIL"
+  },
+  "schema": "nma.rq2-demo-01-comparison/1.0"
+}

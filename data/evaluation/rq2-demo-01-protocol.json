@@ -1,0 +1,37 @@
+{
+  "schema": "nma.rq2-demo-01-protocol/1.0",
+  "predecessor_sha": "802d76ac79c34d0f681911a8e956b253bf62bd05",
+  "canonical_intent": "Please prepare this fire hydrant feature for authoritative map production using the applicable national mapping rules.",
+  "model": {
+    "name": "qwen2.5:latest",
+    "ollama_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "architecture": "qwen2",
+    "parameters": "7.6B",
+    "quantization": "Q4_K_M",
+    "temperature": 0,
+    "context_window": 8192,
+    "reserved_output_tokens": 2048,
+    "runtime": "Ollama local"
+  },
+  "fixture": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+  "fixture_sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+  "feature_selector": "hydrant-research-001",
+  "created_at": "2026-08-28T06:00:00Z",
+  "planner_identity": "rq2-provider-neutral-plan-composer/1.0",
+  "validator_identity": "rq2-plan-validator/1.0",
+  "executor_identity": "rq2-deterministic-gis-executor/1.0",
+  "verifier_identity": "rq2-postcondition-verifier/1.0",
+  "planner_draft_contract": "rq2-compact-plan-draft/1.0",
+  "retry_policy": "No semantic repair or replacement of a completed draft. A provider timeout before any draft exists is preserved as a failed attempt; a separately identified rerun may use the same frozen model and final proposal contract.",
+  "output_boundary": "isolated derived research artifact; no authoritative render",
+  "sealed_truth": {
+    "classification": "9350906",
+    "classification_label": "消防栓",
+    "geometry": "Point",
+    "line_style": "2",
+    "color_code": "7",
+    "observed_color": "black",
+    "source_authority_handling": "evidence-bound",
+    "product_layer": null
+  }
+}

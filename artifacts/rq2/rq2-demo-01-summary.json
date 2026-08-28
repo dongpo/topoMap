@@ -1,0 +1,84 @@
+{
+  "allowlist_version": "rq2-tool-allowlist/1.0",
+  "baseline": {
+    "execution": "BLOCKED",
+    "validator": "PASS",
+    "verification": "N/A"
+  },
+  "constrained": {
+    "execution": "PASS",
+    "validator": "PASS",
+    "verification": "PASS"
+  },
+  "negative_cases": [
+    {
+      "case": "A_VALID_CONSTRAINED",
+      "decision": "PROCEED",
+      "execution_status": "PASS",
+      "expected": "PROCEED; execution PASS; verification PASS",
+      "failure_taxonomy": [],
+      "validator_status": "PASS",
+      "verification_status": "PASS"
+    },
+    {
+      "case": "B_UNRESOLVED_PRODUCT_LAYER_PRESERVED",
+      "decision": "PROCEED_WITH_BOUNDED_UNRESOLVED",
+      "expected": "PROCEED_WITH_BOUNDED_UNRESOLVED",
+      "failure_taxonomy": [],
+      "product_layer": null,
+      "validator_status": "PASS"
+    },
+    {
+      "case": "C_FABRICATED_PRODUCT_LAYER",
+      "execution_status": "BLOCKED",
+      "expected": "REJECT / BLOCK",
+      "failure_taxonomy": [
+        "UNRESOLVED_BINDING_GUESSED"
+      ],
+      "validator_status": "FAIL"
+    },
+    {
+      "case": "D_REQUIRED_CONSTRAINT_OMITTED",
+      "execution_status": "BLOCKED",
+      "expected": "REJECT",
+      "failure_taxonomy": [
+        "CONSTRAINT_OMITTED_FROM_PLAN"
+      ],
+      "validator_status": "FAIL"
+    },
+    {
+      "case": "E_UNKNOWN_TOOL",
+      "execution_status": "BLOCKED",
+      "expected": "BLOCK",
+      "failure_taxonomy": [
+        "UNKNOWN_TOOL"
+      ],
+      "validator_status": "FAIL"
+    },
+    {
+      "case": "F_CONTRADICTED_CRITICAL_CONSTRAINT",
+      "decision": "BLOCK",
+      "execution_status": "BLOCKED",
+      "expected": "BLOCK",
+      "failure_taxonomy": [],
+      "tool_call_count": 0,
+      "validator_status": "PASS"
+    },
+    {
+      "case": "G_POSTCONDITION_VIOLATION",
+      "execution_status": "PASS",
+      "expected": "execution PASS; verification FAIL",
+      "failure_taxonomy": [],
+      "validator_status": "PASS",
+      "verification_failure_taxonomy": [
+        "POSTCONDITION_VIOLATION"
+      ],
+      "verification_status": "FAIL"
+    }
+  ],
+  "proposal_hash": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1",
+  "proposal_id": "rq2-proposal:knowledge-constrained:e635111c3be29423faf923b7",
+  "required_postcondition_count": 12,
+  "rq3_handoff": "PASS",
+  "verdict": "PASS — RQ2 KNOWLEDGE-CONSTRAINED EXECUTION DEMONSTRATED"
+}

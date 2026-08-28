@@ -1,0 +1,902 @@
+{
+  "automatic_rule_activation": false,
+  "citations": [
+    {
+      "citation_id": "citation:section:doc01-portrayal:p11",
+      "document_id": "document:doc01-portrayal",
+      "filename": "01-一千分之一地形圖圖式規格表.pdf",
+      "page": 11,
+      "printed_page": null,
+      "record_id": "DOC01-P11-HYDRANT",
+      "review_status": "source-row-and-symbol-cell-visually-verified",
+      "revision": "NLSC112V5.4",
+      "section_id": "section:doc01-portrayal:p11",
+      "source_sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+      "source_text": null
+    }
+  ],
+  "clarification": {
+    "hierarchy_node_ids": [],
+    "reason": null,
+    "required": false
+  },
+  "conflicts": [],
+  "evidence_nodes": [
+    {
+      "id": "activation-gate:doc01:9350906:color-code-7-profile",
+      "properties": {
+        "id": "color-code-7-profile",
+        "reason": "The row is visually black, but the device-independent colour profile is not defined on this page.",
+        "status": "pending-human-review"
+      },
+      "type": "ActivationGate"
+    },
+    {
+      "id": "activation-gate:doc01:9350906:internal-glyph-trace",
+      "properties": {
+        "id": "internal-glyph-trace",
+        "reason": "The internal glyph is manually traced from the official symbol cell and requires cartographic comparison approval.",
+        "status": "pending-human-review"
+      },
+      "type": "ActivationGate"
+    },
+    {
+      "id": "activation-gate:doc01:9350906:line-code-2-metric",
+      "properties": {
+        "id": "line-code-2-metric",
+        "reason": "The reviewed row names line code 2 but does not define its device-independent stroke width.",
+        "status": "pending-human-review"
+      },
+      "type": "ActivationGate"
+    },
+    {
+      "id": "classification:doc01:9350906",
+      "properties": {
+        "code": "9350906",
+        "label": "消防栓",
+        "mapping_status": "Document 09 has no confirmed ProductLayer/field binding for this Document 01 class; mapping must remain unresolved."
+      },
+      "type": "ClassificationCode"
+    },
+    {
+      "id": "concept:feature-concept",
+      "properties": {
+        "definition": "現實世界具有共同特性之現象的抽象化表示。",
+        "english_name": "feature",
+        "evidence_record": "DOC04-P11-FEATURE-DEFINITION",
+        "id": "feature-concept",
+        "name": "圖徵"
+      },
+      "type": "FeatureConcept"
+    },
+    {
+      "id": "document:doc01-portrayal",
+      "properties": {
+        "document_date": "2024-02-28",
+        "filename": "01-一千分之一地形圖圖式規格表.pdf",
+        "pages": 83,
+        "revision": "NLSC112V5.4",
+        "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620"
+      },
+      "type": "SpecificationDocument"
+    },
+    {
+      "id": "line-style:doc01:2",
+      "properties": {
+        "code": "2",
+        "observation": "All four reviewed rows state 圖式線號 2; the semantic stroke-width lookup is not defined by these rows."
+      },
+      "type": "LineStyleReference"
+    },
+    {
+      "id": "method:stereo-plotting",
+      "properties": {
+        "id": "stereo-plotting",
+        "name": "立體測圖"
+      },
+      "type": "ProductionMethod"
+    },
+    {
+      "id": "portrayal-color:doc01:7",
+      "properties": {
+        "code": "7",
+        "observation": "Rendered row is visually black; exact device-independent colour values are not stated on the reviewed row.",
+        "observed_color": "black"
+      },
+      "type": "PortrayalColorReference"
+    },
+    {
+      "id": "portrayal-geometry:Point",
+      "properties": {
+        "name": "Point"
+      },
+      "type": "PortrayalGeometryRole"
+    },
+    {
+      "id": "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+      "properties": {
+        "activation_status": "non-executable",
+        "id": "tw-nlsc-1000-NLSC112V5.4",
+        "name": "一千分之一地形圖圖式規格",
+        "scale_denominator": 1000
+      },
+      "type": "PortrayalProfile"
+    },
+    {
+      "id": "portrayal-recipe:doc01:9350906:review-v1",
+      "properties": {
+        "activation_status": "non-executable-review-candidate",
+        "feature_code": "9350906",
+        "feature_name": "消防栓",
+        "geometry_role": "Point",
+        "page": 11,
+        "representation_kind": "fixed-marker",
+        "runtime_requirements": [
+          "Point geometry",
+          "render at 2.0 x 2.5 mm at output scale 1:1,000"
+        ],
+        "source_constraints": {
+          "color_code": "7",
+          "component_dimensions_mm": {},
+          "instruction": "實測",
+          "line_code": "2",
+          "observed_color": "black",
+          "overall_height_mm": 2.5,
+          "overall_width_mm": 2.0
+        }
+      },
+      "type": "PortrayalRecipe"
+    },
+    {
+      "id": "portrayal-rule:doc01:9350906",
+      "properties": {
+        "activation_status": "non-executable",
+        "color_code": "7",
+        "evidence_record": "DOC01-P11-HYDRANT",
+        "feature_code": "9350906",
+        "feature_name": "消防栓",
+        "geometry_classes": [
+          "1"
+        ],
+        "geometry_role": "Point",
+        "id": "9350906",
+        "instruction": "實測",
+        "line_code": "2",
+        "mapping_status": "Document 09 has no confirmed ProductLayer/field binding for this Document 01 class; mapping must remain unresolved.",
+        "observed_color": "black",
+        "page": 11,
+        "production_stage": "地形測繪"
+      },
+      "type": "PortrayalRule"
+    },
+    {
+      "id": "product:observed-features",
+      "properties": {
+        "id": "observed-features",
+        "name": "地物向量與編碼"
+      },
+      "type": "ProductionArtifact"
+    },
+    {
+      "id": "quality-item:doc03-207",
+      "properties": {
+        "code": "207",
+        "evidence_record": "DOC03-P10-STEREO-MAPPING",
+        "id": "doc03-207",
+        "name": "立體測圖品質",
+        "validates": "stage:feature-survey"
+      },
+      "type": "QualityInspectionItem"
+    },
+    {
+      "id": "review-asset:doc01:fire-hydrant-v1",
+      "properties": {
+        "asset_role": "fixed-marker",
+        "path": "assets/symbols/nlsc112v5.4/review-candidates/fire-hydrant-v1.svg",
+        "preview_color_is_authoritative": false,
+        "status": "manual-transcription-candidate"
+      },
+      "type": "ReviewCandidateAsset"
+    },
+    {
+      "id": "section:doc01-portrayal:p11",
+      "properties": {
+        "page": 11,
+        "record_id": "DOC01-P11-HYDRANT",
+        "review_status": "source-row-and-symbol-cell-visually-verified",
+        "topic": "fixed-point-symbol-fire-hydrant"
+      },
+      "type": "DocumentSection"
+    },
+    {
+      "id": "stage:aerial-triangulation",
+      "properties": {
+        "id": "aerial-triangulation",
+        "name": "空中三角測量/平差",
+        "stage_type": "BlockAdjustment"
+      },
+      "type": "ProductionStage"
+    },
+    {
+      "id": "stage:contour-mapping",
+      "properties": {
+        "id": "contour-mapping",
+        "name": "等高線測繪",
+        "stage_type": "DerivedMapping"
+      },
+      "type": "ProductionStage"
+    },
+    {
+      "id": "stage:feature-survey",
+      "properties": {
+        "id": "feature-survey",
+        "name": "地物測繪/數值立體測圖",
+        "stage_type": "FeatureObservation"
+      },
+      "type": "ProductionStage"
+    },
+    {
+      "id": "stage:field-completion",
+      "properties": {
+        "id": "field-completion",
+        "name": "調繪補測",
+        "stage_type": "FieldVerification"
+      },
+      "type": "ProductionStage"
+    },
+    {
+      "id": "stage:vector-revision",
+      "properties": {
+        "id": "vector-revision",
+        "name": "向量圖資修測",
+        "stage_type": "FeatureUpdate"
+      },
+      "type": "ProductionStage"
+    },
+    {
+      "id": "symbol:doc01:fire-hydrant",
+      "properties": {
+        "anchor": "A magenta reference mark is visible inside the glyph cell; the row does not state numeric normalized coordinates.",
+        "component_dimensions_mm": {},
+        "construction": "upright rectangle containing the documented hydrant glyph",
+        "feature_following": false,
+        "id": "fire-hydrant",
+        "implementation_asset": "assets/symbols/nlsc112v5.4/fire-hydrant.svg",
+        "implementation_status": "visual comparison available; implementation vectors are not authoritative source geometry",
+        "label_rule": null,
+        "overall_height_mm": 2.5,
+        "overall_width_mm": 2.0,
+        "portrayal_type": "fixed-point-marker"
+      },
+      "type": "Symbol"
+    },
+    {
+      "id": "vector-primitive:doc01:9350906:01:outer-box",
+      "properties": {
+        "authority": "explicit-source",
+        "id": "outer-box",
+        "parameters": {
+          "color_ref": "color-code:7",
+          "fill": "none",
+          "height_mm": 2.5,
+          "stroke_ref": "line-code:2",
+          "width_mm": 2.0
+        },
+        "type": "rect"
+      },
+      "type": "VectorPrimitive"
+    },
+    {
+      "id": "vector-primitive:doc01:9350906:02:hydrant-glyph",
+      "properties": {
+        "authority": "manual-visual-transcription",
+        "id": "hydrant-glyph",
+        "parameters": {
+          "color_ref": "color-code:7",
+          "description": "documented 火-like hydrant glyph inside the box",
+          "stroke_ref": "line-code:2"
+        },
+        "type": "path"
+      },
+      "type": "VectorPrimitive"
+    },
+    {
+      "id": "workflow:tw-temap-vector-update",
+      "properties": {
+        "evidence_record": "DOC08-P7-VECTOR-REVISION",
+        "id": "tw-temap-vector-update",
+        "name": "臺灣通用電子地圖測製更新",
+        "scale_denominator": 5000
+      },
+      "type": "ProductionWorkflow"
+    },
+    {
+      "id": "workflow:tw-topo-1000-new-production",
+      "properties": {
+        "evidence_record": "DOC02-P5-WORKFLOW",
+        "id": "tw-topo-1000-new-production",
+        "name": "1:1,000 數值航測地形圖測製",
+        "scale_denominator": 1000
+      },
+      "type": "ProductionWorkflow"
+    },
+    {
+      "id": "workflow:tw-topo-5000-production-update",
+      "properties": {
+        "evidence_record": "DOC11-P2-WORKFLOW",
+        "id": "tw-topo-5000-production-update",
+        "name": "1:5,000 基本地形圖測製/修測",
+        "scale_denominator": 5000
+      },
+      "type": "ProductionWorkflow"
+    }
+  ],
+  "graph_paths": {
+    "edges": [
+      {
+        "source": "stage:aerial-triangulation",
+        "target": "stage:feature-survey",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "stage:vector-revision",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:aerial-triangulation",
+        "target": "stage:feature-survey",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "stage:field-completion",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:aerial-triangulation",
+        "target": "stage:feature-survey",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:contour-mapping",
+        "target": "stage:feature-survey",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "stage:field-completion",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "classification:doc01:9350906",
+        "target": "portrayal-rule:doc01:9350906",
+        "type": "PORTRAYED_BY"
+      },
+      {
+        "source": "document:doc01-portrayal",
+        "target": "section:doc01-portrayal:p11",
+        "type": "CONTAINS"
+      },
+      {
+        "source": "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+        "target": "portrayal-rule:doc01:9350906",
+        "type": "DEFINES"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "activation-gate:doc01:9350906:color-code-7-profile",
+        "type": "BLOCKED_BY"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "activation-gate:doc01:9350906:internal-glyph-trace",
+        "type": "BLOCKED_BY"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "activation-gate:doc01:9350906:line-code-2-metric",
+        "type": "BLOCKED_BY"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "portrayal-geometry:Point",
+        "type": "APPLIES_TO_GEOMETRY"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "portrayal-rule:doc01:9350906",
+        "type": "TRANSCRIBES_RULE"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "review-asset:doc01:fire-hydrant-v1",
+        "type": "HAS_REVIEW_ASSET"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "section:doc01-portrayal:p11",
+        "type": "EVIDENCED_ON"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "vector-primitive:doc01:9350906:01:outer-box",
+        "type": "COMPOSED_OF"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "vector-primitive:doc01:9350906:02:hydrant-glyph",
+        "type": "COMPOSED_OF"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "line-style:doc01:2",
+        "type": "USES_LINE_STYLE"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "portrayal-color:doc01:7",
+        "type": "USES_COLOR"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "portrayal-geometry:Point",
+        "type": "APPLIES_TO_GEOMETRY"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "section:doc01-portrayal:p11",
+        "type": "EVIDENCED_ON"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "stage:feature-survey",
+        "type": "PRODUCED_DURING"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "symbol:doc01:fire-hydrant",
+        "type": "USES_SYMBOL"
+      },
+      {
+        "source": "quality-item:doc03-207",
+        "target": "stage:feature-survey",
+        "type": "VALIDATES"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "concept:feature-concept",
+        "type": "OBSERVES"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "method:stereo-plotting",
+        "type": "USES_METHOD"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "product:observed-features",
+        "type": "PRODUCES"
+      },
+      {
+        "source": "symbol:doc01:fire-hydrant",
+        "target": "section:doc01-portrayal:p11",
+        "type": "DERIVED_FROM"
+      },
+      {
+        "source": "workflow:tw-temap-vector-update",
+        "target": "stage:feature-survey",
+        "type": "INCLUDES"
+      },
+      {
+        "source": "workflow:tw-topo-1000-new-production",
+        "target": "stage:feature-survey",
+        "type": "INCLUDES"
+      },
+      {
+        "source": "workflow:tw-topo-5000-production-update",
+        "target": "stage:feature-survey",
+        "type": "INCLUDES"
+      }
+    ],
+    "nodes": [
+      "activation-gate:doc01:9350906:color-code-7-profile",
+      "activation-gate:doc01:9350906:internal-glyph-trace",
+      "activation-gate:doc01:9350906:line-code-2-metric",
+      "classification:doc01:9350906",
+      "concept:feature-concept",
+      "document:doc01-portrayal",
+      "line-style:doc01:2",
+      "method:stereo-plotting",
+      "portrayal-color:doc01:7",
+      "portrayal-geometry:Point",
+      "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+      "portrayal-recipe:doc01:9350906:review-v1",
+      "portrayal-rule:doc01:9350906",
+      "product:observed-features",
+      "quality-item:doc03-207",
+      "review-asset:doc01:fire-hydrant-v1",
+      "section:doc01-portrayal:p11",
+      "stage:aerial-triangulation",
+      "stage:contour-mapping",
+      "stage:feature-survey",
+      "stage:field-completion",
+      "stage:vector-revision",
+      "symbol:doc01:fire-hydrant",
+      "vector-primitive:doc01:9350906:01:outer-box",
+      "vector-primitive:doc01:9350906:02:hydrant-glyph",
+      "workflow:tw-temap-vector-update",
+      "workflow:tw-topo-1000-new-production",
+      "workflow:tw-topo-5000-production-update"
+    ]
+  },
+  "missing_evidence": [],
+  "query": "Please prepare this fire hydrant feature for authoritative map production using the applicable national mapping rules.",
+  "resolved_entities": [
+    {
+      "id": "portrayal-rule:doc01:9350906",
+      "properties": {
+        "activation_status": "non-executable",
+        "color_code": "7",
+        "evidence_record": "DOC01-P11-HYDRANT",
+        "feature_code": "9350906",
+        "feature_name": "消防栓",
+        "geometry_classes": [
+          "1"
+        ],
+        "geometry_role": "Point",
+        "id": "9350906",
+        "instruction": "實測",
+        "line_code": "2",
+        "mapping_status": "Document 09 has no confirmed ProductLayer/field binding for this Document 01 class; mapping must remain unresolved.",
+        "observed_color": "black",
+        "page": 11,
+        "production_stage": "地形測繪"
+      },
+      "type": "PortrayalRule"
+    },
+    {
+      "id": "symbol:doc01:fire-hydrant",
+      "properties": {
+        "anchor": "A magenta reference mark is visible inside the glyph cell; the row does not state numeric normalized coordinates.",
+        "component_dimensions_mm": {},
+        "construction": "upright rectangle containing the documented hydrant glyph",
+        "feature_following": false,
+        "id": "fire-hydrant",
+        "implementation_asset": "assets/symbols/nlsc112v5.4/fire-hydrant.svg",
+        "implementation_status": "visual comparison available; implementation vectors are not authoritative source geometry",
+        "label_rule": null,
+        "overall_height_mm": 2.5,
+        "overall_width_mm": 2.0,
+        "portrayal_type": "fixed-point-marker"
+      },
+      "type": "Symbol"
+    }
+  ],
+  "retrieval_mode": "rq2-existing-ranked-search-plus-typed-canonical-expansion",
+  "retrieval_trace": {
+    "arbitrary_cypher_allowed": false,
+    "max_depth": 2,
+    "max_nodes": 100,
+    "product_field_scope_expanded": false,
+    "query_terms": [
+      "please prepare this fire hydrant feature for authoritative map production using the applicable national mapping rules.",
+      "authoritative",
+      "applicable",
+      "production",
+      "national",
+      "feature",
+      "hydrant",
+      "mapping",
+      "prepare",
+      "please",
+      "rules.",
+      "using",
+      "fire",
+      "this",
+      "for",
+      "map",
+      "the"
+    ],
+    "ranked_candidates": [
+      {
+        "id": "portrayal-rule:doc01:9350906",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "feature",
+          "hydrant",
+          "mapping",
+          "this",
+          "for",
+          "map"
+        ],
+        "score": 41,
+        "type": "PortrayalRule"
+      },
+      {
+        "id": "symbol:doc01:fire-hydrant",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "authoritative",
+          "feature",
+          "hydrant",
+          "fire",
+          "the"
+        ],
+        "score": 34,
+        "type": "Symbol"
+      },
+      {
+        "id": "portrayal-rule:doc01:9420801",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "feature",
+          "mapping",
+          "map"
+        ],
+        "score": 27,
+        "type": "PortrayalRule"
+      },
+      {
+        "id": "portrayal-rule:doc01:9740100",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "feature",
+          "mapping",
+          "map"
+        ],
+        "score": 27,
+        "type": "PortrayalRule"
+      },
+      {
+        "id": "portrayal-rule:doc01:9920103",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "feature",
+          "mapping",
+          "map"
+        ],
+        "score": 27,
+        "type": "PortrayalRule"
+      },
+      {
+        "id": "activation-gate:road:actual-road-classification-field-binding",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "authoritative",
+          "mapping",
+          "map",
+          "the"
+        ],
+        "score": 26,
+        "type": "ActivationGate"
+      },
+      {
+        "id": "review-asset:doc01:fire-hydrant-v1",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "authoritative",
+          "hydrant",
+          "fire"
+        ],
+        "score": 24,
+        "type": "ReviewCandidateAsset"
+      },
+      {
+        "id": "portrayal-recipe:doc01:9740100:review-v1",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "authoritative",
+          "feature",
+          "the"
+        ],
+        "score": 23,
+        "type": "PortrayalRecipe"
+      },
+      {
+        "id": "symbol:doc01:school-flag",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "authoritative",
+          "feature",
+          "the"
+        ],
+        "score": 23,
+        "type": "Symbol"
+      },
+      {
+        "id": "extraction-correction:doc01:9960204-alphanumeric-suffixes",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "authoritative",
+          "rules.",
+          "the"
+        ],
+        "score": 22,
+        "type": "ExtractionCorrectionObservation"
+      },
+      {
+        "id": "terrain-classification:doc02:9270100",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "national",
+          "for"
+        ],
+        "score": 21,
+        "type": "TerrainClassificationCode"
+      },
+      {
+        "id": "terrain-classification:doc02:9350906",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "hydrant",
+          "fire"
+        ],
+        "score": 21,
+        "type": "TerrainClassificationCode"
+      },
+      {
+        "id": "terrain-classification:doc02:9940111",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "national",
+          "for"
+        ],
+        "score": 21,
+        "type": "TerrainClassificationCode"
+      },
+      {
+        "id": "feature-type:temap-feature",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "feature",
+          "map"
+        ],
+        "score": 20,
+        "type": "AbstractFeatureType"
+      },
+      {
+        "id": "portrayal-recipe:doc01:9310100:review-v1",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "authoritative",
+          "feature"
+        ],
+        "score": 20,
+        "type": "PortrayalRecipe"
+      },
+      {
+        "id": "portrayal-rule:doc01:9020401",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "feature",
+          "the"
+        ],
+        "score": 20,
+        "type": "PortrayalRule"
+      },
+      {
+        "id": "portrayal-rule:doc01:9020402",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "feature",
+          "the"
+        ],
+        "score": 20,
+        "type": "PortrayalRule"
+      },
+      {
+        "id": "portrayal-rule:doc01:9020403",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "feature",
+          "the"
+        ],
+        "score": 20,
+        "type": "PortrayalRule"
+      },
+      {
+        "id": "portrayal-rule:doc01:9020404",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "feature",
+          "the"
+        ],
+        "score": 20,
+        "type": "PortrayalRule"
+      },
+      {
+        "id": "portrayal-rule:doc01:9030100",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "applicable",
+          "feature",
+          "the"
+        ],
+        "score": 20,
+        "type": "PortrayalRule"
+      },
+      {
+        "id": "portrayal-rule:doc01:9030200",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "applicable",
+          "feature",
+          "the"
+        ],
+        "score": 20,
+        "type": "PortrayalRule"
+      },
+      {
+        "id": "schema:temap-application-schema-v2",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "feature",
+          "map"
+        ],
+        "score": 20,
+        "type": "ApplicationSchema"
+      },
+      {
+        "id": "stage:contour-mapping",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "mapping",
+          "map"
+        ],
+        "score": 20,
+        "type": "ProductionStage"
+      },
+      {
+        "id": "terrain-classification:doc02:9020400",
+        "match_mode": "full-text",
+        "matched_terms": [
+          "production",
+          "mapping",
+          "map"
+        ],
+        "score": 20,
+        "type": "TerrainClassificationCode"
+      }
+    ],
+    "selected_seed_ids": [
+      "portrayal-rule:doc01:9350906",
+      "symbol:doc01:fire-hydrant"
+    ],
+    "selection_policy": "highest-ranked portrayal rule plus highest-ranked symbol",
+    "semantic_repair_allowed": false
+  },
+  "schema": "nma.evidence-package/0.4",
+  "source_documents": [
+    {
+      "document_date": "2024-02-28",
+      "filename": "01-一千分之一地形圖圖式規格表.pdf",
+      "pages": 83,
+      "revision": "NLSC112V5.4",
+      "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620"
+    }
+  ],
+  "source_sections": [
+    {
+      "page": 11,
+      "record_id": "DOC01-P11-HYDRANT",
+      "review_status": "source-row-and-symbol-cell-visually-verified",
+      "topic": "fixed-point-symbol-fire-hydrant"
+    }
+  ],
+  "status": "retrieved"
+}

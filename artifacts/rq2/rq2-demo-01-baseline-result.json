@@ -1,0 +1,2159 @@
+{
+  "architecture": "llm-only",
+  "constraint_results": {
+    "constraint_coverage": {
+      "ratio": null,
+      "represented": 0,
+      "required": 0
+    },
+    "constraint_preservation_after_execution": {
+      "applicable": 6,
+      "ratio": 0,
+      "satisfied": 0
+    },
+    "constraint_resolution_accuracy": {
+      "correct": 0,
+      "ratio": 0.0,
+      "resolvable": 5
+    },
+    "executability": "PASS",
+    "execution_success": "FAIL",
+    "postconditions_completeness": {
+      "ratio": 1.0,
+      "represented": 12,
+      "required": 12
+    },
+    "preconditions_completeness": {
+      "ratio": 1.0,
+      "represented": 10,
+      "required": 10
+    },
+    "semantic_checks": {
+      "classification": false,
+      "color_code": false,
+      "geometry": false,
+      "line_style": false,
+      "observed_color": false,
+      "product_layer_unresolved": true,
+      "source_authority": false
+    },
+    "semantic_plan_validity": "FAIL",
+    "unknown_or_forbidden_operations": 0,
+    "unresolved_knowledge_preservation": "PASS",
+    "verification_success": "FAIL"
+  },
+  "execution_decision": {
+    "execution_status": "PROCEED",
+    "reason_codes": [
+      "PLANNER_PROPOSED_EXECUTION",
+      "ALL_EXECUTION_CRITICAL_CONSTRAINTS_RESOLVED"
+    ]
+  },
+  "execution_result": {
+    "execution_latency_ms": 2,
+    "executor_version": "rq2-deterministic-gis-executor/1.0",
+    "mutation_started": false,
+    "precondition_gate": {
+      "critical_contradictions_absent": true,
+      "feature_read": true,
+      "geometry_compatible": false,
+      "output_absent": true,
+      "product_layer_unresolved": true,
+      "proposal_hash_valid": true,
+      "research_authorization_bound": true,
+      "source_authority_evidence_bound": false,
+      "source_hash_matches": true
+    },
+    "reason_codes": [
+      "PRECONDITION_FAILED"
+    ],
+    "status": "BLOCKED",
+    "tool_calls": [
+      {
+        "mutation": false,
+        "status": "PASS",
+        "step_id": "step:01-read-feature-001",
+        "tool": "rq2.feature.read/1.0"
+      },
+      {
+        "matched_evidence_refs": [],
+        "mutation": false,
+        "status": "FAIL",
+        "step_id": "step:02-validate-source-authority-001",
+        "tool": "rq2.source-authority.validate/1.0"
+      },
+      {
+        "mutation": false,
+        "observed_geometry_type": "Point",
+        "status": "FAIL",
+        "step_id": "step:03-validate-geometry-type-001",
+        "tool": "rq2.geometry.validate/1.0"
+      }
+    ]
+  },
+  "failure_taxonomy": [
+    "PRECONDITION_FAILED"
+  ],
+  "intent_identity": "intent:sha256:43ecf48e2cba205e0d77934ad1a7b3102c36d4d2259e26d8c16614c6a0b69cf8",
+  "knowledge": null,
+  "model": {
+    "architecture": "qwen2",
+    "context_window": 8192,
+    "identity": "ollama:qwen2.5:latest@sha256:845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e;7.6B;Q4_K_M;ctx=8192;out=2048;temperature=0",
+    "name": "qwen2.5:latest",
+    "observed": {
+      "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "digest_prefix": "845dbda0ea48",
+      "family": "qwen2",
+      "name": "qwen2.5:latest",
+      "parameter_size": "7.6B",
+      "quantization_level": "Q4_K_M"
+    },
+    "ollama_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "parameters": "7.6B",
+    "quantization": "Q4_K_M",
+    "reserved_output_tokens": 2048,
+    "runtime": "Ollama local",
+    "temperature": 0
+  },
+  "planner_trace": {
+    "context_budget": {
+      "available_input_tokens": 6144,
+      "budget_status": "PASS",
+      "context_window": 8192,
+      "estimator": "qwen-utf8-byte-estimate-plus-20pct-safety/1.0",
+      "fits": true,
+      "observed_input_margin": 4515,
+      "observed_prompt_tokens": 1629,
+      "observed_within_input_budget": true,
+      "prompt_token_estimate": 2842,
+      "remaining_input_margin": 3302,
+      "reserved_output_tokens": 2048,
+      "silent_truncation": false,
+      "truncation_expected": false
+    },
+    "latency_ms": 150612,
+    "model_id": "qwen2.5:latest",
+    "planner_identity": "rq2-provider-neutral-plan-composer/1.0",
+    "planning_latency_ms": 150624,
+    "provider": "ollama",
+    "raw_response_hash": "7788d9b4015b7a8a0dc741110eb920e450e51f428554b1d39528728a15df3f36",
+    "temperature": 0,
+    "usage": {
+      "input_tokens": 1629,
+      "output_tokens": 628
+    }
+  },
+  "proposal": {
+    "constraints": {
+      "contradicted": [],
+      "resolved": [],
+      "unresolved": []
+    },
+    "decision": {
+      "execution_status": "PROCEED",
+      "reason_codes": [
+        "PLANNER_PROPOSED_EXECUTION",
+        "ALL_EXECUTION_CRITICAL_CONSTRAINTS_RESOLVED"
+      ]
+    },
+    "expected_final_state": {
+      "derived_artifact": {
+        "authoritative_render": false,
+        "kind": "symbolic-fire-hydrant-research-feature",
+        "semantic_values": {
+          "classification": "fire_hydrant",
+          "color_code": null,
+          "geometry": "point",
+          "line_style": null,
+          "observed_color": null,
+          "product_layer": null,
+          "source_authority_handled": false
+        }
+      },
+      "source_unchanged": true,
+      "verification_required": true
+    },
+    "expected_postconditions": [
+      {
+        "condition_id": "postcondition:top:classification_exact",
+        "constraint_refs": [],
+        "expected_value": "fire_hydrant",
+        "predicate": "classification.equals",
+        "subject": "derived-feature",
+        "type": "attribute"
+      },
+      {
+        "condition_id": "postcondition:top:geometry_point_unchanged",
+        "constraint_refs": [],
+        "expected_value": "point",
+        "predicate": "geometry.equals_source",
+        "subject": "derived-feature.geometry",
+        "type": "geometry"
+      },
+      {
+        "condition_id": "postcondition:top:line_style_exact",
+        "constraint_refs": [],
+        "expected_value": null,
+        "predicate": "line_style.equals",
+        "subject": "derived-feature.portrayal",
+        "type": "attribute"
+      },
+      {
+        "condition_id": "postcondition:top:color_code_exact",
+        "constraint_refs": [],
+        "expected_value": null,
+        "predicate": "color_code.equals",
+        "subject": "derived-feature.portrayal",
+        "type": "attribute"
+      },
+      {
+        "condition_id": "postcondition:top:observed_color_exact",
+        "constraint_refs": [],
+        "expected_value": null,
+        "predicate": "observed_color.equals",
+        "subject": "derived-feature.portrayal",
+        "type": "attribute"
+      },
+      {
+        "condition_id": "postcondition:top:source_authority_evidence_bound",
+        "constraint_refs": [],
+        "expected_value": false,
+        "predicate": "source_authority.evidence_bound",
+        "subject": "derived-feature",
+        "type": "authority"
+      },
+      {
+        "condition_id": "postcondition:top:product_layer_unresolved",
+        "constraint_refs": [],
+        "expected_value": null,
+        "predicate": "product_layer.equals",
+        "subject": "derived-feature",
+        "type": "binding"
+      },
+      {
+        "condition_id": "postcondition:top:physical_gates_unresolved",
+        "constraint_refs": [],
+        "expected_value": true,
+        "predicate": "physical_portrayal_gates.unresolved",
+        "subject": "derived-feature",
+        "type": "binding"
+      },
+      {
+        "condition_id": "postcondition:top:operations_match_plan",
+        "constraint_refs": [],
+        "expected_value": true,
+        "predicate": "operations.match_plan",
+        "subject": "execution-receipt",
+        "type": "verification"
+      },
+      {
+        "condition_id": "postcondition:top:receipt_bound_to_proposal",
+        "constraint_refs": [],
+        "expected_value": true,
+        "predicate": "proposal_hash.bound",
+        "subject": "execution-receipt",
+        "type": "identity"
+      },
+      {
+        "condition_id": "postcondition:top:source_unchanged",
+        "constraint_refs": [],
+        "expected_value": true,
+        "predicate": "source_hash.unchanged",
+        "subject": "input-feature",
+        "type": "mutation"
+      },
+      {
+        "condition_id": "postcondition:top:declared_files_only",
+        "constraint_refs": [],
+        "expected_value": true,
+        "predicate": "unexpected_files.absent",
+        "subject": "isolated-output",
+        "type": "mutation"
+      }
+    ],
+    "intent": {
+      "intent_id": "intent:sha256:43ecf48e2cba205e0d77934ad1a7b3102c36d4d2259e26d8c16614c6a0b69cf8",
+      "normalized_goal": "Prepare the fire hydrant feature for authoritative map production using the applicable national mapping rules.",
+      "raw_text": "Please prepare this fire hydrant feature for authoritative map production using the applicable national mapping rules."
+    },
+    "knowledge": {
+      "evidence_refs": [],
+      "knowledge_snapshot_identity": null,
+      "mode": "none",
+      "retrieval_identity": null
+    },
+    "plan": [
+      {
+        "constraint_refs": [],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:01:classification_exact",
+            "constraint_refs": [],
+            "expected_value": "fire_hydrant",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:01:geometry_point_unchanged",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:01:line_style_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:01:color_code_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:01:observed_color_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:01:source_authority_evidence_bound",
+            "constraint_refs": [],
+            "expected_value": false,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:01:product_layer_unresolved",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:01:physical_gates_unresolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:01:operations_match_plan",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:01:receipt_bound_to_proposal",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:01:source_unchanged",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:01:declared_files_only",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          }
+        ],
+        "inputs": {
+          "artifact_identity": {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          },
+          "feature_selector": "hydrant-research-001"
+        },
+        "operation": "read_feature",
+        "preconditions": [
+          {
+            "condition_id": "precondition:01:input_identity_known",
+            "constraint_refs": [],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:01:source_readable_hash_matches",
+            "constraint_refs": [],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:01:critical_constraints_resolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:01:no_critical_contradictions",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:01:geometry_compatible",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:01:tool_allowlist_bound",
+            "constraint_refs": [],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:01:roots_disjoint",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:01:proposal_hash_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:01:research_authorization_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:01:unresolved_guards_bounded",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:01:knowledge_snapshot_known",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:01-read-feature-001",
+        "tool": "rq2.feature.read/1.0",
+        "trace_basis": [
+          "user_intent"
+        ]
+      },
+      {
+        "constraint_refs": [],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:02:classification_exact",
+            "constraint_refs": [],
+            "expected_value": "fire_hydrant",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:02:geometry_point_unchanged",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:02:line_style_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:02:color_code_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:02:observed_color_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:02:source_authority_evidence_bound",
+            "constraint_refs": [],
+            "expected_value": false,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:02:product_layer_unresolved",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:02:physical_gates_unresolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:02:operations_match_plan",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:02:receipt_bound_to_proposal",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:02:source_unchanged",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:02:declared_files_only",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          }
+        ],
+        "inputs": {
+          "evidence_refs": [],
+          "knowledge_snapshot_identity": null,
+          "source_identity": {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          }
+        },
+        "operation": "validate_source_authority",
+        "preconditions": [
+          {
+            "condition_id": "precondition:02:input_identity_known",
+            "constraint_refs": [],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:02:source_readable_hash_matches",
+            "constraint_refs": [],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:02:critical_constraints_resolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:02:no_critical_contradictions",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:02:geometry_compatible",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:02:tool_allowlist_bound",
+            "constraint_refs": [],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:02:roots_disjoint",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:02:proposal_hash_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:02:research_authorization_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:02:unresolved_guards_bounded",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:02:knowledge_snapshot_known",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:02-validate-source-authority-001",
+        "tool": "rq2.source-authority.validate/1.0",
+        "trace_basis": [
+          "knowledge_constraint"
+        ]
+      },
+      {
+        "constraint_refs": [],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:03:classification_exact",
+            "constraint_refs": [],
+            "expected_value": "fire_hydrant",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:03:geometry_point_unchanged",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:03:line_style_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:03:color_code_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:03:observed_color_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:03:source_authority_evidence_bound",
+            "constraint_refs": [],
+            "expected_value": false,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:03:product_layer_unresolved",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:03:physical_gates_unresolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:03:operations_match_plan",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:03:receipt_bound_to_proposal",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:03:source_unchanged",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:03:declared_files_only",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          }
+        ],
+        "inputs": {
+          "expected_geometry_type": "point",
+          "feature_snapshot_identity": {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          }
+        },
+        "operation": "validate_geometry_type",
+        "preconditions": [
+          {
+            "condition_id": "precondition:03:input_identity_known",
+            "constraint_refs": [],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:03:source_readable_hash_matches",
+            "constraint_refs": [],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:03:critical_constraints_resolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:03:no_critical_contradictions",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:03:geometry_compatible",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:03:tool_allowlist_bound",
+            "constraint_refs": [],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:03:roots_disjoint",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:03:proposal_hash_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:03:research_authorization_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:03:unresolved_guards_bounded",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:03:knowledge_snapshot_known",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:03-validate-geometry-type-001",
+        "tool": "rq2.geometry.validate/1.0",
+        "trace_basis": [
+          "knowledge_constraint"
+        ]
+      },
+      {
+        "constraint_refs": [],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:04:classification_exact",
+            "constraint_refs": [],
+            "expected_value": "fire_hydrant",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:04:geometry_point_unchanged",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:04:line_style_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:04:color_code_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:04:observed_color_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:04:source_authority_evidence_bound",
+            "constraint_refs": [],
+            "expected_value": false,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:04:product_layer_unresolved",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:04:physical_gates_unresolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:04:operations_match_plan",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:04:receipt_bound_to_proposal",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:04:source_unchanged",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:04:declared_files_only",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          }
+        ],
+        "inputs": {
+          "feature_snapshot_identity": {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          },
+          "resolved_constraint_values": {
+            "classification": "fire_hydrant",
+            "color_code": null,
+            "geometry": "point",
+            "line_style": null,
+            "observed_color": null,
+            "product_layer": null,
+            "source_authority_handled": false
+          }
+        },
+        "operation": "derive_target_representation",
+        "preconditions": [
+          {
+            "condition_id": "precondition:04:input_identity_known",
+            "constraint_refs": [],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:04:source_readable_hash_matches",
+            "constraint_refs": [],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:04:critical_constraints_resolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:04:no_critical_contradictions",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:04:geometry_compatible",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:04:tool_allowlist_bound",
+            "constraint_refs": [],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:04:roots_disjoint",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:04:proposal_hash_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:04:research_authorization_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:04:unresolved_guards_bounded",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:04:knowledge_snapshot_known",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:04-derive-target-representation-001",
+        "tool": "rq2.representation.derive/1.0",
+        "trace_basis": [
+          "user_intent"
+        ]
+      },
+      {
+        "constraint_refs": [],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:05:classification_exact",
+            "constraint_refs": [],
+            "expected_value": "fire_hydrant",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:05:geometry_point_unchanged",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:05:line_style_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:05:color_code_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:05:observed_color_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:05:source_authority_evidence_bound",
+            "constraint_refs": [],
+            "expected_value": false,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:05:product_layer_unresolved",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:05:physical_gates_unresolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:05:operations_match_plan",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:05:receipt_bound_to_proposal",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:05:source_unchanged",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:05:declared_files_only",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          }
+        ],
+        "inputs": {
+          "derived_representation_identity": {
+            "id": "in-memory-representation:rq2-run:llm-only:a57db21edcd0b1fce8724f95",
+            "sha256": "597396029b9f0bc8a5661bf325b085e16bc4f3244798bf23af14d994ed098835"
+          },
+          "isolated_output_identity": "isolated-output:rq2-run:llm-only:a57db21edcd0b1fce8724f95"
+        },
+        "operation": "write_derived_artifact",
+        "preconditions": [
+          {
+            "condition_id": "precondition:05:input_identity_known",
+            "constraint_refs": [],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:05:source_readable_hash_matches",
+            "constraint_refs": [],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:05:critical_constraints_resolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:05:no_critical_contradictions",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:05:geometry_compatible",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:05:tool_allowlist_bound",
+            "constraint_refs": [],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:05:roots_disjoint",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:05:proposal_hash_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:05:research_authorization_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:05:unresolved_guards_bounded",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:05:knowledge_snapshot_known",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:05-write-derived-artifact-001",
+        "tool": "rq2.artifact.write-derived/1.0",
+        "trace_basis": [
+          "user_intent"
+        ]
+      },
+      {
+        "constraint_refs": [],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:06:classification_exact",
+            "constraint_refs": [],
+            "expected_value": "fire_hydrant",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:06:geometry_point_unchanged",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:06:line_style_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:06:color_code_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:06:observed_color_exact",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:06:source_authority_evidence_bound",
+            "constraint_refs": [],
+            "expected_value": false,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:06:product_layer_unresolved",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:06:physical_gates_unresolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:06:operations_match_plan",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:06:receipt_bound_to_proposal",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:06:source_unchanged",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:06:declared_files_only",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          }
+        ],
+        "inputs": {
+          "execution_receipt_identity": "execution-receipt:rq2-run:llm-only:a57db21edcd0b1fce8724f95",
+          "expected_postconditions": [
+            "classification_exact",
+            "geometry_point_unchanged",
+            "line_style_exact",
+            "color_code_exact",
+            "observed_color_exact",
+            "source_authority_evidence_bound",
+            "product_layer_unresolved",
+            "physical_gates_unresolved",
+            "operations_match_plan",
+            "receipt_bound_to_proposal",
+            "source_unchanged",
+            "declared_files_only"
+          ],
+          "proposal_hash": "bind:top-level-proposal_hash"
+        },
+        "operation": "verify_postconditions",
+        "preconditions": [
+          {
+            "condition_id": "precondition:06:input_identity_known",
+            "constraint_refs": [],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:06:source_readable_hash_matches",
+            "constraint_refs": [],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:06:critical_constraints_resolved",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:06:no_critical_contradictions",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:06:geometry_compatible",
+            "constraint_refs": [],
+            "expected_value": "point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:06:tool_allowlist_bound",
+            "constraint_refs": [],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:06:roots_disjoint",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:06:proposal_hash_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:06:research_authorization_valid",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:06:unresolved_guards_bounded",
+            "constraint_refs": [],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:06:knowledge_snapshot_known",
+            "constraint_refs": [],
+            "expected_value": null,
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:06-verify-postconditions-001",
+        "tool": "rq2.postconditions.verify/1.0",
+        "trace_basis": [
+          "user_intent"
+        ]
+      }
+    ],
+    "proposal_hash": "2d045e229258703a4d24b9ee7b7562e9828b50b6563a921856bd893e9abc9e94",
+    "proposal_id": "rq2-proposal:llm-only:a57db21edcd0b1fce8724f95",
+    "proposal_version": "rq2-proposal/1.0",
+    "provenance_seed": {
+      "constraint_ids": [],
+      "created_at": "2026-08-28T06:00:00Z",
+      "evidence_refs": [],
+      "input_feature_identities": [
+        {
+          "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+          "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+        }
+      ],
+      "intent_id": "intent:sha256:43ecf48e2cba205e0d77934ad1a7b3102c36d4d2259e26d8c16614c6a0b69cf8",
+      "knowledge_snapshot_identity": null,
+      "model_identity": "ollama:qwen2.5:latest@sha256:845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e;7.6B;Q4_K_M;ctx=8192;out=2048;temperature=0",
+      "plan_identity": "fac8d34ba61b0b614c44571054e059c7c486c067a461a0114cd799edc8be6e1c",
+      "planner_identity": "rq2-provider-neutral-plan-composer/1.0",
+      "proposal_id": "rq2-proposal:llm-only:a57db21edcd0b1fce8724f95",
+      "run_identity": "rq2-run:llm-only:a57db21edcd0b1fce8724f95",
+      "tool_allowlist_sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+      "tool_allowlist_version": "rq2-tool-allowlist/1.0",
+      "validator_version": "rq2-plan-validator/1.0"
+    },
+    "required_authorizations": [
+      {
+        "authorization_type": "research-derived-artifact-execution",
+        "bound_proposal_hash": "2d045e229258703a4d24b9ee7b7562e9828b50b6563a921856bd893e9abc9e94",
+        "required_before_step": "step:05-write-derived-artifact-001",
+        "scope": "one content-addressed fixture; isolated derived output; no source mutation; no authoritative render"
+      }
+    ]
+  },
+  "proposal_hash": "2d045e229258703a4d24b9ee7b7562e9828b50b6563a921856bd893e9abc9e94",
+  "proposal_id": "rq2-proposal:llm-only:a57db21edcd0b1fce8724f95",
+  "raw_planner_draft": {
+    "constraint_refs": [],
+    "execution_status": "PROCEED",
+    "expected_postcondition_ids": [
+      "classification_exact",
+      "geometry_point_unchanged",
+      "line_style_exact",
+      "color_code_exact",
+      "observed_color_exact",
+      "source_authority_evidence_bound",
+      "product_layer_unresolved",
+      "physical_gates_unresolved",
+      "operations_match_plan",
+      "receipt_bound_to_proposal",
+      "source_unchanged",
+      "declared_files_only"
+    ],
+    "normalized_goal": "Prepare the fire hydrant feature for authoritative map production using the applicable national mapping rules.",
+    "precondition_ids": [
+      "input_identity_known",
+      "source_readable_hash_matches",
+      "critical_constraints_resolved",
+      "no_critical_contradictions",
+      "geometry_compatible",
+      "tool_allowlist_bound",
+      "roots_disjoint",
+      "proposal_hash_valid",
+      "research_authorization_valid",
+      "unresolved_guards_bounded",
+      "knowledge_snapshot_known"
+    ],
+    "reason_codes": [
+      "PLANNER_PROPOSED_EXECUTION",
+      "ALL_EXECUTION_CRITICAL_CONSTRAINTS_RESOLVED"
+    ],
+    "semantic_values": {
+      "classification": "fire_hydrant",
+      "color_code": null,
+      "geometry": "point",
+      "line_style": null,
+      "observed_color": null,
+      "product_layer": null,
+      "source_authority_handled": false
+    },
+    "steps": [
+      {
+        "operation": "read_feature",
+        "step_id": "read_feature_001",
+        "tool": "rq2.feature.read/1.0",
+        "trace_basis": [
+          "user_intent"
+        ]
+      },
+      {
+        "operation": "validate_source_authority",
+        "step_id": "validate_source_authority_001",
+        "tool": "rq2.source-authority.validate/1.0",
+        "trace_basis": [
+          "knowledge_constraint"
+        ]
+      },
+      {
+        "operation": "validate_geometry_type",
+        "step_id": "validate_geometry_type_001",
+        "tool": "rq2.geometry.validate/1.0",
+        "trace_basis": [
+          "knowledge_constraint"
+        ]
+      },
+      {
+        "operation": "derive_target_representation",
+        "step_id": "derive_target_representation_001",
+        "tool": "rq2.representation.derive/1.0",
+        "trace_basis": [
+          "user_intent"
+        ]
+      },
+      {
+        "operation": "write_derived_artifact",
+        "step_id": "write_derived_artifact_001",
+        "tool": "rq2.artifact.write-derived/1.0",
+        "trace_basis": [
+          "user_intent"
+        ]
+      },
+      {
+        "operation": "verify_postconditions",
+        "step_id": "verify_postconditions_001",
+        "tool": "rq2.postconditions.verify/1.0",
+        "trace_basis": [
+          "user_intent"
+        ]
+      }
+    ]
+  },
+  "run_id": "rq2-run:llm-only:a57db21edcd0b1fce8724f95",
+  "schema": "nma.rq2-demo-01-run/1.0",
+  "timing": {
+    "execution_latency_ms": 2,
+    "generation_latency_ms": 150612,
+    "planning_latency_ms": 150624,
+    "retrieval_latency_ms": 0,
+    "total_latency_ms": 150836,
+    "verification_latency_ms": 0
+  },
+  "tokens": {
+    "completion_tokens": 628,
+    "context_window": 8192,
+    "output_token_budget": 2048,
+    "prompt_tokens": 1629,
+    "remaining_context_margin": 4515
+  },
+  "tool_calls": [
+    {
+      "mutation": false,
+      "status": "PASS",
+      "step_id": "step:01-read-feature-001",
+      "tool": "rq2.feature.read/1.0"
+    },
+    {
+      "matched_evidence_refs": [],
+      "mutation": false,
+      "status": "FAIL",
+      "step_id": "step:02-validate-source-authority-001",
+      "tool": "rq2.source-authority.validate/1.0"
+    },
+    {
+      "mutation": false,
+      "observed_geometry_type": "Point",
+      "status": "FAIL",
+      "step_id": "step:03-validate-geometry-type-001",
+      "tool": "rq2.geometry.validate/1.0"
+    }
+  ],
+  "validator_result": {
+    "checks": [
+      {
+        "expected": "valid rq2-proposal/1.0",
+        "failure_code": null,
+        "observed": "valid",
+        "rule_id": "V01_SCHEMA",
+        "status": "PASS"
+      },
+      {
+        "expected": "2d045e229258703a4d24b9ee7b7562e9828b50b6563a921856bd893e9abc9e94",
+        "failure_code": null,
+        "observed": "2d045e229258703a4d24b9ee7b7562e9828b50b6563a921856bd893e9abc9e94",
+        "rule_id": "V02_PROPOSAL_HASH",
+        "status": "PASS"
+      },
+      {
+        "expected": "intent:sha256:43ecf48e2cba205e0d77934ad1a7b3102c36d4d2259e26d8c16614c6a0b69cf8",
+        "failure_code": null,
+        "observed": "intent:sha256:43ecf48e2cba205e0d77934ad1a7b3102c36d4d2259e26d8c16614c6a0b69cf8",
+        "rule_id": "V02_INTENT_ID",
+        "status": "PASS"
+      },
+      {
+        "expected": "fac8d34ba61b0b614c44571054e059c7c486c067a461a0114cd799edc8be6e1c",
+        "failure_code": null,
+        "observed": "fac8d34ba61b0b614c44571054e059c7c486c067a461a0114cd799edc8be6e1c",
+        "rule_id": "V02_PLAN_IDENTITY",
+        "status": "PASS"
+      },
+      {
+        "expected": "unique step, condition, and constraint identities",
+        "failure_code": null,
+        "observed": {
+          "conditions": [
+            "precondition:01:input_identity_known",
+            "precondition:01:source_readable_hash_matches",
+            "precondition:01:critical_constraints_resolved",
+            "precondition:01:no_critical_contradictions",
+            "precondition:01:geometry_compatible",
+            "precondition:01:tool_allowlist_bound",
+            "precondition:01:roots_disjoint",
+            "precondition:01:proposal_hash_valid",
+            "precondition:01:research_authorization_valid",
+            "precondition:01:unresolved_guards_bounded",
+            "precondition:01:knowledge_snapshot_known",
+            "postcondition:01:classification_exact",
+            "postcondition:01:geometry_point_unchanged",
+            "postcondition:01:line_style_exact",
+            "postcondition:01:color_code_exact",
+            "postcondition:01:observed_color_exact",
+            "postcondition:01:source_authority_evidence_bound",
+            "postcondition:01:product_layer_unresolved",
+            "postcondition:01:physical_gates_unresolved",
+            "postcondition:01:operations_match_plan",
+            "postcondition:01:receipt_bound_to_proposal",
+            "postcondition:01:source_unchanged",
+            "postcondition:01:declared_files_only",
+            "precondition:02:input_identity_known",
+            "precondition:02:source_readable_hash_matches",
+            "precondition:02:critical_constraints_resolved",
+            "precondition:02:no_critical_contradictions",
+            "precondition:02:geometry_compatible",
+            "precondition:02:tool_allowlist_bound",
+            "precondition:02:roots_disjoint",
+            "precondition:02:proposal_hash_valid",
+            "precondition:02:research_authorization_valid",
+            "precondition:02:unresolved_guards_bounded",
+            "precondition:02:knowledge_snapshot_known",
+            "postcondition:02:classification_exact",
+            "postcondition:02:geometry_point_unchanged",
+            "postcondition:02:line_style_exact",
+            "postcondition:02:color_code_exact",
+            "postcondition:02:observed_color_exact",
+            "postcondition:02:source_authority_evidence_bound",
+            "postcondition:02:product_layer_unresolved",
+            "postcondition:02:physical_gates_unresolved",
+            "postcondition:02:operations_match_plan",
+            "postcondition:02:receipt_bound_to_proposal",
+            "postcondition:02:source_unchanged",
+            "postcondition:02:declared_files_only",
+            "precondition:03:input_identity_known",
+            "precondition:03:source_readable_hash_matches",
+            "precondition:03:critical_constraints_resolved",
+            "precondition:03:no_critical_contradictions",
+            "precondition:03:geometry_compatible",
+            "precondition:03:tool_allowlist_bound",
+            "precondition:03:roots_disjoint",
+            "precondition:03:proposal_hash_valid",
+            "precondition:03:research_authorization_valid",
+            "precondition:03:unresolved_guards_bounded",
+            "precondition:03:knowledge_snapshot_known",
+            "postcondition:03:classification_exact",
+            "postcondition:03:geometry_point_unchanged",
+            "postcondition:03:line_style_exact",
+            "postcondition:03:color_code_exact",
+            "postcondition:03:observed_color_exact",
+            "postcondition:03:source_authority_evidence_bound",
+            "postcondition:03:product_layer_unresolved",
+            "postcondition:03:physical_gates_unresolved",
+            "postcondition:03:operations_match_plan",
+            "postcondition:03:receipt_bound_to_proposal",
+            "postcondition:03:source_unchanged",
+            "postcondition:03:declared_files_only",
+            "precondition:04:input_identity_known",
+            "precondition:04:source_readable_hash_matches",
+            "precondition:04:critical_constraints_resolved",
+            "precondition:04:no_critical_contradictions",
+            "precondition:04:geometry_compatible",
+            "precondition:04:tool_allowlist_bound",
+            "precondition:04:roots_disjoint",
+            "precondition:04:proposal_hash_valid",
+            "precondition:04:research_authorization_valid",
+            "precondition:04:unresolved_guards_bounded",
+            "precondition:04:knowledge_snapshot_known",
+            "postcondition:04:classification_exact",
+            "postcondition:04:geometry_point_unchanged",
+            "postcondition:04:line_style_exact",
+            "postcondition:04:color_code_exact",
+            "postcondition:04:observed_color_exact",
+            "postcondition:04:source_authority_evidence_bound",
+            "postcondition:04:product_layer_unresolved",
+            "postcondition:04:physical_gates_unresolved",
+            "postcondition:04:operations_match_plan",
+            "postcondition:04:receipt_bound_to_proposal",
+            "postcondition:04:source_unchanged",
+            "postcondition:04:declared_files_only",
+            "precondition:05:input_identity_known",
+            "precondition:05:source_readable_hash_matches",
+            "precondition:05:critical_constraints_resolved",
+            "precondition:05:no_critical_contradictions",
+            "precondition:05:geometry_compatible",
+            "precondition:05:tool_allowlist_bound",
+            "precondition:05:roots_disjoint",
+            "precondition:05:proposal_hash_valid",
+            "precondition:05:research_authorization_valid",
+            "precondition:05:unresolved_guards_bounded",
+            "precondition:05:knowledge_snapshot_known",
+            "postcondition:05:classification_exact",
+            "postcondition:05:geometry_point_unchanged",
+            "postcondition:05:line_style_exact",
+            "postcondition:05:color_code_exact",
+            "postcondition:05:observed_color_exact",
+            "postcondition:05:source_authority_evidence_bound",
+            "postcondition:05:product_layer_unresolved",
+            "postcondition:05:physical_gates_unresolved",
+            "postcondition:05:operations_match_plan",
+            "postcondition:05:receipt_bound_to_proposal",
+            "postcondition:05:source_unchanged",
+            "postcondition:05:declared_files_only",
+            "precondition:06:input_identity_known",
+            "precondition:06:source_readable_hash_matches",
+            "precondition:06:critical_constraints_resolved",
+            "precondition:06:no_critical_contradictions",
+            "precondition:06:geometry_compatible",
+            "precondition:06:tool_allowlist_bound",
+            "precondition:06:roots_disjoint",
+            "precondition:06:proposal_hash_valid",
+            "precondition:06:research_authorization_valid",
+            "precondition:06:unresolved_guards_bounded",
+            "precondition:06:knowledge_snapshot_known",
+            "postcondition:06:classification_exact",
+            "postcondition:06:geometry_point_unchanged",
+            "postcondition:06:line_style_exact",
+            "postcondition:06:color_code_exact",
+            "postcondition:06:observed_color_exact",
+            "postcondition:06:source_authority_evidence_bound",
+            "postcondition:06:product_layer_unresolved",
+            "postcondition:06:physical_gates_unresolved",
+            "postcondition:06:operations_match_plan",
+            "postcondition:06:receipt_bound_to_proposal",
+            "postcondition:06:source_unchanged",
+            "postcondition:06:declared_files_only"
+          ],
+          "constraints": [],
+          "steps": [
+            "step:01-read-feature-001",
+            "step:02-validate-source-authority-001",
+            "step:03-validate-geometry-type-001",
+            "step:04-derive-target-representation-001",
+            "step:05-write-derived-artifact-001",
+            "step:06-verify-postconditions-001"
+          ]
+        },
+        "rule_id": "V03_UNIQUE_IDENTITIES",
+        "status": "PASS"
+      },
+      {
+        "expected": "constraint array matches resolution_status",
+        "failure_code": null,
+        "observed": true,
+        "rule_id": "V04_CONSTRAINT_PLACEMENT",
+        "status": "PASS"
+      },
+      {
+        "expected": "no evidence, knowledge identities, or constraints",
+        "failure_code": null,
+        "observed": {
+          "evidence_refs": [],
+          "knowledge_snapshot_identity": null,
+          "mode": "none",
+          "retrieval_identity": null
+        },
+        "rule_id": "V05_BASELINE_ISOLATION",
+        "status": "PASS"
+      },
+      {
+        "expected": "f4090deb4b376659799d0e5b2bc75edefffbc0d0ad958948fdb4d02651cc01c2",
+        "failure_code": null,
+        "observed": "f4090deb4b376659799d0e5b2bc75edefffbc0d0ad958948fdb4d02651cc01c2",
+        "rule_id": "V06_CONSTRAINT_EVIDENCE_CONSISTENCY",
+        "status": "PASS"
+      },
+      {
+        "expected": "references resolve to declared constraints",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V07_CONSTRAINT_REFERENCES",
+        "status": "PASS"
+      },
+      {
+        "expected": [],
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V08_REQUIRED_CONSTRAINT_COVERAGE",
+        "status": "PASS"
+      },
+      {
+        "expected": "exact allowlisted operation/tool bindings",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V09_TOOL_ALLOWLIST",
+        "status": "PASS"
+      },
+      {
+        "expected": "no shell, unrestricted Python, network, or direct endpoint",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V09_FORBIDDEN_OPERATIONS",
+        "status": "PASS"
+      },
+      {
+        "expected": "only registered fixture/snapshot identities",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V10_INPUT_IDENTITIES",
+        "status": "PASS"
+      },
+      {
+        "expected": [
+          "critical_constraints_resolved",
+          "geometry_compatible",
+          "input_identity_known",
+          "no_critical_contradictions",
+          "proposal_hash_valid",
+          "research_authorization_valid",
+          "roots_disjoint",
+          "source_readable_hash_matches",
+          "tool_allowlist_bound",
+          "unresolved_guards_bounded"
+        ],
+        "failure_code": null,
+        "observed": [
+          "critical_constraints_resolved",
+          "geometry_compatible",
+          "input_identity_known",
+          "knowledge_snapshot_known",
+          "no_critical_contradictions",
+          "proposal_hash_valid",
+          "research_authorization_valid",
+          "roots_disjoint",
+          "source_readable_hash_matches",
+          "tool_allowlist_bound",
+          "unresolved_guards_bounded"
+        ],
+        "rule_id": "V11_PRECONDITIONS",
+        "status": "PASS"
+      },
+      {
+        "expected": [
+          "classification_exact",
+          "geometry_point_unchanged",
+          "line_style_exact",
+          "color_code_exact",
+          "observed_color_exact",
+          "source_authority_evidence_bound",
+          "product_layer_unresolved",
+          "physical_gates_unresolved",
+          "operations_match_plan",
+          "receipt_bound_to_proposal",
+          "source_unchanged",
+          "declared_files_only"
+        ],
+        "failure_code": null,
+        "observed": [
+          "classification_exact",
+          "color_code_exact",
+          "declared_files_only",
+          "geometry_point_unchanged",
+          "line_style_exact",
+          "observed_color_exact",
+          "operations_match_plan",
+          "physical_gates_unresolved",
+          "product_layer_unresolved",
+          "receipt_bound_to_proposal",
+          "source_authority_evidence_bound",
+          "source_unchanged"
+        ],
+        "rule_id": "V12_POSTCONDITIONS",
+        "status": "PASS"
+      },
+      {
+        "expected": "truthful trace basis for every step",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V13_TRACE_BASIS",
+        "status": "PASS"
+      },
+      {
+        "expected": null,
+        "failure_code": null,
+        "observed": null,
+        "rule_id": "V14_UNRESOLVED_BINDING",
+        "status": "PASS"
+      },
+      {
+        "expected": "no render while physical gates remain unresolved",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V15_MUTATION_AND_RENDER_BOUNDARY",
+        "status": "PASS"
+      },
+      {
+        "expected": "PROCEED",
+        "failure_code": null,
+        "observed": "PROCEED",
+        "rule_id": "V16_DECISION",
+        "status": "PASS"
+      },
+      {
+        "expected": "empty executable plan for BLOCK",
+        "failure_code": null,
+        "observed": 6,
+        "rule_id": "V17_BLOCK_HAS_NO_PLAN",
+        "status": "PASS"
+      },
+      {
+        "expected": "proposal-hash-bound declaration gates a real write step",
+        "failure_code": null,
+        "observed": [
+          {
+            "authorization_type": "research-derived-artifact-execution",
+            "bound_proposal_hash": "2d045e229258703a4d24b9ee7b7562e9828b50b6563a921856bd893e9abc9e94",
+            "required_before_step": "step:05-write-derived-artifact-001",
+            "scope": "one content-addressed fixture; isolated derived output; no source mutation; no authoritative render"
+          }
+        ],
+        "rule_id": "V18_AUTHORIZATION_DECLARATIONS",
+        "status": "PASS"
+      }
+    ],
+    "failure_taxonomy": [],
+    "model_calls": 0,
+    "status": "PASS",
+    "validator_version": "rq2-plan-validator/1.0"
+  },
+  "verification_result": {
+    "checks": [],
+    "failure_taxonomy": [],
+    "model_calls": 0,
+    "status": "N/A",
+    "verification_latency_ms": 0,
+    "verifier_version": "rq2-postcondition-verifier/1.0"
+  }
+}

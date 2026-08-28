@@ -1,0 +1,14 @@
+{
+  "architecture": "llm-only",
+  "attempt_id": "rq2-demo-01-attempt-02",
+  "failure_stage": "planner_draft_validation",
+  "failure_taxonomy": ["PLAN_SCHEMA_INVALID"],
+  "model": "qwen2.5:latest",
+  "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+  "mutation_started": false,
+  "observed": "The completed compact draft emitted more than eight reason codes and was rejected by a transient draft-only cap that is absent from rq2-proposal/1.0.",
+  "planner_output_persisted": false,
+  "proposal_created": false,
+  "retry_disposition": "Preserved as failed attempt; the non-normative draft cap was aligned with the final proposal schema without changing planning semantics or any model output.",
+  "schema": "nma.rq2-demo-01-failed-attempt/1.0"
+}
