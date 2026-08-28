@@ -1,0 +1,25 @@
+flowchart TB
+  classDef probabilistic fill:#fff3cd,stroke:#9a6700,color:#3d2d00
+  classDef knowledge fill:#dbeafe,stroke:#2563eb,color:#172554
+  classDef deterministic fill:#dcfce7,stroke:#15803d,color:#052e16
+  classDef shell fill:#f3f4f6,stroke:#4b5563,color:#111827
+
+  Browser["GitHub Pages / offline static shell<br/>MapLibre + frozen canonical bundle"]:::shell
+  API["Cloud Run CPU<br/>NMA Demo API / orchestration<br/>allowlisted canonical scenario only"]:::shell
+  Snapshot["Frozen KG snapshot<br/>canonical JSON / bounded public derivative"]:::knowledge
+  Neo4j["Optional live graph database<br/>same frozen semantics"]:::knowledge
+  GPU["Cloud Run GPU<br/>Ollama + qwen2.5:latest<br/>digest 845dbda0…b697e"]:::probabilistic
+  Trust["Deterministic trust stack<br/>constraint resolver → validator → authorization<br/>execution → verification → provenance → audit"]:::deterministic
+  Result["Research result<br/>ACCEPT or FAIL CLOSED"]:::deterministic
+
+  Browser -->|"HTTPS; mode + scenario + allowlisted action"| API
+  API --> Snapshot
+  API -. "optional; fail to snapshot" .-> Neo4j
+  API -->|"private authenticated HTTPS"| GPU
+  Snapshot --> Trust
+  Neo4j -.-> Trust
+  GPU --> Trust
+  Trust --> Result
+  Result --> Browser
+
+  Browser -. "backend unavailable: canonical replay" .-> Snapshot
