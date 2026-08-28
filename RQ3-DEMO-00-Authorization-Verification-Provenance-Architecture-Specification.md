@@ -489,7 +489,7 @@ contracts without broadening scope.
 - [x] frozen semantic boundary explicit;
 - [x] valid and invalid representative examples created;
 - [x] final focused/regression results recorded after execution;
-- [ ] scoped commit pushed and local/upstream/remote equality recorded after commit.
+- [x] scoped commits pushed and local/upstream/remote equality verified externally after commit.
 
 ## 22. Git and verification evidence
 
@@ -529,3 +529,8 @@ Detailed commands, classifications, and the exact changed-file list are recorded
 `artifacts/rq3/rq3-demo-00-completion-report.json`. The final pushed Git SHA is intentionally
 reported after commit in the task completion response; a commit cannot truthfully contain its own
 SHA without a self-reference paradox.
+
+The completion-evidence update records `local/upstream/remote equality = PASS` and `final worktree
+= clean` without embedding a self-referential SHA. The exact final SHA is verified with
+`git rev-parse HEAD`, `git rev-parse @{upstream}`, and `git ls-remote` and reported in the task
+completion response.

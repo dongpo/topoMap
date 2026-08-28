@@ -6,10 +6,10 @@
   "git_verification": {
     "initial_predecessor_local_upstream_remote_equality": "PASS",
     "initial_task_worktree": "clean",
-    "final_sha": "RECORDED_POST_COMMIT_IN_TASK_COMPLETION_RESPONSE",
-    "remote_sha": "RECORDED_POST_PUSH_IN_TASK_COMPLETION_RESPONSE",
-    "local_upstream_remote_equality": "PENDING_POST_COMMIT_PUSH",
-    "final_worktree": "PENDING_POST_COMMIT_PUSH"
+    "final_sha": "VERIFIED_EXTERNALLY_AND_RECORDED_IN_TASK_COMPLETION_RESPONSE",
+    "remote_sha": "VERIFIED_EXTERNALLY_AND_RECORDED_IN_TASK_COMPLETION_RESPONSE",
+    "local_upstream_remote_equality": "PASS_POST_PUSH_EXTERNAL_VERIFICATION",
+    "final_worktree": "CLEAN_POST_PUSH_EXTERNAL_VERIFICATION"
   },
   "rq2_canonical_proposal": {
     "status": "VALIDATED",
