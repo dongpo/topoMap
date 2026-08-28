@@ -1,0 +1,188 @@
+{
+  "schema_version": "demo-public-00-evidence-manifest/1.0",
+  "demo_id": "DEMO-PUBLIC-00",
+  "research_freeze_sha": "8411cad14a16d8ce1b8b23ab0f1be1e8b4bc1a4b",
+  "research_predecessor_sha": "3fed8fb77e759d004a7b91b23d933d41d8f70225",
+  "rq_final_manifest_hash": "bcce87599254b18a0628f4b756ff0e668ef55f24f6862227f610686a098dc913",
+  "rq_final_manifest": {
+    "path": "artifacts/research/rq-final-00-freeze-manifest.json",
+    "sha256": "bcce87599254b18a0628f4b756ff0e668ef55f24f6862227f610686a098dc913"
+  },
+  "research_closure": [
+    {
+      "path": "artifacts/research/rq-final-00-hypothesis-evidence-matrix.json",
+      "sha256": "3722ce8b2a10c3676e982462ef22b13f044bc543ac6770e263f98b7a499632b3"
+    },
+    {
+      "path": "artifacts/research/rq-final-00-integrated-architecture.json",
+      "sha256": "11624b18d2776e21d6f4ea8912206dcd9bb338e6f3e43ce136fd7ff747eab711"
+    },
+    {
+      "path": "artifacts/research/rq-final-00-claim-boundaries.json",
+      "sha256": "4bc965c5987d96b194205f30c25b455aae2f6c0468d851e21c6a9d886fc2df00"
+    }
+  ],
+  "rq1_evidence": [
+    {
+      "path": "data/evaluation/rq1-compare-01-evaluation-protocol.json",
+      "sha256": "bd3986e19a48ef1a17a4e304005c5f58395a127e778605bf016a6cd3e7d10157",
+      "role": "frozen controlled-comparison protocol"
+    },
+    {
+      "path": "data/evaluation/rq1-compare-01-question-variants.json",
+      "sha256": "b3f66ead096c7dd186fef95b415f06fde766e6f5c3e838ab461e236e16c3909c",
+      "role": "canonical question and ten frozen variants"
+    },
+    {
+      "path": "rq1-compare-01-results.json",
+      "sha256": "9b60b97c7097a960c8c237e4e08e68622a053d00312b98c41dedc6a8fd4355de",
+      "role": "raw, aggregate and reproducibility results"
+    }
+  ],
+  "rq1_comparison": {
+    "source_artifact": "rq1-compare-01-results.json",
+    "architectures": [
+      "llm-only",
+      "text-rag",
+      "graphrag"
+    ],
+    "mean_requirement_accuracy": {
+      "llm-only": 0.1515151515151515,
+      "text-rag": 0.45454545454545453,
+      "graphrag": 0.7575757575757577
+    },
+    "mean_question_coverage": {
+      "llm-only": 0.4090909090909091,
+      "text-rag": 0.6818181818181818,
+      "graphrag": 0.8636363636363636
+    },
+    "mean_latency_ms": {
+      "llm-only": 19271.545454545456,
+      "text-rag": 43505.818181818184,
+      "graphrag": 125538.72727272728
+    },
+    "verdict": "SUPPORTED WITH FINDINGS"
+  },
+  "rq1_kg_sources": [
+    {
+      "path": "data/knowledge/nma-canonical-graph-v0.4.json",
+      "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+      "role": "domain KG source"
+    },
+    {
+      "path": "rq1-compare-01-results.json",
+      "sha256": "9b60b97c7097a960c8c237e4e08e68622a053d00312b98c41dedc6a8fd4355de",
+      "role": "canonical RQ1 retrieved/projected evidence records",
+      "canonical_retrieved_nodes": 46,
+      "canonical_projected_nodes": 9
+    },
+    {
+      "path": "artifacts/rq2/rq2-demo-01-retrieval.json",
+      "sha256": "26d1ccda9941579a17c0e3ee57c3ca3072dc5a7f83bf5bdffcae0541dd6cfdc1",
+      "role": "RQ2-specific retrieval and typed graph paths"
+    }
+  ],
+  "rq2_evidence": [
+    {
+      "path": "artifacts/rq2/rq2-demo-01-retrieval.json",
+      "sha256": "26d1ccda9941579a17c0e3ee57c3ca3072dc5a7f83bf5bdffcae0541dd6cfdc1"
+    },
+    {
+      "path": "artifacts/rq2/rq2-demo-01-constraints.json",
+      "sha256": "cf0ca866c419b4f8141bf7c2206164d624b59db5038fd9639a8a6fc3c063551f"
+    },
+    {
+      "path": "artifacts/rq2/rq2-demo-01-comparison.json",
+      "sha256": "35b7cde60d4dc68ee3746b8014021b19df76b882389d066d9e889210b4bc6562"
+    },
+    {
+      "path": "artifacts/rq2/rq2-demo-01-baseline-result.json",
+      "sha256": "6aa9ae669d6939170dfa005b7e6b8aa770d940a6154d4052fc9c7176c8f9af99"
+    },
+    {
+      "path": "artifacts/rq2/rq2-demo-01-constrained-result.json",
+      "sha256": "76aeaea33f3f6786b8541f20d19d8c437e9b243d87f44c4bb9a94dfa343b4ad2"
+    },
+    {
+      "path": "artifacts/rq2/rq2-demo-01-summary.json",
+      "sha256": "e1b5c7b4f713c10bbb436ce1f2a92464cd48cca7dfc4032bc9c7b462f4e9666a"
+    }
+  ],
+  "rq2_constraint_trace": {
+    "path": "artifacts/rq2/rq2-demo-01-comparison.json",
+    "sha256": "35b7cde60d4dc68ee3746b8014021b19df76b882389d066d9e889210b4bc6562",
+    "resolved": 7,
+    "bounded_unresolved": 4,
+    "contradicted": 0,
+    "constraint_reference_count": 11,
+    "unresolved_product_layer_preserved": true
+  },
+  "canonical_proposal_id": "rq2-proposal:knowledge-constrained:e635111c3be29423faf923b7",
+  "canonical_proposal_hash": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1",
+  "canonical_proposal": {
+    "path": "artifacts/rq2/rq2-demo-01-canonical-proposal.json",
+    "byte_sha256": "8ad05eea5111a0c535be275effa6b8a6c3dce7b74c7149bf42811a1866aa4829",
+    "git_blob": "c7ba805bf44763249e842512b01fbe2308fb6724"
+  },
+  "rq3_authorization": {
+    "path": "artifacts/rq3/rq3-demo-01/authorization.json",
+    "sha256": "e8e005333b70cb56d3db2af1f449a25f58e50063598f9ffa2db5efd20082bbfe"
+  },
+  "rq3_execution": {
+    "path": "artifacts/rq3/rq3-demo-01/case-a/execution-record.json",
+    "sha256": "2f5e801937b412c5be8d02112ebac17df96e261624c29d0825bc3f5286556fdc",
+    "receipt_path": "artifacts/rq3/rq3-demo-01/case-a/execution-receipt.json",
+    "receipt_sha256": "db90b6c0028585785740ba2ccfcbac928a8862aa0f9afd797b69fe00597579d3"
+  },
+  "rq3_verification": {
+    "path": "artifacts/rq3/rq3-demo-01/case-a/verification-report.json",
+    "sha256": "8fe310b0312fd2d28c292cba1763880f9f80221768080cbb0210d8397a0d975f"
+  },
+  "rq3_provenance": {
+    "path": "artifacts/rq3/rq3-demo-01/case-a/audit-record.json",
+    "sha256": "9382c7b11aac3690e33fd6c292c293d6a4e55986ac332ee5435680f04f733c64",
+    "required_link_types": [
+      "PROPOSAL",
+      "EVIDENCE",
+      "AUTHORIZATION",
+      "EXECUTION",
+      "VERIFICATION",
+      "RESULT"
+    ]
+  },
+  "rq3_tamper_cases": {
+    "path": "artifacts/rq3/rq3-demo-01/experiment-summary.json",
+    "sha256": "6f470f0ffdc74bcd919477207d48b88600d1d9df0e0118b521c080b4f37f3bcb",
+    "bounded_cases_matching_expected": "12/12",
+    "negative_cases_fail_closed": "10/10",
+    "canonical_presenter_case": "C",
+    "canonical_failure_code": "PROPOSAL_HASH_MISMATCH",
+    "bounded_test_set_not_general_cybersecurity_proof": true
+  },
+  "map_outputs": [
+    {
+      "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+      "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+      "role": "immutable source fixture"
+    },
+    {
+      "path": "artifacts/rq3/rq3-demo-01/case-a/derived-feature.geojson",
+      "sha256": "31354dfef7fcc9988ce6bfa748aaea3b2cf1a2b498e1d14b007424e6c895bbc0",
+      "role": "symbolic verified derived output"
+    }
+  ],
+  "known_findings": [
+    "RQ1 and RQ3 are supported with findings, not unqualified universal claims.",
+    "GraphRAG improved the frozen aggregate grounding and coverage metrics but incurred greater token and latency cost and did not dominate every subtype.",
+    "RQ2 preserves four bounded unresolved constraints, including ProductLayer and physical portrayal conditions.",
+    "RQ3 covers a bounded A-L test set and research authorization, not general cybersecurity or institutional authority.",
+    "Exact public redistribution eligibility for the future bounded KG/text bundle requires a file-level review."
+  ],
+  "known_limitations": [
+    "No universal GraphRAG superiority.",
+    "No general autonomous GIS competence.",
+    "No production cybersecurity proof.",
+    "No institutional authorization or legal acceptability claim.",
+    "No unrestricted authoritative deployment."
+  ]
+}
