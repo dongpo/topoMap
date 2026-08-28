@@ -1,0 +1,222 @@
+{
+  "schema_version": "demo-public-00-mode-manifest/1.0",
+  "demo_id": "DEMO-PUBLIC-00",
+  "research_freeze_sha": "8411cad14a16d8ce1b8b23ab0f1be1e8b4bc1a4b",
+  "default_runtime": "STATIC-FIRST / DETERMINISTIC REPLAY",
+  "allowed_modes": [
+    "LIVE COMPUTATION",
+    "LIVE READ-ONLY QUERY",
+    "DETERMINISTIC REPLAY",
+    "FROZEN EVIDENCE",
+    "STATIC VISUALIZATION"
+  ],
+  "components": [
+    {
+      "component_id": "scene-0-architecture",
+      "scene": "Scene 0 - Integrated Research Overview",
+      "mode": "STATIC VISUALIZATION",
+      "source_artifact": "artifacts/research/rq-final-00-integrated-architecture.json",
+      "live_dependency": null,
+      "fallback": "same local visualization",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "scene-0-status",
+      "scene": "Scene 0 - Integrated Research Overview",
+      "mode": "FROZEN EVIDENCE",
+      "source_artifact": "artifacts/research/rq-final-00-hypothesis-evidence-matrix.json",
+      "live_dependency": null,
+      "fallback": "same local status panel",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq1-question",
+      "scene": "Scene 1 - RQ1 Controlled Comparison",
+      "mode": "FROZEN EVIDENCE",
+      "source_artifact": "data/evaluation/rq1-compare-01-question-variants.json",
+      "live_dependency": null,
+      "fallback": "local canonical question",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq1-llm-only",
+      "scene": "Scene 1 - RQ1 Controlled Comparison",
+      "mode": "DETERMINISTIC REPLAY",
+      "source_artifact": "rq1-compare-01-results.json",
+      "live_dependency": null,
+      "fallback": "local frozen result",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq1-text-rag",
+      "scene": "Scene 1 - RQ1 Controlled Comparison",
+      "mode": "DETERMINISTIC REPLAY",
+      "source_artifact": "rq1-compare-01-results.json",
+      "live_dependency": null,
+      "fallback": "local frozen result and selected chunks",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq1-graphrag",
+      "scene": "Scene 1 - RQ1 Controlled Comparison",
+      "mode": "DETERMINISTIC REPLAY",
+      "source_artifact": "rq1-compare-01-results.json",
+      "live_dependency": null,
+      "fallback": "local frozen result and evidence projection",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq1-optional-live-graphrag",
+      "scene": "Scene 1 - RQ1 Controlled Comparison",
+      "mode": "LIVE COMPUTATION",
+      "source_artifact": "data/evaluation/rq1-compare-01-evaluation-protocol.json",
+      "live_dependency": "optional bounded Cloud Run CPU retrieval and private exact-model service",
+      "fallback": "rq1-graphrag deterministic replay",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "kg-domain",
+      "scene": "Scene 1 - KG View 1",
+      "mode": "STATIC VISUALIZATION",
+      "source_artifact": "data/knowledge/nma-canonical-graph-v0.4.json",
+      "live_dependency": null,
+      "fallback": "deterministic local schema projection and accessible table",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "kg-retrieved",
+      "scene": "Scene 1 - KG View 2",
+      "mode": "FROZEN EVIDENCE",
+      "source_artifact": "rq1-compare-01-results.json",
+      "live_dependency": null,
+      "fallback": "local 46-to-9 evidence projection",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "kg-evidence-constraint-trace",
+      "scene": "Scene 1/2 - KG View 3",
+      "mode": "FROZEN EVIDENCE",
+      "source_artifact": "artifacts/rq2/rq2-demo-01-comparison.json",
+      "live_dependency": null,
+      "fallback": "local trace graph and table",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq2-planner-baseline",
+      "scene": "Scene 2 - RQ2 Planning",
+      "mode": "DETERMINISTIC REPLAY",
+      "source_artifact": "artifacts/rq2/rq2-demo-01-baseline-result.json",
+      "live_dependency": null,
+      "fallback": "same local baseline record",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq2-planner-constrained",
+      "scene": "Scene 2 - RQ2 Planning",
+      "mode": "DETERMINISTIC REPLAY",
+      "source_artifact": "artifacts/rq2/rq2-demo-01-constrained-result.json",
+      "live_dependency": null,
+      "fallback": "same local constrained record",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq2-constraint-trace",
+      "scene": "Scene 2 - RQ2 Planning",
+      "mode": "FROZEN EVIDENCE",
+      "source_artifact": "artifacts/rq2/rq2-demo-01-comparison.json",
+      "live_dependency": null,
+      "fallback": "local representative trace cards",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq2-product-layer",
+      "scene": "Scene 2 - RQ2 Planning",
+      "mode": "FROZEN EVIDENCE",
+      "source_artifact": "artifacts/rq2/rq2-demo-01-constraints.json",
+      "live_dependency": null,
+      "fallback": "local unresolved-state card",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq2-proposal",
+      "scene": "Scene 2 - RQ2 Planning",
+      "mode": "FROZEN EVIDENCE",
+      "source_artifact": "artifacts/rq2/rq2-demo-01-canonical-proposal.json",
+      "live_dependency": null,
+      "fallback": "local canonical proposal",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq3-authorization",
+      "scene": "Scene 3 - RQ3 Trust",
+      "mode": "DETERMINISTIC REPLAY",
+      "source_artifact": "artifacts/rq3/rq3-demo-01/authorization.json",
+      "live_dependency": "optional bounded read-only CPU API",
+      "fallback": "local frozen authorization record",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq3-execution",
+      "scene": "Scene 3 - RQ3 Trust",
+      "mode": "DETERMINISTIC REPLAY",
+      "source_artifact": "artifacts/rq3/rq3-demo-01/case-a/execution-record.json",
+      "live_dependency": "optional isolated deterministic sandbox",
+      "fallback": "local frozen execution and receipt",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq3-verification",
+      "scene": "Scene 3 - RQ3 Trust",
+      "mode": "DETERMINISTIC REPLAY",
+      "source_artifact": "artifacts/rq3/rq3-demo-01/case-a/verification-report.json",
+      "live_dependency": "optional bounded read-only CPU API",
+      "fallback": "local frozen verification record",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq3-provenance-audit",
+      "scene": "Scene 3 - RQ3 Trust",
+      "mode": "FROZEN EVIDENCE",
+      "source_artifact": "artifacts/rq3/rq3-demo-01/case-a/audit-record.json",
+      "live_dependency": null,
+      "fallback": "local human-readable provenance and audit panel",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq3-tamper-case-c",
+      "scene": "Scene 3 - RQ3 Trust",
+      "mode": "DETERMINISTIC REPLAY",
+      "source_artifact": "artifacts/rq3/rq3-demo-01/experiment-summary.json",
+      "live_dependency": "optional POST /demo/rq3/tamper-check",
+      "fallback": "local frozen Case C rejection",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "rq3-bounded-matrix",
+      "scene": "Scene 3 - RQ3 Trust",
+      "mode": "FROZEN EVIDENCE",
+      "source_artifact": "artifacts/rq3/rq3-demo-01/experiment-summary.json",
+      "live_dependency": null,
+      "fallback": "local A-L outcome matrix",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "map-input-output",
+      "scene": "Scene 2/3 - Mapping Domain",
+      "mode": "FROZEN EVIDENCE",
+      "source_artifact": "artifacts/rq3/rq3-demo-01/case-a/derived-feature.geojson",
+      "live_dependency": null,
+      "fallback": "local neutral basemap or feature-only MapLibre rendering",
+      "research_semantics_affected": false
+    },
+    {
+      "component_id": "conclusion-architecture-limitations",
+      "scene": "Final - Research Conclusion",
+      "mode": "STATIC VISUALIZATION",
+      "source_artifact": "artifacts/research/rq-final-00-claim-boundaries.json",
+      "live_dependency": null,
+      "fallback": "same local closing panel or backup video",
+      "research_semantics_affected": false
+    }
+  ]
+}

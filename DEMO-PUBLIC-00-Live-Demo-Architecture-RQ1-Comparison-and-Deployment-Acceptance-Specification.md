@@ -1,10 +1,12 @@
-# DEMO-PUBLIC-00 — Live Demo Architecture and Acceptance Specification
+# DEMO-PUBLIC-00 — Live Demo Architecture, RQ1 Comparison & Deployment Acceptance Specification
 
 Specification date: 2026-08-28 (Asia/Taipei)
 
-Research predecessor: `97d35517f33b236edfe8c1764e2b89db47af7ef2`
+Research freeze SHA: `8411cad14a16d8ce1b8b23ab0f1be1e8b4bc1a4b`
 
-Working branch: `demo-public/demo-public-00-live-architecture-acceptance`
+Research predecessor: `3fed8fb77e759d004a7b91b23d933d41d8f70225`
+
+Working branch: `demo-public/demo-public-00-architecture-acceptance`
 
 Verdict: **PASS WITH FINDINGS**
 
@@ -33,8 +35,10 @@ claim shown at the end is the conservative frozen conclusion:
 
 ## Research baseline and freeze boundary
 
-DEMO-PUBLIC-00 is based exactly on `RQ-FINAL-00 — Integrated Research Evidence and Hypothesis
-Closure` at commit `97d35517f33b236edfe8c1764e2b89db47af7ef2`. The canonical repository is
+DEMO-PUBLIC-00 is based exactly on the verified `RQ-FINAL-00 — Integrated RQ1–RQ3 Research
+Evidence, Hypothesis Closure and Demo Freeze` at commit
+`8411cad14a16d8ce1b8b23ab0f1be1e8b4bc1a4b`. Its research predecessor is
+`3fed8fb77e759d004a7b91b23d933d41d8f70225`. The canonical repository is
 `https://github.com/dongpo/topoMap.git`. The isolated task branch was created directly from that
 commit after fetching `origin`; no research result was reconstructed or redesigned.
 
@@ -42,8 +46,9 @@ Canonical identities:
 
 | Evidence | Frozen identity |
 |---|---|
-| Integrated evidence commit | `97d35517f33b236edfe8c1764e2b89db47af7ef2` |
-| Integrated evidence manifest | `artifacts/research/rq-final-00-integrated-evidence-manifest.json` |
+| Verified research freeze commit | `8411cad14a16d8ce1b8b23ab0f1be1e8b4bc1a4b` |
+| Research freeze manifest | `artifacts/research/rq-final-00-freeze-manifest.json` |
+| Research freeze manifest SHA-256 | `bcce87599254b18a0628f4b756ff0e668ef55f24f6862227f610686a098dc913` |
 | Canonical KG | `data/knowledge/nma-canonical-graph-v0.4.json` |
 | Canonical KG SHA-256 | `4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4` |
 | RQ1 comparison | `rq1-compare-01-results.json` |
@@ -52,6 +57,11 @@ Canonical identities:
 | RQ2 proposal SHA-256 | `116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1` |
 | RQ2 proposal byte SHA-256 | `8ad05eea5111a0c535be275effa6b8a6c3dce7b74c7149bf42811a1866aa4829` |
 | RQ3 experiment | `artifacts/rq3/rq3-demo-01/experiment-summary.json` |
+
+Freeze verification result: **PASS**. RQ1 evidence is `VALIDATED` and its proposition is
+`SUPPORTED WITH FINDINGS`; RQ2 evidence is `VALIDATED`, H2 is `SUPPORTED`, and H2b is `SUPPORTED`;
+RQ3 evidence is `VALIDATED` and H3 is `SUPPORTED WITH FINDINGS`. The `WITH FINDINGS`
+qualifications are mandatory visible labels, not footnotes.
 
 The RQ1→RQ2 boundary is a **SEMANTIC/ARCHITECTURAL HANDOFF**: the experiments share the frozen KG,
 retrieval architecture, evidence identifiers, and provenance vocabulary, but RQ2 does not consume
@@ -86,6 +96,37 @@ The primary visual language must use consistent badges/colors for three componen
 | `PROBABILISTIC REASONING` | model generation; variable natural-language output | RQ1 answers, RQ2 plan draft, optional live inference |
 | `EXPLICIT GEOGRAPHIC KNOWLEDGE` | retrieved text/KG evidence and explicit relations | chunks, nodes, edges, source identities, resolved/unresolved constraints |
 | `DETERMINISTIC CONTROL` | zero-model-call checks and bounded execution | validators, authorization gate, executor, verifier, provenance, audit |
+
+## Four-scene architecture and presenter controls
+
+Scene 0 must establish the integrated argument in 20–30 seconds:
+
+```text
+USER MAPPING INTENT
+        ↓
+RQ1 — KNOW       GraphRAG / evidence              SUPPORTED WITH FINDINGS
+        ↓
+RQ2 — CONSTRAIN  knowledge-constrained proposal  H2/H2b SUPPORTED
+        ↓
+RQ3 — TRUST      authorization / verification     H3 SUPPORTED WITH FINDINGS
+        ↓
+AUTHORITATIVE MAPPING ACTION UNDER TEST CONDITIONS
+```
+
+Scene 1 is the frozen three-way RQ1 comparison and KG inspection. Scene 2 is the paired RQ2
+planner comparison with resolved and bounded-unresolved constraints. Scene 3 is the exact RQ3
+proposal-bound trust chain, positive acceptance, and Case C rejection. The conclusion returns to
+`KNOW → CONSTRAIN → TRUST` and states: **The evidence supports a layered National Map Agent
+architecture under the tested frozen mapping domain.** It may close with: **The AI may remain
+probabilistic. The authoritative mapping workflow does not have to be.** This is presentation
+language, not a stronger research claim.
+
+Closing line: **The AI may remain probabilistic. The authoritative mapping workflow does not have to be.**
+
+Required controls are `Start Demo`, `RQ1 Compare`, `Show Evidence`, `Show Domain KG`, `Show
+Retrieved KG`, `RQ2 Plan`, `Show Constraints`, `Show Canonical Proposal`, `RQ3 Authorize`,
+`Execute`, `Verify`, `Show Provenance`, `Tamper Proposal`, `Reset`, and `Research Conclusion`.
+Reset is always visible after start and immediately restores the immutable canonical state.
 
 ## RQ1 controlled comparison
 
@@ -272,6 +313,11 @@ and Offline Replay it replays Case C from the frozen RQ3 experiment summary with
 badge. It must not substitute Case F's `PARAMETER_MISMATCH` label when presenting Case C. Backend
 tests may separately retain all A–L cases.
 
+The compact adversarial panel must say: `12/12 bounded A–L cases matched expected outcomes; all
+10 negative/tamper cases B–K failed closed; 0 unauthorized authoritative mutations.` Cases A and
+L are positive canonical/replay cases, so the UI must not inaccurately call all twelve negative
+tests. The panel is labelled **BOUNDED TEST SET — NOT GENERAL CYBERSECURITY PROOF**.
+
 ## Knowledge-graph visualization specification
 
 All three graph views are bounded, accessible, and derived from committed repository identities.
@@ -349,6 +395,61 @@ byte-identical answer or subgraph to RQ2.
 Mode changes reset to `READY` and preserve the canonical evidence object. A live result is never
 written into a canonical filename, aggregate, metric, proposal identity, or research-info field.
 
+### RQ1 inference decision
+
+The selected conference mode is **Option C — fully deterministic replay**. Optional live inference
+is a secondary rehearsal or audience-inspection feature and is never required to finish the talk.
+
+| Configuration | Latency and load | Reproducibility | Audience/scientific effect | Decision |
+|---|---|---|---|---|
+| 3 × live sequential | frozen means total about 188 s; canonical runs can exceed 4 min | variable text and three failure points | visibly live but breaks the 5–8 minute narrative | reject |
+| 3 × live parallel | peak memory/concurrency and correlated service failure | same model but nondeterministic completion order | hard to follow and needs three inference slots | reject |
+| 1 live GraphRAG + 2 replay | one high-latency call; canonical GraphRAG was 184.254 s | comparison mixes run times and must carry mode badges | defensible only as an optional post-demo feature | secondary only |
+| 3 replay | sub-second local lookup target; no model dependency | exact frozen evidence | clearest controlled comparison when labelled | **select** |
+
+The frozen measured means are direct evidence that live is not automatically better. A presenter
+may run the fixed GraphRAG condition after the canonical story, but its result is labelled `LIVE
+MODEL — NOT THE FROZEN EXPERIMENT RESULT` and never replaces the three replayed columns.
+
+### Scene component classification
+
+The authoritative per-component classification is
+`artifacts/demo-public/demo-public-00-mode-manifest.json`. At scene level: Scene 0 is `STATIC
+VISUALIZATION`; Scene 1 comparison is `FROZEN EVIDENCE` rendered by `DETERMINISTIC REPLAY`, with
+KG-1 static and KG-2 a frozen/read-only projection; Scene 2 is `DETERMINISTIC REPLAY` of frozen
+constraints and the canonical proposal; Scene 3 uses frozen records and deterministic replay, with
+an optional `LIVE READ-ONLY QUERY`/deterministic Case C tamper check; the conclusion is `STATIC
+VISUALIZATION`. No replayed result is called live inference.
+
+## Deployment alternatives and decision
+
+The architecture decision is **STATIC-FIRST**: GitHub Pages and an offline-equivalent bundle are
+the complete primary demo; a bounded Cloud Run API is optional progressive enhancement. This is
+the minimum infrastructure that communicates the validated research without converting cloud
+availability into a scientific or presentation dependency.
+
+| Requirement | A: Static Pages | B: Static + Cloud backend | C: Full hosted app |
+|---|---:|---:|---:|
+| RQ1 comparison visible | Yes | Yes | Yes |
+| Three KG views | Yes | Yes | Yes |
+| RQ2 constraint trace | Yes | Yes | Yes |
+| RQ3 trust chain / Case C | Replay | Replay or deterministic live check | Live/replay |
+| Live frozen LLM | No | Optional | Yes |
+| Offline fallback | Complete | Complete by design | Separate package required |
+| Research reproducibility | Highest | High with explicit per-stage labels | Dependent on runtime capture |
+| Operational reliability | Highest | High; backend noncritical | Lowest |
+| Recurring cost | None for static hosting | CPU/GPU while enabled | Highest |
+| Setup complexity | Low | Medium/high | High |
+| Conference risk | Low | Low when static remains primary | High |
+
+Architecture A alone passes the public communication acceptance criteria. Architecture B is the
+selected layering because it preserves A completely and permits later read-only/live inspection;
+that does **not** change the `STATIC-FIRST` decision. Architecture C is rejected because live model,
+backend, and frontend failures become coupled without improving the frozen research conclusion.
+
+Decision drivers, alternatives, live/replay/offline components, and cloud requirements are frozen
+in `artifacts/demo-public/demo-public-00-deployment-decision.json`.
+
 ## Frontend architecture
 
 The preferred frontend is the existing GitHub Pages publication boundary at
@@ -401,6 +502,14 @@ The public API accepts only a versioned envelope such as:
 }
 ```
 
+The route allowlist is limited to `GET /demo/status`, `/demo/rq1/question`,
+`/demo/rq1/results`, `/demo/rq1/evidence`, `/demo/rq1/kg/domain`,
+`/demo/rq1/kg/retrieved`, `/demo/rq2/scenario`, `/demo/rq2/constraints`,
+`/demo/rq2/proposal`, `/demo/rq3/proposal`, `/demo/rq3/audit`, and `POST
+/demo/rq3/tamper-check`. A future `POST /demo/rq1/run` is allowed only for the one canonical
+scenario and exact frozen model configuration after DEMO-PUBLIC-02 acceptance. Generic
+`/prompt`, `/execute`, `/shell`, arbitrary query, upload, and mutation routes are prohibited.
+
 No endpoint accepts an arbitrary prompt, Cypher, filesystem path, shell command, tool name,
 proposal body, source mutation, URL fetch, or Python expression. Response envelopes include mode,
 stage provenance (`generated`, `executed`, or `replayed`), canonical/live run identity, hashes,
@@ -450,6 +559,25 @@ An L4-class instance is the initial portability candidate, not a frozen performa
 7.6B Q4_K_M model is expected to be feasible, but DEMO-PUBLIC-02 must empirically prove GPU memory
 sufficiency with the 8,192 context, warm canonical inference, and low concurrency. A larger GPU may
 be selected only as infrastructure, without changing model bytes or generation settings.
+
+Cloud feasibility verdict: **FEASIBLE WITH WARM INSTANCE / COST TRADE-OFF; NOT RECOMMENDED AS THE
+LIVE-DEMO CRITICAL PATH**. The frozen repository proves the 7.6B Q4_K_M identity but does not
+commit the exact model-blob byte size, Ollama image version, measured peak RAM/VRAM, cloud startup,
+or cloud request latency. A 4-bit 7.6B parameter payload has a theoretical weight floor near 3.8 GB
+before quantization metadata/runtime overhead; this is an engineering lower bound, not a measured
+artifact size. DEMO-PUBLIC-02 must record actual image/model bytes and peak host/GPU memory.
+
+Current official Cloud Run constraints make an L4 trial plausible: one L4 supplies 24 GB VRAM and
+requires at least 4 vCPU/16 GiB instance memory (8 vCPU/32 GiB recommended); the platform advertises
+about five seconds to GPU availability, but that excludes container/model download and load. The
+service request maximum is 60 minutes and container startup limit is four minutes; those platform
+limits accommodate frozen runs but are not acceptable audience latency. Set model concurrency to
+`1` initially, minimum instance to `1` only during rehearsals/presentation, maximum instance to a
+small quota-bound value, and use a model-aware readiness probe. Sources:
+[Cloud Run GPU support](https://docs.cloud.google.com/run/docs/configuring/services/gpu),
+[AI inference GPU best practices](https://docs.cloud.google.com/run/docs/configuring/services/gpu-best-practices),
+[quotas and limits](https://docs.cloud.google.com/run/quotas), and
+[request timeouts](https://docs.cloud.google.com/run/docs/configuring/request-timeout).
 
 ## Cold-start and readiness strategy
 
@@ -546,6 +674,12 @@ model call. If a live call exceeds 15 seconds, select Canonical Replay and conti
 | F4 — internet unavailable | browser offline / fetch failure | local `OFFLINE REPLAY` package | every research state and Reset | launch local static package |
 | F5 — map tile/base map unavailable | MapLibre source error | local neutral basemap or no-basemap research layer | scenario geometry/trace and graphs | continue; tiles are nonessential |
 | F6 — unexpected exception | top-level error boundary/invalid state | preserve last stable state; offer `Reset Demo` | canonical bundle remains immutable | reset; if repeated, use video |
+| F7 — LLM cold start/timeout | readiness false or presenter 15 s budget expires | canonical RQ1/RQ2 replay | all frozen comparisons | cancel request and continue |
+| F8 — GraphRAG service unavailable | retrieval timeout/noncanonical hash | frozen KG snapshot and evidence projection | 46→9 RQ1 and RQ2 trace | continue with frozen badge |
+| F9 — stale browser cache/build mismatch | build/bundle identity mismatch | hard-reset to packaged local build | canonical hashes | use local launcher; no mixed assets |
+| F10 — CORS failure | browser blocks optional API | static replay; show API unavailable | full guided flow | do not reconfigure live on stage |
+| F11 — RQ3 backend unavailable | tamper/verification endpoint fails | replay frozen Case A and Case C records | trust argument with replay labels | continue; no retry loop |
+| F12 — presenter changes ephemeral state | canonical object/hash guard or invalid action | discard clone and Reset Demo | original proposal remains immutable | press Reset |
 | Static package/browser/device failure | local launch/render failure | emergency recording | complete core argument | play Video B |
 
 Fallback is one-way during an active presenter step: `LIVE MODEL → CANONICAL REPLAY → OFFLINE REPLAY
@@ -633,7 +767,7 @@ the end.
 
 ### Video B — emergency demo
 
-Target 60–90 seconds:
+Target 90–150 seconds:
 
 `same intent/model → three-column RQ1 comparison → GraphRAG evidence relations → constrained
 execution PASS → authorization/verification ACCEPT → Tamper Proposal → PROPOSAL_HASH_MISMATCH /
@@ -703,12 +837,25 @@ Pass only when:
 Readiness: **READY WITH BOUNDED PREREQUISITES** after DEMO-PUBLIC-01 and DEMO-PUBLIC-02 are accepted;
 the conference may still choose replay-only if live latency is not reliable.
 
+## Semantic non-change audit
+
+The branch diff and evidence hashes must prove: `KG: NO CHANGE`; `GraphRAG retrieval: NO CHANGE`;
+`Evidence projection: NO CHANGE`; `RQ1 prompt/evaluator/comparison: NO CHANGE`; `RQ2 constraints:
+NO CHANGE`; `RQ2 canonical proposal: NO CHANGE`; `Mapping semantics, geometry, classification,
+portrayal and ProductLayer: NO CHANGE`; `Model: NO CHANGE`; `Authorization, verification and
+provenance semantics: NO CHANGE`; and `Authoritative data: NO CHANGE`. The only permitted changed
+paths are this report, demo-public manifests/storyboard, Mermaid specification sources, and the
+focused acceptance test. Any protected-path diff is a semantic regression and fails closed.
+
+At DEMO-PUBLIC-00 completion the audit result is **UNCHANGED**, subject to the focused test proving
+all canonical byte hashes and the changed-path allowlist from the exact freeze SHA.
+
 ## Focused evidence-integrity checks
 
 `tests/test_demo_public_00_specification.py` is the focused structural gate. It validates:
 
 - branch/predecessor ancestry and canonical repository identity;
-- every RQ1/RQ2/RQ3 evidence hash in the integrated manifest;
+- every RQ1/RQ2/RQ3 evidence hash in the RQ-FINAL freeze and public evidence manifests;
 - RQ2 proposal ID/hash/byte hash/blob identity and RQ3 continuity;
 - frozen RQ3 Case C tamper evidence;
 - exact model digest/family/parameters/quantization/context/temperature;

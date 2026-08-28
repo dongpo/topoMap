@@ -1,0 +1,186 @@
+{
+  "schema_version": "demo-public-00-storyboard/1.0",
+  "demo_id": "DEMO-PUBLIC-00",
+  "target_duration_seconds": 375,
+  "canonical_scenario": "fire-hydrant-9350906",
+  "default_mode": "DETERMINISTIC REPLAY",
+  "scenes": [
+    {
+      "scene": 0,
+      "title": "Integrated research overview",
+      "timecode": "00:00-00:30",
+      "duration_seconds": 30,
+      "mode": "STATIC VISUALIZATION",
+      "presenter_controls": [
+        "Start Demo"
+      ],
+      "components": [
+        "scene-0-architecture",
+        "scene-0-status"
+      ],
+      "presenter_action": "Select the canonical hydrant scenario and reveal KNOW -> CONSTRAIN -> TRUST.",
+      "spoken_point": "One mapping intent passes through evidence, explicit constraints, and deterministic trust controls.",
+      "visible_qualifications": [
+        "RQ1 SUPPORTED WITH FINDINGS",
+        "RQ2 H2/H2b SUPPORTED",
+        "RQ3 H3 SUPPORTED WITH FINDINGS"
+      ],
+      "fallback": "Static architecture panel from local bundle"
+    },
+    {
+      "scene": 1,
+      "title": "RQ1 controlled comparison",
+      "timecode": "00:30-02:00",
+      "duration_seconds": 90,
+      "mode": "DETERMINISTIC REPLAY",
+      "presenter_controls": [
+        "RQ1 Compare",
+        "Show Evidence"
+      ],
+      "components": [
+        "rq1-question",
+        "rq1-llm-only",
+        "rq1-text-rag",
+        "rq1-graphrag",
+        "rq1-tradeoff"
+      ],
+      "presenter_action": "Reveal the same question in three columns, then compare accuracy, coverage, claims, evidence, latency and tokens.",
+      "spoken_point": "The difference is what knowledge structure reached the same frozen model, not merely the answer wording.",
+      "visible_qualifications": [
+        "FROZEN EXPERIMENT RESULT",
+        "GraphRAG did not dominate every subtype",
+        "GraphRAG incurred greater token and latency cost"
+      ],
+      "fallback": "Frozen RQ1 JSON and precomputed column layout"
+    },
+    {
+      "scene": 1,
+      "title": "Three knowledge views",
+      "timecode": "02:00-02:50",
+      "duration_seconds": 50,
+      "mode": "FROZEN EVIDENCE",
+      "presenter_controls": [
+        "Show Domain KG",
+        "Show Retrieved KG"
+      ],
+      "components": [
+        "kg-domain",
+        "kg-retrieved",
+        "kg-evidence-constraint-trace"
+      ],
+      "presenter_action": "Show the bounded schema projection, the canonical 46 -> 9 RQ1 projection, and the semantic/architectural bridge to RQ2.",
+      "spoken_point": "The LLM receives a bounded evidence projection; RQ2 shares semantic infrastructure but does not consume an RQ1 answer artifact.",
+      "visible_qualifications": [
+        "KG-1 CONCEPTUAL PROJECTION OF REAL TYPES/EDGES",
+        "KG-2 FROZEN RETRIEVED/PROJECTED EVIDENCE",
+        "RQ1 -> RQ2 SEMANTIC / ARCHITECTURAL / SHARED INFRASTRUCTURE"
+      ],
+      "fallback": "Deterministic graph coordinates plus accessible edge table"
+    },
+    {
+      "scene": 2,
+      "title": "RQ2 knowledge-constrained planning",
+      "timecode": "02:50-04:15",
+      "duration_seconds": 85,
+      "mode": "DETERMINISTIC REPLAY",
+      "presenter_controls": [
+        "RQ2 Plan",
+        "Show Constraints",
+        "Show Canonical Proposal"
+      ],
+      "components": [
+        "rq2-planner-baseline",
+        "rq2-planner-constrained",
+        "rq2-constraint-trace",
+        "rq2-product-layer",
+        "rq2-proposal"
+      ],
+      "presenter_action": "Contrast baseline BLOCKED BEFORE MUTATION with constrained PASS; expand 3-5 real traces and the unresolved ProductLayer card.",
+      "spoken_point": "Knowledge changes the executable plan, while unresolved physical portrayal is preserved rather than guessed.",
+      "visible_qualifications": [
+        "7 resolved / 4 bounded unresolved / 0 contradicted",
+        "ProductLayer unresolved - DO NOT GUESS",
+        "symbolic derived artifact; authoritative_render=false"
+      ],
+      "fallback": "Frozen RQ2 comparison, constraints and canonical proposal"
+    },
+    {
+      "scene": 3,
+      "title": "RQ3 trustworthy execution",
+      "timecode": "04:15-05:25",
+      "duration_seconds": 70,
+      "mode": "DETERMINISTIC REPLAY",
+      "presenter_controls": [
+        "RQ3 Authorize",
+        "Execute",
+        "Verify",
+        "Show Provenance"
+      ],
+      "components": [
+        "rq3-proposal",
+        "rq3-authorization",
+        "rq3-execution",
+        "rq3-verification",
+        "rq3-provenance",
+        "rq3-audit"
+      ],
+      "presenter_action": "Advance proposal validation, research authorization, hash binding, deterministic execution, postconditions, receipt, provenance and audit.",
+      "spoken_point": "Acceptance is a deterministic conjunction over exact proposal-bound records, not an LLM judgment.",
+      "visible_qualifications": [
+        "RESEARCH AUTHORIZATION",
+        "0 trust-stage model calls",
+        "RQ2 -> RQ3 DIRECT IMMUTABLE ARTIFACT"
+      ],
+      "fallback": "Frozen Case A records with replay label"
+    },
+    {
+      "scene": 3,
+      "title": "Fail-closed tamper demonstration",
+      "timecode": "05:25-05:55",
+      "duration_seconds": 30,
+      "mode": "DETERMINISTIC REPLAY",
+      "presenter_controls": [
+        "Tamper Proposal",
+        "Reset"
+      ],
+      "components": [
+        "rq3-tamper-case-c",
+        "rq3-bounded-matrix"
+      ],
+      "presenter_action": "Clone the proposal ephemerally, change the bounded expected state, and reveal Case C rejection.",
+      "spoken_point": "The proposal hash mismatches, execution is blocked before mutation, and the canonical object remains unchanged.",
+      "visible_qualifications": [
+        "EXPECTED: DENIED",
+        "MUTATION: NONE",
+        "PROPOSAL_HASH_MISMATCH",
+        "12/12 A-L matched; 10/10 negative B-K fail closed",
+        "BOUNDED TEST SET - NOT GENERAL CYBERSECURITY PROOF"
+      ],
+      "fallback": "Frozen Case C summary"
+    },
+    {
+      "scene": 4,
+      "title": "Research conclusion",
+      "timecode": "05:55-06:15",
+      "duration_seconds": 20,
+      "mode": "STATIC VISUALIZATION",
+      "presenter_controls": [
+        "Research Conclusion",
+        "Reset"
+      ],
+      "components": [
+        "conclusion-architecture",
+        "conclusion-limitations"
+      ],
+      "presenter_action": "Return to KNOW -> CONSTRAIN -> TRUST and display the limitations panel.",
+      "spoken_point": "The AI may remain probabilistic. The authoritative mapping workflow does not have to be.",
+      "visible_qualifications": [
+        "SUPPORTED UNDER THE TESTED FROZEN MAPPING DOMAIN",
+        "NOT universal GraphRAG superiority",
+        "NOT general GIS competence or production cybersecurity",
+        "NOT institutional authorization, legal acceptability or unrestricted deployment"
+      ],
+      "fallback": "Static closing slide or emergency video"
+    }
+  ]
+}

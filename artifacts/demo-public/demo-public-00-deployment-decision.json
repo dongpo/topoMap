@@ -1,0 +1,122 @@
+{
+  "schema_version": "demo-public-00-deployment-decision/1.0",
+  "demo_id": "DEMO-PUBLIC-00",
+  "selected_architecture": "STATIC-FIRST",
+  "selected_pattern": "GitHub Pages static presentation plus complete offline-equivalent bundle; optional bounded Cloud Run progressive enhancement",
+  "public_url_candidate": "https://dongpo.github.io/topoMap/",
+  "alternatives": [
+    {
+      "id": "A",
+      "name": "Static GitHub Pages Demo",
+      "decision": "PRIMARY AND SUFFICIENT",
+      "strengths": [
+        "complete frozen RQ1/RQ2/RQ3 communication",
+        "no backend credentials or mutation surface",
+        "highest reproducibility and conference reliability",
+        "same bundle can operate offline"
+      ],
+      "limitations": [
+        "no genuine server-side frozen-model inference",
+        "deterministic trust checks are replayed unless an optional local/browser verifier is accepted"
+      ]
+    },
+    {
+      "id": "B",
+      "name": "Static Frontend plus Cloud Backend",
+      "decision": "OPTIONAL PROGRESSIVE ENHANCEMENT",
+      "strengths": [
+        "bounded live read-only retrieval and deterministic verification",
+        "optional exact Qwen/Ollama inference",
+        "frontend remains useful during total backend outage"
+      ],
+      "limitations": [
+        "CORS, rate limiting, quota, timeout, cold-start and cost controls",
+        "GPU/model operational proof remains a separate task"
+      ]
+    },
+    {
+      "id": "C",
+      "name": "Full Hosted Demo Application",
+      "decision": "REJECTED",
+      "strengths": [
+        "maximum visible live orchestration"
+      ],
+      "limitations": [
+        "couples frontend, backend, model and graph failure",
+        "highest cost and setup complexity",
+        "does not strengthen frozen research evidence",
+        "highest conference risk"
+      ]
+    }
+  ],
+  "decision_drivers": [
+    "research clarity",
+    "audience comprehension",
+    "scientific transparency",
+    "exact reproducibility",
+    "offline conference robustness",
+    "zero public authoritative mutation",
+    "minimum infrastructure"
+  ],
+  "rq1_inference_decision": {
+    "selected": "FULL REPLAY",
+    "optional": "one live GraphRAG run after or outside the canonical flow",
+    "rejected": [
+      "three sequential live requests",
+      "three parallel live requests as the talk-critical path"
+    ],
+    "basis": "Frozen mean latencies are 19.27 s, 43.51 s and 125.54 s; the canonical GraphRAG run is 184.254 s."
+  },
+  "live_components": [
+    "optional bounded GraphRAG retrieval",
+    "optional exact frozen-model inference",
+    "optional deterministic RQ3 tamper check in an isolated sandbox"
+  ],
+  "replay_components": [
+    "RQ1 LLM-only, Text-RAG and GraphRAG canonical results",
+    "RQ2 baseline and constrained planner evidence",
+    "canonical proposal and symbolic map output",
+    "RQ3 trust chain, Case A acceptance and Case C rejection"
+  ],
+  "offline_components": [
+    "static presentation shell",
+    "frozen JSON evidence bundle",
+    "deterministic KG visualization data/layout",
+    "local mapping assets where licensing permits",
+    "full and emergency recorded videos"
+  ],
+  "backend_required": false,
+  "llm_required": false,
+  "cloud_required": false,
+  "cloud_backend": "OPTIONAL",
+  "cloud_run": "OPTIONAL / NOT RECOMMENDED FOR THE CONFERENCE-CRITICAL PATH",
+  "live_frozen_qwen_ollama": "FEASIBLE WITH WARM INSTANCE / COST TRADE-OFF; EMPIRICAL ACCEPTANCE REQUIRED",
+  "cloud_run_model_assessment": {
+    "frozen_model": "qwen2.5:latest / qwen2 / 7.6B / Q4_K_M",
+    "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "context_window": 8192,
+    "reserved_output_tokens": 2048,
+    "temperature": 0,
+    "theoretical_four_bit_weight_floor_gb": 3.8,
+    "exact_blob_size_status": "NOT COMMITTED; MEASURE IN DEMO-PUBLIC-02",
+    "peak_memory_status": "NOT MEASURED; PROVE WITH 8192 CONTEXT",
+    "initial_gpu_candidate": "NVIDIA L4, 24 GB VRAM",
+    "initial_instance_candidate": "8 vCPU / 32 GiB recommended, concurrency 1",
+    "minimum_instance_during_event": 1,
+    "model_aware_readiness_required": true,
+    "cold_start_status": "PLATFORM GPU START DOES NOT INCLUDE MODEL LOAD; PRELOAD AND MEASURE",
+    "request_timeout_status": "PLATFORM SUPPORTS UP TO 60 MINUTES; PRESENTER FALLBACK BUDGET IS 15 SECONDS",
+    "container_image_status": "PIN BY DIGEST; NO AUDIENCE-TIME MODEL DOWNLOAD",
+    "cost_status": "UNMEASURED; WARM GPU INCURS EVENT-WINDOW COST"
+  },
+  "public_mutation_capability": "ABSENT",
+  "known_risks": [
+    "public-file redistribution review for the future bounded KG/text bundle",
+    "unmeasured Cloud Run GPU memory, latency, quota, region and cost",
+    "missing committed Ollama runtime version/image digest",
+    "map tile and conference network failures",
+    "live output variability and frozen GraphRAG latency"
+  ],
+  "demo_public_01_readiness": "READY WITH BOUNDED PREREQUISITES",
+  "next_task": "DEMO-PUBLIC-01 - Public Demo Frontend, Evidence Visualization & Guided Research Flow"
+}
