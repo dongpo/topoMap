@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/rq3-execution-record/1.0",
+  "title": "RQ3 Deterministic Execution Record 1.0",
+  "description": "Content-bound observation of one proposal-authorized deterministic execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "execution_id",
+    "schema_version",
+    "proposal_id",
+    "proposal_hash",
+    "authorization_id",
+    "authorization_hash",
+    "environment",
+    "authorized_tool_sequence",
+    "tool_calls",
+    "plan_identity",
+    "normalized_parameters",
+    "source_refs_before",
+    "source_refs_after",
+    "result_refs",
+    "result_hash",
+    "execution_success",
+    "mutation_started",
+    "started_at",
+    "completed_at",
+    "executor",
+    "canonicalization",
+    "execution_hash"
+  ],
+  "properties": {
+    "execution_id": {"type": "string", "pattern": "^rq3-execution:[A-Za-z0-9._:-]+$"},
+    "schema_version": {"const": "rq3-execution-record/1.0"},
+    "proposal_id": {"type": "string", "pattern": "^rq2-proposal:[A-Za-z0-9._:-]+$"},
+    "proposal_hash": {"$ref": "#/$defs/sha256"},
+    "authorization_id": {"type": "string", "pattern": "^rq3-authorization:[A-Za-z0-9._:-]+$"},
+    "authorization_hash": {"$ref": "#/$defs/sha256"},
+    "environment": {"$ref": "#/$defs/artifactReference"},
+    "authorized_tool_sequence": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/toolBinding"}
+    },
+    "tool_calls": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/toolCall"}
+    },
+    "plan_identity": {"$ref": "#/$defs/sha256"},
+    "normalized_parameters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step_id", "inputs", "parameter_hash"],
+        "properties": {
+          "step_id": {"type": "string", "pattern": "^step:[A-Za-z0-9._:-]+$"},
+          "inputs": {"type": "object"},
+          "parameter_hash": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "source_refs_before": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/artifactReference"}},
+    "source_refs_after": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/artifactReference"}},
+    "result_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/artifactReference"}},
+    "result_hash": {"$ref": "#/$defs/sha256"},
+    "execution_success": {"type": "boolean"},
+    "mutation_started": {"type": "boolean"},
+    "started_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": "string", "format": "date-time"},
+    "executor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "rq2_executor_id", "model_calls"],
+      "properties": {
+        "id": {"const": "rq3-deterministic-executor/1.0"},
+        "rq2_executor_id": {"const": "rq2-deterministic-gis-executor/1.0"},
+        "model_calls": {"const": 0}
+      }
+    },
+    "canonicalization": {"const": "nma-canonical-json-sort-keys-utf8-sha256;exclude=execution_hash"},
+    "execution_hash": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 400},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "toolBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["step_id", "operation", "tool"],
+      "properties": {
+        "step_id": {"type": "string", "pattern": "^step:[A-Za-z0-9._:-]+$"},
+        "operation": {"type": "string", "minLength": 1},
+        "tool": {"type": "string", "pattern": "^rq2\\.[A-Za-z0-9._-]+/1\\.0$"}
+      }
+    },
+    "toolCall": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["step_id", "operation", "tool", "parameter_hash", "status", "mutation"],
+      "properties": {
+        "step_id": {"type": "string", "pattern": "^step:[A-Za-z0-9._:-]+$"},
+        "operation": {"type": "string", "minLength": 1},
+        "tool": {"type": "string", "pattern": "^rq2\\.[A-Za-z0-9._-]+/1\\.0$"},
+        "parameter_hash": {"$ref": "#/$defs/sha256"},
+        "status": {"const": "PASS"},
+        "mutation": {"type": "boolean"}
+      }
+    }
+  }
+}
