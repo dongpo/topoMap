@@ -1,0 +1,49 @@
+{
+  "schema": "nma.rq1-compare-01-question-corpus/1.0",
+  "canonical": {
+    "id": "canonical",
+    "text": "For fire hydrant 9350906, explain the reviewed authoritative portrayal rule. Include its classification, geometry, line style, color, source evidence, and any unresolved schema or product-layer binding. Do not infer information that is not supported by the retrieved evidence."
+  },
+  "variants": [
+    {
+      "id": "variant-01-classification-first",
+      "text": "For feature 9350906 (fire hydrant), explain the reviewed classification and authoritative portrayal rule, including geometry, line style, color, supporting source evidence, and whether its schema or ProductLayer binding remains unresolved. Do not infer unsupported details."
+    },
+    {
+      "id": "variant-02-geometry-first",
+      "text": "What geometry is used by the reviewed authoritative portrayal for fire hydrant 9350906? Also explain its classification, line style, color, source evidence, and the resolution state of any schema or ProductLayer binding, without adding unsupported facts."
+    },
+    {
+      "id": "variant-03-style-first",
+      "text": "Describe the reviewed line style and color for the authoritative portrayal of fire hydrant 9350906, then cover its classification, geometry, source evidence, and any unresolved schema or ProductLayer binding. Use only supportable information."
+    },
+    {
+      "id": "variant-04-source-first",
+      "text": "Using the relevant authoritative source evidence, explain the reviewed portrayal rule for fire hydrant 9350906. Address classification, geometry, line style, color, and whether any schema or ProductLayer binding is unresolved; avoid unsupported inference."
+    },
+    {
+      "id": "variant-05-binding-first",
+      "text": "State whether the schema or ProductLayer binding for fire hydrant 9350906 is resolved, and explain the reviewed authoritative portrayal's classification, geometry, line style, color, and supporting source evidence. Do not guess missing information."
+    },
+    {
+      "id": "variant-06-compact",
+      "text": "For fire hydrant 9350906, give a natural explanation of the reviewed authoritative rule: classification, geometry, line style, color, source evidence, and unresolved schema/ProductLayer-binding status. Include no unsupported claims."
+    },
+    {
+      "id": "variant-07-conversational",
+      "text": "Could you walk me through the reviewed authoritative portrayal for fire hydrant 9350906, covering its classification, geometry, line style and color, the source evidence, and whether the schema or ProductLayer binding is still unresolved? Please do not guess."
+    },
+    {
+      "id": "variant-08-chinese-reordered",
+      "text": "請依據可支持的資訊，說明代碼 9350906 地物的權威審查圖式規則；先交代來源證據與產品圖層或綱要綁定是否仍未解析，再說明分類、幾何、線型及顏色，不要推測。"
+    },
+    {
+      "id": "variant-09-chinese-natural",
+      "text": "代碼 9350906 的地物在審查過的權威圖式中如何表現？請自然說明分類、幾何、線式、顏色、相關來源證據，以及 schema／ProductLayer 綁定的未解析狀態；沒有證據的內容請不要補猜。"
+    },
+    {
+      "id": "variant-10-alternate",
+      "text": "Explain the authoritative reviewed cartographic treatment of fire hydrant 9350906 in prose. Include classification identity, geometry type, line styling, color, provenance/source support, and the unresolved-or-resolved state of schema or ProductLayer binding, while abstaining from unsupported detail."
+    }
+  ]
+}

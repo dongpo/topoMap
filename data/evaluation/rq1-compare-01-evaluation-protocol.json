@@ -1,0 +1,47 @@
+{
+  "schema": "nma.rq1-compare-01-protocol/1.0",
+  "predecessor_sha": "6961b992d3fd49714fd14023afba60cba2f4e1d2",
+  "model": {
+    "name": "qwen2.5:latest",
+    "ollama_identity": "845dbda0ea48",
+    "architecture": "qwen2",
+    "parameters": "7.6B",
+    "quantization": "Q4_K_M",
+    "temperature": 0,
+    "context_window": 8192,
+    "reserved_output_tokens": 2048
+  },
+  "architectures": ["llm-only", "text-rag", "graphrag"],
+  "question_fixture": "data/evaluation/rq1-compare-01-question-variants.json",
+  "question_fixture_sha256": "b3f66ead096c7dd186fef95b415f06fde766e6f5c3e838ab461e236e16c3909c",
+  "authoritative_text_sources": [
+    "data/extraction/portrayal-records.jsonl",
+    "data/portrayal/nlsc112v5.4/portrayal-recipe-review-batch-01-v0.4.json"
+  ],
+  "text_rag": {
+    "chunking": "record-boundary canonical text; split at 1200 characters with 120-character overlap",
+    "chunk_size_characters": 1200,
+    "chunk_overlap_characters": 120,
+    "embedding_model": "deterministic-feature-hashing-unicode-bow-1024/1.0",
+    "embedding_dimensions": 1024,
+    "similarity": "cosine",
+    "candidate_top_k": 12,
+    "ordering": "descending cosine score, then ascending stable chunk ID",
+    "deduplication": "canonical chunk text SHA-256",
+    "budget_rule": "selected text evidence estimate must not exceed the measured canonical GraphRAG LLM-facing evidence estimate"
+  },
+  "ground_truth": {
+    "classification_code": "9350906",
+    "classification_label": "消防栓",
+    "geometry": "Point",
+    "line_style": "2",
+    "color_code": "7",
+    "color_name": "black",
+    "source_page": "11",
+    "source_record": "DOC01-P11-HYDRANT",
+    "source_revision": "NLSC112V5.4",
+    "product_layer_binding": "unresolved"
+  },
+  "primary_run_count": 33,
+  "canonical_reproducibility_repeats_per_architecture": 3
+}
