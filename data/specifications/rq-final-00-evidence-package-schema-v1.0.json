@@ -1,0 +1,651 @@
+{
+  "$defs": {
+    "claim_boundaries": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_type": {
+          "const": "claim_boundaries"
+        },
+        "bounded_claims": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "out_of_scope_claims": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "schema_version": {
+          "const": "rq-final-00-claim-boundaries/1.0"
+        },
+        "supported_claims": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "threats_to_validity": {
+          "items": {
+            "$ref": "#/$defs/threat"
+          },
+          "minItems": 4,
+          "type": "array"
+        },
+        "unsupported_claims": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "supported_claims",
+        "bounded_claims",
+        "unsupported_claims",
+        "out_of_scope_claims",
+        "threats_to_validity"
+      ],
+      "type": "object"
+    },
+    "evidence_ref": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "role": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "role"
+      ],
+      "type": "object"
+    },
+    "freeze_manifest": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_demo_layer_changes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "artifact_type": {
+          "const": "research_freeze_manifest"
+        },
+        "authoritative_data_identities": {
+          "items": {
+            "$ref": "#/$defs/identity"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "canonical_proposal_hash": {
+          "const": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1"
+        },
+        "canonical_proposal_id": {
+          "const": "rq2-proposal:knowledge-constrained:e635111c3be29423faf923b7"
+        },
+        "created_at": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "fixture_identities": {
+          "items": {
+            "$ref": "#/$defs/identity"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "forbidden_demo_layer_changes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "freeze_id": {
+          "const": "RQ-FINAL-00"
+        },
+        "kg_identity": {
+          "$ref": "#/$defs/identity"
+        },
+        "known_inherited_failures": {
+          "items": {
+            "type": "object"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "model_identity": {
+          "type": "object"
+        },
+        "repository": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "research_demo_semantics": {
+          "const": "FROZEN"
+        },
+        "retrieval_config_identity": {
+          "type": "object"
+        },
+        "rq1_commits": {
+          "items": {
+            "$ref": "#/$defs/git_sha"
+          },
+          "minItems": 4,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "rq1_reports": {
+          "items": {
+            "$ref": "#/$defs/path"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "rq2_commits": {
+          "items": {
+            "$ref": "#/$defs/git_sha"
+          },
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "rq2_reports": {
+          "items": {
+            "$ref": "#/$defs/path"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "rq3_commits": {
+          "items": {
+            "$ref": "#/$defs/git_sha"
+          },
+          "minItems": 2,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "rq3_reports": {
+          "items": {
+            "$ref": "#/$defs/path"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "rq_final_commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rq_final_commit_note": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "schema_identities": {
+          "items": {
+            "$ref": "#/$defs/identity"
+          },
+          "minItems": 6,
+          "type": "array"
+        },
+        "schema_version": {
+          "const": "rq-final-00-freeze-manifest/1.0"
+        },
+        "semantic_freeze": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 22,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "test_suite_evidence": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "freeze_id",
+        "created_at",
+        "repository",
+        "rq_final_commit",
+        "rq_final_commit_note",
+        "rq1_commits",
+        "rq2_commits",
+        "rq3_commits",
+        "rq1_reports",
+        "rq2_reports",
+        "rq3_reports",
+        "canonical_proposal_id",
+        "canonical_proposal_hash",
+        "kg_identity",
+        "retrieval_config_identity",
+        "model_identity",
+        "schema_identities",
+        "fixture_identities",
+        "authoritative_data_identities",
+        "test_suite_evidence",
+        "known_inherited_failures",
+        "semantic_freeze",
+        "allowed_demo_layer_changes",
+        "forbidden_demo_layer_changes",
+        "research_demo_semantics"
+      ],
+      "type": "object"
+    },
+    "git_sha": {
+      "pattern": "^[0-9a-f]{40}$",
+      "type": "string"
+    },
+    "handoff": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_type": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "continuity": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "directly_demonstrated": {
+          "type": "boolean"
+        },
+        "from": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "handoff_classes": {
+          "items": {
+            "enum": [
+              "CONCEPTUAL",
+              "SEMANTIC",
+              "ARCHITECTURAL",
+              "SHARED_INFRASTRUCTURE",
+              "SERIALIZED_ARTIFACT",
+              "IMMUTABLE_HASH_BOUND_ARTIFACT"
+            ]
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "immutable_hash_evidence": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "additionalProperties": false,
+              "properties": {
+                "byte_sha256": {
+                  "$ref": "#/$defs/sha256"
+                },
+                "git_blob": {
+                  "$ref": "#/$defs/git_sha"
+                },
+                "proposal_hash": {
+                  "$ref": "#/$defs/sha256"
+                },
+                "proposal_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "proposal_id",
+                "proposal_hash",
+                "byte_sha256",
+                "git_blob"
+              ],
+              "type": "object"
+            }
+          ]
+        },
+        "input": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "output": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "to": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "validation": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "from",
+        "to",
+        "input",
+        "output",
+        "artifact_type",
+        "handoff_classes",
+        "validation",
+        "continuity",
+        "directly_demonstrated",
+        "immutable_hash_evidence"
+      ],
+      "type": "object"
+    },
+    "hypothesis": {
+      "additionalProperties": false,
+      "properties": {
+        "claim_boundary": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "controls": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "dependent_variable": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array",
+          "uniqueItems": true
+        },
+        "evidence_artifacts": {
+          "items": {
+            "$ref": "#/$defs/evidence_ref"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "hypothesis_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "hypothesis_text": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "independent_variable": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "negative_evidence": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "positive_evidence": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "reproducible": {
+          "enum": [
+            "YES",
+            "NO",
+            "BOUNDED"
+          ]
+        },
+        "residual_finding": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "rq": {
+          "enum": [
+            "RQ1",
+            "RQ2",
+            "RQ3"
+          ]
+        },
+        "validator": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "verdict": {
+          "$ref": "#/$defs/verdict"
+        }
+      },
+      "required": [
+        "rq",
+        "hypothesis_id",
+        "hypothesis_text",
+        "independent_variable",
+        "dependent_variable",
+        "controls",
+        "evidence_artifacts",
+        "positive_evidence",
+        "negative_evidence",
+        "validator",
+        "verdict",
+        "claim_boundary",
+        "residual_finding",
+        "reproducible"
+      ],
+      "type": "object"
+    },
+    "hypothesis_matrix": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_type": {
+          "const": "hypothesis_evidence_matrix"
+        },
+        "hypotheses": {
+          "items": {
+            "$ref": "#/$defs/hypothesis"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "type": "array"
+        },
+        "schema_version": {
+          "const": "rq-final-00-hypothesis-evidence-matrix/1.0"
+        }
+      },
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "hypotheses"
+      ],
+      "type": "object"
+    },
+    "identity": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "integrated_architecture": {
+      "additionalProperties": false,
+      "properties": {
+        "architecture_claim": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "artifact_type": {
+          "const": "integrated_architecture"
+        },
+        "direct_llm_mutation_claim": {
+          "const": false
+        },
+        "handoffs": {
+          "items": {
+            "$ref": "#/$defs/handoff"
+          },
+          "minItems": 4,
+          "type": "array"
+        },
+        "nodes": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "outputs": {
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "type": "array"
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "outputs"
+            ],
+            "type": "object"
+          },
+          "minItems": 5,
+          "type": "array"
+        },
+        "schema_version": {
+          "const": "rq-final-00-integrated-architecture/1.0"
+        }
+      },
+      "required": [
+        "schema_version",
+        "artifact_type",
+        "nodes",
+        "handoffs",
+        "architecture_claim",
+        "direct_llm_mutation_claim"
+      ],
+      "type": "object"
+    },
+    "path": {
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*\\.\\./).+$",
+      "type": "string"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "threat": {
+      "additionalProperties": false,
+      "properties": {
+        "class": {
+          "enum": [
+            "INTERNAL",
+            "CONSTRUCT",
+            "EXTERNAL",
+            "CONCLUSION",
+            "REPRODUCIBILITY"
+          ]
+        },
+        "existing_mitigation": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "potential_impact": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "residual_risk": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "threat": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "class",
+        "threat",
+        "potential_impact",
+        "existing_mitigation",
+        "residual_risk"
+      ],
+      "type": "object"
+    },
+    "verdict": {
+      "enum": [
+        "SUPPORTED",
+        "SUPPORTED WITH FINDINGS",
+        "PARTIALLY SUPPORTED",
+        "NOT SUPPORTED",
+        "INCONCLUSIVE"
+      ]
+    }
+  },
+  "$id": "https://example.org/nma/rq-final-00-evidence-package-schema-v1.0.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/hypothesis_matrix"
+    },
+    {
+      "$ref": "#/$defs/integrated_architecture"
+    },
+    {
+      "$ref": "#/$defs/claim_boundaries"
+    },
+    {
+      "$ref": "#/$defs/freeze_manifest"
+    }
+  ],
+  "title": "RQ-FINAL-00 evidence package records"
+}

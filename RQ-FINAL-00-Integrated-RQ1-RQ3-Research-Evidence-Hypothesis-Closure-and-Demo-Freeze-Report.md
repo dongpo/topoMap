@@ -1,10 +1,10 @@
-# RQ-FINAL-00 — Integrated Research Evidence and Hypothesis Closure
+# RQ-FINAL-00 — Integrated RQ1–RQ3 Research Evidence, Hypothesis Closure & Demo Freeze
 
-Report date: 2026-08-28 (Asia/Taipei)
+Report date: 2026-08-29 (Asia/Taipei)
 
 ## Executive verdict
 
-**READY FOR FREEZE WITH FINDINGS.** The committed experiments support a bounded layered National
+**PASS WITH FINDINGS — RESEARCH DEMO SEMANTICS FROZEN.** The committed experiments support a bounded layered National
 Map Agent (NMA) architecture under the tested fire-hydrant portrayal task family and canonical
 symbolic-execution scenario. RQ1 found that explicit graph-grounded geographic knowledge improved
 measured answer correctness, coverage, and combined grounding relative to the frozen LLM-only and
@@ -62,7 +62,7 @@ each listed commit is an ancestor of predecessor
 RQ-FINAL-00 was branched directly from the last identity. No historical result was recreated or
 rewritten for this report.
 
-## Experimental design matrix
+## Experimental-design matrix
 
 | RQ | Hypothesis | Intervention / comparison | Controlled factors | Dependent variables / observable outcomes | Canonical scenario and acceptance criteria | Evidence source | Verdict | External-validity boundary |
 |---|---|---|---|---|---|---|---|---|
@@ -222,6 +222,19 @@ incomplete provenance, unauthorized mutation, unresolved-constraint escalation, 
 tampering. Case L accepted one exact replay with the same result SHA-256. Thus all 12 A–L cases
 matched their expected fail-closed/accept behavior; no negative case changed the source fixture.
 
+| Trust control | Intended failure/attack | Demonstrating evidence | Residual limitation |
+|---|---|---|---|
+| Proposal validation | Malformed or semantically inadmissible plan | Frozen proposal schema and RQ2/RQ3 validators; negative inputs rejected | Encoded rules may omit a real-world concern |
+| Proposal-hash binding | Proposal substitution after review | Case C and exact canonical-hash recomputation | Hash integrity is not signer identity or non-repudiation |
+| Authorization | Missing or out-of-scope permission | Cases B and D; authorization record bound to scope | Research identity, clock, and policy are not institutional governance |
+| Authorized/executed identity equality | Tool, parameter, or plan substitution | Cases E and F; execution record retains exact proposal ID/hash | Applies only to the encoded request contract |
+| Deterministic execution | Unbounded model-directed mutation | Allowlisted executor makes zero model calls; source hash unchanged | Symbolic isolated output is narrower than production GIS mutation |
+| Postcondition verification | Successful tool call with unacceptable result | Case G fails after execution; independent verification record | Only explicit postconditions are checked |
+| Execution receipt | Missing or inconsistent operation evidence | Case A valid receipt is bound into execution/audit records | Receipt validity does not prove external system integrity |
+| Provenance completeness | Missing evidence needed to reconstruct action | Case H fails on an incomplete provenance link set | Complete links can still refer to incorrect source facts |
+| Audit-record integrity | Result or record tampering | Case K artifact hash mismatch; Boolean acceptance recomputation | No PKI, trusted timestamp, or durable external ledger |
+| Fail-closed behavior | Unexpected acceptance of invalid/tampered path | A–L match 12/12 expected outcomes; B–K reject | The adversarial set is bounded and not exhaustive |
+
 ### H3 closure
 
 - **Statement:** a probabilistic AI-generated mapping proposal can be incorporated into an
@@ -323,7 +336,32 @@ ACCEPTED AUDITABLE MAPPING ACTION UNDER TEST CONDITIONS
 The final node is not a production authorization. The accepted artifact remains isolated,
 symbolic, non-authoritative, and constrained by unresolved ProductLayer/physical portrayal gates.
 
-## Claim ladder
+| Transition | Input | Output | Artifact type | Handoff class | Validation | Continuity |
+|---|---|---|---|---|---|---|
+| Intent → RQ1 | Canonical question and frozen variants | Retrieved graph evidence and grounded answer/validation | Request, graph projection, answer-validation record | Conceptual + serialized within RQ1 | Context guard, evidence/citation integrity, claim grounding, six-category coverage | Directly demonstrated inside RQ1 |
+| RQ1 → RQ2 | Frozen KG/retriever/evidence semantics | RQ2 retrieval package and resolved/bounded constraints | Shared infrastructure plus new RQ2 evidence package | Semantic + architectural + shared infrastructure | KG SHA-256, retriever identity, evidence IDs, constraint validator | Shared architecture directly demonstrated; RQ1 result-artifact consumption is not demonstrated |
+| RQ2 planning → proposal | Intent plus RQ2 constraints | Canonical executable proposal | Serialized proposal | Semantic + serialized artifact | Proposal schema, allowlist, preconditions, evidence-to-plan trace | Directly demonstrated |
+| RQ2 → RQ3 | Exact canonical RQ2 proposal | Authorized execution input | Canonical JSON proposal | Direct immutable/hash-bound artifact | ID, canonical proposal hash, byte SHA-256, Git blob identity | Directly demonstrated at ID/hash/blob level |
+| RQ3 authorization → execution | Proposal-bound authorization and closed request | Execution record and receipt | Immutable/hash-linked records | Serialized + hash-bound | Scope/tool/parameter/source checks and authorization hash | Directly demonstrated |
+| Execution → accepted action | Result, receipt, verification, provenance | PASS audit under test conditions | Verification and audit records | Serialized + hash-bound | Postconditions, link hashes, provenance completeness, final acceptance | Directly demonstrated for the canonical symbolic scenario |
+
+## Claim boundaries
+
+### What the research demonstrates
+
+Within the frozen scenario, the evidence demonstrates improved graph-grounded mapping reasoning,
+knowledge-derived constraint propagation into planning, explicit preservation of unresolved state,
+a canonical proposal as an execution contract, proposal-bound authorization, deterministic
+execution and postcondition verification, reconstructable provenance, and fail-closed rejection of
+the tested invalid paths.
+
+### What the research does not demonstrate
+
+It does not demonstrate universal LLM or GraphRAG superiority; correctness of every KG fact; zero
+hallucination; general-purpose autonomous GIS competence; safety of arbitrary tool use; production
+infrastructure security; resistance to every cyberattack; correctness of human authorization
+policy; legal or institutional acceptability; national-scale operational performance; arbitrary
+dataset scalability; or semantic correctness outside the tested frozen domain.
 
 | Claim | Classification | Evidence boundary |
 |---|---|---|
@@ -340,61 +378,23 @@ symbolic, non-authoritative, and constrained by unresolved ProductLayer/physical
 
 ## Threats to validity
 
-### Internal validity
-
-- The earlier implicit Ollama context limit caused truncation. The controlled comparison explicitly
-  configured and observed budgets, but prompt construction and local runtime remain causal factors.
-- Temperature zero did not make GraphRAG wording byte-deterministic; model and runtime variation can
-  affect free-form answers and plans.
-- RQ2 planner, schema projection, validator, executor, and verifier share repository contracts.
-  Their tests establish consistency with frozen contracts, not complete implementation independence.
-- Fixtures and negative cases were designed around the canonical fire-hydrant scenario; they may
-  align unusually well with encoded validators.
-- RQ2's three failed pre-acceptance attempts demonstrate implementation sensitivity. Retention of
-  those attempts reduces reporting bias but does not create statistical replication.
-- RQ3 verification is independent of executor success but not institutionally independent software;
-  common contract mistakes could escape both components.
-
-### Construct validity
-
-- RQ1 requirement accuracy/coverage and bounded claim extraction operationalize grounding; they do
-  not measure every aspect of geographic knowledge quality or natural-language correctness.
-- The validator under-recognizes some semantic equivalents and produced two conversational
-  ProductLayer contradictions. Exact numeric scores are therefore bounded-observable measures.
-- RQ2 constraint satisfaction operationalizes constrained agentic correctness. A compliant plan may
-  still be non-optimal or unsuitable for an unencoded cartographic concern.
-- RQ3 tamper rejection operationalizes workflow trustworthiness. It does not measure social,
-  organizational, legal, cyberphysical, or model-behavior trust in full.
-- Provenance completeness shows that required typed links resolve and reconstruct the tested action;
-  it does not by itself establish truth, non-repudiation, or long-term records governance.
-
-### External validity
-
-- RQ1 covers one portrayal task family and eleven wordings, not independent mapping task diversity.
-- RQ2/RQ3 cover one Point feature class, one canonical proposal, and isolated symbolic derivation;
-  no multi-feature editing, topology, generalization, conflation, raster processing, or final render
-  is evaluated.
-- One KG/schema snapshot, one local Qwen model/quantization, and a deterministic feature-hash
-  Text-RAG baseline limit model, retrieval, and corpus generalization.
-- There is no multi-agent or organizational federation, real NMA institutional authorization,
-  PKI, trusted time, revocation, durable policy administration, or legal accountability.
-- Results do not establish applicability to other agencies, datasets, jurisdictions, scales,
-  feature classes, or authoritative mutation types.
-
-### Reproducibility validity
-
-- Frozen Git SHAs, committed protocols, fixtures, schemas, result bundles, and exact artifact hashes
-  make the deterministic evidence package repository-addressable.
-- RQ1 free-form model runs depend on a local Ollama model identity/runtime and hardware. The complete
-  controlled output is committed, but live regeneration requires that external model environment.
-- Some RQ1 exact live rerun directories cited by predecessor reports were under `/private/tmp` and
-  are transient. Their conclusions and artifact hashes are captured in committed reports/tests;
-  the central controlled comparison is fully committed in `rq1-compare-01-results.json`.
-- RQ2/RQ3 generated bundles are committed and deterministic validators can inspect them without
-  transient state. Live execution still depends on filesystem and runtime assumptions encoded by
-  the fixtures.
-- Broad regressions contain historical exact-scope/freeze failures. They must be interpreted only
-  against the exact predecessor baseline; all-green rewriting would damage historical evidence.
+| Class | Threat | Potential impact | Existing mitigation | Residual risk |
+|---|---|---|---|---|
+| Internal | Model stochasticity remains at temperature zero | Free-form answers/plans may vary across reruns | Raw runs, nine repeats, fixed model/digest/config, deterministic downstream validators | Byte-identical LLM reproduction is not guaranteed |
+| Internal | Prompt and context-window effects | Apparent grounding differences could be delivery artifacts | RQ1-PROMPT-01 set 8,192 context, 2,048 reserve, projection, and no-truncation checks | Other providers/tokenizers may behave differently |
+| Internal | Retrieval configuration and condition leakage | Comparison may favor GraphRAG or leak graph facts | Frozen corpora, graph-ID leakage audit, matched evidence-token ceiling, empty LLM-only evidence | Representation quality differs; Text-RAG is deliberately simple |
+| Internal | Baseline fairness | Weak baselines can inflate treatment effect | Same question variants, model, temperature, context, output reserve, evaluator and frozen data domain | GraphRAG uses a richer two-call architecture and longer latency |
+| Internal | Shared planner/validator contracts | Common implementation mistakes can pass multiple stages | Negative cases, persisted failed attempts, independent postcondition checks | Software components are not institutionally independent |
+| Construct | Grounding metrics may not exhaust mapping knowledge quality | Scores may under/overstate natural-language correctness | Six frozen requirements, raw answers/claims, separate grounding and coverage checks | Bounded vocabulary misses some semantic equivalents |
+| Construct | Plan validity may not equal good cartographic planning | Schema-valid compliant plans may be non-optimal | Semantic preconditions, constraint trace, blocked baseline, 12 postconditions | Unencoded cartographic concerns remain invisible |
+| Construct | Authorization + verification + provenance operationalize only technical trust | Readers may infer social/institutional trust | Explicit trust-control matrix and claim boundary | Human policy correctness, law, governance, and non-repudiation remain untested |
+| External | Narrow canonical scenarios and controlled data | Results may not transfer to other mapping tasks | Eleven RQ1 wordings and explicit RQ2/RQ3 negative cases | One task family, one proposal, one Point feature, symbolic output |
+| External | One model/KG/runtime | Architecture effects may not transfer across models or deployments | Exact model, graph, runtime, schema, and data identities frozen | No cross-model, cloud, multi-agent, or production-user replication |
+| External | No national-scale operational workload | Performance/scalability claims would be unsupported | Report excludes scale and production claims | Arbitrary datasets, topology, raster, conflation, and final rendering are untested |
+| Conclusion | Small sample and qualitative/quantitative mix | PASS labels may be overinterpreted as population estimates | Exact denominators and effect metrics reported; verdicts bounded `WITH FINDINGS` where needed | No confidence intervals or inferential population claim |
+| Conclusion | One paired RQ2 case and bounded A–L set | Causal and adversarial coverage may be incomplete | First-pass plan comparison, source-preservation checks, 12/12 expected outcomes | No exhaustive attack model or independent replication |
+| Conclusion | Inherited regression failures | New breakage could be hidden by historical noise | Exact-predecessor comparison and explicit failure classification | Historical scope assertions remain red and require careful interpretation |
+| Reproducibility | Local Ollama/model and transient auxiliary live directories | Independent live rerun may differ or lack old temporary bytes | Central comparison results, protocols, fixtures, schemas and hashes are committed | External runtime/hardware and some auxiliary exact-run bytes remain unavailable |
 
 ## Findings and limitations
 
@@ -448,8 +448,8 @@ records, but it bounds independent rerun reproducibility.
 ## Semantic integrity audit
 
 Comparison of RQ-FINAL-00 against predecessor
-`3fed8fb77e759d004a7b91b23d933d41d8f70225` is restricted to this report, the integrated manifest,
-and the focused evidence-integrity test.
+`3fed8fb77e759d004a7b91b23d933d41d8f70225` is restricted to this report, four machine-readable
+evidence/freeze records, one focused JSON Schema, and the evidence-integrity test.
 
 ```text
 KG: NO
@@ -476,7 +476,7 @@ Core: NO
 Authoritative source data: NO
 ```
 
-## Freeze readiness
+## Demo freeze specification and public-demo boundary
 
 | Criterion | Result | Basis |
 |---|---|---|
@@ -491,8 +491,21 @@ Authoritative source data: NO
 | F9 — Reproducibility | PASS WITH FINDINGS | Central evidence committed; live probabilistic reruns retain environment dependency |
 | F10 — Findings bounded | PASS | Findings recorded and do not invalidate core hypotheses |
 
-**Freeze verdict: READY FOR FREEZE WITH FINDINGS.** This task determines readiness only. It does
-not create a release/freeze tag, merge a branch, deploy the demo, or authorize production use.
+Later demo work may change presentation layout, frontend styling, animation, narrative sequencing,
+static explanatory labels, charts derived from frozen evidence, KG visualization, deployment
+configuration, public URL, screenshots, recorded video, guided scenario selection, and read-only
+artifact viewing. These changes remain allowed only while they preserve every frozen identity and
+semantic rule.
+
+Without a new research task, demo work must not change KG contents, retrieval behavior, model,
+RQ1 comparison conditions, constraint or proposal semantics, the canonical proposal, tool/GIS
+behavior, authorization policy, verification rules, provenance semantics, authoritative source
+data, or acceptance criteria. It must never replace live or committed results with fabricated
+values.
+
+**RESEARCH DEMO SEMANTICS: FROZEN.** This decision does not create a release tag, merge a branch,
+deploy the demo, or authorize production use. The next authorized task is `DEMO-PUBLIC-00 — Live
+Demo Architecture, RQ1 Comparison & Deployment Acceptance Specification`.
 
 ## Optional paper-facing synthesis
 

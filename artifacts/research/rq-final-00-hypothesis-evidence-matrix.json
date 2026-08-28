@@ -1,0 +1,209 @@
+{
+  "artifact_type": "hypothesis_evidence_matrix",
+  "hypotheses": [
+    {
+      "claim_boundary": "Supports a structured-retrieval advantage for this frozen portrayal task family, model, graph, corpus, and evaluator; not universal GraphRAG superiority or zero hallucination.",
+      "controls": [
+        "same eleven questions",
+        "Qwen 2.5 7.6B model identity",
+        "temperature 0",
+        "8192-token context",
+        "2048-token output reserve",
+        "same deterministic evaluator",
+        "matched Text-RAG and GraphRAG evidence-token ceiling"
+      ],
+      "dependent_variable": [
+        "six-requirement accuracy",
+        "question coverage",
+        "claim grounding",
+        "citation/evidence integrity",
+        "latency and token cost"
+      ],
+      "evidence_artifacts": [
+        {
+          "path": "RQ1-COMPARE-01-Completion-Report.md",
+          "role": "controlled comparison report"
+        },
+        {
+          "path": "rq1-compare-01-results.json",
+          "role": "raw and aggregate controlled results"
+        },
+        {
+          "path": "RQ1-PROMPT-01-Completion-Report.md",
+          "role": "context and prompt propagation closure"
+        },
+        {
+          "path": "RQ1-VALIDATOR-01-Completion-Report.md",
+          "role": "grounding and coverage validator closure"
+        }
+      ],
+      "hypothesis_id": "RQ1 comparison proposition (no frozen H1 identifier)",
+      "hypothesis_text": "Explicit geographic knowledge grounding improves accurate and traceable answers to the frozen mapping questions under the LLM-only, Text-RAG, and GraphRAG comparison.",
+      "independent_variable": "Retrieval architecture: no retrieval, ranked provenance-bearing text chunks, or typed graph retrieval and projection.",
+      "negative_evidence": [
+        "GraphRAG and Text-RAG tied on geometry accuracy",
+        "GraphRAG recorded two parser-induced contradictions in one wording",
+        "GraphRAG exact 6/6 answers occurred in only 3 of 11 variants and incurred greater latency/token cost",
+        "unsupported historical claim and independent grounding/coverage failures are rejected by the deterministic validator"
+      ],
+      "positive_evidence": [
+        "GraphRAG mean requirement accuracy 75.76% versus Text-RAG 45.45% and LLM-only 15.15%",
+        "GraphRAG mean coverage 86.36% versus Text-RAG 68.18% and LLM-only 40.91%",
+        "GraphRAG recorded 96 supported and zero unsupported retrieval-grounded claims"
+      ],
+      "reproducible": "BOUNDED",
+      "residual_finding": "The Text-RAG baseline uses deterministic feature hashing rather than a modern multilingual embedding, the evaluator vocabulary is bounded, and performance is wording-sensitive.",
+      "rq": "RQ1",
+      "validator": "Deterministic bounded claim-grounding and six-category coverage validator; zero validator model calls.",
+      "verdict": "SUPPORTED WITH FINDINGS"
+    },
+    {
+      "claim_boundary": "Supports knowledge-constrained planning in one symbolic fire-hydrant scenario; does not establish general GIS competence, final portrayal, ProductLayer resolution, or production authority.",
+      "controls": [
+        "same mapping intent and fixture",
+        "same model and runtime parameters",
+        "same proposal schema",
+        "same tool allowlist",
+        "same validator, executor, and verifier",
+        "no validator-to-planner repair"
+      ],
+      "dependent_variable": [
+        "semantic plan validity",
+        "constraint preservation",
+        "execution gate outcome",
+        "postcondition verification"
+      ],
+      "evidence_artifacts": [
+        {
+          "path": "RQ2-DEMO-01-Knowledge-Constrained-Planning-Execution-Report.md",
+          "role": "experiment report"
+        },
+        {
+          "path": "artifacts/rq2/rq2-demo-01-constraints.json",
+          "role": "resolved and bounded constraint set"
+        },
+        {
+          "path": "artifacts/rq2/rq2-demo-01-summary.json",
+          "role": "accepted outcomes"
+        },
+        {
+          "path": "artifacts/rq2/rq2-demo-01-canonical-proposal.json",
+          "role": "canonical executable proposal"
+        }
+      ],
+      "hypothesis_id": "H2",
+      "hypothesis_text": "A knowledge-grounded mapping agent can generate executable GIS plans that preserve explicit geographic and cartographic constraints more reliably than an unconstrained LLM planner.",
+      "independent_variable": "Explicit knowledge-derived constraints supplied before planning versus no retrieval evidence or constraints.",
+      "negative_evidence": [
+        "baseline proposal was syntactically valid but blocked before mutation by the common authority gate",
+        "fabricated ProductLayer, omitted constraint, unknown tool, contradiction, and postcondition cases fail safely",
+        "three failed pre-acceptance attempts are retained"
+      ],
+      "positive_evidence": [
+        "7 resolved, 4 bounded unresolved, and 0 contradicted constraints",
+        "constrained proposal preserved 6 of 6 applicable constraints and passed 12 of 12 postconditions",
+        "knowledge-constrained proposal validated and executed without changing authoritative source data"
+      ],
+      "reproducible": "BOUNDED",
+      "residual_finding": "The paired experiment has one accepted scenario and conservative global constraint-to-step references.",
+      "rq": "RQ2",
+      "validator": "Deterministic proposal schema, semantic precondition gate, allowlist, executor, and postcondition verifier.",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "claim_boundary": "Demonstrates observable planning-layer influence, not optimal planning, minimal explanations, or general interpretability of arbitrary LLM reasoning.",
+      "controls": [
+        "same paired RQ2 controls",
+        "persisted first-pass drafts",
+        "no rendered-output dependency",
+        "no post-hoc semantic repair"
+      ],
+      "dependent_variable": [
+        "pre-execution plan differences",
+        "constraint-to-plan trace completeness",
+        "decision difference"
+      ],
+      "evidence_artifacts": [
+        {
+          "path": "artifacts/rq2/rq2-demo-01-comparison.json",
+          "role": "plan-level comparison and constraint trace"
+        },
+        {
+          "path": "RQ2-DEMO-01-Knowledge-Constrained-Planning-Execution-Report.md",
+          "role": "hypothesis closure"
+        }
+      ],
+      "hypothesis_id": "H2b",
+      "hypothesis_text": "Knowledge grounding contributes observably at the planning layer before execution, not merely in the final rendered result.",
+      "independent_variable": "Presence of the frozen knowledge-derived constraint set during first-pass planning.",
+      "negative_evidence": [
+        "trace references are complete but conservatively global rather than minimal",
+        "only one paired accepted run is available"
+      ],
+      "positive_evidence": [
+        "plans differ before execution in classification, geometry, portrayal, authority, unresolved-state semantics, decision, and trace",
+        "all 11 constraint references are represented in the evidence-to-plan trace"
+      ],
+      "reproducible": "YES",
+      "residual_finding": "Trace completeness is not a measure of explanation quality.",
+      "rq": "RQ2",
+      "validator": "Deterministic comparison of persisted pre-execution drafts and trace references.",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "claim_boundary": "Supports a bounded technical trust and audit boundary for one symbolic proposal; not general AI safety, cybersecurity, institutional authorization, legal acceptability, or production non-repudiation.",
+      "controls": [
+        "exact canonical RQ2 proposal",
+        "frozen schemas and trust policy",
+        "same authoritative source identity",
+        "deterministic executor and verifier",
+        "zero model calls at trust controls"
+      ],
+      "dependent_variable": [
+        "gate result",
+        "final acceptance",
+        "mutation prevention",
+        "verification verdict",
+        "provenance completeness",
+        "replay stability"
+      ],
+      "evidence_artifacts": [
+        {
+          "path": "RQ3-DEMO-01-Authorized-Execution-Verification-Provenance-Report.md",
+          "role": "trust experiment report"
+        },
+        {
+          "path": "artifacts/rq3/rq3-demo-01/authorization.json",
+          "role": "proposal-bound authorization"
+        },
+        {
+          "path": "artifacts/rq3/rq3-demo-01/case-a/audit-record.json",
+          "role": "canonical positive audit"
+        },
+        {
+          "path": "artifacts/rq3/rq3-demo-01/experiment-summary.json",
+          "role": "A-L outcomes"
+        }
+      ],
+      "hypothesis_id": "H3",
+      "hypothesis_text": "A probabilistic AI-generated mapping proposal can participate in an auditable authoritative workflow when execution is explicitly authorized, proposal-bound, deterministic, independently verified, and provenance-recorded.",
+      "independent_variable": "Presence or tampering of authorization, proposal identity, scope, tools, parameters, postconditions, provenance, mutation boundary, artifacts, and replay state across Cases A-L.",
+      "negative_evidence": [
+        "Cases B-K reject missing authorization and tampering of proposal, scope, tool, parameters, postconditions, provenance, mutation, unresolved constraints, and artifacts",
+        "no unauthorized authoritative mutation occurred",
+        "broad regression retains inherited historical failures rather than hiding them"
+      ],
+      "positive_evidence": [
+        "canonical positive path accepted with exact proposal ID/hash",
+        "authorization, execution, verification, receipt, provenance, and audit records validate",
+        "all 12 A-L cases matched expected outcomes and exact replay remained stable"
+      ],
+      "reproducible": "YES",
+      "residual_finding": "Research identity/time, one proposal, and a bounded adversarial set do not constitute PKI, revocation, trusted time, or exhaustive threat coverage.",
+      "rq": "RQ3",
+      "validator": "Deterministic proposal/authorization hashing, closed-request gate, executor, postcondition verifier, provenance resolver, schema validation, and Boolean final acceptance; zero model calls.",
+      "verdict": "SUPPORTED WITH FINDINGS"
+    }
+  ],
+  "schema_version": "rq-final-00-hypothesis-evidence-matrix/1.0"
+}

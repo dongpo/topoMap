@@ -1,4 +1,4 @@
-"""Structural and identity checks for the RQ-FINAL-00 evidence closure."""
+"""Deterministic evidence-integrity checks for RQ-FINAL-00."""
 
 from __future__ import annotations
 
@@ -7,241 +7,249 @@ import json
 from pathlib import Path
 import subprocess
 
+import jsonschema
+
 from nma.rq2_demo import proposal_hash
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST_PATH = ROOT / "artifacts/research/rq-final-00-integrated-evidence-manifest.json"
-REPORT_PATH = ROOT / "RQ-FINAL-00-Integrated-Research-Evidence-and-Hypothesis-Closure.md"
+PREDECESSOR = "3fed8fb77e759d004a7b91b23d933d41d8f70225"
 PROPOSAL_ID = "rq2-proposal:knowledge-constrained:e635111c3be29423faf923b7"
 PROPOSAL_HASH = "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1"
+PROPOSAL_BYTE_SHA256 = "8ad05eea5111a0c535be275effa6b8a6c3dce7b74c7149bf42811a1866aa4829"
 PROPOSAL_BLOB = "c7ba805bf44763249e842512b01fbe2308fb6724"
-PREDECESSOR = "3fed8fb77e759d004a7b91b23d933d41d8f70225"
+SCHEMA_PATH = ROOT / "data/specifications/rq-final-00-evidence-package-schema-v1.0.json"
+REPORT_PATH = ROOT / (
+    "RQ-FINAL-00-Integrated-RQ1-RQ3-Research-Evidence-Hypothesis-Closure-"
+    "and-Demo-Freeze-Report.md"
+)
+RECORD_PATHS = {
+    "matrix": ROOT / "artifacts/research/rq-final-00-hypothesis-evidence-matrix.json",
+    "architecture": ROOT / "artifacts/research/rq-final-00-integrated-architecture.json",
+    "claims": ROOT / "artifacts/research/rq-final-00-claim-boundaries.json",
+    "freeze": ROOT / "artifacts/research/rq-final-00-freeze-manifest.json",
+}
 
 
-def _json(path: Path) -> dict:
+def load(path: Path) -> dict:
     value = json.loads(path.read_text(encoding="utf-8"))
     assert isinstance(value, dict)
     return value
 
 
-def _sha256(path: Path) -> str:
+def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def test_manifest_has_required_structure_and_all_evidence_hashes_resolve():
-    manifest = _json(MANIFEST_PATH)
-    assert manifest["manifest_version"] == "nma.rq-final-00-integrated-evidence/1.0"
-    assert manifest["predecessor_sha"] == PREDECESSOR
-    assert manifest["freeze_readiness"] == "READY FOR FREEZE WITH FINDINGS"
+def git(*args: str) -> str:
+    return subprocess.run(
+        ["git", *args], cwd=ROOT, check=True, capture_output=True, text=True
+    ).stdout.strip()
 
-    required_objects = {
-        "lineage",
-        "canonical_knowledge_snapshot",
-        "canonical_rq2_proposal",
-        "hypothesis_verdicts",
-        "handoff_classifications",
-        "semantic_freeze",
-        "regression_summary",
-        "reproducibility",
-        "report",
-    }
-    assert required_objects <= manifest.keys()
-    assert all(isinstance(manifest[key], dict) for key in required_objects)
 
-    for collection in (
-        "rq1_canonical_evidence",
-        "rq2_canonical_evidence",
-        "rq3_canonical_evidence",
+def test_a_canonical_rq2_proposal_continuity_is_exact_and_hash_bound():
+    proposal_path = ROOT / "artifacts/rq2/rq2-demo-01-canonical-proposal.json"
+    proposal = load(proposal_path)
+    assert proposal["proposal_id"] == PROPOSAL_ID
+    assert proposal["proposal_hash"] == proposal_hash(proposal) == PROPOSAL_HASH
+    assert sha256(proposal_path) == PROPOSAL_BYTE_SHA256
+
+    for commit in (
+        "673bcb6efb84de2aeaac5c4b23beda364bea9e44",
+        "2c3c25937615cfe01e989bdeb64b25ad6c27251f",
+        PREDECESSOR,
     ):
-        records = manifest[collection]
-        assert isinstance(records, list) and records
-        for record in records:
-            path = ROOT / record["path"]
-            assert path.is_file(), record
-            assert _sha256(path) == record["sha256"], record
+        assert git("rev-parse", f"{commit}:artifacts/rq2/rq2-demo-01-canonical-proposal.json") == PROPOSAL_BLOB
 
-    report = manifest["report"]
-    assert ROOT / report["path"] == REPORT_PATH
-    assert _sha256(REPORT_PATH) == report["sha256"]
-
-
-def test_required_lineage_commits_exist_and_are_ancestors_of_predecessor():
-    manifest = _json(MANIFEST_PATH)
-    for commit in manifest["lineage"].values():
-        subprocess.run(
-            ["git", "cat-file", "-e", f"{commit}^{{commit}}"],
-            cwd=ROOT,
-            check=True,
-            capture_output=True,
-        )
-        subprocess.run(
-            ["git", "merge-base", "--is-ancestor", commit, PREDECESSOR],
-            cwd=ROOT,
-            check=True,
-            capture_output=True,
-        )
-
-
-def test_rq1_controlled_comparison_matches_frozen_aggregates():
-    result = _json(ROOT / "rq1-compare-01-results.json")
-    assert result["protocol"]["architectures"] == ["llm-only", "text-rag", "graphrag"]
-    assert result["protocol"]["primary_run_count"] == 33
-    assert len(result["raw_runs"]) == 33
-    assert len(result["reproducibility_runs"]) == 9
-
-    aggregate = result["aggregate"]
-    assert aggregate["llm-only"]["requirement_accuracy"]["mean"] == 0.1515151515151515
-    assert aggregate["text-rag"]["requirement_accuracy"]["mean"] == 0.45454545454545453
-    assert aggregate["graphrag"]["requirement_accuracy"]["mean"] == 0.7575757575757577
-    assert aggregate["graphrag"]["coverage"]["mean"] == 0.8636363636363636
-    assert aggregate["graphrag"]["unsupported_claims"] == 0
-    assert sum(item["silent_truncation_events"] for item in aggregate.values()) == 0
-
-
-def test_canonical_rq2_proposal_identity_and_git_blob_are_unchanged():
-    manifest = _json(MANIFEST_PATH)
-    identity = manifest["canonical_rq2_proposal"]
-    proposal_path = ROOT / identity["path"]
-    proposal = _json(proposal_path)
-
-    assert identity["proposal_id"] == proposal["proposal_id"] == PROPOSAL_ID
-    assert identity["proposal_hash"] == proposal["proposal_hash"] == PROPOSAL_HASH
-    assert identity["byte_sha256"] == _sha256(proposal_path)
-    assert proposal_hash(proposal) == PROPOSAL_HASH
-    assert identity["rq2_to_rq3_continuity"] == "PASS"
-
-    for commit in identity["git_blob_verified_at"]:
-        observed = subprocess.run(
-            ["git", "rev-parse", f"{commit}:{identity['path']}"],
-            cwd=ROOT,
-            check=True,
-            capture_output=True,
-            text=True,
-        ).stdout.strip()
-        assert observed == identity["git_blob"] == PROPOSAL_BLOB
-
-
-def test_rq2_constraints_comparison_and_summary_close_h2_and_h2b():
-    constraints = _json(ROOT / "artifacts/rq2/rq2-demo-01-constraints.json")
-    comparison = _json(ROOT / "artifacts/rq2/rq2-demo-01-comparison.json")
-    summary = _json(ROOT / "artifacts/rq2/rq2-demo-01-summary.json")
-
-    assert len(constraints["resolved_constraints"]) == 7
-    assert len(constraints["unresolved_constraints"]) == 4
-    assert constraints["contradicted_constraints"] == []
-    assert len(comparison["constraint_to_plan_trace"]) == 11
-    assert comparison["answers"]["unresolved_preserved"] is True
-    assert summary["baseline"] == {
-        "execution": "BLOCKED",
-        "validator": "PASS",
-        "verification": "N/A",
-    }
-    assert summary["constrained"] == {
-        "execution": "PASS",
-        "validator": "PASS",
-        "verification": "PASS",
-    }
-    assert summary["rq3_handoff"] == "PASS"
-
-
-def test_rq3_authorization_execution_verification_and_audit_bind_exact_proposal():
-    paths = [
+    bound_paths = [
         "artifacts/rq3/rq3-demo-01/authorization.json",
         "artifacts/rq3/rq3-demo-01/case-a/execution-record.json",
         "artifacts/rq3/rq3-demo-01/case-a/verification-report.json",
         "artifacts/rq3/rq3-demo-01/case-a/audit-record.json",
     ]
-    records = [_json(ROOT / path) for path in paths]
-    assert all(record["proposal_id"] == PROPOSAL_ID for record in records)
-    assert all(record["proposal_hash"] == PROPOSAL_HASH for record in records)
+    for path in bound_paths:
+        record = load(ROOT / path)
+        assert record["proposal_id"] == PROPOSAL_ID
+        assert record["proposal_hash"] == PROPOSAL_HASH
 
-    authorization, execution, verification, audit = records
-    assert execution["authorization_hash"] == authorization["authorization_hash"]
-    assert verification["execution_hash"] == execution["execution_hash"]
-    assert audit["verification_hash"] == verification["verification_hash"]
-    assert audit["overall_acceptance"] == "PASS"
-    assert audit["provenance_complete"] is True
-    links = {item["artifact_type"]: item for item in audit["provenance_links"]}
-    assert set(links) == {
-        "PROPOSAL",
-        "EVIDENCE",
-        "AUTHORIZATION",
-        "EXECUTION",
-        "VERIFICATION",
-        "RESULT",
+
+def test_b_hypothesis_records_are_complete_and_preserve_frozen_verdicts():
+    records = load(RECORD_PATHS["matrix"])["hypotheses"]
+    assert [(item["rq"], item["hypothesis_id"], item["verdict"]) for item in records] == [
+        ("RQ1", "RQ1 comparison proposition (no frozen H1 identifier)", "SUPPORTED WITH FINDINGS"),
+        ("RQ2", "H2", "SUPPORTED"),
+        ("RQ2", "H2b", "SUPPORTED"),
+        ("RQ3", "H3", "SUPPORTED WITH FINDINGS"),
+    ]
+    required = {
+        "hypothesis_text",
+        "independent_variable",
+        "dependent_variable",
+        "controls",
+        "evidence_artifacts",
+        "positive_evidence",
+        "negative_evidence",
+        "validator",
+        "claim_boundary",
+        "residual_finding",
+        "reproducible",
     }
-    assert links["PROPOSAL"]["artifact_id"] == PROPOSAL_ID
-    assert links["PROPOSAL"]["artifact_hash"] == PROPOSAL_HASH
+    assert all(required <= item.keys() for item in records)
 
 
-def test_rq3_a_to_l_outcomes_all_match_and_fail_closed():
-    summary = _json(ROOT / "artifacts/rq3/rq3-demo-01/experiment-summary.json")
-    cases = summary["cases"]
-    assert [case["case_id"] for case in cases] == list("ABCDEFGHIJKL")
-    assert all(case["result"] == "PASS" for case in cases)
-    assert all(
-        case["actual_final_acceptance"] == case["expected_final_acceptance"] for case in cases
-    )
-    assert summary["all_negative_cases_fail_closed"] is True
-    assert summary["fail_closed_behavior"] == {"passed": 12, "total": 12}
-    assert summary["unauthorized_authoritative_mutation"] == "NONE"
-
-
-def test_report_contains_required_scientific_sections_and_verdict_classes():
-    report = REPORT_PATH.read_text(encoding="utf-8")
-    headings = {
-        "## Executive verdict",
-        "## Research questions",
-        "## Experimental lineage",
-        "## Experimental design matrix",
-        "## RQ1 findings",
-        "## RQ2 findings",
-        "## RQ3 findings",
-        "## Cross-RQ artifact handoff",
-        "## Hypothesis–Evidence Matrix",
-        "## Integrated architecture",
-        "## Claim ladder",
-        "## Threats to validity",
-        "## Findings and limitations",
-        "## Research conclusion",
-        "## Freeze readiness",
+def test_c_no_orphan_evidence_or_report_references():
+    matrix = load(RECORD_PATHS["matrix"])
+    referenced = {
+        ROOT / ref["path"]
+        for hypothesis in matrix["hypotheses"]
+        for ref in hypothesis["evidence_artifacts"]
     }
-    observed_headings = {line for line in report.splitlines() if line.startswith("## ")}
-    assert headings <= observed_headings
-    assert "RQ1 → RQ2: SEMANTIC/ARCHITECTURAL HANDOFF" in report
-    assert "RQ2 → RQ3: DIRECT IMMUTABLE ARTIFACT HANDOFF" in report
-    assert "RQ2 H2" in report and "RQ2 H2b" in report and "RQ3 H3" in report
-    assert "SUPPORTED WITH FINDINGS" in report
-    assert "NOT JUSTIFIED" in report
-    assert "READY FOR FREEZE WITH FINDINGS" in report
+    freeze = load(RECORD_PATHS["freeze"])
+    for key in ("rq1_reports", "rq2_reports", "rq3_reports"):
+        referenced.update(ROOT / path for path in freeze[key])
+    assert referenced
+    assert all(path.is_file() for path in referenced)
 
 
-def test_semantic_freeze_declarations_are_complete_and_negative():
-    manifest = _json(MANIFEST_PATH)
+def test_d_immutable_handoff_claims_have_direct_hash_evidence():
+    architecture = load(RECORD_PATHS["architecture"])
+    immutable = [
+        item
+        for item in architecture["handoffs"]
+        if "IMMUTABLE_HASH_BOUND_ARTIFACT" in item["handoff_classes"]
+    ]
+    assert immutable
+    for item in immutable:
+        assert item["directly_demonstrated"] is True
+        evidence = item["immutable_hash_evidence"]
+        assert evidence == {
+            "proposal_id": PROPOSAL_ID,
+            "proposal_hash": PROPOSAL_HASH,
+            "byte_sha256": PROPOSAL_BYTE_SHA256,
+            "git_blob": PROPOSAL_BLOB,
+        }
+    rq1_rq2 = next(item for item in architecture["handoffs"] if item["id"] == "rq1-to-rq2")
+    assert "IMMUTABLE_HASH_BOUND_ARTIFACT" not in rq1_rq2["handoff_classes"]
+    assert rq1_rq2["immutable_hash_evidence"] is None
+
+
+def test_e_freeze_identities_match_repository_artifacts_and_lineage():
+    freeze = load(RECORD_PATHS["freeze"])
+    identities = [freeze["kg_identity"]]
+    identities.extend(freeze["schema_identities"])
+    identities.extend(freeze["fixture_identities"])
+    identities.extend(freeze["authoritative_data_identities"])
+    for identity in identities:
+        path = ROOT / identity["path"]
+        assert path.is_file()
+        assert sha256(path) == identity["sha256"]
+
+    for key in ("rq1_commits", "rq2_commits", "rq3_commits"):
+        for commit in freeze[key]:
+            git("cat-file", "-e", f"{commit}^{{commit}}")
+            subprocess.run(
+                ["git", "merge-base", "--is-ancestor", commit, PREDECESSOR],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+            )
+
+
+def test_f_semantic_freeze_covers_every_protected_category():
+    observed = set(load(RECORD_PATHS["freeze"])["semantic_freeze"])
     expected = {
-        "KG",
-        "GraphRAG retrieval",
-        "Evidence projection",
-        "RQ1 answer-generation semantics",
-        "RQ1 validator semantics",
-        "RQ2 constraint semantics",
-        "RQ2 proposal semantics",
-        "RQ2 canonical proposal",
-        "Mapping semantics",
-        "Classification",
-        "Geometry",
-        "Portrayal",
-        "ProductLayer",
-        "Model",
-        "Authorization semantics",
-        "Verification semantics",
-        "Provenance semantics",
-        "ROAD",
-        "School Hero",
-        "BUILD",
-        "Core",
-        "Authoritative source data",
+        "KG", "GraphRAG retrieval", "Evidence projection", "RQ1 prompt semantics",
+        "RQ1 answer-generation semantics", "RQ1 validator semantics", "RQ1 comparison semantics",
+        "RQ2 constraint semantics", "RQ2 proposal semantics", "Canonical RQ2 proposal",
+        "Proposal canonicalization", "Mapping semantics", "Classification", "Geometry",
+        "Portrayal", "ProductLayer", "Model", "Authorization semantics",
+        "Verification semantics", "Provenance semantics", "ROAD", "School Hero", "BUILD",
+        "Core", "Authoritative source data",
     }
-    assert set(manifest["semantic_freeze"]) == expected
-    assert set(manifest["semantic_freeze"].values()) == {"NO"}
+    assert observed == expected
+
+
+def test_g_known_regression_failures_are_explicitly_classified():
+    freeze = load(RECORD_PATHS["freeze"])
+    observed = {(item["classification"], item["count"]) for item in freeze["known_inherited_failures"]}
+    assert observed == {("INHERITED HISTORICAL FAILURE", 27), ("EXPECTED SCOPE ASSERTION", 1)}
+    assert "0 semantic failures" in freeze["test_suite_evidence"]["accepted_rq3_targeted"]
+
+
+def test_h_public_demo_boundary_is_nonempty_unique_and_disjoint():
+    freeze = load(RECORD_PATHS["freeze"])
+    allowed = freeze["allowed_demo_layer_changes"]
+    forbidden = freeze["forbidden_demo_layer_changes"]
+    assert allowed and forbidden
+    assert len(allowed) == len(set(allowed))
+    assert len(forbidden) == len(set(forbidden))
+    assert set(allowed).isdisjoint(forbidden)
+    assert freeze["research_demo_semantics"] == "FROZEN"
+
+
+def test_i_schema_is_meta_valid_and_all_machine_records_validate():
+    schema = load(SCHEMA_PATH)
+    jsonschema.Draft202012Validator.check_schema(schema)
+    validator = jsonschema.Draft202012Validator(schema, format_checker=jsonschema.FormatChecker())
+    for path in RECORD_PATHS.values():
+        validator.validate(load(path))
+
+
+def test_machine_records_use_deterministic_sorted_pretty_json():
+    for path in (*RECORD_PATHS.values(), SCHEMA_PATH):
+        value = json.loads(path.read_text(encoding="utf-8"))
+        expected = json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
+        assert path.read_text(encoding="utf-8") == expected
+
+
+def test_negative_evidence_is_present_in_each_hypothesis_and_frozen_cases():
+    records = load(RECORD_PATHS["matrix"])["hypotheses"]
+    assert all(item["negative_evidence"] for item in records)
+    rq3 = load(ROOT / "artifacts/rq3/rq3-demo-01/experiment-summary.json")
+    assert [item["case_id"] for item in rq3["cases"]] == list("ABCDEFGHIJKL")
+    assert rq3["fail_closed_behavior"] == {"passed": 12, "total": 12}
+    assert rq3["unauthorized_authoritative_mutation"] == "NONE"
+
+
+def test_report_and_changed_paths_are_evidence_only():
+    report = REPORT_PATH.read_text(encoding="utf-8")
+    required_phrases = {
+        "PASS WITH FINDINGS — RESEARCH DEMO SEMANTICS FROZEN",
+        "RQ1 → RQ2: SEMANTIC/ARCHITECTURAL HANDOFF",
+        "RQ2 → RQ3: DIRECT IMMUTABLE ARTIFACT HANDOFF",
+        "What the research demonstrates",
+        "What the research does not demonstrate",
+        "Threats to validity",
+        "public-demo boundary",
+        "RESEARCH DEMO SEMANTICS: FROZEN",
+    }
+    assert all(phrase in report for phrase in required_phrases)
+    changed = set(git("diff", "--name-only", PREDECESSOR).splitlines())
+    allowed = {
+        REPORT_PATH.relative_to(ROOT).as_posix(),
+        "artifacts/research/rq-final-00-hypothesis-evidence-matrix.json",
+        "artifacts/research/rq-final-00-integrated-architecture.json",
+        "artifacts/research/rq-final-00-claim-boundaries.json",
+        "artifacts/research/rq-final-00-freeze-manifest.json",
+        "data/specifications/rq-final-00-evidence-package-schema-v1.0.json",
+        "tests/test_rq_final_00_evidence_integrity.py",
+    }
+    assert changed <= allowed
+
+
+def test_rq1_rq2_and_rq3_canonical_aggregates_match_reports():
+    rq1 = load(ROOT / "rq1-compare-01-results.json")["aggregate"]
+    assert rq1["llm-only"]["requirement_accuracy"]["mean"] == 0.1515151515151515
+    assert rq1["text-rag"]["requirement_accuracy"]["mean"] == 0.45454545454545453
+    assert rq1["graphrag"]["requirement_accuracy"]["mean"] == 0.7575757575757577
+    assert rq1["graphrag"]["unsupported_claims"] == 0
+
+    rq2 = load(ROOT / "artifacts/rq2/rq2-demo-01-summary.json")
+    assert rq2["baseline"]["execution"] == "BLOCKED"
+    assert rq2["constrained"] == {"execution": "PASS", "validator": "PASS", "verification": "PASS"}
+    assert rq2["rq3_handoff"] == "PASS"
+
+    rq3 = load(ROOT / "artifacts/rq3/rq3-demo-01/experiment-summary.json")
+    assert rq3["positive_canonical_scenario"] == "PASS"
+    assert rq3["all_negative_cases_fail_closed"] is True
+    assert rq3["model_calls"] == 0

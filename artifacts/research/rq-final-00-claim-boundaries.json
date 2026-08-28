@@ -1,0 +1,120 @@
+{
+  "artifact_type": "claim_boundaries",
+  "bounded_claims": [
+    "GraphRAG advantage is bounded to one task family, eleven wordings, one local model, one graph/corpus snapshot, and a bounded deterministic evaluator.",
+    "RQ2 planning evidence is bounded to one accepted paired symbolic fire-hydrant scenario.",
+    "RQ3 establishes technical auditability under encoded controls, not intrinsic LLM trust or institutional trust.",
+    "Repository-addressable deterministic verification is reproducible; live probabilistic reruns remain environment-dependent."
+  ],
+  "out_of_scope_claims": [
+    "Changing KG, retrieval, model, mapping, constraint, proposal, authorization, verification, provenance, or authoritative-data semantics.",
+    "Production source mutation or authoritative final cartographic rendering.",
+    "DEMO-PUBLIC-00 implementation, deployment, public URL creation, or demo UI improvement.",
+    "PKI, trusted timestamping, key lifecycle, revocation, legal policy, or institutional authorization."
+  ],
+  "schema_version": "rq-final-00-claim-boundaries/1.0",
+  "supported_claims": [
+    "GraphRAG improved measured grounded mapping reasoning over the two tested baselines in the frozen portrayal task family.",
+    "Knowledge-derived geographic and cartographic constraints changed the RQ2 plan before execution and produced the only semantically executable proposal.",
+    "Bounded unresolved constraints can be preserved explicitly rather than guessed.",
+    "The validated canonical RQ2 proposal serves as a deterministic execution contract for RQ3.",
+    "Hash-bound authorization prevented the tested proposal, scope, tool, and parameter substitutions.",
+    "Deterministic postcondition verification detected the tested unacceptable execution results.",
+    "Content-addressed provenance made the canonical action reconstructable and the tested tampering detectable.",
+    "All frozen RQ3 invalid and tampered paths failed closed under their expected acceptance rules."
+  ],
+  "threats_to_validity": [
+    {
+      "class": "INTERNAL",
+      "existing_mitigation": "Fixed model/digest/config, frozen prompts and variants, raw outputs, repeats, and deterministic downstream validators.",
+      "potential_impact": "Free-form answers and plans may vary even at temperature zero.",
+      "residual_risk": "Byte-identical live LLM reproduction is not guaranteed.",
+      "threat": "Model stochasticity and prompt effects"
+    },
+    {
+      "class": "INTERNAL",
+      "existing_mitigation": "Explicit 8192 context, output reserve, no-truncation guard, graph-ID leakage audit, and matched Text-RAG/GraphRAG evidence-token ceiling.",
+      "potential_impact": "Delivery defects or leakage could be mistaken for architecture effects.",
+      "residual_risk": "Representation and orchestration complexity still differ across conditions.",
+      "threat": "Context-window and retrieval configuration"
+    },
+    {
+      "class": "INTERNAL",
+      "existing_mitigation": "Persisted negative cases, independent postcondition checks, schema validation, and source-hash checks.",
+      "potential_impact": "A common implementation error could pass multiple stages.",
+      "residual_risk": "Components are not institutionally or implementation-team independent.",
+      "threat": "Shared contracts between planner, validator, executor, and verifier"
+    },
+    {
+      "class": "CONSTRUCT",
+      "existing_mitigation": "Six frozen semantic requirements, separate grounding/coverage checks, and retained raw answers/claims.",
+      "potential_impact": "Scores may not capture all mapping knowledge or linguistic correctness.",
+      "residual_risk": "Some valid semantic equivalents remain under-recognized.",
+      "threat": "Bounded grounding and coverage measures"
+    },
+    {
+      "class": "CONSTRUCT",
+      "existing_mitigation": "Evidence-to-constraint-to-plan trace, semantic preconditions, isolated execution, and explicit postconditions.",
+      "potential_impact": "A compliant proposal may be non-optimal or miss an unencoded cartographic concern.",
+      "residual_risk": "The experiment cannot validate constraints that were never encoded.",
+      "threat": "Plan validity as constrained-planning quality"
+    },
+    {
+      "class": "CONSTRUCT",
+      "existing_mitigation": "Explicit trust-control matrix and exclusion of production/institutional claims.",
+      "potential_impact": "Authorization, verification, and provenance could be overread as legal or institutional trust.",
+      "residual_risk": "Human policy correctness and governance remain untested.",
+      "threat": "Technical controls as a proxy for trust"
+    },
+    {
+      "class": "EXTERNAL",
+      "existing_mitigation": "All scenario, model, graph, schema, and data identities are frozen and declared.",
+      "potential_impact": "Results may not transfer to other tasks, agencies, models, or datasets.",
+      "residual_risk": "No cross-model, cross-domain, production-user, or national-scale replication exists.",
+      "threat": "Narrow scenario, controlled source data, and one model"
+    },
+    {
+      "class": "EXTERNAL",
+      "existing_mitigation": "Authoritative source hash is checked before/after and the claim is explicitly bounded to derived output.",
+      "potential_impact": "Success may not transfer to production GIS mutation or final rendering.",
+      "residual_risk": "Topology, raster, conflation, multi-feature edits, and physical portrayal remain untested.",
+      "threat": "Symbolic isolated execution"
+    },
+    {
+      "class": "CONCLUSION",
+      "existing_mitigation": "Exact denominators, effect metrics, negative cases, and bounded verdict rules are reported.",
+      "potential_impact": "PASS classifications may be mistaken for population-level statistical proof.",
+      "residual_risk": "No inferential confidence interval or broad population claim is justified.",
+      "threat": "Small sample and mixed quantitative/qualitative evidence"
+    },
+    {
+      "class": "CONCLUSION",
+      "existing_mitigation": "RQ2 A-G and RQ3 A-L include explicit failure taxonomies and expected outcomes.",
+      "potential_impact": "Unknown failure paths may remain.",
+      "residual_risk": "The set is not exhaustive and does not establish general cybersecurity.",
+      "threat": "Bounded adversarial and baseline cases"
+    },
+    {
+      "class": "REPRODUCIBILITY",
+      "existing_mitigation": "Central controlled outputs, protocols, fixtures, schemas, reports, and hashes are committed.",
+      "potential_impact": "Independent live reruns may differ or cannot reconstruct every temporary byte.",
+      "residual_risk": "External runtime/hardware remains necessary for probabilistic regeneration.",
+      "threat": "Local Ollama/model and transient auxiliary live artifacts"
+    },
+    {
+      "class": "REPRODUCIBILITY",
+      "existing_mitigation": "Exact-predecessor counts and failure classification are recorded without rewriting historical tests.",
+      "potential_impact": "New failures could be confused with frozen scope assertions.",
+      "residual_risk": "Broad suites remain non-green and require predecessor-relative interpretation.",
+      "threat": "Inherited historical regression failures"
+    }
+  ],
+  "unsupported_claims": [
+    "Universal LLM superiority or universal GraphRAG superiority across mapping tasks.",
+    "Zero hallucination or correctness of every fact in the knowledge graph.",
+    "General-purpose autonomous GIS competence or safe arbitrary tool use.",
+    "Production infrastructure security, resistance to every cyberattack, or general AI safety.",
+    "Correctness of human authorization policy, legal acceptability, institutional governance validity, or production non-repudiation.",
+    "National-scale operational performance, arbitrary dataset scalability, or semantic correctness outside the frozen domain."
+  ]
+}

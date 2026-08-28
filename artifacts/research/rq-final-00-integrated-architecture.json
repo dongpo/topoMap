@@ -1,0 +1,173 @@
+{
+  "architecture_claim": "Probabilistic reasoning is knowledge-grounded, converted into explicit constraints and a canonical proposal, then admitted across a deterministic governance boundary where authorization, execution, verification, and provenance determine acceptance. The LLM remains probabilistic.",
+  "artifact_type": "integrated_architecture",
+  "direct_llm_mutation_claim": false,
+  "handoffs": [
+    {
+      "artifact_type": "Request, graph projection, answer, and validation records inside the RQ1 experiment.",
+      "continuity": "Directly demonstrated within RQ1; no claim is made that the answer itself is an execution contract.",
+      "directly_demonstrated": true,
+      "from": "intent",
+      "handoff_classes": [
+        "CONCEPTUAL",
+        "SERIALIZED_ARTIFACT"
+      ],
+      "id": "intent-to-rq1",
+      "immutable_hash_evidence": null,
+      "input": "Canonical RQ1 question and ten frozen semantic variants.",
+      "output": "Retrieved graph evidence, projected evidence, grounded answer, and deterministic validation.",
+      "to": "rq1",
+      "validation": [
+        "context budget and no-truncation guard",
+        "evidence and citation identity",
+        "claim grounding",
+        "six-category question coverage"
+      ]
+    },
+    {
+      "artifact_type": "Shared knowledge infrastructure and an RQ2-specific serialized retrieval package; not an RQ1 answer/result handoff.",
+      "continuity": "Directly demonstrated for shared infrastructure and knowledge semantics; direct serialized continuity from an RQ1 output is not demonstrated and is not claimed.",
+      "directly_demonstrated": true,
+      "from": "rq1",
+      "handoff_classes": [
+        "SEMANTIC",
+        "ARCHITECTURAL",
+        "SHARED_INFRASTRUCTURE"
+      ],
+      "id": "rq1-to-rq2",
+      "immutable_hash_evidence": null,
+      "input": "Frozen canonical KG, CanonicalGraphRetriever, typed relationships, evidence identifiers, and provenance semantics shared with RQ1.",
+      "output": "A new RQ2 retrieval package and deterministic resolved, bounded-unresolved, and contradicted constraint set.",
+      "to": "rq2",
+      "validation": [
+        "canonical KG SHA-256",
+        "retriever implementation identity",
+        "evidence ID/provenance integrity",
+        "RQ2 constraint validator"
+      ]
+    },
+    {
+      "artifact_type": "Serialized canonical JSON proposal.",
+      "continuity": "Directly demonstrated by the persisted constraints, plan comparison, and proposal.",
+      "directly_demonstrated": true,
+      "from": "rq2",
+      "handoff_classes": [
+        "SEMANTIC",
+        "SERIALIZED_ARTIFACT"
+      ],
+      "id": "rq2-constraints-to-proposal",
+      "immutable_hash_evidence": null,
+      "input": "Canonical intent plus 7 resolved, 4 bounded unresolved, and 0 contradicted constraints.",
+      "output": "Canonical executable RQ2 proposal.",
+      "to": "rq2",
+      "validation": [
+        "proposal JSON Schema",
+        "tool allowlist",
+        "semantic preconditions",
+        "11-reference constraint-to-plan trace"
+      ]
+    },
+    {
+      "artifact_type": "Immutable/hash-bound canonical JSON proposal.",
+      "continuity": "RQ2 output equals RQ3 authorized input equals RQ3 executed proposal at proposal ID and canonical-hash level; the file Git blob is also unchanged across the recorded commits.",
+      "directly_demonstrated": true,
+      "from": "rq2",
+      "handoff_classes": [
+        "SERIALIZED_ARTIFACT",
+        "IMMUTABLE_HASH_BOUND_ARTIFACT"
+      ],
+      "id": "rq2-to-rq3",
+      "immutable_hash_evidence": {
+        "byte_sha256": "8ad05eea5111a0c535be275effa6b8a6c3dce7b74c7149bf42811a1866aa4829",
+        "git_blob": "c7ba805bf44763249e842512b01fbe2308fb6724",
+        "proposal_hash": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1",
+        "proposal_id": "rq2-proposal:knowledge-constrained:e635111c3be29423faf923b7"
+      },
+      "input": "Exact canonical RQ2 proposal emitted at commit 673bcb6efb84de2aeaac5c4b23beda364bea9e44.",
+      "output": "The same proposal as RQ3 authorized and executed input.",
+      "to": "rq3",
+      "validation": [
+        "proposal ID equality",
+        "canonical proposal hash recomputation",
+        "byte SHA-256",
+        "Git blob identity at RQ2 and RQ3 commits",
+        "authorization/execution/verification/audit record binding"
+      ]
+    },
+    {
+      "artifact_type": "Hash-linked authorization, execution, verification, provenance, and audit records.",
+      "continuity": "Directly demonstrated for canonical Case A and exact replay Case L; bounded by the encoded controls and symbolic scenario.",
+      "directly_demonstrated": true,
+      "from": "rq3",
+      "handoff_classes": [
+        "SEMANTIC",
+        "SERIALIZED_ARTIFACT",
+        "IMMUTABLE_HASH_BOUND_ARTIFACT"
+      ],
+      "id": "rq3-to-accepted-action",
+      "immutable_hash_evidence": {
+        "byte_sha256": "8ad05eea5111a0c535be275effa6b8a6c3dce7b74c7149bf42811a1866aa4829",
+        "git_blob": "c7ba805bf44763249e842512b01fbe2308fb6724",
+        "proposal_hash": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1",
+        "proposal_id": "rq2-proposal:knowledge-constrained:e635111c3be29423faf923b7"
+      },
+      "input": "Proposal-bound authorization, closed execution request, deterministic execution result, receipt, verification report, and provenance links.",
+      "output": "PASS audit and accepted symbolic mapping artifact under frozen test conditions.",
+      "to": "accepted_action",
+      "validation": [
+        "authorization gate",
+        "deterministic executor",
+        "postcondition verifier",
+        "schema validation",
+        "provenance completeness",
+        "Boolean final acceptance"
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "intent",
+      "label": "User mapping intent",
+      "outputs": [
+        "canonical mapping question or execution intent"
+      ]
+    },
+    {
+      "id": "rq1",
+      "label": "RQ1 knowledge grounding",
+      "outputs": [
+        "GraphRAG evidence",
+        "grounded reasoning",
+        "claim and coverage validation"
+      ]
+    },
+    {
+      "id": "rq2",
+      "label": "RQ2 knowledge-constrained planning",
+      "outputs": [
+        "resolved and bounded constraints",
+        "executable plan",
+        "canonical proposal"
+      ]
+    },
+    {
+      "id": "rq3",
+      "label": "RQ3 deterministic trust boundary",
+      "outputs": [
+        "authorization",
+        "execution receipt",
+        "verification",
+        "provenance",
+        "audit record"
+      ]
+    },
+    {
+      "id": "accepted_action",
+      "label": "Accepted auditable mapping action under test conditions",
+      "outputs": [
+        "verified symbolic derived artifact"
+      ]
+    }
+  ],
+  "schema_version": "rq-final-00-integrated-architecture/1.0"
+}

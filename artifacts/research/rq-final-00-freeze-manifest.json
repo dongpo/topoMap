@@ -1,0 +1,181 @@
+{
+  "allowed_demo_layer_changes": [
+    "presentation layout",
+    "frontend styling",
+    "animation",
+    "narrative sequencing",
+    "static explanatory labels",
+    "charts based on frozen evidence",
+    "KG visualization",
+    "deployment configuration",
+    "public URL",
+    "static screenshots",
+    "recorded demo video",
+    "guided scenario selector",
+    "read-only artifact viewer"
+  ],
+  "artifact_type": "research_freeze_manifest",
+  "authoritative_data_identities": [
+    {
+      "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+      "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+    }
+  ],
+  "canonical_proposal_hash": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1",
+  "canonical_proposal_id": "rq2-proposal:knowledge-constrained:e635111c3be29423faf923b7",
+  "created_at": "2026-08-29T00:00:00+08:00",
+  "fixture_identities": [
+    {
+      "path": "data/evaluation/rq1-compare-01-question-variants.json",
+      "sha256": "b3f66ead096c7dd186fef95b415f06fde766e6f5c3e838ab461e236e16c3909c"
+    },
+    {
+      "path": "data/evaluation/rq2-demo-01-protocol.json",
+      "sha256": "be13ea2c79390e4ef01bb6e63a7b7fcfdc572ed0d650276177ea21aba7e8191e"
+    }
+  ],
+  "forbidden_demo_layer_changes": [
+    "KG contents",
+    "retrieval behavior",
+    "model identity",
+    "RQ1 comparison conditions",
+    "constraint semantics",
+    "proposal semantics or canonical proposal",
+    "tool behavior or GIS outputs",
+    "authorization policy",
+    "verification rules",
+    "provenance semantics",
+    "authoritative source data",
+    "acceptance criteria",
+    "fabricated replacement of live or committed results"
+  ],
+  "freeze_id": "RQ-FINAL-00",
+  "kg_identity": {
+    "path": "data/knowledge/nma-canonical-graph-v0.4.json",
+    "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+  },
+  "known_inherited_failures": [
+    {
+      "basis": "Exact RQ3-DEMO-00 predecessor broad suite.",
+      "classification": "INHERITED HISTORICAL FAILURE",
+      "count": 27
+    },
+    {
+      "basis": "RQ3-DEMO-00 exact-successor-scope assertion after RQ3-DEMO-01.",
+      "classification": "EXPECTED SCOPE ASSERTION",
+      "count": 1
+    }
+  ],
+  "model_identity": {
+    "architecture": "qwen2",
+    "context_window": 8192,
+    "digest_prefix": "845dbda0ea48",
+    "name": "qwen2.5:latest",
+    "parameters": "7.6B",
+    "quantization": "Q4_K_M",
+    "reserved_output_tokens": 2048,
+    "temperature": 0
+  },
+  "repository": "https://github.com/dongpo/topoMap.git",
+  "research_demo_semantics": "FROZEN",
+  "retrieval_config_identity": {
+    "retriever": "CanonicalGraphRetriever",
+    "rq1_protocol_path": "data/evaluation/rq1-compare-01-evaluation-protocol.json",
+    "rq1_protocol_sha256": "bd3986e19a48ef1a17a4e304005c5f58395a127e778605bf016a6cd3e7d10157",
+    "rq2_retrieval_canonical_sha256": "8f6fefa8b9ee96860a29b994cbcdcac9a48e6a1ca002777165f6c17dda904b25",
+    "rq2_retrieval_path": "artifacts/rq2/rq2-demo-01-retrieval.json"
+  },
+  "rq1_commits": [
+    "cf41fdacaa719efa440307df1afca067768e2d8a",
+    "596dc67cd026116637e5d4c1fe4ec92aedaadbc8",
+    "6961b992d3fd49714fd14023afba60cba2f4e1d2",
+    "d3c7dacbb1c3aea988e27909d1ebe0f0595dd3d6"
+  ],
+  "rq1_reports": [
+    "RQ1-TRACE-01-Completion-Report.md",
+    "RQ1-PROMPT-01-Completion-Report.md",
+    "RQ1-VALIDATOR-01-Completion-Report.md",
+    "RQ1-COMPARE-01-Completion-Report.md"
+  ],
+  "rq2_commits": [
+    "802d76ac79c34d0f681911a8e956b253bf62bd05",
+    "673bcb6efb84de2aeaac5c4b23beda364bea9e44"
+  ],
+  "rq2_reports": [
+    "RQ2-DEMO-00-Architecture-Acceptance-Specification.md",
+    "RQ2-DEMO-01-Knowledge-Constrained-Planning-Execution-Report.md"
+  ],
+  "rq3_commits": [
+    "2c3c25937615cfe01e989bdeb64b25ad6c27251f",
+    "3fed8fb77e759d004a7b91b23d933d41d8f70225"
+  ],
+  "rq3_reports": [
+    "RQ3-DEMO-00-Authorization-Verification-Provenance-Architecture-Specification.md",
+    "RQ3-DEMO-01-Authorized-Execution-Verification-Provenance-Report.md"
+  ],
+  "rq_final_commit": null,
+  "rq_final_commit_note": "A commit cannot contain its own Git object ID. The completion message records and verifies the final local/upstream/remote SHA; all predecessor commits are frozen here.",
+  "schema_identities": [
+    {
+      "path": "data/specifications/rq2-constraint-schema-v1.0.json",
+      "sha256": "b98716048ad5448396668606869dfdcc8f6dca335a47ea9bcaa3856521ce6510"
+    },
+    {
+      "path": "data/specifications/rq2-proposal-schema-v1.0.json",
+      "sha256": "470bccf84046dbfe755c74a1df934d8dad75ed88b1a0a68425270394d69c00a0"
+    },
+    {
+      "path": "data/specifications/rq3-authorization-schema-v1.0.json",
+      "sha256": "5668c9db35d3dc975939777961e1859156d12975c005b4873bd68f6f6220e68e"
+    },
+    {
+      "path": "data/specifications/rq3-execution-record-schema-v1.0.json",
+      "sha256": "93168f3c2aeff453e09607597ed66436b4ec056a8b49d235d7f99639b4304c95"
+    },
+    {
+      "path": "data/specifications/rq3-verification-report-schema-v1.0.json",
+      "sha256": "525fccb50171c787a589e0ec1b489c290b6206dbf9c16f0e9c35322033b57c2a"
+    },
+    {
+      "path": "data/specifications/rq3-audit-record-schema-v1.0.json",
+      "sha256": "2b95801da94607a4aa09a3c9a6dc1ab1360dc4943a7d21a1314190f898818651"
+    }
+  ],
+  "schema_version": "rq-final-00-freeze-manifest/1.0",
+  "semantic_freeze": [
+    "KG",
+    "GraphRAG retrieval",
+    "Evidence projection",
+    "RQ1 prompt semantics",
+    "RQ1 answer-generation semantics",
+    "RQ1 validator semantics",
+    "RQ1 comparison semantics",
+    "RQ2 constraint semantics",
+    "RQ2 proposal semantics",
+    "Canonical RQ2 proposal",
+    "Proposal canonicalization",
+    "Mapping semantics",
+    "Classification",
+    "Geometry",
+    "Portrayal",
+    "ProductLayer",
+    "Model",
+    "Authorization semantics",
+    "Verification semantics",
+    "Provenance semantics",
+    "ROAD",
+    "School Hero",
+    "BUILD",
+    "Core",
+    "Authoritative source data"
+  ],
+  "test_suite_evidence": {
+    "accepted_rq3_broad": "1338 passed, 208 skipped, 28 failed; 27 inherited and 1 expected successor-scope assertion",
+    "accepted_rq3_focused": "24 passed",
+    "accepted_rq3_targeted": "854 passed, 177 skipped, 2 inherited historical scope failures, 0 semantic failures",
+    "exact_rq3_demo_00_predecessor_broad": "1315 passed, 208 skipped, 27 failed",
+    "rq_final_broad": "PENDING CURRENT VERIFICATION",
+    "rq_final_focused": "PENDING CURRENT VERIFICATION",
+    "rq_final_targeted": "PENDING CURRENT VERIFICATION"
+  }
+}
