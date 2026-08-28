@@ -1,0 +1,220 @@
+{
+  "manifest_version": "nma.rq-final-00-integrated-evidence/1.0",
+  "task_id": "RQ-FINAL-00",
+  "generated_at": "2026-08-28",
+  "predecessor_sha": "3fed8fb77e759d004a7b91b23d933d41d8f70225",
+  "branch": "rq-final/rq-final-00-integrated-evidence-hypothesis-closure",
+  "lineage": {
+    "rq1_trace_01": "cf41fdacaa719efa440307df1afca067768e2d8a",
+    "rq1_prompt_01": "596dc67cd026116637e5d4c1fe4ec92aedaadbc8",
+    "rq1_validator_01": "6961b992d3fd49714fd14023afba60cba2f4e1d2",
+    "rq1_compare_01": "d3c7dacbb1c3aea988e27909d1ebe0f0595dd3d6",
+    "rq2_demo_00": "802d76ac79c34d0f681911a8e956b253bf62bd05",
+    "rq2_demo_01": "673bcb6efb84de2aeaac5c4b23beda364bea9e44",
+    "rq3_demo_00_definition": "cfe4878579cc9f10c0010985eeeeb9d6ceced776",
+    "rq3_demo_00_final": "2c3c25937615cfe01e989bdeb64b25ad6c27251f",
+    "rq3_demo_01": "3fed8fb77e759d004a7b91b23d933d41d8f70225"
+  },
+  "canonical_knowledge_snapshot": {
+    "path": "data/knowledge/nma-canonical-graph-v0.4.json",
+    "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+  },
+  "rq1_canonical_evidence": [
+    {
+      "role": "trace_closure_report",
+      "path": "RQ1-TRACE-01-Completion-Report.md",
+      "sha256": "8dfc04d82699cdac42ec37a8df9e1dd5f12dcd245d83ab3a894eecf7b3c9f302"
+    },
+    {
+      "role": "context_prompt_projection_closure_report",
+      "path": "RQ1-PROMPT-01-Completion-Report.md",
+      "sha256": "c545f4b9d01c8374aceec0cd94ac5ec7f4dd4bef9aceb4739f95245c93d726c6"
+    },
+    {
+      "role": "grounding_coverage_validator_closure_report",
+      "path": "RQ1-VALIDATOR-01-Completion-Report.md",
+      "sha256": "07774e39e217c0ff64e38abb4d434d6bb090572e6f09e8e8f7ae0d6f5498b283"
+    },
+    {
+      "role": "controlled_comparison_report",
+      "path": "RQ1-COMPARE-01-Completion-Report.md",
+      "sha256": "c193ad0e0a57da11581424f52060c0f5c70f5979ca06cbe45dc4244ffa15ec79"
+    },
+    {
+      "role": "controlled_comparison_results",
+      "path": "rq1-compare-01-results.json",
+      "sha256": "9b60b97c7097a960c8c237e4e08e68622a053d00312b98c41dedc6a8fd4355de"
+    },
+    {
+      "role": "evaluation_protocol",
+      "path": "data/evaluation/rq1-compare-01-evaluation-protocol.json",
+      "sha256": "bd3986e19a48ef1a17a4e304005c5f58395a127e778605bf016a6cd3e7d10157"
+    },
+    {
+      "role": "question_fixture",
+      "path": "data/evaluation/rq1-compare-01-question-variants.json",
+      "sha256": "b3f66ead096c7dd186fef95b415f06fde766e6f5c3e838ab461e236e16c3909c"
+    }
+  ],
+  "rq2_canonical_evidence": [
+    {
+      "role": "architecture_acceptance_specification",
+      "path": "RQ2-DEMO-00-Architecture-Acceptance-Specification.md",
+      "sha256": "4dbd2c0d39296a93b390bdcd3ce84f3d08860537622c63c626a90db7b48c3ab4"
+    },
+    {
+      "role": "experiment_report",
+      "path": "RQ2-DEMO-01-Knowledge-Constrained-Planning-Execution-Report.md",
+      "sha256": "e0338d0f9f6cb4c79fdfaefd2babf45ca90125eaea7b8bc6f158645a8b54e57e"
+    },
+    {
+      "role": "evaluation_protocol",
+      "path": "data/evaluation/rq2-demo-01-protocol.json",
+      "sha256": "be13ea2c79390e4ef01bb6e63a7b7fcfdc572ed0d650276177ea21aba7e8191e"
+    },
+    {
+      "role": "retrieval_package",
+      "path": "artifacts/rq2/rq2-demo-01-retrieval.json",
+      "sha256": "26d1ccda9941579a17c0e3ee57c3ca3072dc5a7f83bf5bdffcae0541dd6cfdc1",
+      "canonical_content_sha256": "8f6fefa8b9ee96860a29b994cbcdcac9a48e6a1ca002777165f6c17dda904b25"
+    },
+    {
+      "role": "resolved_constraint_set",
+      "path": "artifacts/rq2/rq2-demo-01-constraints.json",
+      "sha256": "cf0ca866c419b4f8141bf7c2206164d624b59db5038fd9639a8a6fc3c063551f"
+    },
+    {
+      "role": "plan_comparison_and_trace",
+      "path": "artifacts/rq2/rq2-demo-01-comparison.json",
+      "sha256": "35b7cde60d4dc68ee3746b8014021b19df76b882389d066d9e889210b4bc6562"
+    },
+    {
+      "role": "experiment_summary",
+      "path": "artifacts/rq2/rq2-demo-01-summary.json",
+      "sha256": "e1b5c7b4f713c10bbb436ce1f2a92464cd48cca7dfc4032bc9c7b462f4e9666a"
+    },
+    {
+      "role": "canonical_proposal",
+      "path": "artifacts/rq2/rq2-demo-01-canonical-proposal.json",
+      "sha256": "8ad05eea5111a0c535be275effa6b8a6c3dce7b74c7149bf42811a1866aa4829",
+      "git_blob": "c7ba805bf44763249e842512b01fbe2308fb6724"
+    }
+  ],
+  "rq3_canonical_evidence": [
+    {
+      "role": "architecture_acceptance_specification",
+      "path": "RQ3-DEMO-00-Authorization-Verification-Provenance-Architecture-Specification.md",
+      "sha256": "9e3bc9c2bab2b1501f50caa5a8188e8bff1b7490af23db1dcfc0137685d7a4b5"
+    },
+    {
+      "role": "architecture_completion_record",
+      "path": "artifacts/rq3/rq3-demo-00-completion-report.json",
+      "sha256": "91238de08889c0881641119be936529f408fe4fc0eed42b92c3a6a01ba3babfb"
+    },
+    {
+      "role": "experiment_report",
+      "path": "RQ3-DEMO-01-Authorized-Execution-Verification-Provenance-Report.md",
+      "sha256": "acd37732185ccb602505faa4e5c6e7db2139b749e0b2aca87bc972558eb74027"
+    },
+    {
+      "role": "proposal_bound_authorization",
+      "path": "artifacts/rq3/rq3-demo-01/authorization.json",
+      "sha256": "e8e005333b70cb56d3db2af1f449a25f58e50063598f9ffa2db5efd20082bbfe"
+    },
+    {
+      "role": "canonical_execution_record",
+      "path": "artifacts/rq3/rq3-demo-01/case-a/execution-record.json",
+      "sha256": "2f5e801937b412c5be8d02112ebac17df96e261624c29d0825bc3f5286556fdc"
+    },
+    {
+      "role": "canonical_verification_report",
+      "path": "artifacts/rq3/rq3-demo-01/case-a/verification-report.json",
+      "sha256": "8fe310b0312fd2d28c292cba1763880f9f80221768080cbb0210d8397a0d975f"
+    },
+    {
+      "role": "canonical_audit_record",
+      "path": "artifacts/rq3/rq3-demo-01/case-a/audit-record.json",
+      "sha256": "9382c7b11aac3690e33fd6c292c293d6a4e55986ac332ee5435680f04f733c64"
+    },
+    {
+      "role": "a_to_l_experiment_summary",
+      "path": "artifacts/rq3/rq3-demo-01/experiment-summary.json",
+      "sha256": "6f470f0ffdc74bcd919477207d48b88600d1d9df0e0118b521c080b4f37f3bcb"
+    }
+  ],
+  "canonical_rq2_proposal": {
+    "path": "artifacts/rq2/rq2-demo-01-canonical-proposal.json",
+    "proposal_id": "rq2-proposal:knowledge-constrained:e635111c3be29423faf923b7",
+    "proposal_hash": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1",
+    "byte_sha256": "8ad05eea5111a0c535be275effa6b8a6c3dce7b74c7149bf42811a1866aa4829",
+    "git_blob": "c7ba805bf44763249e842512b01fbe2308fb6724",
+    "git_blob_verified_at": [
+      "673bcb6efb84de2aeaac5c4b23beda364bea9e44",
+      "2c3c25937615cfe01e989bdeb64b25ad6c27251f",
+      "3fed8fb77e759d004a7b91b23d933d41d8f70225"
+    ],
+    "rq2_to_rq3_continuity": "PASS"
+  },
+  "hypothesis_verdicts": {
+    "rq1_comparison_proposition": "SUPPORTED WITH FINDINGS",
+    "rq2_h2": "SUPPORTED",
+    "rq2_h2b": "SUPPORTED",
+    "rq3_h3": "SUPPORTED WITH FINDINGS"
+  },
+  "handoff_classifications": {
+    "rq1_to_rq2": "SEMANTIC/ARCHITECTURAL HANDOFF",
+    "rq2_to_rq3": "DIRECT IMMUTABLE ARTIFACT HANDOFF"
+  },
+  "semantic_freeze": {
+    "KG": "NO",
+    "GraphRAG retrieval": "NO",
+    "Evidence projection": "NO",
+    "RQ1 answer-generation semantics": "NO",
+    "RQ1 validator semantics": "NO",
+    "RQ2 constraint semantics": "NO",
+    "RQ2 proposal semantics": "NO",
+    "RQ2 canonical proposal": "NO",
+    "Mapping semantics": "NO",
+    "Classification": "NO",
+    "Geometry": "NO",
+    "Portrayal": "NO",
+    "ProductLayer": "NO",
+    "Model": "NO",
+    "Authorization semantics": "NO",
+    "Verification semantics": "NO",
+    "Provenance semantics": "NO",
+    "ROAD": "NO",
+    "School Hero": "NO",
+    "BUILD": "NO",
+    "Core": "NO",
+    "Authoritative source data": "NO"
+  },
+  "regression_summary": {
+    "accepted_rq3_demo_01_focused": "24 passed",
+    "accepted_rq3_demo_01_targeted": "854 passed, 177 skipped, 2 inherited historical scope failures",
+    "accepted_rq3_demo_01_broad": "1338 passed, 208 skipped, 28 failed",
+    "exact_rq3_demo_00_predecessor_broad": "1315 passed, 208 skipped, 27 failed",
+    "additional_failure": "expected RQ3-DEMO-00 successor-scope assertion",
+    "semantic_regressions": 0,
+    "rq_final_00_focused_evidence_integrity": "9 passed",
+    "rq_final_00_targeted_regression": "720 passed, 150 skipped, 6 inherited historical scope/residual-audit failures; exact predecessor under identical selection: 711 passed, 150 skipped, same 6 failures",
+    "rq_final_00_broad_regression": "1347 passed, 208 skipped, 28 inherited/expected historical scope failures; required predecessor recorded 1338 passed, 208 skipped, same 28 failures"
+  },
+  "reproducibility": {
+    "central_evidence_repository_addressable": true,
+    "requires_private_tmp_for_conclusion_validation": false,
+    "probabilistic_live_rerun_external_dependencies": [
+      "ollama",
+      "qwen2.5:latest digest prefix 845dbda0ea48",
+      "local runtime and hardware"
+    ],
+    "transient_predecessor_live_artifacts": "Auxiliary RQ1 exact-live directories were transient; hashes and conclusions are captured by committed reports/tests. The controlled comparison record is committed."
+  },
+  "report": {
+    "path": "RQ-FINAL-00-Integrated-Research-Evidence-and-Hypothesis-Closure.md",
+    "sha256": "f31840dd559232a356e3841c16eb1b2c0cd5569dcf900899a0e36482fcd80e1e"
+  },
+  "freeze_readiness": "READY FOR FREEZE WITH FINDINGS",
+  "manifest_self_hash": null,
+  "manifest_self_hash_note": "Not used: the repository has no authoritative integrated-manifest self-hash convention, and a new framework is out of scope."
+}
