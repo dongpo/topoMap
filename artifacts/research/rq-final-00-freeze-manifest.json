@@ -174,8 +174,8 @@
     "accepted_rq3_focused": "24 passed",
     "accepted_rq3_targeted": "854 passed, 177 skipped, 2 inherited historical scope failures, 0 semantic failures",
     "exact_rq3_demo_00_predecessor_broad": "1315 passed, 208 skipped, 27 failed",
-    "rq_final_broad": "PENDING CURRENT VERIFICATION",
-    "rq_final_focused": "PENDING CURRENT VERIFICATION",
-    "rq_final_targeted": "PENDING CURRENT VERIFICATION"
+    "rq_final_broad": "1351 passed, 208 skipped, 28 inherited/expected historical scope failures; prior RQ-FINAL candidate: 1347 passed, 208 skipped, same 28 failures",
+    "rq_final_focused": "13 passed; lint passed",
+    "rq_final_targeted": "82 passed across RQ1 validator/comparison/context/trace, RQ2, RQ3, and RQ-FINAL evidence integrity"
   }
 }

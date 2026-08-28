@@ -429,8 +429,17 @@ The accepted RQ3-DEMO-01 baseline records:
 - RQ3 semantic regressions: **0**.
 
 RQ-FINAL-00 adds a focused structural evidence-integrity test. It does not rewrite historical tests
-or reclassify a failure without exact-predecessor evidence. Current validation results are recorded
-in the machine-readable manifest after execution.
+or reclassify a failure without exact-predecessor evidence. Current clean-candidate validation is:
+
+- focused evidence integrity: **13 passed**; focused lint: **passed**;
+- targeted RQ1 validator/comparison/context/trace + RQ2 + RQ3 + RQ-FINAL: **82 passed**;
+- broad: **1351 passed, 208 skipped, 28 failed**;
+- prior RQ-FINAL candidate: **1347 passed, 208 skipped, the same 28 failures**; and
+- new functional failures: **0**; new semantic failures: **0**.
+
+The four additional broad passes are the net expansion of the focused integrity coverage. The 28
+failures remain historical byte-freeze, exact-predecessor, tag-state, and successor-scope
+assertions; none exercises a new RQ-FINAL runtime or semantic implementation.
 
 ## Reproducibility package
 
