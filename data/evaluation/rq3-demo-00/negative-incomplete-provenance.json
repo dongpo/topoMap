@@ -1,0 +1,12 @@
+{
+  "example_schema": "rq3-negative-example/1.0",
+  "base_artifact": "data/evaluation/rq3-demo-00/valid-audit-record.json",
+  "mutation": {
+    "operation": "remove_first_provenance_link_by_artifact_type",
+    "artifact_type": "EVIDENCE",
+    "recompute_artifact_hash": true
+  },
+  "schema_expected": "INVALID",
+  "trust_gate_expected": "FINAL_ACCEPTANCE_FAIL",
+  "expected_failure_code": "PROVENANCE_INCOMPLETE"
+}

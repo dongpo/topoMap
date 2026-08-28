@@ -1,0 +1,132 @@
+{
+  "schema_version": "rq3-demo-00-completion-report/1.0",
+  "verdict": "PASS_WITH_FINDINGS",
+  "predecessor": "673bcb6efb84de2aeaac5c4b23beda364bea9e44",
+  "branch": "rq3/rq3-demo-00-trust-architecture-acceptance",
+  "git_verification": {
+    "initial_predecessor_local_upstream_remote_equality": "PASS",
+    "initial_task_worktree": "clean",
+    "final_sha": "RECORDED_POST_COMMIT_IN_TASK_COMPLETION_RESPONSE",
+    "remote_sha": "RECORDED_POST_PUSH_IN_TASK_COMPLETION_RESPONSE",
+    "local_upstream_remote_equality": "PENDING_POST_COMMIT_PUSH",
+    "final_worktree": "PENDING_POST_COMMIT_PUSH"
+  },
+  "rq2_canonical_proposal": {
+    "status": "VALIDATED",
+    "path": "artifacts/rq2/rq2-demo-01-canonical-proposal.json",
+    "proposal_id": "rq2-proposal:knowledge-constrained:e635111c3be29423faf923b7",
+    "proposal_hash": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1",
+    "byte_sha256": "8ad05eea5111a0c535be275effa6b8a6c3dce7b74c7149bf42811a1866aa4829",
+    "hash_recomputed_with_frozen_rq2_rules": true
+  },
+  "frozen_contracts": {
+    "rq3_hypothesis": "FROZEN",
+    "rq2_to_rq3_interface": "FROZEN",
+    "authorization_model": "FROZEN",
+    "proposal_hash_binding": "FROZEN",
+    "execution_boundary": "FROZEN",
+    "deterministic_verification": "FROZEN",
+    "provenance_model": "FROZEN",
+    "audit_record": "FROZEN",
+    "positive_scenario": "DEFINED",
+    "negative_tamper_cases": "DEFINED_A_THROUGH_L",
+    "final_acceptance_function": "FROZEN",
+    "metrics": "FROZEN",
+    "existing_component_audit": "COMPLETE"
+  },
+  "rq3_demo_01_readiness": {
+    "verdict": "READY_WITH_BOUNDED_PREREQUISITES",
+    "prerequisites": [
+      "implement domain-neutral RQ3 pre-execution gate and execution-observation record",
+      "implement persistent execution-count and idempotency state for one exact replay",
+      "select bounded research operator and clock identities",
+      "run only inside an isolated output root",
+      "implement verifier and audit assembler directly from the frozen contracts"
+    ]
+  },
+  "semantic_changes": {
+    "kg": false,
+    "graphrag_retrieval": false,
+    "evidence_projection": false,
+    "rq2_constraint_semantics": false,
+    "rq2_proposal_semantics": false,
+    "mapping_semantics": false,
+    "classification": false,
+    "geometry": false,
+    "portrayal": false,
+    "product_layer": false,
+    "model": false,
+    "road": false,
+    "school_hero": false,
+    "build": false,
+    "core": false,
+    "authoritative_source_data": false
+  },
+  "verification": {
+    "focused": {
+      "command": "PYTHONPATH=src:. /private/tmp/rq3-demo00-venv/bin/pytest -o addopts='' -q tests/test_rq3_demo_00_specification.py",
+      "result": "9 passed",
+      "status": "PASS"
+    },
+    "lint": {
+      "command": "/private/tmp/rq3-demo00-venv/bin/ruff check tests/test_rq3_demo_00_specification.py",
+      "result": "All checks passed",
+      "status": "PASS"
+    },
+    "targeted_regression": {
+      "scope": "RQ1, RQ2, Core, ROAD, School Hero, BUILD",
+      "result": "258 passed, 100 skipped",
+      "status": "PASS"
+    },
+    "broad_candidate_before_commit": {
+      "result": "1312 passed, 208 skipped, 30 failed",
+      "status": "PASS_WITH_INHERITED_AND_WORKTREE_SENSITIVE_FINDINGS"
+    },
+    "broad_exact_predecessor_baseline": {
+      "result": "1306 passed, 208 skipped, 27 failed",
+      "status": "INHERITED_FAILURES_CONFIRMED"
+    },
+    "broad_clean_candidate_after_commit": {
+      "result": "1315 passed, 208 skipped, 27 failed",
+      "status": "PASS_WITH_EXACT_INHERITED_FAILURE_SET"
+    },
+    "broad_failure_classification": {
+      "inherited_failure_count": 27,
+      "candidate_untracked_scope_sensitive_count": 3,
+      "rq3_semantic_regression_count": 0,
+      "inherited_categories": [
+        "historical branch/predecessor exact-scope assertions executed from the RQ2 branch",
+        "historical protected-byte and freeze-manifest expectations already divergent at the exact predecessor",
+        "repository-wide tag expectation already invalidated by ama-foss4g-2026-freeze",
+        "historical Core residual audit assumptions already invalidated at the exact predecessor"
+      ],
+      "candidate_sensitive_tests_confirmed_cleared_after_commit": [
+        "test_building_production_contract_build09.py::test_previous_build_frozen_artifacts_and_runtime_remain_unchanged",
+        "test_core04_residual_identity_audit.py::test_change_scope_is_exactly_three_existing_production_files",
+        "test_official_evidence_closure_build09e.py::test_previous_artifacts_runtime_and_source_scope_remain_unchanged"
+      ]
+    }
+  },
+  "changed_files": [
+    "RQ3-DEMO-00-Authorization-Verification-Provenance-Architecture-Specification.md",
+    "artifacts/rq3/rq3-demo-00-completion-report.json",
+    "data/evaluation/rq3-demo-00/negative-authorization-scope.json",
+    "data/evaluation/rq3-demo-00/negative-incomplete-provenance.json",
+    "data/evaluation/rq3-demo-00/negative-proposal-hash-mismatch.json",
+    "data/evaluation/rq3-demo-00/valid-audit-record.json",
+    "data/evaluation/rq3-demo-00/valid-authorization.json",
+    "data/evaluation/rq3-demo-00/valid-verification-report.json",
+    "data/evaluation/rq3-demo-00/verification-failure-report.json",
+    "data/specifications/rq3-audit-record-schema-v1.0.json",
+    "data/specifications/rq3-authorization-schema-v1.0.json",
+    "data/specifications/rq3-trust-policy-v1.0.json",
+    "data/specifications/rq3-verification-report-schema-v1.0.json",
+    "tests/test_rq3_demo_00_specification.py"
+  ],
+  "findings": [
+    "The exact predecessor has 27 inherited broad-suite failures unrelated to RQ3-DEMO-00; no unrelated repair was attempted.",
+    "RQ3 authorization is bounded research identity/time semantics and does not claim production PKI or non-repudiation.",
+    "ProductLayer and three physical portrayal gates remain explicitly unresolved.",
+    "A commit cannot contain its own final SHA; final local/upstream/remote identity is recorded after push in the completion response."
+  ]
+}

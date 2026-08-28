@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/rq3-authorization/1.0",
+  "title": "RQ3 Proposal-Bound Authorization 1.0",
+  "description": "A bounded research authorization for one exact RQ2 proposal. Schema validity is necessary but policy and canonical-hash validation remain mandatory.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "authorization_id",
+    "schema_version",
+    "proposal_id",
+    "proposal_hash",
+    "decision",
+    "authorized_subject",
+    "authorized_scope",
+    "allowed_tools",
+    "parameter_bounds",
+    "issued_at",
+    "valid_until",
+    "issuer",
+    "policy_reference",
+    "canonicalization",
+    "authorization_hash"
+  ],
+  "properties": {
+    "authorization_id": {"type": "string", "pattern": "^rq3-authorization:[A-Za-z0-9._:-]+$", "maxLength": 240},
+    "schema_version": {"const": "rq3-authorization/1.0"},
+    "proposal_id": {"type": "string", "pattern": "^rq2-proposal:[A-Za-z0-9._:-]+$", "maxLength": 240},
+    "proposal_hash": {"$ref": "#/$defs/sha256"},
+    "decision": {"enum": ["APPROVED", "DENIED"]},
+    "authorized_subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["agent_id", "operator_id", "workflow_id"],
+      "properties": {
+        "agent_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "operator_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "workflow_id": {"const": "rq3-demo-01-canonical-workflow"}
+      }
+    },
+    "authorized_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "datasets",
+        "layer_ids",
+        "feature_ids",
+        "operation_types",
+        "mutation_type",
+        "source_access",
+        "output_destinations",
+        "authoritative_render",
+        "bounded_unresolved_constraint_ids",
+        "maximum_execution_count",
+        "replay_policy"
+      ],
+      "properties": {
+        "datasets": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/artifactReference"}},
+        "layer_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 200}},
+        "feature_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 200}},
+        "operation_types": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 200}},
+        "mutation_type": {"const": "ISOLATED_DERIVED_ARTIFACT_WRITE"},
+        "source_access": {"const": "READ_ONLY"},
+        "output_destinations": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^artifacts/rq3/runtime/\\{execution_id\\}/[A-Za-z0-9._/-]+$"}},
+        "authoritative_render": {"const": false},
+        "bounded_unresolved_constraint_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^constraint:[A-Za-z0-9._:-]+$"}},
+        "maximum_execution_count": {"type": "integer", "minimum": 1, "maximum": 2},
+        "replay_policy": {"enum": ["NO_REPLAY", "ONE_EXACT_IDEMPOTENT_REPLAY"]}
+      }
+    },
+    "allowed_tools": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["step_id", "tool"],
+        "properties": {
+          "step_id": {"type": "string", "pattern": "^step:[A-Za-z0-9._:-]+$"},
+          "tool": {"type": "string", "pattern": "^rq2\\.[A-Za-z0-9._-]+/1\\.0$"}
+        }
+      }
+    },
+    "parameter_bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "proposal_plan_identity", "parameter_overrides_allowed"],
+      "properties": {
+        "mode": {"const": "EXACT_PROPOSAL_VALUES"},
+        "proposal_plan_identity": {"$ref": "#/$defs/sha256"},
+        "parameter_overrides_allowed": {"const": false}
+      }
+    },
+    "issued_at": {"type": "string", "format": "date-time"},
+    "valid_until": {"type": "string", "format": "date-time"},
+    "issuer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["issuer_id", "issuer_type", "authority_semantics"],
+      "properties": {
+        "issuer_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "issuer_type": {"enum": ["HUMAN_RESEARCH_OPERATOR", "DETERMINISTIC_RESEARCH_FIXTURE"]},
+        "authority_semantics": {"const": "bounded-research-authorization-not-production-identity"}
+      }
+    },
+    "policy_reference": {"$ref": "#/$defs/artifactReference"},
+    "canonicalization": {"const": "nma-canonical-json-sort-keys-utf8-sha256;exclude=authorization_hash"},
+    "authorization_hash": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 400},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision": {"const": "APPROVED"}}, "required": ["decision"]},
+      "then": {"properties": {"allowed_tools": {"minItems": 1}}}
+    }
+  ]
+}

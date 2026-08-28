@@ -1,0 +1,173 @@
+{
+  "schema_version": "rq3-trust-policy/1.0",
+  "policy_id": "rq3-policy:canonical-rq2-handoff-v1",
+  "research_boundary": "specification-only-no-runtime-capability",
+  "canonical_proposal": {
+    "path": "artifacts/rq2/rq2-demo-01-canonical-proposal.json",
+    "proposal_id": "rq2-proposal:knowledge-constrained:e635111c3be29423faf923b7",
+    "proposal_hash": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1",
+    "proposal_schema": "rq2-proposal/1.0",
+    "canonicalization": "RQ2 normalized hash basis: proposal_hash and required_authorizations[].bound_proposal_hash replaced with 64 lowercase zeroes; NMA canonical JSON; SHA-256"
+  },
+  "authorization": {
+    "decisions": ["APPROVED", "DENIED"],
+    "required_before_mutation": true,
+    "exact_proposal_binding_required": true,
+    "authorization_hash_required": true,
+    "scope_expansion_allowed": false,
+    "missing_or_malformed_action": "BLOCK_BEFORE_MUTATION",
+    "validity_semantics": "UTC closed-open interval: issued_at <= execution_started_at < valid_until; bounded research fixture, not production identity proof",
+    "issuer_semantics": "recorded research operator or deterministic fixture identity only; no claim of external PKI",
+    "maximum_execution_count": 2,
+    "replay_policy": "one initial execution plus at most one exact idempotent replay under the same bounded environment identity"
+  },
+  "canonical_scope": {
+    "datasets": [
+      {
+        "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+        "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+      }
+    ],
+    "layer_ids": ["rq2-demo-01-fire-hydrant"],
+    "feature_ids": ["hydrant-research-001"],
+    "operation_types": [
+      "read_feature",
+      "validate_source_authority",
+      "validate_geometry_type",
+      "derive_target_representation",
+      "write_derived_artifact",
+      "verify_postconditions"
+    ],
+    "mutation_type": "ISOLATED_DERIVED_ARTIFACT_WRITE",
+    "source_access": "READ_ONLY",
+    "output_destinations": ["artifacts/rq3/runtime/{execution_id}/derived-feature.geojson"],
+    "authoritative_render": false,
+    "bounded_unresolved_constraint_ids": [
+      "constraint:guard.color-code-7-profile",
+      "constraint:guard.internal-glyph-trace",
+      "constraint:guard.line-code-2-metric",
+      "constraint:relationship.product_layer"
+    ],
+    "maximum_execution_count": 2,
+    "replay_policy": "ONE_EXACT_IDEMPOTENT_REPLAY"
+  },
+  "allowed_tools": [
+    {"step_id": "step:01-read-feature-001", "tool": "rq2.feature.read/1.0"},
+    {"step_id": "step:02-validate-source-authority-001", "tool": "rq2.source-authority.validate/1.0"},
+    {"step_id": "step:03-validate-geometry-type-001", "tool": "rq2.geometry.validate/1.0"},
+    {"step_id": "step:04-derive-target-representation-001", "tool": "rq2.representation.derive/1.0"},
+    {"step_id": "step:05-write-derived-artifact-001", "tool": "rq2.artifact.write-derived/1.0"},
+    {"step_id": "step:06-verify-postconditions-001", "tool": "rq2.postconditions.verify/1.0"}
+  ],
+  "parameter_bounds": {
+    "mode": "EXACT_PROPOSAL_VALUES",
+    "proposal_plan_identity": "2bff5483934eb90a3bce3cdb9ab45e800b7f4c2deffca82e8a07fc31bec40e30",
+    "parameter_overrides_allowed": false
+  },
+  "prohibited_actions": [
+    "SOURCE_DATA_MUTATION",
+    "AUTHORITATIVE_RENDER",
+    "TOOL_SUBSTITUTION",
+    "PARAMETER_INFERENCE_OR_SUBSTITUTION",
+    "SCOPE_EXPANSION",
+    "PROPOSAL_REGENERATION",
+    "LLM_PLAN_REVISION",
+    "PRODUCT_LAYER_RESOLUTION_WITHOUT_NEW_UPSTREAM_EVIDENCE",
+    "PHYSICAL_PORTRAYAL_GATE_ESCALATION"
+  ],
+  "pre_execution_gate_order": [
+    "PROPOSAL_SCHEMA_VALID",
+    "PROPOSAL_ID_MATCH",
+    "PROPOSAL_HASH_RECOMPUTED_AND_MATCHED",
+    "AUTHORIZATION_PRESENT",
+    "AUTHORIZATION_SCHEMA_VALID",
+    "AUTHORIZATION_HASH_RECOMPUTED_AND_MATCHED",
+    "AUTHORIZATION_DECISION_APPROVED",
+    "AUTHORIZATION_TIME_VALID",
+    "AUTHORIZATION_REPLAY_LIMIT_VALID",
+    "AUTHORIZED_SUBJECT_MATCH",
+    "AUTHORIZED_SCOPE_EXACT_OR_NARROWER",
+    "TOOLS_AND_ORDER_EXACT",
+    "PARAMETERS_EXACT",
+    "UNRESOLVED_GUARDS_PRESERVED",
+    "INPUT_HASHES_MATCH",
+    "SOURCE_AND_OUTPUT_ROOTS_DISJOINT"
+  ],
+  "verification_categories": [
+    "PROPOSAL_INTEGRITY",
+    "AUTHORIZATION",
+    "TOOL_INTEGRITY",
+    "PARAMETER_INTEGRITY",
+    "SCOPE_INTEGRITY",
+    "CONSTRAINT_COMPLIANCE",
+    "POSTCONDITION",
+    "RESULT_INTEGRITY"
+  ],
+  "acceptance_function": {
+    "expression": "proposal_integrity_pass AND authorization_pass AND execution_scope_pass AND verification_pass AND provenance_complete",
+    "mandatory_inputs": [
+      "proposal_integrity_pass",
+      "authorization_pass",
+      "execution_scope_pass",
+      "verification_pass",
+      "provenance_complete"
+    ],
+    "false_or_missing_result": "FAIL",
+    "llm_override_allowed": false,
+    "execution_success_is_not_authoritative_acceptance": true
+  },
+  "mandatory_provenance_artifact_types": [
+    "PROPOSAL",
+    "EVIDENCE",
+    "AUTHORIZATION",
+    "EXECUTION",
+    "VERIFICATION",
+    "RESULT"
+  ],
+  "failure_codes": [
+    "AUTHORIZATION_MISSING",
+    "AUTHORIZATION_MALFORMED",
+    "AUTHORIZATION_DENIED",
+    "AUTHORIZATION_EXPIRED",
+    "AUTHORIZATION_HASH_MISMATCH",
+    "PROPOSAL_ID_MISMATCH",
+    "PROPOSAL_HASH_MISMATCH",
+    "AUTHORIZATION_SCOPE_MISMATCH",
+    "UNAUTHORIZED_TOOL",
+    "PARAMETER_MISMATCH",
+    "UNAUTHORIZED_MUTATION",
+    "UNRESOLVED_CONSTRAINT_ESCALATION",
+    "POSTCONDITION_FAILED",
+    "PROVENANCE_INCOMPLETE",
+    "ARTIFACT_HASH_MISMATCH",
+    "REPLAY_LIMIT_EXCEEDED"
+  ],
+  "acceptance_cases": [
+    {"case_id": "A", "name": "Canonical Positive Path", "expected_gate": "EXECUTE_VERIFY_ASSEMBLE", "expected_final_acceptance": "PASS"},
+    {"case_id": "B", "name": "Missing Authorization", "expected_gate": "BLOCK_BEFORE_MUTATION", "expected_final_acceptance": "FAIL"},
+    {"case_id": "C", "name": "Proposal Tampered After Authorization", "expected_gate": "BLOCK_BEFORE_MUTATION", "expected_final_acceptance": "FAIL"},
+    {"case_id": "D", "name": "Authorization Scope Mismatch", "expected_gate": "BLOCK_BEFORE_MUTATION", "expected_final_acceptance": "FAIL"},
+    {"case_id": "E", "name": "Unauthorized Tool Substitution", "expected_gate": "BLOCK_BEFORE_MUTATION", "expected_final_acceptance": "FAIL"},
+    {"case_id": "F", "name": "Parameter Tampering", "expected_gate": "BLOCK_BEFORE_MUTATION", "expected_final_acceptance": "FAIL"},
+    {"case_id": "G", "name": "Postcondition Violation", "expected_gate": "VERIFICATION_FAIL", "expected_final_acceptance": "FAIL"},
+    {"case_id": "H", "name": "Incomplete Provenance", "expected_gate": "FINAL_ACCEPTANCE_FAIL", "expected_final_acceptance": "FAIL"},
+    {"case_id": "I", "name": "Unauthorized Mutation Attempt", "expected_gate": "BLOCK_BEFORE_MUTATION", "expected_final_acceptance": "FAIL"},
+    {"case_id": "J", "name": "Bounded Unresolved Constraint Escalation", "expected_gate": "BLOCK_BEFORE_MUTATION", "expected_final_acceptance": "FAIL"},
+    {"case_id": "K", "name": "Result or Record Tampering", "expected_gate": "PROVENANCE_INTEGRITY_FAIL", "expected_final_acceptance": "FAIL"},
+    {"case_id": "L", "name": "Exact Replay", "expected_gate": "EXECUTE_VERIFY_ASSEMBLE", "expected_final_acceptance": "PASS"}
+  ],
+  "replay_stability": {
+    "must_match": ["semantic_result", "result_hash", "verification_verdict", "proposal_id", "proposal_hash", "authorization_id", "authorization_hash", "tool_sequence", "parameters"],
+    "may_differ": ["execution_id", "verification_id", "audit_record_id", "execution_started_at", "execution_completed_at", "recorded_at"],
+    "whole_record_byte_identity_claimed": false
+  },
+  "metrics": [
+    {"metric": "authorization_enforcement_rate", "target": 1.0, "denominator": "seeded cases expected to block before mutation"},
+    {"metric": "proposal_tamper_detection_rate", "target": 1.0, "denominator": "seeded post-authorization proposal mutations"},
+    {"metric": "verification_detection_rate", "target": 1.0, "denominator": "seeded execution or result violations"},
+    {"metric": "provenance_completeness_rate", "target": 1.0, "denominator": "mandatory provenance links and hash-valid artifacts"},
+    {"metric": "false_acceptance_rate", "target": 0.0, "denominator": "canonical seeded negative cases"},
+    {"metric": "false_rejection_rate", "target": 0.0, "denominator": "canonical positive case"},
+    {"metric": "audit_reconstruction_completeness", "target": "PASS", "denominator": "proposal,evidence,authorization,execution,verification,result identities reconstructable"}
+  ]
+}

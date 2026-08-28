@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/rq3-audit-record/1.0",
+  "title": "RQ3 Final Audit Record 1.0",
+  "description": "Content-bound final provenance and authoritative-acceptance receipt.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "audit_record_id",
+    "schema_version",
+    "proposal_id",
+    "proposal_hash",
+    "evidence_refs",
+    "authorization_id",
+    "authorization_hash",
+    "execution_id",
+    "execution_hash",
+    "execution_success",
+    "verification_id",
+    "verification_hash",
+    "verification_verdict",
+    "result_refs",
+    "result_hashes",
+    "provenance_links",
+    "provenance_complete",
+    "overall_acceptance",
+    "failure_codes",
+    "canonicalization",
+    "audit_record_hash"
+  ],
+  "properties": {
+    "audit_record_id": {"type": "string", "pattern": "^rq3-audit-record:[A-Za-z0-9._:-]+$", "maxLength": 240},
+    "schema_version": {"const": "rq3-audit-record/1.0"},
+    "proposal_id": {"type": "string", "pattern": "^rq2-proposal:[A-Za-z0-9._:-]+$"},
+    "proposal_hash": {"$ref": "#/$defs/sha256"},
+    "evidence_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 400}},
+    "authorization_id": {"type": "string", "pattern": "^rq3-authorization:[A-Za-z0-9._:-]+$"},
+    "authorization_hash": {"$ref": "#/$defs/sha256"},
+    "execution_id": {"type": "string", "pattern": "^rq3-execution:[A-Za-z0-9._:-]+$"},
+    "execution_hash": {"$ref": "#/$defs/sha256"},
+    "execution_success": {"type": "boolean"},
+    "verification_id": {"type": "string", "pattern": "^rq3-verification:[A-Za-z0-9._:-]+$"},
+    "verification_hash": {"$ref": "#/$defs/sha256"},
+    "verification_verdict": {"enum": ["PASS", "FAIL"]},
+    "result_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/artifactReference"}},
+    "result_hashes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/sha256"}},
+    "provenance_links": {"type": "array", "minItems": 6, "uniqueItems": true, "items": {"$ref": "#/$defs/provenanceLink"}},
+    "provenance_complete": {"type": "boolean"},
+    "overall_acceptance": {"enum": ["PASS", "FAIL"]},
+    "failure_codes": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]*$"}},
+    "canonicalization": {"const": "nma-canonical-json-sort-keys-utf8-sha256;exclude=audit_record_hash"},
+    "audit_record_hash": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 400},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "provenanceLink": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_type", "artifact_id", "artifact_hash", "relationship"],
+      "properties": {
+        "artifact_type": {"enum": ["PROPOSAL", "EVIDENCE", "AUTHORIZATION", "EXECUTION", "VERIFICATION", "RESULT"]},
+        "artifact_id": {"type": "string", "minLength": 1, "maxLength": 400},
+        "artifact_hash": {"$ref": "#/$defs/sha256"},
+        "relationship": {"enum": ["PROPOSED_WITH", "SUPPORTED_BY", "AUTHORIZED_AS", "EXECUTED_AS", "VERIFIED_AS", "PRODUCED"]}
+      }
+    }
+  },
+  "allOf": [
+    {"properties": {"provenance_links": {"contains": {"properties": {"artifact_type": {"const": "PROPOSAL"}}, "required": ["artifact_type"]}}}},
+    {"properties": {"provenance_links": {"contains": {"properties": {"artifact_type": {"const": "EVIDENCE"}}, "required": ["artifact_type"]}}}},
+    {"properties": {"provenance_links": {"contains": {"properties": {"artifact_type": {"const": "AUTHORIZATION"}}, "required": ["artifact_type"]}}}},
+    {"properties": {"provenance_links": {"contains": {"properties": {"artifact_type": {"const": "EXECUTION"}}, "required": ["artifact_type"]}}}},
+    {"properties": {"provenance_links": {"contains": {"properties": {"artifact_type": {"const": "VERIFICATION"}}, "required": ["artifact_type"]}}}},
+    {"properties": {"provenance_links": {"contains": {"properties": {"artifact_type": {"const": "RESULT"}}, "required": ["artifact_type"]}}}},
+    {
+      "if": {"properties": {"overall_acceptance": {"const": "PASS"}}, "required": ["overall_acceptance"]},
+      "then": {
+        "properties": {
+          "execution_success": {"const": true},
+          "verification_verdict": {"const": "PASS"},
+          "provenance_complete": {"const": true},
+          "failure_codes": {"maxItems": 0}
+        }
+      }
+    }
+  ]
+}

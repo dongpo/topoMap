@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/rq3-verification-report/1.0",
+  "title": "RQ3 Deterministic Verification Report 1.0",
+  "description": "Deterministic comparison of the authorized proposal, actual execution, observed result, and expected postconditions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "verification_id",
+    "schema_version",
+    "proposal_id",
+    "proposal_hash",
+    "authorization_id",
+    "authorization_hash",
+    "execution_id",
+    "execution_hash",
+    "execution_success",
+    "checks",
+    "result_refs",
+    "result_hash",
+    "overall_verdict",
+    "verifier",
+    "canonicalization",
+    "verification_hash"
+  ],
+  "properties": {
+    "verification_id": {"type": "string", "pattern": "^rq3-verification:[A-Za-z0-9._:-]+$", "maxLength": 240},
+    "schema_version": {"const": "rq3-verification-report/1.0"},
+    "proposal_id": {"type": "string", "pattern": "^rq2-proposal:[A-Za-z0-9._:-]+$"},
+    "proposal_hash": {"$ref": "#/$defs/sha256"},
+    "authorization_id": {"type": "string", "pattern": "^rq3-authorization:[A-Za-z0-9._:-]+$"},
+    "authorization_hash": {"$ref": "#/$defs/sha256"},
+    "execution_id": {"type": "string", "pattern": "^rq3-execution:[A-Za-z0-9._:-]+$"},
+    "execution_hash": {"$ref": "#/$defs/sha256"},
+    "execution_success": {"type": "boolean"},
+    "checks": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/check"}},
+    "result_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/artifactReference"}},
+    "result_hash": {"$ref": "#/$defs/sha256"},
+    "overall_verdict": {"enum": ["PASS", "FAIL"]},
+    "verifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "model_calls"],
+      "properties": {
+        "id": {"const": "rq3-deterministic-verifier/1.0"},
+        "model_calls": {"const": 0}
+      }
+    },
+    "canonicalization": {"const": "nma-canonical-json-sort-keys-utf8-sha256;exclude=verification_hash"},
+    "verification_hash": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "jsonValue": {"type": ["array", "boolean", "integer", "null", "number", "object", "string"]},
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 400},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["check_id", "category", "expected", "observed", "status", "failure_code"],
+      "properties": {
+        "check_id": {"type": "string", "pattern": "^RQ3_[A-Z0-9_]+$"},
+        "category": {"enum": ["PROPOSAL_INTEGRITY", "AUTHORIZATION", "TOOL_INTEGRITY", "PARAMETER_INTEGRITY", "SCOPE_INTEGRITY", "CONSTRAINT_COMPLIANCE", "POSTCONDITION", "RESULT_INTEGRITY"]},
+        "expected": {"$ref": "#/$defs/jsonValue"},
+        "observed": {"$ref": "#/$defs/jsonValue"},
+        "status": {"enum": ["PASS", "FAIL", "NOT_APPLICABLE"]},
+        "failure_code": {"type": ["string", "null"], "pattern": "^[A-Z][A-Z0-9_]*$"}
+      },
+      "allOf": [
+        {"if": {"properties": {"status": {"const": "FAIL"}}, "required": ["status"]}, "then": {"properties": {"failure_code": {"type": "string"}}}},
+        {"if": {"properties": {"status": {"enum": ["PASS", "NOT_APPLICABLE"]}}, "required": ["status"]}, "then": {"properties": {"failure_code": {"type": "null"}}}}
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"overall_verdict": {"const": "PASS"}}, "required": ["overall_verdict"]},
+      "then": {"properties": {"checks": {"items": {"allOf": [{"$ref": "#/$defs/check"}, {"properties": {"status": {"enum": ["PASS", "NOT_APPLICABLE"]}}}]}}}}
+    }
+  ]
+}

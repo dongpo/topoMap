@@ -1,0 +1,30 @@
+{
+  "verification_id": "rq3-verification:canonical-positive-001",
+  "schema_version": "rq3-verification-report/1.0",
+  "proposal_id": "rq2-proposal:knowledge-constrained:e635111c3be29423faf923b7",
+  "proposal_hash": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1",
+  "authorization_id": "rq3-authorization:canonical-positive-001",
+  "authorization_hash": "e74a36cd08d73c5188e59ed93f77b2c0651f002a7d7b98a5eccc47d47828f63d",
+  "execution_id": "rq3-execution:canonical-positive-001",
+  "execution_hash": "cf1d48b211017c6925126a0208f1bfb5b858e48be19ce1307a99fe7326dae451",
+  "execution_success": true,
+  "checks": [
+    {"check_id": "RQ3_PROPOSAL_BINDING", "category": "PROPOSAL_INTEGRITY", "expected": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1", "observed": "116637146f3e515a8bbfb53ff0904934024acac0acdcd1ae3064af6d3bbf1eb1", "status": "PASS", "failure_code": null},
+    {"check_id": "RQ3_AUTHORIZATION_BINDING", "category": "AUTHORIZATION", "expected": "e74a36cd08d73c5188e59ed93f77b2c0651f002a7d7b98a5eccc47d47828f63d", "observed": "e74a36cd08d73c5188e59ed93f77b2c0651f002a7d7b98a5eccc47d47828f63d", "status": "PASS", "failure_code": null},
+    {"check_id": "RQ3_TOOL_SEQUENCE", "category": "TOOL_INTEGRITY", "expected": ["rq2.feature.read/1.0", "rq2.source-authority.validate/1.0", "rq2.geometry.validate/1.0", "rq2.representation.derive/1.0", "rq2.artifact.write-derived/1.0", "rq2.postconditions.verify/1.0"], "observed": ["rq2.feature.read/1.0", "rq2.source-authority.validate/1.0", "rq2.geometry.validate/1.0", "rq2.representation.derive/1.0", "rq2.artifact.write-derived/1.0", "rq2.postconditions.verify/1.0"], "status": "PASS", "failure_code": null},
+    {"check_id": "RQ3_PARAMETERS_EXACT", "category": "PARAMETER_INTEGRITY", "expected": "2bff5483934eb90a3bce3cdb9ab45e800b7f4c2deffca82e8a07fc31bec40e30", "observed": "2bff5483934eb90a3bce3cdb9ab45e800b7f4c2deffca82e8a07fc31bec40e30", "status": "PASS", "failure_code": null},
+    {"check_id": "RQ3_SCOPE_EXACT", "category": "SCOPE_INTEGRITY", "expected": ["hydrant-research-001"], "observed": ["hydrant-research-001"], "status": "PASS", "failure_code": null},
+    {"check_id": "RQ3_PRODUCT_LAYER_UNRESOLVED", "category": "CONSTRAINT_COMPLIANCE", "expected": null, "observed": null, "status": "PASS", "failure_code": null},
+    {"check_id": "RQ3_GEOMETRY_TYPE", "category": "POSTCONDITION", "expected": "Point", "observed": "Point", "status": "PASS", "failure_code": null},
+    {"check_id": "RQ3_SOURCE_UNCHANGED", "category": "POSTCONDITION", "expected": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611", "observed": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611", "status": "PASS", "failure_code": null},
+    {"check_id": "RQ3_RESULT_HASH", "category": "RESULT_INTEGRITY", "expected": "c3d7abbba7d33e2b0dca43cede81635ff926af88eae632884f143444ff484748", "observed": "c3d7abbba7d33e2b0dca43cede81635ff926af88eae632884f143444ff484748", "status": "PASS", "failure_code": null}
+  ],
+  "result_refs": [
+    {"id": "rq3-result:canonical-semantic-derived-feature", "sha256": "c3d7abbba7d33e2b0dca43cede81635ff926af88eae632884f143444ff484748"}
+  ],
+  "result_hash": "c3d7abbba7d33e2b0dca43cede81635ff926af88eae632884f143444ff484748",
+  "overall_verdict": "PASS",
+  "verifier": {"id": "rq3-deterministic-verifier/1.0", "model_calls": 0},
+  "canonicalization": "nma-canonical-json-sort-keys-utf8-sha256;exclude=verification_hash",
+  "verification_hash": "0096b9d7f66218bd54796ccd150a12033d93d56dbb24364d6661ca8fef43bdf4"
+}

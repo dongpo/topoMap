@@ -1,0 +1,12 @@
+{
+  "example_schema": "rq3-negative-example/1.0",
+  "base_artifact": "data/evaluation/rq3-demo-00/valid-authorization.json",
+  "mutation": {
+    "json_pointer": "/authorized_scope/feature_ids/0",
+    "replacement": "hydrant-research-999",
+    "recompute_artifact_hash": true
+  },
+  "schema_expected": "VALID",
+  "trust_gate_expected": "BLOCK_BEFORE_MUTATION",
+  "expected_failure_code": "AUTHORIZATION_SCOPE_MISMATCH"
+}
