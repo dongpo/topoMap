@@ -1,0 +1,55 @@
+{
+  "schema": "nma.ama-live-runtime-manifest/1.0",
+  "demo_id": "AMA-LIVE-01",
+  "research_freeze_sha": "8411cad14a16d8ce1b8b23ab0f1be1e8b4bc1a4b",
+  "model": {
+    "provider": "ollama",
+    "name": "qwen2.5:latest",
+    "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "parameters": "7.6B",
+    "quantization": "Q4_K_M",
+    "context_window": 8192,
+    "reserved_output_tokens": 2048,
+    "temperature": 0
+  },
+  "accepted_environment": {
+    "python": "3.11.9",
+    "ollama_client": "0.32.15",
+    "jsonschema": "4.23.0",
+    "referencing": "0.35.1",
+    "pytest": "8.3.3",
+    "maplibre_gl_js": "4.7.0",
+    "node_required": false
+  },
+  "components": {
+    "static_frontend": "public/ama-live",
+    "api_runtime": "nma.ama_live_server",
+    "orchestrator": "nma.ama_live",
+    "graphrag": "nma.rq2_demo.retrieve_rq2_evidence",
+    "constraint_resolver": "nma.rq2_demo.resolve_constraints",
+    "planner": "nma.rq2_demo.RQ2Planner",
+    "proposal_validator": "nma.rq2_demo.validate_proposal",
+    "authorization_schema": "data/specifications/rq3-authorization-schema-v1.0.json",
+    "authorization_policy": "data/specifications/rq3-trust-policy-v1.0.json",
+    "gis_executor": "nma.rq2_demo.execute_proposal",
+    "verifier": "nma.rq2_demo.verify_execution"
+  },
+  "scenario": {
+    "id": "rq2-demo-01-fire-hydrant",
+    "protocol": "data/evaluation/rq2-demo-01-protocol.json",
+    "input": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+    "kg": "data/knowledge/nma-canonical-graph-v0.4.json",
+    "source_access": "READ_ONLY",
+    "output": "isolated derived GeoJSON",
+    "authoritative_render": false
+  },
+  "redistribution": {
+    "status": "BOUNDED",
+    "full_kg_browser_distribution": false,
+    "source_pdf_distribution": false,
+    "production_zip_distribution": false,
+    "bounded_fixture_distribution": true,
+    "review": "docs/demo/ama-live-developer-guide.md#redistribution-gate"
+  },
+  "cloud_readiness": "READY WITH FINDINGS"
+}

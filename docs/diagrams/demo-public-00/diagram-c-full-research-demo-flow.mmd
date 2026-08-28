@@ -1,0 +1,20 @@
+flowchart LR
+  classDef rq1 fill:#dbeafe,stroke:#1d4ed8,color:#172554
+  classDef rq2 fill:#fef3c7,stroke:#a16207,color:#451a03
+  classDef rq3 fill:#dcfce7,stroke:#15803d,color:#052e16
+  classDef boundary fill:#f3f4f6,stroke:#4b5563,color:#111827
+
+  I["Same mapping intent"]:::boundary
+  R1["RQ1<br/>LLM-only vs Text-RAG vs GraphRAG<br/>evidence grounding"]:::rq1
+  H12["SEMANTIC / ARCHITECTURAL HANDOFF<br/>shared frozen KG, retrieval and evidence vocabulary<br/>not a byte-identical RQ1 output"]:::boundary
+  R2["RQ2<br/>evidence → 7 resolved + 4 bounded unresolved<br/>proposal → deterministic execution → verification"]:::rq2
+  H23["DIRECT IMMUTABLE ARTIFACT HANDOFF<br/>proposal ID + SHA-256"]:::boundary
+  R3["RQ3<br/>authorization → execution → verification<br/>provenance → audit"]:::rq3
+  A["Research ACCEPT<br/>authoritative mapping-workflow participation<br/>not institutional/legal authorization"]:::rq3
+
+  I --> R1
+  R1 -.-> H12
+  H12 -.-> R2
+  R2 --> H23
+  H23 --> R3
+  R3 --> A

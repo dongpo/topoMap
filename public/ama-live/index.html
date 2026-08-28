@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AMA Live Reference Demo</title>
+  <link rel="stylesheet" href="/assets/maplibre-gl-4.7.0.css">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header>
+    <div><span class="eyebrow">AUTHORITATIVE MAPPING AGENT</span><h1>Live, bounded, inspectable</h1></div>
+    <div class="live-badge"><i></i> LIVE AMA</div>
+  </header>
+  <main>
+    <section class="hero card">
+      <label for="intent">Mapping Intent</label>
+      <textarea id="intent" rows="3" spellcheck="false"></textarea>
+      <div class="actions">
+        <button id="run">Run AMA</button>
+        <button id="tamper" class="secondary" disabled>Run backend tamper test</button>
+        <span id="run-meta">Canonical bounded scenario</span>
+      </div>
+      <div id="error" class="error" hidden></div>
+    </section>
+
+    <section class="card">
+      <div class="section-title"><div><span class="eyebrow">RUNTIME</span><h2>Actual execution stages</h2></div><span id="overall" class="pill waiting">WAITING</span></div>
+      <div id="stages" class="stages"></div>
+    </section>
+
+    <section class="metrics card">
+      <div><span>GraphRAG</span><strong id="m-graphrag">—</strong></div>
+      <div><span>LLM planning</span><strong id="m-plan">—</strong></div>
+      <div><span>GIS execution</span><strong id="m-gis">—</strong></div>
+      <div><span>Verification</span><strong id="m-verify">—</strong></div>
+      <div><span>End-to-end</span><strong id="m-total">—</strong></div>
+    </section>
+
+    <section class="grid two">
+      <article class="card">
+        <div class="section-title"><div><span class="eyebrow">KNOWLEDGE CONTEXT</span><h2>Bounded domain graph</h2></div></div>
+        <div id="domain-graph" class="graph"></div>
+      </article>
+      <article class="card">
+        <div class="section-title"><div><span class="eyebrow">CURRENT RUN</span><h2>Live retrieved subgraph</h2></div><span id="node-count" class="pill">0 nodes</span></div>
+        <div id="retrieved-graph" class="graph empty">Run AMA to inspect evidence.</div>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="section-title"><div><span class="eyebrow">CONSTRAINTS</span><h2>Evidence → planner consequences</h2></div></div>
+      <div class="table-wrap"><table><thead><tr><th>Constraint</th><th>Evidence</th><th>Status</th><th>Value</th><th>Planner consequence</th></tr></thead><tbody id="constraints"><tr><td colspan="5" class="muted">No live result yet.</td></tr></tbody></table></div>
+    </section>
+
+    <section class="grid map-grid">
+      <article class="card map-card">
+        <div class="section-title"><div><span class="eyebrow">MAP RESULT</span><h2>Source and live derived output</h2></div><span id="map-status" class="pill waiting">WAITING</span></div>
+        <div id="map"></div>
+        <div class="legend"><span><i class="source"></i> input/current</span><span><i class="result"></i> live result</span></div>
+      </article>
+      <article class="card trace-card">
+        <div class="section-title"><div><span class="eyebrow">AUDIT TRACE</span><h2>Fresh run identities</h2></div></div>
+        <dl id="trace"><dt>Run ID</dt><dd>—</dd><dt>Proposal SHA-256</dt><dd>—</dd><dt>Authorization</dt><dd>—</dd><dt>Execution</dt><dd>—</dd><dt>Verification</dt><dd>—</dd><dt>Receipt</dt><dd>—</dd></dl>
+        <pre id="tamper-result" hidden></pre>
+      </article>
+    </section>
+
+    <section class="card research">
+      <div class="section-title"><div><span class="eyebrow">CONTROLLED RESEARCH RESULT</span><h2>Frozen RQ1 comparison — supporting evidence</h2></div></div>
+      <div id="rq1" class="rq1"></div>
+      <p>This frozen comparison supports the architecture choice. It is not the live AMA run shown above.</p>
+    </section>
+  </main>
+  <footer>AMA-LIVE-01 · localhost-only reference runtime · no production writeback</footer>
+  <script src="/assets/maplibre-gl-4.7.0.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

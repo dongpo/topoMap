@@ -1,0 +1,18 @@
+flowchart TB
+  classDef controlled fill:#f3f4f6,stroke:#4b5563,color:#111827
+  classDef baseline fill:#fee2e2,stroke:#b91c1c,color:#450a0a
+  classDef text fill:#fef3c7,stroke:#a16207,color:#451a03
+  classDef graph fill:#dbeafe,stroke:#1d4ed8,color:#172554
+
+  Intent["SAME CANONICAL QUESTION<br/>SAME Qwen 2.5 7.6B Q4_K_M<br/>temperature 0 · num_ctx 8192 · output reserve 2048"]:::controlled
+  LLM["LLM-only<br/>no retrieval<br/>canonical answer + frozen evaluation"]:::baseline
+  Text["Text-RAG<br/>ranked provenance-bearing chunks<br/>no graph types or relations"]:::text
+  Graph["GraphRAG<br/>typed entities + relations + sources<br/>46 retrieved → 9 LLM-facing nodes"]:::graph
+  Metrics["Frozen evidence only<br/>accuracy · coverage · supported / unsupported / contradicted<br/>latency and evidence-token cost"]:::controlled
+
+  Intent --> LLM
+  Intent --> Text
+  Intent --> Graph
+  LLM --> Metrics
+  Text --> Metrics
+  Graph --> Metrics

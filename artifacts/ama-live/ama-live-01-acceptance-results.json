@@ -1,0 +1,72 @@
+{
+  "schema": "nma.ama-live-acceptance-results/1.0",
+  "demo_id": "AMA-LIVE-01",
+  "verdict": "PASS WITH FINDINGS",
+  "research_freeze_sha": "8411cad14a16d8ce1b8b23ab0f1be1e8b4bc1a4b",
+  "live_run": {
+    "run_id": "ama-live-run:b6b884b638844666961f66fc0ebc7df1",
+    "mode": "LIVE",
+    "model": "qwen2.5:latest",
+    "model_digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "retrieval_id": "ama-retrieval:ca0920c05524457fafc1b07155726a4d",
+    "retrieved_node_count": 28,
+    "projected_node_count": 11,
+    "proposal_id": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+    "proposal_hash": "c2cdf20081b4c163e3951b6f873e8139a1a7ad6f1212d37501a23c900364e705",
+    "proposal_validation": "PASS",
+    "authorization": "PASS",
+    "authorized_equals_executed": true,
+    "execution_id": "ama-execution:dde682679e3d4801aafe14e56d003122",
+    "execution": "PASS",
+    "verification": "PASS",
+    "provenance_id": "ama-provenance:e63730509a5d46ffbc82acac00120956",
+    "source_unchanged": true,
+    "map_result": "LIVE RESULT",
+    "tamper_test": "PASS",
+    "unresolved_state_preserved": true,
+    "timing_ms": {
+      "graphrag": 270.098,
+      "evidence_projection": 4.226,
+      "constraint_resolution": 0.074,
+      "llm_planning": 408456.845,
+      "proposal_validation": 399.78,
+      "authorization": 3.491,
+      "gis_execution": 2.987,
+      "verification": 0.276,
+      "end_to_end": 409279.803
+    }
+  },
+  "focused_tests": {"result": "PASS", "passed": 11, "failed": 0},
+  "http_integration": {
+    "result": "PASS",
+    "live_record": 200,
+    "result_geojson": 200,
+    "html": 200,
+    "maplibre_asset": 200
+  },
+  "visual_browser_qa": {
+    "result": "NOT RUN",
+    "finding": "No browser instance was connected in the acceptance environment."
+  },
+  "targeted_regression": {
+    "result": "PASS WITH EXPECTED HISTORICAL-FREEZE EXCLUSIONS",
+    "passed": 89,
+    "failed_historical_scope": 3,
+    "finding": "Historical branch/scope identity tests must run only at their documented frozen refs."
+  },
+  "broad_regression": {
+    "result": "PASS WITH EXPECTED HISTORICAL-FREEZE EXCLUSIONS",
+    "collected": 1608,
+    "passed": 1570,
+    "skipped": 2,
+    "failed_historical_or_baseline_scope": 36,
+    "new_semantic_regressions": 0
+  },
+  "redistribution_review": "BOUNDED",
+  "cloud_readiness": "READY WITH FINDINGS",
+  "findings": [
+    "The live local Qwen planning step took 408.46 seconds and dominates the 409.28-second run.",
+    "Full KG/text redistribution remains bounded pending file-level source/license review.",
+    "Screenshot-level browser QA was unavailable; HTTP, payload, and static asset integration passed."
+  ]
+}

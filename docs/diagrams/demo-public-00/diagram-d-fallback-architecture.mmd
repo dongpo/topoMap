@@ -1,0 +1,16 @@
+flowchart TB
+  classDef live fill:#fff3cd,stroke:#9a6700,color:#3d2d00
+  classDef replay fill:#dbeafe,stroke:#1d4ed8,color:#172554
+  classDef offline fill:#dcfce7,stroke:#15803d,color:#052e16
+  classDef video fill:#f3f4f6,stroke:#4b5563,color:#111827
+
+  Live["LIVE MODEL<br/>optional cloud inference + live deterministic stack"]:::live
+  Canonical["CANONICAL REPLAY<br/>default conference mode<br/>frozen probabilistic outputs + live deterministic stages when available"]:::replay
+  Offline["OFFLINE REPLAY<br/>local static package<br/>no API, LLM, Neo4j, keys, or internet"]:::offline
+  Video["BACKUP VIDEO<br/>5–6 minute full + 60–90 second emergency"]:::video
+
+  Live -->|"model / API / graph failure"| Canonical
+  Canonical -->|"network / hosting failure"| Offline
+  Offline -->|"device / browser / unexpected failure"| Video
+  Canonical -->|"Reset Demo"| Canonical
+  Offline -->|"Reset Demo"| Offline
