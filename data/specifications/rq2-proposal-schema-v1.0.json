@@ -1,0 +1,351 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/rq2-proposal/1.0",
+  "title": "RQ2 Constrained Executable Proposal 1.0",
+  "description": "The complete, content-bound RQ2 output consumed directly by RQ3.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "proposal_id",
+    "proposal_version",
+    "proposal_hash",
+    "intent",
+    "knowledge",
+    "constraints",
+    "decision",
+    "plan",
+    "required_authorizations",
+    "expected_postconditions",
+    "expected_final_state",
+    "provenance_seed"
+  ],
+  "properties": {
+    "proposal_id": {
+      "type": "string",
+      "pattern": "^rq2-proposal:[A-Za-z0-9._:-]+$",
+      "maxLength": 200
+    },
+    "proposal_version": {"const": "rq2-proposal/1.0"},
+    "proposal_hash": {"$ref": "#/$defs/sha256"},
+    "intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["intent_id", "raw_text", "normalized_goal"],
+      "properties": {
+        "intent_id": {
+          "type": "string",
+          "pattern": "^intent:sha256:[0-9a-f]{64}$"
+        },
+        "raw_text": {"type": "string", "minLength": 1, "maxLength": 1000},
+        "normalized_goal": {"type": "string", "minLength": 1, "maxLength": 1000}
+      }
+    },
+    "knowledge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "evidence_refs",
+        "retrieval_identity",
+        "knowledge_snapshot_identity"
+      ],
+      "properties": {
+        "mode": {"enum": ["none", "graphrag"]},
+        "evidence_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1, "maxLength": 300}
+        },
+        "retrieval_identity": {
+          "oneOf": [
+            {"$ref": "#/$defs/artifactIdentity"},
+            {"type": "null"}
+          ]
+        },
+        "knowledge_snapshot_identity": {
+          "oneOf": [
+            {"$ref": "#/$defs/artifactIdentity"},
+            {"type": "null"}
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"mode": {"const": "none"}}, "required": ["mode"]},
+          "then": {
+            "properties": {
+              "evidence_refs": {"maxItems": 0},
+              "retrieval_identity": {"type": "null"},
+              "knowledge_snapshot_identity": {"type": "null"}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"mode": {"const": "graphrag"}}, "required": ["mode"]},
+          "then": {
+            "properties": {
+              "evidence_refs": {"minItems": 1},
+              "retrieval_identity": {"$ref": "#/$defs/artifactIdentity"},
+              "knowledge_snapshot_identity": {"$ref": "#/$defs/artifactIdentity"}
+            }
+          }
+        }
+      ]
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resolved", "unresolved", "contradicted"],
+      "properties": {
+        "resolved": {"$ref": "#/$defs/constraintArray"},
+        "unresolved": {"$ref": "#/$defs/constraintArray"},
+        "contradicted": {"$ref": "#/$defs/constraintArray"}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_status", "reason_codes"],
+      "properties": {
+        "execution_status": {
+          "enum": ["PROCEED", "PROCEED_WITH_BOUNDED_UNRESOLVED", "BLOCK"]
+        },
+        "reason_codes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*$",
+            "maxLength": 100
+          }
+        }
+      }
+    },
+    "plan": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/planStep"}
+    },
+    "required_authorizations": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/authorizationDeclaration"}
+    },
+    "expected_postconditions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/condition"}
+    },
+    "expected_final_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_unchanged", "derived_artifact", "verification_required"],
+      "properties": {
+        "source_unchanged": {"const": true},
+        "derived_artifact": {"type": ["object", "null"]},
+        "verification_required": {"const": true}
+      }
+    },
+    "provenance_seed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_id",
+        "intent_id",
+        "knowledge_snapshot_identity",
+        "evidence_refs",
+        "constraint_ids",
+        "planner_identity",
+        "model_identity",
+        "plan_identity",
+        "input_feature_identities",
+        "tool_allowlist_version",
+        "tool_allowlist_sha256",
+        "validator_version",
+        "run_identity",
+        "created_at"
+      ],
+      "properties": {
+        "proposal_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "intent_id": {"type": "string", "minLength": 1, "maxLength": 200},
+        "knowledge_snapshot_identity": {
+          "oneOf": [
+            {"$ref": "#/$defs/artifactIdentity"},
+            {"type": "null"}
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1, "maxLength": 300}
+        },
+        "constraint_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1, "maxLength": 200}
+        },
+        "planner_identity": {"type": "string", "minLength": 1, "maxLength": 200},
+        "model_identity": {"type": "string", "minLength": 1, "maxLength": 300},
+        "plan_identity": {"$ref": "#/$defs/sha256"},
+        "input_feature_identities": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/artifactIdentity"}
+        },
+        "tool_allowlist_version": {"const": "rq2-tool-allowlist/1.0"},
+        "tool_allowlist_sha256": {"$ref": "#/$defs/sha256"},
+        "validator_version": {"const": "rq2-plan-validator/1.0"},
+        "run_identity": {"type": "string", "minLength": 1, "maxLength": 200},
+        "created_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifactIdentity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sha256"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "maxLength": 300},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "constraintArray": {
+      "type": "array",
+      "items": {"$ref": "https://schemas.nma.local/rq2-constraint/1.0"}
+    },
+    "condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "condition_id",
+        "type",
+        "subject",
+        "predicate",
+        "expected_value",
+        "constraint_refs"
+      ],
+      "properties": {
+        "condition_id": {
+          "type": "string",
+          "pattern": "^(precondition|postcondition):[A-Za-z0-9._:-]+$",
+          "maxLength": 200
+        },
+        "type": {
+          "enum": [
+            "identity",
+            "readability",
+            "geometry",
+            "attribute",
+            "authority",
+            "binding",
+            "mutation",
+            "tool",
+            "verification"
+          ]
+        },
+        "subject": {"type": "string", "minLength": 1, "maxLength": 300},
+        "predicate": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9._:-]*$",
+          "maxLength": 160
+        },
+        "expected_value": {},
+        "constraint_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1, "maxLength": 200}
+        }
+      }
+    },
+    "planStep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "step_id",
+        "operation",
+        "tool",
+        "inputs",
+        "input_identities",
+        "preconditions",
+        "expected_postconditions",
+        "constraint_refs",
+        "trace_basis"
+      ],
+      "properties": {
+        "step_id": {
+          "type": "string",
+          "pattern": "^step:[A-Za-z0-9._:-]+$",
+          "maxLength": 160
+        },
+        "operation": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._-]*$",
+          "maxLength": 160
+        },
+        "tool": {
+          "type": "string",
+          "pattern": "^rq2\\.[a-z0-9.-]+/[0-9]+\\.[0-9]+$",
+          "maxLength": 160
+        },
+        "inputs": {"type": "object"},
+        "input_identities": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/artifactIdentity"}
+        },
+        "preconditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/condition"}
+        },
+        "expected_postconditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/condition"}
+        },
+        "constraint_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1, "maxLength": 200}
+        },
+        "trace_basis": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "user_intent",
+              "knowledge_constraint",
+              "deterministic_execution_requirement",
+              "verification_requirement"
+            ]
+          }
+        }
+      }
+    },
+    "authorizationDeclaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authorization_type",
+        "scope",
+        "bound_proposal_hash",
+        "required_before_step"
+      ],
+      "properties": {
+        "authorization_type": {
+          "enum": ["research-derived-artifact-execution", "mapping-execution"]
+        },
+        "scope": {"type": "string", "minLength": 1, "maxLength": 500},
+        "bound_proposal_hash": {"$ref": "#/$defs/sha256"},
+        "required_before_step": {
+          "type": "string",
+          "pattern": "^step:[A-Za-z0-9._:-]+$",
+          "maxLength": 160
+        }
+      }
+    }
+  }
+}

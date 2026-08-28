@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.nma.local/rq2-constraint/1.0",
+  "title": "RQ2 Knowledge Constraint 1.0",
+  "description": "A domain-neutral, evidence-linked geographic or cartographic constraint used before planning, during deterministic validation, and after execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "constraint_id",
+    "type",
+    "subject",
+    "predicate",
+    "expected_value",
+    "source_evidence_refs",
+    "authority_status",
+    "resolution_status",
+    "execution_effect"
+  ],
+  "properties": {
+    "constraint_id": {
+      "type": "string",
+      "pattern": "^constraint:[A-Za-z0-9._:-]+$",
+      "maxLength": 200
+    },
+    "type": {
+      "enum": [
+        "classification",
+        "geometry",
+        "portrayal",
+        "source_authority",
+        "relationship_binding",
+        "execution_guard"
+      ]
+    },
+    "subject": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300
+    },
+    "predicate": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9._:-]*$",
+      "maxLength": 160
+    },
+    "expected_value": {},
+    "source_evidence_refs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 300
+      }
+    },
+    "authority_status": {
+      "enum": [
+        "authoritative",
+        "authoritative_pending_review",
+        "derived_from_authoritative",
+        "non_authoritative",
+        "unknown"
+      ]
+    },
+    "resolution_status": {
+      "enum": ["resolved", "unresolved", "contradicted"]
+    },
+    "execution_effect": {
+      "enum": ["required", "forbidden", "guard", "informational"]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"resolution_status": {"const": "resolved"}},
+        "required": ["resolution_status"]
+      },
+      "then": {
+        "properties": {"source_evidence_refs": {"minItems": 1}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"resolution_status": {"const": "unresolved"}},
+        "required": ["resolution_status"]
+      },
+      "then": {
+        "properties": {"expected_value": {"type": "null"}}
+      }
+    },
+    {
+      "if": {
+        "properties": {"resolution_status": {"const": "contradicted"}},
+        "required": ["resolution_status"]
+      },
+      "then": {
+        "properties": {
+          "source_evidence_refs": {"minItems": 2}
+        }
+      }
+    }
+  ]
+}

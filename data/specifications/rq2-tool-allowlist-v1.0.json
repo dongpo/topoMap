@@ -1,0 +1,192 @@
+{
+  "specification": "rq2-tool-allowlist/1.0",
+  "unknown_tool_policy": "fail_closed",
+  "planner_generated_shell_commands_allowed": false,
+  "planner_generated_python_allowed": false,
+  "source_mutation_allowed": false,
+  "output_boundary": "temporary_or_derived_isolated_outputs_only",
+  "tools": [
+    {
+      "tool_id": "rq2.feature.read/1.0",
+      "operation_type": "read_feature",
+      "accepted_inputs": {
+        "required": ["artifact_identity", "feature_selector"],
+        "formats": ["GeoJSON", "reviewed_shapefile_fixture"],
+        "path_policy": "pre-registered input identity only"
+      },
+      "deterministic_outputs": [
+        "feature_snapshot_identity",
+        "geometry_type",
+        "property_names",
+        "source_file_sha256"
+      ],
+      "mutation_behavior": "none",
+      "preconditions": [
+        "input identity resolves exactly",
+        "source is readable",
+        "selector resolves exactly one feature",
+        "source hash matches declared identity"
+      ],
+      "failure_behavior": "fail without output mutation",
+      "side_effects": [],
+      "implementation_status": "ADAPT",
+      "reuse_basis": [
+        "src/nma/real_layer.py",
+        "src/nma/school_hero_execution.py",
+        "src/nma/road_execution.py"
+      ]
+    },
+    {
+      "tool_id": "rq2.source-authority.validate/1.0",
+      "operation_type": "validate_source_authority",
+      "accepted_inputs": {
+        "required": ["source_identity", "evidence_refs", "knowledge_snapshot_identity"],
+        "comparison": "exact identity and evidence membership"
+      },
+      "deterministic_outputs": ["authority_check", "matched_evidence_refs"],
+      "mutation_behavior": "none",
+      "preconditions": [
+        "knowledge snapshot identity resolves exactly",
+        "all evidence references exist in the retrieved package"
+      ],
+      "failure_behavior": "return failed check and block dependent steps",
+      "side_effects": [],
+      "implementation_status": "MISSING",
+      "reuse_basis": [
+        "src/nma/research_runtime.py",
+        "agent_contracts/evidence.py"
+      ]
+    },
+    {
+      "tool_id": "rq2.geometry.validate/1.0",
+      "operation_type": "validate_geometry_type",
+      "accepted_inputs": {
+        "required": ["feature_snapshot_identity", "expected_geometry_type"],
+        "geometry_types": ["Point", "LineString", "Polygon", "MultiPoint", "MultiLineString", "MultiPolygon"]
+      },
+      "deterministic_outputs": ["geometry_check", "observed_geometry_type"],
+      "mutation_behavior": "none",
+      "preconditions": ["feature snapshot identity resolves exactly"],
+      "failure_behavior": "return failed check and block dependent steps",
+      "side_effects": [],
+      "implementation_status": "ADAPT",
+      "reuse_basis": [
+        "src/nma/school_hero_execution.py",
+        "src/nma/road_execution.py",
+        "src/nma/real_layer.py"
+      ]
+    },
+    {
+      "tool_id": "rq2.attribute.validate/1.0",
+      "operation_type": "validate_attribute_value",
+      "accepted_inputs": {
+        "required": ["artifact_identity", "attribute_path", "expected_value"],
+        "comparison": "exact canonical JSON equality"
+      },
+      "deterministic_outputs": ["attribute_check", "observed_value"],
+      "mutation_behavior": "none",
+      "preconditions": ["artifact identity resolves exactly", "attribute path is allowlisted"],
+      "failure_behavior": "return failed check and block dependent steps when used as a precondition",
+      "side_effects": [],
+      "implementation_status": "MISSING",
+      "reuse_basis": [
+        "src/nma/school_hero_verification.py",
+        "src/nma/road_verification.py"
+      ]
+    },
+    {
+      "tool_id": "rq2.representation.derive/1.0",
+      "operation_type": "derive_target_representation",
+      "accepted_inputs": {
+        "required": ["feature_snapshot_identity", "resolved_constraint_values"],
+        "canonical_scenario_output": "symbolic feature classification and portrayal references only"
+      },
+      "deterministic_outputs": ["derived_representation", "derived_representation_identity"],
+      "mutation_behavior": "in_memory_only",
+      "preconditions": [
+        "geometry validation passed",
+        "required classification and symbolic portrayal constraints are resolved",
+        "no contradicted execution-critical constraint",
+        "no unresolved value is materialized"
+      ],
+      "failure_behavior": "fail without writing an artifact",
+      "side_effects": [],
+      "implementation_status": "MISSING",
+      "reuse_basis": [
+        "src/nma/school_hero_execution.py",
+        "src/nma/road_execution.py"
+      ]
+    },
+    {
+      "tool_id": "rq2.artifact.write-derived/1.0",
+      "operation_type": "write_derived_artifact",
+      "accepted_inputs": {
+        "required": ["derived_representation_identity", "isolated_output_identity"],
+        "formats": ["canonical JSON", "GeoJSON"],
+        "path_policy": "pre-created isolated run directory only"
+      },
+      "deterministic_outputs": ["derived_artifact_identity", "write_manifest"],
+      "mutation_behavior": "derived_output_only",
+      "preconditions": [
+        "research authorization bound to proposal hash is valid",
+        "output root is isolated and empty",
+        "source path and output path are disjoint",
+        "proposal decision permits execution"
+      ],
+      "failure_behavior": "atomic staging is discarded; source remains unchanged",
+      "side_effects": ["create files only beneath the isolated run output root"],
+      "implementation_status": "ADAPT",
+      "reuse_basis": [
+        "src/nma/school_hero_execution.py",
+        "src/nma/road_execution.py",
+        "build_contracts/demo_execution.py"
+      ]
+    },
+    {
+      "tool_id": "rq2.portrayal.render-review/1.0",
+      "operation_type": "render_review_portrayal",
+      "accepted_inputs": {
+        "required": ["derived_artifact_identity", "resolved_physical_portrayal_profile"],
+        "output_claim": "review rendering only"
+      },
+      "deterministic_outputs": ["review_render_identity", "render_parameters"],
+      "mutation_behavior": "derived_output_only",
+      "preconditions": [
+        "all physical portrayal gates are resolved",
+        "symbol or procedural renderer identity is approved",
+        "render output is isolated",
+        "render is not labeled authoritative production"
+      ],
+      "failure_behavior": "fail before rendering when any portrayal gate is unresolved",
+      "side_effects": ["create review-render files only beneath the isolated run output root"],
+      "implementation_status": "MISSING",
+      "reuse_basis": [
+        "src/nma/school_hero_execution.py",
+        "build_contracts/building_production_implementation.py"
+      ]
+    },
+    {
+      "tool_id": "rq2.postconditions.verify/1.0",
+      "operation_type": "verify_postconditions",
+      "accepted_inputs": {
+        "required": ["proposal_hash", "execution_receipt_identity", "expected_postconditions"],
+        "comparison": "exact expected-versus-actual checks"
+      },
+      "deterministic_outputs": ["verification_status", "checks", "unexpected_mutations"],
+      "mutation_behavior": "verification_record_only",
+      "preconditions": [
+        "execution receipt resolves exactly",
+        "proposal hash matches execution receipt",
+        "expected postconditions are present"
+      ],
+      "failure_behavior": "return failed verification; never repair the plan or result",
+      "side_effects": ["write one verification record beneath the isolated run output root"],
+      "implementation_status": "ADAPT",
+      "reuse_basis": [
+        "src/nma/school_hero_verification.py",
+        "src/nma/road_verification.py",
+        "build_contracts/building_production_verification.py"
+      ]
+    }
+  ]
+}
