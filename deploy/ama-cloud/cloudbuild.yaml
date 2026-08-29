@@ -9,10 +9,10 @@ steps:
       - .
     timeout: 3600s
   - name: gcr.io/cloud-builders/docker
-    args: [push, ${_IMAGE}]
+    args: [push, '${_IMAGE}']
     timeout: 3600s
 images:
-  - ${_IMAGE}
+  - '${_IMAGE}'
 timeout: 7200s
 options:
   machineType: E2_HIGHCPU_8
