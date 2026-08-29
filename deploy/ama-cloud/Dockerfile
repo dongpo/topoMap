@@ -35,6 +35,7 @@ LABEL org.opencontainers.image.title="topoMap AMA-CLOUD-01" \
       nma.ollama.version="${OLLAMA_VERSION}" \
       nma.model.digest="${FROZEN_MODEL_DIGEST}"
 COPY --from=ollama-runtime /bin/ollama /usr/local/bin/ollama
+COPY --from=ollama-runtime /usr/lib/ollama /usr/local/lib/ollama
 COPY --from=model-builder --chown=65532:65532 /opt/ollama/models /opt/ollama/models
 WORKDIR /app
 COPY --chown=65532:65532 . /app
@@ -53,6 +54,9 @@ ENV PYTHONPATH=/app/src \
     OLLAMA_MODELS=/opt/ollama/models \
     OLLAMA_KEEP_ALIVE=-1 \
     OLLAMA_NUM_PARALLEL=1 \
+    LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64 \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
+    NVIDIA_VISIBLE_DEVICES=all \
     HOME=/tmp/ollama-home
 USER 65532:65532
 EXPOSE 8080
