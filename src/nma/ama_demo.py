@@ -91,6 +91,8 @@ def _bounded_node(node: Mapping[str, Any]) -> dict[str, Any]:
         "feature_code",
         "feature_name",
         "name",
+        "name_zh",
+        "name_en",
         "label",
         "geometry_role",
         "product_layer",
@@ -104,6 +106,9 @@ def _bounded_node(node: Mapping[str, Any]) -> dict[str, Any]:
         "topic",
         "review_status",
         "revision",
+        "instruction",
+        "symbol_family",
+        "dimension_summary",
     }
     return {
         "id": node["id"],
@@ -346,7 +351,12 @@ def build_evidence_action_trace(record: Mapping[str, Any], *, mode: str) -> dict
         (provenance.get("provenance_id"), "Provenance", provenance.get("result")),
     ]
     previous = proposal.get("plan", [{}])[-1].get("step_id") if proposal.get("plan") else None
-    relation_types = ("PRODUCES", "AUTHORIZES", "EXECUTES", "VERIFIES", "RECORDS")
+    fail_closed = authorization.get("decision") == "DENIED" and execution.get("status") == "NOT_RUN"
+    relation_types = (
+        ("PRODUCES", "DENIES", "BLOCKS", "VERIFIES_NO_MUTATION", "RECORDS")
+        if fail_closed
+        else ("PRODUCES", "AUTHORIZES", "EXECUTES", "VERIFIES", "RECORDS")
+    )
     for (identifier, node_type, label), relation in zip(identities, relation_types):
         if identifier:
             nodes.append({"id": identifier, "type": node_type, "label": label})
@@ -365,7 +375,10 @@ def build_evidence_action_trace(record: Mapping[str, Any], *, mode: str) -> dict
             "authorized_proposal_hash": authorization.get("proposal_hash"),
             "executed_proposal_hash": provenance.get("executed_proposal_hash"),
             "status": (
-                "PASS"
+                "FAIL_CLOSED"
+                if fail_closed
+                and proposal.get("proposal_hash") == authorization.get("proposal_hash")
+                else "PASS"
                 if proposal.get("proposal_hash")
                 == authorization.get("proposal_hash")
                 == provenance.get("executed_proposal_hash")

@@ -1,0 +1,82 @@
+.feature-admission {
+  margin: 10px 0 4px;
+  padding: 12px 14px;
+  border: 1px solid rgba(0, 111, 139, .25);
+  border-left: 5px solid var(--ama-cyan-dark);
+  border-radius: 7px;
+  background: var(--ama-ice);
+}
+
+.feature-admission > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: .72rem;
+}
+
+.feature-admission > div:first-child span { color: var(--muted); }
+.feature-admission p { margin: 6px 0 10px; font-size: .68rem; color: var(--muted); }
+.feature-matches { display: flex; gap: 7px; overflow-x: auto; padding: 2px 0; }
+
+.feature-match {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  min-width: 190px;
+  padding: 9px 38px 9px 10px;
+  border: 1px solid #b9d9db;
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  text-align: left;
+}
+
+.feature-match:hover { border-color: var(--ama-cyan-dark); background: #f7ffff; }
+.feature-match b { grid-row: 1 / span 2; margin-right: 8px; font: 800 .68rem/1.3 ui-monospace, monospace; color: var(--ama-cyan-dark); }
+.feature-match span { font-size: .68rem; font-weight: 800; }
+.feature-match small { font-size: .52rem; color: var(--muted); text-transform: uppercase; }
+.feature-match img { position: absolute; right: 8px; top: 7px; width: 25px; height: 31px; object-fit: contain; }
+.feature-none { font-size: .65rem; color: var(--muted); }
+
+.pill.abstained,
+.pill.denied,
+.pill.no-gis-output,
+.pill.not-available,
+.pill.not_run,
+.pill.not-run {
+  background: #fff0d9;
+  color: #935100;
+}
+
+.pill.fail-closed-pass { background: #e5f4ee; color: #087255; }
+.stage.abstained .bar,
+.stage.denied .bar,
+.stage.not_run .bar,
+.stage.not-run .bar,
+.stage.not_available .bar,
+.stage.not-available .bar { background: var(--ama-orange); }
+
+.feature-symbol-marker {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 68px;
+  padding: 5px 7px 15px;
+  border: 2px solid #fff;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, .95);
+  box-shadow: 0 4px 12px rgba(7, 28, 42, .38);
+}
+
+.feature-symbol-marker img { width: 34px; height: 43px; object-fit: contain; }
+.feature-symbol-marker span { position: absolute; bottom: 3px; font: 800 8px/1 ui-monospace, monospace; color: var(--ama-navy); }
+
+.map-symbol-notice img { flex: 0 0 auto; width: 30px; height: 38px; object-fit: contain; }
+.legend .basemap { border-radius: 1px; background: linear-gradient(135deg, #bcd7c4 50%, #dbe8cc 50%); }
+
+@media (max-width: 700px) {
+  .feature-admission > div:first-child { flex-direction: column; gap: 3px; }
+  .feature-match { min-width: 170px; }
+}

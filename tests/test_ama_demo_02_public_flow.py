@@ -9,6 +9,7 @@ from typing import Any
 import pytest
 
 from nma.ama_demo import AMADemoPresentation, build_evidence_action_trace
+from nma.ama_features import AMAFeatureCatalog
 from nma.ama_live import AMALiveService, CANONICAL_INTENT
 from nma.llm import LLMAdapter, LLMResult
 from nma.llm.base import canonical_json
@@ -85,6 +86,14 @@ def test_same_rq1_question_across_three_architectures(service: AMALiveService) -
     assert len({row["question_identity"] for row in comparison["rows"]}) == 1
 
 
+def test_three_rq_storyline_headings_remain_present() -> None:
+    html = (ROOT / "public/ama-live/index.html").read_text(encoding="utf-8")
+    assert "RQ1 — WHAT DOES THE AGENT KNOW?" in html
+    assert "RQ2 — WHY THIS PLAN?" in html
+    assert "RQ3 — WHY ACCEPT THE ACTION?" in html
+    assert "Same question, three architectures" in html
+
+
 def test_rq1_comparison_records_model_identity(service: AMALiveService) -> None:
     rows = presentation(service).rq1_comparison()["rows"]
     assert {row["model_identity"]["digest"] for row in rows} == {"845dbda0ea48"}
@@ -146,6 +155,7 @@ def test_graph_relations_are_visible_and_directed() -> None:
     assert "DIRECTED RELATIONS" in javascript
     assert ".graph .relation-edge line" in css
     assert ".graph .edge-label" in css
+    assert "RetrievedEvidence').slice(0,8)" in javascript
 
 
 def test_retrieved_subgraph_view_present(service: AMALiveService) -> None:
@@ -262,21 +272,82 @@ def test_browser_flow_reaches_final_map(service: AMALiveService) -> None:
     )
 
 
-def test_map_renders_a_visible_but_non_authoritative_hydrant_preview(
+def test_map_reuses_nlsc_context_and_existing_specification_svg(
     service: AMALiveService,
 ) -> None:
     html = (ROOT / "public/ama-live/index.html").read_text(encoding="utf-8")
     javascript = (ROOT / "public/ama-live/app.js").read_text(encoding="utf-8")
-    css = (ROOT / "public/ama-live/app.css").read_text(encoding="utf-8")
+    css = (ROOT / "public/ama-live/components.css").read_text(encoding="utf-8")
     feature = presentation(service).replay_result()["features"][0]
 
     assert feature["properties"]["authoritative_render"] is False
     assert 'id="map-symbol-notice"' in html
-    assert "symbolic hydrant preview" in html
-    assert "hydrantPreviewMarker" in javascript
+    assert "NLSC EMAP context" in html
+    assert "featureSymbolMarker" in javascript
     assert "new maplibregl.Marker" in javascript
-    assert "NON-AUTHORITATIVE SYMBOLIC PREVIEW" in javascript
-    assert ".hydrant-preview-marker" in css
+    assert "wmts.nlsc.gov.tw/wmts/EMAP" in javascript
+    assert "/symbols/fire-hydrant.svg" in javascript
+    assert "SPECIFICATION-DERIVED SVG PREVIEW" in javascript
+    assert ".feature-symbol-marker" in css
+
+
+def test_every_exact_seven_digit_feature_is_queryable() -> None:
+    catalog = AMAFeatureCatalog(ROOT)
+    assert catalog.count == 600
+    assert all(len(code) == 7 and code.isdigit() for code in catalog.nodes_by_code)
+    school = catalog.get("9920103", include_evidence=True)
+    assert school is not None
+    assert school["name"] == "小學"
+    assert school["evidence_package"]["evidence_nodes"]
+
+
+def test_non_fixture_feature_completes_same_story_as_fail_closed_abstention(
+    service: AMALiveService,
+) -> None:
+    created = service.new_record(
+        "Create a safe derived mapping feature for 小學, TerrainID 9920103, using reviewed graph knowledge."
+    )
+    record = service.run(created["run_id"])
+
+    assert record["status"] == "ABSTAINED"
+    assert record["intent_resolution"]["status"] == "RESOLVED"
+    assert record["intent_resolution"]["feature"]["code"] == "9920103"
+    assert record["retrieval"]["node_count"] > 0
+    assert record["proposal_validation"]["status"] == "PASS"
+    assert record["authorization"]["decision"] == "DENIED"
+    assert record["authorization_gate"]["mutation_allowed"] is False
+    assert record["execution"]["status"] == "NOT_RUN"
+    assert record["verification"]["status"] == "PASS"
+    assert record["provenance"]["result"] == "ABSTAINED"
+    assert record["stages"]["map_result"]["status"] == "NOT_AVAILABLE"
+
+    trace = build_evidence_action_trace(record, mode="LIVE")
+    assert trace["identity_invariant"]["status"] == "FAIL_CLOSED"
+    assert {edge["type"] for edge in trace["edges"]} >= {
+        "DENIES",
+        "BLOCKS",
+        "VERIFIES_NO_MUTATION",
+    }
+
+
+def test_unknown_feature_is_accepted_then_abstains_without_mutation(
+    service: AMALiveService,
+) -> None:
+    created = service.new_record("Map TerrainID 0000000 safely.")
+    record = service.run(created["run_id"])
+    assert record["status"] == "ABSTAINED"
+    assert record["intent_resolution"]["status"] == "ABSTAINED"
+    assert record["execution"]["mutation_started"] is False
+    assert record["verification"]["status"] == "PASS"
+
+
+def test_canonical_fixture_accepts_noncanonical_wording(service: AMALiveService) -> None:
+    created = service.new_record(
+        "Use reviewed knowledge to create a safe derived 消防栓 feature for TerrainID 9350906."
+    )
+    record = service.run(created["run_id"])
+    assert record["status"] == "PASS"
+    assert record["execution_mode"] == "AUTHORIZED_FIXTURE"
 
 
 def test_replay_manifest_hashes_every_included_artifact(service: AMALiveService) -> None:

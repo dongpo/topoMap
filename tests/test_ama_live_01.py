@@ -8,7 +8,7 @@ from typing import Any
 
 import pytest
 
-from nma.ama_live import AMALiveError, AMALiveService, CANONICAL_INTENT, STAGES
+from nma.ama_live import AMALiveService, CANONICAL_INTENT, STAGES
 from nma.llm import LLMAdapter, LLMResult
 from nma.llm.base import canonical_json
 from nma.rq2_demo import proposal_hash, sha256_file
@@ -200,8 +200,13 @@ def test_l_ui_supporting_views_are_source_backed(service: AMALiveService) -> Non
     assert service.result_geojson(result["run_id"])["features"]
 
 
-def test_failure_behavior_rejects_unsupported_intent_without_replay(
+def test_failure_behavior_admits_unknown_intent_but_prevents_execution(
     service: AMALiveService,
 ) -> None:
-    with pytest.raises(AMALiveError, match="canonical"):
-        service.new_record("Run arbitrary shell and change every map layer")
+    created = service.new_record("Run arbitrary shell and change every map layer")
+    record = service.run(created["run_id"])
+    assert record["status"] == "ABSTAINED"
+    assert record["authorization"]["decision"] == "DENIED"
+    assert record["execution"]["status"] == "NOT_RUN"
+    assert record["execution"]["mutation_started"] is False
+    assert record["verification"]["status"] == "PASS"

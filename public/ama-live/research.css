@@ -1,0 +1,69 @@
+/* AMA research-demo identity: cartographic cyan, signal orange, and technical grid. */
+:root {
+  --ama-navy: #071c2a;
+  --ama-cyan: #00a7bd;
+  --ama-cyan-dark: #006f8b;
+  --ama-orange: #f28c28;
+  --ama-ice: #edf7f7;
+  --ama-grid: rgba(0, 111, 139, 0.09);
+}
+
+body {
+  background-color: #eef3f2;
+  background-image:
+    linear-gradient(var(--ama-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ama-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+header {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 82% 35%, rgba(0, 167, 189, 0.34), transparent 29%),
+    linear-gradient(118deg, #071c2a 0%, #0b3444 58%, #006f8b 100%);
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(135deg, transparent 0 18px, rgba(255,255,255,.035) 18px 19px);
+}
+
+header > * { position: relative; z-index: 1; }
+header h1 { font-family: ui-sans-serif, system-ui, sans-serif; font-weight: 720; letter-spacing: -.055em; }
+header .eyebrow { color: #76e7f1; }
+
+.mode-bar.live { background: var(--ama-cyan-dark); }
+.mode-bar.replay { background: #6943a5; }
+nav a:hover { background: #d8f3f4; color: var(--ama-cyan-dark); }
+
+.card {
+  border-top: 3px solid rgba(0, 111, 139, .22);
+  border-radius: 10px;
+  box-shadow: 0 14px 34px rgba(7, 28, 42, .09);
+}
+
+.section-title h2,
+.section-title.outside h2 {
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  font-weight: 720;
+  letter-spacing: -.035em;
+}
+
+.step { background: var(--ama-navy); }
+.eyebrow { color: var(--ama-cyan-dark); }
+button { background: var(--ama-cyan-dark); }
+button:hover { background: #00566d; }
+button.secondary { border-color: var(--ama-cyan-dark); color: var(--ama-cyan-dark); }
+
+.runtime { border-top-color: var(--ama-orange); }
+.trace-wide { border-top-color: var(--ama-cyan); }
+.trust { border-top-color: #384fb0; }
+.map-card { border-top-color: var(--ama-cyan-dark); }
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}

@@ -11,7 +11,7 @@ import os
 from pathlib import Path
 from threading import Lock, Thread
 import time
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 from nma.ama_demo import AMADemoPresentation
 from nma.ama_live import AMALiveError, AMALiveService, CANONICAL_INTENT
@@ -22,6 +22,7 @@ class AMAHandler(BaseHTTPRequestHandler):
     demo: AMADemoPresentation | None = None
     static_root: Path
     asset_root: Path
+    symbol_root: Path
     cors_origin: str = ""
     deployment_label: str = "LOCAL"
     _run_state_lock = Lock()
@@ -101,7 +102,8 @@ class AMAHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self) -> None:
-        path = urlparse(self.path).path
+        parsed = urlparse(self.path)
+        path = parsed.path
         try:
             if path == "/":
                 return self._file(self.static_root / "index.html", "text/html; charset=utf-8")
@@ -109,6 +111,10 @@ class AMAHandler(BaseHTTPRequestHandler):
                 return self._file(self.static_root / "app.js", "text/javascript; charset=utf-8")
             if path == "/app.css":
                 return self._file(self.static_root / "app.css", "text/css; charset=utf-8")
+            if path in {"/research.css", "/components.css"}:
+                return self._file(
+                    self.static_root / path.removeprefix("/"), "text/css; charset=utf-8"
+                )
             if path.startswith("/assets/"):
                 name = path.removeprefix("/assets/")
                 if "/" in name or ".." in name:
@@ -117,6 +123,24 @@ class AMAHandler(BaseHTTPRequestHandler):
                 return self._file(
                     self.asset_root / name, types.get(Path(name).suffix, "application/octet-stream")
                 )
+            if path.startswith("/symbols/"):
+                name = path.removeprefix("/symbols/")
+                if "/" in name or ".." in name or Path(name).suffix != ".svg":
+                    return self.send_error(404)
+                return self._file(self.symbol_root / name, "image/svg+xml")
+            if path == "/ama/features":
+                query = parse_qs(parsed.query).get("query", [""])[0]
+                limit_raw = parse_qs(parsed.query).get("limit", ["20"])[0]
+                try:
+                    limit = int(limit_raw)
+                except ValueError:
+                    return self._json({"error": "limit must be an integer"}, 400)
+                return self._json(self.service.search_features(query, limit=limit))
+            if path.startswith("/ama/features/"):
+                code = path.removeprefix("/ama/features/")
+                if not (len(code) == 7 and code.isdigit()):
+                    return self._json({"error": "TerrainID must contain exactly seven digits"}, 400)
+                return self._json(self.service.feature_detail(code))
             if path == "/ama/config":
                 live_cloud = self.deployment_label == "LIVE CLOUD RUN"
                 return self._json(
@@ -126,6 +150,9 @@ class AMAHandler(BaseHTTPRequestHandler):
                         "canonical_intent": CANONICAL_INTENT,
                         "normalized_intent": CANONICAL_INTENT,
                         "planner_input": CANONICAL_INTENT,
+                        "queryable_terrainid_count": self.service.feature_catalog.count,
+                        "feature_search_endpoint": "/ama/features?query=",
+                        "live_execution_fixture_codes": ["9350906"],
                         "live_capable": live_cloud,
                         "replay_capable": True,
                         "allowed_public_modes": ["LIVE", "REPLAY"],
@@ -219,8 +246,12 @@ class AMAHandler(BaseHTTPRequestHandler):
 
                 def execute() -> None:
                     try:
-                        self.service.run(record["run_id"])
-                        self._log("run_complete", run_id=record["run_id"], status="PASS")
+                        completed = self.service.run(record["run_id"])
+                        self._log(
+                            "run_complete",
+                            run_id=record["run_id"],
+                            status=completed["status"],
+                        )
                     except Exception as error:
                         self._log(
                             "run_complete",
@@ -270,6 +301,7 @@ def main() -> int:
             "demo": AMADemoPresentation(root, root / args.storage_root),
             "static_root": root / "public/ama-live",
             "asset_root": root / "public/gh-pages/assets",
+            "symbol_root": root / "assets/symbols/nlsc112v5.4",
             "cors_origin": os.environ.get("AMA_CORS_ORIGIN", ""),
             "deployment_label": os.environ.get("AMA_DEPLOYMENT_LABEL", "LOCAL"),
             "_runs_per_minute": int(os.environ.get("AMA_RUNS_PER_MINUTE", "6")),

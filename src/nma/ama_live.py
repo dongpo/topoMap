@@ -16,6 +16,7 @@ import time
 from typing import Any, Callable, Mapping
 from uuid import uuid4
 
+from nma.ama_features import AMAFeatureCatalog
 from nma.core import canonical_json, canonical_sha256
 from nma.llm import LLMAdapter, OllamaAdapter
 from nma.rq2_demo import (
@@ -114,6 +115,8 @@ def _bounded_node(node: Mapping[str, Any]) -> dict[str, Any]:
         "feature_code",
         "feature_name",
         "name",
+        "name_zh",
+        "name_en",
         "label",
         "geometry_role",
         "product_layer",
@@ -123,6 +126,11 @@ def _bounded_node(node: Mapping[str, Any]) -> dict[str, Any]:
         "color_code",
         "observed_color",
         "activation_status",
+        "review_status",
+        "page",
+        "instruction",
+        "symbol_family",
+        "dimension_summary",
     )
     bounded = (
         {key: properties[key] for key in allowed if key in properties}
@@ -306,6 +314,7 @@ class AMALiveService:
         self._records: dict[str, dict[str, Any]] = {}
         self._lock = RLock()
         self._startup_model_observed: dict[str, Any] | None = None
+        self.feature_catalog = AMAFeatureCatalog(self.repository_root)
 
     def _save(self, record: dict[str, Any]) -> None:
         with self._lock:
@@ -333,11 +342,7 @@ class AMALiveService:
     def new_record(self, intent: str) -> dict[str, Any]:
         if not isinstance(intent, str) or not intent.strip() or len(intent) > 500:
             raise AMALiveError("Mapping intent must contain 1-500 characters.")
-        if intent.strip() != CANONICAL_INTENT:
-            raise AMALiveError(
-                "AMA-LIVE-01 supports only the canonical fire-hydrant intent; no semantic "
-                "generalization or fallback replay is permitted."
-            )
+        resolution = self.feature_catalog.resolve(intent.strip())
         run_id = _fresh_id("ama-live-run")
         created = _utc(_now())
         record = {
@@ -346,6 +351,13 @@ class AMALiveService:
             "mode": "LIVE",
             "status": "WAITING",
             "intent": intent.strip(),
+            "intent_resolution": resolution,
+            "execution_mode": (
+                "AUTHORIZED_FIXTURE"
+                if resolution.get("status") == "RESOLVED"
+                and resolution.get("feature", {}).get("code") == "9350906"
+                else "QUERY_ONLY_FAIL_CLOSED"
+            ),
             "created_at": created,
             "updated_at": created,
             "stages": {name: {"status": "WAITING", "updated_at": created} for name in STAGES},
@@ -353,6 +365,24 @@ class AMALiveService:
         }
         self._save(record)
         return record
+
+    def search_features(self, query: str, *, limit: int = 20) -> dict[str, Any]:
+        """Return public-safe graph records for typeahead and exact TerrainID inspection."""
+
+        matches = self.feature_catalog.search(query, limit=limit)
+        return {
+            "schema": "nma.ama-feature-search/1.0",
+            "query": query,
+            "catalog_count": self.feature_catalog.count,
+            "match_count": len(matches),
+            "matches": matches,
+        }
+
+    def feature_detail(self, code: str) -> dict[str, Any]:
+        feature = self.feature_catalog.get(code, include_evidence=True)
+        if feature is None:
+            raise KeyError(code)
+        return {"schema": "nma.ama-feature-detail/1.0", "feature": feature}
 
     def _adapter(
         self, protocol: Mapping[str, Any]
@@ -436,14 +466,337 @@ class AMALiveService:
             "gpu_model_preloaded": os.environ.get("AMA_GPU_MODEL_PRELOADED", "false") == "true",
             "fixture_sha256": protocol["fixture_sha256"],
             "graph": "nma-canonical-graph-v0.4",
+            "queryable_terrainid_count": self.feature_catalog.count,
             "workspace": "isolated-writable",
         }
+
+    def _run_query_only(self, record: dict[str, Any]) -> dict[str, Any]:
+        """Complete the RQ1→RQ2→RQ3 story without inventing an executable fixture.
+
+        All canonical TerrainIDs are admissible for knowledge retrieval.  Only a separately
+        authorized fixture may reach the mutation executor; every other feature produces a
+        validated, provenance-bearing abstention.
+        """
+
+        total_started = time.monotonic()
+        resolution = record.get("intent_resolution", {})
+        resolved = resolution.get("status") == "RESOLVED"
+        feature = resolution.get("feature", {}) if resolved else {}
+        package = feature.get("evidence_package", {}) if resolved else {}
+        code = feature.get("code")
+        name = feature.get("name")
+        graph_path = self.repository_root / "data/knowledge/nma-canonical-graph-v0.4.json"
+        graph_sha = sha256_file(graph_path)
+        record["status"] = "RUNNING"
+        _stage_set(
+            record,
+            "intent",
+            "PASS" if resolved else "ABSTAINED",
+            actual_intent=record["intent"],
+            resolution_status=resolution.get("status"),
+            resolved_feature_code=code,
+        )
+        self._save(record)
+
+        retrieval_started = time.monotonic()
+        nodes = package.get("evidence_nodes", [])
+        edges = package.get("graph_paths", {}).get("edges", [])
+        citations = package.get("citations", [])
+        retrieval_id = _fresh_id("ama-retrieval")
+        record["retrieval"] = {
+            "retrieval_id": retrieval_id,
+            "invocation": "nma.ama_features.AMAFeatureCatalog.resolve",
+            "retrieval_mode": package.get("retrieval_mode", "deterministic-canonical-graph"),
+            "node_count": len(nodes),
+            "edge_count": len(edges),
+            "evidence_ids": [item["id"] for item in nodes],
+            "authoritative_sources": sorted(
+                {
+                    item["document_id"]
+                    for item in citations
+                    if isinstance(item.get("document_id"), str)
+                }
+            ),
+            "feature_code": code,
+            "feature_name": name,
+        }
+        retrieval_ms = round((time.monotonic() - retrieval_started) * 1000, 3)
+        _stage_set(
+            record,
+            "knowledge_retrieval",
+            "PASS" if resolved else "ABSTAINED",
+            duration_ms=retrieval_ms,
+        )
+
+        evidence_started = time.monotonic()
+        evidence_ids = sorted(item["id"] for item in nodes)
+        record["evidence"] = {
+            "projection_id": _fresh_id("ama-evidence-projection"),
+            "projected_node_count": len(evidence_ids),
+            "evidence_ids": evidence_ids,
+            "nodes": [_bounded_node(item) for item in nodes],
+            "edges": deepcopy(edges),
+            "citations": deepcopy(citations),
+            "retrieval_identity": canonical_sha256(
+                {"query": record["intent"], "evidence_ids": evidence_ids}
+            ),
+            "knowledge_snapshot_identity": graph_sha,
+        }
+        evidence_ms = round((time.monotonic() - evidence_started) * 1000, 3)
+        _stage_set(
+            record,
+            "evidence",
+            "PASS" if resolved else "ABSTAINED",
+            duration_ms=evidence_ms,
+        )
+        self._save(record)
+
+        constraint_started = time.monotonic()
+        portrayal = feature.get("portrayal") or {}
+        source_refs = sorted(
+            item["id"]
+            for item in nodes
+            if item.get("type") in {"PortrayalRule", "TerrainClassificationCode"}
+        )
+        definitions = (
+            ("constraint:classification.feature_code", code, "resolved" if code else "unresolved"),
+            (
+                "constraint:portrayal.geometry",
+                portrayal.get("geometry_classes"),
+                "resolved" if portrayal.get("geometry_classes") else "unresolved",
+            ),
+            (
+                "constraint:portrayal.line_code",
+                portrayal.get("line_code"),
+                "resolved" if portrayal.get("line_code") else "unresolved",
+            ),
+            (
+                "constraint:portrayal.color_code",
+                portrayal.get("color_code"),
+                "resolved" if portrayal.get("color_code") else "unresolved",
+            ),
+            ("constraint:execution.fixture", None, "unresolved"),
+        )
+        record["constraints"] = [
+            {
+                "constraint_id": identifier,
+                "source_evidence": source_refs,
+                "status": "RESOLVED" if status == "resolved" else "BOUNDED_UNRESOLVED",
+                "resolved_value": value if status == "resolved" else None,
+                "planner_consequence": (
+                    "May inform a query-only plan"
+                    if status == "resolved"
+                    else "Blocks authorization and GIS mutation"
+                ),
+                "plan_steps": ["plan:01-evidence-bound-abstention"],
+            }
+            for identifier, value, status in definitions
+        ]
+        constraint_ms = round((time.monotonic() - constraint_started) * 1000, 3)
+        _stage_set(
+            record,
+            "constraint_resolution",
+            "PASS" if resolved else "ABSTAINED",
+            duration_ms=constraint_ms,
+            unresolved_execution_fixture=True,
+        )
+
+        plan_started = time.monotonic()
+        plan = [
+            {
+                "step_id": "plan:01-evidence-bound-abstention",
+                "tool": "abstain_no_authorized_fixture",
+                "operation": "NO_MUTATION",
+                "constraint_refs": [item["constraint_id"] for item in record["constraints"]],
+            }
+        ]
+        record["plan"] = {
+            "plan_id": _fresh_id("ama-plan"),
+            "planner_identity": "nma-deterministic-fail-closed-planner/1.0",
+            "planner_mode": "EVIDENCE_BOUND_ABSTENTION",
+            "raw": {"decision": "ABSTAIN", "feature_code": code, "steps": plan},
+            "model_trace": {"model_calls": 0, "reason": "No authorized feature fixture exists."},
+            "provider_metrics": {},
+        }
+        plan_ms = round((time.monotonic() - plan_started) * 1000, 3)
+        _stage_set(record, "plan", "PASS", duration_ms=plan_ms)
+
+        proposal_started = time.monotonic()
+        resolved_constraints = [
+            item for item in record["constraints"] if item["status"] == "RESOLVED"
+        ]
+        unresolved_constraints = [
+            item for item in record["constraints"] if item["status"] != "RESOLVED"
+        ]
+        proposal: dict[str, Any] = {
+            "schema": "nma.ama-query-only-proposal/1.0",
+            "proposal_id": _fresh_id("ama-proposal"),
+            "proposal_hash": "0" * 64,
+            "intent": record["intent"],
+            "decision": {
+                "execution_status": "ABSTAINED",
+                "reason": (
+                    "The TerrainID is queryable, but no proposal-bound GIS fixture is authorized."
+                    if resolved
+                    else resolution.get("reason", "The intent could not be resolved safely.")
+                ),
+            },
+            "feature": {"code": code, "name": name},
+            "plan": plan,
+            "constraints": {
+                "resolved": resolved_constraints,
+                "unresolved": unresolved_constraints,
+                "contradicted": [],
+            },
+            "expected_final_state": {
+                "derived_artifact": {
+                    "created": False,
+                    "semantic_values": {
+                        "classification": code,
+                        "geometry": None,
+                        "line_style": portrayal.get("line_code"),
+                        "color_code": portrayal.get("color_code"),
+                    },
+                }
+            },
+            "evidence_refs": evidence_ids,
+            "source_graph_sha256": graph_sha,
+        }
+        proposal["proposal_hash"] = canonical_sha256(
+            {key: value for key, value in proposal.items() if key != "proposal_hash"}
+        )
+        record["proposal"] = proposal
+        record["proposal_validation"] = {
+            "status": "PASS",
+            "checks": [
+                {"rule_id": "KNOWN_TERRAINID", "status": "PASS" if resolved else "FAIL"},
+                {"rule_id": "NO_UNAUTHORIZED_MUTATION", "status": "PASS"},
+            ],
+        }
+        proposal_ms = round((time.monotonic() - proposal_started) * 1000, 3)
+        _stage_set(record, "proposal", "PASS", duration_ms=proposal_ms)
+
+        authorization_started = time.monotonic()
+        authorization_id = _fresh_id("ama-authorization")
+        authorization = {
+            "authorization_id": authorization_id,
+            "decision": "DENIED",
+            "proposal_id": proposal["proposal_id"],
+            "proposal_hash": proposal["proposal_hash"],
+            "reason": "No authorized source fixture and executor contract exist for this TerrainID.",
+            "policy_reference": {"id": "nma-public-query-only-fail-closed/1.0"},
+            "parameter_bounds": {"parameter_overrides_allowed": False},
+            "authorized_scope": {
+                "mutation_type": "NONE",
+                "source_access": "READ_ONLY",
+                "authoritative_render": False,
+            },
+        }
+        record["authorization"] = authorization
+        record["authorization_gate"] = {
+            "status": "DENIED",
+            "mutation_allowed": False,
+            "checks": [
+                {"check": "FEATURE_KNOWLEDGE_QUERYABLE", "status": "PASS" if resolved else "FAIL"},
+                {"check": "EXECUTION_FIXTURE_AUTHORIZED", "status": "FAIL"},
+                {"check": "FAIL_CLOSED", "status": "PASS"},
+            ],
+        }
+        authorization_ms = round((time.monotonic() - authorization_started) * 1000, 3)
+        _stage_set(record, "authorization", "DENIED", duration_ms=authorization_ms)
+
+        execution_id = _fresh_id("ama-execution")
+        record["execution"] = {
+            "execution_id": execution_id,
+            "status": "NOT_RUN",
+            "executor_version": "nma-query-only-noop/1.0",
+            "tool_calls": [],
+            "mutation_started": False,
+            "output_created": False,
+        }
+        _stage_set(record, "gis_execution", "NOT_RUN", duration_ms=0.0)
+
+        verification_id = _fresh_id("ama-verification")
+        record["verification"] = {
+            "verification_id": verification_id,
+            "status": "PASS",
+            "checks": [
+                {
+                    "rule_id": "V01_NO_UNAUTHORIZED_GIS_OPERATION",
+                    "status": "PASS",
+                    "expected": False,
+                    "observed": False,
+                },
+                {
+                    "rule_id": "V02_CANONICAL_GRAPH_UNCHANGED",
+                    "status": "PASS",
+                    "expected": graph_sha,
+                    "observed": sha256_file(graph_path),
+                },
+            ],
+        }
+        _stage_set(record, "verification", "PASS", duration_ms=0.0)
+
+        provenance_started = time.monotonic()
+        provenance = {
+            "schema": "nma.ama-query-only-provenance/1.0",
+            "provenance_id": _fresh_id("ama-provenance"),
+            "run_id": record["run_id"],
+            "intent": record["intent"],
+            "resolved_feature_code": code,
+            "retrieval_id": retrieval_id,
+            "plan_id": record["plan"]["plan_id"],
+            "proposal_id": proposal["proposal_id"],
+            "proposal_hash": proposal["proposal_hash"],
+            "authorization_id": authorization_id,
+            "authorization_decision": "DENIED",
+            "execution_id": execution_id,
+            "execution_status": "NOT_RUN",
+            "verification_id": verification_id,
+            "source_sha256_before": graph_sha,
+            "source_sha256_after": sha256_file(graph_path),
+            "timestamp": _utc(_now()),
+            "result": "ABSTAINED",
+        }
+        provenance["provenance_sha256"] = canonical_sha256(provenance)
+        record["provenance"] = provenance
+        _write_json(self.storage_root / record["run_id"] / "provenance.json", provenance)
+        provenance_ms = round((time.monotonic() - provenance_started) * 1000, 3)
+        _stage_set(record, "provenance", "PASS", duration_ms=provenance_ms)
+        _stage_set(
+            record,
+            "map_result",
+            "NOT_AVAILABLE",
+            reason="No authorized GIS output was created; the existing map remains unchanged.",
+        )
+        record["timing_ms"] = {
+            "graphrag": retrieval_ms,
+            "evidence_projection": evidence_ms,
+            "constraint_resolution": constraint_ms,
+            "agent_planning": plan_ms,
+            "proposal_validation": proposal_ms,
+            "authorization": authorization_ms,
+            "gis_execution": 0.0,
+            "verification": 0.0,
+            "provenance": provenance_ms,
+            "end_to_end": round((time.monotonic() - total_started) * 1000, 3),
+        }
+        record["status"] = "ABSTAINED"
+        record["updated_at"] = _utc(_now())
+        self._save(record)
+        return record
 
     def run(self, run_id: str) -> dict[str, Any]:
         record = self.get(run_id)
         if record["status"] != "WAITING":
             raise AMALiveError("A live run can only start once.")
+        if record.get("execution_mode") != "AUTHORIZED_FIXTURE":
+            return self._run_query_only(record)
         total_started = time.monotonic()
+        # The only executable path is the frozen 9350906 research contract. User wording may
+        # select that feature, but it cannot expand or modify the authorized operation.
+        execution_intent = CANONICAL_INTENT
+        record["execution_contract_intent"] = execution_intent
         run_root = self.storage_root / run_id
         protocol = _read_json(self.repository_root / "data/evaluation/rq2-demo-01-protocol.json")
         fixture_path = self.repository_root / protocol["fixture"]
@@ -460,7 +813,7 @@ class AMALiveService:
             started = time.monotonic()
             _stage_set(record, "knowledge_retrieval", "RUNNING")
             self._save(record)
-            retrieval = retrieve_rq2_evidence(self.repository_root, record["intent"])
+            retrieval = retrieve_rq2_evidence(self.repository_root, execution_intent)
             retrieval_ms = round((time.monotonic() - started) * 1000, 3)
             retrieval_id = _fresh_id("ama-retrieval")
             record["retrieval"] = {
@@ -526,7 +879,7 @@ class AMALiveService:
             self._save(record)
             plan_started = time.monotonic()
             planner_output = planner.compose(
-                intent=record["intent"],
+                intent=execution_intent,
                 fixture=fixture,
                 architecture="knowledge-constrained",
                 constraints=constraints,
@@ -554,7 +907,7 @@ class AMALiveService:
             )
             proposal = assemble_proposal(
                 architecture="knowledge-constrained",
-                intent=record["intent"],
+                intent=execution_intent,
                 draft=planner_output.draft,
                 model_identity=model_identity,
                 fixture=fixture,

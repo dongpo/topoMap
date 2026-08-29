@@ -88,6 +88,7 @@ def start_server(tmp_path: Path, *, delay: float = 0) -> tuple[ThreadingHTTPServ
             "service": service,
             "static_root": ROOT / "public/ama-live",
             "asset_root": ROOT / "public/gh-pages/assets",
+            "symbol_root": ROOT / "assets/symbols/nlsc112v5.4",
             "cors_origin": "https://demo.example",
             "deployment_label": "LIVE CLOUD RUN",
             "_run_active": False,
@@ -153,18 +154,44 @@ def test_cloud_frontend_supports_head_link_preflight(tmp_path: Path) -> None:
         server.server_close()
 
 
-def test_failed_requests_do_not_create_runs_or_mutate_fixture(tmp_path: Path) -> None:
+def test_query_only_intent_is_admitted_but_cannot_mutate_fixture(tmp_path: Path) -> None:
     server, base = start_server(tmp_path)
     fixture = ROOT / "data/rq2/rq2-demo-01-fire-hydrant.geojson"
     before = sha256_file(fixture)
     try:
-        status, _, _ = request(
+        status, created, _ = request(
             base,
             "/ama/run",
             method="POST",
-            body={"intent": "arbitrary unsupported mutation"},
+            body={
+                "intent": (
+                    "Create a safe derived mapping feature for 小學, TerrainID 9920103, "
+                    "using reviewed graph knowledge."
+                )
+            },
         )
-        assert status == 400
+        assert status == 202
+        deadline = time.monotonic() + 10
+        while time.monotonic() < deadline:
+            _, record, _ = request(base, f"/ama/run/{created['run_id']}")
+            if record["status"] == "ABSTAINED":
+                break
+            time.sleep(0.05)
+        assert record["intent_resolution"]["feature"]["code"] == "9920103"
+        assert record["authorization"]["decision"] == "DENIED"
+        assert record["execution"]["status"] == "NOT_RUN"
+        assert record["execution"]["mutation_started"] is False
+        assert record["verification"]["status"] == "PASS"
+        assert record["provenance"]["result"] == "ABSTAINED"
+        assert sha256_file(fixture) == before
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
+def test_invalid_content_type_does_not_create_a_run(tmp_path: Path) -> None:
+    server, base = start_server(tmp_path)
+    try:
         status, _, _ = request(
             base,
             "/ama/run",
@@ -173,8 +200,28 @@ def test_failed_requests_do_not_create_runs_or_mutate_fixture(tmp_path: Path) ->
             content_type="text/plain",
         )
         assert status == 415
-        assert sha256_file(fixture) == before
         assert not list((tmp_path / "runtime").glob("ama-live-run:*"))
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
+def test_feature_catalog_api_exposes_all_exact_terrainids_and_svg(tmp_path: Path) -> None:
+    server, base = start_server(tmp_path)
+    try:
+        status, config, _ = request(base, "/ama/config")
+        assert status == 200
+        assert config["queryable_terrainid_count"] == 600
+        assert config["live_execution_fixture_codes"] == ["9350906"]
+
+        status, search, _ = request(base, "/ama/features?query=9920103&limit=8")
+        assert status == 200
+        assert search["matches"][0]["code"] == "9920103"
+
+        status, detail, _ = request(base, "/ama/features/9350906")
+        assert status == 200
+        assert detail["feature"]["symbol_asset"] == "/symbols/fire-hydrant.svg"
+        assert detail["feature"]["evidence_package"]["evidence_nodes"]
     finally:
         server.shutdown()
         server.server_close()
