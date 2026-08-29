@@ -1,4 +1,4 @@
-.PHONY: test test-current test-historical lint format-check demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-rc1 demo-reset agentic-freeze bench bench-models review-package public-assets-rc verify
+.PHONY: test test-current test-historical lint format-check demo demo-scenes demo-freeze demo-soak demo-offline demo-backup demo-rc1 demo-reset agentic-freeze bench bench-models review-package public-assets-rc ama-cloud-test ama-cloud-deploy verify
 
 test: test-current
 
@@ -53,5 +53,12 @@ review-package:
 
 public-assets-rc:
 	PYTHONPATH=src python3 scripts/check_public_assets_rc.py --verify-install
+
+ama-cloud-test:
+	PYTHONPATH=src python3 -m pytest -q tests/test_ama_live_01.py tests/test_ama_cloud_01.py
+
+ama-cloud-deploy:
+	test -n "$(GOOGLE_CLOUD_PROJECT)"
+	./scripts/deploy_ama_cloud_run.sh "$(GOOGLE_CLOUD_PROJECT)" "$(or $(GOOGLE_CLOUD_REGION),asia-southeast1)"
 
 verify: lint format-check test-current demo bench

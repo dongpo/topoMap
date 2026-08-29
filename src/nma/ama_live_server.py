@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import argparse
+from collections import deque
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
+import os
 from pathlib import Path
-from threading import Thread
+from threading import Lock, Thread
+import time
 from urllib.parse import urlparse
 
 from nma.ama_live import AMALiveError, AMALiveService, CANONICAL_INTENT
@@ -17,6 +20,36 @@ class AMAHandler(BaseHTTPRequestHandler):
     service: AMALiveService
     static_root: Path
     asset_root: Path
+    cors_origin: str = ""
+    deployment_label: str = "LOCAL"
+    _run_state_lock = Lock()
+    _run_active = False
+    _run_starts: deque[float] = deque()
+    _runs_per_minute = 6
+
+    def setup(self) -> None:
+        super().setup()
+        self.connection.settimeout(15)
+
+    def _security_headers(self) -> None:
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        origin = self.headers.get("Origin", "")
+        if self.cors_origin and origin == self.cors_origin:
+            self.send_header("Access-Control-Allow-Origin", origin)
+            self.send_header("Vary", "Origin")
+
+    def _log(self, event: str, **detail: object) -> None:
+        value = {
+            "event": event,
+            "method": self.command,
+            "path": urlparse(self.path).path,
+            "deployment": self.deployment_label,
+            **detail,
+        }
+        print(json.dumps(value, ensure_ascii=False, sort_keys=True), flush=True)
 
     def _json(self, value: object, status: int = 200) -> None:
         body = json.dumps(value, ensure_ascii=False, sort_keys=True).encode("utf-8")
@@ -24,6 +57,7 @@ class AMAHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
+        self._security_headers()
         self.end_headers()
         self.wfile.write(body)
 
@@ -35,11 +69,24 @@ class AMAHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", content_type)
         self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "public, max-age=300")
+        self._security_headers()
         self.end_headers()
         self.wfile.write(body)
 
     def log_message(self, format: str, *args: object) -> None:
         return
+
+    def do_OPTIONS(self) -> None:
+        origin = self.headers.get("Origin", "")
+        if not self.cors_origin or origin != self.cors_origin:
+            return self._json({"error": "origin not allowed"}, 403)
+        self.send_response(204)
+        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_header("Access-Control-Max-Age", "600")
+        self._security_headers()
+        self.end_headers()
 
     def do_GET(self) -> None:
         path = urlparse(self.path).path
@@ -59,7 +106,19 @@ class AMAHandler(BaseHTTPRequestHandler):
                     self.asset_root / name, types.get(Path(name).suffix, "application/octet-stream")
                 )
             if path == "/ama/config":
-                return self._json({"mode": "LIVE", "canonical_intent": CANONICAL_INTENT})
+                return self._json(
+                    {
+                        "mode": "LIVE",
+                        "deployment": self.deployment_label,
+                        "canonical_intent": CANONICAL_INTENT,
+                    }
+                )
+            if path == "/health":
+                try:
+                    return self._json(self.service.startup_check())
+                except Exception as error:
+                    self._log("health_failed", error_type=type(error).__name__)
+                    return self._json({"status": "FAIL", "error": str(error)}, 503)
             if path == "/ama/context":
                 return self._json(self.service.domain_context())
             if path == "/ama/rq1-comparison":
@@ -93,20 +152,51 @@ class AMAHandler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:
         path = urlparse(self.path).path
         try:
+            content_type = self.headers.get("Content-Type", "").split(";", 1)[0].strip()
+            if content_type != "application/json":
+                return self._json({"error": "Content-Type must be application/json"}, 415)
             length = int(self.headers.get("Content-Length", "0"))
-            if length > 4096:
+            if length < 0 or length > 4096:
                 return self._json({"error": "request too large"}, 413)
             body = json.loads(self.rfile.read(length) or b"{}")
+            if not isinstance(body, dict):
+                return self._json({"error": "request body must be a JSON object"}, 400)
             if path == "/ama/run":
-                record = self.service.new_record(body.get("intent", ""))
+                now = time.monotonic()
+                handler_type = type(self)
+                with self._run_state_lock:
+                    while self._run_starts and now - self._run_starts[0] >= 60:
+                        self._run_starts.popleft()
+                    if handler_type._run_active:
+                        return self._json({"error": "a live AMA run is already active"}, 409)
+                    if len(self._run_starts) >= self._runs_per_minute:
+                        return self._json({"error": "live AMA run rate limit exceeded"}, 429)
+                    handler_type._run_active = True
+                    self._run_starts.append(now)
+                try:
+                    record = self.service.new_record(body.get("intent", ""))
+                except Exception:
+                    with self._run_state_lock:
+                        handler_type._run_active = False
+                    raise
 
                 def execute() -> None:
                     try:
                         self.service.run(record["run_id"])
-                    except Exception:
-                        pass
+                        self._log("run_complete", run_id=record["run_id"], status="PASS")
+                    except Exception as error:
+                        self._log(
+                            "run_complete",
+                            run_id=record["run_id"],
+                            status="FAILED",
+                            error_type=type(error).__name__,
+                        )
+                    finally:
+                        with self._run_state_lock:
+                            handler_type._run_active = False
 
                 Thread(target=execute, daemon=True).start()
+                self._log("run_accepted", run_id=record["run_id"])
                 return self._json(record, HTTPStatus.ACCEPTED)
             parts = path.strip("/").split("/")
             if len(parts) == 4 and parts[:2] == ["ama", "run"] and parts[3] == "tamper-test":
@@ -125,6 +215,7 @@ def main() -> int:
     args = parser.parse_args()
     root = Path(args.repository_root).resolve()
     service = AMALiveService(repository_root=root, storage_root=root / args.storage_root)
+    readiness = service.startup_check()
     handler = type(
         "BoundAMAHandler",
         (AMAHandler,),
@@ -132,10 +223,23 @@ def main() -> int:
             "service": service,
             "static_root": root / "public/ama-live",
             "asset_root": root / "public/gh-pages/assets",
+            "cors_origin": os.environ.get("AMA_CORS_ORIGIN", ""),
+            "deployment_label": os.environ.get("AMA_DEPLOYMENT_LABEL", "LOCAL"),
+            "_runs_per_minute": int(os.environ.get("AMA_RUNS_PER_MINUTE", "6")),
         },
     )
     server = ThreadingHTTPServer((args.host, args.port), handler)
-    print(f"AMA-LIVE-01 http://{args.host}:{args.port}", flush=True)
+    print(
+        json.dumps(
+            {
+                "event": "startup_ready",
+                "listen": f"http://{args.host}:{args.port}",
+                "readiness": readiness,
+            },
+            sort_keys=True,
+        ),
+        flush=True,
+    )
     try:
         server.serve_forever()
     except KeyboardInterrupt:

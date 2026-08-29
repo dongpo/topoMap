@@ -305,6 +305,7 @@ class AMALiveService:
         self.adapter_factory = adapter_factory
         self._records: dict[str, dict[str, Any]] = {}
         self._lock = RLock()
+        self._startup_model_observed: dict[str, Any] | None = None
 
     def _save(self, record: dict[str, Any]) -> None:
         with self._lock:
@@ -346,10 +347,17 @@ class AMALiveService:
         self._save(record)
         return record
 
-    def _adapter(self, protocol: Mapping[str, Any]) -> tuple[LLMAdapter, str, dict[str, Any]]:
+    def _adapter(
+        self, protocol: Mapping[str, Any]
+    ) -> tuple[LLMAdapter, str, dict[str, Any], dict[str, Any]]:
         if self.adapter_factory is not None:
             adapter = self.adapter_factory()
-            return adapter, f"{protocol['model']['name']}@test-adapter", {"test_adapter": True}
+            return (
+                adapter,
+                f"{protocol['model']['name']}@test-adapter",
+                {"test_adapter": True},
+                {},
+            )
         base_url = os.environ.get("AMA_LLM_BASE_URL", "http://127.0.0.1:11434")
         observed = verify_model_identity(base_url, protocol["model"])
         adapter = OllamaAdapter(
@@ -359,7 +367,70 @@ class AMALiveService:
             context_window=protocol["model"]["context_window"],
             output_token_reserve=protocol["model"]["reserved_output_tokens"],
         )
-        return adapter, _model_identity(protocol, observed), observed
+        provider_metrics: dict[str, Any] = {}
+
+        def capture_provider_metrics(event: str, payload: Mapping[str, Any]) -> None:
+            if event != "response_envelope":
+                return
+            duration_names = (
+                "total_duration",
+                "load_duration",
+                "prompt_eval_duration",
+                "eval_duration",
+            )
+            for name in duration_names:
+                value = payload.get(name)
+                if isinstance(value, int) and not isinstance(value, bool) and value >= 0:
+                    provider_metrics[f"{name}_ms"] = round(value / 1_000_000, 3)
+            count_names = ("prompt_eval_count", "eval_count")
+            for name in count_names:
+                value = payload.get(name)
+                if isinstance(value, int) and not isinstance(value, bool) and value >= 0:
+                    provider_metrics[name] = value
+
+        adapter.set_trace_hook(capture_provider_metrics)
+        return adapter, _model_identity(protocol, observed), observed, provider_metrics
+
+    def startup_check(self) -> dict[str, Any]:
+        """Fail closed unless the frozen fixture, workspace, and exact model are ready."""
+
+        protocol = _read_json(self.repository_root / "data/evaluation/rq2-demo-01-protocol.json")
+        fixture_path = self.repository_root / protocol["fixture"]
+        fixture_matches = (
+            fixture_path.is_file() and sha256_file(fixture_path) == protocol["fixture_sha256"]
+        )
+        if not fixture_matches:
+            raise AMALiveError("The frozen AMA fixture identity is unavailable.")
+        graph_path = self.repository_root / "data/knowledge/nma-canonical-graph-v0.4.json"
+        if not graph_path.is_file():
+            raise AMALiveError("The canonical AMA knowledge graph is unavailable.")
+        probe = self.storage_root / ".ama-cloud-write-probe"
+        try:
+            probe.write_text("bounded-workspace-probe\n", encoding="utf-8")
+            probe.unlink()
+        except OSError as error:
+            raise AMALiveError("The isolated AMA runtime workspace is not writable.") from error
+        if self.adapter_factory is None:
+            base_url = os.environ.get("AMA_LLM_BASE_URL", "http://127.0.0.1:11434")
+            self._startup_model_observed = verify_model_identity(base_url, protocol["model"])
+            if (
+                os.environ.get("AMA_REQUIRE_GPU") == "1"
+                and os.environ.get("AMA_GPU_MODEL_PRELOADED") != "true"
+            ):
+                raise AMALiveError("The frozen Qwen model is not preloaded on the required GPU.")
+        return {
+            "status": "PASS",
+            "runtime": "AMA-CLOUD-01",
+            "deployment": os.environ.get("AMA_DEPLOYMENT_LABEL", "LOCAL"),
+            "model_ready": self._startup_model_observed is not None
+            or self.adapter_factory is not None,
+            "model": self._startup_model_observed or {"test_adapter": True},
+            "ollama_version": os.environ.get("AMA_OLLAMA_VERSION_OBSERVED", "unknown"),
+            "gpu_model_preloaded": os.environ.get("AMA_GPU_MODEL_PRELOADED", "false") == "true",
+            "fixture_sha256": protocol["fixture_sha256"],
+            "graph": "nma-canonical-graph-v0.4",
+            "workspace": "isolated-writable",
+        }
 
     def run(self, run_id: str) -> dict[str, Any]:
         record = self.get(run_id)
@@ -442,7 +513,7 @@ class AMALiveService:
                 raise AMALiveError("Contradicted live constraints block planning.")
             self._save(record)
 
-            adapter, model_identity, model_observed = self._adapter(protocol)
+            adapter, model_identity, model_observed, provider_metrics = self._adapter(protocol)
             planner = RQ2Planner(adapter)
             _stage_set(record, "plan", "RUNNING")
             self._save(record)
@@ -461,6 +532,7 @@ class AMALiveService:
                 "model_observed": model_observed,
                 "raw": planner_output.draft,
                 "model_trace": planner_output.model_trace,
+                "provider_metrics": provider_metrics,
             }
             _stage_set(record, "plan", "PASS", duration_ms=plan_ms)
             self._save(record)
@@ -576,6 +648,7 @@ class AMALiveService:
 
             result_path = output_root / "derived-feature.geojson"
             receipt_path = output_root / "execution-receipt.json"
+            provenance_started = time.monotonic()
             provenance = {
                 "schema": "nma.ama-live-provenance/1.0",
                 "provenance_id": _fresh_id("ama-provenance"),
@@ -611,6 +684,8 @@ class AMALiveService:
                 result_path="result/derived-feature.geojson",
                 source_path=protocol["fixture"],
             )
+            provenance_ms = round((time.monotonic() - provenance_started) * 1000, 3)
+            record["stages"]["provenance"]["duration_ms"] = provenance_ms
             record["timing_ms"] = {
                 "graphrag": retrieval_ms,
                 "evidence_projection": evidence_ms,
@@ -620,6 +695,7 @@ class AMALiveService:
                 "authorization": authorization_ms,
                 "gis_execution": execution_ms,
                 "verification": verification_ms,
+                "provenance": provenance_ms,
                 "end_to_end": round((time.monotonic() - total_started) * 1000, 3),
             }
             record["status"] = "PASS"
