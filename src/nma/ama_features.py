@@ -168,12 +168,14 @@ class AMAFeatureCatalog:
         limit = max(1, min(int(limit), 50))
         ranked: list[tuple[int, str]] = []
         explicit = set(CODE_PATTERN.findall(query))
+        if explicit:
+            return [self._entry(code) for code in sorted(explicit) if code in self.nodes_by_code][
+                :limit
+            ]
         for code, nodes in self.nodes_by_code.items():
             names = {name.casefold() for node in nodes for name in _node_names(node)}
             score = 0
-            if code in explicit:
-                score = 10_000
-            elif normalized:
+            if normalized:
                 if code == normalized:
                     score = 9_000
                 elif code.startswith(normalized) and normalized.isdigit():

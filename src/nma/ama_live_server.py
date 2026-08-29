@@ -153,6 +153,7 @@ class AMAHandler(BaseHTTPRequestHandler):
                         "queryable_terrainid_count": self.service.feature_catalog.count,
                         "feature_search_endpoint": "/ama/features?query=",
                         "live_execution_fixture_codes": ["9350906"],
+                        "research_example_codes": ["9920103", "9420400", "9310100"],
                         "live_capable": live_cloud,
                         "replay_capable": True,
                         "allowed_public_modes": ["LIVE", "REPLAY"],

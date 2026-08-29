@@ -213,10 +213,18 @@ def test_feature_catalog_api_exposes_all_exact_terrainids_and_svg(tmp_path: Path
         assert status == 200
         assert config["queryable_terrainid_count"] == 600
         assert config["live_execution_fixture_codes"] == ["9350906"]
+        assert config["research_example_codes"] == ["9920103", "9420400", "9310100"]
 
         status, search, _ = request(base, "/ama/features?query=9920103&limit=8")
         assert status == 200
         assert search["matches"][0]["code"] == "9920103"
+
+        status, exact, _ = request(
+            base,
+            "/ama/features?query=9350906%20physical%20portrayal%20gates&limit=8",
+        )
+        assert status == 200
+        assert [item["code"] for item in exact["matches"]] == ["9350906"]
 
         status, detail, _ = request(base, "/ama/features/9350906")
         assert status == 200

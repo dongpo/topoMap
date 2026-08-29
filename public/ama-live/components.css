@@ -38,6 +38,11 @@
 .feature-match small { font-size: .52rem; color: var(--muted); text-transform: uppercase; }
 .feature-match img { position: absolute; right: 8px; top: 7px; width: 25px; height: 31px; object-fit: contain; }
 .feature-none { font-size: .65rem; color: var(--muted); }
+.research-examples { margin-top: 10px; padding-top: 9px; border-top: 1px solid rgba(0, 111, 139, .18); }
+.research-examples > strong { font: 800 .62rem/1.3 ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; }
+.research-examples > span { margin-left: 8px; color: var(--muted); font-size: .62rem; }
+.research-examples .feature-matches { margin-top: 6px; }
+.research-examples .feature-match { border-left: 3px solid var(--ama-cyan-dark); }
 
 .pill.abstained,
 .pill.denied,

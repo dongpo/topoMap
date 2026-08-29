@@ -299,6 +299,21 @@ def test_every_exact_seven_digit_feature_is_queryable() -> None:
     assert school is not None
     assert school["name"] == "小學"
     assert school["evidence_package"]["evidence_nodes"]
+    assert [
+        item["code"]
+        for item in catalog.search(
+            "Create 9350906 while preserving physical portrayal gates.", limit=8
+        )
+    ] == ["9350906"]
+
+
+def test_examples_reuse_school_road_and_building_domains() -> None:
+    html = (ROOT / "public/ama-live/index.html").read_text(encoding="utf-8")
+    javascript = (ROOT / "public/ama-live/app.js").read_text(encoding="utf-8")
+    assert 'id="research-examples"' in html
+    assert "Previously developed feature domains" in html
+    assert "research_example_codes" in javascript
+    assert "loadResearchExamples" in javascript
 
 
 def test_non_fixture_feature_completes_same_story_as_fail_closed_abstention(
