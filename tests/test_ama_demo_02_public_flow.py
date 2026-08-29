@@ -240,6 +240,11 @@ def test_live_identity_content_cannot_expand_main_grid() -> None:
     assert ".identity-chain code{overflow-wrap:anywhere}" in css
 
 
+def test_cloud_acceptance_runner_uses_demo02_frontend_markers() -> None:
+    runner = (ROOT / "scripts/run_ama_cloud_acceptance.py").read_text(encoding="utf-8")
+    assert 'marker in root_html for marker in ("AMA-DEMO-02", \'id="mode-run"\')' in runner
+
+
 def test_research_semantic_files_unchanged_from_predecessor() -> None:
     protected = [
         "src/nma/graphrag.py",

@@ -206,7 +206,9 @@ def main() -> int:
     root_ms = round((time.monotonic() - root_started) * 1000, 3)
     if config_status != 200 or config.get("deployment") != "LIVE CLOUD RUN":
         raise RuntimeError(f"cloud deployment label missing: {config}")
-    if root_status != 200 or "deployment-label" not in root_html:
+    if root_status != 200 or not all(
+        marker in root_html for marker in ("AMA-DEMO-02", 'id="mode-run"')
+    ):
         raise RuntimeError("public frontend integration is unavailable")
 
     invalid_status, _, _, _ = request_json(

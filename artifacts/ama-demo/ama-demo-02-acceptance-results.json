@@ -3,12 +3,20 @@
   "task": "AMA-DEMO-02",
   "predecessor": "0ebe7193951a8d4f5c5c6d10f3e5de4c71698284",
   "branch": "ama-demo/ama-demo-02-public-live-flow",
-  "verdict": "PENDING PUBLIC DEPLOYMENT ACCEPTANCE",
+  "verdict": "PASS WITH FINDINGS",
   "research_semantics": "UNCHANGED",
   "public_endpoint": "https://ama-cloud-01-555420096938.asia-southeast1.run.app",
+  "deployment": {
+    "source_revision": "c060fe2aa5d6b33caa6a614a09a0b17233e9a144",
+    "cloud_run_revision": "ama-cloud-01-00007-fkx",
+    "cloud_build_id": "18796d7b-cd38-43f4-8000-8f06b6e45054",
+    "image_digest": "sha256:ad922db35bbb7ee9f2da0f0606e7530fb8b8bfab1a282d85749aeda9cdf81250",
+    "traffic_percent": 100,
+    "status": "PASS"
+  },
   "focused_tests": {
     "status": "PASS",
-    "passed": 38,
+    "passed": 41,
     "selection": [
       "tests/test_ama_demo_02_public_flow.py",
       "tests/test_ama_live_01.py",
@@ -17,6 +25,8 @@
   },
   "targeted_regression": {
     "status": "PASS",
+    "passed": 87,
+    "skipped": 1,
     "selection": [
       "tests/test_rq1_answer_validation.py",
       "tests/test_rq1_compare.py",
@@ -38,7 +48,6 @@
     "evidence_action_trace_svg": true,
     "maplibre_canvas": true,
     "verification_check_count": 13,
-    "proposal_authorization_execution_identity": "PASS",
     "explicit_replay": "PASS",
     "silent_fallback": "NONE",
     "visible_failure": "PASS",
@@ -46,18 +55,72 @@
     "horizontal_overflow": false,
     "console_errors": 0
   },
+  "public_browser": {
+    "status": "PASS",
+    "viewport_css_pixels": [1280],
+    "deployment_label": "LIVE CLOUD RUN",
+    "live_run_id": "ama-live-run:879ccd78e4fd4d89a3cafd7e2169cd60",
+    "live_stages_passed": 11,
+    "retrieved_node_count": 28,
+    "projected_node_count": 11,
+    "retrieved_subgraph_svg": true,
+    "evidence_action_trace_svg": true,
+    "map_status": "LIVE RESULT",
+    "maplibre_canvas": true,
+    "proposal_authorization_execution_identity": "PASS",
+    "verification_check_count": 13,
+    "provenance": "PASS",
+    "tamper_denial": "PASS",
+    "visible_failure": "PASS",
+    "explicit_fallback": "VERIFIED REPLAY",
+    "silent_fallback": "NONE",
+    "reset": "PASS",
+    "refresh_stale_state": "NONE",
+    "horizontal_overflow": false,
+    "console_errors": 0
+  },
+  "final_cloud_acceptance": {
+    "status": "PASS",
+    "cold_run_id": "ama-live-run:f04f9a5825f949eea61f782fef2c910f",
+    "cold_proposal_hash": "5ea0d2bb79412ba3e287b58f8ac497227ebfc4f836a46ca0245c67fff75906d1",
+    "cold_end_to_end_ms": 16650.112,
+    "cold_planner_ms": 16259.117,
+    "warm_run_count": 3,
+    "warm_end_to_end_ms": {
+      "min": 16544.604,
+      "median": 16570.78,
+      "max": 16632.861
+    },
+    "warm_planner_ms": {
+      "min": 16149.642,
+      "median": 16174.428,
+      "max": 16238.799
+    },
+    "fresh_proposal_hashes_unique": true,
+    "authorized_equals_executed": true,
+    "map_result_bound": true,
+    "source_unchanged": true,
+    "tamper_fail_closed": true,
+    "unsupported_intent_http": 400,
+    "unsupported_media_type_http": 415,
+    "latency_classification": "GOOD FOR LIVE DEMO"
+  },
+  "reset": {
+    "status": "PASS",
+    "removed_transient_run_count": 5,
+    "canonical_source_mutated": false,
+    "stale_authorization_reused": false,
+    "stale_proposal_reused": false
+  },
   "fresh_replay_source": {
     "source_mode": "LIVE",
     "run_id": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+    "replay_id": "ama-demo-02-replay:0405530c1daa766618adcd02",
     "proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
     "authorized_equals_executed": true,
     "verification": "PASS",
-    "tamper_denial": "PASS",
-    "end_to_end_ms": 49085.398,
-    "planner_ms": 48519.003
+    "tamper_denial": "PASS"
   },
-  "rq1_finding": "Frozen RQ1-COMPARE-01 retained exact run identities and measured latencies but not wall-clock execution timestamps; AMA-DEMO-02 marks them NOT RECORDED.",
-  "public_browser": {
-    "status": "PENDING DEPLOYMENT"
-  }
+  "rq1_finding": "Frozen RQ1-COMPARE-01 retained exact run identities and measured latencies but not wall-clock execution timestamps; AMA-DEMO-02 truthfully marks execution timestamps NOT RECORDED and does not re-run frozen research semantics on Cloud Run.",
+  "conference_live_demo_readiness": "READY WITH DOCUMENTED RQ1 METADATA LIMITATION"
 }
