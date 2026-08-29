@@ -3,6 +3,7 @@ set -eu
 
 expected_version="${AMA_OLLAMA_VERSION_EXPECTED:-0.32.15}"
 mkdir -p "${HOME}" /tmp/ama-runtime
+python3 -c 'from jsonschema import Draft202012Validator; from referencing import Registry, Resource'
 
 ollama serve &
 ollama_pid=$!
