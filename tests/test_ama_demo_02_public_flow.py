@@ -234,6 +234,12 @@ def test_cloud_image_includes_canonical_replay_package() -> None:
     assert (ROOT / "artifacts/ama-demo/replay/canonical-run/manifest.json").is_file()
 
 
+def test_live_identity_content_cannot_expand_main_grid() -> None:
+    css = (ROOT / "public/ama-live/app.css").read_text(encoding="utf-8")
+    assert "main>*{width:100%;min-width:0}" in css
+    assert ".identity-chain code{overflow-wrap:anywhere}" in css
+
+
 def test_research_semantic_files_unchanged_from_predecessor() -> None:
     protected = [
         "src/nma/graphrag.py",
