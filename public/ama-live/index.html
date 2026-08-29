@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>AMA — Public Evidence-to-Action Demo</title>
   <link rel="stylesheet" href="/assets/maplibre-gl-4.7.0.css">
-  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/app.css?v=symbol-preview-1">
 </head>
 <body>
   <div id="mode-bar" class="mode-bar idle"><span id="mode-dot">○</span><strong id="mode-label">NO RUN SELECTED</strong><span id="mode-run"></span></div>
@@ -67,7 +67,7 @@
     </section>
 
     <section id="map-stage" class="grid map-grid">
-      <article class="card map-card"><div class="section-title"><div><span class="step">06</span><span class="eyebrow">EXECUTION &amp; MAP</span><h2>Source and derived result</h2></div><span id="map-status" class="pill waiting">WAITING</span></div><div id="map"></div><div class="legend"><span><i class="source"></i> immutable source</span><span><i class="result"></i> selected run result</span></div></article>
+      <article class="card map-card"><div class="section-title"><div><span class="step">06</span><span class="eyebrow">EXECUTION &amp; MAP</span><h2>Source and derived result</h2></div><span id="map-status" class="pill waiting">WAITING</span></div><div id="map"></div><div class="legend"><span><i class="source"></i> immutable source point</span><span><i class="result"></i> selected result halo</span><span><i class="symbol"></i> symbolic hydrant preview</span></div><p id="map-symbol-notice" class="map-symbol-notice"><strong>SYMBOL PREVIEW NOT LOADED</strong><span>Run AMA or choose verified replay.</span></p></article>
       <article class="card"><div class="section-title"><div><span class="eyebrow">TIMING</span><h2>Measured runtime</h2></div></div><dl id="timing"></dl></article>
     </section>
 
@@ -86,6 +86,6 @@
   </main>
   <footer><span id="deployment-footer">AMA-DEMO-02</span> · bounded public research demo · no authoritative source writeback</footer>
   <script src="/assets/maplibre-gl-4.7.0.js"></script>
-  <script src="/app.js"></script>
+  <script src="/app.js?v=symbol-preview-1"></script>
 </body>
 </html>

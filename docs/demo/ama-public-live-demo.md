@@ -36,6 +36,12 @@ relation legend gives every visible relation type and count; the small domain vi
 edges directly, while the denser retrieved and action views rely on the legend to avoid obscuring
 nodes.
 
+The execution map renders the derived Point as a recognizable hydrant pictogram inside the selected
+result halo. The pictogram is explicitly labelled `NON-AUTHORITATIVE SYMBOLIC PREVIEW`: it helps an
+audience distinguish the derived feature from the immutable source point but does not claim to be
+the official cartographic glyph. The unresolved glyph trace, line metric, color profile, and
+ProductLayer gates remain visible and unchanged.
+
 ## Run locally
 
 Prerequisites are Python 3.11, the repository's existing runtime dependencies, Ollama 0.32.15, and

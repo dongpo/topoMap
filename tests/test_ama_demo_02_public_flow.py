@@ -262,6 +262,23 @@ def test_browser_flow_reaches_final_map(service: AMALiveService) -> None:
     )
 
 
+def test_map_renders_a_visible_but_non_authoritative_hydrant_preview(
+    service: AMALiveService,
+) -> None:
+    html = (ROOT / "public/ama-live/index.html").read_text(encoding="utf-8")
+    javascript = (ROOT / "public/ama-live/app.js").read_text(encoding="utf-8")
+    css = (ROOT / "public/ama-live/app.css").read_text(encoding="utf-8")
+    feature = presentation(service).replay_result()["features"][0]
+
+    assert feature["properties"]["authoritative_render"] is False
+    assert 'id="map-symbol-notice"' in html
+    assert "symbolic hydrant preview" in html
+    assert "hydrantPreviewMarker" in javascript
+    assert "new maplibregl.Marker" in javascript
+    assert "NON-AUTHORITATIVE SYMBOLIC PREVIEW" in javascript
+    assert ".hydrant-preview-marker" in css
+
+
 def test_replay_manifest_hashes_every_included_artifact(service: AMALiveService) -> None:
     demo = presentation(service)
     manifest = demo.replay_manifest()
