@@ -22,6 +22,12 @@ The warm median was 16.227 seconds for planning and 16.617 seconds end-to-end, c
 
 The selected architecture is a single Cloud Run service containing the bounded frontend/API/orchestrator, GraphRAG/KG, constraints, GIS, authorization, verification, provenance, and Ollama/Qwen runtime. This is technically sufficient and avoids unnecessary services.
 
+## Starting-state gate
+
+The canonical checkout was verified, but its existing `app/app-standalone-file-layout` worktree was not clean: it contained untracked user directories/files unrelated to AMA-CLOUD-01. Work stopped in that checkout and continued from the exact AMA-LIVE-01 predecessor in an isolated Git worktree at `/private/tmp/ama-cloud-01-worktree`; none of the pre-existing files were modified or removed. The task worktree is clean at completion.
+
+The gate also confirmed the exact Ollama/model identity above; the tracked 6.5 MB bounded graph `data/knowledge/nma-canonical-graph-v0.4.json`; the deterministic GeoJSON GIS fixture/executor; optional, non-required Neo4j connectivity; no required secret; no production write target; and no semantic dependency on an absolute Mac path. The only cloud write assumption is an isolated ephemeral root configured as `/tmp/ama-runtime`. Missing model, runtime libraries, schema dependencies, graph/fixture data, or GPU residency all cause startup or execution to fail closed.
+
 ## Frozen runtime identity
 
 - Ollama: 0.32.15
