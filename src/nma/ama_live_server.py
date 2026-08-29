@@ -69,7 +69,8 @@ class AMAHandler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self._security_headers()
         self.end_headers()
-        self.wfile.write(body)
+        if self.command != "HEAD":
+            self.wfile.write(body)
 
     def _file(self, path: Path, content_type: str) -> None:
         if not path.is_file():
@@ -82,7 +83,8 @@ class AMAHandler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "public, max-age=300")
         self._security_headers()
         self.end_headers()
-        self.wfile.write(body)
+        if self.command != "HEAD":
+            self.wfile.write(body)
 
     def log_message(self, format: str, *args: object) -> None:
         return
@@ -178,6 +180,11 @@ class AMAHandler(BaseHTTPRequestHandler):
             self.send_error(404)
         except KeyError:
             self._json({"error": "run not found"}, 404)
+
+    def do_HEAD(self) -> None:
+        """Return GET-equivalent headers without a body for link and uptime probes."""
+
+        self.do_GET()
 
     def do_POST(self) -> None:
         path = urlparse(self.path).path

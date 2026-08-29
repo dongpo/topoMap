@@ -133,6 +133,26 @@ def test_cloud_health_frontend_and_security_headers(tmp_path: Path, monkeypatch:
         server.server_close()
 
 
+def test_cloud_frontend_supports_head_link_preflight(tmp_path: Path) -> None:
+    server, base = start_server(tmp_path)
+    try:
+        status, body, headers = request(base, "/", method="HEAD")
+        assert status == 200
+        assert body == {}
+        assert headers["Content-Type"] == "text/html; charset=utf-8"
+        assert int(headers["Content-Length"]) > 0
+        assert headers["X-Content-Type-Options"] == "nosniff"
+
+        status, body, headers = request(base, "/health", method="HEAD")
+        assert status == 200
+        assert body == {}
+        assert headers["Content-Type"] == "application/json; charset=utf-8"
+        assert int(headers["Content-Length"]) > 0
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
 def test_failed_requests_do_not_create_runs_or_mutate_fixture(tmp_path: Path) -> None:
     server, base = start_server(tmp_path)
     fixture = ROOT / "data/rq2/rq2-demo-01-fire-hydrant.geojson"
