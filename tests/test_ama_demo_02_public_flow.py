@@ -228,6 +228,12 @@ def test_replay_manifest_hashes_every_included_artifact(service: AMALiveService)
         assert hashlib.sha256(path.read_bytes()).hexdigest() == identity["sha256"]
 
 
+def test_cloud_image_includes_canonical_replay_package() -> None:
+    dockerignore = (ROOT / ".dockerignore").read_text(encoding="utf-8")
+    assert "!artifacts/ama-demo/replay/canonical-run/**" in dockerignore
+    assert (ROOT / "artifacts/ama-demo/replay/canonical-run/manifest.json").is_file()
+
+
 def test_research_semantic_files_unchanged_from_predecessor() -> None:
     protected = [
         "src/nma/graphrag.py",

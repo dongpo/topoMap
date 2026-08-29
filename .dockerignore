@@ -18,6 +18,11 @@
 !public/gh-pages/assets/
 !public/gh-pages/assets/maplibre-gl-4.7.0.css
 !public/gh-pages/assets/maplibre-gl-4.7.0.js
+!artifacts/
+!artifacts/ama-demo/
+!artifacts/ama-demo/replay/
+!artifacts/ama-demo/replay/canonical-run/
+!artifacts/ama-demo/replay/canonical-run/**
 !deploy/
 !deploy/ama-cloud/
 !deploy/ama-cloud/Dockerfile
