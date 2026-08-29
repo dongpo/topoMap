@@ -1,0 +1,55 @@
+{
+  "authorization": "DENIED",
+  "authorized_proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+  "checks": [
+    {
+      "check": "AUTHORIZATION_SCHEMA_VALID",
+      "status": "PASS"
+    },
+    {
+      "check": "PROPOSAL_HASH_RECOMPUTED_AND_MATCHED",
+      "status": "FAIL"
+    },
+    {
+      "check": "AUTHORIZATION_HASH_RECOMPUTED_AND_MATCHED",
+      "status": "PASS"
+    },
+    {
+      "check": "AUTHORIZATION_DECISION_APPROVED",
+      "status": "PASS"
+    },
+    {
+      "check": "AUTHORIZATION_PROPOSAL_BOUND",
+      "status": "FAIL"
+    },
+    {
+      "check": "TOOLS_AND_ORDER_AUTHORIZED",
+      "status": "PASS"
+    },
+    {
+      "check": "AUTHORIZED_SCOPE_EXACT",
+      "status": "PASS"
+    },
+    {
+      "check": "PARAMETER_BOUNDS_AUTHORIZED",
+      "status": "PASS"
+    },
+    {
+      "check": "AUTHORIZATION_TIME_VALID",
+      "status": "PASS"
+    },
+    {
+      "check": "SOURCE_READ_ONLY",
+      "status": "PASS"
+    }
+  ],
+  "execution_attempted": false,
+  "identity_changed": true,
+  "mutation_started": false,
+  "output_created": false,
+  "protected_field": "expected_final_state.derived_artifact.semantic_values.classification",
+  "schema": "nma.ama-live-tamper-test/1.0",
+  "status": "PASS",
+  "tamper_test_id": "ama-tamper-test:577c5f2daea64fcc90024d6c9a792aad",
+  "tampered_recomputed_hash": "afaa05e4c6d33ddd4267a370f10e657f829d09d8221308bf4557d0eb641aa17e"
+}

@@ -29,15 +29,17 @@ RUN set -eu; \
 FROM python:3.11.9-slim-bookworm AS runtime
 ARG OLLAMA_VERSION=0.32.15
 ARG FROZEN_MODEL_DIGEST=845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e
+ARG SOURCE_REVISION=unknown
 RUN pip install --no-cache-dir \
       attrs==25.3.0 \
       jsonschema==4.23.0 \
       jsonschema-specifications==2023.12.1 \
       referencing==0.35.1 \
       rpds-py==0.20.0
-LABEL org.opencontainers.image.title="topoMap AMA-CLOUD-01" \
-      org.opencontainers.image.description="Frozen AMA-LIVE-01 Google Cloud Run runtime" \
-      org.opencontainers.image.revision="0bef91d77f941b3dfb5971bb46131c9e35df4f20" \
+LABEL org.opencontainers.image.title="topoMap AMA-DEMO-02" \
+      org.opencontainers.image.description="Public AMA evidence-to-action demo on frozen AMA-CLOUD-01" \
+      org.opencontainers.image.revision="${SOURCE_REVISION}" \
+      nma.ama.predecessor="0ebe7193951a8d4f5c5c6d10f3e5de4c71698284" \
       nma.ollama.version="${OLLAMA_VERSION}" \
       nma.model.digest="${FROZEN_MODEL_DIGEST}"
 COPY --from=ollama-runtime /bin/ollama /usr/local/bin/ollama

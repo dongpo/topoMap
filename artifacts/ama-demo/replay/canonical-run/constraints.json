@@ -1,0 +1,208 @@
+{
+  "constraint_resolution_id": "ama-constraints:a5b391a00d2b4118adeb1143d3252fab",
+  "constraints": [
+    {
+      "constraint_id": "constraint:classification.feature_code",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": "9350906",
+      "source_evidence": [
+        "classification:doc01:9350906",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:geometry.type",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": "Point",
+      "source_evidence": [
+        "portrayal-geometry:Point",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:guard.authoritative_render",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "forbidden",
+      "resolved_value": false,
+      "source_evidence": [
+        "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:portrayal.color_code",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": "7",
+      "source_evidence": [
+        "portrayal-color:doc01:7",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:portrayal.line_code",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": "2",
+      "source_evidence": [
+        "line-style:doc01:2",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:portrayal.observed_color",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": "black",
+      "source_evidence": [
+        "portrayal-color:doc01:7",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:source.authority",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": [
+        {
+          "document_id": "document:doc01-portrayal",
+          "revision": "NLSC112V5.4",
+          "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620"
+        }
+      ],
+      "source_evidence": [
+        "document:doc01-portrayal"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:guard.color-code-7-profile",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "guard",
+      "resolved_value": null,
+      "source_evidence": [
+        "activation-gate:doc01:9350906:color-code-7-profile"
+      ],
+      "status": "BOUNDED_UNRESOLVED"
+    },
+    {
+      "constraint_id": "constraint:guard.internal-glyph-trace",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "guard",
+      "resolved_value": null,
+      "source_evidence": [
+        "activation-gate:doc01:9350906:internal-glyph-trace"
+      ],
+      "status": "BOUNDED_UNRESOLVED"
+    },
+    {
+      "constraint_id": "constraint:guard.line-code-2-metric",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "guard",
+      "resolved_value": null,
+      "source_evidence": [
+        "activation-gate:doc01:9350906:line-code-2-metric"
+      ],
+      "status": "BOUNDED_UNRESOLVED"
+    },
+    {
+      "constraint_id": "constraint:relationship.product_layer",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "guard",
+      "resolved_value": null,
+      "source_evidence": [
+        "classification:doc01:9350906",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "BOUNDED_UNRESOLVED"
+    }
+  ]
+}

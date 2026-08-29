@@ -1,0 +1,63 @@
+{
+  "schema": "nma.ama-demo-02-acceptance-results/1.0",
+  "task": "AMA-DEMO-02",
+  "predecessor": "0ebe7193951a8d4f5c5c6d10f3e5de4c71698284",
+  "branch": "ama-demo/ama-demo-02-public-live-flow",
+  "verdict": "PENDING PUBLIC DEPLOYMENT ACCEPTANCE",
+  "research_semantics": "UNCHANGED",
+  "public_endpoint": "https://ama-cloud-01-555420096938.asia-southeast1.run.app",
+  "focused_tests": {
+    "status": "PASS",
+    "passed": 38,
+    "selection": [
+      "tests/test_ama_demo_02_public_flow.py",
+      "tests/test_ama_live_01.py",
+      "tests/test_ama_cloud_01.py"
+    ]
+  },
+  "targeted_regression": {
+    "status": "PASS",
+    "selection": [
+      "tests/test_rq1_answer_validation.py",
+      "tests/test_rq1_compare.py",
+      "tests/test_rq1_prompt_context.py",
+      "tests/test_rq1_trace.py",
+      "tests/test_rq2_demo_01.py",
+      "tests/test_rq3_demo_01.py",
+      "tests/test_demo01_unified_runtime.py",
+      "tests/test_documentation.py"
+    ],
+    "new_semantic_regressions": 0
+  },
+  "browser_local": {
+    "status": "PASS",
+    "viewport_css_pixels": [1600, 900],
+    "initial_mode": "NO RUN SELECTED",
+    "rq1_cards": ["llm-only", "text-rag", "graphrag"],
+    "retrieved_subgraph_svg": true,
+    "evidence_action_trace_svg": true,
+    "maplibre_canvas": true,
+    "verification_check_count": 13,
+    "proposal_authorization_execution_identity": "PASS",
+    "explicit_replay": "PASS",
+    "silent_fallback": "NONE",
+    "visible_failure": "PASS",
+    "reset": "PASS",
+    "horizontal_overflow": false,
+    "console_errors": 0
+  },
+  "fresh_replay_source": {
+    "source_mode": "LIVE",
+    "run_id": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+    "proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+    "authorized_equals_executed": true,
+    "verification": "PASS",
+    "tamper_denial": "PASS",
+    "end_to_end_ms": 49085.398,
+    "planner_ms": 48519.003
+  },
+  "rq1_finding": "Frozen RQ1-COMPARE-01 retained exact run identities and measured latencies but not wall-clock execution timestamps; AMA-DEMO-02 marks them NOT RECORDED.",
+  "public_browser": {
+    "status": "PENDING DEPLOYMENT"
+  }
+}

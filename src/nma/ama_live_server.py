@@ -13,11 +13,13 @@ from threading import Lock, Thread
 import time
 from urllib.parse import urlparse
 
+from nma.ama_demo import AMADemoPresentation
 from nma.ama_live import AMALiveError, AMALiveService, CANONICAL_INTENT
 
 
 class AMAHandler(BaseHTTPRequestHandler):
     service: AMALiveService
+    demo: AMADemoPresentation | None = None
     static_root: Path
     asset_root: Path
     cors_origin: str = ""
@@ -40,6 +42,14 @@ class AMAHandler(BaseHTTPRequestHandler):
         if self.cors_origin and origin == self.cors_origin:
             self.send_header("Access-Control-Allow-Origin", origin)
             self.send_header("Vary", "Origin")
+
+    def _demo(self) -> AMADemoPresentation:
+        handler_type = type(self)
+        if handler_type.demo is None:
+            handler_type.demo = AMADemoPresentation(
+                self.service.repository_root, self.service.storage_root
+            )
+        return handler_type.demo
 
     def _log(self, event: str, **detail: object) -> None:
         value = {
@@ -106,11 +116,17 @@ class AMAHandler(BaseHTTPRequestHandler):
                     self.asset_root / name, types.get(Path(name).suffix, "application/octet-stream")
                 )
             if path == "/ama/config":
+                live_cloud = self.deployment_label == "LIVE CLOUD RUN"
                 return self._json(
                     {
-                        "mode": "LIVE",
+                        "mode": "LIVE" if live_cloud else "LOCAL/TEST",
                         "deployment": self.deployment_label,
                         "canonical_intent": CANONICAL_INTENT,
+                        "normalized_intent": CANONICAL_INTENT,
+                        "planner_input": CANONICAL_INTENT,
+                        "live_capable": live_cloud,
+                        "replay_capable": True,
+                        "allowed_public_modes": ["LIVE", "REPLAY"],
                     }
                 )
             if path == "/health":
@@ -120,9 +136,22 @@ class AMAHandler(BaseHTTPRequestHandler):
                     self._log("health_failed", error_type=type(error).__name__)
                     return self._json({"status": "FAIL", "error": str(error)}, 503)
             if path == "/ama/context":
-                return self._json(self.service.domain_context())
+                return self._json(self._demo().domain_graph())
             if path == "/ama/rq1-comparison":
-                return self._json(self.service.rq1_comparison())
+                return self._json(self._demo().rq1_comparison())
+            if path == "/ama/demo/domain-kg":
+                return self._json(self._demo().domain_graph())
+            if path == "/ama/demo/rq1-comparison":
+                return self._json(self._demo().rq1_comparison())
+            if path == "/ama/demo/replay":
+                return self._json(self._demo().replay_record())
+            if path == "/ama/demo/replay/manifest":
+                return self._json(self._demo().replay_manifest())
+            if path == "/ama/demo/replay/result":
+                return self._json(self._demo().replay_result())
+            if path == "/ama/demo/replay/views":
+                replay = self._demo().replay_record()
+                return self._json(self._demo().views_for(replay, mode="REPLAY"))
             if path == "/ama/source":
                 return self._json(self.service.source_geojson())
             parts = path.strip("/").split("/")
@@ -140,6 +169,7 @@ class AMAHandler(BaseHTTPRequestHandler):
                     },
                     "verification": record.get("verification"),
                     "provenance": record.get("provenance"),
+                    "demo-views": self._demo().views_for(record, mode=record.get("mode", "LIVE")),
                 }
                 if view == "result":
                     return self._json(self.service.result_geojson(run_id))
@@ -198,6 +228,15 @@ class AMAHandler(BaseHTTPRequestHandler):
                 Thread(target=execute, daemon=True).start()
                 self._log("run_accepted", run_id=record["run_id"])
                 return self._json(record, HTTPStatus.ACCEPTED)
+            if path == "/ama/reset":
+                handler_type = type(self)
+                with self._run_state_lock:
+                    if handler_type._run_active:
+                        return self._json({"error": "cannot reset while a live run is active"}, 409)
+                    result = self._demo().reset()
+                    self.service.forget_records(result["removed_run_ids"])
+                    handler_type._run_starts.clear()
+                return self._json(result)
             parts = path.strip("/").split("/")
             if len(parts) == 4 and parts[:2] == ["ama", "run"] and parts[3] == "tamper-test":
                 return self._json(self.service.tamper_test(parts[2]))
@@ -221,6 +260,7 @@ def main() -> int:
         (AMAHandler,),
         {
             "service": service,
+            "demo": AMADemoPresentation(root, root / args.storage_root),
             "static_root": root / "public/ama-live",
             "asset_root": root / "public/gh-pages/assets",
             "cors_origin": os.environ.get("AMA_CORS_ORIGIN", ""),

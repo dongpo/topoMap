@@ -1,0 +1,409 @@
+{
+  "edges": [
+    {
+      "source": "stage:aerial-triangulation",
+      "target": "stage:feature-survey",
+      "type": "PRECEDES"
+    },
+    {
+      "source": "stage:feature-survey",
+      "target": "stage:vector-revision",
+      "type": "PRECEDES"
+    },
+    {
+      "source": "stage:aerial-triangulation",
+      "target": "stage:feature-survey",
+      "type": "PRECEDES"
+    },
+    {
+      "source": "stage:feature-survey",
+      "target": "stage:field-completion",
+      "type": "PRECEDES"
+    },
+    {
+      "source": "stage:aerial-triangulation",
+      "target": "stage:feature-survey",
+      "type": "PRECEDES"
+    },
+    {
+      "source": "stage:contour-mapping",
+      "target": "stage:feature-survey",
+      "type": "PRECEDES"
+    },
+    {
+      "source": "stage:feature-survey",
+      "target": "stage:field-completion",
+      "type": "PRECEDES"
+    },
+    {
+      "source": "classification:doc01:9350906",
+      "target": "portrayal-rule:doc01:9350906",
+      "type": "PORTRAYED_BY"
+    },
+    {
+      "source": "document:doc01-portrayal",
+      "target": "section:doc01-portrayal:p11",
+      "type": "CONTAINS"
+    },
+    {
+      "source": "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+      "target": "portrayal-rule:doc01:9350906",
+      "type": "DEFINES"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "activation-gate:doc01:9350906:color-code-7-profile",
+      "type": "BLOCKED_BY"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "activation-gate:doc01:9350906:internal-glyph-trace",
+      "type": "BLOCKED_BY"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "activation-gate:doc01:9350906:line-code-2-metric",
+      "type": "BLOCKED_BY"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "portrayal-geometry:Point",
+      "type": "APPLIES_TO_GEOMETRY"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "portrayal-rule:doc01:9350906",
+      "type": "TRANSCRIBES_RULE"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "review-asset:doc01:fire-hydrant-v1",
+      "type": "HAS_REVIEW_ASSET"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "section:doc01-portrayal:p11",
+      "type": "EVIDENCED_ON"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "vector-primitive:doc01:9350906:01:outer-box",
+      "type": "COMPOSED_OF"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "vector-primitive:doc01:9350906:02:hydrant-glyph",
+      "type": "COMPOSED_OF"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "line-style:doc01:2",
+      "type": "USES_LINE_STYLE"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "portrayal-color:doc01:7",
+      "type": "USES_COLOR"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "portrayal-geometry:Point",
+      "type": "APPLIES_TO_GEOMETRY"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "section:doc01-portrayal:p11",
+      "type": "EVIDENCED_ON"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "stage:feature-survey",
+      "type": "PRODUCED_DURING"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "symbol:doc01:fire-hydrant",
+      "type": "USES_SYMBOL"
+    },
+    {
+      "source": "quality-item:doc03-207",
+      "target": "stage:feature-survey",
+      "type": "VALIDATES"
+    },
+    {
+      "source": "stage:feature-survey",
+      "target": "concept:feature-concept",
+      "type": "OBSERVES"
+    },
+    {
+      "source": "stage:feature-survey",
+      "target": "method:stereo-plotting",
+      "type": "USES_METHOD"
+    },
+    {
+      "source": "stage:feature-survey",
+      "target": "product:observed-features",
+      "type": "PRODUCES"
+    },
+    {
+      "source": "symbol:doc01:fire-hydrant",
+      "target": "section:doc01-portrayal:p11",
+      "type": "DERIVED_FROM"
+    },
+    {
+      "source": "workflow:tw-temap-vector-update",
+      "target": "stage:feature-survey",
+      "type": "INCLUDES"
+    },
+    {
+      "source": "workflow:tw-topo-1000-new-production",
+      "target": "stage:feature-survey",
+      "type": "INCLUDES"
+    },
+    {
+      "source": "workflow:tw-topo-5000-production-update",
+      "target": "stage:feature-survey",
+      "type": "INCLUDES"
+    }
+  ],
+  "label": "RETRIEVED SUBGRAPH FOR THIS QUERY",
+  "mode": "REPLAY",
+  "nodes": [
+    {
+      "display_state": "PROJECTED_EVIDENCE",
+      "id": "activation-gate:doc01:9350906:color-code-7-profile",
+      "properties": {},
+      "type": "ActivationGate"
+    },
+    {
+      "display_state": "PROJECTED_EVIDENCE",
+      "id": "activation-gate:doc01:9350906:internal-glyph-trace",
+      "properties": {},
+      "type": "ActivationGate"
+    },
+    {
+      "display_state": "PROJECTED_EVIDENCE",
+      "id": "activation-gate:doc01:9350906:line-code-2-metric",
+      "properties": {},
+      "type": "ActivationGate"
+    },
+    {
+      "display_state": "PROJECTED_EVIDENCE",
+      "id": "classification:doc01:9350906",
+      "properties": {
+        "code": "9350906",
+        "label": "消防栓"
+      },
+      "type": "ClassificationCode"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "concept:feature-concept",
+      "properties": {
+        "name": "圖徵"
+      },
+      "type": "FeatureConcept"
+    },
+    {
+      "display_state": "PROJECTED_EVIDENCE",
+      "id": "document:doc01-portrayal",
+      "properties": {},
+      "type": "SpecificationDocument"
+    },
+    {
+      "display_state": "PROJECTED_EVIDENCE",
+      "id": "line-style:doc01:2",
+      "properties": {
+        "code": "2"
+      },
+      "type": "LineStyleReference"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "method:stereo-plotting",
+      "properties": {
+        "name": "立體測圖"
+      },
+      "type": "ProductionMethod"
+    },
+    {
+      "display_state": "PROJECTED_EVIDENCE",
+      "id": "portrayal-color:doc01:7",
+      "properties": {
+        "code": "7",
+        "observed_color": "black"
+      },
+      "type": "PortrayalColorReference"
+    },
+    {
+      "display_state": "PROJECTED_EVIDENCE",
+      "id": "portrayal-geometry:Point",
+      "properties": {
+        "name": "Point"
+      },
+      "type": "PortrayalGeometryRole"
+    },
+    {
+      "display_state": "PROJECTED_EVIDENCE",
+      "id": "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+      "properties": {
+        "activation_status": "non-executable",
+        "name": "一千分之一地形圖圖式規格"
+      },
+      "type": "PortrayalProfile"
+    },
+    {
+      "display_state": "PROJECTED_EVIDENCE",
+      "id": "portrayal-recipe:doc01:9350906:review-v1",
+      "properties": {
+        "activation_status": "non-executable-review-candidate",
+        "feature_code": "9350906",
+        "feature_name": "消防栓",
+        "geometry_role": "Point"
+      },
+      "type": "PortrayalRecipe"
+    },
+    {
+      "display_state": "PROJECTED_EVIDENCE",
+      "id": "portrayal-rule:doc01:9350906",
+      "properties": {
+        "activation_status": "non-executable",
+        "color_code": "7",
+        "feature_code": "9350906",
+        "feature_name": "消防栓",
+        "geometry_role": "Point",
+        "line_code": "2",
+        "observed_color": "black"
+      },
+      "type": "PortrayalRule"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "product:observed-features",
+      "properties": {
+        "name": "地物向量與編碼"
+      },
+      "type": "ProductionArtifact"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "quality-item:doc03-207",
+      "properties": {
+        "code": "207",
+        "name": "立體測圖品質"
+      },
+      "type": "QualityInspectionItem"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "review-asset:doc01:fire-hydrant-v1",
+      "properties": {},
+      "type": "ReviewCandidateAsset"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "section:doc01-portrayal:p11",
+      "properties": {},
+      "type": "DocumentSection"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "stage:aerial-triangulation",
+      "properties": {
+        "name": "空中三角測量/平差"
+      },
+      "type": "ProductionStage"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "stage:contour-mapping",
+      "properties": {
+        "name": "等高線測繪"
+      },
+      "type": "ProductionStage"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "stage:feature-survey",
+      "properties": {
+        "name": "地物測繪/數值立體測圖"
+      },
+      "type": "ProductionStage"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "stage:field-completion",
+      "properties": {
+        "name": "調繪補測"
+      },
+      "type": "ProductionStage"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "stage:vector-revision",
+      "properties": {
+        "name": "向量圖資修測"
+      },
+      "type": "ProductionStage"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "symbol:doc01:fire-hydrant",
+      "properties": {},
+      "type": "Symbol"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "vector-primitive:doc01:9350906:01:outer-box",
+      "properties": {},
+      "type": "VectorPrimitive"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "vector-primitive:doc01:9350906:02:hydrant-glyph",
+      "properties": {},
+      "type": "VectorPrimitive"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "workflow:tw-temap-vector-update",
+      "properties": {
+        "name": "臺灣通用電子地圖測製更新"
+      },
+      "type": "ProductionWorkflow"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "workflow:tw-topo-1000-new-production",
+      "properties": {
+        "name": "1:1,000 數值航測地形圖測製"
+      },
+      "type": "ProductionWorkflow"
+    },
+    {
+      "display_state": "RETRIEVED",
+      "id": "workflow:tw-topo-5000-production-update",
+      "properties": {
+        "name": "1:5,000 基本地形圖測製/修測"
+      },
+      "type": "ProductionWorkflow"
+    }
+  ],
+  "projected_evidence_ids": [
+    "activation-gate:doc01:9350906:color-code-7-profile",
+    "activation-gate:doc01:9350906:internal-glyph-trace",
+    "activation-gate:doc01:9350906:line-code-2-metric",
+    "classification:doc01:9350906",
+    "document:doc01-portrayal",
+    "line-style:doc01:2",
+    "portrayal-color:doc01:7",
+    "portrayal-geometry:Point",
+    "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+    "portrayal-recipe:doc01:9350906:review-v1",
+    "portrayal-rule:doc01:9350906"
+  ],
+  "retrieval_id": "ama-retrieval:8047c388cfad41a89a29907451f25030",
+  "run_id": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+  "schema": "nma.ama-demo-02-graph-view/1.0",
+  "scope": "query-specific runtime subset"
+}

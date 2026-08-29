@@ -1,0 +1,686 @@
+{
+  "execution_timestamp_finding": "The predecessor record retained run identities and exact latencies but did not retain wall-clock execution timestamps; this field is truthfully marked NOT RECORDED.",
+  "manual_answer_editing": false,
+  "question": "For fire hydrant 9350906, explain the reviewed authoritative portrayal rule. Include its classification, geometry, line style, color, source evidence, and any unresolved schema or product-layer binding. Do not infer information that is not supported by the retrieved evidence.",
+  "question_identity": "request:sha256:8ec999772276b94f4bc4d4f39240e297aea9760f94649a5c6c240d9570ef7394",
+  "record_type": "EXECUTED CONTROLLED RESEARCH RECORD",
+  "rows": [
+    {
+      "answer": "For fire hydrant 9350906, the reviewed authoritative portrayal rule is as follows: its classification is 'Fire Hydrant', geometry is point, line style is solid, color is red, and the source evidence is from the city's public works department. There are no unresolved schema or product-layer bindings noted for this feature.",
+      "answer_raw_response_hash": "f647b85997fbfba3c531dc0666069272a494e4194e26f758c73f9ad540f692c4",
+      "architecture": "llm-only",
+      "citations": [],
+      "claims": {
+        "contradicted": [
+          {
+            "evidence_ids": [],
+            "evidence_values": [
+              "black"
+            ],
+            "normalized_claim": {
+              "category": "color_name",
+              "value": "red"
+            },
+            "reason": "claim value conflicts with retrieved authoritative values",
+            "status": "CONTRADICTED",
+            "text": "red"
+          }
+        ],
+        "supported": [
+          {
+            "evidence_ids": [
+              "classification:doc01:9350906",
+              "portrayal-rule:doc01:9350906"
+            ],
+            "evidence_values": [
+              "9350906"
+            ],
+            "normalized_claim": {
+              "category": "feature_code",
+              "value": "9350906"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "9350906"
+          },
+          {
+            "evidence_ids": [
+              "portrayal-geometry:Point",
+              "portrayal-recipe:doc01:9350906:review-v1",
+              "portrayal-rule:doc01:9350906"
+            ],
+            "evidence_values": [
+              "Point"
+            ],
+            "normalized_claim": {
+              "category": "geometry",
+              "value": "Point"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "point"
+          },
+          {
+            "evidence_ids": [
+              "classification:doc01:9350906",
+              "portrayal-rule:doc01:9350906"
+            ],
+            "evidence_values": [],
+            "normalized_claim": {
+              "category": "mapping_unresolved",
+              "value": true
+            },
+            "reason": "retrieved mapping_status explicitly preserves an unresolved binding",
+            "status": "SUPPORTED",
+            "text": " There are no unresolved schema or product-layer bindings noted for this feature"
+          }
+        ],
+        "unsupported": [],
+        "unverifiable": []
+      },
+      "context_window": 8192,
+      "coverage": 0.6666666666666666,
+      "coverage_status": "FAIL",
+      "execution_timestamp": "NOT RECORDED BY FROZEN RQ1-COMPARE-01",
+      "final_validator_result": "FAIL",
+      "grounding_status": "FAIL",
+      "latency_ms": {
+        "generation": 15964,
+        "retrieval": 0,
+        "total": 15964
+      },
+      "model_identity": {
+        "digest": "845dbda0ea48",
+        "name": "qwen2.5:latest",
+        "parameters": "7.6B",
+        "quantization": "Q4_K_M"
+      },
+      "projected_evidence_count": "NOT APPLICABLE",
+      "prompt_contract": {
+        "answer_schema_fields": [
+          "answer"
+        ],
+        "evidence_delivery": "llm-only",
+        "instructions": "Answer the request in natural prose and address every requested semantic requirement. Do not use a fixed answer-slot template. Preserve unresolved or unknown states and abstain rather than inventing a value or source. Do not claim that evidence was retrieved unless retrieved evidence is present in the supplied context.",
+        "task": "answer-reviewed-authoritative-portrayal-question"
+      },
+      "prompt_contract_hash": "273a3af6225502ebe68f27111679fe5d09126950b70ff4cd64e677b8cfcffbee",
+      "question_identity": "request:sha256:8ec999772276b94f4bc4d4f39240e297aea9760f94649a5c6c240d9570ef7394",
+      "requirement_accuracy": 0.3333333333333333,
+      "requirements": [
+        {
+          "id": "classification",
+          "label": "classification",
+          "matched_text": [
+            "9350906"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "geometry",
+          "label": "geometry",
+          "matched_text": [
+            "point"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "line_style",
+          "label": "line style",
+          "matched_text": [],
+          "status": "PARTIAL"
+        },
+        {
+          "id": "color",
+          "label": "color",
+          "matched_text": [
+            "red"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "source_evidence",
+          "label": "source evidence",
+          "matched_text": [],
+          "status": "PARTIAL"
+        },
+        {
+          "id": "unresolved_binding",
+          "label": "unresolved ProductLayer binding",
+          "matched_text": [
+            " There are no unresolved schema or product-layer bindings noted for this feature"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "retrieval_context_summary": {
+        "llm_facing_items": "NOT APPLICABLE",
+        "mode": "NOT APPLICABLE",
+        "retrieved_items": "NOT APPLICABLE",
+        "summary": "No retriever and no evidence context."
+      },
+      "retrieval_mode": "NOT APPLICABLE",
+      "retrieval_source": "NOT APPLICABLE",
+      "retrieved_item_count": "NOT APPLICABLE",
+      "run_id": "rq1-compare-run:sha256:e131538606176e7eabd2f6e2a1c79fb1eea72e60afdc7b1c992907dea70a51b1",
+      "temperature": 0
+    },
+    {
+      "answer": "For the fire hydrant feature code 9350906, the reviewed authoritative portrayal rule specifies a fixed marker representation. The geometry role is Point, and the feature is to be rendered as a black marker with a size of 2.0 x 2.5 mm at an output scale of 1:1,000. The line code 2 and color code 7 require an approved rendering profile before activation. The portrayal rule does not define the device-independent stroke width or color profile, and the internal glyph is manually traced from the official symbol cell, requiring cartographic comparison approval. There are no unresolved schema or product-layer bindings mentioned in the evidence.",
+      "answer_raw_response_hash": "99e8fb9baff6597de98dcd8877ac6ade4dc669c26f1284b2e4784bc5c7455a2b",
+      "architecture": "text-rag",
+      "citations": [
+        "text-chunk-0011-ffe28460bab7",
+        "text-chunk-0017-cc099db0bc5d",
+        "text-chunk-0015-0b635bba8c11",
+        "text-chunk-0012-895152160c4a",
+        "text-chunk-0016-e150e2296a3a"
+      ],
+      "claims": {
+        "contradicted": [],
+        "supported": [
+          {
+            "evidence_ids": [
+              "classification:doc01:9350906",
+              "portrayal-rule:doc01:9350906"
+            ],
+            "evidence_values": [
+              "9350906"
+            ],
+            "normalized_claim": {
+              "category": "feature_code",
+              "value": "9350906"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "9350906"
+          },
+          {
+            "evidence_ids": [
+              "portrayal-geometry:Point",
+              "portrayal-recipe:doc01:9350906:review-v1",
+              "portrayal-rule:doc01:9350906"
+            ],
+            "evidence_values": [
+              "Point"
+            ],
+            "normalized_claim": {
+              "category": "geometry",
+              "value": "Point"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "Point"
+          },
+          {
+            "evidence_ids": [
+              "portrayal-color:doc01:7"
+            ],
+            "evidence_values": [
+              "black"
+            ],
+            "normalized_claim": {
+              "category": "color_name",
+              "value": "black"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "black"
+          },
+          {
+            "evidence_ids": [
+              "portrayal-color:doc01:7"
+            ],
+            "evidence_values": [
+              "7"
+            ],
+            "normalized_claim": {
+              "category": "color_code",
+              "value": "7"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "color code 7"
+          },
+          {
+            "evidence_ids": [
+              "classification:doc01:9350906",
+              "portrayal-rule:doc01:9350906"
+            ],
+            "evidence_values": [],
+            "normalized_claim": {
+              "category": "mapping_unresolved",
+              "value": true
+            },
+            "reason": "retrieved mapping_status explicitly preserves an unresolved binding",
+            "status": "SUPPORTED",
+            "text": " There are no unresolved schema or product-layer bindings mentioned in the evidence"
+          }
+        ],
+        "unsupported": [],
+        "unverifiable": []
+      },
+      "context_window": 8192,
+      "coverage": 0.6666666666666666,
+      "coverage_status": "FAIL",
+      "execution_timestamp": "NOT RECORDED BY FROZEN RQ1-COMPARE-01",
+      "final_validator_result": "FAIL",
+      "grounding_status": "PASS",
+      "latency_ms": {
+        "generation": 43684,
+        "retrieval": 24,
+        "total": 43708
+      },
+      "model_identity": {
+        "digest": "845dbda0ea48",
+        "name": "qwen2.5:latest",
+        "parameters": "7.6B",
+        "quantization": "Q4_K_M"
+      },
+      "projected_evidence_count": "NOT APPLICABLE",
+      "prompt_contract": {
+        "answer_schema_fields": [
+          "answer"
+        ],
+        "evidence_delivery": "text-rag",
+        "instructions": "Answer the request in natural prose and address every requested semantic requirement. Do not use a fixed answer-slot template. Preserve unresolved or unknown states and abstain rather than inventing a value or source. Do not claim that evidence was retrieved unless retrieved evidence is present in the supplied context.",
+        "task": "answer-reviewed-authoritative-portrayal-question"
+      },
+      "prompt_contract_hash": "269e9d41b729f9f10d9fda16141f1fc01a87c7d8a25a1efc14a9744c308cdc68",
+      "question_identity": "request:sha256:8ec999772276b94f4bc4d4f39240e297aea9760f94649a5c6c240d9570ef7394",
+      "requirement_accuracy": 0.5,
+      "requirements": [
+        {
+          "id": "classification",
+          "label": "classification",
+          "matched_text": [
+            "9350906"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "geometry",
+          "label": "geometry",
+          "matched_text": [
+            "Point"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "line_style",
+          "label": "line style",
+          "matched_text": [],
+          "status": "FAIL"
+        },
+        {
+          "id": "color",
+          "label": "color",
+          "matched_text": [
+            "color code 7",
+            "black"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "source_evidence",
+          "label": "source evidence",
+          "matched_text": [],
+          "status": "PARTIAL"
+        },
+        {
+          "id": "unresolved_binding",
+          "label": "unresolved ProductLayer binding",
+          "matched_text": [
+            " There are no unresolved schema or product-layer bindings mentioned in the evidence"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "retrieval_context_summary": {
+        "llm_facing_items": 5,
+        "mode": "deterministic vector-space text retrieval",
+        "retrieved_items": 12,
+        "selected_chunk_ids": [
+          "text-chunk-0011-ffe28460bab7",
+          "text-chunk-0017-cc099db0bc5d",
+          "text-chunk-0015-0b635bba8c11",
+          "text-chunk-0012-895152160c4a",
+          "text-chunk-0016-e150e2296a3a"
+        ],
+        "summary": "Ranked source-derived text chunks; no graph types or relations."
+      },
+      "retrieval_mode": "deterministic vector-space text retrieval",
+      "retrieval_source": [
+        "data/portrayal/nlsc112v5.4/portrayal-recipe-review-batch-01-v0.4.json"
+      ],
+      "retrieved_item_count": 12,
+      "run_id": "rq1-compare-run:sha256:6db75aa4102710a1e963bba6533d20369d7d1a0205482b3e0b399bb74a6e6531",
+      "temperature": 0
+    },
+    {
+      "answer": "消防栓（分类代码9350906）的表示规则在第11页（记录ID：DOC01-P11-HYDRANT）被详细规定。该规则指示使用点几何图形（几何角色：Point）进行表示。表示规则采用线型代码2（图式线号2）和颜色代码7（实测，颜色为黑色）。此规则的激活状态为非执行状态（non-executable），且未确认与产品图层的绑定关系。因此，该规则的状态为未执行且未绑定到具体的产品图层字段。",
+      "answer_raw_response_hash": "f849e61b89464633e47493e654ea38e492a159205d0856668e138e96d3724b5e",
+      "architecture": "graphrag",
+      "citations": [
+        "citation:section:doc01-portrayal:p11",
+        "classification-occurrence:doc02:annex7-row:9350900:p50:r20",
+        "classification-occurrence:doc02:annex7-row:9350906:p50:r26",
+        "classification:doc01:9350906",
+        "governance-evidence:doc02:annex7:fc5acb55499069d91e8b",
+        "line-style:doc01:2",
+        "portrayal-color:doc01:7",
+        "portrayal-geometry:Point",
+        "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906",
+        "section:doc01-portrayal:p11",
+        "source-basis-cell:doc02:annex7-source-cell:p50:c28",
+        "terrain-classification:doc02:9350000",
+        "terrain-classification:doc02:9350900",
+        "terrain-classification:doc02:9350906"
+      ],
+      "claims": {
+        "contradicted": [],
+        "supported": [
+          {
+            "evidence_ids": [
+              "classification:doc01:9350906",
+              "portrayal-rule:doc01:9350906"
+            ],
+            "evidence_values": [
+              "消防栓"
+            ],
+            "normalized_claim": {
+              "category": "feature_name",
+              "value": "消防栓"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "消防栓"
+          },
+          {
+            "evidence_ids": [
+              "classification:doc01:9350906",
+              "portrayal-rule:doc01:9350906"
+            ],
+            "evidence_values": [
+              "9350906"
+            ],
+            "normalized_claim": {
+              "category": "feature_code",
+              "value": "9350906"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "9350906"
+          },
+          {
+            "evidence_ids": [
+              "citation:section:doc01-portrayal:p11"
+            ],
+            "evidence_values": [
+              "11"
+            ],
+            "normalized_claim": {
+              "category": "source_page",
+              "value": "11"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "第11页"
+          },
+          {
+            "evidence_ids": [
+              "section:doc01-portrayal:p11",
+              "citation:section:doc01-portrayal:p11"
+            ],
+            "evidence_values": [
+              "DOC01-P11-HYDRANT"
+            ],
+            "normalized_claim": {
+              "category": "record_id",
+              "value": "DOC01-P11-HYDRANT"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "DOC01-P11-HYDRANT"
+          },
+          {
+            "evidence_ids": [
+              "portrayal-geometry:Point",
+              "portrayal-recipe:doc01:9350906:review-v1",
+              "portrayal-rule:doc01:9350906"
+            ],
+            "evidence_values": [
+              "Point"
+            ],
+            "normalized_claim": {
+              "category": "geometry",
+              "value": "Point"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "Point"
+          },
+          {
+            "evidence_ids": [
+              "line-style:doc01:2"
+            ],
+            "evidence_values": [
+              "2"
+            ],
+            "normalized_claim": {
+              "category": "line_style",
+              "value": "2"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "线型代码2"
+          },
+          {
+            "evidence_ids": [
+              "line-style:doc01:2"
+            ],
+            "evidence_values": [
+              "2"
+            ],
+            "normalized_claim": {
+              "category": "line_style",
+              "value": "2"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "线号2"
+          },
+          {
+            "evidence_ids": [
+              "portrayal-color:doc01:7"
+            ],
+            "evidence_values": [
+              "7"
+            ],
+            "normalized_claim": {
+              "category": "color_code",
+              "value": "7"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "颜色代码7"
+          },
+          {
+            "evidence_ids": [
+              "portrayal-color:doc01:7"
+            ],
+            "evidence_values": [
+              "black"
+            ],
+            "normalized_claim": {
+              "category": "color_name",
+              "value": "black"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "黑色"
+          },
+          {
+            "evidence_ids": [
+              "classification:doc01:9350906",
+              "portrayal-rule:doc01:9350906"
+            ],
+            "evidence_values": [],
+            "normalized_claim": {
+              "category": "mapping_unresolved",
+              "value": true
+            },
+            "reason": "retrieved mapping_status explicitly preserves an unresolved binding",
+            "status": "SUPPORTED",
+            "text": "此规则的激活状态为非执行状态（non-executable），且未确认与产品图层的绑定关系"
+          },
+          {
+            "evidence_ids": [
+              "classification-occurrence:doc02:annex7-row:9350900:p50:r20",
+              "classification-occurrence:doc02:annex7-row:9350906:p50:r26",
+              "governance-evidence:doc02:annex7:fc5acb55499069d91e8b",
+              "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+              "portrayal-rule:doc01:9350906",
+              "source-basis-cell:doc02:annex7-source-cell:p50:c28",
+              "terrain-classification:doc02:9350000",
+              "terrain-classification:doc02:9350900",
+              "terrain-classification:doc02:9350906"
+            ],
+            "evidence_values": [
+              "non-executable"
+            ],
+            "normalized_claim": {
+              "category": "activation_status",
+              "value": "non-executable"
+            },
+            "reason": "normalized claim value matches retrieved authoritative evidence",
+            "status": "SUPPORTED",
+            "text": "non-executable"
+          }
+        ],
+        "unsupported": [],
+        "unverifiable": []
+      },
+      "context_window": 8192,
+      "coverage": 1.0,
+      "coverage_status": "PASS",
+      "execution_timestamp": "NOT RECORDED BY FROZEN RQ1-COMPARE-01",
+      "final_validator_result": "PASS",
+      "grounding_status": "PASS",
+      "latency_ms": {
+        "generation": 134085,
+        "retrieval": 50169,
+        "total": 184254
+      },
+      "model_identity": {
+        "digest": "845dbda0ea48",
+        "name": "qwen2.5:latest",
+        "parameters": "7.6B",
+        "quantization": "Q4_K_M"
+      },
+      "projected_evidence_count": 9,
+      "prompt_contract": {
+        "evidence_delivery": "typed canonical graph projection",
+        "semantic_identity": "RQ1-PROMPT-01 frozen",
+        "task": "existing AMAResearchRuntime.run_rq1 two-call GraphRAG contract"
+      },
+      "prompt_contract_hash": "edc08553e224ee8bb0d3ffbbb8eacae8d619545319ad6adb278630b48474ceb7",
+      "question_identity": "request:sha256:8ec999772276b94f4bc4d4f39240e297aea9760f94649a5c6c240d9570ef7394",
+      "requirement_accuracy": 1.0,
+      "requirements": [
+        {
+          "id": "classification",
+          "label": "classification",
+          "matched_text": [
+            "消防栓",
+            "9350906"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "geometry",
+          "label": "geometry",
+          "matched_text": [
+            "Point"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "line_style",
+          "label": "line style",
+          "matched_text": [
+            "线型代码2",
+            "线号2"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "color",
+          "label": "color",
+          "matched_text": [
+            "颜色代码7",
+            "黑色"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "source_evidence",
+          "label": "source evidence",
+          "matched_text": [
+            "DOC01-P11-HYDRANT",
+            "第11页"
+          ],
+          "status": "PASS"
+        },
+        {
+          "id": "unresolved_binding",
+          "label": "unresolved ProductLayer binding",
+          "matched_text": [
+            "此规则的激活状态为非执行状态（non-executable），且未确认与产品图层的绑定关系"
+          ],
+          "status": "PASS"
+        }
+      ],
+      "retrieval_context_summary": {
+        "llm_facing_items": 9,
+        "mode": "canonical-json",
+        "projected_evidence_ids": [
+          "citation:section:doc01-portrayal:p11",
+          "classification-occurrence:doc02:annex7-row:9350900:p50:r20",
+          "classification-occurrence:doc02:annex7-row:9350906:p50:r26",
+          "classification:doc01:9350906",
+          "governance-evidence:doc02:annex7:fc5acb55499069d91e8b",
+          "line-style:doc01:2",
+          "portrayal-color:doc01:7",
+          "portrayal-geometry:Point",
+          "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+          "portrayal-recipe:doc01:9350906:review-v1",
+          "portrayal-rule:doc01:9350906",
+          "section:doc01-portrayal:p11",
+          "source-basis-cell:doc02:annex7-source-cell:p50:c28",
+          "terrain-classification:doc02:9350000",
+          "terrain-classification:doc02:9350900",
+          "terrain-classification:doc02:9350906"
+        ],
+        "projected_relationships": 8,
+        "retrieved_items": 46,
+        "retrieved_relationships": 54,
+        "summary": "Typed canonical graph retrieval followed by question-relevant projection."
+      },
+      "retrieval_mode": "canonical-json",
+      "retrieval_source": "nma-canonical-graph-v0.4",
+      "retrieved_item_count": 46,
+      "run_id": "rq1-compare-run:sha256:28e4ddb5a3574b970d8cc537d3bebf54a91a31d5dd8d9ca879cd31fb4e90452c",
+      "temperature": 0
+    }
+  ],
+  "same_context_window": true,
+  "same_model": true,
+  "same_question": true,
+  "same_temperature": true,
+  "schema": "nma.ama-demo-02-rq1-comparison/1.0",
+  "source": "rq1-compare-01-results.json",
+  "source_sha256": "9b60b97c7097a960c8c237e4e08e68622a053d00312b98c41dedc6a8fd4355de"
+}

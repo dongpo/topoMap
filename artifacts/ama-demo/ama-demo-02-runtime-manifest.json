@@ -1,0 +1,36 @@
+{
+  "gpu_model_preloaded": true,
+  "live_run_id": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+  "model": {
+    "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "digest_prefix": "845dbda0ea48",
+    "family": "qwen2",
+    "name": "qwen2.5:latest",
+    "parameter_size": "7.6B",
+    "quantization_level": "Q4_K_M"
+  },
+  "ollama_version": "0.32.15",
+  "predecessor": "0ebe7193951a8d4f5c5c6d10f3e5de4c71698284",
+  "public_endpoint": "https://ama-cloud-01-555420096938.asia-southeast1.run.app",
+  "replay_id": "ama-demo-02-replay:0405530c1daa766618adcd02",
+  "research_semantics": "UNCHANGED",
+  "schema": "nma.ama-demo-02-runtime-manifest/1.0",
+  "silent_live_to_replay_substitution": false,
+  "supported_modes": [
+    "LIVE",
+    "REPLAY"
+  ],
+  "task": "AMA-DEMO-02",
+  "timing_ms": {
+    "authorization": 13.797,
+    "constraint_resolution": 0.168,
+    "end_to_end": 49085.398,
+    "evidence_projection": 20.722,
+    "gis_execution": 3.719,
+    "graphrag": 363.094,
+    "llm_planning": 48519.003,
+    "proposal_validation": 130.104,
+    "provenance": 0.396,
+    "verification": 0.418
+  }
+}

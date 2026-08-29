@@ -1,0 +1,114 @@
+{
+  "artifacts": {
+    "authorization.json": {
+      "bytes": 4606,
+      "sha256": "d25b702e2bded024057ed0a1314af008d6f501327073623466fca78d619b45fb"
+    },
+    "constraints.json": {
+      "bytes": 6890,
+      "sha256": "d6bb11e4359bb1880740d94ba2c375a710960cf3f457551f1252253065268463"
+    },
+    "domain-kg.json": {
+      "bytes": 4422,
+      "sha256": "16955b4d5545218957e334c0a1fdf60cff3633997064a7d7135c61e9fa6cac66"
+    },
+    "evidence-action-trace.json": {
+      "bytes": 21186,
+      "sha256": "dfd4b1e668f2c36d4627a05aa1f8b578e0821b054ab04a0a7524de85c3020124"
+    },
+    "execution.json": {
+      "bytes": 2709,
+      "sha256": "251c089e402eec409cfe1cd2716827e451923ce0865031a394b7204dc5b6838e"
+    },
+    "graph-retrieval.json": {
+      "bytes": 1418,
+      "sha256": "58dd8b5d51bd6791ad8305074517ed5f7d192bbf9847fa6d8675f86bfe79ffce"
+    },
+    "map-result.geojson": {
+      "bytes": 897,
+      "sha256": "a61be9e779eab716aae986a600b61f8c7ffdbfa0d4751e3101444afc06dde026"
+    },
+    "projected-evidence.json": {
+      "bytes": 10676,
+      "sha256": "ea5dc092665ec3b101990d8e743142b395d510fbbb8a1b2a7afbb7f32eda3caf"
+    },
+    "proposal.json": {
+      "bytes": 147266,
+      "sha256": "cb5d650edbc36e6c15899dbb03f6b798a14f06c37a5eb5979a2c98b95e776154"
+    },
+    "provenance.json": {
+      "bytes": 2315,
+      "sha256": "f2516453d8e722b08be516aa6b18020a92965dd9c7330541d070daed0ca63194"
+    },
+    "retrieved-subgraph.json": {
+      "bytes": 11067,
+      "sha256": "67760342ba6d23542dbdb02b83b3ecf0a5afe89bb134fd8298f0dc191e87b84d"
+    },
+    "rq1-comparison.json": {
+      "bytes": 25103,
+      "sha256": "3349fced1deb6397e72579b70fc2dc47530d75b1bb6fbdfa5653cd84d22c41c6"
+    },
+    "run.json": {
+      "bytes": 194691,
+      "sha256": "b8f708944a2f209c1445a31f0715da018f19ec53e58194b65079b5ddd6810acd"
+    },
+    "tamper-test.json": {
+      "bytes": 1418,
+      "sha256": "68d74ae5ee8f753bcd5427be273ed446f228084ae9fecb9bb47f8d0642aba02d"
+    },
+    "user-intent.json": {
+      "bytes": 746,
+      "sha256": "0ccaa1d61c28c94ac2143d774577fcf13ed41e216c0bfd87e184fe0cd154db39"
+    },
+    "verification.json": {
+      "bytes": 3271,
+      "sha256": "52225a37f6a7d71e390c629b04319ed835241780d085e0bd5a75b44ff275f0c6"
+    }
+  },
+  "authorized_proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+  "captured_at": "2026-08-29T09:27:41.170544Z",
+  "executed_proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+  "health": {
+    "deployment": "LIVE CLOUD RUN",
+    "fixture_sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+    "gpu_model_preloaded": true,
+    "graph": "nma-canonical-graph-v0.4",
+    "model": {
+      "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "digest_prefix": "845dbda0ea48",
+      "family": "qwen2",
+      "name": "qwen2.5:latest",
+      "parameter_size": "7.6B",
+      "quantization_level": "Q4_K_M"
+    },
+    "model_ready": true,
+    "ollama_version": "0.32.15",
+    "runtime": "AMA-CLOUD-01",
+    "status": "PASS",
+    "workspace": "isolated-writable"
+  },
+  "mode": "REPLAY",
+  "notice": "Previously verified cloud run; no new inference or execution.",
+  "proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+  "provenance_status": "PASS",
+  "replay_id": "ama-demo-02-replay:0405530c1daa766618adcd02",
+  "schema": "nma.ama-demo-02-replay-manifest/1.0",
+  "source_endpoint": "https://ama-cloud-01-555420096938.asia-southeast1.run.app",
+  "source_mode": "LIVE",
+  "source_run_id": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+  "submitted_at": "2026-08-29T09:26:50.001545Z",
+  "tamper_status": "PASS",
+  "timing_ms": {
+    "authorization": 13.797,
+    "constraint_resolution": 0.168,
+    "end_to_end": 49085.398,
+    "evidence_projection": 20.722,
+    "gis_execution": 3.719,
+    "graphrag": 363.094,
+    "llm_planning": 48519.003,
+    "proposal_validation": 130.104,
+    "provenance": 0.396,
+    "verification": 0.418
+  },
+  "verification_status": "PASS"
+}

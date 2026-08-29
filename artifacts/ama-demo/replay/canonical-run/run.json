@@ -1,0 +1,4985 @@
+{
+  "authorization": {
+    "allowed_tools": [
+      {
+        "step_id": "step:01-read-feature-001",
+        "tool": "rq2.feature.read/1.0"
+      },
+      {
+        "step_id": "step:02-validate-source-authority-001",
+        "tool": "rq2.source-authority.validate/1.0"
+      },
+      {
+        "step_id": "step:03-validate-geometry-type-001",
+        "tool": "rq2.geometry.validate/1.0"
+      },
+      {
+        "step_id": "step:04-derive-target-representation-001",
+        "tool": "rq2.representation.derive/1.0"
+      },
+      {
+        "step_id": "step:05-write-derived-artifact-001",
+        "tool": "rq2.artifact.write-derived/1.0"
+      },
+      {
+        "step_id": "step:06-verify-postconditions-001",
+        "tool": "rq2.postconditions.verify/1.0"
+      }
+    ],
+    "authorization_hash": "c3504b7b0f5c0ec946974ddd63307d03d715f9bed2b544d70c79bf4ceb09973b",
+    "authorization_id": "rq3-authorization:ama-live:8cbd368693ef4de0b40bd62b76bac9ba",
+    "authorized_scope": {
+      "authoritative_render": false,
+      "bounded_unresolved_constraint_ids": [
+        "constraint:guard.color-code-7-profile",
+        "constraint:guard.internal-glyph-trace",
+        "constraint:guard.line-code-2-metric",
+        "constraint:relationship.product_layer"
+      ],
+      "datasets": [
+        {
+          "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+          "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+        }
+      ],
+      "feature_ids": [
+        "hydrant-research-001"
+      ],
+      "layer_ids": [
+        "rq2-demo-01-fire-hydrant"
+      ],
+      "maximum_execution_count": 2,
+      "mutation_type": "ISOLATED_DERIVED_ARTIFACT_WRITE",
+      "operation_types": [
+        "read_feature",
+        "validate_source_authority",
+        "validate_geometry_type",
+        "derive_target_representation",
+        "write_derived_artifact",
+        "verify_postconditions"
+      ],
+      "output_destinations": [
+        "artifacts/rq3/runtime/{execution_id}/derived-feature.geojson"
+      ],
+      "replay_policy": "ONE_EXACT_IDEMPOTENT_REPLAY",
+      "source_access": "READ_ONLY"
+    },
+    "authorized_subject": {
+      "agent_id": "rq3-deterministic-executor/1.0",
+      "operator_id": "rq3-research-operator:ama-live-01",
+      "workflow_id": "rq3-demo-01-canonical-workflow"
+    },
+    "canonicalization": "nma-canonical-json-sort-keys-utf8-sha256;exclude=authorization_hash",
+    "decision": "APPROVED",
+    "issued_at": "2026-08-29T09:27:39.541236Z",
+    "issuer": {
+      "authority_semantics": "bounded-research-authorization-not-production-identity",
+      "issuer_id": "rq3-research-operator:ama-live-01",
+      "issuer_type": "DETERMINISTIC_RESEARCH_FIXTURE"
+    },
+    "parameter_bounds": {
+      "mode": "EXACT_PROPOSAL_VALUES",
+      "parameter_overrides_allowed": false,
+      "proposal_plan_identity": "7fb0d0c59f057ca776e0d30d0c26cd1bc04208ab66fc1f9ebb93f8ceabb614b4"
+    },
+    "policy_reference": {
+      "id": "data/specifications/rq3-trust-policy-v1.0.json",
+      "sha256": "81eda95af73bc16f3058b9e73fb2736941a3071271f1a7631fc3bb9d3e199631"
+    },
+    "proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+    "proposal_id": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+    "schema_version": "rq3-authorization/1.0",
+    "valid_until": "2026-08-29T09:57:39.541236Z"
+  },
+  "authorization_gate": {
+    "authorized_proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+    "checks": [
+      {
+        "check": "AUTHORIZATION_SCHEMA_VALID",
+        "status": "PASS"
+      },
+      {
+        "check": "PROPOSAL_HASH_RECOMPUTED_AND_MATCHED",
+        "status": "PASS"
+      },
+      {
+        "check": "AUTHORIZATION_HASH_RECOMPUTED_AND_MATCHED",
+        "status": "PASS"
+      },
+      {
+        "check": "AUTHORIZATION_DECISION_APPROVED",
+        "status": "PASS"
+      },
+      {
+        "check": "AUTHORIZATION_PROPOSAL_BOUND",
+        "status": "PASS"
+      },
+      {
+        "check": "TOOLS_AND_ORDER_AUTHORIZED",
+        "status": "PASS"
+      },
+      {
+        "check": "AUTHORIZED_SCOPE_EXACT",
+        "status": "PASS"
+      },
+      {
+        "check": "PARAMETER_BOUNDS_AUTHORIZED",
+        "status": "PASS"
+      },
+      {
+        "check": "AUTHORIZATION_TIME_VALID",
+        "status": "PASS"
+      },
+      {
+        "check": "SOURCE_READ_ONLY",
+        "status": "PASS"
+      }
+    ],
+    "mutation_allowed": true,
+    "recomputed_proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+    "schema_errors": [],
+    "status": "PASS"
+  },
+  "constraint_resolution_id": "ama-constraints:a5b391a00d2b4118adeb1143d3252fab",
+  "constraints": [
+    {
+      "constraint_id": "constraint:classification.feature_code",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": "9350906",
+      "source_evidence": [
+        "classification:doc01:9350906",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:geometry.type",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": "Point",
+      "source_evidence": [
+        "portrayal-geometry:Point",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:guard.authoritative_render",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "forbidden",
+      "resolved_value": false,
+      "source_evidence": [
+        "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:portrayal.color_code",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": "7",
+      "source_evidence": [
+        "portrayal-color:doc01:7",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:portrayal.line_code",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": "2",
+      "source_evidence": [
+        "line-style:doc01:2",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:portrayal.observed_color",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": "black",
+      "source_evidence": [
+        "portrayal-color:doc01:7",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:source.authority",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "required",
+      "resolved_value": [
+        {
+          "document_id": "document:doc01-portrayal",
+          "revision": "NLSC112V5.4",
+          "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620"
+        }
+      ],
+      "source_evidence": [
+        "document:doc01-portrayal"
+      ],
+      "status": "RESOLVED"
+    },
+    {
+      "constraint_id": "constraint:guard.color-code-7-profile",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "guard",
+      "resolved_value": null,
+      "source_evidence": [
+        "activation-gate:doc01:9350906:color-code-7-profile"
+      ],
+      "status": "BOUNDED_UNRESOLVED"
+    },
+    {
+      "constraint_id": "constraint:guard.internal-glyph-trace",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "guard",
+      "resolved_value": null,
+      "source_evidence": [
+        "activation-gate:doc01:9350906:internal-glyph-trace"
+      ],
+      "status": "BOUNDED_UNRESOLVED"
+    },
+    {
+      "constraint_id": "constraint:guard.line-code-2-metric",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "guard",
+      "resolved_value": null,
+      "source_evidence": [
+        "activation-gate:doc01:9350906:line-code-2-metric"
+      ],
+      "status": "BOUNDED_UNRESOLVED"
+    },
+    {
+      "constraint_id": "constraint:relationship.product_layer",
+      "plan_steps": [
+        "step:01-read-feature-001",
+        "step:02-validate-source-authority-001",
+        "step:03-validate-geometry-type-001",
+        "step:04-derive-target-representation-001",
+        "step:05-write-derived-artifact-001",
+        "step:06-verify-postconditions-001"
+      ],
+      "planner_consequence": "guard",
+      "resolved_value": null,
+      "source_evidence": [
+        "classification:doc01:9350906",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "status": "BOUNDED_UNRESOLVED"
+    }
+  ],
+  "constraints_raw": {
+    "contradicted": [],
+    "resolved": [
+      {
+        "authority_status": "authoritative_pending_review",
+        "constraint_id": "constraint:classification.feature_code",
+        "execution_effect": "required",
+        "expected_value": "9350906",
+        "predicate": "feature_code.equals",
+        "resolution_status": "resolved",
+        "source_evidence_refs": [
+          "classification:doc01:9350906",
+          "portrayal-recipe:doc01:9350906:review-v1",
+          "portrayal-rule:doc01:9350906"
+        ],
+        "subject": "input-feature",
+        "type": "classification"
+      },
+      {
+        "authority_status": "authoritative_pending_review",
+        "constraint_id": "constraint:geometry.type",
+        "execution_effect": "required",
+        "expected_value": "Point",
+        "predicate": "geometry_type.equals",
+        "resolution_status": "resolved",
+        "source_evidence_refs": [
+          "portrayal-geometry:Point",
+          "portrayal-recipe:doc01:9350906:review-v1",
+          "portrayal-rule:doc01:9350906"
+        ],
+        "subject": "input-feature.geometry",
+        "type": "geometry"
+      },
+      {
+        "authority_status": "authoritative_pending_review",
+        "constraint_id": "constraint:guard.authoritative_render",
+        "execution_effect": "forbidden",
+        "expected_value": false,
+        "predicate": "authoritative_render.allowed",
+        "resolution_status": "resolved",
+        "source_evidence_refs": [
+          "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+          "portrayal-recipe:doc01:9350906:review-v1",
+          "portrayal-rule:doc01:9350906"
+        ],
+        "subject": "authoritative-render",
+        "type": "execution_guard"
+      },
+      {
+        "authority_status": "authoritative_pending_review",
+        "constraint_id": "constraint:portrayal.color_code",
+        "execution_effect": "required",
+        "expected_value": "7",
+        "predicate": "color_code.equals",
+        "resolution_status": "resolved",
+        "source_evidence_refs": [
+          "portrayal-color:doc01:7",
+          "portrayal-rule:doc01:9350906"
+        ],
+        "subject": "derived-representation.portrayal",
+        "type": "portrayal"
+      },
+      {
+        "authority_status": "authoritative_pending_review",
+        "constraint_id": "constraint:portrayal.line_code",
+        "execution_effect": "required",
+        "expected_value": "2",
+        "predicate": "line_code.equals",
+        "resolution_status": "resolved",
+        "source_evidence_refs": [
+          "line-style:doc01:2",
+          "portrayal-rule:doc01:9350906"
+        ],
+        "subject": "derived-representation.portrayal",
+        "type": "portrayal"
+      },
+      {
+        "authority_status": "derived_from_authoritative",
+        "constraint_id": "constraint:portrayal.observed_color",
+        "execution_effect": "required",
+        "expected_value": "black",
+        "predicate": "observed_color.equals",
+        "resolution_status": "resolved",
+        "source_evidence_refs": [
+          "portrayal-color:doc01:7",
+          "portrayal-rule:doc01:9350906"
+        ],
+        "subject": "derived-representation.portrayal",
+        "type": "portrayal"
+      },
+      {
+        "authority_status": "authoritative",
+        "constraint_id": "constraint:source.authority",
+        "execution_effect": "required",
+        "expected_value": [
+          {
+            "document_id": "document:doc01-portrayal",
+            "revision": "NLSC112V5.4",
+            "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620"
+          }
+        ],
+        "predicate": "source_identity.accepted",
+        "resolution_status": "resolved",
+        "source_evidence_refs": [
+          "document:doc01-portrayal"
+        ],
+        "subject": "knowledge-evidence",
+        "type": "source_authority"
+      }
+    ],
+    "unresolved": [
+      {
+        "authority_status": "authoritative_pending_review",
+        "constraint_id": "constraint:guard.color-code-7-profile",
+        "execution_effect": "guard",
+        "expected_value": null,
+        "predicate": "color-code-7-profile.resolved",
+        "resolution_status": "unresolved",
+        "source_evidence_refs": [
+          "activation-gate:doc01:9350906:color-code-7-profile"
+        ],
+        "subject": "authoritative-render",
+        "type": "execution_guard"
+      },
+      {
+        "authority_status": "authoritative_pending_review",
+        "constraint_id": "constraint:guard.internal-glyph-trace",
+        "execution_effect": "guard",
+        "expected_value": null,
+        "predicate": "internal-glyph-trace.resolved",
+        "resolution_status": "unresolved",
+        "source_evidence_refs": [
+          "activation-gate:doc01:9350906:internal-glyph-trace"
+        ],
+        "subject": "authoritative-render",
+        "type": "execution_guard"
+      },
+      {
+        "authority_status": "authoritative_pending_review",
+        "constraint_id": "constraint:guard.line-code-2-metric",
+        "execution_effect": "guard",
+        "expected_value": null,
+        "predicate": "line-code-2-metric.resolved",
+        "resolution_status": "unresolved",
+        "source_evidence_refs": [
+          "activation-gate:doc01:9350906:line-code-2-metric"
+        ],
+        "subject": "authoritative-render",
+        "type": "execution_guard"
+      },
+      {
+        "authority_status": "authoritative_pending_review",
+        "constraint_id": "constraint:relationship.product_layer",
+        "execution_effect": "guard",
+        "expected_value": null,
+        "predicate": "product_layer.equals",
+        "resolution_status": "unresolved",
+        "source_evidence_refs": [
+          "classification:doc01:9350906",
+          "portrayal-rule:doc01:9350906"
+        ],
+        "subject": "input-feature",
+        "type": "relationship_binding"
+      }
+    ]
+  },
+  "created_at": "2026-08-29T09:26:50.496294Z",
+  "evidence": {
+    "citations": [
+      {
+        "citation_id": "citation:section:doc01-portrayal:p11",
+        "document_id": "document:doc01-portrayal",
+        "filename": "01-一千分之一地形圖圖式規格表.pdf",
+        "page": 11,
+        "printed_page": null,
+        "record_id": "DOC01-P11-HYDRANT",
+        "review_status": "source-row-and-symbol-cell-visually-verified",
+        "revision": "NLSC112V5.4",
+        "section_id": "section:doc01-portrayal:p11",
+        "source_sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620",
+        "source_text": null
+      }
+    ],
+    "edges": [
+      {
+        "source": "stage:aerial-triangulation",
+        "target": "stage:feature-survey",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "stage:vector-revision",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:aerial-triangulation",
+        "target": "stage:feature-survey",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "stage:field-completion",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:aerial-triangulation",
+        "target": "stage:feature-survey",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:contour-mapping",
+        "target": "stage:feature-survey",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "stage:field-completion",
+        "type": "PRECEDES"
+      },
+      {
+        "source": "classification:doc01:9350906",
+        "target": "portrayal-rule:doc01:9350906",
+        "type": "PORTRAYED_BY"
+      },
+      {
+        "source": "document:doc01-portrayal",
+        "target": "section:doc01-portrayal:p11",
+        "type": "CONTAINS"
+      },
+      {
+        "source": "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+        "target": "portrayal-rule:doc01:9350906",
+        "type": "DEFINES"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "activation-gate:doc01:9350906:color-code-7-profile",
+        "type": "BLOCKED_BY"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "activation-gate:doc01:9350906:internal-glyph-trace",
+        "type": "BLOCKED_BY"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "activation-gate:doc01:9350906:line-code-2-metric",
+        "type": "BLOCKED_BY"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "portrayal-geometry:Point",
+        "type": "APPLIES_TO_GEOMETRY"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "portrayal-rule:doc01:9350906",
+        "type": "TRANSCRIBES_RULE"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "review-asset:doc01:fire-hydrant-v1",
+        "type": "HAS_REVIEW_ASSET"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "section:doc01-portrayal:p11",
+        "type": "EVIDENCED_ON"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "vector-primitive:doc01:9350906:01:outer-box",
+        "type": "COMPOSED_OF"
+      },
+      {
+        "source": "portrayal-recipe:doc01:9350906:review-v1",
+        "target": "vector-primitive:doc01:9350906:02:hydrant-glyph",
+        "type": "COMPOSED_OF"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "line-style:doc01:2",
+        "type": "USES_LINE_STYLE"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "portrayal-color:doc01:7",
+        "type": "USES_COLOR"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "portrayal-geometry:Point",
+        "type": "APPLIES_TO_GEOMETRY"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "section:doc01-portrayal:p11",
+        "type": "EVIDENCED_ON"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "stage:feature-survey",
+        "type": "PRODUCED_DURING"
+      },
+      {
+        "source": "portrayal-rule:doc01:9350906",
+        "target": "symbol:doc01:fire-hydrant",
+        "type": "USES_SYMBOL"
+      },
+      {
+        "source": "quality-item:doc03-207",
+        "target": "stage:feature-survey",
+        "type": "VALIDATES"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "concept:feature-concept",
+        "type": "OBSERVES"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "method:stereo-plotting",
+        "type": "USES_METHOD"
+      },
+      {
+        "source": "stage:feature-survey",
+        "target": "product:observed-features",
+        "type": "PRODUCES"
+      },
+      {
+        "source": "symbol:doc01:fire-hydrant",
+        "target": "section:doc01-portrayal:p11",
+        "type": "DERIVED_FROM"
+      },
+      {
+        "source": "workflow:tw-temap-vector-update",
+        "target": "stage:feature-survey",
+        "type": "INCLUDES"
+      },
+      {
+        "source": "workflow:tw-topo-1000-new-production",
+        "target": "stage:feature-survey",
+        "type": "INCLUDES"
+      },
+      {
+        "source": "workflow:tw-topo-5000-production-update",
+        "target": "stage:feature-survey",
+        "type": "INCLUDES"
+      }
+    ],
+    "evidence_ids": [
+      "activation-gate:doc01:9350906:color-code-7-profile",
+      "activation-gate:doc01:9350906:internal-glyph-trace",
+      "activation-gate:doc01:9350906:line-code-2-metric",
+      "classification:doc01:9350906",
+      "document:doc01-portrayal",
+      "line-style:doc01:2",
+      "portrayal-color:doc01:7",
+      "portrayal-geometry:Point",
+      "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+      "portrayal-recipe:doc01:9350906:review-v1",
+      "portrayal-rule:doc01:9350906"
+    ],
+    "knowledge_snapshot_identity": {
+      "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+      "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+    },
+    "nodes": [
+      {
+        "id": "activation-gate:doc01:9350906:color-code-7-profile",
+        "properties": {},
+        "type": "ActivationGate"
+      },
+      {
+        "id": "activation-gate:doc01:9350906:internal-glyph-trace",
+        "properties": {},
+        "type": "ActivationGate"
+      },
+      {
+        "id": "activation-gate:doc01:9350906:line-code-2-metric",
+        "properties": {},
+        "type": "ActivationGate"
+      },
+      {
+        "id": "classification:doc01:9350906",
+        "properties": {
+          "code": "9350906",
+          "label": "消防栓"
+        },
+        "type": "ClassificationCode"
+      },
+      {
+        "id": "concept:feature-concept",
+        "properties": {
+          "name": "圖徵"
+        },
+        "type": "FeatureConcept"
+      },
+      {
+        "id": "document:doc01-portrayal",
+        "properties": {},
+        "type": "SpecificationDocument"
+      },
+      {
+        "id": "line-style:doc01:2",
+        "properties": {
+          "code": "2"
+        },
+        "type": "LineStyleReference"
+      },
+      {
+        "id": "method:stereo-plotting",
+        "properties": {
+          "name": "立體測圖"
+        },
+        "type": "ProductionMethod"
+      },
+      {
+        "id": "portrayal-color:doc01:7",
+        "properties": {
+          "code": "7",
+          "observed_color": "black"
+        },
+        "type": "PortrayalColorReference"
+      },
+      {
+        "id": "portrayal-geometry:Point",
+        "properties": {
+          "name": "Point"
+        },
+        "type": "PortrayalGeometryRole"
+      },
+      {
+        "id": "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+        "properties": {
+          "activation_status": "non-executable",
+          "name": "一千分之一地形圖圖式規格"
+        },
+        "type": "PortrayalProfile"
+      },
+      {
+        "id": "portrayal-recipe:doc01:9350906:review-v1",
+        "properties": {
+          "activation_status": "non-executable-review-candidate",
+          "feature_code": "9350906",
+          "feature_name": "消防栓",
+          "geometry_role": "Point"
+        },
+        "type": "PortrayalRecipe"
+      },
+      {
+        "id": "portrayal-rule:doc01:9350906",
+        "properties": {
+          "activation_status": "non-executable",
+          "color_code": "7",
+          "feature_code": "9350906",
+          "feature_name": "消防栓",
+          "geometry_role": "Point",
+          "line_code": "2",
+          "observed_color": "black"
+        },
+        "type": "PortrayalRule"
+      },
+      {
+        "id": "product:observed-features",
+        "properties": {
+          "name": "地物向量與編碼"
+        },
+        "type": "ProductionArtifact"
+      },
+      {
+        "id": "quality-item:doc03-207",
+        "properties": {
+          "code": "207",
+          "name": "立體測圖品質"
+        },
+        "type": "QualityInspectionItem"
+      },
+      {
+        "id": "review-asset:doc01:fire-hydrant-v1",
+        "properties": {},
+        "type": "ReviewCandidateAsset"
+      },
+      {
+        "id": "section:doc01-portrayal:p11",
+        "properties": {},
+        "type": "DocumentSection"
+      },
+      {
+        "id": "stage:aerial-triangulation",
+        "properties": {
+          "name": "空中三角測量/平差"
+        },
+        "type": "ProductionStage"
+      },
+      {
+        "id": "stage:contour-mapping",
+        "properties": {
+          "name": "等高線測繪"
+        },
+        "type": "ProductionStage"
+      },
+      {
+        "id": "stage:feature-survey",
+        "properties": {
+          "name": "地物測繪/數值立體測圖"
+        },
+        "type": "ProductionStage"
+      },
+      {
+        "id": "stage:field-completion",
+        "properties": {
+          "name": "調繪補測"
+        },
+        "type": "ProductionStage"
+      },
+      {
+        "id": "stage:vector-revision",
+        "properties": {
+          "name": "向量圖資修測"
+        },
+        "type": "ProductionStage"
+      },
+      {
+        "id": "symbol:doc01:fire-hydrant",
+        "properties": {},
+        "type": "Symbol"
+      },
+      {
+        "id": "vector-primitive:doc01:9350906:01:outer-box",
+        "properties": {},
+        "type": "VectorPrimitive"
+      },
+      {
+        "id": "vector-primitive:doc01:9350906:02:hydrant-glyph",
+        "properties": {},
+        "type": "VectorPrimitive"
+      },
+      {
+        "id": "workflow:tw-temap-vector-update",
+        "properties": {
+          "name": "臺灣通用電子地圖測製更新"
+        },
+        "type": "ProductionWorkflow"
+      },
+      {
+        "id": "workflow:tw-topo-1000-new-production",
+        "properties": {
+          "name": "1:1,000 數值航測地形圖測製"
+        },
+        "type": "ProductionWorkflow"
+      },
+      {
+        "id": "workflow:tw-topo-5000-production-update",
+        "properties": {
+          "name": "1:5,000 基本地形圖測製/修測"
+        },
+        "type": "ProductionWorkflow"
+      }
+    ],
+    "projected_node_count": 11,
+    "projection_id": "ama-evidence-projection:8282892f50614a2aa3e51ea42aaf3b79",
+    "retrieval_identity": {
+      "id": "rq2-demo-01-retrieval-package",
+      "sha256": "f25d6153e58487b6da50335dd68cbc5ccecee19b934083037a076e80f59f4008"
+    }
+  },
+  "execution": {
+    "derived_artifact": {
+      "id": "derived-artifact:rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+      "sha256": "0e3ec31b8dae302c70b0e4cd8f63f928af31c1a944a5032047ebefb76904c5cd"
+    },
+    "execution_id": "ama-execution:655da45150184670913eedcf39419e47",
+    "execution_latency_ms": 4,
+    "execution_receipt": {
+      "id": "execution-receipt:rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+      "sha256": "ebf577738d882b264f12b4f9f3bffe14236cc999f63d93355e878b52c3df81a5"
+    },
+    "executor_version": "rq2-deterministic-gis-executor/1.0",
+    "mutation_started": true,
+    "output_root": "/tmp/ama-runtime/ama-live-run:2491a89d5dd2483abed5e6da02dd7144/result",
+    "precondition_gate": {
+      "critical_contradictions_absent": true,
+      "feature_read": true,
+      "geometry_compatible": true,
+      "output_absent": true,
+      "product_layer_unresolved": true,
+      "proposal_hash_valid": true,
+      "research_authorization_bound": true,
+      "source_authority_evidence_bound": true,
+      "source_hash_matches": true
+    },
+    "reason_codes": [],
+    "status": "PASS",
+    "tool_calls": [
+      {
+        "mutation": false,
+        "status": "PASS",
+        "step_id": "step:01-read-feature-001",
+        "tool": "rq2.feature.read/1.0"
+      },
+      {
+        "matched_evidence_refs": [
+          "activation-gate:doc01:9350906:color-code-7-profile",
+          "activation-gate:doc01:9350906:internal-glyph-trace",
+          "activation-gate:doc01:9350906:line-code-2-metric",
+          "classification:doc01:9350906",
+          "document:doc01-portrayal",
+          "line-style:doc01:2",
+          "portrayal-color:doc01:7",
+          "portrayal-geometry:Point",
+          "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+          "portrayal-recipe:doc01:9350906:review-v1",
+          "portrayal-rule:doc01:9350906"
+        ],
+        "mutation": false,
+        "status": "PASS",
+        "step_id": "step:02-validate-source-authority-001",
+        "tool": "rq2.source-authority.validate/1.0"
+      },
+      {
+        "mutation": false,
+        "observed_geometry_type": "Point",
+        "status": "PASS",
+        "step_id": "step:03-validate-geometry-type-001",
+        "tool": "rq2.geometry.validate/1.0"
+      },
+      {
+        "mutation": false,
+        "output_identity": "427dfb0bc8a518605429f8905bc67f7a9578b472d7df648800b0b53446f243da",
+        "status": "PASS",
+        "step_id": "step:04-derive-target-representation-001",
+        "tool": "rq2.representation.derive/1.0"
+      },
+      {
+        "created": "derived-feature.geojson",
+        "mutation": true,
+        "sha256": "0e3ec31b8dae302c70b0e4cd8f63f928af31c1a944a5032047ebefb76904c5cd",
+        "status": "PASS",
+        "step_id": "step:05-write-derived-artifact-001",
+        "tool": "rq2.artifact.write-derived/1.0"
+      }
+    ]
+  },
+  "intent": "Create a safe symbolic derived fire-hydrant feature for classification 9350906 using reviewed knowledge, preserve unresolved ProductLayer and physical portrayal gates, and leave the authoritative source unchanged.",
+  "mode": "LIVE",
+  "plan": {
+    "model_identity": "ollama:qwen2.5:latest@sha256:845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e;7.6B;Q4_K_M;ctx=8192;out=2048;temperature=0",
+    "model_observed": {
+      "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "digest_prefix": "845dbda0ea48",
+      "family": "qwen2",
+      "name": "qwen2.5:latest",
+      "parameter_size": "7.6B",
+      "quantization_level": "Q4_K_M"
+    },
+    "model_trace": {
+      "context_budget": {
+        "available_input_tokens": 6144,
+        "budget_status": "PASS",
+        "context_window": 8192,
+        "estimator": "qwen-utf8-byte-estimate-plus-20pct-safety/1.0",
+        "fits": true,
+        "observed_input_margin": 3404,
+        "observed_prompt_tokens": 2740,
+        "observed_within_input_budget": true,
+        "prompt_token_estimate": 4289,
+        "remaining_input_margin": 1855,
+        "reserved_output_tokens": 2048,
+        "silent_truncation": false,
+        "truncation_expected": false
+      },
+      "latency_ms": 48518,
+      "model_id": "qwen2.5:latest",
+      "planner_identity": "rq2-provider-neutral-plan-composer/1.0",
+      "planning_latency_ms": 48519,
+      "provider": "ollama",
+      "raw_response_hash": "b39599cdbd498bea397c533291c428cf3ac6dbbfc6e7154d1b76a0846d3fb578",
+      "temperature": 0,
+      "usage": {
+        "input_tokens": 2740,
+        "output_tokens": 786
+      }
+    },
+    "plan_id": "ama-plan:c563de4b15cb4fb382fdf1515bb73e02",
+    "planner_identity": "rq2-provider-neutral-plan-composer/1.0",
+    "provider_metrics": {
+      "eval_count": 786,
+      "eval_duration_ms": 19290.489,
+      "load_duration_ms": 1.55,
+      "prompt_eval_count": 2740,
+      "prompt_eval_duration_ms": 29196.272,
+      "total_duration_ms": 48517.079
+    },
+    "raw": {
+      "constraint_refs": [
+        "constraint:classification.feature_code",
+        "constraint:geometry.type",
+        "constraint:guard.authoritative_render",
+        "constraint:portrayal.color_code",
+        "constraint:portrayal.line_code",
+        "constraint:portrayal.observed_color",
+        "constraint:source.authority",
+        "constraint:guard.color-code-7-profile",
+        "constraint:guard.internal-glyph-trace",
+        "constraint:guard.line-code-2-metric",
+        "constraint:relationship.product_layer"
+      ],
+      "execution_status": "PROCEED_WITH_BOUNDED_UNRESOLVED",
+      "expected_postcondition_ids": [
+        "classification_exact",
+        "geometry_point_unchanged",
+        "line_style_exact",
+        "color_code_exact",
+        "observed_color_exact",
+        "source_authority_evidence_bound",
+        "product_layer_unresolved",
+        "physical_gates_unresolved",
+        "operations_match_plan",
+        "receipt_bound_to_proposal",
+        "source_unchanged",
+        "declared_files_only"
+      ],
+      "normalized_goal": "Create a safe symbolic derived fire-hydrant feature for classification 9350906",
+      "precondition_ids": [
+        "input_identity_known",
+        "source_readable_hash_matches",
+        "critical_constraints_resolved",
+        "no_critical_contradictions",
+        "geometry_compatible",
+        "tool_allowlist_bound",
+        "roots_disjoint",
+        "proposal_hash_valid",
+        "research_authorization_valid",
+        "unresolved_guards_bounded",
+        "knowledge_snapshot_known"
+      ],
+      "reason_codes": [
+        "CONSTRAINT_UNRESOLVED",
+        "ALL_EXECUTION_CRITICAL_CONSTRAINTS_RESOLVED"
+      ],
+      "semantic_values": {
+        "classification": "9350906",
+        "color_code": "7",
+        "geometry": "Point",
+        "line_style": "2",
+        "observed_color": "black",
+        "product_layer": null,
+        "source_authority_handled": true
+      },
+      "steps": [
+        {
+          "operation": "read_feature",
+          "step_id": "read-feature-001",
+          "tool": "rq2.feature.read/1.0",
+          "trace_basis": [
+            "user_intent"
+          ]
+        },
+        {
+          "operation": "validate_source_authority",
+          "step_id": "validate-source-authority-001",
+          "tool": "rq2.source-authority.validate/1.0",
+          "trace_basis": [
+            "knowledge_constraint",
+            "deterministic_execution_requirement"
+          ]
+        },
+        {
+          "operation": "validate_geometry_type",
+          "step_id": "validate-geometry-type-001",
+          "tool": "rq2.geometry.validate/1.0",
+          "trace_basis": [
+            "knowledge_constraint",
+            "deterministic_execution_requirement"
+          ]
+        },
+        {
+          "operation": "derive_target_representation",
+          "step_id": "derive-target-representation-001",
+          "tool": "rq2.representation.derive/1.0",
+          "trace_basis": [
+            "user_intent",
+            "knowledge_constraint"
+          ]
+        },
+        {
+          "operation": "write_derived_artifact",
+          "step_id": "write-derived-artifact-001",
+          "tool": "rq2.artifact.write-derived/1.0",
+          "trace_basis": [
+            "user_intent",
+            "knowledge_constraint"
+          ]
+        },
+        {
+          "operation": "verify_postconditions",
+          "step_id": "verify-postconditions-001",
+          "tool": "rq2.postconditions.verify/1.0",
+          "trace_basis": [
+            "user_intent",
+            "knowledge_constraint",
+            "verification_requirement"
+          ]
+        }
+      ]
+    }
+  },
+  "proposal": {
+    "constraints": {
+      "contradicted": [],
+      "resolved": [
+        {
+          "authority_status": "authoritative_pending_review",
+          "constraint_id": "constraint:classification.feature_code",
+          "execution_effect": "required",
+          "expected_value": "9350906",
+          "predicate": "feature_code.equals",
+          "resolution_status": "resolved",
+          "source_evidence_refs": [
+            "classification:doc01:9350906",
+            "portrayal-recipe:doc01:9350906:review-v1",
+            "portrayal-rule:doc01:9350906"
+          ],
+          "subject": "input-feature",
+          "type": "classification"
+        },
+        {
+          "authority_status": "authoritative_pending_review",
+          "constraint_id": "constraint:geometry.type",
+          "execution_effect": "required",
+          "expected_value": "Point",
+          "predicate": "geometry_type.equals",
+          "resolution_status": "resolved",
+          "source_evidence_refs": [
+            "portrayal-geometry:Point",
+            "portrayal-recipe:doc01:9350906:review-v1",
+            "portrayal-rule:doc01:9350906"
+          ],
+          "subject": "input-feature.geometry",
+          "type": "geometry"
+        },
+        {
+          "authority_status": "authoritative_pending_review",
+          "constraint_id": "constraint:guard.authoritative_render",
+          "execution_effect": "forbidden",
+          "expected_value": false,
+          "predicate": "authoritative_render.allowed",
+          "resolution_status": "resolved",
+          "source_evidence_refs": [
+            "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+            "portrayal-recipe:doc01:9350906:review-v1",
+            "portrayal-rule:doc01:9350906"
+          ],
+          "subject": "authoritative-render",
+          "type": "execution_guard"
+        },
+        {
+          "authority_status": "authoritative_pending_review",
+          "constraint_id": "constraint:portrayal.color_code",
+          "execution_effect": "required",
+          "expected_value": "7",
+          "predicate": "color_code.equals",
+          "resolution_status": "resolved",
+          "source_evidence_refs": [
+            "portrayal-color:doc01:7",
+            "portrayal-rule:doc01:9350906"
+          ],
+          "subject": "derived-representation.portrayal",
+          "type": "portrayal"
+        },
+        {
+          "authority_status": "authoritative_pending_review",
+          "constraint_id": "constraint:portrayal.line_code",
+          "execution_effect": "required",
+          "expected_value": "2",
+          "predicate": "line_code.equals",
+          "resolution_status": "resolved",
+          "source_evidence_refs": [
+            "line-style:doc01:2",
+            "portrayal-rule:doc01:9350906"
+          ],
+          "subject": "derived-representation.portrayal",
+          "type": "portrayal"
+        },
+        {
+          "authority_status": "derived_from_authoritative",
+          "constraint_id": "constraint:portrayal.observed_color",
+          "execution_effect": "required",
+          "expected_value": "black",
+          "predicate": "observed_color.equals",
+          "resolution_status": "resolved",
+          "source_evidence_refs": [
+            "portrayal-color:doc01:7",
+            "portrayal-rule:doc01:9350906"
+          ],
+          "subject": "derived-representation.portrayal",
+          "type": "portrayal"
+        },
+        {
+          "authority_status": "authoritative",
+          "constraint_id": "constraint:source.authority",
+          "execution_effect": "required",
+          "expected_value": [
+            {
+              "document_id": "document:doc01-portrayal",
+              "revision": "NLSC112V5.4",
+              "sha256": "1f9c4457d7ced86f2b7681e21be9ad3b7b7ae364981ab995ef27b468e0fa2620"
+            }
+          ],
+          "predicate": "source_identity.accepted",
+          "resolution_status": "resolved",
+          "source_evidence_refs": [
+            "document:doc01-portrayal"
+          ],
+          "subject": "knowledge-evidence",
+          "type": "source_authority"
+        }
+      ],
+      "unresolved": [
+        {
+          "authority_status": "authoritative_pending_review",
+          "constraint_id": "constraint:guard.color-code-7-profile",
+          "execution_effect": "guard",
+          "expected_value": null,
+          "predicate": "color-code-7-profile.resolved",
+          "resolution_status": "unresolved",
+          "source_evidence_refs": [
+            "activation-gate:doc01:9350906:color-code-7-profile"
+          ],
+          "subject": "authoritative-render",
+          "type": "execution_guard"
+        },
+        {
+          "authority_status": "authoritative_pending_review",
+          "constraint_id": "constraint:guard.internal-glyph-trace",
+          "execution_effect": "guard",
+          "expected_value": null,
+          "predicate": "internal-glyph-trace.resolved",
+          "resolution_status": "unresolved",
+          "source_evidence_refs": [
+            "activation-gate:doc01:9350906:internal-glyph-trace"
+          ],
+          "subject": "authoritative-render",
+          "type": "execution_guard"
+        },
+        {
+          "authority_status": "authoritative_pending_review",
+          "constraint_id": "constraint:guard.line-code-2-metric",
+          "execution_effect": "guard",
+          "expected_value": null,
+          "predicate": "line-code-2-metric.resolved",
+          "resolution_status": "unresolved",
+          "source_evidence_refs": [
+            "activation-gate:doc01:9350906:line-code-2-metric"
+          ],
+          "subject": "authoritative-render",
+          "type": "execution_guard"
+        },
+        {
+          "authority_status": "authoritative_pending_review",
+          "constraint_id": "constraint:relationship.product_layer",
+          "execution_effect": "guard",
+          "expected_value": null,
+          "predicate": "product_layer.equals",
+          "resolution_status": "unresolved",
+          "source_evidence_refs": [
+            "classification:doc01:9350906",
+            "portrayal-rule:doc01:9350906"
+          ],
+          "subject": "input-feature",
+          "type": "relationship_binding"
+        }
+      ]
+    },
+    "decision": {
+      "execution_status": "PROCEED_WITH_BOUNDED_UNRESOLVED",
+      "reason_codes": [
+        "CONSTRAINT_UNRESOLVED",
+        "ALL_EXECUTION_CRITICAL_CONSTRAINTS_RESOLVED"
+      ]
+    },
+    "expected_final_state": {
+      "derived_artifact": {
+        "authoritative_render": false,
+        "kind": "symbolic-fire-hydrant-research-feature",
+        "semantic_values": {
+          "classification": "9350906",
+          "color_code": "7",
+          "geometry": "Point",
+          "line_style": "2",
+          "observed_color": "black",
+          "product_layer": null,
+          "source_authority_handled": true
+        }
+      },
+      "source_unchanged": true,
+      "verification_required": true
+    },
+    "expected_postconditions": [
+      {
+        "condition_id": "postcondition:top:classification_exact",
+        "constraint_refs": [
+          "constraint:classification.feature_code"
+        ],
+        "expected_value": "9350906",
+        "predicate": "classification.equals",
+        "subject": "derived-feature",
+        "type": "attribute"
+      },
+      {
+        "condition_id": "postcondition:top:geometry_point_unchanged",
+        "constraint_refs": [
+          "constraint:geometry.type"
+        ],
+        "expected_value": "Point",
+        "predicate": "geometry.equals_source",
+        "subject": "derived-feature.geometry",
+        "type": "geometry"
+      },
+      {
+        "condition_id": "postcondition:top:line_style_exact",
+        "constraint_refs": [
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color"
+        ],
+        "expected_value": "2",
+        "predicate": "line_style.equals",
+        "subject": "derived-feature.portrayal",
+        "type": "attribute"
+      },
+      {
+        "condition_id": "postcondition:top:color_code_exact",
+        "constraint_refs": [
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color"
+        ],
+        "expected_value": "7",
+        "predicate": "color_code.equals",
+        "subject": "derived-feature.portrayal",
+        "type": "attribute"
+      },
+      {
+        "condition_id": "postcondition:top:observed_color_exact",
+        "constraint_refs": [
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color"
+        ],
+        "expected_value": "black",
+        "predicate": "observed_color.equals",
+        "subject": "derived-feature.portrayal",
+        "type": "attribute"
+      },
+      {
+        "condition_id": "postcondition:top:source_authority_evidence_bound",
+        "constraint_refs": [
+          "constraint:source.authority"
+        ],
+        "expected_value": true,
+        "predicate": "source_authority.evidence_bound",
+        "subject": "derived-feature",
+        "type": "authority"
+      },
+      {
+        "condition_id": "postcondition:top:product_layer_unresolved",
+        "constraint_refs": [
+          "constraint:relationship.product_layer"
+        ],
+        "expected_value": null,
+        "predicate": "product_layer.equals",
+        "subject": "derived-feature",
+        "type": "binding"
+      },
+      {
+        "condition_id": "postcondition:top:physical_gates_unresolved",
+        "constraint_refs": [
+          "constraint:guard.authoritative_render",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric"
+        ],
+        "expected_value": true,
+        "predicate": "physical_portrayal_gates.unresolved",
+        "subject": "derived-feature",
+        "type": "binding"
+      },
+      {
+        "condition_id": "postcondition:top:operations_match_plan",
+        "constraint_refs": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:relationship.product_layer",
+          "constraint:source.authority"
+        ],
+        "expected_value": true,
+        "predicate": "operations.match_plan",
+        "subject": "execution-receipt",
+        "type": "verification"
+      },
+      {
+        "condition_id": "postcondition:top:receipt_bound_to_proposal",
+        "constraint_refs": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:relationship.product_layer",
+          "constraint:source.authority"
+        ],
+        "expected_value": true,
+        "predicate": "proposal_hash.bound",
+        "subject": "execution-receipt",
+        "type": "identity"
+      },
+      {
+        "condition_id": "postcondition:top:source_unchanged",
+        "constraint_refs": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:relationship.product_layer",
+          "constraint:source.authority"
+        ],
+        "expected_value": true,
+        "predicate": "source_hash.unchanged",
+        "subject": "input-feature",
+        "type": "mutation"
+      },
+      {
+        "condition_id": "postcondition:top:declared_files_only",
+        "constraint_refs": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:relationship.product_layer",
+          "constraint:source.authority"
+        ],
+        "expected_value": true,
+        "predicate": "unexpected_files.absent",
+        "subject": "isolated-output",
+        "type": "mutation"
+      }
+    ],
+    "intent": {
+      "intent_id": "intent:sha256:62210e4dbf382cff4e33d0e64de56bb2b4ef30ad352c3799c9ff23290ec39533",
+      "normalized_goal": "Create a safe symbolic derived fire-hydrant feature for classification 9350906",
+      "raw_text": "Create a safe symbolic derived fire-hydrant feature for classification 9350906 using reviewed knowledge, preserve unresolved ProductLayer and physical portrayal gates, and leave the authoritative source unchanged."
+    },
+    "knowledge": {
+      "evidence_refs": [
+        "activation-gate:doc01:9350906:color-code-7-profile",
+        "activation-gate:doc01:9350906:internal-glyph-trace",
+        "activation-gate:doc01:9350906:line-code-2-metric",
+        "classification:doc01:9350906",
+        "document:doc01-portrayal",
+        "line-style:doc01:2",
+        "portrayal-color:doc01:7",
+        "portrayal-geometry:Point",
+        "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "knowledge_snapshot_identity": {
+        "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+        "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+      },
+      "mode": "graphrag",
+      "retrieval_identity": {
+        "id": "rq2-demo-01-retrieval-package",
+        "sha256": "f25d6153e58487b6da50335dd68cbc5ccecee19b934083037a076e80f59f4008"
+      }
+    },
+    "plan": [
+      {
+        "constraint_refs": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:source.authority",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:relationship.product_layer"
+        ],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:01:classification_exact",
+            "constraint_refs": [
+              "constraint:classification.feature_code"
+            ],
+            "expected_value": "9350906",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:01:geometry_point_unchanged",
+            "constraint_refs": [
+              "constraint:geometry.type"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:01:line_style_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "2",
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:01:color_code_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "7",
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:01:observed_color_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "black",
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:01:source_authority_evidence_bound",
+            "constraint_refs": [
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:01:product_layer_unresolved",
+            "constraint_refs": [
+              "constraint:relationship.product_layer"
+            ],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:01:physical_gates_unresolved",
+            "constraint_refs": [
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric"
+            ],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:01:operations_match_plan",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:01:receipt_bound_to_proposal",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:01:source_unchanged",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:01:declared_files_only",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          },
+          {
+            "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+            "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+          }
+        ],
+        "inputs": {
+          "artifact_identity": {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          },
+          "feature_selector": "hydrant-research-001"
+        },
+        "operation": "read_feature",
+        "preconditions": [
+          {
+            "condition_id": "precondition:01:input_identity_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:01:source_readable_hash_matches",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:01:critical_constraints_resolved",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:01:no_critical_contradictions",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:01:geometry_compatible",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:01:tool_allowlist_bound",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:01:roots_disjoint",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:01:proposal_hash_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:01:research_authorization_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:01:unresolved_guards_bounded",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:01:knowledge_snapshot_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+              "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+            },
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:01-read-feature-001",
+        "tool": "rq2.feature.read/1.0",
+        "trace_basis": [
+          "user_intent"
+        ]
+      },
+      {
+        "constraint_refs": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:source.authority",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:relationship.product_layer"
+        ],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:02:classification_exact",
+            "constraint_refs": [
+              "constraint:classification.feature_code"
+            ],
+            "expected_value": "9350906",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:02:geometry_point_unchanged",
+            "constraint_refs": [
+              "constraint:geometry.type"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:02:line_style_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "2",
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:02:color_code_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "7",
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:02:observed_color_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "black",
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:02:source_authority_evidence_bound",
+            "constraint_refs": [
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:02:product_layer_unresolved",
+            "constraint_refs": [
+              "constraint:relationship.product_layer"
+            ],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:02:physical_gates_unresolved",
+            "constraint_refs": [
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric"
+            ],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:02:operations_match_plan",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:02:receipt_bound_to_proposal",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:02:source_unchanged",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:02:declared_files_only",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          },
+          {
+            "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+            "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+          }
+        ],
+        "inputs": {
+          "evidence_refs": [
+            "activation-gate:doc01:9350906:color-code-7-profile",
+            "activation-gate:doc01:9350906:internal-glyph-trace",
+            "activation-gate:doc01:9350906:line-code-2-metric",
+            "classification:doc01:9350906",
+            "document:doc01-portrayal",
+            "line-style:doc01:2",
+            "portrayal-color:doc01:7",
+            "portrayal-geometry:Point",
+            "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+            "portrayal-recipe:doc01:9350906:review-v1",
+            "portrayal-rule:doc01:9350906"
+          ],
+          "knowledge_snapshot_identity": {
+            "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+            "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+          },
+          "source_identity": {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          }
+        },
+        "operation": "validate_source_authority",
+        "preconditions": [
+          {
+            "condition_id": "precondition:02:input_identity_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:02:source_readable_hash_matches",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:02:critical_constraints_resolved",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:02:no_critical_contradictions",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:02:geometry_compatible",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:02:tool_allowlist_bound",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:02:roots_disjoint",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:02:proposal_hash_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:02:research_authorization_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:02:unresolved_guards_bounded",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:02:knowledge_snapshot_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+              "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+            },
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:02-validate-source-authority-001",
+        "tool": "rq2.source-authority.validate/1.0",
+        "trace_basis": [
+          "knowledge_constraint",
+          "deterministic_execution_requirement"
+        ]
+      },
+      {
+        "constraint_refs": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:source.authority",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:relationship.product_layer"
+        ],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:03:classification_exact",
+            "constraint_refs": [
+              "constraint:classification.feature_code"
+            ],
+            "expected_value": "9350906",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:03:geometry_point_unchanged",
+            "constraint_refs": [
+              "constraint:geometry.type"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:03:line_style_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "2",
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:03:color_code_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "7",
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:03:observed_color_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "black",
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:03:source_authority_evidence_bound",
+            "constraint_refs": [
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:03:product_layer_unresolved",
+            "constraint_refs": [
+              "constraint:relationship.product_layer"
+            ],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:03:physical_gates_unresolved",
+            "constraint_refs": [
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric"
+            ],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:03:operations_match_plan",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:03:receipt_bound_to_proposal",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:03:source_unchanged",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:03:declared_files_only",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          },
+          {
+            "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+            "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+          }
+        ],
+        "inputs": {
+          "expected_geometry_type": "Point",
+          "feature_snapshot_identity": {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          }
+        },
+        "operation": "validate_geometry_type",
+        "preconditions": [
+          {
+            "condition_id": "precondition:03:input_identity_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:03:source_readable_hash_matches",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:03:critical_constraints_resolved",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:03:no_critical_contradictions",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:03:geometry_compatible",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:03:tool_allowlist_bound",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:03:roots_disjoint",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:03:proposal_hash_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:03:research_authorization_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:03:unresolved_guards_bounded",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:03:knowledge_snapshot_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+              "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+            },
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:03-validate-geometry-type-001",
+        "tool": "rq2.geometry.validate/1.0",
+        "trace_basis": [
+          "knowledge_constraint",
+          "deterministic_execution_requirement"
+        ]
+      },
+      {
+        "constraint_refs": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:source.authority",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:relationship.product_layer"
+        ],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:04:classification_exact",
+            "constraint_refs": [
+              "constraint:classification.feature_code"
+            ],
+            "expected_value": "9350906",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:04:geometry_point_unchanged",
+            "constraint_refs": [
+              "constraint:geometry.type"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:04:line_style_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "2",
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:04:color_code_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "7",
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:04:observed_color_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "black",
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:04:source_authority_evidence_bound",
+            "constraint_refs": [
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:04:product_layer_unresolved",
+            "constraint_refs": [
+              "constraint:relationship.product_layer"
+            ],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:04:physical_gates_unresolved",
+            "constraint_refs": [
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric"
+            ],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:04:operations_match_plan",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:04:receipt_bound_to_proposal",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:04:source_unchanged",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:04:declared_files_only",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          },
+          {
+            "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+            "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+          }
+        ],
+        "inputs": {
+          "feature_snapshot_identity": {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          },
+          "resolved_constraint_values": {
+            "classification": "9350906",
+            "color_code": "7",
+            "geometry": "Point",
+            "line_style": "2",
+            "observed_color": "black",
+            "product_layer": null,
+            "source_authority_handled": true
+          }
+        },
+        "operation": "derive_target_representation",
+        "preconditions": [
+          {
+            "condition_id": "precondition:04:input_identity_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:04:source_readable_hash_matches",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:04:critical_constraints_resolved",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:04:no_critical_contradictions",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:04:geometry_compatible",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:04:tool_allowlist_bound",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:04:roots_disjoint",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:04:proposal_hash_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:04:research_authorization_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:04:unresolved_guards_bounded",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:04:knowledge_snapshot_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+              "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+            },
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:04-derive-target-representation-001",
+        "tool": "rq2.representation.derive/1.0",
+        "trace_basis": [
+          "user_intent",
+          "knowledge_constraint"
+        ]
+      },
+      {
+        "constraint_refs": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:source.authority",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:relationship.product_layer"
+        ],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:05:classification_exact",
+            "constraint_refs": [
+              "constraint:classification.feature_code"
+            ],
+            "expected_value": "9350906",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:05:geometry_point_unchanged",
+            "constraint_refs": [
+              "constraint:geometry.type"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:05:line_style_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "2",
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:05:color_code_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "7",
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:05:observed_color_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "black",
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:05:source_authority_evidence_bound",
+            "constraint_refs": [
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:05:product_layer_unresolved",
+            "constraint_refs": [
+              "constraint:relationship.product_layer"
+            ],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:05:physical_gates_unresolved",
+            "constraint_refs": [
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric"
+            ],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:05:operations_match_plan",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:05:receipt_bound_to_proposal",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:05:source_unchanged",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:05:declared_files_only",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          },
+          {
+            "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+            "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+          }
+        ],
+        "inputs": {
+          "derived_representation_identity": {
+            "id": "in-memory-representation:rq2-run:knowledge-constrained:74ddd48d0f3847e4659207c2",
+            "sha256": "ee2fafbf476471a32704b3746f38c2b775de924229193ddf027f11729474ac60"
+          },
+          "isolated_output_identity": "isolated-output:rq2-run:knowledge-constrained:74ddd48d0f3847e4659207c2"
+        },
+        "operation": "write_derived_artifact",
+        "preconditions": [
+          {
+            "condition_id": "precondition:05:input_identity_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:05:source_readable_hash_matches",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:05:critical_constraints_resolved",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:05:no_critical_contradictions",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:05:geometry_compatible",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:05:tool_allowlist_bound",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:05:roots_disjoint",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:05:proposal_hash_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:05:research_authorization_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:05:unresolved_guards_bounded",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:05:knowledge_snapshot_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+              "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+            },
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:05-write-derived-artifact-001",
+        "tool": "rq2.artifact.write-derived/1.0",
+        "trace_basis": [
+          "user_intent",
+          "knowledge_constraint"
+        ]
+      },
+      {
+        "constraint_refs": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:source.authority",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:relationship.product_layer"
+        ],
+        "expected_postconditions": [
+          {
+            "condition_id": "postcondition:06:classification_exact",
+            "constraint_refs": [
+              "constraint:classification.feature_code"
+            ],
+            "expected_value": "9350906",
+            "predicate": "classification.equals",
+            "subject": "derived-feature",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:06:geometry_point_unchanged",
+            "constraint_refs": [
+              "constraint:geometry.type"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry.equals_source",
+            "subject": "derived-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "postcondition:06:line_style_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "2",
+            "predicate": "line_style.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:06:color_code_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "7",
+            "predicate": "color_code.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:06:observed_color_exact",
+            "constraint_refs": [
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color"
+            ],
+            "expected_value": "black",
+            "predicate": "observed_color.equals",
+            "subject": "derived-feature.portrayal",
+            "type": "attribute"
+          },
+          {
+            "condition_id": "postcondition:06:source_authority_evidence_bound",
+            "constraint_refs": [
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_authority.evidence_bound",
+            "subject": "derived-feature",
+            "type": "authority"
+          },
+          {
+            "condition_id": "postcondition:06:product_layer_unresolved",
+            "constraint_refs": [
+              "constraint:relationship.product_layer"
+            ],
+            "expected_value": null,
+            "predicate": "product_layer.equals",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:06:physical_gates_unresolved",
+            "constraint_refs": [
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric"
+            ],
+            "expected_value": true,
+            "predicate": "physical_portrayal_gates.unresolved",
+            "subject": "derived-feature",
+            "type": "binding"
+          },
+          {
+            "condition_id": "postcondition:06:operations_match_plan",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "operations.match_plan",
+            "subject": "execution-receipt",
+            "type": "verification"
+          },
+          {
+            "condition_id": "postcondition:06:receipt_bound_to_proposal",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.bound",
+            "subject": "execution-receipt",
+            "type": "identity"
+          },
+          {
+            "condition_id": "postcondition:06:source_unchanged",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_hash.unchanged",
+            "subject": "input-feature",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "postcondition:06:declared_files_only",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unexpected_files.absent",
+            "subject": "isolated-output",
+            "type": "mutation"
+          }
+        ],
+        "input_identities": [
+          {
+            "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+            "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+          },
+          {
+            "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+            "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+          }
+        ],
+        "inputs": {
+          "execution_receipt_identity": "execution-receipt:rq2-run:knowledge-constrained:74ddd48d0f3847e4659207c2",
+          "expected_postconditions": [
+            "classification_exact",
+            "geometry_point_unchanged",
+            "line_style_exact",
+            "color_code_exact",
+            "observed_color_exact",
+            "source_authority_evidence_bound",
+            "product_layer_unresolved",
+            "physical_gates_unresolved",
+            "operations_match_plan",
+            "receipt_bound_to_proposal",
+            "source_unchanged",
+            "declared_files_only"
+          ],
+          "proposal_hash": "bind:top-level-proposal_hash"
+        },
+        "operation": "verify_postconditions",
+        "preconditions": [
+          {
+            "condition_id": "precondition:06:input_identity_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "feature_selector": "hydrant-research-001",
+              "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+              "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+            },
+            "predicate": "identity.known",
+            "subject": "input-feature",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:06:source_readable_hash_matches",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+            "predicate": "source_hash.matches",
+            "subject": "input-feature",
+            "type": "readability"
+          },
+          {
+            "condition_id": "precondition:06:critical_constraints_resolved",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_constraints.resolved",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:06:no_critical_contradictions",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "critical_contradictions.absent",
+            "subject": "proposal",
+            "type": "verification"
+          },
+          {
+            "condition_id": "precondition:06:geometry_compatible",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": "Point",
+            "predicate": "geometry_type.equals",
+            "subject": "input-feature.geometry",
+            "type": "geometry"
+          },
+          {
+            "condition_id": "precondition:06:tool_allowlist_bound",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+              "version": "rq2-tool-allowlist/1.0"
+            },
+            "predicate": "tool_allowlist.equals",
+            "subject": "proposal",
+            "type": "tool"
+          },
+          {
+            "condition_id": "precondition:06:roots_disjoint",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "source_output.disjoint",
+            "subject": "execution",
+            "type": "mutation"
+          },
+          {
+            "condition_id": "precondition:06:proposal_hash_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "proposal_hash.valid",
+            "subject": "proposal",
+            "type": "identity"
+          },
+          {
+            "condition_id": "precondition:06:research_authorization_valid",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "research_authorization.valid",
+            "subject": "execution",
+            "type": "authority"
+          },
+          {
+            "condition_id": "precondition:06:unresolved_guards_bounded",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": true,
+            "predicate": "unresolved_guards.bounded",
+            "subject": "proposal",
+            "type": "binding"
+          },
+          {
+            "condition_id": "precondition:06:knowledge_snapshot_known",
+            "constraint_refs": [
+              "constraint:classification.feature_code",
+              "constraint:geometry.type",
+              "constraint:guard.authoritative_render",
+              "constraint:guard.color-code-7-profile",
+              "constraint:guard.internal-glyph-trace",
+              "constraint:guard.line-code-2-metric",
+              "constraint:portrayal.color_code",
+              "constraint:portrayal.line_code",
+              "constraint:portrayal.observed_color",
+              "constraint:relationship.product_layer",
+              "constraint:source.authority"
+            ],
+            "expected_value": {
+              "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+              "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+            },
+            "predicate": "identity.known",
+            "subject": "knowledge-snapshot",
+            "type": "identity"
+          }
+        ],
+        "step_id": "step:06-verify-postconditions-001",
+        "tool": "rq2.postconditions.verify/1.0",
+        "trace_basis": [
+          "user_intent",
+          "knowledge_constraint",
+          "verification_requirement"
+        ]
+      }
+    ],
+    "proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+    "proposal_id": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+    "proposal_version": "rq2-proposal/1.0",
+    "provenance_seed": {
+      "constraint_ids": [
+        "constraint:classification.feature_code",
+        "constraint:geometry.type",
+        "constraint:guard.authoritative_render",
+        "constraint:guard.color-code-7-profile",
+        "constraint:guard.internal-glyph-trace",
+        "constraint:guard.line-code-2-metric",
+        "constraint:portrayal.color_code",
+        "constraint:portrayal.line_code",
+        "constraint:portrayal.observed_color",
+        "constraint:relationship.product_layer",
+        "constraint:source.authority"
+      ],
+      "created_at": "2026-08-29T09:27:39.406610Z",
+      "evidence_refs": [
+        "activation-gate:doc01:9350906:color-code-7-profile",
+        "activation-gate:doc01:9350906:internal-glyph-trace",
+        "activation-gate:doc01:9350906:line-code-2-metric",
+        "classification:doc01:9350906",
+        "document:doc01-portrayal",
+        "line-style:doc01:2",
+        "portrayal-color:doc01:7",
+        "portrayal-geometry:Point",
+        "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "input_feature_identities": [
+        {
+          "id": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+          "sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611"
+        }
+      ],
+      "intent_id": "intent:sha256:62210e4dbf382cff4e33d0e64de56bb2b4ef30ad352c3799c9ff23290ec39533",
+      "knowledge_snapshot_identity": {
+        "id": "data/knowledge/nma-canonical-graph-v0.4.json",
+        "sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4"
+      },
+      "model_identity": "ollama:qwen2.5:latest@sha256:845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e;7.6B;Q4_K_M;ctx=8192;out=2048;temperature=0",
+      "plan_identity": "7fb0d0c59f057ca776e0d30d0c26cd1bc04208ab66fc1f9ebb93f8ceabb614b4",
+      "planner_identity": "rq2-provider-neutral-plan-composer/1.0",
+      "proposal_id": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+      "run_identity": "rq2-run:knowledge-constrained:74ddd48d0f3847e4659207c2",
+      "tool_allowlist_sha256": "5793bde48cf0ad5f54f0f15e5a914d9aa53991aef2b8821164fdfa9a1b02bd7c",
+      "tool_allowlist_version": "rq2-tool-allowlist/1.0",
+      "validator_version": "rq2-plan-validator/1.0"
+    },
+    "required_authorizations": [
+      {
+        "authorization_type": "research-derived-artifact-execution",
+        "bound_proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+        "required_before_step": "step:05-write-derived-artifact-001",
+        "scope": "one content-addressed fixture; isolated derived output; no source mutation; no authoritative render"
+      }
+    ]
+  },
+  "proposal_validation": {
+    "checks": [
+      {
+        "expected": "valid rq2-proposal/1.0",
+        "failure_code": null,
+        "observed": "valid",
+        "rule_id": "V01_SCHEMA",
+        "status": "PASS"
+      },
+      {
+        "expected": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+        "failure_code": null,
+        "observed": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+        "rule_id": "V02_PROPOSAL_HASH",
+        "status": "PASS"
+      },
+      {
+        "expected": "intent:sha256:62210e4dbf382cff4e33d0e64de56bb2b4ef30ad352c3799c9ff23290ec39533",
+        "failure_code": null,
+        "observed": "intent:sha256:62210e4dbf382cff4e33d0e64de56bb2b4ef30ad352c3799c9ff23290ec39533",
+        "rule_id": "V02_INTENT_ID",
+        "status": "PASS"
+      },
+      {
+        "expected": "7fb0d0c59f057ca776e0d30d0c26cd1bc04208ab66fc1f9ebb93f8ceabb614b4",
+        "failure_code": null,
+        "observed": "7fb0d0c59f057ca776e0d30d0c26cd1bc04208ab66fc1f9ebb93f8ceabb614b4",
+        "rule_id": "V02_PLAN_IDENTITY",
+        "status": "PASS"
+      },
+      {
+        "expected": "unique step, condition, and constraint identities",
+        "failure_code": null,
+        "observed": {
+          "conditions": [
+            "precondition:01:input_identity_known",
+            "precondition:01:source_readable_hash_matches",
+            "precondition:01:critical_constraints_resolved",
+            "precondition:01:no_critical_contradictions",
+            "precondition:01:geometry_compatible",
+            "precondition:01:tool_allowlist_bound",
+            "precondition:01:roots_disjoint",
+            "precondition:01:proposal_hash_valid",
+            "precondition:01:research_authorization_valid",
+            "precondition:01:unresolved_guards_bounded",
+            "precondition:01:knowledge_snapshot_known",
+            "postcondition:01:classification_exact",
+            "postcondition:01:geometry_point_unchanged",
+            "postcondition:01:line_style_exact",
+            "postcondition:01:color_code_exact",
+            "postcondition:01:observed_color_exact",
+            "postcondition:01:source_authority_evidence_bound",
+            "postcondition:01:product_layer_unresolved",
+            "postcondition:01:physical_gates_unresolved",
+            "postcondition:01:operations_match_plan",
+            "postcondition:01:receipt_bound_to_proposal",
+            "postcondition:01:source_unchanged",
+            "postcondition:01:declared_files_only",
+            "precondition:02:input_identity_known",
+            "precondition:02:source_readable_hash_matches",
+            "precondition:02:critical_constraints_resolved",
+            "precondition:02:no_critical_contradictions",
+            "precondition:02:geometry_compatible",
+            "precondition:02:tool_allowlist_bound",
+            "precondition:02:roots_disjoint",
+            "precondition:02:proposal_hash_valid",
+            "precondition:02:research_authorization_valid",
+            "precondition:02:unresolved_guards_bounded",
+            "precondition:02:knowledge_snapshot_known",
+            "postcondition:02:classification_exact",
+            "postcondition:02:geometry_point_unchanged",
+            "postcondition:02:line_style_exact",
+            "postcondition:02:color_code_exact",
+            "postcondition:02:observed_color_exact",
+            "postcondition:02:source_authority_evidence_bound",
+            "postcondition:02:product_layer_unresolved",
+            "postcondition:02:physical_gates_unresolved",
+            "postcondition:02:operations_match_plan",
+            "postcondition:02:receipt_bound_to_proposal",
+            "postcondition:02:source_unchanged",
+            "postcondition:02:declared_files_only",
+            "precondition:03:input_identity_known",
+            "precondition:03:source_readable_hash_matches",
+            "precondition:03:critical_constraints_resolved",
+            "precondition:03:no_critical_contradictions",
+            "precondition:03:geometry_compatible",
+            "precondition:03:tool_allowlist_bound",
+            "precondition:03:roots_disjoint",
+            "precondition:03:proposal_hash_valid",
+            "precondition:03:research_authorization_valid",
+            "precondition:03:unresolved_guards_bounded",
+            "precondition:03:knowledge_snapshot_known",
+            "postcondition:03:classification_exact",
+            "postcondition:03:geometry_point_unchanged",
+            "postcondition:03:line_style_exact",
+            "postcondition:03:color_code_exact",
+            "postcondition:03:observed_color_exact",
+            "postcondition:03:source_authority_evidence_bound",
+            "postcondition:03:product_layer_unresolved",
+            "postcondition:03:physical_gates_unresolved",
+            "postcondition:03:operations_match_plan",
+            "postcondition:03:receipt_bound_to_proposal",
+            "postcondition:03:source_unchanged",
+            "postcondition:03:declared_files_only",
+            "precondition:04:input_identity_known",
+            "precondition:04:source_readable_hash_matches",
+            "precondition:04:critical_constraints_resolved",
+            "precondition:04:no_critical_contradictions",
+            "precondition:04:geometry_compatible",
+            "precondition:04:tool_allowlist_bound",
+            "precondition:04:roots_disjoint",
+            "precondition:04:proposal_hash_valid",
+            "precondition:04:research_authorization_valid",
+            "precondition:04:unresolved_guards_bounded",
+            "precondition:04:knowledge_snapshot_known",
+            "postcondition:04:classification_exact",
+            "postcondition:04:geometry_point_unchanged",
+            "postcondition:04:line_style_exact",
+            "postcondition:04:color_code_exact",
+            "postcondition:04:observed_color_exact",
+            "postcondition:04:source_authority_evidence_bound",
+            "postcondition:04:product_layer_unresolved",
+            "postcondition:04:physical_gates_unresolved",
+            "postcondition:04:operations_match_plan",
+            "postcondition:04:receipt_bound_to_proposal",
+            "postcondition:04:source_unchanged",
+            "postcondition:04:declared_files_only",
+            "precondition:05:input_identity_known",
+            "precondition:05:source_readable_hash_matches",
+            "precondition:05:critical_constraints_resolved",
+            "precondition:05:no_critical_contradictions",
+            "precondition:05:geometry_compatible",
+            "precondition:05:tool_allowlist_bound",
+            "precondition:05:roots_disjoint",
+            "precondition:05:proposal_hash_valid",
+            "precondition:05:research_authorization_valid",
+            "precondition:05:unresolved_guards_bounded",
+            "precondition:05:knowledge_snapshot_known",
+            "postcondition:05:classification_exact",
+            "postcondition:05:geometry_point_unchanged",
+            "postcondition:05:line_style_exact",
+            "postcondition:05:color_code_exact",
+            "postcondition:05:observed_color_exact",
+            "postcondition:05:source_authority_evidence_bound",
+            "postcondition:05:product_layer_unresolved",
+            "postcondition:05:physical_gates_unresolved",
+            "postcondition:05:operations_match_plan",
+            "postcondition:05:receipt_bound_to_proposal",
+            "postcondition:05:source_unchanged",
+            "postcondition:05:declared_files_only",
+            "precondition:06:input_identity_known",
+            "precondition:06:source_readable_hash_matches",
+            "precondition:06:critical_constraints_resolved",
+            "precondition:06:no_critical_contradictions",
+            "precondition:06:geometry_compatible",
+            "precondition:06:tool_allowlist_bound",
+            "precondition:06:roots_disjoint",
+            "precondition:06:proposal_hash_valid",
+            "precondition:06:research_authorization_valid",
+            "precondition:06:unresolved_guards_bounded",
+            "precondition:06:knowledge_snapshot_known",
+            "postcondition:06:classification_exact",
+            "postcondition:06:geometry_point_unchanged",
+            "postcondition:06:line_style_exact",
+            "postcondition:06:color_code_exact",
+            "postcondition:06:observed_color_exact",
+            "postcondition:06:source_authority_evidence_bound",
+            "postcondition:06:product_layer_unresolved",
+            "postcondition:06:physical_gates_unresolved",
+            "postcondition:06:operations_match_plan",
+            "postcondition:06:receipt_bound_to_proposal",
+            "postcondition:06:source_unchanged",
+            "postcondition:06:declared_files_only"
+          ],
+          "constraints": [
+            "constraint:classification.feature_code",
+            "constraint:geometry.type",
+            "constraint:guard.authoritative_render",
+            "constraint:portrayal.color_code",
+            "constraint:portrayal.line_code",
+            "constraint:portrayal.observed_color",
+            "constraint:source.authority",
+            "constraint:guard.color-code-7-profile",
+            "constraint:guard.internal-glyph-trace",
+            "constraint:guard.line-code-2-metric",
+            "constraint:relationship.product_layer"
+          ],
+          "steps": [
+            "step:01-read-feature-001",
+            "step:02-validate-source-authority-001",
+            "step:03-validate-geometry-type-001",
+            "step:04-derive-target-representation-001",
+            "step:05-write-derived-artifact-001",
+            "step:06-verify-postconditions-001"
+          ]
+        },
+        "rule_id": "V03_UNIQUE_IDENTITIES",
+        "status": "PASS"
+      },
+      {
+        "expected": "constraint array matches resolution_status",
+        "failure_code": null,
+        "observed": true,
+        "rule_id": "V04_CONSTRAINT_PLACEMENT",
+        "status": "PASS"
+      },
+      {
+        "expected": "all evidence refs present in immutable retrieval package",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V05_EVIDENCE_MEMBERSHIP",
+        "status": "PASS"
+      },
+      {
+        "expected": "8fd20558ca42dcf755a007de1f3a89c3d25717e311f7274be44b47961e4375e2",
+        "failure_code": null,
+        "observed": "8fd20558ca42dcf755a007de1f3a89c3d25717e311f7274be44b47961e4375e2",
+        "rule_id": "V06_CONSTRAINT_EVIDENCE_CONSISTENCY",
+        "status": "PASS"
+      },
+      {
+        "expected": "references resolve to declared constraints",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V07_CONSTRAINT_REFERENCES",
+        "status": "PASS"
+      },
+      {
+        "expected": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:relationship.product_layer",
+          "constraint:source.authority"
+        ],
+        "failure_code": null,
+        "observed": [
+          "constraint:classification.feature_code",
+          "constraint:geometry.type",
+          "constraint:guard.authoritative_render",
+          "constraint:guard.color-code-7-profile",
+          "constraint:guard.internal-glyph-trace",
+          "constraint:guard.line-code-2-metric",
+          "constraint:portrayal.color_code",
+          "constraint:portrayal.line_code",
+          "constraint:portrayal.observed_color",
+          "constraint:relationship.product_layer",
+          "constraint:source.authority"
+        ],
+        "rule_id": "V08_REQUIRED_CONSTRAINT_COVERAGE",
+        "status": "PASS"
+      },
+      {
+        "expected": "exact allowlisted operation/tool bindings",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V09_TOOL_ALLOWLIST",
+        "status": "PASS"
+      },
+      {
+        "expected": "no shell, unrestricted Python, network, or direct endpoint",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V09_FORBIDDEN_OPERATIONS",
+        "status": "PASS"
+      },
+      {
+        "expected": "only registered fixture/snapshot identities",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V10_INPUT_IDENTITIES",
+        "status": "PASS"
+      },
+      {
+        "expected": [
+          "critical_constraints_resolved",
+          "geometry_compatible",
+          "input_identity_known",
+          "knowledge_snapshot_known",
+          "no_critical_contradictions",
+          "proposal_hash_valid",
+          "research_authorization_valid",
+          "roots_disjoint",
+          "source_readable_hash_matches",
+          "tool_allowlist_bound",
+          "unresolved_guards_bounded"
+        ],
+        "failure_code": null,
+        "observed": [
+          "critical_constraints_resolved",
+          "geometry_compatible",
+          "input_identity_known",
+          "knowledge_snapshot_known",
+          "no_critical_contradictions",
+          "proposal_hash_valid",
+          "research_authorization_valid",
+          "roots_disjoint",
+          "source_readable_hash_matches",
+          "tool_allowlist_bound",
+          "unresolved_guards_bounded"
+        ],
+        "rule_id": "V11_PRECONDITIONS",
+        "status": "PASS"
+      },
+      {
+        "expected": [
+          "classification_exact",
+          "geometry_point_unchanged",
+          "line_style_exact",
+          "color_code_exact",
+          "observed_color_exact",
+          "source_authority_evidence_bound",
+          "product_layer_unresolved",
+          "physical_gates_unresolved",
+          "operations_match_plan",
+          "receipt_bound_to_proposal",
+          "source_unchanged",
+          "declared_files_only"
+        ],
+        "failure_code": null,
+        "observed": [
+          "classification_exact",
+          "color_code_exact",
+          "declared_files_only",
+          "geometry_point_unchanged",
+          "line_style_exact",
+          "observed_color_exact",
+          "operations_match_plan",
+          "physical_gates_unresolved",
+          "product_layer_unresolved",
+          "receipt_bound_to_proposal",
+          "source_authority_evidence_bound",
+          "source_unchanged"
+        ],
+        "rule_id": "V12_POSTCONDITIONS",
+        "status": "PASS"
+      },
+      {
+        "expected": "truthful trace basis for every step",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V13_TRACE_BASIS",
+        "status": "PASS"
+      },
+      {
+        "expected": null,
+        "failure_code": null,
+        "observed": null,
+        "rule_id": "V14_UNRESOLVED_BINDING",
+        "status": "PASS"
+      },
+      {
+        "expected": "no render while physical gates remain unresolved",
+        "failure_code": null,
+        "observed": [],
+        "rule_id": "V15_MUTATION_AND_RENDER_BOUNDARY",
+        "status": "PASS"
+      },
+      {
+        "expected": "PROCEED_WITH_BOUNDED_UNRESOLVED",
+        "failure_code": null,
+        "observed": "PROCEED_WITH_BOUNDED_UNRESOLVED",
+        "rule_id": "V16_DECISION",
+        "status": "PASS"
+      },
+      {
+        "expected": "empty executable plan for BLOCK",
+        "failure_code": null,
+        "observed": 6,
+        "rule_id": "V17_BLOCK_HAS_NO_PLAN",
+        "status": "PASS"
+      },
+      {
+        "expected": "proposal-hash-bound declaration gates a real write step",
+        "failure_code": null,
+        "observed": [
+          {
+            "authorization_type": "research-derived-artifact-execution",
+            "bound_proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+            "required_before_step": "step:05-write-derived-artifact-001",
+            "scope": "one content-addressed fixture; isolated derived output; no source mutation; no authoritative render"
+          }
+        ],
+        "rule_id": "V18_AUTHORIZATION_DECLARATIONS",
+        "status": "PASS"
+      }
+    ],
+    "failure_taxonomy": [],
+    "model_calls": 0,
+    "status": "PASS",
+    "validator_version": "rq2-plan-validator/1.0"
+  },
+  "provenance": {
+    "authorization_hash": "c3504b7b0f5c0ec946974ddd63307d03d715f9bed2b544d70c79bf4ceb09973b",
+    "authorization_id": "rq3-authorization:ama-live:8cbd368693ef4de0b40bd62b76bac9ba",
+    "authorized_proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+    "evidence_ids": [
+      "activation-gate:doc01:9350906:color-code-7-profile",
+      "activation-gate:doc01:9350906:internal-glyph-trace",
+      "activation-gate:doc01:9350906:line-code-2-metric",
+      "classification:doc01:9350906",
+      "document:doc01-portrayal",
+      "line-style:doc01:2",
+      "portrayal-color:doc01:7",
+      "portrayal-geometry:Point",
+      "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+      "portrayal-recipe:doc01:9350906:review-v1",
+      "portrayal-rule:doc01:9350906"
+    ],
+    "executed_proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+    "execution_id": "ama-execution:655da45150184670913eedcf39419e47",
+    "intent": "Create a safe symbolic derived fire-hydrant feature for classification 9350906 using reviewed knowledge, preserve unresolved ProductLayer and physical portrayal gates, and leave the authoritative source unchanged.",
+    "plan_id": "ama-plan:c563de4b15cb4fb382fdf1515bb73e02",
+    "proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+    "proposal_id": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+    "provenance_id": "ama-provenance:e7cfa49dba2a4fc4b4bc9cb5e2cb857f",
+    "provenance_sha256": "209e4ac7dd08468e639f8cd3ca4cffef4956c49baca5554dc3d137a6c00ec154",
+    "receipt_id": "execution-receipt:rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+    "receipt_sha256": "ebf577738d882b264f12b4f9f3bffe14236cc999f63d93355e878b52c3df81a5",
+    "result": "PASS",
+    "result_sha256": "0e3ec31b8dae302c70b0e4cd8f63f928af31c1a944a5032047ebefb76904c5cd",
+    "retrieval_id": "ama-retrieval:8047c388cfad41a89a29907451f25030",
+    "run_id": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+    "schema": "nma.ama-live-provenance/1.0",
+    "source_sha256_after": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+    "source_sha256_before": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+    "timestamp": "2026-08-29T09:27:39.581957Z",
+    "verification_id": "ama-verification:c431ebf21f9f4ba5b10f61921db286aa"
+  },
+  "retrieval": {
+    "authoritative_sources": [
+      "document:doc01-portrayal"
+    ],
+    "edge_count": 33,
+    "evidence_ids": [
+      "activation-gate:doc01:9350906:color-code-7-profile",
+      "activation-gate:doc01:9350906:internal-glyph-trace",
+      "activation-gate:doc01:9350906:line-code-2-metric",
+      "classification:doc01:9350906",
+      "concept:feature-concept",
+      "document:doc01-portrayal",
+      "line-style:doc01:2",
+      "method:stereo-plotting",
+      "portrayal-color:doc01:7",
+      "portrayal-geometry:Point",
+      "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+      "portrayal-recipe:doc01:9350906:review-v1",
+      "portrayal-rule:doc01:9350906",
+      "product:observed-features",
+      "quality-item:doc03-207",
+      "review-asset:doc01:fire-hydrant-v1",
+      "section:doc01-portrayal:p11",
+      "stage:aerial-triangulation",
+      "stage:contour-mapping",
+      "stage:feature-survey",
+      "stage:field-completion",
+      "stage:vector-revision",
+      "symbol:doc01:fire-hydrant",
+      "vector-primitive:doc01:9350906:01:outer-box",
+      "vector-primitive:doc01:9350906:02:hydrant-glyph",
+      "workflow:tw-temap-vector-update",
+      "workflow:tw-topo-1000-new-production",
+      "workflow:tw-topo-5000-production-update"
+    ],
+    "invocation": "nma.rq2_demo.retrieve_rq2_evidence",
+    "node_count": 28,
+    "retrieval_id": "ama-retrieval:8047c388cfad41a89a29907451f25030",
+    "retrieval_mode": "rq2-existing-ranked-search-plus-typed-canonical-expansion"
+  },
+  "run_id": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+  "schema": "nma.ama-live-run/1.0",
+  "stages": {
+    "authorization": {
+      "duration_ms": 13.797,
+      "status": "PASS",
+      "updated_at": "2026-08-29T09:27:39.555036Z"
+    },
+    "constraint_resolution": {
+      "duration_ms": 0.168,
+      "status": "PASS",
+      "updated_at": "2026-08-29T09:26:50.882945Z"
+    },
+    "evidence": {
+      "duration_ms": 20.722,
+      "status": "PASS",
+      "updated_at": "2026-08-29T09:26:50.881998Z"
+    },
+    "gis_execution": {
+      "duration_ms": 3.719,
+      "execution_id": "ama-execution:655da45150184670913eedcf39419e47",
+      "status": "PASS",
+      "updated_at": "2026-08-29T09:27:39.567787Z"
+    },
+    "intent": {
+      "actual_intent": "Create a safe symbolic derived fire-hydrant feature for classification 9350906 using reviewed knowledge, preserve unresolved ProductLayer and physical portrayal gates, and leave the authoritative source unchanged.",
+      "status": "PASS",
+      "updated_at": "2026-08-29T09:26:50.497357Z"
+    },
+    "knowledge_retrieval": {
+      "duration_ms": 363.094,
+      "status": "PASS",
+      "updated_at": "2026-08-29T09:26:50.860873Z"
+    },
+    "map_result": {
+      "result_path": "result/derived-feature.geojson",
+      "source_path": "data/rq2/rq2-demo-01-fire-hydrant.geojson",
+      "status": "PASS",
+      "updated_at": "2026-08-29T09:27:39.582153Z"
+    },
+    "plan": {
+      "duration_ms": 48519.003,
+      "status": "PASS",
+      "updated_at": "2026-08-29T09:27:39.405285Z"
+    },
+    "proposal": {
+      "duration_ms": 130.104,
+      "status": "PASS",
+      "updated_at": "2026-08-29T09:27:39.536737Z"
+    },
+    "provenance": {
+      "duration_ms": 0.396,
+      "status": "PASS",
+      "updated_at": "2026-08-29T09:27:39.582142Z"
+    },
+    "verification": {
+      "duration_ms": 0.418,
+      "status": "PASS",
+      "updated_at": "2026-08-29T09:27:39.577165Z",
+      "verification_id": "ama-verification:c431ebf21f9f4ba5b10f61921db286aa"
+    }
+  },
+  "status": "PASS",
+  "timing_ms": {
+    "authorization": 13.797,
+    "constraint_resolution": 0.168,
+    "end_to_end": 49085.398,
+    "evidence_projection": 20.722,
+    "gis_execution": 3.719,
+    "graphrag": 363.094,
+    "llm_planning": 48519.003,
+    "proposal_validation": 130.104,
+    "provenance": 0.396,
+    "verification": 0.418
+  },
+  "updated_at": "2026-08-29T09:27:39.582164Z",
+  "verification": {
+    "checks": [
+      {
+        "expected": "9350906",
+        "failure_code": null,
+        "observed": "9350906",
+        "rule_id": "P01_CLASSIFICATION",
+        "status": "PASS"
+      },
+      {
+        "expected": "Point",
+        "failure_code": null,
+        "observed": "Point",
+        "rule_id": "P02_GEOMETRY_TYPE",
+        "status": "PASS"
+      },
+      {
+        "expected": {
+          "coordinates": [
+            121.564468,
+            25.033964
+          ],
+          "type": "Point"
+        },
+        "failure_code": null,
+        "observed": {
+          "coordinates": [
+            121.564468,
+            25.033964
+          ],
+          "type": "Point"
+        },
+        "rule_id": "P02_GEOMETRY_UNCHANGED",
+        "status": "PASS"
+      },
+      {
+        "expected": "2",
+        "failure_code": null,
+        "observed": "2",
+        "rule_id": "P03_LINE_STYLE",
+        "status": "PASS"
+      },
+      {
+        "expected": "7",
+        "failure_code": null,
+        "observed": "7",
+        "rule_id": "P04_COLOR_CODE",
+        "status": "PASS"
+      },
+      {
+        "expected": "black",
+        "failure_code": null,
+        "observed": "black",
+        "rule_id": "P04_OBSERVED_COLOR",
+        "status": "PASS"
+      },
+      {
+        "expected": true,
+        "failure_code": null,
+        "observed": true,
+        "rule_id": "P05_SOURCE_AUTHORITY",
+        "status": "PASS"
+      },
+      {
+        "expected": null,
+        "failure_code": null,
+        "observed": null,
+        "rule_id": "P06_PRODUCT_LAYER_UNRESOLVED",
+        "status": "PASS"
+      },
+      {
+        "expected": null,
+        "failure_code": null,
+        "observed": null,
+        "rule_id": "P07_PHYSICAL_GATES_UNRESOLVED",
+        "status": "PASS"
+      },
+      {
+        "expected": [
+          "rq2.feature.read/1.0",
+          "rq2.source-authority.validate/1.0",
+          "rq2.geometry.validate/1.0",
+          "rq2.representation.derive/1.0",
+          "rq2.artifact.write-derived/1.0"
+        ],
+        "failure_code": null,
+        "observed": [
+          "rq2.feature.read/1.0",
+          "rq2.source-authority.validate/1.0",
+          "rq2.geometry.validate/1.0",
+          "rq2.representation.derive/1.0",
+          "rq2.artifact.write-derived/1.0"
+        ],
+        "rule_id": "P08_OPERATIONS_MATCH_PLAN",
+        "status": "PASS"
+      },
+      {
+        "expected": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+        "failure_code": null,
+        "observed": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+        "rule_id": "P09_RECEIPT_BOUND",
+        "status": "PASS"
+      },
+      {
+        "expected": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+        "failure_code": null,
+        "observed": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+        "rule_id": "P10_SOURCE_UNCHANGED",
+        "status": "PASS"
+      },
+      {
+        "expected": [
+          "derived-feature.geojson",
+          "execution-receipt.json"
+        ],
+        "failure_code": null,
+        "observed": [
+          "derived-feature.geojson",
+          "execution-receipt.json"
+        ],
+        "rule_id": "P11_DECLARED_FILES_ONLY",
+        "status": "PASS"
+      }
+    ],
+    "failure_taxonomy": [],
+    "model_calls": 0,
+    "status": "PASS",
+    "verification_id": "ama-verification:c431ebf21f9f4ba5b10f61921db286aa",
+    "verification_latency_ms": 0,
+    "verifier_version": "rq2-postcondition-verifier/1.0"
+  }
+}

@@ -3,76 +3,88 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AMA Live Reference Demo</title>
+  <title>AMA — Public Evidence-to-Action Demo</title>
   <link rel="stylesheet" href="/assets/maplibre-gl-4.7.0.css">
   <link rel="stylesheet" href="/app.css">
 </head>
 <body>
+  <div id="mode-bar" class="mode-bar idle"><span id="mode-dot">○</span><strong id="mode-label">NO RUN SELECTED</strong><span id="mode-run"></span></div>
   <header>
-    <div><span class="eyebrow">AUTHORITATIVE MAPPING AGENT</span><h1>Live, bounded, inspectable</h1></div>
-    <div class="live-badge"><i></i> <span id="deployment-label">LIVE AMA</span></div>
+    <div><span class="eyebrow">AUTHORITATIVE MAPPING AGENT · AMA-DEMO-02</span><h1>From geographic knowledge<br>to a trustworthy action.</h1></div>
+    <p>One controlled question. Three retrieval architectures. One exact proposal carried through authorization, execution, verification, and provenance.</p>
   </header>
+  <nav aria-label="Demo stages"><a href="#ask">1 Ask AMA</a><a href="#rq1">2 RQ1</a><a href="#knowledge">3 Knowledge</a><a href="#proposal">4 Proposal</a><a href="#authorization">5 Authorization</a><a href="#map-stage">6 Map</a><a href="#verification">7 Verification</a><a href="#provenance">8 Provenance</a></nav>
   <main>
-    <section class="hero card">
-      <label for="intent">Mapping Intent</label>
+    <section id="ask" class="card hero">
+      <div class="section-title"><div><span class="step">01</span><span class="eyebrow">ASK AMA</span><h2>User intent</h2></div><span id="overall" class="pill waiting">WAITING</span></div>
+      <label for="intent">Exact user input</label>
       <textarea id="intent" rows="3" spellcheck="false"></textarea>
+      <details class="intent-detail"><summary>Internal intent distinctions</summary><dl id="intent-forms"><dt>Normalized intent</dt><dd>—</dd><dt>Planner input</dt><dd>—</dd></dl></details>
       <div class="actions">
-        <button id="run">Run AMA</button>
-        <button id="tamper" class="secondary" disabled>Run backend tamper test</button>
+        <button id="run">Run live AMA</button>
+        <button id="replay" class="secondary">▶ Show verified replay</button>
+        <button id="reset" class="ghost">Reset</button>
         <span id="run-meta">Canonical bounded scenario</span>
       </div>
-      <div id="error" class="error" hidden></div>
+      <div id="error" class="error" hidden><strong>Live execution unavailable.</strong><span id="error-text"></span><button id="fallback" class="secondary">Show a previously verified replay</button></div>
     </section>
 
-    <section class="card">
-      <div class="section-title"><div><span class="eyebrow">RUNTIME</span><h2>Actual execution stages</h2></div><span id="overall" class="pill waiting">WAITING</span></div>
+    <section id="rq1" class="card">
+      <div class="section-title"><div><span class="step">02</span><span class="eyebrow">RQ1 — WHAT DOES THE AGENT KNOW?</span><h2>Same question, three architectures</h2></div><span class="pill recorded">EXECUTED CONTROLLED RECORD</span></div>
+      <blockquote id="rq1-question">—</blockquote>
+      <p class="explain">The model, temperature, context window, question, and validator are controlled. Retrieval differs by architecture; unavailable concepts are marked not applicable.</p>
+      <div id="rq1-cards" class="rq1"></div>
+      <details><summary>Machine controls and predecessor finding</summary><pre id="rq1-controls"></pre></details>
+    </section>
+
+    <section class="card runtime">
+      <div class="section-title"><div><span class="eyebrow">CURRENT RUN</span><h2>Observable pipeline</h2></div></div>
       <div id="stages" class="stages"></div>
+      <div class="metrics">
+        <div><span>Graph retrieval</span><strong id="m-graphrag">—</strong></div><div><span>Planner</span><strong id="m-plan">—</strong></div><div><span>Authorization</span><strong id="m-auth">—</strong></div><div><span>GIS execution</span><strong id="m-gis">—</strong></div><div><span>Verification</span><strong id="m-verify">—</strong></div><div><span>End-to-end</span><strong id="m-total">—</strong></div>
+      </div>
     </section>
 
-    <section class="metrics card">
-      <div><span>GraphRAG</span><strong id="m-graphrag">—</strong></div>
-      <div><span>LLM planning</span><strong id="m-plan">—</strong></div>
-      <div><span>GIS execution</span><strong id="m-gis">—</strong></div>
-      <div><span>Verification</span><strong id="m-verify">—</strong></div>
-      <div><span>End-to-end</span><strong id="m-total">—</strong></div>
+    <section id="knowledge" class="knowledge-section">
+      <div class="section-title outside"><div><span class="step">03</span><span class="eyebrow">RETRIEVED KNOWLEDGE</span><h2>Three runtime-bound KG views</h2></div></div>
+      <div class="grid two">
+        <article class="card"><div class="graph-heading"><h3>DOMAIN KNOWLEDGE GRAPH</h3><span>Before this query</span></div><p>Bounded scenario subset of the canonical KG.</p><div id="domain-graph" class="graph"></div></article>
+        <article class="card"><div class="graph-heading"><h3>RETRIEVED SUBGRAPH FOR THIS QUERY</h3><span id="node-count">0 nodes</span></div><p>Query-specific nodes; projected evidence is emphasized.</p><div id="retrieved-graph" class="graph empty">Run AMA or choose replay.</div></article>
+      </div>
+      <article class="card trace-wide"><div class="graph-heading"><h3>KNOWLEDGE → CONSTRAINT → ACTION TRACE</h3><span>Actual runtime identities</span></div><div id="action-graph" class="graph trace-graph empty">Run AMA or choose replay.</div></article>
     </section>
 
-    <section class="grid two">
-      <article class="card">
-        <div class="section-title"><div><span class="eyebrow">KNOWLEDGE CONTEXT</span><h2>Bounded domain graph</h2></div></div>
-        <div id="domain-graph" class="graph"></div>
-      </article>
-      <article class="card">
-        <div class="section-title"><div><span class="eyebrow">CURRENT RUN</span><h2>Live retrieved subgraph</h2></div><span id="node-count" class="pill">0 nodes</span></div>
-        <div id="retrieved-graph" class="graph empty">Run AMA to inspect evidence.</div>
-      </article>
+    <section id="proposal" class="card">
+      <div class="section-title"><div><span class="step">04</span><span class="eyebrow">RQ2 — WHY THIS PLAN?</span><h2>Constraints and canonical proposal</h2></div><span id="proposal-status" class="pill waiting">WAITING</span></div>
+      <div class="table-wrap"><table><thead><tr><th>Constraint</th><th>Evidence</th><th>State</th><th>Value</th><th>Planner consequence</th></tr></thead><tbody id="constraints"><tr><td colspan="5" class="muted">No selected run.</td></tr></tbody></table></div>
+      <div class="grid two proposal-grid"><div><h3>Human-readable proposal</h3><dl id="proposal-summary"><dt>Proposal ID</dt><dd>—</dd></dl></div><details><summary>Canonical proposal JSON</summary><pre id="proposal-json"></pre></details></div>
     </section>
 
-    <section class="card">
-      <div class="section-title"><div><span class="eyebrow">CONSTRAINTS</span><h2>Evidence → planner consequences</h2></div></div>
-      <div class="table-wrap"><table><thead><tr><th>Constraint</th><th>Evidence</th><th>Status</th><th>Value</th><th>Planner consequence</th></tr></thead><tbody id="constraints"><tr><td colspan="5" class="muted">No live result yet.</td></tr></tbody></table></div>
+    <section id="authorization" class="card trust">
+      <div class="section-title"><div><span class="step">05</span><span class="eyebrow">RQ3 — WHY ACCEPT THE ACTION?</span><h2>Proposal → authorization → execution</h2></div><span id="identity-status" class="pill waiting">NOT CHECKED</span></div>
+      <div class="identity-chain"><div><small>PROPOSAL HASH</small><code id="proposal-hash">—</code></div><b>=</b><div><small>AUTHORIZED HASH</small><code id="authorized-hash">—</code></div><b>=</b><div><small>EXECUTED HASH</small><code id="executed-hash">—</code></div></div>
+      <div class="grid three"><div><h3>Authorization</h3><dl id="authorization-summary"></dl></div><div><h3>Execution</h3><dl id="execution-summary"></dl></div><div><h3>Mutation scope</h3><p id="mutation-scope" class="callout">—</p></div></div>
     </section>
 
-    <section class="grid map-grid">
-      <article class="card map-card">
-        <div class="section-title"><div><span class="eyebrow">MAP RESULT</span><h2>Source and live derived output</h2></div><span id="map-status" class="pill waiting">WAITING</span></div>
-        <div id="map"></div>
-        <div class="legend"><span><i class="source"></i> input/current</span><span><i class="result"></i> live result</span></div>
-      </article>
-      <article class="card trace-card">
-        <div class="section-title"><div><span class="eyebrow">AUDIT TRACE</span><h2>Fresh run identities</h2></div></div>
-        <dl id="trace"><dt>Run ID</dt><dd>—</dd><dt>Proposal SHA-256</dt><dd>—</dd><dt>Authorization</dt><dd>—</dd><dt>Execution</dt><dd>—</dd><dt>Verification</dt><dd>—</dd><dt>Receipt</dt><dd>—</dd></dl>
-        <pre id="tamper-result" hidden></pre>
-      </article>
+    <section id="map-stage" class="grid map-grid">
+      <article class="card map-card"><div class="section-title"><div><span class="step">06</span><span class="eyebrow">EXECUTION &amp; MAP</span><h2>Source and derived result</h2></div><span id="map-status" class="pill waiting">WAITING</span></div><div id="map"></div><div class="legend"><span><i class="source"></i> immutable source</span><span><i class="result"></i> selected run result</span></div></article>
+      <article class="card"><div class="section-title"><div><span class="eyebrow">TIMING</span><h2>Measured runtime</h2></div></div><dl id="timing"></dl></article>
     </section>
 
-    <section class="card research">
-      <div class="section-title"><div><span class="eyebrow">CONTROLLED RESEARCH RESULT</span><h2>Frozen RQ1 comparison — supporting evidence</h2></div></div>
-      <div id="rq1" class="rq1"></div>
-      <p>This frozen comparison supports the architecture choice. It is not the live AMA run shown above.</p>
+    <section id="verification" class="card">
+      <div class="section-title"><div><span class="step">07</span><span class="eyebrow">VERIFICATION</span><h2>Expected versus observed</h2></div><span id="verification-status" class="pill waiting">WAITING</span></div>
+      <div id="verification-checks" class="checks"><p class="muted">No selected run.</p></div>
     </section>
+
+    <section id="provenance" class="card">
+      <div class="section-title"><div><span class="step">08</span><span class="eyebrow">PROVENANCE</span><h2>Complete evidence-to-result lineage</h2></div><span id="provenance-status" class="pill waiting">WAITING</span></div>
+      <dl id="trace"><dt>Run ID</dt><dd>—</dd></dl>
+      <details><summary>Complete provenance record</summary><pre id="provenance-json"></pre></details>
+    </section>
+
+    <section class="card tamper"><div class="section-title"><div><span class="eyebrow">OPTIONAL TECHNICAL PROOF</span><h2>Tamper denial</h2></div></div><p>Modify a protected proposal field after authorization. The hash changes, so execution remains closed.</p><button id="tamper" class="secondary" disabled>Run backend tamper test</button><pre id="tamper-result" hidden></pre></section>
   </main>
-  <footer><span id="deployment-footer">AMA-LIVE-01</span> · bounded reference runtime · no production writeback</footer>
+  <footer><span id="deployment-footer">AMA-DEMO-02</span> · bounded public research demo · no authoritative source writeback</footer>
   <script src="/assets/maplibre-gl-4.7.0.js"></script>
   <script src="/app.js"></script>
 </body>

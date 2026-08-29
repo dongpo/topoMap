@@ -1,0 +1,165 @@
+{
+  "edges": [
+    {
+      "properties": {},
+      "source": "classification:doc01:9350906",
+      "source_graphs": [
+        "nma-portrayal-v0.4"
+      ],
+      "target": "portrayal-rule:doc01:9350906",
+      "type": "PORTRAYED_BY"
+    },
+    {
+      "properties": {},
+      "source": "document:doc01-portrayal",
+      "source_graphs": [
+        "nma-portrayal-v0.4"
+      ],
+      "target": "section:doc01-portrayal:p11",
+      "type": "CONTAINS"
+    },
+    {
+      "properties": {},
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "source_graphs": [
+        "nma-portrayal-recipe-batch-01-v0.4"
+      ],
+      "target": "portrayal-geometry:Point",
+      "type": "APPLIES_TO_GEOMETRY"
+    },
+    {
+      "properties": {},
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "source_graphs": [
+        "nma-portrayal-recipe-batch-01-v0.4"
+      ],
+      "target": "portrayal-rule:doc01:9350906",
+      "type": "TRANSCRIBES_RULE"
+    },
+    {
+      "properties": {},
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "source_graphs": [
+        "nma-portrayal-recipe-batch-01-v0.4"
+      ],
+      "target": "section:doc01-portrayal:p11",
+      "type": "EVIDENCED_ON"
+    },
+    {
+      "properties": {},
+      "source": "portrayal-rule:doc01:9350906",
+      "source_graphs": [
+        "nma-portrayal-v0.4"
+      ],
+      "target": "line-style:doc01:2",
+      "type": "USES_LINE_STYLE"
+    },
+    {
+      "properties": {},
+      "source": "portrayal-rule:doc01:9350906",
+      "source_graphs": [
+        "nma-portrayal-v0.4"
+      ],
+      "target": "portrayal-color:doc01:7",
+      "type": "USES_COLOR"
+    },
+    {
+      "properties": {},
+      "source": "portrayal-rule:doc01:9350906",
+      "source_graphs": [
+        "nma-portrayal-v0.4"
+      ],
+      "target": "portrayal-geometry:Point",
+      "type": "APPLIES_TO_GEOMETRY"
+    },
+    {
+      "properties": {},
+      "source": "portrayal-rule:doc01:9350906",
+      "source_graphs": [
+        "nma-portrayal-v0.4"
+      ],
+      "target": "section:doc01-portrayal:p11",
+      "type": "EVIDENCED_ON"
+    }
+  ],
+  "graph_id": "nma-canonical-graph-v0.4",
+  "label": "DOMAIN KNOWLEDGE GRAPH",
+  "nodes": [
+    {
+      "id": "classification:doc01:9350906",
+      "properties": {
+        "code": "9350906",
+        "label": "消防栓",
+        "mapping_status": "Document 09 has no confirmed ProductLayer/field binding for this Document 01 class; mapping must remain unresolved."
+      },
+      "type": "ClassificationCode"
+    },
+    {
+      "id": "document:doc01-portrayal",
+      "properties": {
+        "revision": "NLSC112V5.4"
+      },
+      "type": "SpecificationDocument"
+    },
+    {
+      "id": "line-style:doc01:2",
+      "properties": {
+        "code": "2"
+      },
+      "type": "LineStyleReference"
+    },
+    {
+      "id": "portrayal-color:doc01:7",
+      "properties": {
+        "code": "7",
+        "observed_color": "black"
+      },
+      "type": "PortrayalColorReference"
+    },
+    {
+      "id": "portrayal-geometry:Point",
+      "properties": {
+        "name": "Point"
+      },
+      "type": "PortrayalGeometryRole"
+    },
+    {
+      "id": "portrayal-recipe:doc01:9350906:review-v1",
+      "properties": {
+        "activation_status": "non-executable-review-candidate",
+        "feature_code": "9350906",
+        "feature_name": "消防栓",
+        "geometry_role": "Point",
+        "page": 11
+      },
+      "type": "PortrayalRecipe"
+    },
+    {
+      "id": "portrayal-rule:doc01:9350906",
+      "properties": {
+        "activation_status": "non-executable",
+        "color_code": "7",
+        "feature_code": "9350906",
+        "feature_name": "消防栓",
+        "geometry_role": "Point",
+        "line_code": "2",
+        "mapping_status": "Document 09 has no confirmed ProductLayer/field binding for this Document 01 class; mapping must remain unresolved.",
+        "observed_color": "black",
+        "page": 11
+      },
+      "type": "PortrayalRule"
+    },
+    {
+      "id": "section:doc01-portrayal:p11",
+      "properties": {
+        "page": 11,
+        "record_id": "DOC01-P11-HYDRANT",
+        "review_status": "source-row-and-symbol-cell-visually-verified",
+        "topic": "fixed-point-symbol-fire-hydrant"
+      },
+      "type": "DocumentSection"
+    }
+  ],
+  "schema": "nma.ama-demo-02-graph-view/1.0",
+  "scope": "bounded canonical scenario subset; not the entire knowledge graph"
+}

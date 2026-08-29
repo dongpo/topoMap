@@ -6,6 +6,8 @@ steps:
       - deploy/ama-cloud/Dockerfile
       - --tag
       - ${_IMAGE}
+      - --build-arg
+      - SOURCE_REVISION=${_SOURCE_REVISION}
       - .
     timeout: 3600s
   - name: gcr.io/cloud-builders/docker
@@ -19,3 +21,4 @@ options:
   diskSizeGb: 100
 substitutions:
   _IMAGE: asia-southeast1-docker.pkg.dev/example/ama-cloud/ama-cloud-01:unset
+  _SOURCE_REVISION: unknown

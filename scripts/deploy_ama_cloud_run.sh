@@ -27,7 +27,7 @@ gcloud builds submit \
   --project "${project_id}" \
   --region "${region}" \
   --config deploy/ama-cloud/cloudbuild.yaml \
-  --substitutions "_IMAGE=${image}" \
+  --substitutions "_IMAGE=${image},_SOURCE_REVISION=${git_sha}" \
   .
 
 gcloud run deploy "${service}" \

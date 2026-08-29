@@ -1,0 +1,77 @@
+{
+  "derived_artifact": {
+    "id": "derived-artifact:rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+    "sha256": "0e3ec31b8dae302c70b0e4cd8f63f928af31c1a944a5032047ebefb76904c5cd"
+  },
+  "execution_id": "ama-execution:655da45150184670913eedcf39419e47",
+  "execution_latency_ms": 4,
+  "execution_receipt": {
+    "id": "execution-receipt:rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+    "sha256": "ebf577738d882b264f12b4f9f3bffe14236cc999f63d93355e878b52c3df81a5"
+  },
+  "executor_version": "rq2-deterministic-gis-executor/1.0",
+  "mutation_started": true,
+  "output_root": "/tmp/ama-runtime/ama-live-run:2491a89d5dd2483abed5e6da02dd7144/result",
+  "precondition_gate": {
+    "critical_contradictions_absent": true,
+    "feature_read": true,
+    "geometry_compatible": true,
+    "output_absent": true,
+    "product_layer_unresolved": true,
+    "proposal_hash_valid": true,
+    "research_authorization_bound": true,
+    "source_authority_evidence_bound": true,
+    "source_hash_matches": true
+  },
+  "reason_codes": [],
+  "status": "PASS",
+  "tool_calls": [
+    {
+      "mutation": false,
+      "status": "PASS",
+      "step_id": "step:01-read-feature-001",
+      "tool": "rq2.feature.read/1.0"
+    },
+    {
+      "matched_evidence_refs": [
+        "activation-gate:doc01:9350906:color-code-7-profile",
+        "activation-gate:doc01:9350906:internal-glyph-trace",
+        "activation-gate:doc01:9350906:line-code-2-metric",
+        "classification:doc01:9350906",
+        "document:doc01-portrayal",
+        "line-style:doc01:2",
+        "portrayal-color:doc01:7",
+        "portrayal-geometry:Point",
+        "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+        "portrayal-recipe:doc01:9350906:review-v1",
+        "portrayal-rule:doc01:9350906"
+      ],
+      "mutation": false,
+      "status": "PASS",
+      "step_id": "step:02-validate-source-authority-001",
+      "tool": "rq2.source-authority.validate/1.0"
+    },
+    {
+      "mutation": false,
+      "observed_geometry_type": "Point",
+      "status": "PASS",
+      "step_id": "step:03-validate-geometry-type-001",
+      "tool": "rq2.geometry.validate/1.0"
+    },
+    {
+      "mutation": false,
+      "output_identity": "427dfb0bc8a518605429f8905bc67f7a9578b472d7df648800b0b53446f243da",
+      "status": "PASS",
+      "step_id": "step:04-derive-target-representation-001",
+      "tool": "rq2.representation.derive/1.0"
+    },
+    {
+      "created": "derived-feature.geojson",
+      "mutation": true,
+      "sha256": "0e3ec31b8dae302c70b0e4cd8f63f928af31c1a944a5032047ebefb76904c5cd",
+      "status": "PASS",
+      "step_id": "step:05-write-derived-artifact-001",
+      "tool": "rq2.artifact.write-derived/1.0"
+    }
+  ]
+}

@@ -1,0 +1,712 @@
+{
+  "edges": [
+    {
+      "source": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "target": "activation-gate:doc01:9350906:color-code-7-profile",
+      "type": "RETRIEVED_FOR"
+    },
+    {
+      "source": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "target": "activation-gate:doc01:9350906:internal-glyph-trace",
+      "type": "RETRIEVED_FOR"
+    },
+    {
+      "source": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "target": "activation-gate:doc01:9350906:line-code-2-metric",
+      "type": "RETRIEVED_FOR"
+    },
+    {
+      "source": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "target": "classification:doc01:9350906",
+      "type": "RETRIEVED_FOR"
+    },
+    {
+      "source": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "target": "document:doc01-portrayal",
+      "type": "RETRIEVED_FOR"
+    },
+    {
+      "source": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "target": "line-style:doc01:2",
+      "type": "RETRIEVED_FOR"
+    },
+    {
+      "source": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "target": "portrayal-color:doc01:7",
+      "type": "RETRIEVED_FOR"
+    },
+    {
+      "source": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "target": "portrayal-geometry:Point",
+      "type": "RETRIEVED_FOR"
+    },
+    {
+      "source": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "target": "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+      "type": "RETRIEVED_FOR"
+    },
+    {
+      "source": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "target": "portrayal-recipe:doc01:9350906:review-v1",
+      "type": "RETRIEVED_FOR"
+    },
+    {
+      "source": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "target": "portrayal-rule:doc01:9350906",
+      "type": "RETRIEVED_FOR"
+    },
+    {
+      "source": "classification:doc01:9350906",
+      "target": "constraint:classification.feature_code",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "constraint:classification.feature_code",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "constraint:classification.feature_code",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "constraint:classification.feature_code",
+      "target": "step:01-read-feature-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:classification.feature_code",
+      "target": "step:02-validate-source-authority-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:classification.feature_code",
+      "target": "step:03-validate-geometry-type-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:classification.feature_code",
+      "target": "step:04-derive-target-representation-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:classification.feature_code",
+      "target": "step:05-write-derived-artifact-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:classification.feature_code",
+      "target": "step:06-verify-postconditions-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "portrayal-geometry:Point",
+      "target": "constraint:geometry.type",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "constraint:geometry.type",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "constraint:geometry.type",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "constraint:geometry.type",
+      "target": "step:01-read-feature-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:geometry.type",
+      "target": "step:02-validate-source-authority-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:geometry.type",
+      "target": "step:03-validate-geometry-type-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:geometry.type",
+      "target": "step:04-derive-target-representation-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:geometry.type",
+      "target": "step:05-write-derived-artifact-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:geometry.type",
+      "target": "step:06-verify-postconditions-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+      "target": "constraint:guard.authoritative_render",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "portrayal-recipe:doc01:9350906:review-v1",
+      "target": "constraint:guard.authoritative_render",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "constraint:guard.authoritative_render",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "constraint:guard.authoritative_render",
+      "target": "step:01-read-feature-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.authoritative_render",
+      "target": "step:02-validate-source-authority-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.authoritative_render",
+      "target": "step:03-validate-geometry-type-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.authoritative_render",
+      "target": "step:04-derive-target-representation-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.authoritative_render",
+      "target": "step:05-write-derived-artifact-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.authoritative_render",
+      "target": "step:06-verify-postconditions-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "portrayal-color:doc01:7",
+      "target": "constraint:portrayal.color_code",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "constraint:portrayal.color_code",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "constraint:portrayal.color_code",
+      "target": "step:01-read-feature-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.color_code",
+      "target": "step:02-validate-source-authority-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.color_code",
+      "target": "step:03-validate-geometry-type-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.color_code",
+      "target": "step:04-derive-target-representation-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.color_code",
+      "target": "step:05-write-derived-artifact-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.color_code",
+      "target": "step:06-verify-postconditions-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "line-style:doc01:2",
+      "target": "constraint:portrayal.line_code",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "constraint:portrayal.line_code",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "constraint:portrayal.line_code",
+      "target": "step:01-read-feature-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.line_code",
+      "target": "step:02-validate-source-authority-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.line_code",
+      "target": "step:03-validate-geometry-type-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.line_code",
+      "target": "step:04-derive-target-representation-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.line_code",
+      "target": "step:05-write-derived-artifact-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.line_code",
+      "target": "step:06-verify-postconditions-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "portrayal-color:doc01:7",
+      "target": "constraint:portrayal.observed_color",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "constraint:portrayal.observed_color",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "constraint:portrayal.observed_color",
+      "target": "step:01-read-feature-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.observed_color",
+      "target": "step:02-validate-source-authority-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.observed_color",
+      "target": "step:03-validate-geometry-type-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.observed_color",
+      "target": "step:04-derive-target-representation-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.observed_color",
+      "target": "step:05-write-derived-artifact-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:portrayal.observed_color",
+      "target": "step:06-verify-postconditions-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "document:doc01-portrayal",
+      "target": "constraint:source.authority",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "constraint:source.authority",
+      "target": "step:01-read-feature-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:source.authority",
+      "target": "step:02-validate-source-authority-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:source.authority",
+      "target": "step:03-validate-geometry-type-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:source.authority",
+      "target": "step:04-derive-target-representation-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:source.authority",
+      "target": "step:05-write-derived-artifact-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:source.authority",
+      "target": "step:06-verify-postconditions-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "activation-gate:doc01:9350906:color-code-7-profile",
+      "target": "constraint:guard.color-code-7-profile",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "constraint:guard.color-code-7-profile",
+      "target": "step:01-read-feature-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.color-code-7-profile",
+      "target": "step:02-validate-source-authority-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.color-code-7-profile",
+      "target": "step:03-validate-geometry-type-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.color-code-7-profile",
+      "target": "step:04-derive-target-representation-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.color-code-7-profile",
+      "target": "step:05-write-derived-artifact-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.color-code-7-profile",
+      "target": "step:06-verify-postconditions-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "activation-gate:doc01:9350906:internal-glyph-trace",
+      "target": "constraint:guard.internal-glyph-trace",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "constraint:guard.internal-glyph-trace",
+      "target": "step:01-read-feature-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.internal-glyph-trace",
+      "target": "step:02-validate-source-authority-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.internal-glyph-trace",
+      "target": "step:03-validate-geometry-type-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.internal-glyph-trace",
+      "target": "step:04-derive-target-representation-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.internal-glyph-trace",
+      "target": "step:05-write-derived-artifact-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.internal-glyph-trace",
+      "target": "step:06-verify-postconditions-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "activation-gate:doc01:9350906:line-code-2-metric",
+      "target": "constraint:guard.line-code-2-metric",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "constraint:guard.line-code-2-metric",
+      "target": "step:01-read-feature-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.line-code-2-metric",
+      "target": "step:02-validate-source-authority-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.line-code-2-metric",
+      "target": "step:03-validate-geometry-type-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.line-code-2-metric",
+      "target": "step:04-derive-target-representation-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.line-code-2-metric",
+      "target": "step:05-write-derived-artifact-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:guard.line-code-2-metric",
+      "target": "step:06-verify-postconditions-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "classification:doc01:9350906",
+      "target": "constraint:relationship.product_layer",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "portrayal-rule:doc01:9350906",
+      "target": "constraint:relationship.product_layer",
+      "type": "SUPPORTS"
+    },
+    {
+      "source": "constraint:relationship.product_layer",
+      "target": "step:01-read-feature-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:relationship.product_layer",
+      "target": "step:02-validate-source-authority-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:relationship.product_layer",
+      "target": "step:03-validate-geometry-type-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:relationship.product_layer",
+      "target": "step:04-derive-target-representation-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:relationship.product_layer",
+      "target": "step:05-write-derived-artifact-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "constraint:relationship.product_layer",
+      "target": "step:06-verify-postconditions-001",
+      "type": "CONSTRAINS"
+    },
+    {
+      "source": "step:06-verify-postconditions-001",
+      "target": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+      "type": "PRODUCES"
+    },
+    {
+      "source": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+      "target": "rq3-authorization:ama-live:8cbd368693ef4de0b40bd62b76bac9ba",
+      "type": "AUTHORIZES"
+    },
+    {
+      "source": "rq3-authorization:ama-live:8cbd368693ef4de0b40bd62b76bac9ba",
+      "target": "ama-execution:655da45150184670913eedcf39419e47",
+      "type": "EXECUTES"
+    },
+    {
+      "source": "ama-execution:655da45150184670913eedcf39419e47",
+      "target": "ama-verification:c431ebf21f9f4ba5b10f61921db286aa",
+      "type": "VERIFIES"
+    },
+    {
+      "source": "ama-verification:c431ebf21f9f4ba5b10f61921db286aa",
+      "target": "ama-provenance:e7cfa49dba2a4fc4b4bc9cb5e2cb857f",
+      "type": "RECORDS"
+    }
+  ],
+  "identity_invariant": {
+    "authorized_proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+    "executed_proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+    "proposal_hash": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+    "status": "PASS"
+  },
+  "label": "KNOWLEDGE → CONSTRAINT → ACTION TRACE",
+  "mode": "REPLAY",
+  "nodes": [
+    {
+      "id": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+      "label": "Create a safe symbolic derived fire-hydrant feature for classification 9350906 using reviewed knowledge, preserve unresolved ProductLayer and physical portrayal gates, and leave the authoritative source unchanged.",
+      "type": "UserRequirement"
+    },
+    {
+      "id": "activation-gate:doc01:9350906:color-code-7-profile",
+      "label": "activation-gate:doc01:9350906:color-code-7-profile",
+      "type": "RetrievedEvidence"
+    },
+    {
+      "id": "activation-gate:doc01:9350906:internal-glyph-trace",
+      "label": "activation-gate:doc01:9350906:internal-glyph-trace",
+      "type": "RetrievedEvidence"
+    },
+    {
+      "id": "activation-gate:doc01:9350906:line-code-2-metric",
+      "label": "activation-gate:doc01:9350906:line-code-2-metric",
+      "type": "RetrievedEvidence"
+    },
+    {
+      "id": "classification:doc01:9350906",
+      "label": "classification:doc01:9350906",
+      "type": "RetrievedEvidence"
+    },
+    {
+      "id": "document:doc01-portrayal",
+      "label": "document:doc01-portrayal",
+      "type": "RetrievedEvidence"
+    },
+    {
+      "id": "line-style:doc01:2",
+      "label": "line-style:doc01:2",
+      "type": "RetrievedEvidence"
+    },
+    {
+      "id": "portrayal-color:doc01:7",
+      "label": "portrayal-color:doc01:7",
+      "type": "RetrievedEvidence"
+    },
+    {
+      "id": "portrayal-geometry:Point",
+      "label": "portrayal-geometry:Point",
+      "type": "RetrievedEvidence"
+    },
+    {
+      "id": "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+      "label": "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+      "type": "RetrievedEvidence"
+    },
+    {
+      "id": "portrayal-recipe:doc01:9350906:review-v1",
+      "label": "portrayal-recipe:doc01:9350906:review-v1",
+      "type": "RetrievedEvidence"
+    },
+    {
+      "id": "portrayal-rule:doc01:9350906",
+      "label": "portrayal-rule:doc01:9350906",
+      "type": "RetrievedEvidence"
+    },
+    {
+      "id": "constraint:classification.feature_code",
+      "label": "RESOLVED",
+      "status": "RESOLVED",
+      "type": "Constraint"
+    },
+    {
+      "id": "constraint:geometry.type",
+      "label": "RESOLVED",
+      "status": "RESOLVED",
+      "type": "Constraint"
+    },
+    {
+      "id": "constraint:guard.authoritative_render",
+      "label": "RESOLVED",
+      "status": "RESOLVED",
+      "type": "Constraint"
+    },
+    {
+      "id": "constraint:portrayal.color_code",
+      "label": "RESOLVED",
+      "status": "RESOLVED",
+      "type": "Constraint"
+    },
+    {
+      "id": "constraint:portrayal.line_code",
+      "label": "RESOLVED",
+      "status": "RESOLVED",
+      "type": "Constraint"
+    },
+    {
+      "id": "constraint:portrayal.observed_color",
+      "label": "RESOLVED",
+      "status": "RESOLVED",
+      "type": "Constraint"
+    },
+    {
+      "id": "constraint:source.authority",
+      "label": "RESOLVED",
+      "status": "RESOLVED",
+      "type": "Constraint"
+    },
+    {
+      "id": "constraint:guard.color-code-7-profile",
+      "label": "BOUNDED_UNRESOLVED",
+      "status": "BOUNDED_UNRESOLVED",
+      "type": "Constraint"
+    },
+    {
+      "id": "constraint:guard.internal-glyph-trace",
+      "label": "BOUNDED_UNRESOLVED",
+      "status": "BOUNDED_UNRESOLVED",
+      "type": "Constraint"
+    },
+    {
+      "id": "constraint:guard.line-code-2-metric",
+      "label": "BOUNDED_UNRESOLVED",
+      "status": "BOUNDED_UNRESOLVED",
+      "type": "Constraint"
+    },
+    {
+      "id": "constraint:relationship.product_layer",
+      "label": "BOUNDED_UNRESOLVED",
+      "status": "BOUNDED_UNRESOLVED",
+      "type": "Constraint"
+    },
+    {
+      "id": "step:01-read-feature-001",
+      "label": "rq2.feature.read/1.0",
+      "type": "PlannerDecision"
+    },
+    {
+      "id": "step:02-validate-source-authority-001",
+      "label": "rq2.source-authority.validate/1.0",
+      "type": "PlannerDecision"
+    },
+    {
+      "id": "step:03-validate-geometry-type-001",
+      "label": "rq2.geometry.validate/1.0",
+      "type": "PlannerDecision"
+    },
+    {
+      "id": "step:04-derive-target-representation-001",
+      "label": "rq2.representation.derive/1.0",
+      "type": "PlannerDecision"
+    },
+    {
+      "id": "step:05-write-derived-artifact-001",
+      "label": "rq2.artifact.write-derived/1.0",
+      "type": "PlannerDecision"
+    },
+    {
+      "id": "step:06-verify-postconditions-001",
+      "label": "rq2.postconditions.verify/1.0",
+      "type": "PlannerDecision"
+    },
+    {
+      "id": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+      "label": "6464891743eaf9963190a5cbd06b0eb6fc233c856f37c7127976126f48d2bffc",
+      "type": "Proposal"
+    },
+    {
+      "id": "rq3-authorization:ama-live:8cbd368693ef4de0b40bd62b76bac9ba",
+      "label": "APPROVED",
+      "type": "Authorization"
+    },
+    {
+      "id": "ama-execution:655da45150184670913eedcf39419e47",
+      "label": "PASS",
+      "type": "GISOperation"
+    },
+    {
+      "id": "ama-verification:c431ebf21f9f4ba5b10f61921db286aa",
+      "label": "PASS",
+      "type": "Verification"
+    },
+    {
+      "id": "ama-provenance:e7cfa49dba2a4fc4b4bc9cb5e2cb857f",
+      "label": "PASS",
+      "type": "Provenance"
+    }
+  ],
+  "run_id": "ama-live-run:2491a89d5dd2483abed5e6da02dd7144",
+  "schema": "nma.ama-demo-02-trace/1.0"
+}

@@ -1,0 +1,40 @@
+{
+  "authoritative_sources": [
+    "document:doc01-portrayal"
+  ],
+  "edge_count": 33,
+  "evidence_ids": [
+    "activation-gate:doc01:9350906:color-code-7-profile",
+    "activation-gate:doc01:9350906:internal-glyph-trace",
+    "activation-gate:doc01:9350906:line-code-2-metric",
+    "classification:doc01:9350906",
+    "concept:feature-concept",
+    "document:doc01-portrayal",
+    "line-style:doc01:2",
+    "method:stereo-plotting",
+    "portrayal-color:doc01:7",
+    "portrayal-geometry:Point",
+    "portrayal-profile:tw-nlsc-1000-NLSC112V5.4",
+    "portrayal-recipe:doc01:9350906:review-v1",
+    "portrayal-rule:doc01:9350906",
+    "product:observed-features",
+    "quality-item:doc03-207",
+    "review-asset:doc01:fire-hydrant-v1",
+    "section:doc01-portrayal:p11",
+    "stage:aerial-triangulation",
+    "stage:contour-mapping",
+    "stage:feature-survey",
+    "stage:field-completion",
+    "stage:vector-revision",
+    "symbol:doc01:fire-hydrant",
+    "vector-primitive:doc01:9350906:01:outer-box",
+    "vector-primitive:doc01:9350906:02:hydrant-glyph",
+    "workflow:tw-temap-vector-update",
+    "workflow:tw-topo-1000-new-production",
+    "workflow:tw-topo-5000-production-update"
+  ],
+  "invocation": "nma.rq2_demo.retrieve_rq2_evidence",
+  "node_count": 28,
+  "retrieval_id": "ama-retrieval:8047c388cfad41a89a29907451f25030",
+  "retrieval_mode": "rq2-existing-ranked-search-plus-typed-canonical-expansion"
+}

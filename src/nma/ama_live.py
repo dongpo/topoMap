@@ -323,6 +323,13 @@ class AMALiveService:
             raise KeyError(run_id)
         return _read_json(path)
 
+    def forget_records(self, run_ids: list[str]) -> None:
+        """Forget reset run records after their bounded runtime directories are removed."""
+
+        with self._lock:
+            for run_id in run_ids:
+                self._records.pop(run_id, None)
+
     def new_record(self, intent: str) -> dict[str, Any]:
         if not isinstance(intent, str) or not intent.strip() or len(intent) > 500:
             raise AMALiveError("Mapping intent must contain 1-500 characters.")
