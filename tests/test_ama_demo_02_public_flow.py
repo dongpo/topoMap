@@ -100,10 +100,52 @@ def test_graphrag_retrieval_trace_present(service: AMALiveService) -> None:
     assert row["retrieval_context_summary"]["projected_evidence_ids"]
 
 
+def test_graphrag_public_answer_uses_traditional_chinese_without_changing_frozen_source(
+    service: AMALiveService,
+) -> None:
+    row = presentation(service).rq1_comparison()["rows"][2]
+    frozen = json.loads((ROOT / "rq1-compare-01-results.json").read_text(encoding="utf-8"))
+    frozen_answer = next(
+        item["answer"]
+        for item in frozen["raw_runs"]
+        if item["architecture"] == "graphrag"
+        and item["question_id"] == "canonical"
+        and item["phase"] == "primary"
+    )
+    rendered = json.dumps(row, ensure_ascii=False)
+
+    assert row["answer_presentation"]["display_language"] == "zh-Hant-TW"
+    assert row["answer_presentation"]["mode"] == "PRESENTATION_TRANSLATION_FROM_FROZEN_RAW"
+    assert row["answer_presentation"]["manual_research_answer_editing"] is False
+    assert "分類代碼" in row["answer"] and "產品圖層欄位" in row["answer"]
+    assert not any(
+        term in rendered
+        for term in ("分类", "规则", "图层", "字段", "颜色", "线型", "线号", "第11页")
+    )
+    assert "分类代码" in frozen_answer
+    assert (
+        row["answer_presentation"]["frozen_answer_sha256"]
+        == hashlib.sha256(frozen_answer.encode("utf-8")).hexdigest()
+    )
+
+
 def test_domain_kg_view_present(service: AMALiveService) -> None:
     graph = presentation(service).domain_graph()
     assert graph["label"] == "DOMAIN KNOWLEDGE GRAPH"
     assert graph["nodes"] and graph["edges"]
+
+
+def test_graph_relations_are_visible_and_directed() -> None:
+    html = (ROOT / "public/ama-live/index.html").read_text(encoding="utf-8")
+    javascript = (ROOT / "public/ama-live/app.js").read_text(encoding="utf-8")
+    css = (ROOT / "public/ama-live/app.css").read_text(encoding="utf-8")
+
+    assert all(f'id="{name}-relations"' in html for name in ("domain", "retrieved", "action"))
+    assert "renderRelationLegend" in javascript
+    assert 'marker-end="url(#' in javascript
+    assert "DIRECTED RELATIONS" in javascript
+    assert ".graph .relation-edge line" in css
+    assert ".graph .edge-label" in css
 
 
 def test_retrieved_subgraph_view_present(service: AMALiveService) -> None:

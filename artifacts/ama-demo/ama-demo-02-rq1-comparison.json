@@ -7,6 +7,13 @@
   "rows": [
     {
       "answer": "For fire hydrant 9350906, the reviewed authoritative portrayal rule is as follows: its classification is 'Fire Hydrant', geometry is point, line style is solid, color is red, and the source evidence is from the city's public works department. There are no unresolved schema or product-layer bindings noted for this feature.",
+      "answer_presentation": {
+        "display_language": "en",
+        "frozen_answer_sha256": "1653024d97f01e46528aa073a7a52df946c14e742abcf68c9f34c67f41c8f212",
+        "manual_research_answer_editing": false,
+        "mode": "FROZEN_RAW",
+        "notice": "Exact frozen answer."
+      },
       "answer_raw_response_hash": "f647b85997fbfba3c531dc0666069272a494e4194e26f758c73f9ad540f692c4",
       "architecture": "llm-only",
       "citations": [],
@@ -167,6 +174,13 @@
     },
     {
       "answer": "For the fire hydrant feature code 9350906, the reviewed authoritative portrayal rule specifies a fixed marker representation. The geometry role is Point, and the feature is to be rendered as a black marker with a size of 2.0 x 2.5 mm at an output scale of 1:1,000. The line code 2 and color code 7 require an approved rendering profile before activation. The portrayal rule does not define the device-independent stroke width or color profile, and the internal glyph is manually traced from the official symbol cell, requiring cartographic comparison approval. There are no unresolved schema or product-layer bindings mentioned in the evidence.",
+      "answer_presentation": {
+        "display_language": "en",
+        "frozen_answer_sha256": "10f55b4aec91a97d83e9e69418d7e0fa2205310c9e6f7ffa0ad9e316469e044a",
+        "manual_research_answer_editing": false,
+        "mode": "FROZEN_RAW",
+        "notice": "Exact frozen answer."
+      },
       "answer_raw_response_hash": "99e8fb9baff6597de98dcd8877ac6ade4dc669c26f1284b2e4784bc5c7455a2b",
       "architecture": "text-rag",
       "citations": [
@@ -358,7 +372,14 @@
       "temperature": 0
     },
     {
-      "answer": "消防栓（分类代码9350906）的表示规则在第11页（记录ID：DOC01-P11-HYDRANT）被详细规定。该规则指示使用点几何图形（几何角色：Point）进行表示。表示规则采用线型代码2（图式线号2）和颜色代码7（实测，颜色为黑色）。此规则的激活状态为非执行状态（non-executable），且未确认与产品图层的绑定关系。因此，该规则的状态为未执行且未绑定到具体的产品图层字段。",
+      "answer": "消防栓（分類代碼 9350906）的經審查權威圖式規則記錄於第 11 頁（記錄 ID：DOC01-P11-HYDRANT）。規則指定以點幾何（Point）表徵，使用線型代碼 2 與顏色代碼 7（實測為黑色）。目前此規則仍為不可執行（non-executable），且尚未確認 ProductLayer 綁定；因此不得推論特定的產品圖層欄位。",
+      "answer_presentation": {
+        "display_language": "zh-Hant-TW",
+        "frozen_answer_sha256": "ce1f4838eccde690a175f0822711636fa75ce300f6a4772a5989233a542336df",
+        "manual_research_answer_editing": false,
+        "mode": "PRESENTATION_TRANSLATION_FROM_FROZEN_RAW",
+        "notice": "Traditional Chinese presentation translation; frozen answer identity retained."
+      },
       "answer_raw_response_hash": "f849e61b89464633e47493e654ea38e492a159205d0856668e138e96d3724b5e",
       "architecture": "graphrag",
       "citations": [
@@ -427,7 +448,7 @@
             },
             "reason": "normalized claim value matches retrieved authoritative evidence",
             "status": "SUPPORTED",
-            "text": "第11页"
+            "text": "第 11 頁"
           },
           {
             "evidence_ids": [
@@ -475,7 +496,7 @@
             },
             "reason": "normalized claim value matches retrieved authoritative evidence",
             "status": "SUPPORTED",
-            "text": "线型代码2"
+            "text": "線型代碼 2"
           },
           {
             "evidence_ids": [
@@ -490,7 +511,7 @@
             },
             "reason": "normalized claim value matches retrieved authoritative evidence",
             "status": "SUPPORTED",
-            "text": "线号2"
+            "text": "線號 2"
           },
           {
             "evidence_ids": [
@@ -505,7 +526,7 @@
             },
             "reason": "normalized claim value matches retrieved authoritative evidence",
             "status": "SUPPORTED",
-            "text": "颜色代码7"
+            "text": "顏色代碼 7"
           },
           {
             "evidence_ids": [
@@ -534,7 +555,7 @@
             },
             "reason": "retrieved mapping_status explicitly preserves an unresolved binding",
             "status": "SUPPORTED",
-            "text": "此规则的激活状态为非执行状态（non-executable），且未确认与产品图层的绑定关系"
+            "text": "此規則的啟用狀態為不可執行（non-executable），且尚未確認 ProductLayer 綁定"
           },
           {
             "evidence_ids": [
@@ -611,8 +632,8 @@
           "id": "line_style",
           "label": "line style",
           "matched_text": [
-            "线型代码2",
-            "线号2"
+            "線型代碼 2",
+            "線號 2"
           ],
           "status": "PASS"
         },
@@ -620,7 +641,7 @@
           "id": "color",
           "label": "color",
           "matched_text": [
-            "颜色代码7",
+            "顏色代碼 7",
             "黑色"
           ],
           "status": "PASS"
@@ -630,7 +651,7 @@
           "label": "source evidence",
           "matched_text": [
             "DOC01-P11-HYDRANT",
-            "第11页"
+            "第 11 頁"
           ],
           "status": "PASS"
         },
@@ -638,7 +659,7 @@
           "id": "unresolved_binding",
           "label": "unresolved ProductLayer binding",
           "matched_text": [
-            "此规则的激活状态为非执行状态（non-executable），且未确认与产品图层的绑定关系"
+            "此規則的啟用狀態為不可執行（non-executable），且尚未確認 ProductLayer 綁定"
           ],
           "status": "PASS"
         }

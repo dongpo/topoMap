@@ -48,10 +48,10 @@
     <section id="knowledge" class="knowledge-section">
       <div class="section-title outside"><div><span class="step">03</span><span class="eyebrow">RETRIEVED KNOWLEDGE</span><h2>Three runtime-bound KG views</h2></div></div>
       <div class="grid two">
-        <article class="card"><div class="graph-heading"><h3>DOMAIN KNOWLEDGE GRAPH</h3><span>Before this query</span></div><p>Bounded scenario subset of the canonical KG.</p><div id="domain-graph" class="graph"></div></article>
-        <article class="card"><div class="graph-heading"><h3>RETRIEVED SUBGRAPH FOR THIS QUERY</h3><span id="node-count">0 nodes</span></div><p>Query-specific nodes; projected evidence is emphasized.</p><div id="retrieved-graph" class="graph empty">Run AMA or choose replay.</div></article>
+        <article class="card"><div class="graph-heading"><h3>DOMAIN KNOWLEDGE GRAPH</h3><span>Before this query</span></div><p>Bounded scenario subset of the canonical KG.</p><div id="domain-graph" class="graph"></div><div id="domain-relations" class="relation-legend" aria-label="Domain graph relations"></div></article>
+        <article class="card"><div class="graph-heading"><h3>RETRIEVED SUBGRAPH FOR THIS QUERY</h3><span id="node-count">0 nodes</span></div><p>Query-specific nodes; projected evidence is emphasized.</p><div id="retrieved-graph" class="graph empty">Run AMA or choose replay.</div><div id="retrieved-relations" class="relation-legend empty" aria-label="Retrieved graph relations">Select LIVE or VERIFIED REPLAY to load graph relations.</div></article>
       </div>
-      <article class="card trace-wide"><div class="graph-heading"><h3>KNOWLEDGE → CONSTRAINT → ACTION TRACE</h3><span>Actual runtime identities</span></div><div id="action-graph" class="graph trace-graph empty">Run AMA or choose replay.</div></article>
+      <article class="card trace-wide"><div class="graph-heading"><h3>KNOWLEDGE → CONSTRAINT → ACTION TRACE</h3><span>Actual runtime identities</span></div><div id="action-graph" class="graph trace-graph empty">Run AMA or choose replay.</div><div id="action-relations" class="relation-legend empty" aria-label="Action graph relations">Select LIVE or VERIFIED REPLAY to load action relations.</div></article>
     </section>
 
     <section id="proposal" class="card">

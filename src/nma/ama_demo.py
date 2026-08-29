@@ -20,6 +20,24 @@ from nma.core import canonical_json
 DEMO_SCHEMA = "nma.ama-demo-02/1.0"
 REPLAY_DIRECTORY = Path("artifacts/ama-demo/replay/canonical-run")
 RQ1_ARCHITECTURES = ("llm-only", "text-rag", "graphrag")
+GRAPH_RAG_ZH_HANT_ANSWER = (
+    "消防栓（分類代碼 9350906）的經審查權威圖式規則記錄於第 11 頁"
+    "（記錄 ID：DOC01-P11-HYDRANT）。規則指定以點幾何（Point）表徵，"
+    "使用線型代碼 2 與顏色代碼 7（實測為黑色）。目前此規則仍為不可執行"
+    "（non-executable），且尚未確認 ProductLayer 綁定；因此不得推論特定的"
+    "產品圖層欄位。"
+)
+
+ZH_HANT_REPLACEMENTS = (
+    (
+        "此规则的激活状态为非执行状态（non-executable），且未确认与产品图层的绑定关系",
+        "此規則的啟用狀態為不可執行（non-executable），且尚未確認 ProductLayer 綁定",
+    ),
+    ("线型代码2", "線型代碼 2"),
+    ("线号2", "線號 2"),
+    ("颜色代码7", "顏色代碼 7"),
+    ("第11页", "第 11 頁"),
+)
 
 
 def _read_json(path: Path) -> dict[str, Any]:
@@ -38,6 +56,32 @@ def _claim_groups(claims: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]
         status.casefold(): [deepcopy(item) for item in claims if item["status"] == status]
         for status in ("SUPPORTED", "UNSUPPORTED", "CONTRADICTED", "UNVERIFIABLE")
     }
+
+
+def _zh_hant_text(value: str) -> str:
+    translated = value
+    for source, target in ZH_HANT_REPLACEMENTS:
+        translated = translated.replace(source, target)
+    return translated
+
+
+def _zh_hant_claim_groups(
+    groups: dict[str, list[dict[str, Any]]],
+) -> dict[str, list[dict[str, Any]]]:
+    translated = deepcopy(groups)
+    for claims in translated.values():
+        for claim in claims:
+            claim["text"] = _zh_hant_text(claim["text"])
+    return translated
+
+
+def _zh_hant_requirements(requirements: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    translated = deepcopy(requirements)
+    for requirement in translated:
+        requirement["matched_text"] = [
+            _zh_hant_text(value) for value in requirement.get("matched_text", [])
+        ]
+    return translated
 
 
 def _bounded_node(node: Mapping[str, Any]) -> dict[str, Any]:
@@ -136,11 +180,28 @@ def build_rq1_comparison(repository_root: str | Path) -> dict[str, Any]:
             "evidence_delivery": "typed canonical graph projection",
             "semantic_identity": "RQ1-PROMPT-01 frozen",
         }
+        is_graph_rag = architecture == "graphrag"
+        answer = GRAPH_RAG_ZH_HANT_ANSWER if is_graph_rag else item["answer"]
+        answer_presentation = {
+            "display_language": "zh-Hant-TW" if is_graph_rag else "en",
+            "mode": "PRESENTATION_TRANSLATION_FROM_FROZEN_RAW" if is_graph_rag else "FROZEN_RAW",
+            "manual_research_answer_editing": False,
+            "notice": "Traditional Chinese presentation translation; frozen answer identity retained."
+            if is_graph_rag
+            else "Exact frozen answer.",
+            "frozen_answer_sha256": hashlib.sha256(item["answer"].encode("utf-8")).hexdigest(),
+        }
+        grouped_claims = _claim_groups(claims)
+        requirements = deepcopy(validation["question_coverage"]["requirements"])
+        if is_graph_rag:
+            grouped_claims = _zh_hant_claim_groups(grouped_claims)
+            requirements = _zh_hant_requirements(requirements)
         rows.append(
             {
                 "architecture": architecture,
                 "run_id": item["run_id"],
-                "answer": item["answer"],
+                "answer": answer,
+                "answer_presentation": answer_presentation,
                 "answer_raw_response_hash": item["answer_raw_response_hash"],
                 "model_identity": {
                     "name": protocol["model"]["name"],
@@ -165,8 +226,8 @@ def build_rq1_comparison(repository_root: str | Path) -> dict[str, Any]:
                 "coverage_status": validation["question_coverage"]["verdict"],
                 "coverage": item["evaluation"]["coverage"],
                 "requirement_accuracy": item["evaluation"]["requirement_accuracy"],
-                "requirements": deepcopy(validation["question_coverage"]["requirements"]),
-                "claims": _claim_groups(claims),
+                "requirements": requirements,
+                "claims": grouped_claims,
                 "latency_ms": {
                     "retrieval": item["retrieval_latency_ms"],
                     "generation": item["generation_latency_ms"],

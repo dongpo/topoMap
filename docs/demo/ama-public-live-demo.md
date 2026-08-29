@@ -28,6 +28,14 @@ RQ2/RQ3 run. The predecessor retained exact run identities and measured latencie
 wall-clock timestamps for the individual RQ1 records. AMA-DEMO-02 reports the timestamp as `NOT
 RECORDED` rather than inventing it.
 
+The GraphRAG answer is displayed in Traditional Chinese (`zh-Hant-TW`). This is an explicitly
+labelled presentation translation: the frozen Simplified Chinese answer remains unchanged in the
+controlled source record, and its SHA-256 identity, validation result, and research controls remain
+visible and unchanged. The graph views render typed edges as directed, color-coded arrows. A
+relation legend gives every visible relation type and count; the small domain view also labels its
+edges directly, while the denser retrieved and action views rely on the legend to avoid obscuring
+nodes.
+
 ## Run locally
 
 Prerequisites are Python 3.11, the repository's existing runtime dependencies, Ollama 0.32.15, and

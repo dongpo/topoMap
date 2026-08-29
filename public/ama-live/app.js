@@ -3,6 +3,7 @@ let runId=null,poller=null,map=null,currentMode=null,config=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const compact=s=>{const v=String(s??'—');return v.length>30?`${v.slice(0,14)}…${v.slice(-12)}`:v};
+const relationPalette=['#087255','#1769d2','#7c4db4','#b45b0a','#a52f52','#137c8b','#566b2f','#8a5b22','#3d5a80'];
 async function api(path,options){const response=await fetch(path,options);let value;try{value=await response.json()}catch{value={error:`HTTP ${response.status}`}}if(!response.ok)throw new Error(value.error||`HTTP ${response.status}`);return value}
 function pill(el,status){el.textContent=status;el.className=`pill ${String(status).toLowerCase().replaceAll(' ','-')}`}
 function ms(value){return value===undefined||value===null?'—':value<1000?`${Number(value).toFixed(1)} ms`:`${(value/1000).toFixed(2)} s`}
@@ -12,24 +13,48 @@ function setMode(mode,identity=''){
   $('mode-label').textContent=mode==='LIVE'?'LIVE CLOUD RUN':mode==='REPLAY'?'VERIFIED REPLAY':'NO RUN SELECTED';
   $('mode-run').textContent=identity;
 }
+function relationKey(type){return String(type||'RELATED_TO').toLowerCase().replace(/[^a-z0-9]+/g,'-')}
+function relationColor(type){let hash=0;for(const char of String(type||''))hash=(hash*31+char.charCodeAt(0))>>>0;return relationPalette[hash%relationPalette.length]}
+function renderRelationLegend(id,edges=[],emptyText='No relations in this view.'){
+  const host=$(id);if(!host)return;
+  const counts=new Map();edges.forEach(edge=>counts.set(edge.type||'RELATED_TO',(counts.get(edge.type||'RELATED_TO')||0)+1));
+  if(!counts.size){host.className='relation-legend empty';host.textContent=emptyText;return}
+  host.className='relation-legend';host.innerHTML=`<b>DIRECTED RELATIONS</b>${[...counts.entries()].sort(([a],[b])=>a.localeCompare(b)).map(([type,count])=>`<span style="--relation-color:${relationColor(type)}"><i></i>${esc(type)} <small>×${count}</small></span>`).join('')}`;
+}
+function markerDefinitions(prefix,edges){
+  const types=[...new Set(edges.map(edge=>edge.type||'RELATED_TO'))];
+  return `<defs>${types.map(type=>`<marker id="${prefix}-${relationKey(type)}" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 z" fill="${relationColor(type)}"></path></marker>`).join('')}</defs>`;
+}
+function edgePoints(source,target,padding=15){
+  const dx=target.x-source.x,dy=target.y-source.y,length=Math.hypot(dx,dy)||1,ux=dx/length,uy=dy/length;
+  return {x1:source.x+ux*padding,y1:source.y+uy*padding,x2:target.x-ux*padding,y2:target.y-uy*padding};
+}
+function relationEdge(edge,pos,prefix,showLabel=false,padding=15){
+  const points=edgePoints(pos[edge.source],pos[edge.target],padding),type=edge.type||'RELATED_TO',color=relationColor(type);
+  const label=showLabel?`<text class="edge-label" x="${(points.x1+points.x2)/2}" y="${(points.y1+points.y2)/2-4}" text-anchor="middle">${esc(type)}</text>`:'';
+  return `<g class="relation-edge" style="--relation-color:${color}"><line x1="${points.x1}" y1="${points.y1}" x2="${points.x2}" y2="${points.y2}" stroke="${color}" marker-end="url(#${prefix}-${relationKey(type)})"><title>${esc(edge.source)} —${esc(type)}→ ${esc(edge.target)}</title></line>${label}</g>`;
+}
 function renderGraph(id,data){
   const host=$(id),nodes=(data?.nodes||[]).slice(0,32),edges=data?.edges||[];
-  if(!nodes.length){host.className='graph empty';host.textContent='No runtime graph selected.';return}
+  const legendId=id==='domain-graph'?'domain-relations':'retrieved-relations';
+  if(!nodes.length){host.className='graph empty';host.textContent='No runtime graph selected.';renderRelationLegend(legendId,[],'Select LIVE or VERIFIED REPLAY to load graph relations.');return}
   const w=700,h=340,cx=w/2,cy=h/2,r=Math.min(w,h)*.36,pos={};
   nodes.forEach((node,index)=>{const angle=(Math.PI*2*index/nodes.length)-Math.PI/2;pos[node.id]={x:cx+Math.cos(angle)*r,y:cy+Math.sin(angle)*r}});
-  const lines=edges.filter(edge=>pos[edge.source]&&pos[edge.target]).map(edge=>`<line x1="${pos[edge.source].x}" y1="${pos[edge.source].y}" x2="${pos[edge.target].x}" y2="${pos[edge.target].y}"><title>${esc(edge.type)}</title></line>`).join('');
+  const visibleEdges=edges.filter(edge=>pos[edge.source]&&pos[edge.target]),showLabels=nodes.length<=10&&visibleEdges.length<=12,prefix=relationKey(id);
+  const lines=visibleEdges.map(edge=>relationEdge(edge,pos,prefix,showLabels)).join('');
   const dots=nodes.map(node=>{const point=pos[node.id],props=node.properties||{},label=(props.feature_name||props.name||props.code||node.label||node.id).slice(0,23),projected=node.display_state==='PROJECTED_EVIDENCE';return `<g class="${projected?'projected':''}"><circle cx="${point.x}" cy="${point.y}" r="${projected?15:11}"><title>${esc(node.id)} · ${esc(node.type)}${projected?' · PROJECTED':''}</title></circle><text x="${point.x}" y="${point.y+27}" text-anchor="middle">${esc(label)}</text></g>`}).join('');
-  host.className='graph';host.innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(data.label||'Knowledge graph')}">${lines}${dots}</svg>`;
+  host.className='graph';host.innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(data.label||'Knowledge graph')}">${markerDefinitions(prefix,visibleEdges)}${lines}${dots}</svg>`;renderRelationLegend(legendId,visibleEdges);
 }
 function renderActionGraph(data){
   const host=$('action-graph'),all=data?.nodes||[],nodes=all.slice(0,48),edges=data?.edges||[];
-  if(!nodes.length){host.className='graph trace-graph empty';host.textContent='No runtime trace selected.';return}
+  if(!nodes.length){host.className='graph trace-graph empty';host.textContent='No runtime trace selected.';renderRelationLegend('action-relations',[],'Select LIVE or VERIFIED REPLAY to load action relations.');return}
   const types=['UserRequirement','RetrievedEvidence','Constraint','PlannerDecision','Proposal','Authorization','GISOperation','Verification','Provenance'],w=1180,h=430,pos={};
   types.forEach((type,column)=>{const group=nodes.filter(node=>node.type===type);group.forEach((node,index)=>{pos[node.id]={x:55+column*(1070/(types.length-1)),y:48+(index+1)*(330/(group.length+1))}})});
-  const lines=edges.filter(edge=>pos[edge.source]&&pos[edge.target]).map(edge=>`<line x1="${pos[edge.source].x}" y1="${pos[edge.source].y}" x2="${pos[edge.target].x}" y2="${pos[edge.target].y}"><title>${esc(edge.type)}</title></line>`).join('');
+  const visibleEdges=edges.filter(edge=>pos[edge.source]&&pos[edge.target]),prefix='action-graph';
+  const lines=visibleEdges.map(edge=>relationEdge(edge,pos,prefix,false,12)).join('');
   const labels=types.map((type,index)=>`<text class="column-label" x="${55+index*(1070/(types.length-1))}" y="22" text-anchor="middle">${esc(type)}</text>`).join('');
   const dots=nodes.filter(node=>pos[node.id]).map(node=>{const point=pos[node.id],label=compact(node.label||node.id);return `<g><circle cx="${point.x}" cy="${point.y}" r="9"><title>${esc(node.id)} · ${esc(node.type)}</title></circle><text x="${point.x}" y="${point.y+20}" text-anchor="middle">${esc(label)}</text></g>`}).join('');
-  host.className='graph trace-graph';host.innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Knowledge to constraint to action trace">${labels}${lines}${dots}</svg>`;
+  host.className='graph trace-graph';host.innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Knowledge to constraint to action trace">${markerDefinitions(prefix,visibleEdges)}${labels}${lines}${dots}</svg>`;renderRelationLegend('action-relations',visibleEdges);
 }
 function renderStages(record){
   $('stages').innerHTML=Object.entries(stageNames).map(([key,label])=>{const status=(record.stages?.[key]?.status||'WAITING').toLowerCase();return `<div class="stage ${status}" title="${esc(label)}: ${esc(status)}"><div class="bar"></div><b>${esc(label)}</b><small>${esc(status.toUpperCase())}</small></div>`}).join('');pill($('overall'),record.status||'WAITING');
@@ -38,9 +63,11 @@ function renderRQ1(comparison){
   $('rq1-question').textContent=comparison.question;
   $('rq1-cards').innerHTML=comparison.rows.map(row=>{
     const supported=row.claims.supported.length,unsupported=row.claims.unsupported.length,contradicted=row.claims.contradicted.length;
+    const presentation=row.answer_presentation||{},translated=presentation.mode==='PRESENTATION_TRANSLATION_FROM_FROZEN_RAW';
     const requirements=row.requirements.map(item=>`<li class="${item.status.toLowerCase()}"><span>${esc(item.label)}</span><b>${esc(item.status)}</b></li>`).join('');
     const claims=[...row.claims.supported,...row.claims.unsupported,...row.claims.contradicted].map(item=>`<li><b>${esc(item.status)}</b> · ${esc(item.text)}</li>`).join('')||'<li>None recorded</li>';
-    return `<article class="rq1-item ${esc(row.architecture)}"><div class="rq1-head"><h3>${esc(row.architecture)}</h3><span class="pill ${row.final_validator_result.toLowerCase()}">${esc(row.final_validator_result)}</span></div><p class="answer">${esc(row.answer)}</p><div class="score"><strong>${Math.round(row.requirement_accuracy*6)}/6</strong><span>requirements correct</span></div><ul class="requirements">${requirements}</ul><div class="claim-counts"><span>${supported} supported</span><span>${unsupported} unsupported</span><span>${contradicted} contradicted</span></div><p class="retrieval-summary">${esc(row.retrieval_context_summary.summary)}</p><details><summary>Evidence, claims &amp; controls</summary><dl><dt>Grounding</dt><dd>${esc(row.grounding_status)}</dd><dt>Coverage</dt><dd>${esc(row.coverage_status)}</dd><dt>Retrieved</dt><dd>${esc(row.retrieved_item_count)}</dd><dt>Projected</dt><dd>${esc(row.projected_evidence_count)}</dd><dt>Latency</dt><dd>${ms(row.latency_ms.total)}</dd><dt>Prompt contract</dt><dd>${esc(row.prompt_contract_hash)}</dd></dl><ul class="claim-list">${claims}</ul></details></article>`;
+    const displayNote=translated?'<p class="answer-meta">繁體中文展示翻譯 · 凍結回答身分與驗證結果不變</p>':'';
+    return `<article class="rq1-item ${esc(row.architecture)}"><div class="rq1-head"><h3>${esc(row.architecture)}</h3><span class="pill ${row.final_validator_result.toLowerCase()}">${esc(row.final_validator_result)}</span></div>${displayNote}<p class="answer" lang="${esc(presentation.display_language||'en')}">${esc(row.answer)}</p><div class="score"><strong>${Math.round(row.requirement_accuracy*6)}/6</strong><span>requirements correct</span></div><ul class="requirements">${requirements}</ul><div class="claim-counts"><span>${supported} supported</span><span>${unsupported} unsupported</span><span>${contradicted} contradicted</span></div><p class="retrieval-summary">${esc(row.retrieval_context_summary.summary)}</p><details><summary>Evidence, claims &amp; controls</summary><dl><dt>Grounding</dt><dd>${esc(row.grounding_status)}</dd><dt>Coverage</dt><dd>${esc(row.coverage_status)}</dd><dt>Retrieved</dt><dd>${esc(row.retrieved_item_count)}</dd><dt>Projected</dt><dd>${esc(row.projected_evidence_count)}</dd><dt>Latency</dt><dd>${ms(row.latency_ms.total)}</dd><dt>Answer display</dt><dd>${esc(presentation.notice||'Exact frozen answer.')}</dd><dt>Frozen answer hash</dt><dd>${esc(presentation.frozen_answer_sha256||row.answer_raw_response_hash)}</dd><dt>Prompt contract</dt><dd>${esc(row.prompt_contract_hash)}</dd></dl><ul class="claim-list">${claims}</ul></details></article>`;
   }).join('');
   $('rq1-controls').textContent=JSON.stringify({question_identity:comparison.question_identity,same_question:comparison.same_question,same_model:comparison.same_model,same_temperature:comparison.same_temperature,same_context_window:comparison.same_context_window,manual_answer_editing:comparison.manual_answer_editing,execution_timestamp_finding:comparison.execution_timestamp_finding},null,2);
 }
@@ -89,10 +116,10 @@ async function begin(){
 }
 async function replay(){try{$('error').hidden=true;$('tamper').disabled=true;const record=await api('/ama/demo/replay');await renderRecord(record,'REPLAY')}catch(error){showFailure(error)}}
 async function reset(){
-  try{clearInterval(poller);await api('/ama/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});runId=null;currentMode=null;setMode(null);$('tamper').disabled=true;$('tamper-result').hidden=true;$('error').hidden=true;$('run').disabled=false;renderStages({status:'WAITING',stages:{}});for(const id of ['proposal-status','identity-status','map-status','verification-status','provenance-status'])pill($(id),'WAITING');$('run-meta').textContent='Canonical bounded scenario';$('retrieved-graph').className='graph empty';$('retrieved-graph').textContent='Run AMA or choose replay.';$('action-graph').className='graph trace-graph empty';$('action-graph').textContent='Run AMA or choose replay.';$('constraints').innerHTML='<tr><td colspan="5" class="muted">No selected run.</td></tr>';if(map){for(const id of ['source','result']){if(map.getLayer(id))map.removeLayer(id);if(map.getSource(id))map.removeSource(id)}}}catch(error){showFailure(error)}
+  try{clearInterval(poller);await api('/ama/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});runId=null;currentMode=null;setMode(null);$('tamper').disabled=true;$('tamper-result').hidden=true;$('error').hidden=true;$('run').disabled=false;renderStages({status:'WAITING',stages:{}});for(const id of ['proposal-status','identity-status','map-status','verification-status','provenance-status'])pill($(id),'WAITING');$('run-meta').textContent='Canonical bounded scenario';$('retrieved-graph').className='graph empty';$('retrieved-graph').textContent='Run AMA or choose replay.';renderRelationLegend('retrieved-relations',[],'Select LIVE or VERIFIED REPLAY to load graph relations.');$('action-graph').className='graph trace-graph empty';$('action-graph').textContent='Run AMA or choose replay.';renderRelationLegend('action-relations',[],'Select LIVE or VERIFIED REPLAY to load action relations.');$('constraints').innerHTML='<tr><td colspan="5" class="muted">No selected run.</td></tr>';if(map){for(const id of ['source','result']){if(map.getLayer(id))map.removeLayer(id);if(map.getSource(id))map.removeSource(id)}}}catch(error){showFailure(error)}
 }
 async function tamper(){try{if(currentMode!=='LIVE')throw new Error('Tamper control is available only for the selected fresh live run.');const value=await api(`/ama/run/${runId}/tamper-test`,{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});$('tamper-result').hidden=false;$('tamper-result').textContent=JSON.stringify(value,null,2);$('tamper').textContent=value.status==='PASS'?'Tamper denied — no mutation':'Tamper test failed'}catch(error){showFailure(error)}}
 async function init(){
-  const [loadedConfig,domain,rq1]=await Promise.all([api('/ama/config'),api('/ama/demo/domain-kg'),api('/ama/demo/rq1-comparison')]);config=loadedConfig;$('intent').value=config.canonical_intent;$('intent-forms').innerHTML=dl([['Normalized intent',config.normalized_intent],['Planner input',config.planner_input],['Original substituted',false]]);$('deployment-footer').textContent=`AMA-DEMO-02 · ${config.deployment}`;renderGraph('domain-graph',domain);renderRQ1(rq1);renderStages({status:'WAITING',stages:{}});setMode(null);
+  const [loadedConfig,domain,rq1]=await Promise.all([api('/ama/config'),api('/ama/demo/domain-kg'),api('/ama/demo/rq1-comparison')]);config=loadedConfig;$('intent').value=config.canonical_intent;$('intent-forms').innerHTML=dl([['Normalized intent',config.normalized_intent],['Planner input',config.planner_input],['Original substituted',false]]);$('deployment-footer').textContent=`AMA-DEMO-02 · ${config.deployment}`;renderGraph('domain-graph',domain);renderRelationLegend('retrieved-relations',[],'Select LIVE or VERIFIED REPLAY to load graph relations.');renderRelationLegend('action-relations',[],'Select LIVE or VERIFIED REPLAY to load action relations.');renderRQ1(rq1);renderStages({status:'WAITING',stages:{}});setMode(null);
 }
 $('run').addEventListener('click',begin);$('replay').addEventListener('click',replay);$('fallback').addEventListener('click',replay);$('reset').addEventListener('click',reset);$('tamper').addEventListener('click',tamper);init().catch(showFailure);
