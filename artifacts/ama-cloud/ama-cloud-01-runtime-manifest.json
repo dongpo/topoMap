@@ -1,0 +1,113 @@
+{
+  "schema": "ama-cloud-runtime-manifest/1.0",
+  "task": "AMA-CLOUD-01",
+  "captured_at": "2026-08-29T06:24:00Z",
+  "research_freeze_sha": "8411cad14a16d8ce1b8b23ab0f1be1e8b4bc1a4b",
+  "ama_live_01_predecessor_sha": "0bef91d77f941b3dfb5971bb46131c9e35df4f20",
+  "deployed_source_sha": "7a31c6a55848fe420788f36d498d4de4bd89be26",
+  "branch": "ama-cloud/ama-cloud-01-google-cloud-run",
+  "google_cloud": {
+    "project_id": "sanguine-era-92109",
+    "project_number": "555420096938",
+    "region": "asia-southeast1",
+    "service": "ama-cloud-01",
+    "revision": "ama-cloud-01-00004-r4s",
+    "public_url": "https://ama-cloud-01-555420096938.asia-southeast1.run.app",
+    "execution_environment": "gen2",
+    "billing": "instance-based",
+    "cpu": 4,
+    "memory": "16Gi",
+    "gpu": {
+      "count": 1,
+      "type": "nvidia-l4",
+      "vram": "24GiB",
+      "zonal_redundancy": false
+    },
+    "concurrency": 1,
+    "minimum_instances": 0,
+    "maximum_instances": 1,
+    "request_timeout_seconds": 3600,
+    "startup_probe": {
+      "type": "tcp",
+      "port": 8080,
+      "period_seconds": 240,
+      "timeout_seconds": 240,
+      "failure_threshold": 1
+    }
+  },
+  "container": {
+    "registry": "Artifact Registry",
+    "repository": "asia-southeast1-docker.pkg.dev/sanguine-era-92109/ama-cloud/ama-cloud-01",
+    "image_tag": "7a31c6a55848fe420788f36d498d4de4bd89be26",
+    "image_digest": "sha256:be40ed830e1eabc12858286a8e1fe10811e5f69b128e082c87863a1da79b26a9",
+    "compressed_size_bytes": 12504170351,
+    "cloud_build_id": "7a5d14e5-9091-461b-a56c-717a5592f7b9",
+    "cloud_build_duration": "12m16s",
+    "base_runtime": "python:3.11.9-slim-bookworm",
+    "uid": 65532
+  },
+  "model": {
+    "runtime": "Ollama",
+    "ollama_version": "0.32.15",
+    "name": "qwen2.5:latest",
+    "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+    "family": "qwen2",
+    "parameter_size": "7.6B",
+    "quantization": "Q4_K_M",
+    "model_blob_size_bytes": 4683073952,
+    "context_window": 8192,
+    "reserved_output_tokens": 2048,
+    "temperature": 0,
+    "storage_strategy": "baked into immutable image",
+    "startup_identity_check": true,
+    "startup_gpu_residency_check": true,
+    "keep_alive": "indefinite while instance is active"
+  },
+  "knowledge_and_workspace": {
+    "graph_id": "nma-canonical-graph-v0.4",
+    "graph_sha256": "4c37cc241a30c72a054da7b83cab1e2e367926e1a48f5060e6e7f0bb8f820cb4",
+    "fixture_sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+    "graph_backend": "bounded packaged JSON; Neo4j not required by AMA-LIVE-01",
+    "writable_root": "/tmp/ama-runtime",
+    "filesystem": "Cloud Run in-memory/ephemeral container filesystem",
+    "workspace_isolation": "one directory per run, maximum one active run per instance",
+    "authoritative_mutation": false,
+    "reset": "new instance starts empty; individual runs initialize from immutable fixture"
+  },
+  "public_boundary": {
+    "authentication": "unauthenticated bounded demo",
+    "cors": "same-origin unless AMA_CORS_ORIGIN is set to one exact origin",
+    "request_body_limit_bytes": 4096,
+    "rate_limit": "6 run starts per minute per instance",
+    "exposed_operations": [
+      "GET /health",
+      "POST /ama/run",
+      "GET /ama/run/{id}",
+      "GET /ama/run/{id}/evidence",
+      "GET /ama/run/{id}/proposal",
+      "GET /ama/run/{id}/verification",
+      "GET /ama/run/{id}/provenance",
+      "GET /ama/run/{id}/result",
+      "POST /ama/run/{id}/tamper-test"
+    ],
+    "restricted_operations": [
+      "shell execution",
+      "arbitrary filesystem paths",
+      "arbitrary graph queries",
+      "arbitrary model selection",
+      "arbitrary GIS commands"
+    ],
+    "redistribution": "BOUNDED; full KG and source text remain server-side"
+  },
+  "semantic_freeze": {
+    "research_semantics": "UNCHANGED",
+    "retrieval": "UNCHANGED",
+    "evidence_projection": "UNCHANGED",
+    "planner": "UNCHANGED",
+    "constraints": "UNCHANGED",
+    "authorization": "UNCHANGED",
+    "gis": "UNCHANGED",
+    "verification": "UNCHANGED",
+    "provenance": "UNCHANGED"
+  }
+}

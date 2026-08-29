@@ -1,0 +1,552 @@
+{
+  "cold_run": {
+    "api_overhead_ms": {
+      "poll_requests": 83,
+      "poll_total": 9759.479,
+      "submission": 83.806,
+      "tamper": 102.494,
+      "views": {
+        "evidence": 87.675,
+        "proposal": 190.119,
+        "provenance": 92.159,
+        "result": 99.67,
+        "verification": 94.567
+      }
+    },
+    "authorization_id": "rq3-authorization:ama-live:8995c7e4a5dc4b6480737b66761855cd",
+    "checks": {
+      "authorization_pass": true,
+      "authorized_equals_executed": true,
+      "constraints_pass": true,
+      "gis_pass": true,
+      "live_graphrag": true,
+      "live_mode": true,
+      "live_planner": true,
+      "map_result_bound": true,
+      "model_digest_exact": true,
+      "proposal_new": true,
+      "proposal_valid": true,
+      "provenance_complete": true,
+      "source_unchanged": true,
+      "status_pass": true,
+      "tamper_fail_closed": true,
+      "verification_pass": true
+    },
+    "completed_at": "2026-08-29T06:16:49.366059Z",
+    "execution_id": "ama-execution:36d117ed2a2845c2a6415423404a5e9f",
+    "label": "cold",
+    "model": {
+      "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+      "digest_prefix": "845dbda0ea48",
+      "family": "qwen2",
+      "name": "qwen2.5:latest",
+      "parameter_size": "7.6B",
+      "quantization_level": "Q4_K_M"
+    },
+    "model_trace": {
+      "context_budget": {
+        "available_input_tokens": 6144,
+        "budget_status": "PASS",
+        "context_window": 8192,
+        "estimator": "qwen-utf8-byte-estimate-plus-20pct-safety/1.0",
+        "fits": true,
+        "observed_input_margin": 3404,
+        "observed_prompt_tokens": 2740,
+        "observed_within_input_budget": true,
+        "prompt_token_estimate": 4289,
+        "remaining_input_margin": 1855,
+        "reserved_output_tokens": 2048,
+        "silent_truncation": false,
+        "truncation_expected": false
+      },
+      "latency_ms": 49906,
+      "model_id": "qwen2.5:latest",
+      "planner_identity": "rq2-provider-neutral-plan-composer/1.0",
+      "planning_latency_ms": 49907,
+      "provider": "ollama",
+      "raw_response_hash": "588ae6ee27c5833fe3023b35ad5c235b0ea19d8262b762175f86b557cdc3ec08",
+      "temperature": 0,
+      "usage": {
+        "input_tokens": 2740,
+        "output_tokens": 786
+      }
+    },
+    "plan_id": "ama-plan:4957cd686e2f47cb8751e8ced6afda1e",
+    "projected_node_count": 11,
+    "projection_id": "ama-evidence-projection:9034fb9121be4a08b2a5d6b00f0616d7",
+    "proposal_hash": "a0c0eb80a7a77c5c95107b6d3185aca1b3477a342e79a43cc2dbd4977b470c42",
+    "proposal_id": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+    "provenance_id": "ama-provenance:2c9e5d8e48ca492f8ffa237e4dfa2eb9",
+    "provider_metrics": {
+      "eval_count": 786,
+      "eval_duration_ms": 19019.905,
+      "load_duration_ms": 1.797,
+      "prompt_eval_count": 2740,
+      "prompt_eval_duration_ms": 30853.026,
+      "total_duration_ms": 49905.141
+    },
+    "retrieval_id": "ama-retrieval:d80d0d7a741843dfbb34488b9de2c927",
+    "retrieved_node_count": 28,
+    "run_id": "ama-live-run:2aee0c127159467483f962095d71bb3c",
+    "submitted_at": "2026-08-29T06:15:57.455005Z",
+    "timing_ms": {
+      "authorization": 12.79,
+      "constraint_resolution": 0.158,
+      "end_to_end": 50471.965,
+      "evidence_projection": 20.66,
+      "gis_execution": 3.725,
+      "graphrag": 362.365,
+      "llm_planning": 49907.08,
+      "proposal_validation": 129.966,
+      "provenance": 0.385,
+      "verification": 0.411
+    },
+    "verification_id": "ama-verification:2a05fbfd806441999f3af52a93d6452b"
+  },
+  "endpoint": "https://ama-cloud-01-555420096938.asia-southeast1.run.app",
+  "failed_request_handling": {
+    "mutation": "NONE",
+    "status": "PASS",
+    "unsupported_intent_http": 400,
+    "unsupported_media_type_http": 415
+  },
+  "fresh_proposal_hashes_unique": true,
+  "frontend": {
+    "config_latency_ms": 80.558,
+    "deployment_label": "LIVE CLOUD RUN",
+    "root_latency_ms": 94.304,
+    "status": "PASS"
+  },
+  "generated_at": "2026-08-29T06:17:42.867149Z",
+  "health": {
+    "latency_ms": 117.952,
+    "payload": {
+      "deployment": "LIVE CLOUD RUN",
+      "fixture_sha256": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+      "gpu_model_preloaded": true,
+      "graph": "nma-canonical-graph-v0.4",
+      "model": {
+        "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+        "digest_prefix": "845dbda0ea48",
+        "family": "qwen2",
+        "name": "qwen2.5:latest",
+        "parameter_size": "7.6B",
+        "quantization_level": "Q4_K_M"
+      },
+      "model_ready": true,
+      "ollama_version": "0.32.15",
+      "runtime": "AMA-CLOUD-01",
+      "status": "PASS",
+      "workspace": "isolated-writable"
+    },
+    "security_headers": {
+      "permissions-policy": "camera=(), microphone=(), geolocation=()",
+      "referrer-policy": "no-referrer",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY"
+    },
+    "status": "PASS"
+  },
+  "latency_classification": "GOOD FOR LIVE DEMO",
+  "reliability": {
+    "browser_integration": "PASS",
+    "fresh_run_after_restart": {
+      "authorization_id": "rq3-authorization:ama-live:7e413999b62a4a0d815875129de79572",
+      "authorized_proposal_hash": "759c76c84fba7858a239b52e5040d2b8af3b08237393a1149e5a9ecbe4b58235",
+      "executed_proposal_hash": "759c76c84fba7858a239b52e5040d2b8af3b08237393a1149e5a9ecbe4b58235",
+      "execution_id": "ama-execution:88e1ec723b1d4b84927413d5115bbc5e",
+      "model_observed": {
+        "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+        "name": "qwen2.5:latest",
+        "parameter_size": "7.6B",
+        "quantization_level": "Q4_K_M"
+      },
+      "proposal_hash": "759c76c84fba7858a239b52e5040d2b8af3b08237393a1149e5a9ecbe4b58235",
+      "provenance_id": "ama-provenance:ca6185b8cba54a57b1d926fb9de8e6c1",
+      "provider_metrics": {
+        "eval_count": 786,
+        "eval_duration_ms": 18700.95,
+        "load_duration_ms": 1.659,
+        "prompt_eval_count": 2740,
+        "prompt_eval_duration_ms": 29530.74,
+        "total_duration_ms": 48261.767
+      },
+      "receipt_id": "execution-receipt:rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+      "retrieval_id": "ama-retrieval:9255dc2ab8cb4fa6b0d20a2576dcf66d",
+      "run_id": "ama-live-run:239a2727ed6e47e9b25a2ffd7f0b680a",
+      "source_sha256_after": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+      "source_sha256_before": "6888bb077c6f7de2183ca1d4b1ca7d4bee934f939be7235520243c6cb4d10611",
+      "status": "PASS",
+      "timing_ms": {
+        "authorization": 10.208,
+        "constraint_resolution": 0.158,
+        "end_to_end": 48730.103,
+        "evidence_projection": 20.101,
+        "gis_execution": 3.719,
+        "graphrag": 272.545,
+        "llm_planning": 48263.83,
+        "proposal_validation": 124.507,
+        "provenance": 0.389,
+        "verification": 0.415
+      },
+      "verification_id": "ama-verification:b7f02a169b944792bfdeef71554f4c67"
+    },
+    "restart_revision": "ama-cloud-01-00004-r4s",
+    "restart_status": "PASS",
+    "sequential_runs": "PASS",
+    "tamper_after_restart": {
+      "authorization": "DENIED",
+      "execution_attempted": false,
+      "mutation_started": false,
+      "output_created": false,
+      "status": "PASS",
+      "tamper_test_id": "ama-tamper-test:67984ba07a0f4837bee0074c36d28cd8"
+    },
+    "workspace_reset": "PASS"
+  },
+  "schema": "nma.ama-cloud-acceptance-results/1.0",
+  "task": "AMA-CLOUD-01",
+  "verdict": "PASS",
+  "warm_runs": [
+    {
+      "api_overhead_ms": {
+        "poll_requests": 29,
+        "poll_total": 3295.447,
+        "submission": 86.101,
+        "tamper": 121.893,
+        "views": {
+          "evidence": 160.744,
+          "proposal": 182.237,
+          "provenance": 102.529,
+          "result": 104.382,
+          "verification": 92.133
+        }
+      },
+      "authorization_id": "rq3-authorization:ama-live:ae818af81e1445b59bf0becc15f15db5",
+      "checks": {
+        "authorization_pass": true,
+        "authorized_equals_executed": true,
+        "constraints_pass": true,
+        "gis_pass": true,
+        "live_graphrag": true,
+        "live_mode": true,
+        "live_planner": true,
+        "map_result_bound": true,
+        "model_digest_exact": true,
+        "proposal_new": true,
+        "proposal_valid": true,
+        "provenance_complete": true,
+        "source_unchanged": true,
+        "status_pass": true,
+        "tamper_fail_closed": true,
+        "verification_pass": true
+      },
+      "completed_at": "2026-08-29T06:17:07.630487Z",
+      "execution_id": "ama-execution:8c2b294228cb4bf0abc576a245c28ff1",
+      "label": "warm-1",
+      "model": {
+        "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+        "digest_prefix": "845dbda0ea48",
+        "family": "qwen2",
+        "name": "qwen2.5:latest",
+        "parameter_size": "7.6B",
+        "quantization_level": "Q4_K_M"
+      },
+      "model_trace": {
+        "context_budget": {
+          "available_input_tokens": 6144,
+          "budget_status": "PASS",
+          "context_window": 8192,
+          "estimator": "qwen-utf8-byte-estimate-plus-20pct-safety/1.0",
+          "fits": true,
+          "observed_input_margin": 3404,
+          "observed_prompt_tokens": 2740,
+          "observed_within_input_budget": true,
+          "prompt_token_estimate": 4289,
+          "remaining_input_margin": 1855,
+          "reserved_output_tokens": 2048,
+          "silent_truncation": false,
+          "truncation_expected": false
+        },
+        "latency_ms": 16322,
+        "model_id": "qwen2.5:latest",
+        "planner_identity": "rq2-provider-neutral-plan-composer/1.0",
+        "planning_latency_ms": 16323,
+        "provider": "ollama",
+        "raw_response_hash": "42b76a55a78cacf2317ef4602dc80bcbdc6a3ed051659e8dfe317ed369845147",
+        "temperature": 0,
+        "usage": {
+          "input_tokens": 2740,
+          "output_tokens": 786
+        }
+      },
+      "plan_id": "ama-plan:0c95534e10704c8d84e381b357ea7f30",
+      "projected_node_count": 11,
+      "projection_id": "ama-evidence-projection:96b4be7d2bec4e3692142b4a9c5a3652",
+      "proposal_hash": "793414b16639f6fe527060f4222ca332d59677757308aec86a00d1712397ded8",
+      "proposal_id": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+      "provenance_id": "ama-provenance:d404f12380084f27942f7b48e4a6466f",
+      "provider_metrics": {
+        "eval_count": 786,
+        "eval_duration_ms": 16272.776,
+        "load_duration_ms": 1.517,
+        "prompt_eval_count": 2740,
+        "prompt_eval_duration_ms": 22.147,
+        "total_duration_ms": 16321.207
+      },
+      "retrieval_id": "ama-retrieval:a8831eaee5854f1bb4a3ad4cf0a09f99",
+      "retrieved_node_count": 28,
+      "run_id": "ama-live-run:658bcb6d191f4dc0a92aa92b0c67382e",
+      "submitted_at": "2026-08-29T06:16:49.366655Z",
+      "timing_ms": {
+        "authorization": 5.029,
+        "constraint_resolution": 0.145,
+        "end_to_end": 16720.789,
+        "evidence_projection": 20.487,
+        "gis_execution": 3.654,
+        "graphrag": 273.787,
+        "llm_planning": 16323.014,
+        "proposal_validation": 60.053,
+        "provenance": 0.397,
+        "verification": 0.43
+      },
+      "verification_id": "ama-verification:2e8c03091b4544c7b7af1e594be20833"
+    },
+    {
+      "api_overhead_ms": {
+        "poll_requests": 28,
+        "poll_total": 3286.153,
+        "submission": 87.877,
+        "tamper": 103.614,
+        "views": {
+          "evidence": 89.138,
+          "proposal": 168.732,
+          "provenance": 80.357,
+          "result": 141.399,
+          "verification": 93.499
+        }
+      },
+      "authorization_id": "rq3-authorization:ama-live:623d8192b08f4b789f7d1c87d80d90d6",
+      "checks": {
+        "authorization_pass": true,
+        "authorized_equals_executed": true,
+        "constraints_pass": true,
+        "gis_pass": true,
+        "live_graphrag": true,
+        "live_mode": true,
+        "live_planner": true,
+        "map_result_bound": true,
+        "model_digest_exact": true,
+        "proposal_new": true,
+        "proposal_valid": true,
+        "provenance_complete": true,
+        "source_unchanged": true,
+        "status_pass": true,
+        "tamper_fail_closed": true,
+        "verification_pass": true
+      },
+      "completed_at": "2026-08-29T06:17:25.300758Z",
+      "execution_id": "ama-execution:4b3ab917826b4e1187b4e7d0986093bd",
+      "label": "warm-2",
+      "model": {
+        "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+        "digest_prefix": "845dbda0ea48",
+        "family": "qwen2",
+        "name": "qwen2.5:latest",
+        "parameter_size": "7.6B",
+        "quantization_level": "Q4_K_M"
+      },
+      "model_trace": {
+        "context_budget": {
+          "available_input_tokens": 6144,
+          "budget_status": "PASS",
+          "context_window": 8192,
+          "estimator": "qwen-utf8-byte-estimate-plus-20pct-safety/1.0",
+          "fits": true,
+          "observed_input_margin": 3404,
+          "observed_prompt_tokens": 2740,
+          "observed_within_input_budget": true,
+          "prompt_token_estimate": 4289,
+          "remaining_input_margin": 1855,
+          "reserved_output_tokens": 2048,
+          "silent_truncation": false,
+          "truncation_expected": false
+        },
+        "latency_ms": 16226,
+        "model_id": "qwen2.5:latest",
+        "planner_identity": "rq2-provider-neutral-plan-composer/1.0",
+        "planning_latency_ms": 16227,
+        "provider": "ollama",
+        "raw_response_hash": "be6362e1ccc8494cbc6554d0d7d3509f32a86b6913bfaa657cae6b16b081bcb1",
+        "temperature": 0,
+        "usage": {
+          "input_tokens": 2740,
+          "output_tokens": 786
+        }
+      },
+      "plan_id": "ama-plan:c6e9e427a394464189ea488f86b287b0",
+      "projected_node_count": 11,
+      "projection_id": "ama-evidence-projection:073219e9c7dd4374a3883f4abbbe38a9",
+      "proposal_hash": "1d6b7fcadd45930a6d9f2ba6bc0b9e1d59185c6dabadab36cb011e28e42cfb10",
+      "proposal_id": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+      "provenance_id": "ama-provenance:26dd09b0736a44ccb0b31efed18a89f6",
+      "provider_metrics": {
+        "eval_count": 786,
+        "eval_duration_ms": 16178.285,
+        "load_duration_ms": 1.564,
+        "prompt_eval_count": 2740,
+        "prompt_eval_duration_ms": 22.093,
+        "total_duration_ms": 16225.679
+      },
+      "retrieval_id": "ama-retrieval:19444e38d5e745ecaecfb44fdecb627c",
+      "retrieved_node_count": 28,
+      "run_id": "ama-live-run:751ac96937ef4e28820f3262184f0d50",
+      "submitted_at": "2026-08-29T06:17:07.631207Z",
+      "timing_ms": {
+        "authorization": 4.921,
+        "constraint_resolution": 0.149,
+        "end_to_end": 16617.368,
+        "evidence_projection": 20.054,
+        "gis_execution": 3.639,
+        "graphrag": 269.203,
+        "llm_planning": 16227.42,
+        "proposal_validation": 57.985,
+        "provenance": 0.386,
+        "verification": 0.41
+      },
+      "verification_id": "ama-verification:531c2c00bf8e4681951401d92dc5e519"
+    },
+    {
+      "api_overhead_ms": {
+        "poll_requests": 28,
+        "poll_total": 3128.481,
+        "submission": 136.043,
+        "tamper": 106.941,
+        "views": {
+          "evidence": 93.109,
+          "proposal": 172.708,
+          "provenance": 93.114,
+          "result": 98.338,
+          "verification": 93.582
+        }
+      },
+      "authorization_id": "rq3-authorization:ama-live:345d414f9c1b450eb21fb6c1ef16700f",
+      "checks": {
+        "authorization_pass": true,
+        "authorized_equals_executed": true,
+        "constraints_pass": true,
+        "gis_pass": true,
+        "live_graphrag": true,
+        "live_mode": true,
+        "live_planner": true,
+        "map_result_bound": true,
+        "model_digest_exact": true,
+        "proposal_new": true,
+        "proposal_valid": true,
+        "provenance_complete": true,
+        "source_unchanged": true,
+        "status_pass": true,
+        "tamper_fail_closed": true,
+        "verification_pass": true
+      },
+      "completed_at": "2026-08-29T06:17:42.866619Z",
+      "execution_id": "ama-execution:0804ff4f40f649ed93141ad60f00fdfb",
+      "label": "warm-3",
+      "model": {
+        "digest": "845dbda0ea48ed749caafd9e6037047aa19acfcfd82e704d7ca97d631a0b697e",
+        "digest_prefix": "845dbda0ea48",
+        "family": "qwen2",
+        "name": "qwen2.5:latest",
+        "parameter_size": "7.6B",
+        "quantization_level": "Q4_K_M"
+      },
+      "model_trace": {
+        "context_budget": {
+          "available_input_tokens": 6144,
+          "budget_status": "PASS",
+          "context_window": 8192,
+          "estimator": "qwen-utf8-byte-estimate-plus-20pct-safety/1.0",
+          "fits": true,
+          "observed_input_margin": 3404,
+          "observed_prompt_tokens": 2740,
+          "observed_within_input_budget": true,
+          "prompt_token_estimate": 4289,
+          "remaining_input_margin": 1855,
+          "reserved_output_tokens": 2048,
+          "silent_truncation": false,
+          "truncation_expected": false
+        },
+        "latency_ms": 16170,
+        "model_id": "qwen2.5:latest",
+        "planner_identity": "rq2-provider-neutral-plan-composer/1.0",
+        "planning_latency_ms": 16170,
+        "provider": "ollama",
+        "raw_response_hash": "9acbfe34ced82e82c7eb5e5cb77d28eadf2fdf7f4eafb237758a79fd20f6c4ff",
+        "temperature": 0,
+        "usage": {
+          "input_tokens": 2740,
+          "output_tokens": 786
+        }
+      },
+      "plan_id": "ama-plan:b37ba9c5870c4c8e973b4ca441eda693",
+      "projected_node_count": 11,
+      "projection_id": "ama-evidence-projection:ae7f5a2db8af4e0f8fbcda9baef16398",
+      "proposal_hash": "9acf38a4a3717522b8cf93b144edaec986d1f2f479933a7a84056227656ed838",
+      "proposal_id": "rq2-proposal:knowledge-constrained:74ddd48d0f3847e4659207c2",
+      "provenance_id": "ama-provenance:a69f0bffa7434cb49397ca17f3050edd",
+      "provider_metrics": {
+        "eval_count": 786,
+        "eval_duration_ms": 16121.008,
+        "load_duration_ms": 1.364,
+        "prompt_eval_count": 2740,
+        "prompt_eval_duration_ms": 22.163,
+        "total_duration_ms": 16168.99
+      },
+      "retrieval_id": "ama-retrieval:eac9268e143a459cb45786ae5e44772b",
+      "retrieved_node_count": 28,
+      "run_id": "ama-live-run:c08c4b6f438a477194d39724aea204c4",
+      "submitted_at": "2026-08-29T06:17:25.301009Z",
+      "timing_ms": {
+        "authorization": 4.922,
+        "constraint_resolution": 0.151,
+        "end_to_end": 16576.012,
+        "evidence_projection": 20.811,
+        "gis_execution": 3.634,
+        "graphrag": 282.437,
+        "llm_planning": 16170.658,
+        "proposal_validation": 58.67,
+        "provenance": 0.381,
+        "verification": 0.413
+      },
+      "verification_id": "ama-verification:41b21cd76e914ff49f9e31215ce822fb"
+    }
+  ],
+  "validation": {
+    "focused_tests": {
+      "command": "pytest -q tests/test_ama_cloud_01.py tests/test_ama_live_01.py",
+      "passed": 16,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "targeted_regression": {
+      "command": "pytest -q tests/test_rq2_demo_01.py tests/test_rq3_demo_01.py",
+      "passed": 33,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "ruff": "PASS",
+    "semantic_regressions": 0
+  },
+  "warm_summary_ms": {
+    "end_to_end": {
+      "max": 16720.789,
+      "median": 16617.368,
+      "min": 16576.012
+    },
+    "planning": {
+      "max": 16323.014,
+      "median": 16227.42,
+      "min": 16170.658
+    }
+  }
+}
